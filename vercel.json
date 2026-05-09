@@ -1,0 +1,20 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "next build",
+  "outputDirectory": ".next",
+  "headers": [
+    {
+      "source": "/panel.glb",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+        { "key": "Content-Type", "value": "model/gltf-binary" }
+      ]
+    },
+    {
+      "source": "/cv.pdf",
+      "headers": [
+        { "key": "Content-Disposition", "value": "attachment; filename=\"Eliahu_Cohen_CV.pdf\"" }
+      ]
+    }
+  ]
+}
