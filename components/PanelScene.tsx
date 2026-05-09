@@ -27,14 +27,17 @@ interface LayerConfig {
 }
 
 const LAYER_CONFIG: Record<LayerName, LayerConfig> = {
-  layer_frame:       { targetZ: -200, color: '#4a4a4a', label: 'Structural Frame',   threshold: 0.1 },
-  layer_insulation:  { targetZ: -100, color: '#c8a84a', label: 'Insulation + Vapor', threshold: 0.3 },
-  layer_mep:         { targetZ:  -20, color: '#2a5078', label: 'MEP Conduit',         threshold: 0.5 },
-  layer_electrical:  { targetZ:   80, color: '#3a6ea8', label: 'Electrical Rough-In', threshold: 0.7 },
-  layer_gypsum:      { targetZ:  180, color: '#e0ddd8', label: 'Gypsum Interior',     threshold: 0.9 },
+  // targetZ in IFC millimetres — explosion offsets are large because IFC units = mm
+  layer_frame:       { targetZ: -2000, color: '#4a4a4a', label: 'Structural Frame',   threshold: 0.1 },
+  layer_insulation:  { targetZ: -1000, color: '#c8a84a', label: 'Insulation + Vapor', threshold: 0.3 },
+  layer_mep:         { targetZ:  -200, color: '#2a5078', label: 'MEP Conduit',         threshold: 0.5 },
+  layer_electrical:  { targetZ:   800, color: '#3a6ea8', label: 'Electrical Rough-In', threshold: 0.7 },
+  layer_gypsum:      { targetZ:  1800, color: '#e0ddd8', label: 'Gypsum Interior',     threshold: 0.9 },
 }
 
-const BASE_ROTATION = { x: 0.45, y: -0.6 }
+// IFC exports are Z-up; Three.js is Y-up.
+// -PI/2 stands the panel upright, +0.2 tilts the top slightly back for isometric read.
+const BASE_ROTATION = { x: -Math.PI / 2 + 0.2, y: 0.5 }
 const PARALLAX_STRENGTH = { x: 0.08, y: 0.1 }
 const PARALLAX_LERP = 0.05
 
@@ -59,20 +62,26 @@ export default function PanelScene() {
     container.appendChild(renderer.domElement)
 
     // ── Camera ──
+    // FOV 5° at z=10000 approximates an orthographic/isometric projection,
+    // matching the CAD reference look without perspective distortion.
     const camera = new THREE.PerspectiveCamera(
-      45,
+      5,
       container.clientWidth / container.clientHeight,
       1,
-      5000
+      200000
     )
-    camera.position.set(0, 0, 800)
+    camera.position.set(0, 0, 10000)
 
     // ── Scene ──
     const scene = new THREE.Scene()
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4)
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8)
-    dirLight.position.set(200, 400, 300)
-    scene.add(ambientLight, dirLight)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+    // Key light from upper-right front (matches CAD isometric reference)
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.9)
+    dirLight.position.set(2000, 4000, 6000)
+    // Fill light from left to soften shadows
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.3)
+    fillLight.position.set(-3000, 1000, 2000)
+    scene.add(ambientLight, dirLight, fillLight)
 
     // ── Root group (holds all layers, receives base + parallax rotation) ──
     const rootGroup = new THREE.Group()
@@ -183,13 +192,23 @@ export default function PanelScene() {
           layerGroups[layerName]?.add(child)
         })
 
-        // Scale to fit ~60% of viewport height
+        // Fit panel to ~60% of viewport height and centre it at world origin.
+        // Box3 is computed in world space (after the -PI/2 rotation fix),
+        // so size.y is the panel height and center is the panel centroid.
         const box = new THREE.Box3().setFromObject(rootGroup)
+        const center = new THREE.Vector3()
         const size = new THREE.Vector3()
+        box.getCenter(center)
         box.getSize(size)
         if (size.y > 0) {
           const scale = (container.clientHeight * 0.6) / size.y
           rootGroup.scale.set(scale, scale, scale)
+          // After scaling, world-space centre shifts by scale factor — offset rootGroup to re-centre
+          rootGroup.position.set(
+            -center.x * scale,
+            -center.y * scale,
+            -center.z * scale
+          )
         }
       },
       undefined,
