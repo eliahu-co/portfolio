@@ -18,10 +18,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Eliahu Cohen — R&D Product Architect',
   description:
-    'Architect. Developer. I actually know how to build. Senior R&D Product Architect with a background in architecture and full-stack development.',
+    'Architect. Developer. Builder. Senior R&D Product Architect with a background in architecture and full-stack development.',
   openGraph: {
     title: 'Eliahu Cohen',
-    description: 'Architect. Developer. I actually know how to build.',
+    description: 'Architect. Developer. Builder.',
     url: 'https://eliahu.co',
     siteName: 'Eliahu Cohen',
     locale: 'en_US',

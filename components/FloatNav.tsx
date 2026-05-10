@@ -93,6 +93,7 @@ export default function FloatNav() {
               <li>
                 <a
                   href={href}
+                  className="floatnav-link"
                   aria-current={activeId === id ? 'page' : undefined}
                   style={{
                     display: 'block',
@@ -118,6 +119,8 @@ export default function FloatNav() {
 
       {/* Scroll-to-top button */}
       <button
+        type="button"
+        className="floatnav-btn"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         aria-label="Scroll to top"
         tabIndex={scrolled ? 0 : -1}
@@ -154,6 +157,17 @@ export default function FloatNav() {
           <path d="M2 9l4.5-4.5L11 9" />
         </svg>
       </button>
+      <style>{`
+        .floatnav-link:focus-visible {
+          outline: 2px solid #c8a84a;
+          outline-offset: 2px;
+          border-radius: 2px;
+        }
+        .floatnav-btn:focus-visible {
+          outline: 2px solid #c8a84a;
+          outline-offset: 2px;
+        }
+      `}</style>
     </>
   )
 }
