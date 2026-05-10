@@ -32,10 +32,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll CTA */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none">
-        <span className="font-sans text-[11px] uppercase tracking-[0.12em] text-ink/40">
-          Scroll to explore
-        </span>
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center pointer-events-none">
         <svg
           className="animate-bounce-y w-4 h-4 text-ink/40"
           viewBox="0 0 16 16"

@@ -51,7 +51,8 @@ export default function WhatIDo() {
     <section
       id="what-i-do"
       ref={sectionRef}
-      className="bg-canvas px-8 py-32 md:px-16 lg:px-24"
+      className="relative bg-canvas px-8 pt-16 pb-32 md:px-16 lg:px-24"
+      style={{ zIndex: 1 }}
     >
       <div className="max-w-6xl mx-auto">
         <h2 className="font-serif text-[clamp(32px,4vw,48px)] text-ink mb-16">

@@ -25,7 +25,8 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="bg-ink text-canvas px-8 py-32 md:px-16 lg:px-24"
+      className="relative bg-ink text-canvas px-8 py-32 md:px-16 lg:px-24"
+      style={{ zIndex: 1 }}
     >
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="font-serif text-[clamp(36px,5vw,56px)] leading-tight mb-4">

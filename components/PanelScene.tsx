@@ -41,13 +41,13 @@ interface LayerConfig {
 }
 
 const LAYER_CONFIG: Record<LayerName, LayerConfig> = {
-  'Gypsum':     { targetOffset:  25,  color: '#B0B0B0', label: 'Interior Finish',    threshold: 0.1,  startAt: 0.18 },
-  'Window':     { targetOffset:  40,  color: '#8aa3b0', label: 'Glazing',           threshold: 0.25, startAt: 0 },
-  'Glass':      { targetOffset:  40,  color: '#c8dde8', label: '',                  threshold: 0.25, startAt: 0,    opacity: 0.2 },
+  'Gypsum':     { targetOffset:   4,  color: '#B0B0B0', label: 'Interior Finish',    threshold: 0.1,  startAt: 0.18 },
+  'Window':     { targetOffset:   6,  color: '#8aa3b0', label: 'Glazing',           threshold: 0.25, startAt: 0 },
+  'Glass':      { targetOffset:   6,  color: '#c8dde8', label: '',                  threshold: 0.25, startAt: 0,    opacity: 0.2 },
   'Framing':    { targetOffset:   0,  color: '#555555', label: 'Framing',           threshold: 0.4 },
   'MEP':        { targetOffset:   0,  color: '#197aff', label: 'MEP',               threshold: 0.4 },
-  'OSB':        { targetOffset: -15,  color: '#ffe221', label: 'Sheathing',         threshold: 0.55 },
-  'Insulation': { targetOffset: -30,  color: '#4F99FD', label: 'Thermal Insulation', threshold: 0.7 },
+  'OSB':        { targetOffset:  -3,  color: '#ffe221', label: 'Sheathing',         threshold: 0.55 },
+  'Insulation': { targetOffset:  -5,  color: '#4F99FD', label: 'Thermal Insulation', threshold: 0.7 },
 }
 
 // ── Presentation constants ───────────────────────────────────────────────────
@@ -129,11 +129,16 @@ export default function PanelScene() {
     if (!container) return
 
     // ── Renderer ──
-    const renderer = new THREE.WebGLRenderer({ 
-      antialias: true, 
-      alpha: true,
-      logarithmicDepthBuffer: true // Fixes Z-fighting at extreme camera distances
-    })
+    let renderer: THREE.WebGLRenderer
+    try {
+      renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        logarithmicDepthBuffer: true // Fixes Z-fighting at extreme camera distances
+      })
+    } catch {
+      return  // WebGL unavailable (e.g. Strict Mode double-invoke exhausted contexts)
+    }
     
     // Use fallback sizes in case container is 0-sized on mount
     const initialWidth = container.clientWidth || window.innerWidth
@@ -262,7 +267,7 @@ export default function PanelScene() {
     const st = ScrollTrigger.create({
       trigger: '#hero',
       start: 'top top',
-      end:   'bottom top',
+      end:   '+=50vh',
       pin:   true,
       scrub: 1,
       onUpdate: (self: { progress: number }) => {
@@ -398,8 +403,8 @@ export default function PanelScene() {
   }, [])
 
   return (
-    <div ref={containerRef} className="absolute inset-0 z-0">
-      <div className="hidden md:block absolute inset-0 z-20 pointer-events-none">
+    <div ref={containerRef} className="fixed" style={{ top: 0, bottom: 0, left: '-20vw', right: '-20vw', zIndex: 0 }}>
+      <div className="hidden md:block absolute inset-0 z-20 pointer-events-none overflow-hidden">
         {LAYER_NAMES.filter(name => LAYER_CONFIG[name].label).map((name) => (
           <div
             key={name}
