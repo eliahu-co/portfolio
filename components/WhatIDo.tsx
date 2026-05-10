@@ -55,10 +55,6 @@ export default function WhatIDo() {
       style={{ zIndex: 1 }}
     >
       <div className="max-w-6xl mx-auto">
-        <h2 className="font-serif text-[clamp(32px,4vw,48px)] text-ink mb-16">
-          What I do
-        </h2>
-
         <div
           ref={cardsRef}
           className="grid md:grid-cols-3 border border-subtle"

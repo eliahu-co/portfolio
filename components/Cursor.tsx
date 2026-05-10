@@ -17,8 +17,8 @@ export default function Cursor() {
 
   return (
     <>
-      <div ref={hRef} className="fixed inset-x-0 top-0 h-px z-[9999] pointer-events-none" style={{ background: 'rgba(26,26,26,0.18)', willChange: 'transform' }} suppressHydrationWarning />
-      <div ref={vRef} className="fixed inset-y-0 left-0 w-px z-[9999] pointer-events-none" style={{ background: 'rgba(26,26,26,0.18)', willChange: 'transform' }} suppressHydrationWarning />
+      <div ref={hRef} className="fixed inset-x-0 top-0 h-[2px] z-[9999] pointer-events-none" style={{ background: 'rgba(26,26,26,0.18)', willChange: 'transform' }} suppressHydrationWarning />
+      <div ref={vRef} className="fixed inset-y-0 left-0 w-[2px] z-[9999] pointer-events-none" style={{ background: 'rgba(26,26,26,0.18)', willChange: 'transform' }} suppressHydrationWarning />
     </>
   )
 }
