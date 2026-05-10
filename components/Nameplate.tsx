@@ -14,7 +14,7 @@ export default function Nameplate() {
       </h1>
 
       {/* Slogan — always visible */}
-      <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-ink/55 mt-4 pointer-events-none">
+      <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-ink mt-4 pointer-events-none">
         AEC Architect. Software Developer. Builder.
       </p>
 
@@ -26,7 +26,7 @@ export default function Nameplate() {
             href={href}
             {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             {...(download ? { download: true } : {})}
-            className="font-sans text-[10px] uppercase tracking-[0.12em] text-ink/55 hover:text-ink transition-colors duration-200"
+            className="font-sans text-[10px] uppercase tracking-[0.12em] text-ink hover:text-ink transition-colors duration-200"
           >
             {label}
           </a>

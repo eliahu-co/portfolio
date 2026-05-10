@@ -195,7 +195,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
   return (
     <div
       className="relative w-full overflow-hidden"
-      style={{ height: '60vh', background: '#1a1a1a', borderTop: '2vw solid #1a1a1a', borderBottom: '2vw solid #1a1a1a' }}
+      style={{ height: '60vh', background: '#B57F59', borderTop: '2vw solid #B57F59', borderBottom: '2vw solid #B57F59' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -245,7 +245,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
           top: '50%',
           transform: 'translateY(-50%)',
           transition: `left ${TRAVEL_S}s cubic-bezier(0.45,0,0.55,1)`,
-          background: 'var(--color-canvas)', border: 'var(--border)', borderRadius: '2px', boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
+          background: '#D6BF78', border: 'var(--border)', borderRadius: '2px', boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
           width: '64px', height: '64px', cursor: 'pointer',
         }}
       >
@@ -264,7 +264,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
           top: '50%',
           transform: 'translateY(-50%)',
           transition: `left ${TRAVEL_S}s cubic-bezier(0.45,0,0.55,1)`,
-          background: 'var(--color-canvas)', border: 'var(--border)', borderRadius: '2px', boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
+          background: '#D6BF78', border: 'var(--border)', borderRadius: '2px', boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
           width: '64px', height: '64px', cursor: 'pointer',
         }}
       >

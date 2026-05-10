@@ -5,14 +5,15 @@ import dynamic from 'next/dynamic'
 
 const PanelScene = dynamic(() => import('./PanelScene'), {
   ssr: false,
-  loading: () => <div className="absolute inset-0 bg-canvas" />,
+  loading: () => <div className="absolute inset-0" style={{ background: '#675962' }} />,
 })
 
 export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative h-screen w-full overflow-hidden bg-canvas"
+      className="relative h-screen w-full overflow-hidden"
+      style={{ background: '#675962' }}
     >
       {/* Three.js canvas — fills entire section */}
       <PanelScene />
