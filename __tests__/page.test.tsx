@@ -2,6 +2,12 @@
 import { render, screen } from '@testing-library/react'
 import Home from '@/app/page'
 
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}))
+
 jest.mock('next/dynamic', () => () => () => null)
 jest.mock('@/lib/gsap', () => ({
   gsap: { context: jest.fn(() => ({ revert: jest.fn() })) },
