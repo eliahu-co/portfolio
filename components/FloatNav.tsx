@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 const LINKS = [
   { label: 'About', href: '#about', id: 'about' },
@@ -21,6 +21,7 @@ export default function FloatNav() {
       setScrolled(scrollY > innerHeight * 0.9)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -75,7 +76,7 @@ export default function FloatNav() {
         {/* Nav links */}
         <ul className="flex items-center list-none m-0" style={{ padding: '16px 8px 14px' }}>
           {LINKS.map(({ label, href, id }, i) => (
-            <React.Fragment key={href}>
+            <Fragment key={href}>
               {i > 0 && (
                 <li
                   aria-hidden="true"
@@ -92,6 +93,7 @@ export default function FloatNav() {
               <li>
                 <a
                   href={href}
+                  aria-current={activeId === id ? 'page' : undefined}
                   style={{
                     display: 'block',
                     fontSize: '11px',
@@ -109,7 +111,7 @@ export default function FloatNav() {
                   {label}
                 </a>
               </li>
-            </React.Fragment>
+            </Fragment>
           ))}
         </ul>
       </nav>
@@ -118,6 +120,7 @@ export default function FloatNav() {
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         aria-label="Scroll to top"
+        tabIndex={scrolled ? 0 : -1}
         style={{
           position: 'fixed',
           bottom: '24px',
