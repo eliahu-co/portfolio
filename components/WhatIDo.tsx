@@ -3,6 +3,7 @@
 
 import { useEffect, useRef } from 'react'
 import { gsap } from '@/lib/gsap'
+import { showTooltip, hideTooltip } from '@/components/Tooltip'
 
 const CARDS = [
   {
@@ -10,18 +11,21 @@ const CARDS = [
     title: 'Development',
     description:
       'From embedded React/Node.js work shipping production code at Veev to POC development in Python and FastAPI — I write code that goes to production, not just demos.',
+    tooltip: 'Apps that I worked on:\nFAST-ener, Test (QC for Panels),\nTHERM, Key Measurements POC.\nTo be added.',
   },
   {
     category: 'Research · Strategy',
     title: 'Product & R&D',
     description:
       "Five years owning full product lifecycles: PRDs, technology evaluation, cross-functional leadership across BIM, Data, Automation, and Manufacturing. I bridge domain expertise and technical fluency to de-risk decisions before they're expensive.",
+    tooltip: "Clicking here will change the items in the carrousel below.\nUnder development.\nHaven't had the time to add all images yet.",
   },
   {
     category: 'Architecture · BIM',
     title: 'Architecture & Design',
     description:
       "A decade of practice across Brazil, the Netherlands, and Israel — from construction documents and BIM models to competition submissions with SOM and ARUP. Design thinking isn't a metaphor for me; it's the foundation.",
+    tooltip: "Clicking here will change the items in the carrousel below.\nUnder development.\nHaven't had the time to add all images yet.",
   },
 ]
 
@@ -64,8 +68,16 @@ export default function WhatIDo() {
               key={card.title}
               className={`whatiodo-card group relative px-5 py-3 border-ink cursor-pointer transition-colors duration-200
                 ${i < CARDS.length - 1 ? 'border-b-2 md:border-b-0 md:border-r-2' : ''}`}
-              onMouseEnter={e => { e.currentTarget.style.background = '#1a1a1a'; e.currentTarget.style.borderColor = '#1a1a1a' }}
-              onMouseLeave={e => { e.currentTarget.style.background = ''; e.currentTarget.style.borderColor = '' }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = '#1a1a1a'
+                e.currentTarget.style.borderColor = '#1a1a1a'
+                showTooltip(card.tooltip)
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = ''
+                e.currentTarget.style.borderColor = ''
+                hideTooltip()
+              }}
             >
               {/* Category tag */}
               <p className="font-sans text-[10px] uppercase tracking-[0.1em] text-ink/40 mb-3 transition-colors duration-200 group-hover:text-white/60">

@@ -1,18 +1,27 @@
 // app/layout.tsx
 import type { Metadata } from 'next'
-import { Playfair_Display, Inter } from 'next/font/google'
+import { Cormorant_Garamond, DM_Sans, Nabla } from 'next/font/google'
 import './globals.css'
+import MobileGate from '@/components/MobileGate'
 
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap',
+const cormorant = Cormorant_Garamond({
+  subsets:  ['latin'],
+  weight:   ['300', '400', '500', '600', '700'],
+  style:    ['normal', 'italic'],
+  variable: '--font-playfair',   // keeps existing font-serif class wiring
+  display:  'swap',
 })
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
+const nabla = Nabla({
+  subsets:  ['latin'],
+  variable: '--font-nabla',
+  display:  'swap',
+})
+
+const dmSans = DM_Sans({
+  subsets:  ['latin'],
+  variable: '--font-inter',      // keeps existing font-sans class wiring
+  display:  'swap',
 })
 
 export const metadata: Metadata = {
@@ -35,8 +44,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${nabla.variable}`}>
+      <body><MobileGate>{children}</MobileGate></body>
     </html>
   )
 }

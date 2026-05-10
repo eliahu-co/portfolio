@@ -9,7 +9,7 @@ const LINKS = [
 export default function Nameplate() {
   return (
     <div className="fixed top-6 z-50 left-8 md:left-16 lg:left-24 select-none">
-      <h1 className="font-serif text-[42px] font-bold text-ink/70 leading-none pointer-events-none">
+      <h1 className="text-[42px] leading-none pointer-events-none" style={{ fontFamily: 'var(--font-nabla)' }}>
         Eliahu Cohen
       </h1>
 

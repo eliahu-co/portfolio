@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { gsap } from '@/lib/gsap'
+import { showTooltip, hideTooltip } from '@/components/Tooltip'
 
 // Image list + metadata are injected by WorkBannerServer.tsx.
 // Edit public/architecture/metadata.json to change tooltip content.
@@ -82,12 +83,9 @@ export default function WorkBanner({ images: rawImages }: Props) {
   const busyRef     = useRef(false)
   const durationsRef = useRef<number[]>(new Array(n).fill(DEFAULT_HOLD))
 
-  const [hovered,      setHovered]      = useState(false)
   const [centeredRIdx, setCenteredRIdx] = useState(n)
   const [arrowLeftPx,  setArrowLeftPx]  = useState(0)
   const [arrowRightPx, setArrowRightPx] = useState(0)
-  const [tooltipEntry, setTooltipEntry] = useState<ImageMeta | null>(null)
-  const [tooltipPos,   setTooltipPos]   = useState({ x: 0, y: 0 })
 
   // Pre-fetch GIF durations
   useEffect(() => {
@@ -191,9 +189,8 @@ export default function WorkBanner({ images: rawImages }: Props) {
     return () => { tlRef.current?.kill(); dtRef.current?.kill() }
   }, [freezeImage, scheduleNext]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleMouseEnter = () => { pausedRef.current = true;  dtRef.current?.kill(); setHovered(true)  }
-  const handleMouseLeave = () => { pausedRef.current = false; setHovered(false); setTooltipEntry(null); scheduleNext() }
-  const handleMouseMove  = (e: React.MouseEvent) => setTooltipPos({ x: e.clientX, y: e.clientY })
+  const handleMouseEnter = () => { pausedRef.current = true;  dtRef.current?.kill() }
+  const handleMouseLeave = () => { pausedRef.current = false; hideTooltip(); scheduleNext() }
 
   return (
     <div
@@ -201,7 +198,6 @@ export default function WorkBanner({ images: rawImages }: Props) {
       style={{ height: '60vh', background: '#1a1a1a', borderTop: '2vw solid #1a1a1a', borderBottom: '2vw solid #1a1a1a' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onMouseMove={handleMouseMove}
     >
       <div
         ref={stripRef}
@@ -215,8 +211,8 @@ export default function WorkBanner({ images: rawImages }: Props) {
                 position: 'relative', height: '100%', width: 'auto', flexShrink: 0,
                 cursor: i === centeredRIdx ? 'default' : 'pointer',
               }}
-              onMouseEnter={() => setTooltipEntry(meta)}
-              onMouseLeave={() => setTooltipEntry(null)}
+              onMouseEnter={() => meta && showTooltip(`${meta.title}, ${meta.year}`)}
+              onMouseLeave={hideTooltip}
               onClick={() => { const d = i - idxRef.current; if (d !== 0) goTo(d) }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -257,24 +253,6 @@ export default function WorkBanner({ images: rawImages }: Props) {
           <path d="M20 6L10 16l10 10" />
         </svg>
       </button>
-
-      {/* Rich tooltip — fixed so it escapes overflow:hidden */}
-      {tooltipEntry && (
-        <div
-          style={{
-            position:      'fixed',
-            left:          tooltipPos.x + 20,
-            top:           tooltipPos.y + 20,
-            pointerEvents: 'none',
-            zIndex:        200,
-          }}
-          className="bg-orange-500 px-3 py-1.5"
-        >
-          <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-white leading-none whitespace-nowrap">
-            {tooltipEntry.title}<span className="text-white/60">,&nbsp;{tooltipEntry.year}</span>
-          </p>
-        </div>
-      )}
 
       {/* Right arrow — left edge tracks the centered image's right edge */}
       <button

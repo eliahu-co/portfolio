@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { gsap } from '@/lib/gsap'
+import { showTooltip, hideTooltip } from '@/components/Tooltip'
 
 const SKILL_TAGS = ['Product', 'BIM', 'ConTech', 'React · Node.js', 'Digital Twin', 'CAD-to-CAM']
 
@@ -90,7 +91,14 @@ export default function About() {
 
         {/* Left column */}
         <div ref={leftRef} className="relative w-full aspect-square max-w-sm">
-          <div ref={photoRef} className="absolute inset-0" role="img" aria-label="Eliahu Cohen">
+          <div
+            ref={photoRef}
+            className="absolute inset-0"
+            role="img"
+            aria-label="Eliahu Cohen"
+            onMouseEnter={() => showTooltip('Me')}
+            onMouseLeave={hideTooltip}
+          >
             {LAYERS.map(({ id, src }) => {
               const isActive = id === active
               const isPrev   = id === prev

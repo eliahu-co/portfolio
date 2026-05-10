@@ -6,10 +6,12 @@ import WhatIDo from '@/components/WhatIDo'
 import WorkBanner from '@/components/WorkBannerServer'
 import Cursor from '@/components/Cursor'
 import Nameplate from '@/components/Nameplate'
+import Tooltip from '@/components/Tooltip'
 
 export default function Home() {
   return (
     <main className="bg-canvas">
+      <Tooltip />
       <Cursor />
       <FloatNav />
       <Nameplate />
