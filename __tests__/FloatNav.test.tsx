@@ -4,6 +4,7 @@ import FloatNav from '@/components/FloatNav'
 
 global.IntersectionObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
+  unobserve: jest.fn(),
   disconnect: jest.fn(),
 }))
 
