@@ -37,3 +37,8 @@ next-env.d.ts
 
 # IFC pipeline intermediate (uncompressed)
 public/panel_raw.glb
+
+# local agent and tools
+.claude/
+.superpowers/
+__pycache__/
