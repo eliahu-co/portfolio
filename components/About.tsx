@@ -1,42 +1,87 @@
 // components/About.tsx
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import { gsap } from '@/lib/gsap'
 
 const SKILL_TAGS = ['Product', 'BIM', 'ConTech', 'React · Node.js', 'Digital Twin', 'CAD-to-CAM']
 
+const LAYERS = [
+  { id: 'center',        src: '/profile_pic.jpeg' },
+  { id: 'up',            src: '/profile_pic/up.jpeg' },
+  { id: 'down',          src: '/profile_pic/down.jpeg' },
+  { id: 'right',         src: '/profile_pic/right.jpeg' },
+  { id: 'diagonal_up',   src: '/profile_pic/diagonal_up.jpeg' },
+  { id: 'diagonal_down', src: '/profile_pic/diagonal_down.jpeg' },
+] as const
+
+type LayerId = typeof LAYERS[number]['id']
+
+function getGaze(cursorX: number, cursorY: number, rect: DOMRect): LayerId {
+  const dx = cursorX - (rect.left + rect.width / 2)
+  const dy = cursorY - (rect.top  + rect.height / 2)
+
+  if (Math.hypot(dx, dy) < rect.width * 0.2) return 'center'
+
+  const a = Math.atan2(dy, dx) * (180 / Math.PI)
+
+  if (a >= -112.5 && a < -67.5) return 'up'
+  if (a >= -67.5  && a < -22.5) return 'diagonal_up'
+  if (a >= -22.5  && a <  22.5) return 'right'
+  if (a >= 22.5   && a <  67.5) return 'diagonal_down'
+  if (a >= 67.5   && a < 112.5) return 'down'
+
+  return 'center'
+}
+
+const FADE_MS = 180
+
 export default function About() {
-  const leftRef = useRef<HTMLDivElement>(null)
+  const leftRef  = useRef<HTMLDivElement>(null)
   const rightRef = useRef<HTMLDivElement>(null)
+  const photoRef = useRef<HTMLDivElement>(null)
+
+  // Two-slot crossfade: prev stays fully opaque underneath while active fades in on top.
+  // This prevents both images from being semi-transparent simultaneously (the flicker cause).
+  const [active, setActive] = useState<LayerId>('center')
+  const [prev,   setPrev]   = useState<LayerId | null>(null)
+  const activeRef   = useRef<LayerId>('center')
+  const clearTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(leftRef.current, {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: leftRef.current,
-          start: 'top 80%',
-          once: true,
-        },
+        y: 40, opacity: 0, duration: 0.8, ease: 'power2.out',
+        scrollTrigger: { trigger: leftRef.current, start: 'top 80%', once: true },
       })
       gsap.from(rightRef.current, {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.15,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: rightRef.current,
-          start: 'top 80%',
-          once: true,
-        },
+        y: 40, opacity: 0, duration: 0.8, delay: 0.15, ease: 'power2.out',
+        scrollTrigger: { trigger: rightRef.current, start: 'top 80%', once: true },
       })
     })
     return () => ctx.revert()
+  }, [])
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const rect = photoRef.current?.getBoundingClientRect()
+      if (!rect) return
+      const next = getGaze(e.clientX, e.clientY, rect)
+      if (next === activeRef.current) return
+
+      if (clearTimer.current) clearTimeout(clearTimer.current)
+      setPrev(activeRef.current)
+      activeRef.current = next
+      setActive(next)
+      // Clear prev after fade completes so it doesn't linger in the DOM stack
+      clearTimer.current = setTimeout(() => setPrev(null), FADE_MS)
+    }
+    window.addEventListener('mousemove', onMove, { passive: true })
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      if (clearTimer.current) clearTimeout(clearTimer.current)
+    }
   }, [])
 
   return (
@@ -44,17 +89,37 @@ export default function About() {
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-start">
 
         {/* Left column */}
-        <div ref={leftRef}>
-          {/* Decorative number */}
-          <div
-            className="font-serif text-[160px] leading-none text-subtle select-none"
-            aria-hidden="true"
-          >
-            01
+        <div ref={leftRef} className="relative w-full aspect-square max-w-sm">
+          <div ref={photoRef} className="absolute inset-0" role="img" aria-label="Eliahu Cohen">
+            {LAYERS.map(({ id, src }) => {
+              const isActive = id === active
+              const isPrev   = id === prev
+              if (!isActive && !isPrev) return null
+
+              return (
+                <div
+                  key={id}
+                  className="absolute inset-0"
+                  style={{
+                    zIndex:    isActive ? 2 : 1,
+                    opacity:   isPrev   ? 1 : undefined,
+                    animation: isActive && prev !== null
+                      ? `photo-fade-in ${FADE_MS}ms ease forwards`
+                      : 'none',
+                  }}
+                >
+                  <Image
+                    src={src}
+                    alt=""
+                    fill
+                    className="object-cover object-top rounded-sm"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority={id === 'center'}
+                  />
+                </div>
+              )
+            })}
           </div>
-          <h2 className="font-serif text-[clamp(24px,3vw,36px)] text-ink -mt-16 leading-tight">
-            The intersection of design thinking and technical fluency.
-          </h2>
         </div>
 
         {/* Right column */}
