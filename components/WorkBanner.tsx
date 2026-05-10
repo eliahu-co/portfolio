@@ -1,25 +1,24 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { gsap } from '@/lib/gsap'
 
-const IMAGES = [
-  '/architecture/image41.gif',
-  '/architecture/image30.png',
-  '/architecture/image34.gif',
-  '/architecture/image33.gif',
-  '/architecture/image20.gif',
-  '/architecture/image29.gif',
-  '/architecture/image28.gif',
-  '/architecture/image36.gif',
-  '/architecture/image27.gif',
-  '/architecture/image19.gif',
-  '/architecture/image38.gif',
-  '/architecture/image26.gif',
-].sort(() => Math.random() - 0.5)
+// Image list + metadata are injected by WorkBannerServer.tsx.
+// Edit public/architecture/metadata.json to change tooltip content.
 
-const n             = IMAGES.length
-const IMAGES_RENDER = [...IMAGES, ...IMAGES, ...IMAGES]
+export interface ImageMeta {
+  title:       string
+  year:        string
+  description: string
+}
+
+interface ImageEntry {
+  src:  string
+  meta: ImageMeta | null
+}
+
+interface Props { images: ImageEntry[] }
+
 
 const GAP_VW       = 2
 const DEFAULT_HOLD = 3      // seconds for non-GIFs or parse failures
@@ -66,7 +65,13 @@ async function getGifDuration(src: string): Promise<number> {
   }
 }
 
-export default function WorkBanner() {
+export default function WorkBanner({ images: rawImages }: Props) {
+  // rawImages is already shuffled by the server — use it directly.
+  // IMAGES_RENDER is memoised so its reference stays stable across re-renders
+  // (state changes for arrows / centeredRIdx must not recreate the array).
+  const IMAGES        = rawImages
+  const n             = IMAGES.length
+  const IMAGES_RENDER = useMemo(() => [...IMAGES, ...IMAGES, ...IMAGES], [IMAGES])
   const stripRef    = useRef<HTMLDivElement>(null)
   const imgRefs     = useRef<(HTMLImageElement | null)[]>([])
   const canvasRefs  = useRef<(HTMLCanvasElement | null)[]>([])
@@ -81,10 +86,12 @@ export default function WorkBanner() {
   const [centeredRIdx, setCenteredRIdx] = useState(n)
   const [arrowLeftPx,  setArrowLeftPx]  = useState(0)
   const [arrowRightPx, setArrowRightPx] = useState(0)
+  const [tooltipEntry, setTooltipEntry] = useState<ImageMeta | null>(null)
+  const [tooltipPos,   setTooltipPos]   = useState({ x: 0, y: 0 })
 
   // Pre-fetch GIF durations
   useEffect(() => {
-    IMAGES.forEach(async (src, i) => {
+    IMAGES.forEach(async ({ src }, i) => {
       if (/\.gif$/i.test(src)) {
         durationsRef.current[i] = await getGifDuration(src)
       }
@@ -185,7 +192,8 @@ export default function WorkBanner() {
   }, [freezeImage, scheduleNext]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleMouseEnter = () => { pausedRef.current = true;  dtRef.current?.kill(); setHovered(true)  }
-  const handleMouseLeave = () => { pausedRef.current = false; setHovered(false); scheduleNext() }
+  const handleMouseLeave = () => { pausedRef.current = false; setHovered(false); setTooltipEntry(null); scheduleNext() }
+  const handleMouseMove  = (e: React.MouseEvent) => setTooltipPos({ x: e.clientX, y: e.clientY })
 
   return (
     <div
@@ -193,31 +201,41 @@ export default function WorkBanner() {
       style={{ height: '60vh', background: '#1a1a1a', borderTop: '2vw solid #1a1a1a', borderBottom: '2vw solid #1a1a1a' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
     >
       <div
         ref={stripRef}
         className="absolute top-0 h-full flex"
         style={{ gap: `${GAP_VW}vw`, willChange: 'transform' }}
       >
-        {IMAGES_RENDER.map((src, i) => (
-          <div key={i} style={{ position: 'relative', height: '100%', width: 'auto', flexShrink: 0 }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              ref={el => { imgRefs.current[i] = el }}
-              src={src}
-              alt=""
-              style={{ height: '100%', width: 'auto', display: 'block' }}
-            />
-            <canvas
-              ref={el => { canvasRefs.current[i] = el }}
+        {IMAGES_RENDER.map(({ src, meta }, i) => (
+            <div
+              key={i}
               style={{
-                position: 'absolute', inset: 0, width: '100%', height: '100%',
-                opacity: i === centeredRIdx ? 0 : 1,
-                transition: 'opacity 0.1s',
-                pointerEvents: 'none',
+                position: 'relative', height: '100%', width: 'auto', flexShrink: 0,
+                cursor: i === centeredRIdx ? 'default' : 'pointer',
               }}
-            />
-          </div>
+              onMouseEnter={() => setTooltipEntry(meta)}
+              onMouseLeave={() => setTooltipEntry(null)}
+              onClick={() => { const d = i - idxRef.current; if (d !== 0) goTo(d) }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                ref={el => { imgRefs.current[i] = el }}
+                src={src}
+                alt={meta?.title ?? ''}
+                style={{ height: '100%', width: 'auto', display: 'block' }}
+              />
+              <canvas
+                ref={el => { canvasRefs.current[i] = el }}
+                style={{
+                  position: 'absolute', inset: 0, width: '100%', height: '100%',
+                  opacity: i === centeredRIdx ? 0 : 1,
+                  transition: 'opacity 0.1s',
+                  pointerEvents: 'none',
+                }}
+              />
+            </div>
         ))}
       </div>
 
@@ -239,6 +257,24 @@ export default function WorkBanner() {
           <path d="M20 6L10 16l10 10" />
         </svg>
       </button>
+
+      {/* Rich tooltip — fixed so it escapes overflow:hidden */}
+      {tooltipEntry && (
+        <div
+          style={{
+            position:      'fixed',
+            left:          tooltipPos.x + 20,
+            top:           tooltipPos.y + 20,
+            pointerEvents: 'none',
+            zIndex:        200,
+          }}
+          className="bg-orange-500 px-3 py-1.5"
+        >
+          <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-white leading-none whitespace-nowrap">
+            {tooltipEntry.title}<span className="text-white/60">,&nbsp;{tooltipEntry.year}</span>
+          </p>
+        </div>
+      )}
 
       {/* Right arrow — left edge tracks the centered image's right edge */}
       <button

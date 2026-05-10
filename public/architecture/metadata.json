@@ -1,0 +1,62 @@
+{
+  "an_tiles.gif": {
+    "title": "An Tiles",
+    "year": "2019",
+    "description": "Project description here"
+  },
+  "hqa_bid.gif": {
+    "title": "HQA Bid",
+    "year": "2020",
+    "description": "Project description here"
+  },
+  "hqa_petach.gif": {
+    "title": "HQA Petach Tikva",
+    "year": "2021",
+    "description": "Project description here"
+  },
+  "universty_tcc.gif": {
+    "title": "University TCC",
+    "year": "2022",
+    "description": "Project description here"
+  },
+  "veev_SOP documentation.gif": {
+    "title": "Veev SOP Documentation",
+    "year": "2023",
+    "description": "Project description here"
+  },
+  "veev_bim.gif": {
+    "title": "Veev BIM",
+    "year": "2023",
+    "description": "Project description here"
+  },
+  "veev_detail.gif": {
+    "title": "Veev Detail",
+    "year": "2023",
+    "description": "Project description here"
+  },
+  "veev_experiments.gif": {
+    "title": "Veev Experiments",
+    "year": "2022",
+    "description": "Project description here"
+  },
+  "veev_exterior_cladding.gif": {
+    "title": "Veev Exterior Cladding",
+    "year": "2023",
+    "description": "Project description here"
+  },
+  "veev_image29.gif": {
+    "title": "Veev Wall Panel",
+    "year": "2023",
+    "description": "Project description here"
+  },
+  "veev_parametric families.png": {
+    "title": "Veev Parametric Families",
+    "year": "2022",
+    "description": "Project description here"
+  },
+  "volta_products.gif": {
+    "title": "Volta Products",
+    "year": "2021",
+    "description": "Project description here"
+  }
+}

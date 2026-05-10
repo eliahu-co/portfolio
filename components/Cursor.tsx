@@ -2,9 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 
-const COLOR_DEFAULT   = '#ff6600'
-const COLOR_CLICKABLE = '#22c55e'
-
+const COLOR     = '#ff6600'
 const CLICKABLE = 'a, button, [role="button"], input, select, textarea, label, [tabindex]'
 
 export default function Cursor() {
@@ -12,10 +10,8 @@ export default function Cursor() {
   const vRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const setStyle = (color: string, size: string) => {
-      hRef.current?.style.setProperty('background', color)
+    const setSize = (size: string) => {
       hRef.current?.style.setProperty('height', size)
-      vRef.current?.style.setProperty('background', color)
       vRef.current?.style.setProperty('width', size)
     }
 
@@ -26,9 +22,7 @@ export default function Cursor() {
 
     const onOver = (e: MouseEvent) => {
       const el = e.target as Element | null
-      el?.closest(CLICKABLE)
-        ? setStyle(COLOR_CLICKABLE, '4px')
-        : setStyle(COLOR_DEFAULT, '2px')
+      setSize(el?.closest(CLICKABLE) ? '4px' : '2px')
     }
 
     window.addEventListener('mousemove', onMove, { passive: true })
@@ -41,8 +35,8 @@ export default function Cursor() {
 
   return (
     <>
-      <div ref={hRef} className="fixed inset-x-0 top-0 h-[2px] z-[9999] pointer-events-none" style={{ background: COLOR_DEFAULT, willChange: 'transform' }} suppressHydrationWarning />
-      <div ref={vRef} className="fixed inset-y-0 left-0 w-[2px] z-[9999] pointer-events-none" style={{ background: COLOR_DEFAULT, willChange: 'transform' }} suppressHydrationWarning />
+      <div ref={hRef} className="fixed inset-x-0 top-0 h-[2px] z-[9999] pointer-events-none" style={{ background: COLOR, willChange: 'transform' }} suppressHydrationWarning />
+      <div ref={vRef} className="fixed inset-y-0 left-0 w-[2px] z-[9999] pointer-events-none" style={{ background: COLOR, willChange: 'transform' }} suppressHydrationWarning />
     </>
   )
 }

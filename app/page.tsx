@@ -3,7 +3,7 @@ import FloatNav from '@/components/FloatNav'
 import Hero from '@/components/Hero'
 import About from '@/components/About'
 import WhatIDo from '@/components/WhatIDo'
-import WorkBanner from '@/components/WorkBanner'
+import WorkBanner from '@/components/WorkBannerServer'
 import Cursor from '@/components/Cursor'
 import Nameplate from '@/components/Nameplate'
 
@@ -16,7 +16,7 @@ export default function Home() {
       <Hero />
       <About />
       <WhatIDo />
-      <WorkBanner />
+      <WorkBanner />  {/* WorkBannerServer — auto-discovers public/architecture/ */}
     </main>
   )
 }

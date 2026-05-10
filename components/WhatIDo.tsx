@@ -62,7 +62,7 @@ export default function WhatIDo() {
           {CARDS.map((card, i) => (
             <article
               key={card.title}
-              className={`whatiodo-card group relative p-5 border-ink cursor-pointer transition-colors duration-200
+              className={`whatiodo-card group relative px-5 py-3 border-ink cursor-pointer transition-colors duration-200
                 ${i < CARDS.length - 1 ? 'border-b-2 md:border-b-0 md:border-r-2' : ''}`}
               onMouseEnter={e => { e.currentTarget.style.background = '#1a1a1a'; e.currentTarget.style.borderColor = '#1a1a1a' }}
               onMouseLeave={e => { e.currentTarget.style.background = ''; e.currentTarget.style.borderColor = '' }}
