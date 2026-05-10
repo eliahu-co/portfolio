@@ -57,22 +57,23 @@ export default function WhatIDo() {
       <div className="max-w-6xl mx-auto">
         <div
           ref={cardsRef}
-          className="grid md:grid-cols-3 border border-subtle"
+          className="grid md:grid-cols-3 border-2 border-ink"
         >
           {CARDS.map((card, i) => (
             <article
               key={card.title}
-              className={`whatiodo-card relative p-5 border-subtle cursor-default
-                ${i < CARDS.length - 1 ? 'border-b md:border-b-0 md:border-r' : ''}`}
-              style={{ borderWidth: '1px' }}
+              className={`whatiodo-card group relative p-5 border-ink cursor-pointer transition-colors duration-200
+                ${i < CARDS.length - 1 ? 'border-b-2 md:border-b-0 md:border-r-2' : ''}`}
+              onMouseEnter={e => { e.currentTarget.style.background = '#1a1a1a'; e.currentTarget.style.borderColor = '#1a1a1a' }}
+              onMouseLeave={e => { e.currentTarget.style.background = ''; e.currentTarget.style.borderColor = '' }}
             >
               {/* Category tag */}
-              <p className="font-sans text-[10px] uppercase tracking-[0.1em] text-ink/40 mb-3">
+              <p className="font-sans text-[10px] uppercase tracking-[0.1em] text-ink/40 mb-3 transition-colors duration-200 group-hover:text-white/60">
                 {card.category}
               </p>
 
               {/* Title */}
-              <h3 className="font-serif text-[20px] text-ink">
+              <h3 className="font-serif text-[20px] text-ink transition-colors duration-200 group-hover:text-white">
                 {card.title}
               </h3>
             </article>

@@ -9,6 +9,9 @@
   --color-accent-warm: #c8a84a;
   --color-accent-cool: #3a6ea8;
   --color-subtle: #e0ddd8;
+
+  /* Single border token — change here to restyle all borders site-wide */
+  --border: 2px solid var(--color-ink);
 }
 
 html {

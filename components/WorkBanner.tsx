@@ -1,94 +1,263 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import Image from 'next/image'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { gsap } from '@/lib/gsap'
 
-// Replace with your own project photos in /public/work/
 const IMAGES = [
-  '/profile_pic.jpeg',
-  '/profile_pic/up.jpeg',
-  '/profile_pic/diagonal_up.jpeg',
-  '/profile_pic/right.jpeg',
-  '/profile_pic/down.jpeg',
-  '/profile_pic/diagonal_down.jpeg',
-]
+  '/architecture/image41.gif',
+  '/architecture/image30.png',
+  '/architecture/image34.gif',
+  '/architecture/image33.gif',
+  '/architecture/image20.gif',
+  '/architecture/image29.gif',
+  '/architecture/image28.gif',
+  '/architecture/image36.gif',
+  '/architecture/image27.gif',
+  '/architecture/image19.gif',
+  '/architecture/image38.gif',
+  '/architecture/image26.gif',
+].sort(() => Math.random() - 0.5)
 
-const IMG_W_VW = 45   // each image width as % of viewport
-const GAP_VW   = 2    // gap between images
-const HOLD_S   = 1.8  // pause at centre
-const TRAVEL_S = 0.9  // slide duration
+const n             = IMAGES.length
+const IMAGES_RENDER = [...IMAGES, ...IMAGES, ...IMAGES]
 
-// Duplicate for seamless looping: step through first copy, silently reset when done
-const IMAGES_LOOP = [...IMAGES, ...IMAGES]
+const GAP_VW       = 2
+const DEFAULT_HOLD = 3      // seconds for non-GIFs or parse failures
+const TRAVEL_S     = 0.7
+
+// Parse a GIF's total animation duration by summing frame delays in the binary.
+// GIF frame delays live in Graphic Control Extension blocks (0x21 0xF9),
+// stored as a little-endian uint16 in centiseconds.
+async function getGifDuration(src: string): Promise<number> {
+  try {
+    const buf  = await fetch(src).then(r => r.arrayBuffer())
+    const data = new Uint8Array(buf)
+    let totalCs = 0
+    // Logical screen descriptor: 7 bytes starting at offset 6
+    const hasGCT      = (data[10] & 0x80) !== 0
+    const gctSize     = hasGCT ? 3 * (2 ** ((data[10] & 0x07) + 1)) : 0
+    let i = 13 + gctSize
+
+    while (i < data.length) {
+      if (data[i] === 0x3B) break                   // trailer
+      if (data[i] === 0x21 && data[i + 1] === 0xF9) {
+        // Graphic Control Extension — delay at bytes i+4..i+5
+        totalCs += data[i + 4] | (data[i + 5] << 8)
+        i += 8
+      } else if (data[i] === 0x21) {
+        // Other extension — skip sub-blocks
+        i += 2
+        while (i < data.length && data[i] !== 0) i += data[i] + 1
+        i++
+      } else if (data[i] === 0x2C) {
+        // Image descriptor — skip local colour table + LZW data
+        const hasLCT  = (data[i + 9] & 0x80) !== 0
+        const lctSize = hasLCT ? 3 * (2 ** ((data[i + 9] & 0x07) + 1)) : 0
+        i += 10 + lctSize + 1   // +1 for LZW min code size
+        while (i < data.length && data[i] !== 0) i += data[i] + 1
+        i++
+      } else {
+        i++
+      }
+    }
+    return totalCs > 0 ? totalCs / 100 : DEFAULT_HOLD
+  } catch {
+    return DEFAULT_HOLD
+  }
+}
 
 export default function WorkBanner() {
-  const stripRef = useRef<HTMLDivElement>(null)
-  const tlRef    = useRef<gsap.core.Tween | null>(null)
-  const dtRef    = useRef<gsap.core.Tween | null>(null)
+  const stripRef    = useRef<HTMLDivElement>(null)
+  const imgRefs     = useRef<(HTMLImageElement | null)[]>([])
+  const canvasRefs  = useRef<(HTMLCanvasElement | null)[]>([])
+  const tlRef       = useRef<gsap.core.Tween | null>(null)
+  const dtRef       = useRef<gsap.core.Tween | null>(null)
+  const idxRef      = useRef(n)
+  const pausedRef   = useRef(false)
+  const busyRef     = useRef(false)
+  const durationsRef = useRef<number[]>(new Array(n).fill(DEFAULT_HOLD))
+
+  const [hovered,      setHovered]      = useState(false)
+  const [centeredRIdx, setCenteredRIdx] = useState(n)
+  const [arrowLeftPx,  setArrowLeftPx]  = useState(0)
+  const [arrowRightPx, setArrowRightPx] = useState(0)
+
+  // Pre-fetch GIF durations
+  useEffect(() => {
+    IMAGES.forEach(async (src, i) => {
+      if (/\.gif$/i.test(src)) {
+        durationsRef.current[i] = await getGifDuration(src)
+      }
+    })
+  }, [])
+
+  const getViewW     = () => document.documentElement.clientWidth
+  const getGap       = () => getViewW() * (GAP_VW / 100)
+
+  const snapArrows = (renderIdx: number) => {
+    requestAnimationFrame(() => {
+      const img = imgRefs.current[renderIdx]
+      if (!img) return
+      const rect = img.getBoundingClientRect()
+      setArrowLeftPx(rect.left - 64)
+      setArrowRightPx(rect.right)
+    })
+  }
+  const getCenterX   = (i: number) => {
+    const imgs = imgRefs.current as HTMLImageElement[]
+    let x = 0
+    for (let j = 0; j < i; j++) x += imgs[j].offsetWidth + getGap()
+    return x + imgs[i].offsetWidth / 2
+  }
+  const getTranslate = (i: number) => getViewW() / 2 - getCenterX(i)
+  const getHold      = (renderIdx: number) => durationsRef.current[renderIdx % n]
+
+  const freezeImage = useCallback((i: number) => {
+    const canvas = canvasRefs.current[i]
+    const img    = imgRefs.current[i]
+    if (!canvas || !img) return
+    canvas.width  = img.offsetWidth
+    canvas.height = img.offsetHeight
+    canvas.getContext('2d')?.drawImage(img, 0, 0, canvas.width, canvas.height)
+  }, [])
+
+  const scheduleNext = useCallback(() => {
+    dtRef.current?.kill()
+    if (pausedRef.current) return
+    const hold = getHold(idxRef.current)
+    dtRef.current = gsap.delayedCall(hold, () => goTo(1, scheduleNext)) // eslint-disable-line @typescript-eslint/no-use-before-define
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const goTo = useCallback((delta: number, onDone?: () => void) => {
+    if (busyRef.current) return
+    busyRef.current = true
+
+    const prev = idxRef.current
+    const next = prev + delta
+
+    freezeImage(prev)
+    setCenteredRIdx(next)
+
+    tlRef.current = gsap.to(stripRef.current, {
+      x: getTranslate(next),
+      duration: TRAVEL_S,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        idxRef.current = next
+
+        if (idxRef.current >= 2 * n) {
+          idxRef.current = n
+          gsap.set(stripRef.current, { x: getTranslate(n) })
+          setCenteredRIdx(n)
+          snapArrows(n)
+        } else if (idxRef.current < n) {
+          idxRef.current = 2 * n - 1
+          gsap.set(stripRef.current, { x: getTranslate(2 * n - 1) })
+          setCenteredRIdx(2 * n - 1)
+          snapArrows(2 * n - 1)
+        } else {
+          snapArrows(idxRef.current)
+        }
+
+        busyRef.current = false
+        onDone?.()
+      },
+    })
+  }, [freezeImage]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const strip = stripRef.current
     if (!strip) return
+    const imgs = imgRefs.current.filter(Boolean) as HTMLImageElement[]
 
-    const n    = IMAGES.length
-    const step = IMG_W_VW + GAP_VW
-    const getX = (i: number) => 50 - (i * step + IMG_W_VW / 2)
+    Promise.all(
+      imgs.map(img =>
+        img.complete ? Promise.resolve() : new Promise<void>(res => { img.onload = () => res() })
+      )
+    ).then(() => {
+      gsap.set(strip, { x: getTranslate(n) })
+      imgs.forEach((_, i) => { if (i !== n) freezeImage(i) })
+      snapArrows(n)
+      scheduleNext()
+    })
 
-    let idx = 0
-    gsap.set(strip, { x: `${getX(0)}vw` })
+    return () => { tlRef.current?.kill(); dtRef.current?.kill() }
+  }, [freezeImage, scheduleNext]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    const advance = () => {
-      idx += 1
-      tlRef.current = gsap.to(strip, {
-        x: `${getX(idx)}vw`,
-        duration: TRAVEL_S,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          // After completing the full cycle, teleport back to index 0 position.
-          // The duplicate copy makes the image at idx===n look identical to idx===0,
-          // so the reset is invisible to the user.
-          if (idx >= n) {
-            idx = 0
-            gsap.set(strip, { x: `${getX(0)}vw` })
-          }
-          dtRef.current = gsap.delayedCall(HOLD_S, advance)
-        },
-      })
-    }
-
-    dtRef.current = gsap.delayedCall(HOLD_S, advance)
-
-    return () => {
-      tlRef.current?.kill()
-      dtRef.current?.kill()
-    }
-  }, [])
+  const handleMouseEnter = () => { pausedRef.current = true;  dtRef.current?.kill(); setHovered(true)  }
+  const handleMouseLeave = () => { pausedRef.current = false; setHovered(false); scheduleNext() }
 
   return (
-    <div className="relative w-full overflow-hidden bg-canvas" style={{ height: '60vh' }}>
+    <div
+      className="relative w-full overflow-hidden"
+      style={{ height: '60vh', background: '#1a1a1a', borderTop: '2vw solid #1a1a1a', borderBottom: '2vw solid #1a1a1a' }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div
         ref={stripRef}
         className="absolute top-0 h-full flex"
         style={{ gap: `${GAP_VW}vw`, willChange: 'transform' }}
       >
-        {IMAGES_LOOP.map((src, i) => (
-          <div
-            key={i}
-            className="relative flex-shrink-0 h-full"
-            style={{ width: `${IMG_W_VW}vw` }}
-          >
-            <Image
+        {IMAGES_RENDER.map((src, i) => (
+          <div key={i} style={{ position: 'relative', height: '100%', width: 'auto', flexShrink: 0 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              ref={el => { imgRefs.current[i] = el }}
               src={src}
               alt=""
-              fill
-              className="object-cover"
-              sizes={`${IMG_W_VW}vw`}
-              priority={i === 0}
+              style={{ height: '100%', width: 'auto', display: 'block' }}
+            />
+            <canvas
+              ref={el => { canvasRefs.current[i] = el }}
+              style={{
+                position: 'absolute', inset: 0, width: '100%', height: '100%',
+                opacity: i === centeredRIdx ? 0 : 1,
+                transition: 'opacity 0.1s',
+                pointerEvents: 'none',
+              }}
             />
           </div>
         ))}
       </div>
+
+      {/* Left arrow — right edge tracks the centered image's left edge */}
+      <button
+        aria-label="Previous image"
+        onClick={() => goTo(-1)}
+        className="absolute z-10 flex items-center justify-center"
+        style={{
+          left: arrowLeftPx + 32,
+          top: '50%',
+          transform: 'translateY(-50%)',
+          transition: `left ${TRAVEL_S}s cubic-bezier(0.45,0,0.55,1)`,
+          background: 'var(--color-canvas)', border: 'var(--border)', borderRadius: '2px', boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
+          width: '64px', height: '64px', cursor: 'pointer',
+        }}
+      >
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="var(--color-ink)" strokeWidth="2" strokeLinecap="square" aria-hidden="true">
+          <path d="M20 6L10 16l10 10" />
+        </svg>
+      </button>
+
+      {/* Right arrow — left edge tracks the centered image's right edge */}
+      <button
+        aria-label="Next image"
+        onClick={() => goTo(1)}
+        className="absolute z-10 flex items-center justify-center"
+        style={{
+          left: arrowRightPx - 32,
+          top: '50%',
+          transform: 'translateY(-50%)',
+          transition: `left ${TRAVEL_S}s cubic-bezier(0.45,0,0.55,1)`,
+          background: 'var(--color-canvas)', border: 'var(--border)', borderRadius: '2px', boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
+          width: '64px', height: '64px', cursor: 'pointer',
+        }}
+      >
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="var(--color-ink)" strokeWidth="2" strokeLinecap="square" aria-hidden="true">
+          <path d="M12 6l10 10-10 10" />
+        </svg>
+      </button>
     </div>
   )
 }

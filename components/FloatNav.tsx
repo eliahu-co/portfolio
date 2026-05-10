@@ -46,7 +46,7 @@ export default function FloatNav() {
         className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 overflow-hidden"
         style={{
           background: 'var(--color-canvas)',
-          border: '1px solid var(--color-subtle)',
+          border: 'var(--border)',
           borderRadius: '2px',
           boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
         }}
@@ -134,7 +134,7 @@ export default function FloatNav() {
           height: '34px',
           background: 'var(--color-canvas)',
           borderRadius: '2px',
-          border: '1px solid var(--color-subtle)',
+          border: 'var(--border)',
           boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
           cursor: 'pointer',
           display: 'flex',
