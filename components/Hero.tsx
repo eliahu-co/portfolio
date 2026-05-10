@@ -28,7 +28,7 @@ export default function Hero() {
         <div className="w-8 h-px bg-ink/20 my-4" />
 
         <p className="font-sans text-[13px] uppercase tracking-[0.12em] text-ink/60">
-          Architect. Developer. Builder.
+          AEC Architect. Software Developer. Builder.
         </p>
       </div>
 

@@ -76,6 +76,15 @@ def extract_geometry(ifc_path: Path, schema: dict[str, str]) -> dict[str, list]:
 
     settings = ifcopenshell.geom.settings()
     settings.set(settings.USE_WORLD_COORDS, True)
+    # Fine tessellation: 0.1 mm linear deflection, 3° angular tolerance.
+    # IfcOpenShell default is ~1 mm / 0.5 rad — far too coarse for large flat
+    # surfaces (creates visible triangle diagonals on steel plates, gypsum sheets).
+    # Smaller values = more triangles = smoother curves = invisible seams.
+    try:
+        settings.set(settings.DEFLECTION_TOLERANCE, 0.0001)   # 0.1 mm
+        settings.set(settings.ANGULAR_TOLERANCE,    0.05)      # ~3°
+    except Exception as e:
+        print(f"  Note: could not set tessellation tolerance ({e}); using defaults")
 
     ifc = ifcopenshell.open(str(ifc_path))
     layer_meshes: dict[str, list] = {name: [] for name in LAYER_ORDER}
@@ -113,7 +122,7 @@ def extract_geometry(ifc_path: Path, schema: dict[str, str]) -> dict[str, list]:
     return layer_meshes
 
 
-def merge_and_simplify(layer_meshes: dict[str, list], target_total_faces: int = 40_000) -> dict[str, object]:
+def merge_and_simplify(layer_meshes: dict[str, list], target_total_faces: int = 200_000) -> dict[str, object]:
     """Merge parts per layer, simplify to target face count, return trimesh objects."""
     try:
         import trimesh
