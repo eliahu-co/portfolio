@@ -3,15 +3,15 @@
 import { Fragment, useEffect, useState } from 'react'
 
 const LINKS = [
-  { label: 'About', href: '#about', id: 'about' },
+  { label: 'Home',     href: '#hero',      id: 'hero'     },
+  { label: 'About',    href: '#about',     id: 'about'    },
   { label: 'What I Do', href: '#what-i-do', id: 'what-i-do' },
-  { label: 'Contact', href: '#contact', id: 'contact' },
 ]
 
 export default function FloatNav() {
   const [progress, setProgress] = useState(0)
   const [scrolled, setScrolled] = useState(false)
-  const [activeId, setActiveId] = useState<string | null>(null)
+  const [activeId, setActiveId] = useState<string>('hero')
 
   useEffect(() => {
     const onScroll = () => {
@@ -45,9 +45,10 @@ export default function FloatNav() {
       <nav
         className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 overflow-hidden"
         style={{
-          background: '#1a1a1a',
-          borderRadius: '8px',
-          boxShadow: '0 6px 28px rgba(0,0,0,0.28)',
+          background: 'var(--color-canvas)',
+          border: '1px solid var(--color-subtle)',
+          borderRadius: '2px',
+          boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
         }}
         aria-label="Page navigation"
       >
@@ -59,22 +60,22 @@ export default function FloatNav() {
             top: 0,
             left: 0,
             right: 0,
-            height: '3px',
-            background: 'rgba(255,255,255,0.07)',
+            height: '2px',
+            background: 'var(--color-subtle)',
           }}
         >
           <div
             style={{
               width: `${progress * 100}%`,
               height: '100%',
-              background: '#c8a84a',
+              background: 'var(--color-ink)',
               transition: 'width 0.1s linear',
             }}
           />
         </div>
 
         {/* Nav links */}
-        <ul className="flex items-center list-none m-0" style={{ padding: '16px 8px 14px' }}>
+        <ul className="flex items-center list-none m-0" style={{ padding: '14px 4px 12px' }}>
           {LINKS.map(({ label, href, id }, i) => (
             <Fragment key={href}>
               {i > 0 && (
@@ -83,8 +84,8 @@ export default function FloatNav() {
                   role="separator"
                   style={{
                     width: '1px',
-                    height: '14px',
-                    background: 'rgba(255,255,255,0.18)',
+                    height: '12px',
+                    background: 'var(--color-subtle)',
                     flexShrink: 0,
                     listStyle: 'none',
                   }}
@@ -97,13 +98,13 @@ export default function FloatNav() {
                   aria-current={activeId === id ? 'page' : undefined}
                   style={{
                     display: 'block',
-                    fontSize: '11px',
+                    fontSize: '10px',
                     letterSpacing: '0.12em',
                     textTransform: 'uppercase',
-                    color: '#fff',
+                    color: 'var(--color-ink)',
                     textDecoration: 'none',
-                    padding: '0 20px',
-                    opacity: activeId === id ? 1 : 0.45,
+                    padding: '0 18px',
+                    opacity: activeId === id ? 1 : 0.35,
                     fontWeight: activeId === id ? 500 : 400,
                     transition: 'opacity 0.2s',
                     whiteSpace: 'nowrap',
@@ -129,12 +130,12 @@ export default function FloatNav() {
           bottom: '24px',
           right: '24px',
           zIndex: 50,
-          width: '36px',
-          height: '36px',
-          background: '#1a1a1a',
-          borderRadius: '6px',
-          boxShadow: '0 6px 28px rgba(0,0,0,0.28)',
-          border: 'none',
+          width: '34px',
+          height: '34px',
+          background: 'var(--color-canvas)',
+          borderRadius: '2px',
+          border: '1px solid var(--color-subtle)',
+          boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
@@ -146,11 +147,11 @@ export default function FloatNav() {
         }}
       >
         <svg
-          width="13"
-          height="13"
+          width="12"
+          height="12"
           viewBox="0 0 13 13"
           fill="none"
-          stroke="white"
+          stroke="var(--color-ink)"
           strokeWidth="1.5"
           aria-hidden="true"
         >
@@ -159,12 +160,11 @@ export default function FloatNav() {
       </button>
       <style>{`
         .floatnav-link:focus-visible {
-          outline: 2px solid #c8a84a;
+          outline: 1px solid var(--color-ink);
           outline-offset: 2px;
-          border-radius: 2px;
         }
         .floatnav-btn:focus-visible {
-          outline: 2px solid #c8a84a;
+          outline: 1px solid var(--color-ink);
           outline-offset: 2px;
         }
       `}</style>

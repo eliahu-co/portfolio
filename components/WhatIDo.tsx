@@ -51,7 +51,7 @@ export default function WhatIDo() {
     <section
       id="what-i-do"
       ref={sectionRef}
-      className="relative bg-canvas px-8 pt-16 pb-32 md:px-16 lg:px-24"
+      className="relative bg-canvas px-8 pt-4 pb-8 md:px-16 lg:px-24"
       style={{ zIndex: 1 }}
     >
       <div className="max-w-6xl mx-auto">
@@ -62,33 +62,19 @@ export default function WhatIDo() {
           {CARDS.map((card, i) => (
             <article
               key={card.title}
-              className={`whatiodo-card group relative p-8 border-subtle cursor-default
-                ${i < CARDS.length - 1 ? 'border-b md:border-b-0 md:border-r' : ''}
-                hover:border-ink transition-colors duration-300`}
+              className={`whatiodo-card relative p-5 border-subtle cursor-default
+                ${i < CARDS.length - 1 ? 'border-b md:border-b-0 md:border-r' : ''}`}
               style={{ borderWidth: '1px' }}
             >
               {/* Category tag */}
-              <p className="font-sans text-[10px] uppercase tracking-[0.1em] text-ink/40 mb-6">
+              <p className="font-sans text-[10px] uppercase tracking-[0.1em] text-ink/40 mb-3">
                 {card.category}
               </p>
 
-              {/* Title — slides up on hover */}
-              <h3 className="font-serif text-[28px] text-ink mb-4 transition-transform duration-300 group-hover:-translate-y-2">
+              {/* Title */}
+              <h3 className="font-serif text-[20px] text-ink">
                 {card.title}
               </h3>
-
-              {/* Arrow */}
-              <span
-                className="absolute bottom-8 right-8 text-ink/30 text-base transition-opacity duration-300 group-hover:opacity-0"
-                aria-hidden="true"
-              >
-                →
-              </span>
-
-              {/* Description — fades in on hover */}
-              <p className="font-sans text-[14px] leading-[1.7] text-ink/70 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-                {card.description}
-              </p>
             </article>
           ))}
         </div>

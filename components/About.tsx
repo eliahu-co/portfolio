@@ -85,7 +85,7 @@ export default function About() {
   }, [])
 
   return (
-    <section id="about" className="relative bg-canvas px-8 pt-32 pb-16 md:px-16 lg:px-24" style={{ zIndex: 1 }}>
+    <section id="about" className="relative bg-canvas px-8 pt-32 pb-4 md:px-16 lg:px-24" style={{ zIndex: 1 }}>
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-start">
 
         {/* Left column */}
