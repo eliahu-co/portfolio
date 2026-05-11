@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const LINKS = [
   { label: 'Home',     href: '#hero',      id: 'hero'     },
@@ -77,43 +77,28 @@ export default function FloatNav() {
         {/* Nav links */}
         <ul className="flex items-center list-none m-0" style={{ padding: '14px 4px 12px' }}>
           {LINKS.map(({ label, href, id }, i) => (
-            <Fragment key={href}>
-              {i > 0 && (
-                <li
-                  aria-hidden="true"
-                  role="separator"
-                  style={{
-                    width: '1px',
-                    height: '12px',
-                    background: 'var(--color-ink)',
-                    flexShrink: 0,
-                    listStyle: 'none',
-                    transform: 'translateZ(0)',
-                  }}
-                />
-              )}
-              <li>
-                <a
-                  href={href}
-                  className="floatnav-link"
-                  aria-current={activeId === id ? 'page' : undefined}
-                  style={{
-                    display: 'block',
-                    fontSize: '10px',
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                    color: 'var(--color-ink)',
-                    textDecoration: 'none',
-                    padding: '0 18px',
-                    opacity: 1,
-                    fontWeight: 400,
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {label}
-                </a>
-              </li>
-            </Fragment>
+            <li key={href}>
+              <a
+                href={href}
+                className="floatnav-link"
+                aria-current={activeId === id ? 'page' : undefined}
+                style={{
+                  display: 'block',
+                  fontSize: '10px',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-ink)',
+                  textDecoration: 'none',
+                  padding: '0 18px',
+                  opacity: 1,
+                  fontWeight: 400,
+                  whiteSpace: 'nowrap',
+                  borderRight: i < LINKS.length - 1 ? '1px solid var(--color-ink)' : undefined,
+                }}
+              >
+                {label}
+              </a>
+            </li>
           ))}
         </ul>
       </nav>
