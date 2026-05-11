@@ -185,8 +185,8 @@ export default function About() {
                 style={activeTag === tag
                   ? { background: '#ff6b35', border: '2px solid #ff6b35', color: '#fff' }
                   : { border: '2px solid rgba(255,107,53,0.5)', color: '#ff6b35' }}
-                onMouseEnter={() => { if (tag === pinnedTag) return; setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
-                onMouseLeave={() => { if (tag === pinnedTag) return; setActiveTag(pinnedTag); scrambleTo(TAG_BIO[pinnedTag] ?? DEFAULT_BIO) }}
+                onMouseEnter={() => { showTooltip('Click'); if (tag === pinnedTag) return; setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
+                onMouseLeave={() => { hideTooltip(); if (tag === pinnedTag) return; setActiveTag(pinnedTag); scrambleTo(TAG_BIO[pinnedTag] ?? DEFAULT_BIO) }}
                 onClick={() => { setPinnedTag(tag); setActiveTag(tag) }}
               >
                 {tag}
