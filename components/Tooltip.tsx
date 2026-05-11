@@ -44,6 +44,8 @@ export default function Tooltip() {
 
   if (!label) return null
 
+  const isLong = label.length > 80
+
   return (
     <div
       style={{
@@ -52,11 +54,16 @@ export default function Tooltip() {
         top:           pos.y + 20,
         pointerEvents: 'none',
         zIndex:        9998,
-        maxWidth:      320,
+        maxWidth:      isLong ? 400 : 200,
       }}
-      className="bg-orange-500 px-3 py-1.5"
+      className="bg-orange-500 px-3 py-2"
     >
-      <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-white leading-snug whitespace-pre-wrap">
+      <p
+        className="font-sans text-white leading-relaxed whitespace-pre-wrap"
+        style={isLong
+          ? { fontSize: '12px', letterSpacing: '0.02em' }
+          : { fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase' }}
+      >
         {label}
       </p>
     </div>

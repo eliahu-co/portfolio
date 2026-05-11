@@ -1,7 +1,6 @@
 // components/Hero.tsx
 'use client'
 
-import { useEffect, useRef } from 'react'
 import dynamic from 'next/dynamic'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
 
@@ -10,38 +9,35 @@ const PanelScene = dynamic(() => import('./PanelScene'), {
   loading: () => <div className="absolute inset-0" style={{ background: '#675962' }} />,
 })
 
+const HERO_TOOLTIP =
+  `A building has a stack, components, users, and a PRD. You ship it, it goes live, and someone files a bug.\n\n` +
+  `It's not a coincidence you call it a build — whether you're raising a floor plate or a codebase, you need an architect on the team.`
+
 export default function Hero() {
-  const scrolledRef = useRef(false)
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (!scrolledRef.current && window.scrollY > 0) {
-        scrolledRef.current = true
-        hideTooltip()
-      }
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
   return (
     <section
       id="hero"
       className="relative h-screen w-full overflow-hidden"
       style={{ background: '#675962' }}
-      onMouseEnter={() => { if (!scrolledRef.current) showTooltip('Scroll down') }}
+      onMouseEnter={() => showTooltip(HERO_TOOLTIP)}
       onMouseLeave={hideTooltip}
     >
       {/* Three.js canvas — fills entire section */}
       <PanelScene />
 
       {/* Scroll CTA */}
-      <div className="absolute bottom-8 left-8 md:left-16 lg:left-24 z-10 flex flex-col items-start pointer-events-none">
+      <div className="animate-bounce-y absolute bottom-8 left-8 md:left-16 lg:left-24 z-10 flex flex-col items-center pointer-events-none">
+        <span
+          className="font-sans uppercase text-center w-14 mb-1"
+          style={{ fontSize: '10px', letterSpacing: '0.12em', color: 'var(--color-ink)' }}
+        >
+          Scroll
+        </span>
         <svg
-          className="animate-bounce-y w-14 h-14"
+          className="w-14 h-14"
           viewBox="0 0 32 32"
           fill="none"
-          stroke="#B57F59"
+          stroke="var(--color-ink)"
           strokeWidth="2.5"
           strokeLinecap="square"
           aria-hidden="true"

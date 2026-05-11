@@ -185,9 +185,9 @@ export default function About() {
                 style={activeTag === tag
                   ? { background: '#D6BF78', border: '2px solid var(--color-ink)', color: 'var(--color-ink)' }
                   : { border: '2px solid rgba(26,26,26,0.2)', color: 'rgba(26,26,26,0.6)' }}
-                onMouseEnter={() => { setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
-                onMouseLeave={() => { setActiveTag(pinnedTag); scrambleTo(TAG_BIO[pinnedTag] ?? DEFAULT_BIO) }}
-                onClick={() => { setPinnedTag(tag); setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
+                onMouseEnter={() => { if (tag === pinnedTag) return; setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
+                onMouseLeave={() => { if (tag === pinnedTag) return; setActiveTag(pinnedTag); scrambleTo(TAG_BIO[pinnedTag] ?? DEFAULT_BIO) }}
+                onClick={() => { setPinnedTag(tag); setActiveTag(tag) }}
               >
                 {tag}
               </span>
