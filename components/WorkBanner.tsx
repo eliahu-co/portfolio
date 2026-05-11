@@ -82,6 +82,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
   const idxRef        = useRef(n)
   const pausedRef     = useRef(false)
   const busyRef       = useRef(false)
+  const touchStartX = useRef(0)
   const durationsRef  = useRef<number[]>(new Array(n).fill(DEFAULT_HOLD))
 
   const [centeredRIdx, setCenteredRIdx] = useState(n)
@@ -248,6 +249,16 @@ export default function WorkBanner({ images: rawImages }: Props) {
     goTo(dir === 'left' ? -1 : 1)
   }
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const delta = e.changedTouches[0].clientX - touchStartX.current
+    if (Math.abs(delta) < 50) return
+    goTo(delta < 0 ? 1 : -1)
+  }
+
   return (
     <div
       className="relative w-full overflow-hidden"
@@ -255,6 +266,8 @@ export default function WorkBanner({ images: rawImages }: Props) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleBannerClick}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {n === 0 && (
         <div className="absolute inset-0 flex items-center justify-center text-center pointer-events-none">
