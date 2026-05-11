@@ -36,16 +36,17 @@ export default function Hero() {
       <PanelScene />
 
       {/* Scroll CTA */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center pointer-events-none">
+      <div className="absolute bottom-8 left-8 md:left-16 lg:left-24 z-10 flex flex-col items-start pointer-events-none">
         <svg
-          className="animate-bounce-y w-4 h-4 text-ink/40"
-          viewBox="0 0 16 16"
+          className="animate-bounce-y w-14 h-14"
+          viewBox="0 0 32 32"
           fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
+          stroke="#B57F59"
+          strokeWidth="2.5"
+          strokeLinecap="square"
           aria-hidden="true"
         >
-          <path d="M2 5l6 6 6-6" />
+          <path d="M4 10l12 12L28 10" />
         </svg>
       </div>
     </section>

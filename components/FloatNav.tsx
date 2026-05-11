@@ -104,9 +104,8 @@ export default function FloatNav() {
                     color: 'var(--color-ink)',
                     textDecoration: 'none',
                     padding: '0 18px',
-                    opacity: activeId === id ? 1 : 0.35,
-                    fontWeight: activeId === id ? 500 : 400,
-                    transition: 'opacity 0.2s',
+                    opacity: 1,
+                    fontWeight: 400,
                     whiteSpace: 'nowrap',
                   }}
                 >

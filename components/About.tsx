@@ -6,7 +6,51 @@ import Image from 'next/image'
 import { gsap } from '@/lib/gsap'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
 
-const SKILL_TAGS = ['Product', 'BIM', 'ConTech', 'React · Node.js', 'Digital Twin', 'CAD-to-CAM']
+const SKILL_TAGS = ['Architecture', 'Product', 'Full Stack', 'BIM', 'ConTech', 'Digital Twin', 'CAD-to-CAM']
+
+const DEFAULT_BIO = `After a decade spanning architectural practice across Brazil, the Netherlands, and Israel, I spent the last five years at Veev as a Senior R&D Product Architect — owning the full product lifecycle from PRDs and technology research to hands-on BIM, data, and manufacturing pipelines. In my last year I embedded part-time in the engineering team, shipping production code alongside the core dev squad.`
+
+const TAG_BIO: Record<string, string> = {
+  'Architecture':  DEFAULT_BIO,
+  'Product':       `Five years owning full product lifecycles at Veev — from writing PRDs and evaluating technology to leading cross-functional teams across Software, Data, Automation, and BIM. Responsible for documenting and driving NPI processes end-to-end. Having sat on both sides of the PRD process — as the R&D author and as an engineer implementing specs — I write requirements that engineering can actually act on.`,
+  'BIM':           `A decade of BIM practice across three countries — from construction documents and coordination models to complex combo family creation, custom scripts, add-ons, and MCP development. At Veev, I was part of the team building the digital backbone of a factory-built housing system, including full review and delivery processes through ACC.`,
+  'ConTech':       `Five years at the intersection of construction and technology — deploying both software and hardware products across BIM, manufacturing, and site operations. From IFC automation to digital twin dashboards and physical tooling, I've built ConTech products that made it to the field.`,
+  'Full Stack':    `Trained at ITC and battle-tested at Veev — where I spent my last year embedded in the core engineering team, shipping production React and Node.js code alongside full-time devs. I work across the stack in Python, FastAPI, and TypeScript: internal tooling, BIM automation pipelines, and client-facing applications. This portfolio is one of them.`,
+  'Digital Twin':  `Led the development of Veev's digital twin infrastructure — connecting BIM geometry to live factory and site data. Built the pipelines that turned construction models into operational dashboards used by field and manufacturing teams.`,
+  'CAD-to-CAM':    `Owned the CAD-to-CAM pipeline at Veev, translating architectural models into machine-ready manufacturing instructions. Worked across Revit, custom Python automation, and CNC tooling to close the loop between design and fabrication.`,
+}
+
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&'
+
+function useScramble(initial: string) {
+  const [text, setText] = useState(initial)
+  const rafRef = useRef<number>(0)
+
+  const scrambleTo = (next: string) => {
+    cancelAnimationFrame(rafRef.current)
+    const len = next.length
+    let frame = 0
+    const totalFrames = 20
+
+    const tick = () => {
+      frame++
+      const resolved = Math.floor((frame / totalFrames) * len)
+      const scrambled = Array.from({ length: len }, (_, i) => {
+        if (i < resolved) return next[i]
+        if (next[i] === ' ' || next[i] === '\n') return next[i]
+        return CHARS[Math.floor(Math.random() * CHARS.length)]
+      }).join('')
+      setText(scrambled)
+      if (frame < totalFrames) rafRef.current = requestAnimationFrame(tick)
+      else setText(next)
+    }
+    rafRef.current = requestAnimationFrame(tick)
+  }
+
+  useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
+
+  return { text, scrambleTo }
+}
 
 const LAYERS = [
   { id: 'center',        src: '/profile_pic.jpeg' },
@@ -43,8 +87,10 @@ export default function About() {
   const rightRef = useRef<HTMLDivElement>(null)
   const photoRef = useRef<HTMLDivElement>(null)
 
-  // Two-slot crossfade: prev stays fully opaque underneath while active fades in on top.
-  // This prevents both images from being semi-transparent simultaneously (the flicker cause).
+  const { text: bioText, scrambleTo } = useScramble(DEFAULT_BIO)
+  const [activeTag,  setActiveTag]  = useState('Architecture')
+  const [pinnedTag,  setPinnedTag]  = useState('Architecture')
+
   const [active, setActive] = useState<LayerId>('center')
   const [prev,   setPrev]   = useState<LayerId | null>(null)
   const activeRef   = useRef<LayerId>('center')
@@ -75,7 +121,6 @@ export default function About() {
       setPrev(activeRef.current)
       activeRef.current = next
       setActive(next)
-      // Clear prev after fade completes so it doesn't linger in the DOM stack
       clearTimer.current = setTimeout(() => setPrev(null), FADE_MS)
     }
     window.addEventListener('mousemove', onMove, { passive: true })
@@ -131,25 +176,27 @@ export default function About() {
         </div>
 
         {/* Right column */}
-        <div ref={rightRef} className="pt-4">
-          <p className="font-sans text-[17px] leading-relaxed font-medium text-ink/80 mb-10">
-            After a decade spanning architectural practice across Brazil, the Netherlands, and Israel,
-            I spent the last five years at Veev as a Senior R&amp;D Product Architect — owning the
-            full product lifecycle from PRDs and technology research to hands-on BIM, data, and
-            manufacturing pipelines. In my last year I embedded part-time in the engineering team,
-            shipping production code alongside the core dev squad.
-          </p>
-
-          <div className="flex flex-wrap gap-2">
+        <div ref={rightRef} className="pt-4 flex flex-col gap-8">
+          <div className="flex flex-wrap gap-1.5">
             {SKILL_TAGS.map((tag) => (
               <span
                 key={tag}
-                className="font-sans text-[11px] uppercase tracking-[0.08em] border border-ink/20 text-ink/60 px-3 py-1 rounded-sm"
+                className="font-sans text-[10px] uppercase tracking-[0.06em] px-2 py-0.5 rounded-sm cursor-default transition-all duration-150"
+                style={activeTag === tag
+                  ? { background: '#D6BF78', border: '2px solid var(--color-ink)', color: 'var(--color-ink)' }
+                  : { border: '2px solid rgba(26,26,26,0.2)', color: 'rgba(26,26,26,0.6)' }}
+                onMouseEnter={() => { setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
+                onMouseLeave={() => { setActiveTag(pinnedTag); scrambleTo(TAG_BIO[pinnedTag] ?? DEFAULT_BIO) }}
+                onClick={() => { setPinnedTag(tag); setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
               >
                 {tag}
               </span>
             ))}
           </div>
+
+          <p className="font-sans text-[17px] leading-relaxed font-medium text-ink/80">
+            {bioText}
+          </p>
         </div>
 
       </div>
