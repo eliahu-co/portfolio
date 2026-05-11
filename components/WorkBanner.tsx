@@ -69,21 +69,20 @@ async function getGifDuration(src: string): Promise<number> {
 export default function WorkBanner({ images: rawImages }: Props) {
   // rawImages is already shuffled by the server — use it directly.
   // IMAGES_RENDER is memoised so its reference stays stable across re-renders
-  // (state changes for arrows / centeredRIdx must not recreate the array).
+  // (state changes for centeredRIdx must not recreate the array).
   const IMAGES        = rawImages
   const n             = IMAGES.length
   const IMAGES_RENDER = useMemo(() => [...IMAGES, ...IMAGES, ...IMAGES], [IMAGES])
-  const stripRef     = useRef<HTMLDivElement>(null)
-  const leftArrowRef = useRef<HTMLButtonElement>(null)
-  const rightArrowRef= useRef<HTMLButtonElement>(null)
-  const imgRefs      = useRef<(HTMLImageElement | null)[]>([])
-  const canvasRefs   = useRef<(HTMLCanvasElement | null)[]>([])
-  const tlRef        = useRef<gsap.core.Tween | null>(null)
-  const dtRef        = useRef<gsap.core.Tween | null>(null)
-  const idxRef       = useRef(n)
-  const pausedRef    = useRef(false)
-  const busyRef      = useRef(false)
-  const durationsRef = useRef<number[]>(new Array(n).fill(DEFAULT_HOLD))
+  const stripRef      = useRef<HTMLDivElement>(null)
+  const arrowCursorRef = useRef<HTMLDivElement>(null)
+  const imgRefs       = useRef<(HTMLImageElement | null)[]>([])
+  const canvasRefs    = useRef<(HTMLCanvasElement | null)[]>([])
+  const tlRef         = useRef<gsap.core.Tween | null>(null)
+  const dtRef         = useRef<gsap.core.Tween | null>(null)
+  const idxRef        = useRef(n)
+  const pausedRef     = useRef(false)
+  const busyRef       = useRef(false)
+  const durationsRef  = useRef<number[]>(new Array(n).fill(DEFAULT_HOLD))
 
   const [centeredRIdx, setCenteredRIdx] = useState(n)
   const [stripReady,   setStripReady]   = useState(false)
@@ -100,23 +99,6 @@ export default function WorkBanner({ images: rawImages }: Props) {
   const getViewW     = () => document.documentElement.clientWidth
   const getGap       = () => getViewW() * (GAP_VW / 100)
 
-  const snapArrows = (renderIdx: number, instant = false) => {
-    requestAnimationFrame(() => {
-      const img = imgRefs.current[renderIdx]
-      if (!img) return
-      const rect = img.getBoundingClientRect()
-      const lx = rect.left - 32   // left arrow: center on image's left edge
-      const rx = rect.right - 32  // right arrow: center on image's right edge
-      if (instant) {
-        gsap.set(leftArrowRef.current,  { left: lx })
-        gsap.set(rightArrowRef.current, { left: rx })
-        gsap.to([leftArrowRef.current, rightArrowRef.current], { opacity: 1, duration: 0.3, delay: 0.05 })
-      } else {
-        gsap.to(leftArrowRef.current,  { left: lx, duration: TRAVEL_S, ease: 'power2.inOut' })
-        gsap.to(rightArrowRef.current, { left: rx, duration: TRAVEL_S, ease: 'power2.inOut' })
-      }
-    })
-  }
   const getCenterX = (i: number) => {
     const imgs = imgRefs.current
     let x = 0
@@ -174,14 +156,10 @@ export default function WorkBanner({ images: rawImages }: Props) {
           idxRef.current = n
           const t = getTranslate(n); if (t !== null) gsap.set(stripRef.current, { x: t })
           setCenteredRIdx(n)
-          snapArrows(n)
         } else if (idxRef.current < n) {
           idxRef.current = 2 * n - 1
           const t = getTranslate(2 * n - 1); if (t !== null) gsap.set(stripRef.current, { x: t })
           setCenteredRIdx(2 * n - 1)
-          snapArrows(2 * n - 1)
-        } else {
-          snapArrows(idxRef.current)
         }
 
         busyRef.current = false
@@ -205,14 +183,12 @@ export default function WorkBanner({ images: rawImages }: Props) {
       const t = getTranslate(n); if (t !== null) gsap.set(strip, { x: t })
       setStripReady(true)
       imgs.forEach((_, i) => { if (i !== n) freezeImage(i) })
-      snapArrows(n, true)
       scheduleNext()
     })
 
     const onResize = () => {
       if (!alive) return
       const t = getTranslate(idxRef.current); if (t !== null) gsap.set(strip, { x: t })
-      snapArrows(idxRef.current)
     }
     window.addEventListener('resize', onResize)
     return () => {
@@ -223,15 +199,60 @@ export default function WorkBanner({ images: rawImages }: Props) {
     }
   }, [freezeImage, scheduleNext]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleMouseEnter = () => { pausedRef.current = true;  dtRef.current?.kill() }
-  const handleMouseLeave = () => { pausedRef.current = false; hideTooltip(); scheduleNext() }
+  // Arrow cursor — tracks mouse, updates direction and position imperatively
+  useEffect(() => {
+    const el = arrowCursorRef.current
+    if (!el) return
+
+    const onMove = (e: MouseEvent) => {
+      if (!el.dataset.active) return
+      el.style.transform = `translate(${e.clientX - 17}px, ${e.clientY - 17}px)`
+      const img = imgRefs.current[idxRef.current]
+      if (!img) return
+      const rect = img.getBoundingClientRect()
+      const isLeft = e.clientX < rect.left + rect.width / 2
+      const path = el.querySelector('path')
+      if (path) path.setAttribute('d', isLeft ? 'M20 6L10 16l10 10' : 'M12 6l10 10-10 10')
+      el.dataset.dir = isLeft ? 'left' : 'right'
+    }
+
+    window.addEventListener('mousemove', onMove, { passive: true })
+    return () => window.removeEventListener('mousemove', onMove)
+  }, [])
+
+  const handleMouseEnter = () => {
+    pausedRef.current = true
+    dtRef.current?.kill()
+    window.dispatchEvent(new CustomEvent('cursor:hide'))
+    if (arrowCursorRef.current) {
+      arrowCursorRef.current.dataset.active = '1'
+      arrowCursorRef.current.style.opacity = '1'
+    }
+  }
+
+  const handleMouseLeave = () => {
+    pausedRef.current = false
+    hideTooltip()
+    scheduleNext()
+    window.dispatchEvent(new CustomEvent('cursor:show'))
+    if (arrowCursorRef.current) {
+      delete arrowCursorRef.current.dataset.active
+      arrowCursorRef.current.style.opacity = '0'
+    }
+  }
+
+  const handleBannerClick = () => {
+    const dir = arrowCursorRef.current?.dataset.dir
+    goTo(dir === 'left' ? -1 : 1)
+  }
 
   return (
     <div
       className="relative w-full overflow-hidden"
-      style={{ height: '80vh', background: '#FF6B35', borderTop: '2vw solid #FF6B35', borderBottom: '2vw solid #FF6B35' }}
+      style={{ height: '80vh', background: '#FF6B35', borderTop: '2vw solid #FF6B35', borderBottom: '2vw solid #FF6B35', cursor: 'none' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleBannerClick}
     >
       {n === 0 && (
         <div className="absolute inset-0 flex items-center justify-center text-center pointer-events-none">
@@ -256,11 +277,9 @@ export default function WorkBanner({ images: rawImages }: Props) {
               key={i}
               style={{
                 position: 'relative', height: '100%', width: 'auto', flexShrink: 0,
-                cursor: i === centeredRIdx ? 'default' : 'pointer',
               }}
               onMouseEnter={() => showTooltip(meta ? `${meta.title}, ${meta.year}` : 'tooltip to be added')}
               onMouseLeave={hideTooltip}
-              onClick={() => { const d = i - idxRef.current; if (d !== 0) goTo(d) }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -282,39 +301,28 @@ export default function WorkBanner({ images: rawImages }: Props) {
         ))}
       </div>
 
-      {/* Left arrow — GSAP controls left + opacity */}
-      {n > 0 && <button
-        ref={leftArrowRef}
-        aria-label="Previous image"
-        onClick={() => goTo(-1)}
-        className="absolute z-10 flex items-center justify-center"
+      {/* Directional arrow cursor — follows mouse, direction set imperatively */}
+      <div
+        ref={arrowCursorRef}
+        className="fixed top-0 left-0 z-[10000] pointer-events-none"
         style={{
-          left: 0, top: '50%', transform: 'translateY(-50%)', opacity: 0,
-          background: '#d4d4d4', border: 'var(--border)', borderRadius: '2px', boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
-          width: '64px', height: '64px', cursor: 'pointer',
+          width: '34px',
+          height: '34px',
+          background: '#d4d4d4',
+          border: 'var(--border)',
+          borderRadius: '2px',
+          boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          opacity: 0,
+          willChange: 'transform',
         }}
       >
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="var(--color-ink)" strokeWidth="2" strokeLinecap="square" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 32 32" fill="none" stroke="var(--color-ink)" strokeWidth="2.5" strokeLinecap="square" aria-hidden="true">
           <path d="M20 6L10 16l10 10" />
         </svg>
-      </button>}
-
-      {/* Right arrow — GSAP controls left + opacity */}
-      {n > 0 && <button
-        ref={rightArrowRef}
-        aria-label="Next image"
-        onClick={() => goTo(1)}
-        className="absolute z-10 flex items-center justify-center"
-        style={{
-          left: 0, top: '50%', transform: 'translateY(-50%)', opacity: 0,
-          background: '#d4d4d4', border: 'var(--border)', borderRadius: '2px', boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
-          width: '64px', height: '64px', cursor: 'pointer',
-        }}
-      >
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="var(--color-ink)" strokeWidth="2" strokeLinecap="square" aria-hidden="true">
-          <path d="M12 6l10 10-10 10" />
-        </svg>
-      </button>}
+      </div>
     </div>
   )
 }

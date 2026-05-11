@@ -26,11 +26,24 @@ export default function Cursor() {
       setThickness(el?.closest(CLICKABLE) ? '5px' : '3px')
     }
 
+    const onHide = () => {
+      hRef.current?.style.setProperty('opacity', '0')
+      vRef.current?.style.setProperty('opacity', '0')
+    }
+    const onShow = () => {
+      hRef.current?.style.setProperty('opacity', '1')
+      vRef.current?.style.setProperty('opacity', '1')
+    }
+
     window.addEventListener('mousemove', onMove, { passive: true })
     window.addEventListener('mouseover', onOver, { passive: true })
+    window.addEventListener('cursor:hide', onHide)
+    window.addEventListener('cursor:show', onShow)
     return () => {
       window.removeEventListener('mousemove', onMove)
       window.removeEventListener('mouseover', onOver)
+      window.removeEventListener('cursor:hide', onHide)
+      window.removeEventListener('cursor:show', onShow)
     }
   }, [])
 
