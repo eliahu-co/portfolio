@@ -1,6 +1,7 @@
 // components/Hero.tsx
 'use client'
 
+import { useEffect, useRef } from 'react'
 import dynamic from 'next/dynamic'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
 
@@ -10,12 +11,25 @@ const PanelScene = dynamic(() => import('./PanelScene'), {
 })
 
 export default function Hero() {
+  const scrolledRef = useRef(false)
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!scrolledRef.current && window.scrollY > 0) {
+        scrolledRef.current = true
+        hideTooltip()
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
     <section
       id="hero"
       className="relative h-screen w-full overflow-hidden"
       style={{ background: '#675962' }}
-      onMouseEnter={() => showTooltip('Scroll down')}
+      onMouseEnter={() => { if (!scrolledRef.current) showTooltip('Scroll down') }}
       onMouseLeave={hideTooltip}
     >
       {/* Three.js canvas — fills entire section */}
