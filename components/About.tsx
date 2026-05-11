@@ -53,7 +53,7 @@ function useScramble(initial: string) {
 }
 
 const LAYERS = [
-  { id: 'center',        src: '/profile_pic2.jpg' },
+  { id: 'center',        src: '/profile_pic.jpeg' },
   { id: 'up',            src: '/profile_pic/up.jpeg' },
   { id: 'down',          src: '/profile_pic/down.jpeg' },
   { id: 'right',         src: '/profile_pic/right.jpeg' },
