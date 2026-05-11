@@ -28,12 +28,18 @@ export default function Nameplate() {
         Eliahu Cohen
       </h1>
 
-      {/* Slogan — always visible */}
-      <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-ink mt-2 pointer-events-none">
+      <p
+        className="font-sans text-[10px] uppercase tracking-[0.12em] text-ink mt-2 pointer-events-none"
+        style={{
+          opacity:    hidden ? 0 : 1,
+          transform:  hidden ? 'translateY(-8px)' : 'translateY(0)',
+          transition: 'opacity 0.2s, transform 0.2s',
+        }}
+      >
         AEC Architect. Software Developer. Builder.
       </p>
 
-      {/* Contact links — hide when WhatIDo is in view */}
+      {/* Contact links — hide when work-strip is in view */}
       <div
         className="flex flex-col gap-1 mt-3 items-start"
         style={{
