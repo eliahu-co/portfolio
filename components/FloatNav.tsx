@@ -85,7 +85,7 @@ export default function FloatNav() {
                   style={{
                     width: '1px',
                     height: '12px',
-                    background: 'var(--color-subtle)',
+                    background: '#1a1a1a',
                     flexShrink: 0,
                     listStyle: 'none',
                   }}
