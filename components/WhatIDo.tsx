@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from '@/lib/gsap'
+import { showTooltip, hideTooltip } from '@/components/Tooltip'
 
 const CARDS = [
   {
@@ -76,9 +77,11 @@ export default function WhatIDo() {
               onClick={() => handleClick(card.title)}
               onMouseEnter={e => {
                 if (activeCard !== card.title) e.currentTarget.style.background = '#D6BF78'
+                showTooltip('Click')
               }}
               onMouseLeave={e => {
                 if (activeCard !== card.title) e.currentTarget.style.background = ''
+                hideTooltip()
               }}
             >
               {/* Category tag */}

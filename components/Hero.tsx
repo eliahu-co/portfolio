@@ -2,6 +2,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import { showTooltip, hideTooltip } from '@/components/Tooltip'
 
 const PanelScene = dynamic(() => import('./PanelScene'), {
   ssr: false,
@@ -14,6 +15,8 @@ export default function Hero() {
       id="hero"
       className="relative h-screen w-full overflow-hidden"
       style={{ background: '#675962' }}
+      onMouseEnter={() => showTooltip('Scroll down')}
+      onMouseLeave={hideTooltip}
     >
       {/* Three.js canvas — fills entire section */}
       <PanelScene />
