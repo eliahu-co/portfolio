@@ -50,7 +50,7 @@ export default function WorkBannerSwitcher({ sets }: Props) {
           position: 'absolute', inset: 0,
           background: '#F3DBC1',
           opacity: overlayOpacity,
-          transition: 'opacity 0.2s ease',
+          transition: 'opacity 0.5s ease',
           pointerEvents: 'none',
         }}
       />
