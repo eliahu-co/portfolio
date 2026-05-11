@@ -1,19 +1,11 @@
 'use client'
 
-// Global floating tooltip — triggered by custom window events from any component.
-//
-// Usage in any client component:
-//   import { showTooltip, hideTooltip } from '@/components/Tooltip'
-//   <div onMouseEnter={() => showTooltip('My label')} onMouseLeave={hideTooltip} />
-//
-// Render once in page.tsx: <Tooltip />
-
 import { useEffect, useState } from 'react'
 
 // ── Public helpers ────────────────────────────────────────────────────────────
 
-export function showTooltip(label: string) {
-  window.dispatchEvent(new CustomEvent('tooltip:show', { detail: { label } }))
+export function showTooltip(label: string, mode: 'cursor' | 'below-center' = 'cursor') {
+  window.dispatchEvent(new CustomEvent('tooltip:show', { detail: { label, mode } }))
 }
 
 export function hideTooltip() {
@@ -24,11 +16,15 @@ export function hideTooltip() {
 
 export default function Tooltip() {
   const [label, setLabel] = useState<string | null>(null)
+  const [mode,  setMode]  = useState<'cursor' | 'below-center'>('cursor')
   const [pos,   setPos]   = useState({ x: 0, y: 0 })
 
   useEffect(() => {
-    const onShow = (e: Event) =>
-      setLabel((e as CustomEvent<{ label: string }>).detail.label)
+    const onShow = (e: Event) => {
+      const { label: l, mode: m } = (e as CustomEvent<{ label: string; mode?: string }>).detail
+      setLabel(l)
+      setMode((m as 'cursor' | 'below-center') ?? 'cursor')
+    }
     const onHide = () => setLabel(null)
     const onMove = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY })
 
@@ -46,16 +42,19 @@ export default function Tooltip() {
 
   const isLong = label.length > 80
 
+  const posStyle = mode === 'below-center'
+    ? { left: pos.x, top: pos.y + 52, transform: 'translateX(-50%)' }
+    : { left: pos.x + 20, top: pos.y + 20 }
+
   return (
     <div
       style={{
         position:      'fixed',
-        left:          pos.x + 20,
-        top:           pos.y + 20,
         pointerEvents: 'none',
         zIndex:        9998,
         maxWidth:      isLong ? 400 : 200,
         background:    '#0000FF',
+        ...posStyle,
       }}
       className="px-3 py-2"
     >

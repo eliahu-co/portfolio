@@ -278,7 +278,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
               style={{
                 position: 'relative', height: '100%', width: 'auto', flexShrink: 0,
               }}
-              onMouseEnter={() => showTooltip(meta ? `${meta.title}, ${meta.year}` : 'tooltip to be added')}
+              onMouseEnter={() => showTooltip(meta ? `${meta.title}, ${meta.year}` : 'tooltip to be added', 'below-center')}
               onMouseLeave={hideTooltip}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
