@@ -1,24 +1,59 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import WorkBanner, { type ImageEntry } from './WorkBanner'
 
-interface Props {
-  architecture: ImageEntry[]
-  design:       ImageEntry[]
+type SetKey = 'product' | 'architecture' | 'research' | 'design'
+
+const CARD_TO_SET: Record<string, SetKey> = {
+  'Product & Dev':          'product',
+  'Architecture':           'architecture',
+  'Research & Development': 'research',
+  'Design':                 'design',
 }
 
-export default function WorkBannerSwitcher({ architecture, design }: Props) {
-  const [set, setSet] = useState<'architecture' | 'design'>('design')
+interface Props {
+  sets: Record<SetKey, ImageEntry[]>
+}
+
+export default function WorkBannerSwitcher({ sets }: Props) {
+  const [activeSet, setActiveSet]       = useState<SetKey>('design')
+  const [overlayOpacity, setOverlay]    = useState(0)
+  const pending = useRef<SetKey | null>(null)
 
   useEffect(() => {
     const handler = (e: Event) => {
-      const title = (e as CustomEvent<string>).detail
-      setSet(title === 'Design' ? 'design' : 'architecture')
+      const key = CARD_TO_SET[(e as CustomEvent<string>).detail]
+      if (!key || key === activeSet) return
+      pending.current = key
+      setOverlay(1)
     }
     window.addEventListener('card-select', handler)
     return () => window.removeEventListener('card-select', handler)
-  }, [])
+  }, [activeSet])
 
-  return <WorkBanner key={set} images={set === 'design' ? design : architecture} />
+  const onTransitionEnd = () => {
+    if (pending.current && overlayOpacity === 1) {
+      setActiveSet(pending.current)
+      pending.current = null
+      setOverlay(0)
+    }
+  }
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <WorkBanner key={activeSet} images={sets[activeSet]} />
+      <div
+        aria-hidden="true"
+        onTransitionEnd={onTransitionEnd}
+        style={{
+          position: 'absolute', inset: 0,
+          background: '#F3DBC1',
+          opacity: overlayOpacity,
+          transition: 'opacity 0.2s ease',
+          pointerEvents: 'none',
+        }}
+      />
+    </div>
+  )
 }

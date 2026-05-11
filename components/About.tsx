@@ -132,7 +132,7 @@ export default function About() {
 
         {/* Right column */}
         <div ref={rightRef} className="pt-4">
-          <p className="font-sans text-[17px] leading-relaxed text-ink/80 mb-10">
+          <p className="font-sans text-[17px] leading-relaxed font-medium text-ink/80 mb-10">
             After a decade spanning architectural practice across Brazil, the Netherlands, and Israel,
             I spent the last five years at Veev as a Senior R&amp;D Product Architect — owning the
             full product lifecycle from PRDs and technology research to hands-on BIM, data, and

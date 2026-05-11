@@ -1,6 +1,6 @@
 // components/WorkBannerServer.tsx  — server component
-// Reads public/architecture/ and public/design/ at request time.
-// Drop images into either folder; no other code changes needed.
+// Reads public/{architecture,design,product,research}/ at request time.
+// Drop images into any folder; no other code changes needed.
 import { readdirSync, readFileSync } from 'fs'
 import { join } from 'path'
 import WorkBannerSwitcher from './WorkBannerSwitcher'
@@ -16,6 +16,14 @@ function shuffle<T>(arr: T[]): T[] {
   return arr
 }
 
+function loadMeta(dirName: string): Record<string, ImageMeta> {
+  try {
+    return JSON.parse(
+      readFileSync(join(process.cwd(), 'public', dirName, 'metadata.json'), 'utf-8')
+    )
+  } catch { return {} }
+}
+
 function readImageDir(dirName: string, meta: Record<string, ImageMeta>) {
   const dir = join(process.cwd(), 'public', dirName)
   return shuffle(
@@ -28,17 +36,15 @@ function readImageDir(dirName: string, meta: Record<string, ImageMeta>) {
   )
 }
 
-function loadMeta(dirName: string): Record<string, ImageMeta> {
-  try {
-    return JSON.parse(
-      readFileSync(join(process.cwd(), 'public', dirName, 'metadata.json'), 'utf-8')
-    )
-  } catch { return {} }
-}
-
 export default function WorkBannerServer() {
-  const architecture = readImageDir('architecture', loadMeta('architecture'))
-  const design       = readImageDir('design',       loadMeta('design'))
-
-  return <WorkBannerSwitcher architecture={architecture} design={design} />
+  return (
+    <WorkBannerSwitcher
+      sets={{
+        product:      readImageDir('product',      loadMeta('product')),
+        architecture: readImageDir('architecture', loadMeta('architecture')),
+        research:     readImageDir('research',     loadMeta('research')),
+        design:       readImageDir('design',       loadMeta('design')),
+      }}
+    />
+  )
 }

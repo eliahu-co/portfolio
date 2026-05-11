@@ -186,7 +186,12 @@ export default function WorkBanner({ images: rawImages }: Props) {
       scheduleNext()
     })
 
-    return () => { tlRef.current?.kill(); dtRef.current?.kill() }
+    const onResize = () => {
+      gsap.set(strip, { x: getTranslate(idxRef.current) })
+      snapArrows(idxRef.current)
+    }
+    window.addEventListener('resize', onResize)
+    return () => { tlRef.current?.kill(); dtRef.current?.kill(); window.removeEventListener('resize', onResize) }
   }, [freezeImage, scheduleNext]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleMouseEnter = () => { pausedRef.current = true;  dtRef.current?.kill() }
@@ -199,6 +204,19 @@ export default function WorkBanner({ images: rawImages }: Props) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      {n === 0 && (
+        <div className="absolute inset-0 flex items-center justify-center text-center pointer-events-none">
+          <div>
+            <p className="font-sans text-[13px] uppercase tracking-[0.12em]" style={{ color: '#F3DBC1' }}>
+              Under Construction.
+            </p>
+            <p className="font-sans text-[13px] uppercase tracking-[0.12em] mt-2" style={{ color: '#F3DBC1', opacity: 0.65 }}>
+              To be added: FAST-ener, IFC QCer, Therm and Studio apps.
+            </p>
+          </div>
+        </div>
+      )}
+
       <div
         ref={stripRef}
         className="absolute top-0 h-full flex"
@@ -211,7 +229,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
                 position: 'relative', height: '100%', width: 'auto', flexShrink: 0,
                 cursor: i === centeredRIdx ? 'default' : 'pointer',
               }}
-              onMouseEnter={() => meta && showTooltip(`${meta.title}, ${meta.year}`)}
+              onMouseEnter={() => showTooltip(meta ? `${meta.title}, ${meta.year}` : 'tooltip to be added')}
               onMouseLeave={hideTooltip}
               onClick={() => { const d = i - idxRef.current; if (d !== 0) goTo(d) }}
             >
@@ -236,7 +254,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
       </div>
 
       {/* Left arrow — right edge tracks the centered image's left edge */}
-      <button
+      {n > 0 && <button
         aria-label="Previous image"
         onClick={() => goTo(-1)}
         className="absolute z-10 flex items-center justify-center"
@@ -252,10 +270,10 @@ export default function WorkBanner({ images: rawImages }: Props) {
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="var(--color-ink)" strokeWidth="2" strokeLinecap="square" aria-hidden="true">
           <path d="M20 6L10 16l10 10" />
         </svg>
-      </button>
+      </button>}
 
       {/* Right arrow — left edge tracks the centered image's right edge */}
-      <button
+      {n > 0 && <button
         aria-label="Next image"
         onClick={() => goTo(1)}
         className="absolute z-10 flex items-center justify-center"
@@ -271,7 +289,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="var(--color-ink)" strokeWidth="2" strokeLinecap="square" aria-hidden="true">
           <path d="M12 6l10 10-10 10" />
         </svg>
-      </button>
+      </button>}
     </div>
   )
 }
