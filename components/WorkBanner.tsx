@@ -206,7 +206,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
 
     const onMove = (e: MouseEvent) => {
       if (!el.dataset.active) return
-      el.style.transform = `translate(${e.clientX - 17}px, ${e.clientY - 17}px)`
+      el.style.transform = `translate(${e.clientX - 32}px, ${e.clientY - 32}px)`
       const img = imgRefs.current[idxRef.current]
       if (!img) return
       const rect = img.getBoundingClientRect()
@@ -306,8 +306,8 @@ export default function WorkBanner({ images: rawImages }: Props) {
         ref={arrowCursorRef}
         className="fixed top-0 left-0 z-[10000] pointer-events-none"
         style={{
-          width: '34px',
-          height: '34px',
+          width: '64px',
+          height: '64px',
           background: '#d4d4d4',
           border: 'var(--border)',
           borderRadius: '2px',
@@ -319,7 +319,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
           willChange: 'transform',
         }}
       >
-        <svg width="14" height="14" viewBox="0 0 32 32" fill="none" stroke="var(--color-ink)" strokeWidth="2.5" strokeLinecap="square" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="var(--color-ink)" strokeWidth="2.5" strokeLinecap="square" aria-hidden="true">
           <path d="M20 6L10 16l10 10" />
         </svg>
       </div>
