@@ -223,6 +223,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
   const handleMouseEnter = () => {
     pausedRef.current = true
     dtRef.current?.kill()
+    if (n === 0) return
     window.dispatchEvent(new CustomEvent('cursor:hide'))
     if (arrowCursorRef.current) {
       arrowCursorRef.current.dataset.active = '1'
@@ -234,6 +235,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
     pausedRef.current = false
     hideTooltip()
     scheduleNext()
+    if (n === 0) return
     window.dispatchEvent(new CustomEvent('cursor:show'))
     if (arrowCursorRef.current) {
       delete arrowCursorRef.current.dataset.active
@@ -249,7 +251,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
   return (
     <div
       className="relative w-full overflow-hidden"
-      style={{ height: '80vh', background: '#FF6B35', borderTop: '2vw solid #FF6B35', borderBottom: '2vw solid #FF6B35', cursor: 'none' }}
+      style={{ height: '80vh', background: '#FF6B35', borderTop: '2vw solid #FF6B35', borderBottom: '2vw solid #FF6B35', cursor: n === 0 ? 'default' : 'none' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleBannerClick}
