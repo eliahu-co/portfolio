@@ -66,7 +66,7 @@ const BASE_ROTATION = {
   x: -0.2,  // slight downward camera tilt (top edge visible)
   y: -0.3,  // rotate so right side of wall comes toward viewer
 }
-const PARALLAX_STRENGTH = { x: 0.4, y: 0.5 }
+const PARALLAX_STRENGTH = { x: 1.2, y: 1.2 }
 const PARALLAX_LERP     = 0.05
 const HOVER_EMISSIVE_HEX       = 0xffffff
 const HOVER_EMISSIVE_INTENSITY = 0.25
