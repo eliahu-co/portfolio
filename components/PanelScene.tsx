@@ -65,6 +65,8 @@ const BASE_ROTATION = {
 }
 const PARALLAX_STRENGTH = { x: 0.15, y: 0.15 }
 const PARALLAX_LERP     = 0.05
+const HOVER_EMISSIVE_COLOR     = new THREE.Color(0xffffff)
+const HOVER_EMISSIVE_INTENSITY = 0.25
 
 // WL1135.glb is Blender/GLTF Y-up. GLTF Y = height = 3.23 m (single storey).
 // Target ≈ 60 % of frustum height (874 world units at FOV=5°, z=10 000).
@@ -196,6 +198,9 @@ export default function PanelScene() {
     let currentRotY = BASE_ROTATION.y
     let rafId = 0
     let scrollProgress = 0
+    const meshToLayer = new Map<THREE.Mesh, LayerName>()
+    const raycaster   = new THREE.Raycaster()
+    let hoveredLayer: LayerName | null = null
 
     // ── Resize ──
     const resizeObserver = new ResizeObserver((entries) => {
