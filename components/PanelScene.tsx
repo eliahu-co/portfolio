@@ -365,6 +365,7 @@ export default function PanelScene() {
           } catch { /* ok */ }
 
           layerGroups[layerName]?.add(child)
+          meshToLayer.set(child, layerName)
         }
 
         // --- Auto-center the visual bounding box of the loaded model ---
