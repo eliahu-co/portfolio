@@ -45,6 +45,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${nabla.variable}`}>
+      <head>
+        <link rel="preload" href="/panel.glb" as="fetch" crossOrigin="anonymous" />
+      </head>
       <body><MobileGate>{children}</MobileGate></body>
     </html>
   )
