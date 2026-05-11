@@ -1,37 +1,41 @@
 // components/WhatIDo.tsx
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from '@/lib/gsap'
-import { showTooltip, hideTooltip } from '@/components/Tooltip'
 
 const CARDS = [
   {
-    category: 'Coding · Full-Stack',
-    title: 'Development',
-    description:
-      'From embedded React/Node.js work shipping production code at Veev to POC development in Python and FastAPI — I write code that goes to production, not just demos.',
-    tooltip: 'Apps that I worked on:\nFAST-ener, Test (QC for Panels),\nTHERM, Key Measurements POC.\nTo be added.',
+    category: 'Strategy · Full-Stack',
+    title: 'Product & Dev',
+    description: 'From embedded React/Node.js work shipping production code at Veev to POC development in Python and FastAPI — I write code that goes to production, not just demos.',
   },
   {
-    category: 'Research · Strategy',
-    title: 'Product & R&D',
-    description:
-      "Five years owning full product lifecycles: PRDs, technology evaluation, cross-functional leadership across BIM, Data, Automation, and Manufacturing. I bridge domain expertise and technical fluency to de-risk decisions before they're expensive.",
-    tooltip: "Clicking here will change the items in the carrousel below.\nUnder development.\nHaven't had the time to add all images yet.",
+    category: 'Construction · BIM',
+    title: 'Architecture',
+    description: "A decade of practice across Brazil, the Netherlands, and Israel — from construction documents and BIM models to competition submissions with SOM and ARUP.",
   },
   {
-    category: 'Architecture · BIM',
-    title: 'Architecture & Design',
-    description:
-      "A decade of practice across Brazil, the Netherlands, and Israel — from construction documents and BIM models to competition submissions with SOM and ARUP. Design thinking isn't a metaphor for me; it's the foundation.",
-    tooltip: "Clicking here will change the items in the carrousel below.\nUnder development.\nHaven't had the time to add all images yet.",
+    category: 'Innovation · Problem-Solving',
+    title: 'Research & Development',
+    description: "Five years owning full product lifecycles: PRDs, technology evaluation, cross-functional leadership across BIM, Data, Automation, and Manufacturing.",
+  },
+  {
+    category: 'Product · Furniture',
+    title: 'Design',
+    description: '',
   },
 ]
 
 export default function WhatIDo() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const cardsRef = useRef<HTMLDivElement>(null)
+  const sectionRef   = useRef<HTMLElement>(null)
+  const cardsRef     = useRef<HTMLDivElement>(null)
+  const [activeCard, setActiveCard] = useState<string | null>('Design')
+
+  const handleClick = (title: string) => {
+    setActiveCard(prev => prev === title ? null : title)
+    window.dispatchEvent(new CustomEvent('card-select', { detail: title }))
+  }
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -61,20 +65,20 @@ export default function WhatIDo() {
       <div className="max-w-6xl mx-auto">
         <div
           ref={cardsRef}
-          className="grid md:grid-cols-3 border-2 border-ink"
+          className="grid md:grid-cols-4 border-2 border-ink"
         >
           {CARDS.map((card, i) => (
             <article
               key={card.title}
               className={`whatiodo-card group relative px-5 py-3 border-ink cursor-pointer transition-colors duration-200
                 ${i < CARDS.length - 1 ? 'border-b-2 md:border-b-0 md:border-r-2' : ''}`}
+              style={activeCard === card.title ? { background: '#D6BF78' } : {}}
+              onClick={() => handleClick(card.title)}
               onMouseEnter={e => {
-                e.currentTarget.style.background = '#D6BF78'
-                showTooltip(card.tooltip)
+                if (activeCard !== card.title) e.currentTarget.style.background = '#D6BF78'
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.background = ''
-                hideTooltip()
+                if (activeCard !== card.title) e.currentTarget.style.background = ''
               }}
             >
               {/* Category tag */}

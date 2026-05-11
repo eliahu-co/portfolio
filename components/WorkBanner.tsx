@@ -13,7 +13,7 @@ export interface ImageMeta {
   description: string
 }
 
-interface ImageEntry {
+export interface ImageEntry {
   src:  string
   meta: ImageMeta | null
 }
@@ -195,7 +195,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
   return (
     <div
       className="relative w-full overflow-hidden"
-      style={{ height: '60vh', background: '#B57F59', borderTop: '2vw solid #B57F59', borderBottom: '2vw solid #B57F59' }}
+      style={{ height: '80vh', background: '#B57F59', borderTop: '2vw solid #B57F59', borderBottom: '2vw solid #B57F59' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
