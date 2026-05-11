@@ -231,6 +231,31 @@ export default function PanelScene() {
     const animate = () => {
       rafId = requestAnimationFrame(animate)
 
+      // ── Hover: raycast → emissive glow ──────────────────────────────────────
+      if (!isMobile() && meshToLayer.size > 0) {
+        raycaster.setFromCamera(new THREE.Vector2(mouseX, mouseY), camera)
+        const hits = raycaster.intersectObjects(Array.from(meshToLayer.keys()), false)
+        const newHovered: LayerName | null = hits.length > 0
+          ? (meshToLayer.get(hits[0].object as THREE.Mesh) ?? null)
+          : null
+
+        if (newHovered !== hoveredLayer) {
+          hoveredLayer = newHovered
+          LAYER_NAMES.forEach((name) => {
+            const group = layerGroups[name]
+            if (!group) return
+            const intensity = name === hoveredLayer ? HOVER_EMISSIVE_INTENSITY : 0
+            group.children.forEach((child) => {
+              if (child instanceof THREE.Mesh) {
+                const mat = child.material as THREE.MeshStandardMaterial
+                mat.emissive.set(HOVER_EMISSIVE_HEX)
+                mat.emissiveIntensity = intensity
+              }
+            })
+          })
+        }
+      }
+
       if (!isMobile()) {
         currentRotX += (BASE_ROTATION.x + mouseY * PARALLAX_STRENGTH.x - currentRotX) * PARALLAX_LERP
         currentRotY += (BASE_ROTATION.y + mouseX * PARALLAX_STRENGTH.y - currentRotY) * PARALLAX_LERP
