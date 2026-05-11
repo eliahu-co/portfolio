@@ -26,14 +26,16 @@ function loadMeta(dirName: string): Record<string, ImageMeta> {
 
 function readImageDir(dirName: string, meta: Record<string, ImageMeta>) {
   const dir = join(process.cwd(), 'public', dirName)
-  return shuffle(
-    readdirSync(dir)
-      .filter(f => IMAGE_EXTS.test(f))
-      .map(f => ({
-        src:  `/${dirName}/${encodeURIComponent(f)}`,
-        meta: meta[f] ?? null,
-      }))
-  )
+  try {
+    return shuffle(
+      readdirSync(dir)
+        .filter(f => IMAGE_EXTS.test(f))
+        .map(f => ({
+          src:  `/${dirName}/${encodeURIComponent(f)}`,
+          meta: meta[f] ?? null,
+        }))
+    )
+  } catch { return [] }
 }
 
 export default function WorkBannerServer() {
