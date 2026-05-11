@@ -292,6 +292,9 @@ export default function PanelScene() {
 
         el.style.left = `${(ndc.x * 0.5 + 0.5) * container.clientWidth}px`
         el.style.top  = `${(-ndc.y * 0.5 + 0.5) * container.clientHeight + 12}px`
+
+        // Hover overrides scroll-driven opacity
+        if (hoveredLayer === name) el.style.opacity = '1'
       })
 
       renderer.render(scene, camera)
