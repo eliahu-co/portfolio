@@ -224,6 +224,9 @@ export default function PanelScene() {
     }
     window.addEventListener('mousemove', onMouseMove)
 
+    const onMouseLeave = () => { mouseX = 9999; mouseY = 9999 }
+    window.addEventListener('mouseleave', onMouseLeave)
+
     // ── Render loop ──
     const animate = () => {
       rafId = requestAnimationFrame(animate)
@@ -404,6 +407,7 @@ export default function PanelScene() {
       cancelAnimationFrame(rafId)
       resizeObserver.disconnect()
       window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseleave', onMouseLeave)
       st.kill()
       renderer.dispose()
       if (container.contains(renderer.domElement)) container.removeChild(renderer.domElement)
