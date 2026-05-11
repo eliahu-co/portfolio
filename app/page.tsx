@@ -18,7 +18,9 @@ export default function Home() {
       <Hero />
       <About />
       <WhatIDo />
-      <WorkBanner />  {/* WorkBannerServer — auto-discovers public/architecture/ */}
+      <div id="work-strip">
+        <WorkBanner />  {/* WorkBannerServer — auto-discovers public/architecture/ */}
+      </div>
     </main>
   )
 }

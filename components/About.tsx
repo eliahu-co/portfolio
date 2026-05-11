@@ -131,7 +131,7 @@ export default function About() {
   }, [])
 
   return (
-    <section id="about" className="relative px-8 pt-16 pb-4 md:px-16 lg:px-24" style={{ zIndex: 1, background: '#F3DBC1' }}>
+    <section id="about" className="relative px-8 py-16 md:px-16 lg:px-24" style={{ zIndex: 1, background: '#f5f5f5' }}>
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-1 items-start">
 
         {/* Left column */}
@@ -183,8 +183,8 @@ export default function About() {
                 key={tag}
                 className="font-sans text-[10px] uppercase tracking-[0.06em] px-2 py-0.5 rounded-sm cursor-default transition-all duration-150"
                 style={activeTag === tag
-                  ? { background: '#D6BF78', border: '2px solid var(--color-ink)', color: 'var(--color-ink)' }
-                  : { border: '2px solid rgba(26,26,26,0.2)', color: 'rgba(26,26,26,0.6)' }}
+                  ? { background: '#ff6b35', border: '2px solid #ff6b35', color: '#fff' }
+                  : { border: '2px solid rgba(255,107,53,0.5)', color: '#ff6b35' }}
                 onMouseEnter={() => { if (tag === pinnedTag) return; setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
                 onMouseLeave={() => { if (tag === pinnedTag) return; setActiveTag(pinnedTag); scrambleTo(TAG_BIO[pinnedTag] ?? DEFAULT_BIO) }}
                 onClick={() => { setPinnedTag(tag); setActiveTag(tag) }}

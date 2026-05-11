@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 
-const COLOR     = '#ff6600'
+const COLOR     = '#0000FF'
 const CLICKABLE = 'a, button, [role="button"], input, select, textarea, label, [tabindex]'
 const ARM       = 20   // px from cursor centre to tip of each arm
 

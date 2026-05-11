@@ -5,6 +5,9 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from '@/lib/gsap'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
 
+const ORANGE       = '#FF6B35'
+const ORANGE_HOVER = '#FF895F'
+
 const CARDS = [
   {
     category: 'Strategy · Full-Stack',
@@ -31,7 +34,8 @@ const CARDS = [
 export default function WhatIDo() {
   const sectionRef   = useRef<HTMLElement>(null)
   const cardsRef     = useRef<HTMLDivElement>(null)
-  const [activeCard, setActiveCard] = useState<string | null>('Design')
+  const [activeCard,  setActiveCard]  = useState<string | null>('Design')
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null)
 
   const handleClick = (title: string) => {
     setActiveCard(prev => prev === title ? null : title)
@@ -60,41 +64,48 @@ export default function WhatIDo() {
     <section
       id="what-i-do"
       ref={sectionRef}
-      className="relative px-8 pt-4 pb-16 md:px-16 lg:px-24"
-      style={{ zIndex: 1, background: '#F3DBC1' }}
+      className="relative"
+      style={{ zIndex: 1, borderBottom: '8px solid #ffffff' }}
     >
-      <div className="max-w-6xl mx-auto">
+      <div>
         <div
           ref={cardsRef}
-          className="grid md:grid-cols-4 border-2 border-ink"
+          className="grid md:grid-cols-4"
+          style={{ border: `2px solid ${ORANGE}` }}
         >
-          {CARDS.map((card, i) => (
-            <article
-              key={card.title}
-              className={`whatiodo-card group relative px-5 py-3 border-ink cursor-pointer transition-colors duration-200
-                ${i < CARDS.length - 1 ? 'border-b-2 md:border-b-0 md:border-r-2' : ''}`}
-              style={activeCard === card.title ? { background: '#D6BF78' } : {}}
-              onClick={() => handleClick(card.title)}
-              onMouseEnter={e => {
-                if (activeCard !== card.title) e.currentTarget.style.background = '#D6BF78'
-                showTooltip('Click')
-              }}
-              onMouseLeave={e => {
-                if (activeCard !== card.title) e.currentTarget.style.background = ''
-                hideTooltip()
-              }}
-            >
-              {/* Category tag */}
-              <p className="font-sans text-[10px] uppercase tracking-[0.1em] text-ink/40 mb-3 transition-colors duration-200 group-hover:text-ink/60">
-                {card.category}
-              </p>
-
-              {/* Title */}
-              <h3 className="font-serif text-[20px] text-ink transition-colors duration-200 group-hover:text-ink">
-                {card.title}
-              </h3>
-            </article>
-          ))}
+          {CARDS.map((card, i) => {
+            const isActive  = activeCard === card.title
+            const isHovered = hoveredCard === card.title
+            const lit       = isActive || isHovered
+            const bg        = isActive ? ORANGE : isHovered ? ORANGE_HOVER : 'transparent'
+            return (
+              <article
+                key={card.title}
+                className={`whatiodo-card relative py-3 cursor-pointer ${i === 0 ? 'pl-8 md:pl-16 lg:pl-24 pr-5' : 'pl-8 pr-5'}`}
+                style={{
+                  background:  bg,
+                  borderRight: i < CARDS.length - 1 ? `2px solid ${ORANGE}` : undefined,
+                  transition:  'background 0.15s',
+                }}
+                onClick={() => handleClick(card.title)}
+                onMouseEnter={() => { setHoveredCard(card.title); showTooltip('Click') }}
+                onMouseLeave={() => { setHoveredCard(null); hideTooltip() }}
+              >
+                <p
+                  className="font-sans text-[10px] uppercase tracking-[0.1em] mb-3"
+                  style={{ color: lit ? 'rgba(255,255,255,0.6)' : `${ORANGE}99`, transition: 'color 0.15s' }}
+                >
+                  {card.category}
+                </p>
+                <h3
+                  className="font-serif text-[20px]"
+                  style={{ color: lit ? '#ffffff' : ORANGE, transition: 'color 0.15s' }}
+                >
+                  {card.title}
+                </h3>
+              </article>
+            )
+          })}
         </div>
       </div>
     </section>

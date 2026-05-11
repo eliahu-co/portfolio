@@ -55,8 +55,9 @@ export default function Tooltip() {
         pointerEvents: 'none',
         zIndex:        9998,
         maxWidth:      isLong ? 400 : 200,
+        background:    '#0000FF',
       }}
-      className="bg-orange-500 px-3 py-2"
+      className="px-3 py-2"
     >
       <p
         className="font-sans text-white leading-relaxed whitespace-pre-wrap"

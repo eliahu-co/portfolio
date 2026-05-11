@@ -5,6 +5,9 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import { LineSegments2 } from 'three/examples/jsm/lines/LineSegments2.js'
+import { LineSegmentsGeometry } from 'three/examples/jsm/lines/LineSegmentsGeometry.js'
+import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js'
 import { ScrollTrigger } from '@/lib/gsap'
 
 // ── Layer configuration ──────────────────────────────────────────────────────
@@ -41,13 +44,13 @@ interface LayerConfig {
 }
 
 const LAYER_CONFIG: Record<LayerName, LayerConfig> = {
-  'Gypsum':     { targetOffset:   4,  color: '#B0B0B0', label: 'Interior Finish',    threshold: 0.1,  startAt: 0.18 },
-  'Window':     { targetOffset:   6,  color: '#8aa3b0', label: 'Glazing',           threshold: 0.25, startAt: 0 },
+  'Gypsum':     { targetOffset:   4,  color: '#D2D2D2', label: 'Interior Finish',    threshold: 0.1,  startAt: 0.18 },
+  'Window':     { targetOffset:   6,  color: '#e8e8e8', label: 'Glazing',           threshold: 0.25, startAt: 0 },
   'Glass':      { targetOffset:   6,  color: '#c8dde8', label: '',                  threshold: 0.25, startAt: 0,    opacity: 0.2 },
   'Framing':    { targetOffset:   0,  color: '#555555', label: 'Framing',           threshold: 0.4 },
   'MEP':        { targetOffset:   0,  color: '#197aff', label: 'MEP',               threshold: 0.4 },
-  'OSB':        { targetOffset:  -3,  color: '#ffe221', label: 'Sheathing',         threshold: 0.55 },
-  'Insulation': { targetOffset:  -5,  color: '#675962', label: 'Thermal Insulation', threshold: 0.7 },
+  'OSB':        { targetOffset:  -3,  color: '#FFEA6B', label: 'Sheathing',         threshold: 0.55 },
+  'Insulation': { targetOffset:  -5,  color: '#FF6B35', label: 'Thermal Insulation', threshold: 0.7 },
 }
 
 // ── Presentation constants ───────────────────────────────────────────────────
@@ -148,6 +151,8 @@ export default function PanelScene() {
     
     renderer.setSize(initialWidth, initialHeight)
     renderer.setPixelRatio(isMobile() ? 1 : Math.min(window.devicePixelRatio, 2))
+    renderer.outputColorSpace = THREE.SRGBColorSpace
+    THREE.ColorManagement.enabled = true
     container.appendChild(renderer.domElement)
 
     // ── Camera — FOV 5° ≈ orthographic, no perspective distortion ──
@@ -212,6 +217,11 @@ export default function PanelScene() {
         camera.aspect = width / height
         camera.updateProjectionMatrix()
         renderer.setSize(width, height)
+        scene.traverse(obj => {
+          if (obj instanceof LineSegments2) {
+            (obj.material as LineMaterial).resolution.set(width, height)
+          }
+        })
       }
     })
     resizeObserver.observe(container)
@@ -361,10 +371,15 @@ export default function PanelScene() {
 
           // Hard-edge outlines at 45° — skips internal tessellation diagonals
           try {
-            child.add(new THREE.LineSegments(
-              new THREE.EdgesGeometry(child.geometry, 45),
-              new THREE.LineBasicMaterial({ color: 0x1a1a1a }),
-            ))
+            const edgesMat = new LineMaterial({
+              color: 0x1a1a1a,
+              linewidth: 3,
+              resolution: new THREE.Vector2(initialWidth, initialHeight),
+            })
+            const edgesGeo = new LineSegmentsGeometry().fromEdgesGeometry(
+              new THREE.EdgesGeometry(child.geometry, 45)
+            )
+            child.add(new LineSegments2(edgesGeo, edgesMat))
           } catch { /* ok */ }
 
           layerGroups[layerName]?.add(child)

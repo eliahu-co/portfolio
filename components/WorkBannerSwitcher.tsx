@@ -48,7 +48,7 @@ export default function WorkBannerSwitcher({ sets }: Props) {
         onTransitionEnd={onTransitionEnd}
         style={{
           position: 'absolute', inset: 0,
-          background: '#F3DBC1',
+          background: '#FF6B35',
           opacity: overlayOpacity,
           transition: 'opacity 0.5s ease',
           pointerEvents: 'none',
