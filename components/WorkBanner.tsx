@@ -309,7 +309,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
           width: '64px',
           height: '64px',
           background: '#d4d4d4',
-          border: 'var(--border)',
+          border: '1px solid #0000FF',
           borderRadius: '2px',
           boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
           display: 'flex',
@@ -319,7 +319,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
           willChange: 'transform',
         }}
       >
-        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="var(--color-ink)" strokeWidth="2.5" strokeLinecap="square" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="#0000FF" strokeWidth="2.5" strokeLinecap="square" aria-hidden="true">
           <path d="M20 6L10 16l10 10" />
         </svg>
       </div>
