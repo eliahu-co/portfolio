@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const COLOR     = '#0000FF'
 const CLICKABLE = 'a, button, [role="button"], input, select, textarea, label, [tabindex]'
@@ -9,6 +9,9 @@ const ARM       = 20   // px from cursor centre to tip of each arm
 export default function Cursor() {
   const hRef = useRef<HTMLDivElement>(null)
   const vRef = useRef<HTMLDivElement>(null)
+
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => { setIsMobile(window.innerWidth < 768) }, [])
 
   useEffect(() => {
     const setThickness = (size: string) => {
@@ -46,6 +49,8 @@ export default function Cursor() {
       window.removeEventListener('cursor:show', onShow)
     }
   }, [])
+
+  if (isMobile) return null
 
   return (
     <>

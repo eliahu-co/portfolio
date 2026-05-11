@@ -19,6 +19,9 @@ export default function Tooltip() {
   const [mode,  setMode]  = useState<'cursor' | 'below-center'>('cursor')
   const [pos,   setPos]   = useState({ x: 0, y: 0 })
 
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => { setIsMobile(window.innerWidth < 768) }, [])
+
   useEffect(() => {
     const onShow = (e: Event) => {
       const { label: l, mode: m } = (e as CustomEvent<{ label: string; mode?: string }>).detail
@@ -37,6 +40,8 @@ export default function Tooltip() {
       window.removeEventListener('mousemove', onMove)
     }
   }, [])
+
+  if (isMobile) return null
 
   if (!label) return null
 
