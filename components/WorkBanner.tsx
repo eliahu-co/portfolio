@@ -81,6 +81,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
   const idxRef      = useRef(n)
   const pausedRef   = useRef(false)
   const busyRef     = useRef(false)
+  const mountedRef  = useRef(true)
   const durationsRef = useRef<number[]>(new Array(n).fill(DEFAULT_HOLD))
 
   const [centeredRIdx, setCenteredRIdx] = useState(n)
@@ -108,13 +109,22 @@ export default function WorkBanner({ images: rawImages }: Props) {
       setArrowRightPx(rect.right)
     })
   }
-  const getCenterX   = (i: number) => {
-    const imgs = imgRefs.current as HTMLImageElement[]
+  const getCenterX = (i: number) => {
+    const imgs = imgRefs.current
     let x = 0
-    for (let j = 0; j < i; j++) x += imgs[j].offsetWidth + getGap()
-    return x + imgs[i].offsetWidth / 2
+    for (let j = 0; j < i; j++) {
+      const img = imgs[j]
+      if (!img) return null
+      x += img.offsetWidth + getGap()
+    }
+    const img = imgs[i]
+    if (!img) return null
+    return x + img.offsetWidth / 2
   }
-  const getTranslate = (i: number) => getViewW() / 2 - getCenterX(i)
+  const getTranslate = (i: number) => {
+    const cx = getCenterX(i)
+    return cx === null ? null : getViewW() / 2 - cx
+  }
   const getHold      = (renderIdx: number) => durationsRef.current[renderIdx % n]
 
   const freezeImage = useCallback((i: number) => {
@@ -134,7 +144,9 @@ export default function WorkBanner({ images: rawImages }: Props) {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const goTo = useCallback((delta: number, onDone?: () => void) => {
-    if (busyRef.current) return
+    if (!mountedRef.current || busyRef.current) return
+    const tx = getTranslate(idxRef.current + delta)
+    if (tx === null || !stripRef.current) return
     busyRef.current = true
 
     const prev = idxRef.current
@@ -144,20 +156,21 @@ export default function WorkBanner({ images: rawImages }: Props) {
     setCenteredRIdx(next)
 
     tlRef.current = gsap.to(stripRef.current, {
-      x: getTranslate(next),
+      x: tx,
       duration: TRAVEL_S,
       ease: 'power2.inOut',
       onComplete: () => {
+        if (!mountedRef.current) return
         idxRef.current = next
 
         if (idxRef.current >= 2 * n) {
           idxRef.current = n
-          gsap.set(stripRef.current, { x: getTranslate(n) })
+          const t = getTranslate(n); if (t !== null) gsap.set(stripRef.current, { x: t })
           setCenteredRIdx(n)
           snapArrows(n)
         } else if (idxRef.current < n) {
           idxRef.current = 2 * n - 1
-          gsap.set(stripRef.current, { x: getTranslate(2 * n - 1) })
+          const t = getTranslate(2 * n - 1); if (t !== null) gsap.set(stripRef.current, { x: t })
           setCenteredRIdx(2 * n - 1)
           snapArrows(2 * n - 1)
         } else {
@@ -180,18 +193,25 @@ export default function WorkBanner({ images: rawImages }: Props) {
         img.complete ? Promise.resolve() : new Promise<void>(res => { img.onload = () => res() })
       )
     ).then(() => {
-      gsap.set(strip, { x: getTranslate(n) })
+      if (!mountedRef.current) return
+      const t = getTranslate(n); if (t !== null) gsap.set(strip, { x: t })
       imgs.forEach((_, i) => { if (i !== n) freezeImage(i) })
       snapArrows(n)
       scheduleNext()
     })
 
     const onResize = () => {
-      gsap.set(strip, { x: getTranslate(idxRef.current) })
+      if (!mountedRef.current) return
+      const t = getTranslate(idxRef.current); if (t !== null) gsap.set(strip, { x: t })
       snapArrows(idxRef.current)
     }
     window.addEventListener('resize', onResize)
-    return () => { tlRef.current?.kill(); dtRef.current?.kill(); window.removeEventListener('resize', onResize) }
+    return () => {
+      mountedRef.current = false
+      tlRef.current?.kill()
+      dtRef.current?.kill()
+      window.removeEventListener('resize', onResize)
+    }
   }, [freezeImage, scheduleNext]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleMouseEnter = () => { pausedRef.current = true;  dtRef.current?.kill() }

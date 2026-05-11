@@ -4,25 +4,26 @@ import { useEffect, useRef } from 'react'
 
 const COLOR     = '#ff6600'
 const CLICKABLE = 'a, button, [role="button"], input, select, textarea, label, [tabindex]'
+const ARM       = 20   // px from cursor centre to tip of each arm
 
 export default function Cursor() {
   const hRef = useRef<HTMLDivElement>(null)
   const vRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const setSize = (size: string) => {
+    const setThickness = (size: string) => {
       hRef.current?.style.setProperty('height', size)
       vRef.current?.style.setProperty('width', size)
     }
 
     const onMove = (e: MouseEvent) => {
-      hRef.current?.style.setProperty('transform', `translateY(${e.clientY}px)`)
-      vRef.current?.style.setProperty('transform', `translateX(${e.clientX}px)`)
+      hRef.current?.style.setProperty('transform', `translate(${e.clientX - ARM}px, ${e.clientY - 1.5}px)`)
+      vRef.current?.style.setProperty('transform', `translate(${e.clientX - 1.5}px, ${e.clientY - ARM}px)`)
     }
 
     const onOver = (e: MouseEvent) => {
       const el = e.target as Element | null
-      setSize(el?.closest(CLICKABLE) ? '4px' : '2px')
+      setThickness(el?.closest(CLICKABLE) ? '5px' : '3px')
     }
 
     window.addEventListener('mousemove', onMove, { passive: true })
@@ -35,8 +36,18 @@ export default function Cursor() {
 
   return (
     <>
-      <div ref={hRef} className="fixed inset-x-0 top-0 h-[2px] z-[9999] pointer-events-none" style={{ background: COLOR, willChange: 'transform' }} suppressHydrationWarning />
-      <div ref={vRef} className="fixed inset-y-0 left-0 w-[2px] z-[9999] pointer-events-none" style={{ background: COLOR, willChange: 'transform' }} suppressHydrationWarning />
+      <div
+        ref={hRef}
+        className="fixed top-0 left-0 z-[9999] pointer-events-none"
+        style={{ width: `${ARM * 2}px`, height: '3px', background: COLOR, willChange: 'transform' }}
+        suppressHydrationWarning
+      />
+      <div
+        ref={vRef}
+        className="fixed top-0 left-0 z-[9999] pointer-events-none"
+        style={{ width: '3px', height: `${ARM * 2}px`, background: COLOR, willChange: 'transform' }}
+        suppressHydrationWarning
+      />
     </>
   )
 }

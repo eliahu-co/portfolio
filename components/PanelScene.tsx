@@ -47,7 +47,7 @@ const LAYER_CONFIG: Record<LayerName, LayerConfig> = {
   'Framing':    { targetOffset:   0,  color: '#555555', label: 'Framing',           threshold: 0.4 },
   'MEP':        { targetOffset:   0,  color: '#197aff', label: 'MEP',               threshold: 0.4 },
   'OSB':        { targetOffset:  -3,  color: '#ffe221', label: 'Sheathing',         threshold: 0.55 },
-  'Insulation': { targetOffset:  -5,  color: '#4F99FD', label: 'Thermal Insulation', threshold: 0.7 },
+  'Insulation': { targetOffset:  -5,  color: '#675962', label: 'Thermal Insulation', threshold: 0.7 },
 }
 
 // ── Presentation constants ───────────────────────────────────────────────────
