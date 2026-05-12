@@ -425,7 +425,7 @@ export default function PanelScene() {
           try {
             const edgesMat = new LineMaterial({
               color: 0x1a1a1a,
-              linewidth: 3,
+              linewidth: isMobile() ? 1 : 3,
               resolution: new THREE.Vector2(initialWidth, initialHeight),
             })
             const edgesGeo = new LineSegmentsGeometry().fromEdgesGeometry(
