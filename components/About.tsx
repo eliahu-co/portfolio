@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { gsap } from '@/lib/gsap'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
+import { useScramble } from '@/hooks/useScramble'
+import { ORANGE, MOBILE_BREAKPOINT } from '@/lib/tokens'
 
 const SKILL_TAGS = ['Architecture', 'Product', 'Full Stack', 'BIM', 'ConTech', 'Digital Twin', 'CAD-to-CAM']
 
@@ -20,37 +22,6 @@ const TAG_BIO: Record<string, string> = {
   'CAD-to-CAM':    `Owned the CAD-to-CAM pipeline at Veev, translating architectural models into machine-ready manufacturing instructions. Worked across Revit, custom Python automation, and CNC tooling to close the loop between design and fabrication.`,
 }
 
-const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&'
-
-function useScramble(initial: string) {
-  const [text, setText] = useState(initial)
-  const rafRef = useRef<number>(0)
-
-  const scrambleTo = (next: string) => {
-    cancelAnimationFrame(rafRef.current)
-    const len = next.length
-    let frame = 0
-    const totalFrames = 20
-
-    const tick = () => {
-      frame++
-      const resolved = Math.floor((frame / totalFrames) * len)
-      const scrambled = Array.from({ length: len }, (_, i) => {
-        if (i < resolved) return next[i]
-        if (next[i] === ' ' || next[i] === '\n') return next[i]
-        return CHARS[Math.floor(Math.random() * CHARS.length)]
-      }).join('')
-      setText(scrambled)
-      if (frame < totalFrames) rafRef.current = requestAnimationFrame(tick)
-      else setText(next)
-    }
-    rafRef.current = requestAnimationFrame(tick)
-  }
-
-  useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
-
-  return { text, scrambleTo }
-}
 
 const LAYERS = [
   { id: 'center',        src: '/profile_pic.jpeg' },
@@ -100,11 +71,11 @@ export default function About() {
   const pinnedTagRef = useRef<string | null>(null)
 
   useEffect(() => {
-    setIsMobileLayout(window.innerWidth < 768)
+    setIsMobileLayout(window.innerWidth < MOBILE_BREAKPOINT)
   }, [])
 
   useEffect(() => {
-    const mobile = window.innerWidth < 768
+    const mobile = window.innerWidth < MOBILE_BREAKPOINT
     const ctx = gsap.context(() => {
       gsap.from(leftRef.current, {
         y: 40, opacity: 0, duration: 0.8, ease: 'power2.out',
@@ -225,8 +196,8 @@ export default function About() {
                   key={tag}
                   className="font-sans text-[8px] uppercase tracking-[0.06em] px-1.5 rounded-sm cursor-default transition-all duration-150"
                   style={activeTag === tag
-                    ? { flex: 1, display: 'flex', alignItems: 'center', background: '#ff6b35', border: '1.5px solid #ff6b35', color: '#fff', overflow: 'hidden' }
-                    : { flex: 1, display: 'flex', alignItems: 'center', border: '1.5px solid rgba(255,107,53,0.5)', color: '#ff6b35', overflow: 'hidden' }}
+                    ? { flex: 1, display: 'flex', alignItems: 'center', background: ORANGE, border: `1.5px solid ${ORANGE}`, color: '#fff', overflow: 'hidden' }
+                    : { flex: 1, display: 'flex', alignItems: 'center', border: `1.5px solid ${ORANGE}99`, color: ORANGE, overflow: 'hidden' }}
                   onClick={() => {
                     const isDepin = tag === pinnedTag
                     const newPinned = isDepin ? null : tag
@@ -293,8 +264,8 @@ export default function About() {
                   key={tag}
                   className="font-sans text-[10px] uppercase tracking-[0.06em] px-2 py-0.5 rounded-sm cursor-default transition-all duration-150"
                   style={activeTag === tag
-                    ? { background: '#ff6b35', border: '2px solid #ff6b35', color: '#fff' }
-                    : { border: '2px solid rgba(255,107,53,0.5)', color: '#ff6b35' }}
+                    ? { background: ORANGE, border: `2px solid ${ORANGE}`, color: '#fff' }
+                    : { border: `2px solid ${ORANGE}99`, color: ORANGE }}
                   onMouseEnter={() => { showTooltip('Click'); if (tag === pinnedTag) return; setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
                   onMouseLeave={() => { hideTooltip(); if (tag === pinnedTag) return; setActiveTag(pinnedTag); scrambleTo(TAG_BIO[pinnedTag] ?? DEFAULT_BIO) }}
                   onClick={() => {
