@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { gsap } from '@/lib/gsap'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
+import { MOBILE_BREAKPOINT } from '@/lib/tokens'
+
+const isMobile = () => typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT
 
 // Image list + metadata are injected by WorkBannerServer.tsx.
 // Edit public/architecture/metadata.json to change tooltip content.
