@@ -474,8 +474,6 @@ export default function PanelScene() {
     let removeScrollFb: (() => void) | null = null
 
     if (isMobile()) {
-      setOverlayVisible(true)
-
       const onOrientation = (e: DeviceOrientationEvent) => {
         lastOrientRef.current.beta  = e.beta  ?? lastOrientRef.current.beta
         lastOrientRef.current.gamma = e.gamma ?? lastOrientRef.current.gamma
@@ -506,6 +504,33 @@ export default function PanelScene() {
       window.addEventListener('deviceorientation', onOrientation)
       removeOrient = () => window.removeEventListener('deviceorientation', onOrientation)
 
+      // Probe: if the browser already fires orientation events (permission granted
+      // from a previous gesture this session), skip the overlay entirely.
+      let probeResolved = false
+      const probeTimer = setTimeout(() => {
+        if (!probeResolved) {
+          probeResolved = true
+          setOverlayVisible(true)  // No events in 400 ms → need to ask for permission
+        }
+      }, 400)
+
+      const probe = (e: DeviceOrientationEvent) => {
+        if (probeResolved) return
+        if (e.beta !== null || e.gamma !== null || e.alpha !== null) {
+          probeResolved = true
+          clearTimeout(probeTimer)
+          // Events already flowing — activate gyro now, neutral = current position
+          neutralRef.current = {
+            beta:  e.beta  ?? 0,
+            gamma: e.gamma ?? 0,
+            alpha: e.alpha ?? 0,
+          }
+          gyroActiveRef.current = true
+          window.removeEventListener('deviceorientation', probe)
+        }
+      }
+      window.addEventListener('deviceorientation', probe)
+
       const heroEl = document.getElementById('hero')
       const onScrollFb = () => {
         if (!scrollFallback.current) return
@@ -513,7 +538,11 @@ export default function PanelScene() {
         mouseY = Math.max(-1, Math.min(1, (window.scrollY / heroH) * 2 - 1))
       }
       window.addEventListener('scroll', onScrollFb, { passive: true })
-      removeScrollFb = () => window.removeEventListener('scroll', onScrollFb)
+      removeScrollFb = () => {
+        window.removeEventListener('scroll', onScrollFb)
+        window.removeEventListener('deviceorientation', probe)
+        clearTimeout(probeTimer)
+      }
     }
 
     // ── Cleanup ──
