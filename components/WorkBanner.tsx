@@ -87,6 +87,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
 
   const [centeredRIdx, setCenteredRIdx] = useState(n)
   const [stripReady,   setStripReady]   = useState(false)
+  const arrowHideTimerRef = useRef<number | null>(null)
 
   // Pre-fetch GIF durations
   useEffect(() => {
@@ -122,8 +123,10 @@ export default function WorkBanner({ images: rawImages }: Props) {
     const canvas = canvasRefs.current[i]
     const img    = imgRefs.current[i]
     if (!canvas || !img) return
-    canvas.width  = img.offsetWidth
-    canvas.height = img.offsetHeight
+    canvas.width        = img.offsetWidth
+    canvas.height       = img.offsetHeight
+    canvas.style.width  = `${img.offsetWidth}px`
+    canvas.style.height = `${img.offsetHeight}px`
     canvas.getContext('2d')?.drawImage(img, 0, 0, canvas.width, canvas.height)
   }, [])
 
@@ -196,6 +199,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
       alive = false
       tlRef.current?.kill()
       dtRef.current?.kill()
+      if (arrowHideTimerRef.current !== null) clearTimeout(arrowHideTimerRef.current)
       window.removeEventListener('resize', onResize)
     }
   }, [freezeImage, scheduleNext]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -256,13 +260,27 @@ export default function WorkBanner({ images: rawImages }: Props) {
   const handleTouchEnd = (e: React.TouchEvent) => {
     const delta = e.changedTouches[0].clientX - touchStartX.current
     if (Math.abs(delta) < 50) return
+
+    const arrow = arrowCursorRef.current
+    if (arrow) {
+      const path = arrow.querySelector('path')
+      // delta < 0 = swiped left = moving to next (rightward in strip)
+      if (path) path.setAttribute('d', delta < 0 ? 'M12 6l10 10-10 10' : 'M20 6L10 16l10 10')
+      arrow.style.transform = `translate(${window.innerWidth / 2 - 32}px, ${window.innerHeight / 2 - 32}px)`
+      arrow.style.opacity = '1'
+      if (arrowHideTimerRef.current !== null) clearTimeout(arrowHideTimerRef.current)
+      arrowHideTimerRef.current = window.setTimeout(() => {
+        if (arrowCursorRef.current) arrowCursorRef.current.style.opacity = '0'
+      }, 2000)
+    }
+
     goTo(delta < 0 ? 1 : -1)
   }
 
   return (
     <div
-      className="relative w-full overflow-hidden"
-      style={{ height: '80vh', background: 'var(--color-orange)', borderTop: '2vw solid var(--color-orange)', borderBottom: '2vw solid var(--color-orange)', cursor: n === 0 ? 'default' : 'none' }}
+      className="relative w-full overflow-hidden h-[60vh] md:h-[80vh]"
+      style={{ background: 'var(--color-orange)', borderTop: '2vw solid var(--color-orange)', borderBottom: '2vw solid var(--color-orange)', cursor: n === 0 ? 'default' : 'none' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleBannerClick}
@@ -290,9 +308,8 @@ export default function WorkBanner({ images: rawImages }: Props) {
         {IMAGES_RENDER.map(({ src, meta }, i) => (
             <div
               key={i}
-              style={{
-                position: 'relative', height: '100%', width: 'auto', flexShrink: 0,
-              }}
+              className="wb-slot"
+              style={{ position: 'relative', height: '100%', width: 'auto', flexShrink: 0 }}
               onMouseEnter={() => showTooltip(meta ? `${meta.title}, ${meta.year}` : 'tooltip to be added', 'below-center')}
               onMouseLeave={hideTooltip}
             >
@@ -301,12 +318,12 @@ export default function WorkBanner({ images: rawImages }: Props) {
                 ref={el => { imgRefs.current[i] = el }}
                 src={src}
                 alt={meta?.title ?? ''}
-                style={{ height: '100%', width: 'auto', display: 'block' }}
+                className="wb-img"
               />
               <canvas
                 ref={el => { canvasRefs.current[i] = el }}
                 style={{
-                  position: 'absolute', inset: 0, width: '100%', height: '100%',
+                  position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)',
                   opacity: i === centeredRIdx ? 0 : 1,
                   transition: 'opacity 0.1s',
                   pointerEvents: 'none',

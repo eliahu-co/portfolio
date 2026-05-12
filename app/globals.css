@@ -83,6 +83,13 @@ body.overlay-active [data-overlay-hide] {
   transition: opacity 0.2s;
 }
 
+/* WorkBanner mobile — 60 vh strip, images 80 vw wide, centered vertically */
+.wb-img  { height: 100%; width: auto; display: block; }
+@media (max-width: 767px) {
+  .wb-slot { display: flex; align-items: center; justify-content: center; }
+  .wb-img  { width: 80vw; height: auto; max-height: 100%; }
+}
+
 /* WhatIDo card borders — 2×2 on mobile, 1×4 on desktop */
 @media (max-width: 767px) {
   .whatiodo-card:nth-child(odd)  { border-right: 2px solid var(--color-orange); }
