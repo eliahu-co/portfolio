@@ -110,3 +110,39 @@ body.overlay-active [data-overlay-hide] {
     background: #f5f5f5;
   }
 }
+
+/* Skeleton loaders — shimmer shared by work strip and 3D hero */
+@keyframes skeleton-shimmer {
+  0%   { background-position: -200% 0 }
+  100% { background-position:  200% 0 }
+}
+
+.wb-skeleton-slot {
+  height: 80%;
+  aspect-ratio: 3 / 4;
+  flex-shrink: 0;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,255,0.08) 25%,
+    rgba(0,0,255,0.18) 50%,
+    rgba(0,0,255,0.08) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.hero-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,255,0.04) 25%,
+    rgba(0,0,255,0.10) 50%,
+    rgba(0,0,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
