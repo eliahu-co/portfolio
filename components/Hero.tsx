@@ -37,6 +37,7 @@ export default function Hero() {
       {/* Scroll CTA */}
       <div
         className="animate-bounce-y absolute bottom-8 left-8 md:left-16 lg:left-24 z-10 flex flex-col items-center pointer-events-none"
+        data-overlay-hide
         style={{
           opacity: scrolled ? 0 : 1,
           transform: scrolled ? 'translateY(8px)' : 'translateY(0)',
