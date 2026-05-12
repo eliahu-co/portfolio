@@ -27,7 +27,7 @@ export default function Hero() {
     <section
       id="hero"
       className="relative h-screen w-full overflow-hidden"
-      style={{ background: '#f5f5f5', borderBottom: '2px solid #FF6B35' }}
+      style={{ background: '#f5f5f5', borderBottom: '2px solid var(--color-orange)' }}
       onMouseEnter={() => showTooltip(HERO_TOOLTIP)}
       onMouseLeave={hideTooltip}
     >
