@@ -181,7 +181,9 @@ export default function About() {
 
             {/* Tags — minimum width to fit text, no wrapping */}
             <div className="flex flex-col gap-2 flex-shrink-0">
-              {SKILL_TAGS.map((tag) => (
+              {SKILL_TAGS.map((tag, i) => {
+                const gazeForTag: LayerId = i <= 1 ? 'diagonal_up' : i >= 5 ? 'diagonal_down' : 'right'
+                return (
                 <span
                   key={tag}
                   className="font-sans text-[9px] uppercase tracking-[0.06em] px-2 py-1.5 rounded-sm cursor-default transition-all duration-150 text-center whitespace-nowrap"
@@ -198,10 +200,9 @@ export default function About() {
                     if (!isDepin) {
                       if (clearTimer.current) clearTimeout(clearTimer.current)
                       setPrev(activeRef.current)
-                      activeRef.current = 'right'
-                      setActive('right')
+                      activeRef.current = gazeForTag
+                      setActive(gazeForTag)
                       clearTimer.current = setTimeout(() => setPrev(null), FADE_MS)
-                      // Lock gaze to 'right' briefly, then let scroll take over
                       if (gazeResetTimer.current) clearTimeout(gazeResetTimer.current)
                       gazeLockedRef.current = true
                       gazeResetTimer.current = setTimeout(() => { gazeLockedRef.current = false }, 2500)
@@ -210,7 +211,8 @@ export default function About() {
                 >
                   {tag}
                 </span>
-              ))}
+                )
+              })}
             </div>
 
           </div>
