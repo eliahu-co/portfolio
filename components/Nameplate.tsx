@@ -1,12 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
-const LINKS = [
-  { label: 'hi@eliahu.co',  href: 'mailto:hi@eliahu.co',                                 download: false, external: false },
-  { label: 'LinkedIn ↗',    href: 'https://www.linkedin.com/in/eliahu-cohen-b32374114',  download: false, external: true  },
-  { label: 'Download CV ↓', href: '/cv.pdf',                                              download: true,  external: false },
-]
+import { CONTACT_LINKS } from '@/lib/site-data'
 
 export default function Nameplate() {
   const [hidden, setHidden] = useState(false)
@@ -49,7 +44,7 @@ export default function Nameplate() {
           pointerEvents: hidden ? 'none' : 'auto',
         }}
       >
-        {LINKS.map(({ label, href, download, external }) => (
+        {CONTACT_LINKS.map(({ label, href, download, external }) => (
           <a
             key={href}
             href={href}
@@ -57,10 +52,10 @@ export default function Nameplate() {
             {...(download ? { download: true } : {})}
             className="font-sans text-[10px] uppercase tracking-[0.12em] text-ink transition-colors duration-200"
             style={{
-              background: '#d4d4d4',
+              background: 'var(--color-gray-ui)',
               border: 'var(--border)',
               borderRadius: '2px',
-              boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
+              boxShadow: 'var(--shadow-card)',
               padding: '6px 12px',
               display: 'inline-block',
             }}

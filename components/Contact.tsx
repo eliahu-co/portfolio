@@ -1,25 +1,6 @@
 // components/Contact.tsx
 
-const LINKS = [
-  {
-    label: 'hi@eliahu.co',
-    href: 'mailto:hi@eliahu.co',
-    external: false,
-    download: false,
-  },
-  {
-    label: 'LinkedIn ↗',
-    href: 'https://www.linkedin.com/in/eliahu-cohen-b32374114',
-    external: true,
-    download: false,
-  },
-  {
-    label: 'Download CV ↓',
-    href: '/cv.pdf',
-    external: false,
-    download: true,
-  },
-]
+import { CONTACT_LINKS } from '@/lib/site-data'
 
 export default function Contact() {
   return (
@@ -38,7 +19,7 @@ export default function Contact() {
         </p>
 
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
-          {LINKS.map(({ label, href, external, download }) => (
+          {CONTACT_LINKS.map(({ label, href, external, download }) => (
             <a
               key={href}
               href={href}

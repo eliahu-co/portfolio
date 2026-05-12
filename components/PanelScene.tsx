@@ -9,6 +9,7 @@ import { LineSegments2 } from 'three/examples/jsm/lines/LineSegments2.js'
 import { LineSegmentsGeometry } from 'three/examples/jsm/lines/LineSegmentsGeometry.js'
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js'
 import { ScrollTrigger } from '@/lib/gsap'
+import { MOBILE_BREAKPOINT } from '@/lib/tokens'
 
 // ── Layer configuration ──────────────────────────────────────────────────────
 //
@@ -79,7 +80,7 @@ const HOVER_EMISSIVE_INTENSITY = 0.25
 const SCALE = 130
 
 function isMobile(): boolean {
-  return typeof window !== 'undefined' && window.innerWidth < 768
+  return typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT
 }
 
 // ── IFC-node → layer classifier ───────────────────────────────────────────────

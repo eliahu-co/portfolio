@@ -1,12 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
-const LINKS = [
-  { label: 'Home',     href: '#hero',      id: 'hero'     },
-  { label: 'About',    href: '#about',     id: 'about'    },
-  { label: 'What I Do', href: '#what-i-do', id: 'what-i-do' },
-]
+import { NAV_LINKS } from '@/lib/site-data'
 
 export default function FloatNav() {
   const [progress, setProgress] = useState(0)
@@ -27,7 +22,7 @@ export default function FloatNav() {
 
   useEffect(() => {
     const observers: IntersectionObserver[] = []
-    LINKS.forEach(({ id }) => {
+    NAV_LINKS.forEach(({ id }) => {
       const el = document.getElementById(id)
       if (!el) return
       const obs = new IntersectionObserver(
@@ -46,10 +41,10 @@ export default function FloatNav() {
         className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 overflow-hidden"
         data-overlay-hide
         style={{
-          background: '#d4d4d4',
+          background: 'var(--color-gray-ui)',
           border: 'var(--border)',
           borderRadius: '2px',
-          boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
+          boxShadow: 'var(--shadow-card)',
         }}
         aria-label="Page navigation"
       >
@@ -77,7 +72,7 @@ export default function FloatNav() {
 
         {/* Nav links */}
         <ul className="flex items-center list-none m-0" style={{ padding: '14px 4px 12px' }}>
-          {LINKS.map(({ label, href, id }, i) => (
+          {NAV_LINKS.map(({ label, href, id }, i) => (
             <li key={href}>
               <a
                 href={href}
@@ -94,7 +89,7 @@ export default function FloatNav() {
                   opacity: 1,
                   fontWeight: 400,
                   whiteSpace: 'nowrap',
-                  borderRight: i < LINKS.length - 1 ? '1px solid var(--color-ink)' : undefined,
+                  borderRight: i < NAV_LINKS.length - 1 ? '1px solid var(--color-ink)' : undefined,
                 }}
               >
                 {label}
@@ -119,10 +114,10 @@ export default function FloatNav() {
           zIndex: 50,
           width: '34px',
           height: '34px',
-          background: '#d4d4d4',
+          background: 'var(--color-gray-ui)',
           borderRadius: '2px',
           border: 'var(--border)',
-          boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
+          boxShadow: 'var(--shadow-card)',
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',

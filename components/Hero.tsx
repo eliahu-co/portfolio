@@ -47,10 +47,10 @@ export default function Hero() {
         <div style={{
           width: '34px',
           height: '34px',
-          background: '#d4d4d4',
+          background: 'var(--color-gray-ui)',
           border: 'var(--border)',
           borderRadius: '2px',
-          boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
+          boxShadow: 'var(--shadow-card)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
