@@ -54,7 +54,7 @@ export default function Tooltip() {
   const posStyle = mode === 'below-center'
     ? { left: pos.x, top: pos.y + 52, transform: 'translateX(-50%)' }
     : flipLeft
-      ? { left: pos.x - 20, top: pos.y + 20, transform: 'translateX(-100%)' }
+      ? { right: window.innerWidth - pos.x + 20, top: pos.y + 20 }
       : { left: pos.x + 20, top: pos.y + 20 }
 
   return (
