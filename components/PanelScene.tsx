@@ -47,8 +47,8 @@ interface LayerConfig {
 
 const LAYER_CONFIG: Record<LayerName, LayerConfig> = {
   'Gypsum':     { targetOffset:   4,  mobileY:  3,    color: '#D2D2D2', label: 'Interior Finish',    threshold: 0.1,  startAt: 0.18 },
-  'Window':     { targetOffset:   6,  mobileY:  1.5,  color: '#e8e8e8', label: 'Glazing',           threshold: 0.25, startAt: 0 },
-  'Glass':      { targetOffset:   6,  mobileY:  1.5,  color: '#c8dde8', label: '',                  threshold: 0.25, startAt: 0,    opacity: 0.2 },
+  'Window':     { targetOffset:   6,  mobileY:  4.5,  color: '#e8e8e8', label: 'Glazing',           threshold: 0.25, startAt: 0 },
+  'Glass':      { targetOffset:   6,  mobileY:  4.5,  color: '#c8dde8', label: '',                  threshold: 0.25, startAt: 0,    opacity: 0.2 },
   'Framing':    { targetOffset:   0,  mobileY:  0,    color: '#555555', label: 'Framing',           threshold: 0.4 },
   'MEP':        { targetOffset:   0,  mobileY:  0,    color: '#197aff', label: 'MEP',               threshold: 0.4 },
   'OSB':        { targetOffset:  -3,  mobileY: -2,    color: '#FFEA6B', label: 'Sheathing',         threshold: 0.55 },
