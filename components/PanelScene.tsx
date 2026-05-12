@@ -504,14 +504,14 @@ export default function PanelScene() {
       window.addEventListener('deviceorientation', onOrientation)
       removeOrient = () => window.removeEventListener('deviceorientation', onOrientation)
 
-      // Probe: if the browser already fires orientation events (permission granted
-      // from a previous gesture this session), skip the overlay entirely.
+      // Show overlay immediately so the page can't be scrolled during the probe.
+      // If orientation events arrive within 400ms (permission already granted),
+      // hide the overlay instantly and activate gyro without requiring a tap.
+      setOverlayVisible(true)
+
       let probeResolved = false
       const probeTimer = setTimeout(() => {
-        if (!probeResolved) {
-          probeResolved = true
-          setOverlayVisible(true)  // No events in 400 ms → need to ask for permission
-        }
+        probeResolved = true  // 400ms passed, no events → keep overlay for user tap
       }, 400)
 
       const probe = (e: DeviceOrientationEvent) => {
@@ -519,13 +519,13 @@ export default function PanelScene() {
         if (e.beta !== null || e.gamma !== null || e.alpha !== null) {
           probeResolved = true
           clearTimeout(probeTimer)
-          // Events already flowing — activate gyro now, neutral = current position
           neutralRef.current = {
             beta:  e.beta  ?? 0,
             gamma: e.gamma ?? 0,
             alpha: e.alpha ?? 0,
           }
           gyroActiveRef.current = true
+          setOverlayVisible(false)
           window.removeEventListener('deviceorientation', probe)
         }
       }

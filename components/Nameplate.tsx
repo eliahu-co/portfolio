@@ -5,17 +5,18 @@ import { CONTACT_LINKS } from '@/lib/site-data'
 import { MOBILE_BREAKPOINT } from '@/lib/tokens'
 
 // Mini-nameplate geometry constants
-const SCALE      = 0.55   // visual scale when shrunk beside nav
-const LEFT_8     = 32     // left-8 = 2rem = 32px (element's natural left offset)
-const TOP_6      = 24     // top-6 = 1.5rem = 24px (element's natural top offset)
-const NAV_H      = 44     // float nav estimated height (px)
-const NAV_BOTTOM = 24     // float nav bottom-6 = 24px
+const SCALE      = 0.55
+const LEFT_8     = 32
+const TOP_6      = 24
+const NAV_H      = 44
+const NAV_BOTTOM = 24
 
 export default function Nameplate() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [hidden,   setHidden]   = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [shrunk,   setShrunk]   = useState(false)
+  const [atTop,    setAtTop]    = useState(true)
   const [shrinkXY, setShrinkXY] = useState({ x: -24, y: 0 })
 
   // Hide subtitle + contacts while work-strip is in view
@@ -30,6 +31,14 @@ export default function Nameplate() {
     return () => obs.disconnect()
   }, [])
 
+  // Track whether the page is at the very top (mobile only)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const onScroll = () => setAtTop(window.scrollY < 10)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   // Mobile detect + compute shrink transform
   useEffect(() => {
     const mobile = window.innerWidth < MOBILE_BREAKPOINT
@@ -37,19 +46,14 @@ export default function Nameplate() {
     if (!mobile) return
 
     const update = () => {
-      // Vertical: position bottom of mini text 10px above the float nav's top edge
-      const miniH       = 42 * SCALE
-      const navTop      = NAV_BOTTOM + NAV_H              // 68px from bottom
-      const gap         = 10
-      const miniBottomFB = navTop + gap                   // 78px from bottom
-      const miniTopFB   = miniBottomFB + miniH            // ~101px from bottom
-      const ty          = window.innerHeight - miniTopFB - TOP_6
-
-      // Horizontal: align the visual center of the mini text with the nav's center (window.innerWidth / 2).
-      // Visual left = LEFT_8 + tx; visual width = W * SCALE.
-      const W  = containerRef.current?.offsetWidth ?? 300
-      const tx = window.innerWidth / 2 - (W * SCALE) / 2 - LEFT_8
-
+      const miniH        = 42 * SCALE
+      const navTop       = NAV_BOTTOM + NAV_H
+      const gap          = 10
+      const miniBottomFB = navTop + gap
+      const miniTopFB    = miniBottomFB + miniH
+      const ty           = window.innerHeight - miniTopFB - TOP_6
+      const W            = containerRef.current?.offsetWidth ?? 300
+      const tx           = window.innerWidth / 2 - (W * SCALE) / 2 - LEFT_8
       setShrinkXY({ x: Math.round(tx), y: Math.round(ty) })
     }
     update()
@@ -57,19 +61,17 @@ export default function Nameplate() {
     return () => window.removeEventListener('resize', update)
   }, [])
 
-  // Shrink when #what-i-do section enters view (mobile only)
+  // Shrink when #what-i-do enters view; un-shrink only when hero comes back
   useEffect(() => {
     if (!isMobile) return
     const whatIDo = document.getElementById('what-i-do')
     const hero    = document.getElementById('hero')
     if (!whatIDo || !hero) return
 
-    // Shrink when what-i-do enters view…
     const shrinkObs = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setShrunk(true) },
       { threshold: 0.1 }
     )
-    // …but only un-shrink when the user scrolls back to the hero
     const unshrinkObs = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setShrunk(false) },
       { threshold: 0.1 }
@@ -80,6 +82,8 @@ export default function Nameplate() {
   }, [isMobile])
 
   const mobileShrunk = isMobile && shrunk
+  // On mobile: visible only at the very top OR when in the mini position
+  const mobileVisible = !isMobile || atTop || mobileShrunk
 
   return (
     <div
@@ -88,11 +92,13 @@ export default function Nameplate() {
       data-overlay-hide
       style={{
         transformOrigin: 'left top',
+        // Apply mini position instantly (no slide animation) — only opacity transitions
         transform: mobileShrunk
           ? `translate(${shrinkXY.x}px, ${shrinkXY.y}px) scale(${SCALE})`
           : 'none',
-        transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-        pointerEvents: mobileShrunk ? 'none' : undefined,
+        opacity:      mobileVisible ? 1 : 0,
+        pointerEvents: (!mobileVisible || mobileShrunk) ? 'none' : undefined,
+        transition:   'opacity 0.25s',
       }}
     >
       <h1 className="text-[42px] leading-none pointer-events-none" style={{ fontFamily: 'var(--font-nabla)' }}>

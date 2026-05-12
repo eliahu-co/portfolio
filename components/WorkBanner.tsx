@@ -280,20 +280,6 @@ export default function WorkBanner({ images: rawImages }: Props) {
   const handleTouchEnd = (e: React.TouchEvent) => {
     const delta = e.changedTouches[0].clientX - touchStartX.current
     if (Math.abs(delta) < 50) return
-
-    const arrow = arrowCursorRef.current
-    if (arrow) {
-      const path = arrow.querySelector('path')
-      // delta < 0 = swiped left = moving to next (rightward in strip)
-      if (path) path.setAttribute('d', delta < 0 ? 'M12 6l10 10-10 10' : 'M20 6L10 16l10 10')
-      arrow.style.transform = `translate(${window.innerWidth / 2 - 32}px, ${window.innerHeight / 2 - 32}px)`
-      arrow.style.opacity = '1'
-      if (arrowHideTimerRef.current !== null) clearTimeout(arrowHideTimerRef.current)
-      arrowHideTimerRef.current = window.setTimeout(() => {
-        if (arrowCursorRef.current) arrowCursorRef.current.style.opacity = '0'
-      }, 2000)
-    }
-
     goTo(delta < 0 ? 1 : -1)
   }
 
