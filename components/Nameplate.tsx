@@ -34,7 +34,7 @@ export default function Nameplate() {
   // Track whether the page is at the very top (mobile only)
   useEffect(() => {
     if (typeof window === 'undefined') return
-    const onScroll = () => setAtTop(window.scrollY < 10)
+    const onScroll = () => setAtTop(window.scrollY < window.innerHeight * 0.5)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -98,7 +98,7 @@ export default function Nameplate() {
           : 'none',
         opacity:      mobileVisible ? 1 : 0,
         pointerEvents: (!mobileVisible || mobileShrunk) ? 'none' : undefined,
-        transition:   'opacity 0.25s',
+        transition:   mobileShrunk ? 'none' : 'opacity 0.25s',
       }}
     >
       <h1 className="text-[42px] leading-none pointer-events-none" style={{ fontFamily: 'var(--font-nabla)' }}>
