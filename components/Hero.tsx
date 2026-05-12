@@ -15,12 +15,21 @@ const HERO_TOOLTIP =
   `It's not a coincidence you call it a build — whether you're raising a floor plate or a codebase, you need an architect on the team.`
 
 export default function Hero() {
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolled,       setScrolled]       = useState(false)
+  const [overlayActive,  setOverlayActive]  = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 0)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const obs = new MutationObserver(() =>
+      setOverlayActive(document.body.classList.contains('overlay-active'))
+    )
+    obs.observe(document.body, { attributes: true, attributeFilter: ['class'] })
+    return () => obs.disconnect()
   }, [])
 
   return (
@@ -36,10 +45,9 @@ export default function Hero() {
 
       {/* Scroll CTA */}
       <div
-        className="animate-bounce-y absolute bottom-8 left-8 md:left-16 lg:left-24 z-10 flex flex-col items-center pointer-events-none"
-        data-overlay-hide
+        className="animate-bounce-y absolute bottom-[34px] md:bottom-8 left-8 md:left-16 lg:left-24 z-10 flex flex-col items-center pointer-events-none"
         style={{
-          opacity: scrolled ? 0 : 1,
+          opacity: overlayActive || scrolled ? 0 : 1,
           transform: scrolled ? 'translateY(8px)' : 'translateY(0)',
           transition: 'opacity 0.2s, transform 0.2s',
         }}
