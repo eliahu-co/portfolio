@@ -132,6 +132,7 @@ export default function PanelScene() {
   const containerRef = useRef<HTMLDivElement>(null)
   const labelRefs = useRef<Partial<Record<LayerName, HTMLDivElement | null>>>({})
   const [overlayVisible, setOverlayVisible] = useState(false)
+  const [sceneReady,     setSceneReady]     = useState(false)
   const neutralRef     = useRef({ beta: 0, gamma: 0, alpha: 0 })
   const lastOrientRef  = useRef({ beta: 0, gamma: 0, alpha: 0 })
   const gyroActiveRef  = useRef(false)
@@ -461,6 +462,7 @@ export default function PanelScene() {
           layerAnchors[name] = worldAnchor
         })
 
+        setSceneReady(true)
       },
       undefined,
       (err: unknown) => console.error('GLTFLoader error:', err),
@@ -567,6 +569,10 @@ export default function PanelScene() {
             Tap to enter
           </p>
         </div>
+      )}
+
+      {!sceneReady && !overlayVisible && (
+        <div className="hero-skeleton" />
       )}
 
       <div className="hidden md:block absolute inset-0 z-20 pointer-events-none overflow-hidden">
