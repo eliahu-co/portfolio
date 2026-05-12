@@ -48,7 +48,17 @@ export default function RootLayout({
       <head>
         <link rel="preload" href="/panel.glb" as="fetch" crossOrigin="anonymous" />
       </head>
-      <body><MobileGate>{children}</MobileGate></body>
+      <body>
+        <MobileGate>{children}</MobileGate>
+        <div className="landscape-guard" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="14" y="6" width="20" height="32" rx="3" />
+            <path d="M36 10a18 18 0 0 1 0 28" />
+            <path d="M33 7l3 3-3 3" />
+          </svg>
+          <p>Rotate to portrait</p>
+        </div>
+      </body>
     </html>
   )
 }
