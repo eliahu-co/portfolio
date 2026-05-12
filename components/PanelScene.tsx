@@ -1,7 +1,7 @@
 // components/PanelScene.tsx
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
@@ -128,6 +128,32 @@ function classifyNode(nodeName: string, meshName?: string): LayerName | null {
 export default function PanelScene() {
   const containerRef = useRef<HTMLDivElement>(null)
   const labelRefs = useRef<Partial<Record<LayerName, HTMLDivElement | null>>>({})
+  const [overlayVisible, setOverlayVisible] = useState(false)
+  const neutralRef     = useRef({ beta: 0, gamma: 0 })
+  const lastOrientRef  = useRef({ beta: 0, gamma: 0 })
+  const gyroActiveRef  = useRef(false)
+  const scrollFallback = useRef(false)
+
+  const handleOverlayTap = async () => {
+    type DOEWithPerm = typeof DeviceOrientationEvent & { requestPermission?: () => Promise<string> }
+    if (typeof (DeviceOrientationEvent as DOEWithPerm).requestPermission === 'function') {
+      try {
+        const perm = await (DeviceOrientationEvent as DOEWithPerm).requestPermission!()
+        if (perm !== 'granted') {
+          scrollFallback.current = true
+          setOverlayVisible(false)
+          return
+        }
+      } catch {
+        scrollFallback.current = true
+        setOverlayVisible(false)
+        return
+      }
+    }
+    neutralRef.current = { ...lastOrientRef.current }
+    gyroActiveRef.current = true
+    setOverlayVisible(false)
+  }
 
   useEffect(() => {
     const container = containerRef.current
@@ -241,7 +267,7 @@ export default function PanelScene() {
     const animate = () => {
       rafId = requestAnimationFrame(animate)
 
-      if (!isMobile()) {
+      if (!isMobile() || gyroActiveRef.current || scrollFallback.current) {
         currentRotX += (BASE_ROTATION.x + mouseY * PARALLAX_STRENGTH.x - currentRotX) * PARALLAX_LERP
         currentRotY += (BASE_ROTATION.y + mouseX * PARALLAX_STRENGTH.y - currentRotY) * PARALLAX_LERP
         rootGroup.rotation.x = currentRotX
@@ -417,8 +443,39 @@ export default function PanelScene() {
       (err: unknown) => console.error('GLTFLoader error:', err),
     )
 
+    // ── Mobile gyroscope + scroll fallback ──
+    let removeOrient: (() => void) | null = null
+    let removeScrollFb: (() => void) | null = null
+
+    if (isMobile()) {
+      setOverlayVisible(true)
+
+      const onOrientation = (e: DeviceOrientationEvent) => {
+        lastOrientRef.current.beta  = e.beta  ?? lastOrientRef.current.beta
+        lastOrientRef.current.gamma = e.gamma ?? lastOrientRef.current.gamma
+        if (!gyroActiveRef.current) return
+        const dx = ((e.gamma ?? neutralRef.current.gamma) - neutralRef.current.gamma) / 20
+        const dy = ((e.beta  ?? neutralRef.current.beta)  - neutralRef.current.beta)  / 20
+        mouseX = Math.max(-1, Math.min(1, dx))
+        mouseY = Math.max(-1, Math.min(1, dy))
+      }
+      window.addEventListener('deviceorientation', onOrientation)
+      removeOrient = () => window.removeEventListener('deviceorientation', onOrientation)
+
+      const heroEl = document.getElementById('hero')
+      const heroH  = heroEl?.offsetHeight ?? window.innerHeight
+      const onScrollFb = () => {
+        if (!scrollFallback.current) return
+        mouseY = Math.max(-1, Math.min(1, (window.scrollY / heroH) * 2 - 1))
+      }
+      window.addEventListener('scroll', onScrollFb, { passive: true })
+      removeScrollFb = () => window.removeEventListener('scroll', onScrollFb)
+    }
+
     // ── Cleanup ──
     return () => {
+      removeOrient?.()
+      removeScrollFb?.()
       cancelAnimationFrame(rafId)
       resizeObserver.disconnect()
       window.removeEventListener('mousemove', onMouseMove)
@@ -431,6 +488,25 @@ export default function PanelScene() {
 
   return (
     <div ref={containerRef} className="fixed" style={{ top: 0, bottom: 0, left: '-20vw', right: '-20vw', zIndex: 0 }}>
+
+      {overlayVisible && (
+        <div
+          className="absolute inset-0 z-30 flex flex-col items-center justify-center cursor-pointer select-none"
+          style={{ background: 'rgba(245,245,245,0.92)', backdropFilter: 'blur(4px)' }}
+          onClick={handleOverlayTap}
+        >
+          <h1
+            className="text-[18vw] leading-[1] tracking-tight text-ink"
+            style={{ fontFamily: 'var(--font-nabla)' }}
+          >
+            Eliahu<br />Cohen
+          </h1>
+          <p className="font-sans text-[3.5vw] uppercase tracking-[0.2em] text-ink/50 mt-4">
+            Tap to enter
+          </p>
+        </div>
+      )}
+
       <div className="hidden md:block absolute inset-0 z-20 pointer-events-none overflow-hidden">
         {LAYER_NAMES.filter(name => LAYER_CONFIG[name].label).map((name) => (
           <div
@@ -443,6 +519,7 @@ export default function PanelScene() {
           </div>
         ))}
       </div>
+
     </div>
   )
 }
