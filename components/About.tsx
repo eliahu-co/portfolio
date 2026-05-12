@@ -96,10 +96,12 @@ export default function About() {
   const activeRef   = useRef<LayerId>('center')
   const clearTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const [isMobileLayout, setIsMobileLayout] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth < 768 : false
-  )
+  const [isMobileLayout, setIsMobileLayout] = useState(false)
   const pinnedTagRef = useRef<string | null>(null)
+
+  useEffect(() => {
+    setIsMobileLayout(window.innerWidth < 768)
+  }, [])
 
   useEffect(() => {
     const mobile = window.innerWidth < 768
