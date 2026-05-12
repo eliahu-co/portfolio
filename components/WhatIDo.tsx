@@ -70,7 +70,7 @@ export default function WhatIDo() {
       <div>
         <div
           ref={cardsRef}
-          className="grid md:grid-cols-4"
+          className="grid grid-cols-2 md:grid-cols-4"
           style={{ border: `2px solid ${ORANGE}` }}
         >
           {CARDS.map((card, i) => {
@@ -81,11 +81,10 @@ export default function WhatIDo() {
             return (
               <article
                 key={card.title}
-                className={`whatiodo-card relative py-3 cursor-pointer ${i === 0 ? 'pl-8 md:pl-16 lg:pl-24 pr-5' : 'pl-8 pr-5'}`}
+                className={`whatiodo-card relative py-2 md:py-3 cursor-pointer px-3 ${i === 0 ? 'md:pl-16 lg:pl-24 md:pr-5' : 'md:pl-8 md:pr-5'}`}
                 style={{
-                  background:  bg,
-                  borderRight: i < CARDS.length - 1 ? `2px solid ${ORANGE}` : undefined,
-                  transition:  'background 0.15s',
+                  background: bg,
+                  transition: 'background 0.15s',
                 }}
                 onClick={() => handleClick(card.title)}
                 onMouseEnter={() => { setHoveredCard(card.title); showTooltip('Click') }}

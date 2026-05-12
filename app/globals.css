@@ -72,3 +72,12 @@ body.overlay-active [data-overlay-hide] {
   pointer-events: none;
   transition: opacity 0.2s;
 }
+
+/* WhatIDo card borders — 2×2 on mobile, 1×4 on desktop */
+@media (max-width: 767px) {
+  .whatiodo-card:nth-child(odd)  { border-right: 2px solid #FF6B35; }
+  .whatiodo-card:nth-child(-n+2) { border-bottom: 2px solid #FF6B35; }
+}
+@media (min-width: 768px) {
+  .whatiodo-card:not(:last-child) { border-right: 2px solid #FF6B35; }
+}
