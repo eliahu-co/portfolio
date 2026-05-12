@@ -6,7 +6,7 @@ import { gsap } from '@/lib/gsap'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
 import { ORANGE, ORANGE_HOVER } from '@/lib/tokens'
 
-const CARDS = [
+const CARDS: { category: string; title: string; mobileTitle?: string; description: string }[] = [
   {
     category: 'Strategy · Full-Stack',
     title: 'Product & Dev',
@@ -20,6 +20,7 @@ const CARDS = [
   {
     category: 'Innovation · Problem-Solving',
     title: 'Research & Development',
+    mobileTitle: 'Research & Dev',
     description: "Five years owning full product lifecycles: PRDs, technology evaluation, cross-functional leadership across BIM, Data, Automation, and Manufacturing.",
   },
   {
@@ -98,7 +99,9 @@ export default function WhatIDo() {
                   className="font-serif text-[20px]"
                   style={{ color: lit ? '#ffffff' : ORANGE, transition: 'color 0.15s' }}
                 >
-                  {card.title}
+                  {card.mobileTitle
+                    ? <><span className="md:hidden">{card.mobileTitle}</span><span className="hidden md:inline">{card.title}</span></>
+                    : card.title}
                 </h3>
               </article>
             )

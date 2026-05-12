@@ -145,59 +145,47 @@ export default function About() {
     <section id="about" className="relative px-4 py-16 md:px-16 lg:px-24" style={{ zIndex: 1, background: '#f5f5f5' }}>
 
       {isMobileLayout ? (
-        /* ── Mobile: large photo with bio overlay | tags column ── */
+        /* ── Mobile: photo + tags row, bio below ── */
         <div className="max-w-6xl mx-auto">
-          <div ref={leftRef} className="flex gap-2 items-stretch">
+          <div ref={leftRef} className="flex gap-3 items-start mb-6 px-2">
 
-            {/* Photo — left, takes most width, bio overlaid */}
+            {/* Photo — half screen width, no overlay */}
             <div
               ref={photoRef}
-              className="relative rounded-sm overflow-hidden"
-              style={{ flex: 3, aspectRatio: '1' }}
+              className="relative rounded-sm overflow-hidden flex-shrink-0"
+              style={{ width: '50vw', aspectRatio: '1' }}
               role="img"
               aria-label="Eliahu Cohen"
             >
-              {/* Image layers: clearly visible at top, fades toward bio text at bottom */}
-              <div style={{ position: 'absolute', inset: 0, WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.35) 100%)', maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.35) 100%)' }}>
-                {LAYERS.map(({ id, src }) => {
-                  const isActive = id === active
-                  const isPrev   = id === prev
-                  if (!isActive && !isPrev) return null
-                  return (
-                    <div
-                      key={id}
-                      className="absolute inset-0"
-                      style={{
-                        zIndex:    isActive ? 2 : 1,
-                        opacity:   isPrev ? 1 : undefined,
-                        animation: isActive && prev !== null ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
-                      }}
-                    >
-                      <Image src={src} alt="" fill className="object-cover object-top" sizes="75vw" priority={id === 'center'} />
-                    </div>
-                  )
-                })}
-              </div>
-
-              {/* Bio text overlaid at bottom */}
-              <p
-                ref={rightRef}
-                className="absolute bottom-0 left-0 right-0 font-sans text-[12px] leading-relaxed font-medium text-ink/90 px-3 py-3"
-                style={{ background: 'linear-gradient(to top, rgba(245,245,245,0.95) 60%, transparent)' }}
-              >
-                {bioText}
-              </p>
+              {LAYERS.map(({ id, src }) => {
+                const isActive = id === active
+                const isPrev   = id === prev
+                if (!isActive && !isPrev) return null
+                return (
+                  <div
+                    key={id}
+                    className="absolute inset-0"
+                    style={{
+                      zIndex:    isActive ? 2 : 1,
+                      opacity:   isPrev ? 1 : undefined,
+                      animation: isActive && prev !== null ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
+                    }}
+                  >
+                    <Image src={src} alt="" fill className="object-cover object-top" sizes="50vw" priority={id === 'center'} />
+                  </div>
+                )
+              })}
             </div>
 
-            {/* Tags — right column, stretches to match photo height */}
-            <div style={{ flex: 0.5, display: 'flex', flexDirection: 'column', gap: '4px', overflow: 'hidden' }}>
+            {/* Tags — fill remaining space beside photo */}
+            <div className="flex flex-col gap-2 flex-1">
               {SKILL_TAGS.map((tag) => (
                 <span
                   key={tag}
-                  className="font-sans text-[8px] uppercase tracking-[0.06em] px-1.5 rounded-sm cursor-default transition-all duration-150"
+                  className="font-sans text-[9px] uppercase tracking-[0.06em] px-2 py-1.5 rounded-sm cursor-default transition-all duration-150 text-center"
                   style={activeTag === tag
-                    ? { flex: 1, display: 'flex', alignItems: 'center', background: ORANGE, border: `1.5px solid ${ORANGE}`, color: '#fff', overflow: 'hidden' }
-                    : { flex: 1, display: 'flex', alignItems: 'center', border: `1.5px solid ${ORANGE}99`, color: ORANGE, overflow: 'hidden' }}
+                    ? { background: ORANGE, border: `1.5px solid ${ORANGE}`, color: '#fff' }
+                    : { border: `1.5px solid ${ORANGE}99`, color: ORANGE }}
                   onClick={() => {
                     const isDepin = tag === pinnedTag
                     const newPinned = isDepin ? null : tag
@@ -220,6 +208,14 @@ export default function About() {
             </div>
 
           </div>
+
+          {/* Bio text below photo and tags */}
+          <p
+            ref={rightRef}
+            className="font-sans text-[15px] leading-relaxed font-medium text-ink/80 px-2"
+          >
+            {bioText}
+          </p>
         </div>
       ) : (
         /* ── Desktop: 2-column grid ── */
