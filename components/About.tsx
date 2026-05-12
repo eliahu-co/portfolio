@@ -119,10 +119,6 @@ export default function About() {
   }, [])
 
   useEffect(() => {
-    setIsMobileLayout(window.innerWidth < 768)
-  }, [])
-
-  useEffect(() => {
     const setGaze = (next: LayerId) => {
       if (next === activeRef.current) return
       if (clearTimer.current) clearTimeout(clearTimer.current)
