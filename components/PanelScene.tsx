@@ -289,7 +289,7 @@ export default function PanelScene() {
     const animate = () => {
       rafId = requestAnimationFrame(animate)
 
-      if (!isMobile() || gyroActiveRef.current || scrollFallback.current) {
+      if (!isMobile() || gyroActiveRef.current) {
         currentRotX += (BASE_ROTATION.x + mouseY * PARALLAX_STRENGTH.x - currentRotX) * PARALLAX_LERP
         currentRotY += (BASE_ROTATION.y + mouseX * PARALLAX_STRENGTH.y - currentRotY) * PARALLAX_LERP
         rootGroup.rotation.x = currentRotX
@@ -531,15 +531,7 @@ export default function PanelScene() {
       }
       window.addEventListener('deviceorientation', probe)
 
-      const heroEl = document.getElementById('hero')
-      const onScrollFb = () => {
-        if (!scrollFallback.current) return
-        const heroH = heroEl?.offsetHeight ?? window.innerHeight
-        mouseY = Math.max(-1, Math.min(1, (window.scrollY / heroH) * 2 - 1))
-      }
-      window.addEventListener('scroll', onScrollFb, { passive: true })
       removeScrollFb = () => {
-        window.removeEventListener('scroll', onScrollFb)
         window.removeEventListener('deviceorientation', probe)
         clearTimeout(probeTimer)
       }
