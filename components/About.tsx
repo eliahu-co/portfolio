@@ -97,32 +97,27 @@ export default function About() {
   const clearTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const [isMobileLayout, setIsMobileLayout] = useState(false)
-  const [photoHeight, setPhotoHeight]       = useState(0)
   const pinnedTagRef = useRef<string | null>('Architecture')
 
   useEffect(() => {
+    const mobile = window.innerWidth < 768
     const ctx = gsap.context(() => {
       gsap.from(leftRef.current, {
         y: 40, opacity: 0, duration: 0.8, ease: 'power2.out',
         scrollTrigger: { trigger: leftRef.current, start: 'top 80%', once: true },
       })
       gsap.from(rightRef.current, {
-        y: 40, opacity: 0, duration: 0.8, delay: 0.15, ease: 'power2.out',
-        scrollTrigger: { trigger: rightRef.current, start: 'top 80%', once: true },
+        opacity: 0,
+        ...(mobile ? {} : { y: 40 }),
+        duration: 0.8, delay: 0.15, ease: 'power2.out',
+        scrollTrigger: { trigger: leftRef.current, start: 'top 80%', once: true },
       })
     })
     return () => ctx.revert()
   }, [])
 
   useEffect(() => {
-    const mobile = window.innerWidth < 768
-    setIsMobileLayout(mobile)
-    if (!mobile) return
-    const el = photoRef.current
-    if (!el) return
-    const ro = new ResizeObserver(([entry]) => setPhotoHeight(entry.contentRect.height))
-    ro.observe(el)
-    return () => ro.disconnect()
+    setIsMobileLayout(window.innerWidth < 768)
   }, [])
 
   useEffect(() => {
@@ -176,50 +171,62 @@ export default function About() {
   }, [isMobileLayout])
 
   return (
-    <section id="about" className="relative px-8 py-16 md:px-16 lg:px-24" style={{ zIndex: 1, background: '#f5f5f5' }}>
+    <section id="about" className="relative px-4 py-16 md:px-16 lg:px-24" style={{ zIndex: 1, background: '#f5f5f5' }}>
 
       {isMobileLayout ? (
-        /* ── Mobile: [photo | tags column] then bio ── */
-        <div className="max-w-6xl mx-auto flex flex-col gap-6">
+        /* ── Mobile: large photo with bio overlay | tags column ── */
+        <div className="max-w-6xl mx-auto">
+          <div ref={leftRef} className="flex gap-2 items-stretch">
 
-          <div ref={leftRef} className="flex gap-3 items-start">
-            {/* Photo */}
+            {/* Photo — left, takes most width, bio overlaid */}
             <div
               ref={photoRef}
-              className="relative flex-shrink-0 rounded-sm overflow-hidden"
-              style={{ width: 140, height: 140 }}
+              className="relative rounded-sm overflow-hidden"
+              style={{ flex: 3, aspectRatio: '1' }}
               role="img"
               aria-label="Eliahu Cohen"
             >
-              {LAYERS.map(({ id, src }) => {
-                const isActive = id === active
-                const isPrev   = id === prev
-                if (!isActive && !isPrev) return null
-                return (
-                  <div
-                    key={id}
-                    className="absolute inset-0"
-                    style={{
-                      zIndex:    isActive ? 2 : 1,
-                      opacity:   isPrev ? 1 : undefined,
-                      animation: isActive && prev !== null ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
-                    }}
-                  >
-                    <Image src={src} alt="" fill className="object-cover object-top" sizes="140px" priority={id === 'center'} />
-                  </div>
-                )
-              })}
+              {/* Image layers wrapped at 30% opacity */}
+              <div style={{ position: 'absolute', inset: 0, opacity: 0.3 }}>
+                {LAYERS.map(({ id, src }) => {
+                  const isActive = id === active
+                  const isPrev   = id === prev
+                  if (!isActive && !isPrev) return null
+                  return (
+                    <div
+                      key={id}
+                      className="absolute inset-0"
+                      style={{
+                        zIndex:    isActive ? 2 : 1,
+                        opacity:   isPrev ? 1 : undefined,
+                        animation: isActive && prev !== null ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
+                      }}
+                    >
+                      <Image src={src} alt="" fill className="object-cover object-top" sizes="75vw" priority={id === 'center'} />
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* Bio text overlaid at bottom */}
+              <p
+                ref={rightRef}
+                className="absolute bottom-0 left-0 right-0 font-sans text-[12px] leading-relaxed font-medium text-ink/90 px-3 py-3"
+                style={{ background: 'linear-gradient(to top, rgba(245,245,245,0.95) 60%, transparent)' }}
+              >
+                {bioText}
+              </p>
             </div>
 
-            {/* Vertical tags column — height matches photo */}
-            <div style={{ height: photoHeight || 140, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
+            {/* Tags — right column, stretches to match photo height */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               {SKILL_TAGS.map((tag) => (
                 <span
                   key={tag}
-                  className="font-sans text-[9px] uppercase tracking-[0.06em] px-2 py-0.5 rounded-sm cursor-default transition-all duration-150"
+                  className="font-sans text-[8px] uppercase tracking-[0.06em] px-1.5 py-0.5 rounded-sm cursor-default transition-all duration-150"
                   style={activeTag === tag
-                    ? { background: '#ff6b35', border: '2px solid #ff6b35', color: '#fff' }
-                    : { border: '2px solid rgba(255,107,53,0.5)', color: '#ff6b35' }}
+                    ? { background: '#ff6b35', border: '1.5px solid #ff6b35', color: '#fff' }
+                    : { border: '1.5px solid rgba(255,107,53,0.5)', color: '#ff6b35' }}
                   onClick={() => {
                     const isDepin = tag === pinnedTag
                     const newPinned = isDepin ? null : tag
@@ -240,13 +247,8 @@ export default function About() {
                 </span>
               ))}
             </div>
+
           </div>
-
-          {/* Bio — full width below the row */}
-          <p ref={rightRef} className="font-sans text-[15px] leading-relaxed font-medium text-ink/80">
-            {bioText}
-          </p>
-
         </div>
       ) : (
         /* ── Desktop: 2-column grid ── */
