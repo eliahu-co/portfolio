@@ -49,7 +49,7 @@ export default function Tooltip() {
 
   const isLong      = label.length > 80
   const renderedW   = divRef.current?.offsetWidth ?? 0
-  const flipLeft    = renderedW > 0 && pos.x + 20 + renderedW + 180 > window.innerWidth
+  const flipLeft    = renderedW > 0 && pos.x + 20 + renderedW > window.innerWidth
 
   const posStyle = mode === 'below-center'
     ? { left: pos.x, top: pos.y + 52, transform: 'translateX(-50%)' }
