@@ -60,14 +60,23 @@ export default function Nameplate() {
   // Shrink when #what-i-do section enters view (mobile only)
   useEffect(() => {
     if (!isMobile) return
-    const el = document.getElementById('what-i-do')
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([entry]) => setShrunk(entry.isIntersecting),
+    const whatIDo = document.getElementById('what-i-do')
+    const hero    = document.getElementById('hero')
+    if (!whatIDo || !hero) return
+
+    // Shrink when what-i-do enters view…
+    const shrinkObs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setShrunk(true) },
       { threshold: 0.1 }
     )
-    obs.observe(el)
-    return () => obs.disconnect()
+    // …but only un-shrink when the user scrolls back to the hero
+    const unshrinkObs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setShrunk(false) },
+      { threshold: 0.1 }
+    )
+    shrinkObs.observe(whatIDo)
+    unshrinkObs.observe(hero)
+    return () => { shrinkObs.disconnect(); unshrinkObs.disconnect() }
   }, [isMobile])
 
   const mobileShrunk = isMobile && shrunk
