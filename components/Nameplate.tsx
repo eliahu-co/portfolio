@@ -10,7 +10,6 @@ const LEFT_8     = 32     // left-8 = 2rem = 32px (element's natural left offset
 const TOP_6      = 24     // top-6 = 1.5rem = 24px (element's natural top offset)
 const NAV_H      = 44     // float nav estimated height (px)
 const NAV_BOTTOM = 24     // float nav bottom-6 = 24px
-const NAV_W      = 261    // estimated nav width (3 links: Home, About, What I Do)
 
 export default function Nameplate() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -46,14 +45,10 @@ export default function Nameplate() {
       const miniTopFB   = miniBottomFB + miniH            // ~101px from bottom
       const ty          = window.innerHeight - miniTopFB - TOP_6
 
-      // Horizontal: center the visual text in the space left of the float nav.
-      // Visual left of scaled element = LEFT_8 + tx.
-      // Visual width = element.offsetWidth * SCALE.
-      // Target: visual center = midpoint of left gap = leftGap / 2.
-      const W         = containerRef.current?.offsetWidth ?? 300
-      const leftGap   = Math.max(0, (window.innerWidth - NAV_W) / 2)
-      const gapCenter = leftGap / 2
-      const tx        = gapCenter - (W * SCALE) / 2 - LEFT_8
+      // Horizontal: align the visual center of the mini text with the nav's center (window.innerWidth / 2).
+      // Visual left = LEFT_8 + tx; visual width = W * SCALE.
+      const W  = containerRef.current?.offsetWidth ?? 300
+      const tx = window.innerWidth / 2 - (W * SCALE) / 2 - LEFT_8
 
       setShrinkXY({ x: Math.round(tx), y: Math.round(ty) })
     }
