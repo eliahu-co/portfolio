@@ -306,6 +306,14 @@ export default function WorkBanner({ images: rawImages }: Props) {
         </div>
       )}
 
+      {!stripReady && (
+        <div className="absolute inset-0 flex items-center justify-center gap-[2vw] px-[4vw] pointer-events-none">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="wb-skeleton-slot" />
+          ))}
+        </div>
+      )}
+
       <div
         ref={stripRef}
         className="absolute top-0 h-full flex"
