@@ -307,9 +307,9 @@ export default function WorkBanner({ images: rawImages }: Props) {
       )}
 
       {!stripReady && (
-        <div className="absolute inset-0 flex items-center justify-center gap-[2vw] px-[4vw] pointer-events-none">
+        <div aria-hidden="true" className="absolute inset-0 flex items-center justify-center gap-[2vw] px-[4vw] pointer-events-none">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="wb-skeleton-slot" />
+            <div key={i} className={`wb-skeleton-slot${i > 0 ? ' hidden md:block' : ''}`} />
           ))}
         </div>
       )}
