@@ -44,6 +44,7 @@ export default function FloatNav() {
     <>
       <nav
         className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 overflow-hidden"
+        data-overlay-hide
         style={{
           background: '#d4d4d4',
           border: 'var(--border)',
@@ -107,6 +108,7 @@ export default function FloatNav() {
       <button
         type="button"
         className="floatnav-btn"
+        data-overlay-hide
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         aria-label="Scroll to top"
         tabIndex={scrolled ? 0 : -1}

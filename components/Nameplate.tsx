@@ -23,7 +23,7 @@ export default function Nameplate() {
   }, [])
 
   return (
-    <div className="fixed top-6 z-50 left-8 md:left-16 lg:left-24 select-none">
+    <div className="fixed top-6 z-50 left-8 md:left-16 lg:left-24 select-none" data-overlay-hide>
       <h1 className="text-[42px] leading-none pointer-events-none" style={{ fontFamily: 'var(--font-nabla)' }}>
         Eliahu Cohen
       </h1>

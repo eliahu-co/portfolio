@@ -161,8 +161,17 @@ export default function PanelScene() {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = overlayVisible ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    if (overlayVisible) {
+      document.body.style.overflow = 'hidden'
+      document.body.classList.add('overlay-active')
+    } else {
+      document.body.style.overflow = ''
+      document.body.classList.remove('overlay-active')
+    }
+    return () => {
+      document.body.style.overflow = ''
+      document.body.classList.remove('overlay-active')
+    }
   }, [overlayVisible])
 
   useEffect(() => {
@@ -213,7 +222,7 @@ export default function PanelScene() {
     const rootGroup = new THREE.Group()
     rootGroup.rotation.x = BASE_ROTATION.x
     rootGroup.rotation.y = BASE_ROTATION.y
-    rootGroup.scale.setScalar(isMobile() ? 80 : SCALE)
+    rootGroup.scale.setScalar(isMobile() ? 55 : SCALE)
     scene.add(rootGroup)
 
     // ── Correction group — centres the model at the rootGroup origin ──
