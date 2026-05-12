@@ -184,8 +184,8 @@ export default function About() {
               role="img"
               aria-label="Eliahu Cohen"
             >
-              {/* Image layers: more visible at top, fades toward bio text at bottom */}
-              <div style={{ position: 'absolute', inset: 0, WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.25) 100%)', maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.25) 100%)' }}>
+              {/* Image layers: clearly visible at top, fades toward bio text at bottom */}
+              <div style={{ position: 'absolute', inset: 0, WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.35) 100%)', maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.35) 100%)' }}>
                 {LAYERS.map(({ id, src }) => {
                   const isActive = id === active
                   const isPrev   = id === prev
@@ -217,14 +217,14 @@ export default function About() {
             </div>
 
             {/* Tags — right column, stretches to match photo height */}
-            <div style={{ flex: 0.5, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <div style={{ flex: 0.5, display: 'flex', flexDirection: 'column', gap: '4px', overflow: 'hidden' }}>
               {SKILL_TAGS.map((tag) => (
                 <span
                   key={tag}
                   className="font-sans text-[8px] uppercase tracking-[0.06em] px-1.5 rounded-sm cursor-default transition-all duration-150"
                   style={activeTag === tag
-                    ? { flex: 1, display: 'flex', alignItems: 'center', background: '#ff6b35', border: '1.5px solid #ff6b35', color: '#fff', whiteSpace: 'nowrap' }
-                    : { flex: 1, display: 'flex', alignItems: 'center', border: '1.5px solid rgba(255,107,53,0.5)', color: '#ff6b35', whiteSpace: 'nowrap' }}
+                    ? { flex: 1, display: 'flex', alignItems: 'center', background: '#ff6b35', border: '1.5px solid #ff6b35', color: '#fff', overflow: 'hidden' }
+                    : { flex: 1, display: 'flex', alignItems: 'center', border: '1.5px solid rgba(255,107,53,0.5)', color: '#ff6b35', overflow: 'hidden' }}
                   onClick={() => {
                     const isDepin = tag === pinnedTag
                     const newPinned = isDepin ? null : tag
