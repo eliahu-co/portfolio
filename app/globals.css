@@ -99,25 +99,14 @@ body.overlay-active [data-overlay-hide] {
   .whatiodo-card:not(:last-child) { border-right: 2px solid var(--color-orange); }
 }
 
-/* Landscape guard — blocks landscape on touch devices */
-.landscape-guard {
-  display: none;
-}
+/* Landscape guard — silently covers content on touch devices in landscape */
+.landscape-guard { display: none; }
 @media screen and (orientation: landscape) and (pointer: coarse) {
   .landscape-guard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
+    display: block;
     position: fixed;
     inset: 0;
     z-index: 999999;
     background: #f5f5f5;
-    color: var(--color-ink);
-    font-family: var(--font-inter, sans-serif);
-    font-size: 13px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
   }
 }
