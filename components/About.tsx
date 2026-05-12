@@ -162,15 +162,15 @@ export default function About() {
               {LAYERS.map(({ id, src }) => {
                 const isActive = id === active
                 const isPrev   = id === prev
-                if (!isActive && !isPrev) return null
+                const transitioning = isActive && prev !== null
                 return (
                   <div
                     key={id}
                     className="absolute inset-0"
                     style={{
-                      zIndex:    isActive ? 2 : 1,
-                      opacity:   isPrev ? 1 : undefined,
-                      animation: isActive && prev !== null ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
+                      zIndex:    isActive ? 2 : isPrev ? 1 : 0,
+                      opacity:   transitioning ? undefined : (isActive || isPrev) ? 1 : 0,
+                      animation: transitioning ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
                     }}
                   >
                     <Image src={src} alt="" fill className="object-cover object-top" sizes="75vw" priority={id === 'center'} />
@@ -240,15 +240,15 @@ export default function About() {
               {LAYERS.map(({ id, src }) => {
                 const isActive = id === active
                 const isPrev   = id === prev
-                if (!isActive && !isPrev) return null
+                const transitioning = isActive && prev !== null
                 return (
                   <div
                     key={id}
                     className="absolute inset-0"
                     style={{
-                      zIndex:    isActive ? 2 : 1,
-                      opacity:   isPrev ? 1 : undefined,
-                      animation: isActive && prev !== null ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
+                      zIndex:    isActive ? 2 : isPrev ? 1 : 0,
+                      opacity:   transitioning ? undefined : (isActive || isPrev) ? 1 : 0,
+                      animation: transitioning ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
                     }}
                   >
                     <Image src={src} alt="" fill className="object-cover object-top rounded-sm" sizes="(max-width: 768px) 100vw, 50vw" priority={id === 'center'} />
