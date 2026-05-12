@@ -135,7 +135,6 @@ export default function PanelScene() {
   const neutralRef     = useRef({ beta: 0, gamma: 0, alpha: 0 })
   const lastOrientRef  = useRef({ beta: 0, gamma: 0, alpha: 0 })
   const gyroActiveRef  = useRef(false)
-  const scrollFallback = useRef(false)
   const [mobileBleed, setMobileBleed] = useState(false)
 
   const handleOverlayTap = useCallback(async () => {
@@ -144,12 +143,10 @@ export default function PanelScene() {
       try {
         const perm = await (DeviceOrientationEvent as DOEWithPerm).requestPermission!()
         if (perm !== 'granted') {
-          scrollFallback.current = true
           setOverlayVisible(false)
           return
         }
       } catch {
-        scrollFallback.current = true
         setOverlayVisible(false)
         return
       }
@@ -471,7 +468,7 @@ export default function PanelScene() {
 
     // ── Mobile gyroscope + scroll fallback ──
     let removeOrient: (() => void) | null = null
-    let removeScrollFb: (() => void) | null = null
+    let removeProbe: (() => void) | null = null
 
     if (isMobile()) {
       const onOrientation = (e: DeviceOrientationEvent) => {
@@ -531,7 +528,7 @@ export default function PanelScene() {
       }
       window.addEventListener('deviceorientation', probe)
 
-      removeScrollFb = () => {
+      removeProbe = () => {
         window.removeEventListener('deviceorientation', probe)
         clearTimeout(probeTimer)
       }
@@ -540,7 +537,7 @@ export default function PanelScene() {
     // ── Cleanup ──
     return () => {
       removeOrient?.()
-      removeScrollFb?.()
+      removeProbe?.()
       cancelAnimationFrame(rafId)
       resizeObserver.disconnect()
       window.removeEventListener('mousemove', onMouseMove)
