@@ -132,8 +132,8 @@ export default function PanelScene() {
   const containerRef = useRef<HTMLDivElement>(null)
   const labelRefs = useRef<Partial<Record<LayerName, HTMLDivElement | null>>>({})
   const [overlayVisible, setOverlayVisible] = useState(false)
-  const neutralRef     = useRef({ beta: 0, gamma: 0 })
-  const lastOrientRef  = useRef({ beta: 0, gamma: 0 })
+  const neutralRef     = useRef({ beta: 0, gamma: 0, alpha: 0 })
+  const lastOrientRef  = useRef({ beta: 0, gamma: 0, alpha: 0 })
   const gyroActiveRef  = useRef(false)
   const scrollFallback = useRef(false)
   const [mobileBleed, setMobileBleed] = useState(false)
@@ -479,11 +479,29 @@ export default function PanelScene() {
       const onOrientation = (e: DeviceOrientationEvent) => {
         lastOrientRef.current.beta  = e.beta  ?? lastOrientRef.current.beta
         lastOrientRef.current.gamma = e.gamma ?? lastOrientRef.current.gamma
+        lastOrientRef.current.alpha = e.alpha ?? lastOrientRef.current.alpha
         if (!gyroActiveRef.current) return
-        const dx = ((e.gamma ?? neutralRef.current.gamma) - neutralRef.current.gamma) / 20
-        const dy = ((e.beta  ?? neutralRef.current.beta)  - neutralRef.current.beta)  / 20
-        mouseX = Math.max(-1, Math.min(1, dx))
-        mouseY = Math.max(-1, Math.min(1, dy))
+
+        const beta  = e.beta  ?? neutralRef.current.beta
+        const gamma = e.gamma ?? neutralRef.current.gamma
+        const alpha = e.alpha ?? neutralRef.current.alpha
+
+        const dGamma = gamma - neutralRef.current.gamma
+        const dBeta  = beta  - neutralRef.current.beta
+
+        // alpha is 0-360; shortest-arc delta handles wraparound
+        let dAlpha = alpha - neutralRef.current.alpha
+        if (dAlpha >  180) dAlpha -= 360
+        if (dAlpha < -180) dAlpha += 360
+
+        // When flat (beta≈0), gamma drives horizontal parallax.
+        // When upright portrait (beta≈90), tilting left/right rotates around the
+        // vertical axis → alpha changes, not gamma.  Blend linearly between the two.
+        const uprightness   = Math.abs(beta) / 90          // 0 = flat, 1 = vertical
+        const horizontalTilt = dGamma * (1 - uprightness) + dAlpha * uprightness
+
+        mouseX = Math.max(-1, Math.min(1,  horizontalTilt / 20))
+        mouseY = Math.max(-1, Math.min(1,  dBeta          / 20))
       }
       window.addEventListener('deviceorientation', onOrientation)
       removeOrient = () => window.removeEventListener('deviceorientation', onOrientation)
