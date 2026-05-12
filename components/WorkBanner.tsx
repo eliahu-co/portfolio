@@ -228,7 +228,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
   const handleMouseEnter = () => {
     pausedRef.current = true
     dtRef.current?.kill()
-    if (n === 0) return
+    if (n === 0 || isMobile()) return
     window.dispatchEvent(new CustomEvent('cursor:hide'))
     if (arrowCursorRef.current) {
       arrowCursorRef.current.dataset.active = '1'
@@ -240,7 +240,7 @@ export default function WorkBanner({ images: rawImages }: Props) {
     pausedRef.current = false
     hideTooltip()
     scheduleNext()
-    if (n === 0) return
+    if (n === 0 || isMobile()) return
     window.dispatchEvent(new CustomEvent('cursor:show'))
     if (arrowCursorRef.current) {
       delete arrowCursorRef.current.dataset.active
@@ -248,7 +248,24 @@ export default function WorkBanner({ images: rawImages }: Props) {
     }
   }
 
-  const handleBannerClick = () => {
+  const handleBannerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isMobile()) {
+      const rect = e.currentTarget.getBoundingClientRect()
+      const isLeft = e.clientX < rect.left + rect.width / 2
+      const arrow = arrowCursorRef.current
+      if (arrow) {
+        const path = arrow.querySelector('path')
+        if (path) path.setAttribute('d', isLeft ? 'M20 6L10 16l10 10' : 'M12 6l10 10-10 10')
+        arrow.style.transform = `translate(${e.clientX - 32}px, ${e.clientY - 32}px)`
+        arrow.style.opacity = '1'
+        if (arrowHideTimerRef.current !== null) clearTimeout(arrowHideTimerRef.current)
+        arrowHideTimerRef.current = window.setTimeout(() => {
+          if (arrowCursorRef.current) arrowCursorRef.current.style.opacity = '0'
+        }, 1500)
+      }
+      goTo(isLeft ? -1 : 1)
+      return
+    }
     const dir = arrowCursorRef.current?.dataset.dir
     goTo(dir === 'left' ? -1 : 1)
   }
