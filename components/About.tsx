@@ -68,7 +68,9 @@ export default function About() {
   const clearTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const [isMobileLayout, setIsMobileLayout] = useState(false)
-  const pinnedTagRef = useRef<string | null>(null)
+  const pinnedTagRef    = useRef<string | null>(null)
+  const gazeLockedRef   = useRef(false)
+  const gazeResetTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     setIsMobileLayout(window.innerWidth < MOBILE_BREAKPOINT)
@@ -129,7 +131,7 @@ export default function About() {
     const onScroll = () => {
       cancelAnimationFrame(rafId)
       rafId = requestAnimationFrame(() => {
-        if (pinnedTagRef.current) return  // tag pinned → leave gaze at 'right'
+        if (gazeLockedRef.current) return
         setGaze(getScrollGaze())
       })
     }
@@ -199,6 +201,10 @@ export default function About() {
                       activeRef.current = 'right'
                       setActive('right')
                       clearTimer.current = setTimeout(() => setPrev(null), FADE_MS)
+                      // Lock gaze to 'right' briefly, then let scroll take over
+                      if (gazeResetTimer.current) clearTimeout(gazeResetTimer.current)
+                      gazeLockedRef.current = true
+                      gazeResetTimer.current = setTimeout(() => { gazeLockedRef.current = false }, 2500)
                     }
                   }}
                 >
@@ -212,7 +218,7 @@ export default function About() {
           {/* Bio text below photo and tags */}
           <p
             ref={rightRef}
-            className="font-sans text-[17px] leading-relaxed font-medium text-ink/80 px-2"
+            className="font-sans text-[19px] leading-relaxed font-medium text-ink/80 px-2"
           >
             {bioText}
           </p>
