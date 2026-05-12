@@ -96,6 +96,10 @@ export default function About() {
   const activeRef   = useRef<LayerId>('center')
   const clearTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  const [isMobileLayout, setIsMobileLayout] = useState(false)
+  const [photoHeight, setPhotoHeight]       = useState(0)
+  const pinnedTagRef = useRef<string | null>('Architecture')
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(leftRef.current, {
@@ -111,95 +115,205 @@ export default function About() {
   }, [])
 
   useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const rect = photoRef.current?.getBoundingClientRect()
-      if (!rect) return
-      const next = getGaze(e.clientX, e.clientY, rect)
-      if (next === activeRef.current) return
+    const mobile = window.innerWidth < 768
+    setIsMobileLayout(mobile)
+    if (!mobile) return
+    const el = photoRef.current
+    if (!el) return
+    const ro = new ResizeObserver(([entry]) => setPhotoHeight(entry.contentRect.height))
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
 
+  useEffect(() => {
+    const setGaze = (next: LayerId) => {
+      if (next === activeRef.current) return
       if (clearTimer.current) clearTimeout(clearTimer.current)
       setPrev(activeRef.current)
       activeRef.current = next
       setActive(next)
       clearTimer.current = setTimeout(() => setPrev(null), FADE_MS)
     }
-    window.addEventListener('mousemove', onMove, { passive: true })
+
+    if (!isMobileLayout) {
+      // Desktop: mouse-driven gaze
+      const onMove = (e: MouseEvent) => {
+        const rect = photoRef.current?.getBoundingClientRect()
+        if (!rect) return
+        setGaze(getGaze(e.clientX, e.clientY, rect))
+      }
+      window.addEventListener('mousemove', onMove, { passive: true })
+      return () => {
+        window.removeEventListener('mousemove', onMove)
+        if (clearTimer.current) clearTimeout(clearTimer.current)
+      }
+    }
+
+    // Mobile: scroll-driven gaze
+    const getScrollGaze = (): LayerId => {
+      const rect = photoRef.current?.getBoundingClientRect()
+      if (!rect) return 'center'
+      const midY = rect.top + rect.height / 2
+      if (midY > window.innerHeight * 0.67) return 'up'
+      if (midY < window.innerHeight * 0.33) return 'down'
+      return 'center'
+    }
+
+    let rafId = 0
+    const onScroll = () => {
+      cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
+        if (pinnedTagRef.current) return  // tag pinned → leave gaze at 'right'
+        setGaze(getScrollGaze())
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => {
-      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(rafId)
       if (clearTimer.current) clearTimeout(clearTimer.current)
     }
-  }, [])
+  }, [isMobileLayout])
 
   return (
     <section id="about" className="relative px-8 py-16 md:px-16 lg:px-24" style={{ zIndex: 1, background: '#f5f5f5' }}>
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-1 items-start">
 
-        {/* Left column */}
-        <div ref={leftRef} className="relative w-full aspect-square max-w-sm">
-          <div
-            ref={photoRef}
-            className="absolute inset-0"
-            role="img"
-            aria-label="Eliahu Cohen"
-            onMouseEnter={() => showTooltip('Me')}
-            onMouseLeave={hideTooltip}
-          >
-            {LAYERS.map(({ id, src }) => {
-              const isActive = id === active
-              const isPrev   = id === prev
-              if (!isActive && !isPrev) return null
+      {isMobileLayout ? (
+        /* ── Mobile: [photo | tags column] then bio ── */
+        <div className="max-w-6xl mx-auto flex flex-col gap-6">
 
-              return (
-                <div
-                  key={id}
-                  className="absolute inset-0"
-                  style={{
-                    zIndex:    isActive ? 2 : 1,
-                    opacity:   isPrev   ? 1 : undefined,
-                    animation: isActive && prev !== null
-                      ? `photo-fade-in ${FADE_MS}ms ease forwards`
-                      : 'none',
+          <div ref={leftRef} className="flex gap-3 items-start">
+            {/* Photo */}
+            <div
+              ref={photoRef}
+              className="relative flex-shrink-0 rounded-sm overflow-hidden"
+              style={{ width: 140, height: 140 }}
+              role="img"
+              aria-label="Eliahu Cohen"
+            >
+              {LAYERS.map(({ id, src }) => {
+                const isActive = id === active
+                const isPrev   = id === prev
+                if (!isActive && !isPrev) return null
+                return (
+                  <div
+                    key={id}
+                    className="absolute inset-0"
+                    style={{
+                      zIndex:    isActive ? 2 : 1,
+                      opacity:   isPrev ? 1 : undefined,
+                      animation: isActive && prev !== null ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
+                    }}
+                  >
+                    <Image src={src} alt="" fill className="object-cover object-top" sizes="140px" priority={id === 'center'} />
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Vertical tags column — height matches photo */}
+            <div style={{ height: photoHeight || 140, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
+              {SKILL_TAGS.map((tag) => (
+                <span
+                  key={tag}
+                  className="font-sans text-[9px] uppercase tracking-[0.06em] px-2 py-0.5 rounded-sm cursor-default transition-all duration-150"
+                  style={activeTag === tag
+                    ? { background: '#ff6b35', border: '2px solid #ff6b35', color: '#fff' }
+                    : { border: '2px solid rgba(255,107,53,0.5)', color: '#ff6b35' }}
+                  onClick={() => {
+                    const isDepin = tag === pinnedTag
+                    const newPinned = isDepin ? null : tag
+                    pinnedTagRef.current = newPinned
+                    setPinnedTag(newPinned ?? 'Architecture')
+                    setActiveTag(newPinned ?? 'Architecture')
+                    scrambleTo(TAG_BIO[newPinned ?? 'Architecture'] ?? DEFAULT_BIO)
+                    if (!isDepin) {
+                      if (clearTimer.current) clearTimeout(clearTimer.current)
+                      setPrev(activeRef.current)
+                      activeRef.current = 'right'
+                      setActive('right')
+                      clearTimer.current = setTimeout(() => setPrev(null), FADE_MS)
+                    }
                   }}
                 >
-                  <Image
-                    src={src}
-                    alt=""
-                    fill
-                    className="object-cover object-top rounded-sm"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    priority={id === 'center'}
-                  />
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Right column */}
-        <div ref={rightRef} className="pt-4 flex flex-col gap-8">
-          <div className="flex flex-wrap gap-1.5">
-            {SKILL_TAGS.map((tag) => (
-              <span
-                key={tag}
-                className="font-sans text-[10px] uppercase tracking-[0.06em] px-2 py-0.5 rounded-sm cursor-default transition-all duration-150"
-                style={activeTag === tag
-                  ? { background: '#ff6b35', border: '2px solid #ff6b35', color: '#fff' }
-                  : { border: '2px solid rgba(255,107,53,0.5)', color: '#ff6b35' }}
-                onMouseEnter={() => { showTooltip('Click'); if (tag === pinnedTag) return; setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
-                onMouseLeave={() => { hideTooltip(); if (tag === pinnedTag) return; setActiveTag(pinnedTag); scrambleTo(TAG_BIO[pinnedTag] ?? DEFAULT_BIO) }}
-                onClick={() => { setPinnedTag(tag); setActiveTag(tag) }}
-              >
-                {tag}
-              </span>
-            ))}
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <p className="font-sans text-[17px] leading-relaxed font-medium text-ink/80">
+          {/* Bio — full width below the row */}
+          <p ref={rightRef} className="font-sans text-[15px] leading-relaxed font-medium text-ink/80">
             {bioText}
           </p>
-        </div>
 
-      </div>
+        </div>
+      ) : (
+        /* ── Desktop: 2-column grid ── */
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-1 items-start">
+
+          {/* Left column — photo */}
+          <div ref={leftRef} className="relative w-full aspect-square max-w-sm">
+            <div
+              ref={photoRef}
+              className="absolute inset-0"
+              role="img"
+              aria-label="Eliahu Cohen"
+              onMouseEnter={() => showTooltip('Me')}
+              onMouseLeave={hideTooltip}
+            >
+              {LAYERS.map(({ id, src }) => {
+                const isActive = id === active
+                const isPrev   = id === prev
+                if (!isActive && !isPrev) return null
+                return (
+                  <div
+                    key={id}
+                    className="absolute inset-0"
+                    style={{
+                      zIndex:    isActive ? 2 : 1,
+                      opacity:   isPrev ? 1 : undefined,
+                      animation: isActive && prev !== null ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
+                    }}
+                  >
+                    <Image src={src} alt="" fill className="object-cover object-top rounded-sm" sizes="(max-width: 768px) 100vw, 50vw" priority={id === 'center'} />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Right column — tags + bio */}
+          <div ref={rightRef} className="pt-4 flex flex-col gap-8">
+            <div className="flex flex-wrap gap-1.5">
+              {SKILL_TAGS.map((tag) => (
+                <span
+                  key={tag}
+                  className="font-sans text-[10px] uppercase tracking-[0.06em] px-2 py-0.5 rounded-sm cursor-default transition-all duration-150"
+                  style={activeTag === tag
+                    ? { background: '#ff6b35', border: '2px solid #ff6b35', color: '#fff' }
+                    : { border: '2px solid rgba(255,107,53,0.5)', color: '#ff6b35' }}
+                  onMouseEnter={() => { showTooltip('Click'); if (tag === pinnedTag) return; setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
+                  onMouseLeave={() => { hideTooltip(); if (tag === pinnedTag) return; setActiveTag(pinnedTag); scrambleTo(TAG_BIO[pinnedTag] ?? DEFAULT_BIO) }}
+                  onClick={() => {
+                    pinnedTagRef.current = tag
+                    setPinnedTag(tag)
+                    setActiveTag(tag)
+                    scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO)
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <p className="font-sans text-[17px] leading-relaxed font-medium text-ink/80">
+              {bioText}
+            </p>
+          </div>
+
+        </div>
+      )}
+
     </section>
   )
 }
