@@ -1,7 +1,7 @@
 // components/PanelScene.tsx
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
@@ -134,7 +134,7 @@ export default function PanelScene() {
   const gyroActiveRef  = useRef(false)
   const scrollFallback = useRef(false)
 
-  const handleOverlayTap = async () => {
+  const handleOverlayTap = useCallback(async () => {
     type DOEWithPerm = typeof DeviceOrientationEvent & { requestPermission?: () => Promise<string> }
     if (typeof (DeviceOrientationEvent as DOEWithPerm).requestPermission === 'function') {
       try {
@@ -153,7 +153,7 @@ export default function PanelScene() {
     neutralRef.current = { ...lastOrientRef.current }
     gyroActiveRef.current = true
     setOverlayVisible(false)
-  }
+  }, [])
 
   useEffect(() => {
     const container = containerRef.current
@@ -463,9 +463,9 @@ export default function PanelScene() {
       removeOrient = () => window.removeEventListener('deviceorientation', onOrientation)
 
       const heroEl = document.getElementById('hero')
-      const heroH  = heroEl?.offsetHeight ?? window.innerHeight
       const onScrollFb = () => {
         if (!scrollFallback.current) return
+        const heroH = heroEl?.offsetHeight ?? window.innerHeight
         mouseY = Math.max(-1, Math.min(1, (window.scrollY / heroH) * 2 - 1))
       }
       window.addEventListener('scroll', onScrollFb, { passive: true })
