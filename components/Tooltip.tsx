@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MOBILE_BREAKPOINT } from '@/lib/tokens'
 
 // ── Public helpers ────────────────────────────────────────────────────────────
@@ -19,6 +19,7 @@ export default function Tooltip() {
   const [label, setLabel] = useState<string | null>(null)
   const [mode,  setMode]  = useState<'cursor' | 'below-center'>('cursor')
   const [pos,   setPos]   = useState({ x: 0, y: 0 })
+  const divRef = useRef<HTMLDivElement>(null)
 
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => { setIsMobile(window.innerWidth < MOBILE_BREAKPOINT) }, [])
@@ -46,9 +47,9 @@ export default function Tooltip() {
 
   if (!label) return null
 
-  const isLong   = label.length > 80
-  const maxWidth  = isLong ? 400 : 200
-  const flipLeft  = pos.x + 20 + maxWidth > window.innerWidth
+  const isLong      = label.length > 80
+  const renderedW   = divRef.current?.offsetWidth ?? 0
+  const flipLeft    = renderedW > 0 && pos.x + 20 + renderedW > window.innerWidth
 
   const posStyle = mode === 'below-center'
     ? { left: pos.x, top: pos.y + 52, transform: 'translateX(-50%)' }
@@ -58,6 +59,7 @@ export default function Tooltip() {
 
   return (
     <div
+      ref={divRef}
       style={{
         position:      'fixed',
         pointerEvents: 'none',
