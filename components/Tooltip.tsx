@@ -46,11 +46,15 @@ export default function Tooltip() {
 
   if (!label) return null
 
-  const isLong = label.length > 80
+  const isLong   = label.length > 80
+  const maxWidth  = isLong ? 400 : 200
+  const flipLeft  = pos.x + 20 + maxWidth > window.innerWidth
 
   const posStyle = mode === 'below-center'
     ? { left: pos.x, top: pos.y + 52, transform: 'translateX(-50%)' }
-    : { left: pos.x + 20, top: pos.y + 20 }
+    : flipLeft
+      ? { left: pos.x - 20, top: pos.y + 20, transform: 'translateX(-100%)' }
+      : { left: pos.x + 20, top: pos.y + 20 }
 
   return (
     <div
