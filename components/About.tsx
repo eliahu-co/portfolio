@@ -149,11 +149,11 @@ export default function About() {
         <div className="max-w-6xl mx-auto">
           <div ref={leftRef} className="flex gap-3 items-start mb-6 px-2">
 
-            {/* Photo — half screen width, no overlay */}
+            {/* Photo — fills remaining space after tags */}
             <div
               ref={photoRef}
-              className="relative rounded-sm overflow-hidden flex-shrink-0"
-              style={{ width: '50vw', aspectRatio: '1' }}
+              className="relative rounded-sm overflow-hidden flex-1 min-w-0"
+              style={{ aspectRatio: '1' }}
               role="img"
               aria-label="Eliahu Cohen"
             >
@@ -171,18 +171,18 @@ export default function About() {
                       animation: isActive && prev !== null ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
                     }}
                   >
-                    <Image src={src} alt="" fill className="object-cover object-top" sizes="50vw" priority={id === 'center'} />
+                    <Image src={src} alt="" fill className="object-cover object-top" sizes="75vw" priority={id === 'center'} />
                   </div>
                 )
               })}
             </div>
 
-            {/* Tags — fill remaining space beside photo */}
-            <div className="flex flex-col gap-2 flex-1">
+            {/* Tags — minimum width to fit text, no wrapping */}
+            <div className="flex flex-col gap-2 flex-shrink-0">
               {SKILL_TAGS.map((tag) => (
                 <span
                   key={tag}
-                  className="font-sans text-[9px] uppercase tracking-[0.06em] px-2 py-1.5 rounded-sm cursor-default transition-all duration-150 text-center"
+                  className="font-sans text-[9px] uppercase tracking-[0.06em] px-2 py-1.5 rounded-sm cursor-default transition-all duration-150 text-center whitespace-nowrap"
                   style={activeTag === tag
                     ? { background: ORANGE, border: `1.5px solid ${ORANGE}`, color: '#fff' }
                     : { border: `1.5px solid ${ORANGE}99`, color: ORANGE }}
@@ -212,7 +212,7 @@ export default function About() {
           {/* Bio text below photo and tags */}
           <p
             ref={rightRef}
-            className="font-sans text-[15px] leading-relaxed font-medium text-ink/80 px-2"
+            className="font-sans text-[17px] leading-relaxed font-medium text-ink/80 px-2"
           >
             {bioText}
           </p>
