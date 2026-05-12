@@ -133,6 +133,7 @@ export default function PanelScene() {
   const lastOrientRef  = useRef({ beta: 0, gamma: 0 })
   const gyroActiveRef  = useRef(false)
   const scrollFallback = useRef(false)
+  const [mobileBleed, setMobileBleed] = useState(false)
 
   const handleOverlayTap = useCallback(async () => {
     type DOEWithPerm = typeof DeviceOrientationEvent & { requestPermission?: () => Promise<string> }
@@ -154,6 +155,15 @@ export default function PanelScene() {
     gyroActiveRef.current = true
     setOverlayVisible(false)
   }, [])
+
+  useEffect(() => {
+    setMobileBleed(isMobile())
+  }, [])
+
+  useEffect(() => {
+    document.body.style.overflow = overlayVisible ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [overlayVisible])
 
   useEffect(() => {
     const container = containerRef.current
@@ -203,7 +213,7 @@ export default function PanelScene() {
     const rootGroup = new THREE.Group()
     rootGroup.rotation.x = BASE_ROTATION.x
     rootGroup.rotation.y = BASE_ROTATION.y
-    rootGroup.scale.setScalar(SCALE)
+    rootGroup.scale.setScalar(isMobile() ? 80 : SCALE)
     scene.add(rootGroup)
 
     // ── Correction group — centres the model at the rootGroup origin ──
@@ -487,11 +497,11 @@ export default function PanelScene() {
   }, [])
 
   return (
-    <div ref={containerRef} className="fixed" style={{ top: 0, bottom: 0, left: '-20vw', right: '-20vw', zIndex: 0 }}>
+    <div ref={containerRef} className="fixed" style={{ top: 0, bottom: 0, left: mobileBleed ? 0 : '-20vw', right: mobileBleed ? 0 : '-20vw', zIndex: 0 }}>
 
       {overlayVisible && (
         <div
-          className="absolute inset-0 z-30 flex flex-col items-center justify-center cursor-pointer select-none"
+          className="fixed inset-0 z-30 flex flex-col items-center justify-center cursor-pointer select-none"
           style={{ background: 'rgba(245,245,245,0.92)', backdropFilter: 'blur(4px)' }}
           onClick={handleOverlayTap}
         >
