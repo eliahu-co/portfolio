@@ -323,10 +323,10 @@ export default function WorkBanner({ images: rawImages }: Props) {
         style={{
           width: '64px',
           height: '64px',
-          background: '#d4d4d4',
+          background: 'var(--color-gray-ui)',
           border: '3px solid #0000FF',
           borderRadius: '2px',
-          boxShadow: '0 2px 16px rgba(26,26,26,0.08)',
+          boxShadow: 'var(--shadow-card)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
