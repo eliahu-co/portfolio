@@ -4,9 +4,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from '@/lib/gsap'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
-
-const ORANGE       = '#FF6B35'
-const ORANGE_HOVER = '#FF895F'
+import { ORANGE, ORANGE_HOVER } from '@/lib/tokens'
 
 const CARDS = [
   {
@@ -71,7 +69,7 @@ export default function WhatIDo() {
         <div
           ref={cardsRef}
           className="grid grid-cols-2 md:grid-cols-4"
-          style={{ border: `2px solid ${ORANGE}` }}
+          style={{ border: '2px solid var(--color-orange)' }}
         >
           {CARDS.map((card, i) => {
             const isActive  = activeCard === card.title

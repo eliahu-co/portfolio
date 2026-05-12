@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { MOBILE_BREAKPOINT } from '@/lib/tokens'
 
 // ── Public helpers ────────────────────────────────────────────────────────────
 
@@ -20,7 +21,7 @@ export default function Tooltip() {
   const [pos,   setPos]   = useState({ x: 0, y: 0 })
 
   const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => { setIsMobile(window.innerWidth < 768) }, [])
+  useEffect(() => { setIsMobile(window.innerWidth < MOBILE_BREAKPOINT) }, [])
 
   useEffect(() => {
     const onShow = (e: Event) => {

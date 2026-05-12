@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { MOBILE_BREAKPOINT } from '@/lib/tokens'
 
 const COLOR     = '#0000FF'
 const CLICKABLE = 'a, button, [role="button"], input, select, textarea, label, [tabindex]'
@@ -11,7 +12,7 @@ export default function Cursor() {
   const vRef = useRef<HTMLDivElement>(null)
 
   const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => { setIsMobile(window.innerWidth < 768) }, [])
+  useEffect(() => { setIsMobile(window.innerWidth < MOBILE_BREAKPOINT) }, [])
 
   useEffect(() => {
     const setThickness = (size: string) => {

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import WorkBanner, { type ImageEntry } from './WorkBanner'
+import { ORANGE } from '@/lib/tokens'
 
 type SetKey = 'product' | 'architecture' | 'research' | 'design'
 
@@ -48,7 +49,7 @@ export default function WorkBannerSwitcher({ sets }: Props) {
         onTransitionEnd={onTransitionEnd}
         style={{
           position: 'absolute', inset: 0,
-          background: '#FF6B35',
+          background: ORANGE,
           opacity: overlayOpacity,
           transition: 'opacity 0.5s ease',
           pointerEvents: 'none',
