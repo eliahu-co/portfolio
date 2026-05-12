@@ -111,7 +111,7 @@ export default function Nameplate() {
           pointerEvents: (hidden || mobileShrunk) ? 'none' : 'auto',
         }}
       >
-        {CONTACT_LINKS.map(({ label, href, download, external }) => (
+        {CONTACT_LINKS.filter(({ mobileOnly }) => !mobileOnly || isMobile).map(({ label, href, download, external }) => (
           <a
             key={href}
             href={href}

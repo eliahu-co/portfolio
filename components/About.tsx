@@ -169,7 +169,7 @@ export default function About() {
                     className="absolute inset-0"
                     style={{
                       zIndex:    isActive ? 2 : isPrev ? 1 : 0,
-                      opacity:   transitioning ? undefined : (isActive || isPrev) ? 1 : 0,
+                      opacity:   transitioning ? 0 : (isActive || isPrev) ? 1 : 0,
                       animation: transitioning ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
                     }}
                   >
@@ -249,7 +249,7 @@ export default function About() {
                     className="absolute inset-0"
                     style={{
                       zIndex:    isActive ? 2 : isPrev ? 1 : 0,
-                      opacity:   transitioning ? undefined : (isActive || isPrev) ? 1 : 0,
+                      opacity:   transitioning ? 0 : (isActive || isPrev) ? 1 : 0,
                       animation: transitioning ? `photo-fade-in ${FADE_MS}ms ease forwards` : 'none',
                     }}
                   >
