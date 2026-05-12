@@ -12,6 +12,16 @@
 
   /* Single border token — change here to restyle all borders site-wide */
   --border: 2px solid var(--color-ink);
+
+  /* Accent orange (primary CTA / highlight colour) */
+  --color-orange:       #FF6B35;
+  --color-orange-hover: #FF895F;
+
+  /* UI chrome — button backgrounds, nav bar */
+  --color-gray-ui: #d4d4d4;
+
+  /* Elevation shadow used on all floating cards/buttons */
+  --shadow-card: 0 2px 16px rgba(26,26,26,0.08);
 }
 
 html {
@@ -75,9 +85,9 @@ body.overlay-active [data-overlay-hide] {
 
 /* WhatIDo card borders — 2×2 on mobile, 1×4 on desktop */
 @media (max-width: 767px) {
-  .whatiodo-card:nth-child(odd)  { border-right: 2px solid #FF6B35; }
-  .whatiodo-card:nth-child(-n+2) { border-bottom: 2px solid #FF6B35; }
+  .whatiodo-card:nth-child(odd)  { border-right: 2px solid var(--color-orange); }
+  .whatiodo-card:nth-child(-n+2) { border-bottom: 2px solid var(--color-orange); }
 }
 @media (min-width: 768px) {
-  .whatiodo-card:not(:last-child) { border-right: 2px solid #FF6B35; }
+  .whatiodo-card:not(:last-child) { border-right: 2px solid var(--color-orange); }
 }
