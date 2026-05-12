@@ -19,7 +19,8 @@ export default function Tooltip() {
   const [label, setLabel] = useState<string | null>(null)
   const [mode,  setMode]  = useState<'cursor' | 'below-center'>('cursor')
   const [pos,   setPos]   = useState({ x: 0, y: 0 })
-  const divRef = useRef<HTMLDivElement>(null)
+  const divRef     = useRef<HTMLDivElement>(null)
+  const labelRef   = useRef<string | null>(null)
 
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => { setIsMobile(window.innerWidth < MOBILE_BREAKPOINT) }, [])
@@ -27,19 +28,23 @@ export default function Tooltip() {
   useEffect(() => {
     const onShow = (e: Event) => {
       const { label: l, mode: m } = (e as CustomEvent<{ label: string; mode?: string }>).detail
+      labelRef.current = l
       setLabel(l)
       setMode((m as 'cursor' | 'below-center') ?? 'cursor')
     }
-    const onHide = () => setLabel(null)
+    const onHide = () => { labelRef.current = null; setLabel(null) }
     const onMove = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY })
+    const onClick = () => { if (labelRef.current?.toUpperCase().includes('CLICK')) { labelRef.current = null; setLabel(null) } }
 
     window.addEventListener('tooltip:show', onShow)
     window.addEventListener('tooltip:hide', onHide)
     window.addEventListener('mousemove', onMove, { passive: true })
+    window.addEventListener('click', onClick)
     return () => {
       window.removeEventListener('tooltip:show', onShow)
       window.removeEventListener('tooltip:hide', onHide)
       window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('click', onClick)
     }
   }, [])
 
