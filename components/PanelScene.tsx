@@ -198,7 +198,7 @@ export default function PanelScene() {
     const initialHeight = container.clientHeight || window.innerHeight
     
     renderer.setSize(initialWidth, initialHeight)
-    renderer.setPixelRatio(isMobile() ? 1 : Math.min(window.devicePixelRatio, 2))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.outputColorSpace = THREE.SRGBColorSpace
     THREE.ColorManagement.enabled = true
     container.appendChild(renderer.domElement)

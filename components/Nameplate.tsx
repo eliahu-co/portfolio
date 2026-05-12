@@ -38,11 +38,13 @@ export default function Nameplate() {
     if (!mobile) return
 
     const update = () => {
-      // Vertical: slide to be centered on the float nav's midpoint
-      const miniH     = 42 * SCALE
-      const navCenter = NAV_BOTTOM + NAV_H / 2       // 46px from bottom
-      const miniTopFB = navCenter + miniH / 2         // ~57.5px from bottom
-      const ty        = window.innerHeight - miniTopFB - TOP_6
+      // Vertical: position bottom of mini text 10px above the float nav's top edge
+      const miniH       = 42 * SCALE
+      const navTop      = NAV_BOTTOM + NAV_H              // 68px from bottom
+      const gap         = 10
+      const miniBottomFB = navTop + gap                   // 78px from bottom
+      const miniTopFB   = miniBottomFB + miniH            // ~101px from bottom
+      const ty          = window.innerHeight - miniTopFB - TOP_6
 
       // Horizontal: center the visual text in the space left of the float nav.
       // Visual left of scaled element = LEFT_8 + tx.

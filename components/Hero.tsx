@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
+import { MOBILE_BREAKPOINT } from '@/lib/tokens'
 
 const PanelScene = dynamic(() => import('./PanelScene'), {
   ssr: false,
@@ -17,6 +18,7 @@ const HERO_TOOLTIP =
 export default function Hero() {
   const [scrolled,       setScrolled]       = useState(false)
   const [overlayActive,  setOverlayActive]  = useState(false)
+  const [ctaBottom,      setCtaBottom]      = useState<number | null>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 0)
@@ -30,6 +32,19 @@ export default function Hero() {
     )
     obs.observe(document.body, { attributes: true, attributeFilter: ['class'] })
     return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (window.innerWidth >= MOBILE_BREAKPOINT) return
+    const measure = () => {
+      const nav = document.querySelector('nav')
+      if (!nav) return
+      const rect = nav.getBoundingClientRect()
+      setCtaBottom(Math.round(window.innerHeight - rect.top - 34))
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
   }, [])
 
   return (
@@ -47,6 +62,7 @@ export default function Hero() {
       <div
         className="animate-bounce-y absolute bottom-[34px] md:bottom-8 left-8 md:left-16 lg:left-24 z-10 flex flex-col items-center pointer-events-none"
         style={{
+          ...(ctaBottom !== null ? { bottom: `${ctaBottom}px` } : {}),
           opacity: overlayActive || scrolled ? 0 : 1,
           transform: scrolled ? 'translateY(8px)' : 'translateY(0)',
           transition: 'opacity 0.2s, transform 0.2s',
