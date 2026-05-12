@@ -99,7 +99,7 @@ export default function About() {
   const [isMobileLayout, setIsMobileLayout] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth < 768 : false
   )
-  const pinnedTagRef = useRef<string | null>('Architecture')
+  const pinnedTagRef = useRef<string | null>(null)
 
   useEffect(() => {
     const mobile = window.innerWidth < 768

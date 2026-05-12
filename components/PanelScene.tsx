@@ -33,8 +33,10 @@ const LAYER_NAMES = [
 type LayerName = (typeof LAYER_NAMES)[number]
 
 interface LayerConfig {
-  /** IFC-metre offset along the wall thickness axis (correctionGroup local Y) */
+  /** IFC-metre offset along the wall thickness axis (correctionGroup local Z) */
   targetOffset: number
+  /** Mobile-only: Y-axis (vertical) offset in GLTF metres at full explosion */
+  mobileY?:     number
   color:        string
   label:        string
   threshold:    number
@@ -44,13 +46,13 @@ interface LayerConfig {
 }
 
 const LAYER_CONFIG: Record<LayerName, LayerConfig> = {
-  'Gypsum':     { targetOffset:   4,  color: '#D2D2D2', label: 'Interior Finish',    threshold: 0.1,  startAt: 0.18 },
-  'Window':     { targetOffset:   6,  color: '#e8e8e8', label: 'Glazing',           threshold: 0.25, startAt: 0 },
-  'Glass':      { targetOffset:   6,  color: '#c8dde8', label: '',                  threshold: 0.25, startAt: 0,    opacity: 0.2 },
-  'Framing':    { targetOffset:   0,  color: '#555555', label: 'Framing',           threshold: 0.4 },
-  'MEP':        { targetOffset:   0,  color: '#197aff', label: 'MEP',               threshold: 0.4 },
-  'OSB':        { targetOffset:  -3,  color: '#FFEA6B', label: 'Sheathing',         threshold: 0.55 },
-  'Insulation': { targetOffset:  -5,  color: '#FF6B35', label: 'Thermal Insulation', threshold: 0.7 },
+  'Gypsum':     { targetOffset:   4,  mobileY:  3,    color: '#D2D2D2', label: 'Interior Finish',    threshold: 0.1,  startAt: 0.18 },
+  'Window':     { targetOffset:   6,  mobileY:  1.5,  color: '#e8e8e8', label: 'Glazing',           threshold: 0.25, startAt: 0 },
+  'Glass':      { targetOffset:   6,  mobileY:  1.5,  color: '#c8dde8', label: '',                  threshold: 0.25, startAt: 0,    opacity: 0.2 },
+  'Framing':    { targetOffset:   0,  mobileY:  0,    color: '#555555', label: 'Framing',           threshold: 0.4 },
+  'MEP':        { targetOffset:   0,  mobileY:  0,    color: '#197aff', label: 'MEP',               threshold: 0.4 },
+  'OSB':        { targetOffset:  -3,  mobileY: -2,    color: '#FFEA6B', label: 'Sheathing',         threshold: 0.55 },
+  'Insulation': { targetOffset:  -5,  mobileY: -3,    color: '#FF6B35', label: 'Thermal Insulation', threshold: 0.7 },
 }
 
 // ── Presentation constants ───────────────────────────────────────────────────
@@ -293,20 +295,24 @@ export default function PanelScene() {
         rootGroup.rotation.y = currentRotY
       }
 
-      // Explode layers along GLTF Z (wall depth axis).
-      // With rootGroup.rotation.y ≈ -0.3, a Z offset partially projects to screen X
-      // → layers appear to separate horizontally across the screen.
+      // Explode layers. Desktop: Z-axis only (horizontal spread via rotation.y ≈ -0.3).
+      // Mobile: reduced Z spread + Y-axis (vertical) so layers fan up/down.
+      const mobile = isMobile()
       LAYER_NAMES.forEach((name) => {
         const group = layerGroups[name]
         if (!group) return
         const cfg = LAYER_CONFIG[name]
-        const multiplier = isMobile() ? 0.5 : 1
+        const zMultiplier = mobile ? 0.3 : 1
         const start = cfg.startAt ?? 0
         const effective = start > 0
           ? Math.max(0, (scrollProgress - start) / (1 - start))
           : scrollProgress
-        const target = cfg.targetOffset * effective * multiplier
-        group.position.z += (target - group.position.z) * 0.1
+        const targetZ = cfg.targetOffset * effective * zMultiplier
+        group.position.z += (targetZ - group.position.z) * 0.1
+        if (mobile) {
+          const targetY = (cfg.mobileY ?? 0) * effective
+          group.position.y += (targetY - group.position.y) * 0.1
+        }
       })
 
       // Project each layer's bottom-left anchor to screen space and move its label there.
