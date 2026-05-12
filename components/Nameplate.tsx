@@ -83,6 +83,7 @@ export default function Nameplate() {
           ? `translate(${shrinkXY.x}px, ${shrinkXY.y}px) scale(${SCALE})`
           : 'none',
         transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        pointerEvents: mobileShrunk ? 'none' : undefined,
       }}
     >
       <h1 className="text-[42px] leading-none pointer-events-none" style={{ fontFamily: 'var(--font-nabla)' }}>
