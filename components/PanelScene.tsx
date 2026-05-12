@@ -465,7 +465,7 @@ export default function PanelScene() {
         setSceneReady(true)
       },
       undefined,
-      (err: unknown) => console.error('GLTFLoader error:', err),
+      (err: unknown) => { console.error('GLTFLoader error:', err); setSceneReady(true) },
     )
 
     // ── Mobile gyroscope + scroll fallback ──
