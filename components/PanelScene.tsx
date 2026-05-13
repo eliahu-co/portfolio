@@ -359,7 +359,8 @@ export default function PanelScene() {
       trigger: '#hero',
       start: 'top top',
       end:   '+=50vh',
-      pin:   true,
+      pin:        true,
+      pinSpacing: false,
       scrub: 1,
       onUpdate: (self: { progress: number }) => {
         scrollProgress = self.progress

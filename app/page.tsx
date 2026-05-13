@@ -18,7 +18,7 @@ export default function Home() {
       <Hero />
       <About />
       <WhatIDo />
-      <div id="work-strip">
+      <div id="work-strip" style={{ position: 'relative', zIndex: 1 }}>
         <WorkBanner />  {/* WorkBannerServer — auto-discovers public/architecture/ */}
       </div>
     </main>

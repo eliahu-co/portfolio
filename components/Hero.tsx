@@ -64,7 +64,7 @@ export default function Hero() {
     <section
       id="hero"
       className="relative h-screen md:h-[80vh] w-full overflow-hidden"
-      style={{ background: '#f5f5f5', borderBottom: '2px solid var(--color-orange)' }}
+      style={{ background: '#f5f5f5', borderBottom: '2px solid var(--color-orange)', zIndex: 0 }}
       onMouseEnter={resetStale}
       onMouseMove={resetStale}
       onMouseLeave={onHeroLeave}
