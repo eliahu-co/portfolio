@@ -369,6 +369,11 @@ export default function PanelScene() {
           if (!el) return
           el.style.opacity = labelOpacity
         })
+        // No-gyro mobile: rotate toward isometric angle as layers separate
+        if (mobile && !gyroActiveRef.current) {
+          rootGroup.rotation.x = MOBILE_BASE_ROTATION.x + (BASE_ROTATION.x - MOBILE_BASE_ROTATION.x) * self.progress
+          rootGroup.rotation.y = MOBILE_BASE_ROTATION.y + (BASE_ROTATION.y - MOBILE_BASE_ROTATION.y) * self.progress
+        }
       },
     })
 
@@ -576,7 +581,7 @@ export default function PanelScene() {
 
       {overlayVisible && (
         <div
-          className="fixed inset-0 z-30 flex flex-col items-center justify-center cursor-pointer select-none"
+          className="fixed inset-0 z-[1000] flex flex-col items-center justify-center cursor-pointer select-none"
           style={{ background: 'rgba(245,245,245,0.92)', backdropFilter: 'blur(4px)' }}
           onClick={handleOverlayTap}
         >
