@@ -3,7 +3,6 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { gsap } from '@/lib/gsap'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
 import { useScramble } from '@/hooks/useScramble'
 import { ORANGE, MOBILE_BREAKPOINT } from '@/lib/tokens'
@@ -71,25 +70,6 @@ export default function About() {
   const pinnedTagRef    = useRef<string | null>(null)
   const gazeLockedRef   = useRef(false)
   const gazeResetTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  useEffect(() => {
-    const section = document.getElementById('about') as HTMLElement | null
-    if (!section) return
-    const timer = setTimeout(() => {
-      const dist = section.getBoundingClientRect().top - window.innerHeight
-      if (dist <= 0) return // already in view
-      gsap.fromTo(section,
-        { y: 0 },
-        {
-          y: -(dist + 80),
-          duration: 0.55,
-          ease: 'power2.out',
-          onComplete: () => gsap.to(section, { y: 0, duration: 0.7, ease: 'power2.inOut', delay: 0.45 }),
-        }
-      )
-    }, 1500)
-    return () => clearTimeout(timer)
-  }, [])
 
   useEffect(() => {
     setIsMobileLayout(window.innerWidth < MOBILE_BREAKPOINT)
