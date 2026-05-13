@@ -6,10 +6,9 @@ import { MOBILE_BREAKPOINT } from '@/lib/tokens'
 
 // Mini-nameplate geometry constants
 const SCALE      = 0.55
-const LEFT_8     = 32
-const TOP_6      = 24
 const NAV_H      = 44
 const NAV_BOTTOM = 24
+const MINI_BOTTOM = NAV_BOTTOM + NAV_H + 10  // 10px gap above float nav
 
 export default function Nameplate() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -17,7 +16,6 @@ export default function Nameplate() {
   const [isMobile, setIsMobile] = useState(false)
   const [shrunk,   setShrunk]   = useState(false)
   const [atTop,    setAtTop]    = useState(true)
-  const [shrinkXY, setShrinkXY] = useState({ x: -24, y: 0 })
 
   // Hide subtitle + contacts while work-strip is in view
   useEffect(() => {
@@ -39,26 +37,9 @@ export default function Nameplate() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Mobile detect + compute shrink transform
+  // Mobile detect
   useEffect(() => {
-    const mobile = window.innerWidth < MOBILE_BREAKPOINT
-    setIsMobile(mobile)
-    if (!mobile) return
-
-    const update = () => {
-      const miniH        = 42 * SCALE
-      const navTop       = NAV_BOTTOM + NAV_H
-      const gap          = 10
-      const miniBottomFB = navTop + gap
-      const miniTopFB    = miniBottomFB + miniH
-      const ty           = window.innerHeight - miniTopFB - TOP_6
-      const W            = containerRef.current?.offsetWidth ?? 300
-      const tx           = window.innerWidth / 2 - (W * SCALE) / 2 - LEFT_8
-      setShrinkXY({ x: Math.round(tx), y: Math.round(ty) })
-    }
-    update()
-    window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
+    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
   }, [])
 
   // Shrink when #what-i-do enters view; un-shrink only when hero comes back
@@ -91,14 +72,17 @@ export default function Nameplate() {
       className="fixed top-6 z-50 left-8 md:left-16 lg:left-24 select-none"
       data-overlay-hide
       style={{
-        transformOrigin: 'left top',
-        // Apply mini position instantly (no slide animation) — only opacity transitions
-        transform: mobileShrunk
-          ? `translate(${shrinkXY.x}px, ${shrinkXY.y}px) scale(${SCALE})`
-          : 'none',
-        opacity:      mobileVisible ? 1 : 0,
+        transformOrigin: 'center bottom',
+        // Mini: anchor above float nav like FloatNav itself — no dynamic calc needed
+        ...(mobileShrunk ? {
+          top:       'auto',
+          left:      '50%',
+          bottom:    `${MINI_BOTTOM}px`,
+          transform: `translateX(-50%) scale(${SCALE})`,
+        } : {}),
+        opacity:       mobileVisible ? 1 : 0,
         pointerEvents: (!mobileVisible || mobileShrunk) ? 'none' : undefined,
-        transition:   mobileShrunk ? 'none' : 'opacity 0.25s',
+        transition:    mobileShrunk ? 'none' : 'opacity 0.25s',
       }}
     >
       <h1 className="text-[42px] leading-none pointer-events-none" style={{ fontFamily: 'var(--font-nabla)' }}>
