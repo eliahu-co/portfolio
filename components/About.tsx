@@ -3,7 +3,6 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { gsap } from '@/lib/gsap'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
 import { useScramble } from '@/hooks/useScramble'
 import { ORANGE, MOBILE_BREAKPOINT } from '@/lib/tokens'
@@ -74,23 +73,6 @@ export default function About() {
 
   useEffect(() => {
     setIsMobileLayout(window.innerWidth < MOBILE_BREAKPOINT)
-  }, [])
-
-  useEffect(() => {
-    const mobile = window.innerWidth < MOBILE_BREAKPOINT
-    const ctx = gsap.context(() => {
-      gsap.from(leftRef.current, {
-        y: 40, opacity: 0, duration: 0.8, ease: 'power2.out',
-        scrollTrigger: { trigger: leftRef.current, start: 'top 80%', once: true },
-      })
-      gsap.from(rightRef.current, {
-        opacity: 0,
-        ...(mobile ? {} : { y: 40 }),
-        duration: 0.8, delay: 0.15, ease: 'power2.out',
-        scrollTrigger: { trigger: leftRef.current, start: 'top 80%', once: true },
-      })
-    })
-    return () => ctx.revert()
   }, [])
 
   useEffect(() => {
