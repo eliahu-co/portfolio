@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { gsap } from '@/lib/gsap'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
 import { useScramble } from '@/hooks/useScramble'
 import { ORANGE, MOBILE_BREAKPOINT } from '@/lib/tokens'
@@ -72,6 +73,25 @@ export default function About() {
   const gazeResetTimer  = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
+    const section = document.getElementById('about') as HTMLElement | null
+    if (!section) return
+    const timer = setTimeout(() => {
+      const dist = section.getBoundingClientRect().top - window.innerHeight
+      if (dist <= 0) return // already in view
+      gsap.fromTo(section,
+        { y: 0 },
+        {
+          y: -(dist + 80),
+          duration: 0.55,
+          ease: 'power2.out',
+          onComplete: () => gsap.to(section, { y: 0, duration: 0.7, ease: 'power2.inOut', delay: 0.45 }),
+        }
+      )
+    }, 1500)
+    return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
     setIsMobileLayout(window.innerWidth < MOBILE_BREAKPOINT)
   }, [])
 
@@ -126,7 +146,7 @@ export default function About() {
   }, [isMobileLayout])
 
   return (
-    <section id="about" className="relative px-4 py-16 md:px-16 lg:px-24" style={{ zIndex: 1, background: '#f5f5f5', animation: 'about-peek 2.2s ease-in-out 1.5s both' }}>
+    <section id="about" className="relative px-4 py-16 md:px-16 lg:px-24" style={{ zIndex: 1, background: '#f5f5f5' }}>
 
       {isMobileLayout ? (
         /* ── Mobile: photo + tags row, bio below ── */
