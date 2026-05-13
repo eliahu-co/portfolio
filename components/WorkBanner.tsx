@@ -22,15 +22,16 @@ export interface ImageEntry {
 }
 
 // A slot holds 1 image, or 2 landscape images stacked vertically.
+// aspectRatio = slot width/height ratio computed from both images so each fills full slot width.
 export interface ImageSlot {
   a: ImageEntry
   b: ImageEntry | null  // non-null = landscape pair
+  aspectRatio?: number  // paired only: 1 / (1/aspect_a + 1/aspect_b)
 }
 
 interface Props { slots: ImageSlot[] }
 
 const GAP_VW       = 2
-const PAIR_GAP_PX  = 8          // vertical gap between stacked landscape images
 const DEFAULT_HOLD = 3          // seconds for non-GIFs or parse failures
 const TRAVEL_S     = 0.7
 
@@ -328,6 +329,8 @@ export default function WorkBanner({ slots }: Props) {
 
           if (slot.b) {
             // ── Paired landscape slot ────────────────────────────────────────
+            // aspect-ratio sets width = height × ratio so both images fill full slot width.
+            // overflow: hidden clips the tiny bottom sliver caused by the inter-image gap.
             return (
               <div
                 key={i}
@@ -338,8 +341,9 @@ export default function WorkBanner({ slots }: Props) {
                   flexShrink:    0,
                   display:       'flex',
                   flexDirection: 'column',
-                  alignItems:    'flex-start',
-                  gap:           `${PAIR_GAP_PX}px`,
+                  gap:           `${GAP_VW}vw`,
+                  overflow:      'hidden',
+                  ...(slot.aspectRatio ? { aspectRatio: String(slot.aspectRatio) } : {}),
                 }}
                 onMouseEnter={() => showTooltip(tooltipLabel, 'below-center')}
                 onMouseLeave={hideTooltip}
@@ -349,13 +353,13 @@ export default function WorkBanner({ slots }: Props) {
                   ref={el => { imgRefs.current[i] = el }}
                   src={slot.a.src}
                   alt={slot.a.meta?.title ?? ''}
-                  style={{ height: `calc(50% - ${PAIR_GAP_PX / 2}px)`, width: 'auto', display: 'block' }}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
                 />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={slot.b.src}
                   alt={slot.b.meta?.title ?? ''}
-                  style={{ height: `calc(50% - ${PAIR_GAP_PX / 2}px)`, width: 'auto', display: 'block' }}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
                 />
               </div>
             )

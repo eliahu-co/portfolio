@@ -102,9 +102,16 @@ function pairLandscapes(raw: RawEntry[]): ImageSlot[] {
       const next     = raw[i + 1]
       const nextDims = readDimensions(next.filePath)
       if (nextDims !== null && nextDims.w > nextDims.h) {
+        // aspectRatio = 1 / (1/aspect_a + 1/aspect_b)
+        // Makes slot width = height × ratio so both images fill full slot width,
+        // heights determined by each image's own aspect ratio (split is unequal).
+        const aspectA     = currDims.w / currDims.h
+        const aspectB     = nextDims.w / nextDims.h
+        const aspectRatio = 1 / (1 / aspectA + 1 / aspectB)
         slots.push({
           a: { src: curr.src, meta: curr.meta },
           b: { src: next.src, meta: next.meta },
+          aspectRatio,
         })
         i += 2
         continue
