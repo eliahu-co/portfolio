@@ -572,7 +572,7 @@ export default function PanelScene() {
       )}
 
       {!sceneReady && !overlayVisible && (
-        <div className="hero-skeleton" />
+        <div className="hero-spinner" />
       )}
 
       <div className="hidden md:block absolute inset-0 z-20 pointer-events-none overflow-hidden">
