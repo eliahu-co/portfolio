@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import WorkBanner, { type ImageSlot } from './WorkBanner'
+import WorkBanner, { type ImageEntry } from './WorkBanner'
 import { ORANGE } from '@/lib/tokens'
 
 type SetKey = 'product' | 'architecture' | 'research' | 'design'
@@ -14,7 +14,7 @@ const CARD_TO_SET: Record<string, SetKey> = {
 }
 
 interface Props {
-  sets: Record<SetKey, ImageSlot[]>
+  sets: Record<SetKey, ImageEntry[]>
 }
 
 export default function WorkBannerSwitcher({ sets }: Props) {
@@ -43,7 +43,7 @@ export default function WorkBannerSwitcher({ sets }: Props) {
 
   return (
     <div style={{ position: 'relative' }}>
-      <WorkBanner key={activeSet} slots={sets[activeSet]} />
+      <WorkBanner key={activeSet} images={sets[activeSet]} />
       <div
         aria-hidden="true"
         onTransitionEnd={onTransitionEnd}

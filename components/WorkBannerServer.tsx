@@ -6,14 +6,11 @@
 // sorted by leading number; files within each subdir are sorted by their
 // leading number (001_, 10_, 21_…). Non-numbered files sort to the end.
 //
-// Consecutive landscape images (w > h) are grouped into a single paired slot
-// and rendered stacked vertically in WorkBanner. All other images are single slots.
-//
 // Flat dirs (design, product, research): shuffled as before.
-import { readdirSync, readFileSync, openSync, readSync, closeSync } from 'fs'
+import { readdirSync, readFileSync } from 'fs'
 import { join } from 'path'
 import WorkBannerSwitcher from './WorkBannerSwitcher'
-import { type ImageMeta, type ImageSlot } from './WorkBanner'
+import { type ImageMeta } from './WorkBanner'
 
 const IMAGE_EXTS = /\.(gif|png|jpg|jpeg|webp|avif)$/i
 
@@ -40,97 +37,18 @@ function leadingNum(name: string): number {
   return m ? parseInt(m[1], 10) : Infinity
 }
 
-// Read image dimensions from the file header — supports JPEG, PNG, GIF.
-// Returns null for unknown formats or on error; treated as portrait (not landscape).
-function readDimensions(filePath: string): { w: number; h: number } | null {
-  let fd = -1
-  try {
-    fd = openSync(filePath, 'r')
-    const buf = Buffer.alloc(65536)
-    const n   = readSync(fd, buf, 0, 65536, 0)
-    const data = buf.subarray(0, n)
-
-    // PNG: 8-byte magic + IHDR — width@16, height@20 (big-endian uint32)
-    if (data[0] === 0x89 && data[1] === 0x50 && n >= 24) {
-      return { w: data.readUInt32BE(16), h: data.readUInt32BE(20) }
-    }
-
-    // GIF: 'GIF' at 0 — width@6, height@8 (little-endian uint16)
-    if (data[0] === 0x47 && data[1] === 0x49 && data[2] === 0x46 && n >= 10) {
-      return { w: data.readUInt16LE(6), h: data.readUInt16LE(8) }
-    }
-
-    // JPEG: scan segment chain for SOF marker
-    if (data[0] === 0xFF && data[1] === 0xD8) {
-      let i = 2
-      while (i + 9 < n) {
-        if (data[i] !== 0xFF) break
-        const marker = data[i + 1]
-        const segLen = data.readUInt16BE(i + 2)
-        // SOF0–SOF15 excluding DHT (C4), JPG (C8), DAC (CC)
-        if (
-          marker >= 0xC0 && marker <= 0xCF &&
-          marker !== 0xC4 && marker !== 0xC8 && marker !== 0xCC
-        ) {
-          return { h: data.readUInt16BE(i + 5), w: data.readUInt16BE(i + 7) }
-        }
-        i += 2 + segLen
-      }
-    }
-
-    return null
-  } catch {
-    return null
-  } finally {
-    if (fd >= 0) try { closeSync(fd) } catch { /* ignore */ }
-  }
-}
-
-type RawEntry = { filePath: string; src: string; meta: ImageMeta | null }
-
-// Group consecutive landscape images (w > h) into paired slots.
-// Every other image becomes a single slot.
-function pairLandscapes(raw: RawEntry[]): ImageSlot[] {
-  const slots: ImageSlot[] = []
-  let i = 0
-  while (i < raw.length) {
-    const curr      = raw[i]
-    const currDims  = readDimensions(curr.filePath)
-    const currIsLandscape = currDims !== null && currDims.w > currDims.h
-
-    if (currIsLandscape && i + 1 < raw.length) {
-      const next     = raw[i + 1]
-      const nextDims = readDimensions(next.filePath)
-      if (nextDims !== null && nextDims.w > nextDims.h) {
-        slots.push({
-          a: { src: curr.src, meta: curr.meta },
-          b: { src: next.src, meta: next.meta },
-        })
-        i += 2
-        continue
-      }
-    }
-
-    slots.push({ a: { src: curr.src, meta: curr.meta }, b: null })
-    i++
-  }
-  return slots
-}
-
-function readImageDir(dirName: string, meta: Record<string, ImageMeta>): ImageSlot[] {
+function readImageDir(dirName: string, meta: Record<string, ImageMeta>) {
   const dir = join(process.cwd(), 'public', dirName)
   try {
     const entries = readdirSync(dir, { withFileTypes: true })
 
-    // Structured dir: contains subdirectories → sort by leading number, then files within
+    // If this directory contains subdirectories, use structured ordering.
     const subdirs = entries
       .filter(e => e.isDirectory())
       .sort((a, b) => leadingNum(a.name) - leadingNum(b.name))
 
-    let raw: RawEntry[]
-
     if (subdirs.length > 0) {
-      raw = []
+      const result: Array<{ src: string; meta: ImageMeta | null }> = []
       for (const subdir of subdirs) {
         const subdirPath = join(dir, subdir.name)
         readdirSync(subdirPath)
@@ -139,26 +57,23 @@ function readImageDir(dirName: string, meta: Record<string, ImageMeta>): ImageSl
             const diff = leadingNum(a) - leadingNum(b)
             return diff !== 0 ? diff : a.localeCompare(b)
           })
-          .forEach(f => raw.push({
-            filePath: join(subdirPath, f),
-            src:      `/${dirName}/${subdir.name}/${encodeURIComponent(f)}`,
-            meta:     meta[f] ?? null,
+          .forEach(f => result.push({
+            src:  `/${dirName}/${subdir.name}/${encodeURIComponent(f)}`,
+            meta: meta[f] ?? null,
           }))
       }
-    } else {
-      // Flat dir — shuffle order
-      raw = shuffle(
-        entries
-          .filter(e => e.isFile() && IMAGE_EXTS.test(e.name))
-          .map(e => ({
-            filePath: join(dir, e.name),
-            src:      `/${dirName}/${encodeURIComponent(e.name)}`,
-            meta:     meta[e.name] ?? null,
-          }))
-      )
+      return result
     }
 
-    return pairLandscapes(raw)
+    // Flat directory — preserve shuffle behaviour.
+    return shuffle(
+      entries
+        .filter(e => e.isFile() && IMAGE_EXTS.test(e.name))
+        .map(e => ({
+          src:  `/${dirName}/${encodeURIComponent(e.name)}`,
+          meta: meta[e.name] ?? null,
+        }))
+    )
   } catch { return [] }
 }
 

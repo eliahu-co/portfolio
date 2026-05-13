@@ -21,17 +21,11 @@ export interface ImageEntry {
   meta: ImageMeta | null
 }
 
-// A slot holds 1 image, or 2 landscape images stacked vertically.
-export interface ImageSlot {
-  a: ImageEntry
-  b: ImageEntry | null  // non-null = landscape pair
-}
+interface Props { images: ImageEntry[] }
 
-interface Props { slots: ImageSlot[] }
 
 const GAP_VW       = 2
-const PAIR_GAP_PX  = 8          // vertical gap between stacked landscape images
-const DEFAULT_HOLD = 3          // seconds for non-GIFs or parse failures
+const DEFAULT_HOLD = 3      // seconds for non-GIFs or parse failures
 const TRAVEL_S     = 0.7
 
 // Parse a GIF's total animation duration by summing frame delays in the binary.
@@ -75,12 +69,15 @@ async function getGifDuration(src: string): Promise<number> {
   }
 }
 
-export default function WorkBanner({ slots }: Props) {
-  const n             = slots.length
-  const SLOTS_RENDER  = useMemo(() => [...slots, ...slots, ...slots], [slots])
+export default function WorkBanner({ images: rawImages }: Props) {
+  // rawImages is already shuffled by the server — use it directly.
+  // IMAGES_RENDER is memoised so its reference stays stable across re-renders
+  // (state changes for centeredRIdx must not recreate the array).
+  const IMAGES        = rawImages
+  const n             = IMAGES.length
+  const IMAGES_RENDER = useMemo(() => [...IMAGES, ...IMAGES, ...IMAGES], [IMAGES])
   const stripRef      = useRef<HTMLDivElement>(null)
   const arrowCursorRef = useRef<HTMLDivElement>(null)
-  const slotRefs      = useRef<(HTMLDivElement | null)[]>([])
   const imgRefs       = useRef<(HTMLImageElement | null)[]>([])
   const canvasRefs    = useRef<(HTMLCanvasElement | null)[]>([])
   const tlRef         = useRef<gsap.core.Tween | null>(null)
@@ -88,7 +85,7 @@ export default function WorkBanner({ slots }: Props) {
   const idxRef        = useRef(n)
   const pausedRef     = useRef(false)
   const busyRef       = useRef(false)
-  const touchStartX   = useRef(0)
+  const touchStartX = useRef(0)
   const durationsRef  = useRef<number[]>(new Array(n).fill(DEFAULT_HOLD))
 
   const [centeredRIdx, setCenteredRIdx] = useState(n)
@@ -97,35 +94,36 @@ export default function WorkBanner({ slots }: Props) {
 
   // Pre-fetch GIF durations
   useEffect(() => {
-    slots.forEach(({ a }, i) => {
-      if (/\.gif$/i.test(a.src)) {
-        getGifDuration(a.src).then(d => { durationsRef.current[i] = d })
+    IMAGES.forEach(async ({ src }, i) => {
+      if (/\.gif$/i.test(src)) {
+        durationsRef.current[i] = await getGifDuration(src)
       }
     })
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
-  const getViewW  = () => document.documentElement.clientWidth
-  const getGap    = () => getViewW() * (GAP_VW / 100)
+  const getViewW     = () => document.documentElement.clientWidth
+  const getGap       = () => getViewW() * (GAP_VW / 100)
 
   const getCenterX = (i: number) => {
+    const imgs = imgRefs.current
     let x = 0
     for (let j = 0; j < i; j++) {
-      const el = slotRefs.current[j]
-      if (!el) return null
-      x += el.offsetWidth + getGap()
+      const img = imgs[j]
+      if (!img) return null
+      x += img.offsetWidth + getGap()
     }
-    const el = slotRefs.current[i]
-    if (!el) return null
-    return x + el.offsetWidth / 2
+    const img = imgs[i]
+    if (!img) return null
+    return x + img.offsetWidth / 2
   }
   const getTranslate = (i: number) => {
     const cx = getCenterX(i)
     return cx === null ? null : getViewW() / 2 - cx
   }
-  const getHold = (renderIdx: number) => durationsRef.current[renderIdx % n]
+  const getHold      = (renderIdx: number) => durationsRef.current[renderIdx % n]
 
   const freezeImage = useCallback((i: number) => {
-    const canvas = canvasRefs.current[i]  // null for paired slots → early return
+    const canvas = canvasRefs.current[i]
     const img    = imgRefs.current[i]
     if (!canvas || !img) return
     canvas.width        = img.offsetWidth
@@ -181,9 +179,7 @@ export default function WorkBanner({ slots }: Props) {
     let alive = true
     const strip = stripRef.current
     if (!strip) return
-
-    // Collect every <img> in the strip (covers both single and paired slots)
-    const imgs = Array.from(strip.querySelectorAll('img')) as HTMLImageElement[]
+    const imgs = imgRefs.current.filter(Boolean) as HTMLImageElement[]
 
     Promise.all(
       imgs.map(img =>
@@ -193,7 +189,7 @@ export default function WorkBanner({ slots }: Props) {
       if (!alive) return
       const t = getTranslate(n); if (t !== null) gsap.set(strip, { x: t })
       setStripReady(true)
-      for (let i = 0; i < SLOTS_RENDER.length; i++) { if (i !== n) freezeImage(i) }
+      imgs.forEach((_, i) => { if (i !== n) freezeImage(i) })
       scheduleNext()
     })
 
@@ -323,59 +319,19 @@ export default function WorkBanner({ slots }: Props) {
         className="absolute top-0 h-full flex"
         style={{ gap: `${GAP_VW}vw`, willChange: 'transform', opacity: stripReady ? 1 : 0, transition: 'opacity 0.3s' }}
       >
-        {SLOTS_RENDER.map((slot, i) => {
-          const tooltipLabel = slot.a.meta ? `${slot.a.meta.title}, ${slot.a.meta.year}` : 'tooltip to be added'
-
-          if (slot.b) {
-            // ── Paired landscape slot ────────────────────────────────────────
-            return (
-              <div
-                key={i}
-                ref={el => { slotRefs.current[i] = el }}
-                style={{
-                  position:      'relative',
-                  height:        '100%',
-                  flexShrink:    0,
-                  display:       'flex',
-                  flexDirection: 'column',
-                  alignItems:    'flex-start',
-                  gap:           `${PAIR_GAP_PX}px`,
-                }}
-                onMouseEnter={() => showTooltip(tooltipLabel, 'below-center')}
-                onMouseLeave={hideTooltip}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  ref={el => { imgRefs.current[i] = el }}
-                  src={slot.a.src}
-                  alt={slot.a.meta?.title ?? ''}
-                  style={{ height: `calc(50% - ${PAIR_GAP_PX / 2}px)`, width: 'auto', display: 'block' }}
-                />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={slot.b.src}
-                  alt={slot.b.meta?.title ?? ''}
-                  style={{ height: `calc(50% - ${PAIR_GAP_PX / 2}px)`, width: 'auto', display: 'block' }}
-                />
-              </div>
-            )
-          }
-
-          // ── Single image slot ────────────────────────────────────────────
-          return (
+        {IMAGES_RENDER.map(({ src, meta }, i) => (
             <div
               key={i}
-              ref={el => { slotRefs.current[i] = el }}
               className="wb-slot"
               style={{ position: 'relative', height: '100%', width: 'auto', flexShrink: 0 }}
-              onMouseEnter={() => showTooltip(tooltipLabel, 'below-center')}
+              onMouseEnter={() => showTooltip(meta ? `${meta.title}, ${meta.year}` : 'tooltip to be added', 'below-center')}
               onMouseLeave={hideTooltip}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 ref={el => { imgRefs.current[i] = el }}
-                src={slot.a.src}
-                alt={slot.a.meta?.title ?? ''}
+                src={src}
+                alt={meta?.title ?? ''}
                 className="wb-img"
               />
               <canvas
@@ -388,8 +344,7 @@ export default function WorkBanner({ slots }: Props) {
                 }}
               />
             </div>
-          )
-        })}
+        ))}
       </div>
 
       {/* Directional arrow cursor — follows mouse, direction set imperatively */}
