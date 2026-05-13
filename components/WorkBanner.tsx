@@ -3,10 +3,6 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { gsap } from '@/lib/gsap'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
-import { MOBILE_BREAKPOINT } from '@/lib/tokens'
-
-const isMobile = () => typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT
-
 // Image list + metadata are injected by WorkBannerServer.tsx.
 // Edit public/architecture/metadata.json to change tooltip content.
 
@@ -80,7 +76,6 @@ export default function WorkBanner({ slots }: Props) {
   const n             = slots.length
   const SLOTS_RENDER  = useMemo(() => [...slots, ...slots, ...slots], [slots])
   const stripRef      = useRef<HTMLDivElement>(null)
-  const arrowCursorRef = useRef<HTMLDivElement>(null)
   const slotRefs      = useRef<(HTMLDivElement | null)[]>([])
   const imgRefs       = useRef<(HTMLImageElement | null)[]>([])
   const canvasRefs    = useRef<(HTMLCanvasElement | null)[]>([])
@@ -94,7 +89,6 @@ export default function WorkBanner({ slots }: Props) {
 
   const [centeredRIdx, setCenteredRIdx] = useState(n)
   const [stripReady,   setStripReady]   = useState(false)
-  const arrowHideTimerRef = useRef<number | null>(null)
 
   // Pre-fetch GIF durations
   useEffect(() => {
@@ -207,75 +201,16 @@ export default function WorkBanner({ slots }: Props) {
       alive = false
       tlRef.current?.kill()
       dtRef.current?.kill()
-      if (arrowHideTimerRef.current !== null) clearTimeout(arrowHideTimerRef.current)
       window.removeEventListener('resize', onResize)
     }
   }, [freezeImage, scheduleNext]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Arrow cursor — tracks mouse, updates direction and position imperatively
-  useEffect(() => {
-    const el = arrowCursorRef.current
-    if (!el) return
-
-    const onMove = (e: MouseEvent) => {
-      if (!el.dataset.active) return
-      el.style.transform = `translate(${e.clientX - 32}px, ${e.clientY - 32}px)`
-      const img = imgRefs.current[idxRef.current]
-      if (!img) return
-      const rect = img.getBoundingClientRect()
-      const isLeft = e.clientX < rect.left + rect.width / 2
-      const path = el.querySelector('path')
-      if (path) path.setAttribute('d', isLeft ? 'M20 6L10 16l10 10' : 'M12 6l10 10-10 10')
-      el.dataset.dir = isLeft ? 'left' : 'right'
-    }
-
-    window.addEventListener('mousemove', onMove, { passive: true })
-    return () => window.removeEventListener('mousemove', onMove)
-  }, [])
-
-  const handleMouseEnter = () => {
-    pausedRef.current = true
-    dtRef.current?.kill()
-    if (n === 0 || isMobile()) return
-    window.dispatchEvent(new CustomEvent('cursor:hide'))
-    if (arrowCursorRef.current) {
-      arrowCursorRef.current.dataset.active = '1'
-      arrowCursorRef.current.style.opacity = '1'
-    }
-  }
-
-  const handleMouseLeave = () => {
-    pausedRef.current = false
-    hideTooltip()
-    scheduleNext()
-    if (n === 0 || isMobile()) return
-    window.dispatchEvent(new CustomEvent('cursor:show'))
-    if (arrowCursorRef.current) {
-      delete arrowCursorRef.current.dataset.active
-      arrowCursorRef.current.style.opacity = '0'
-    }
-  }
+  const handleMouseEnter = () => { pausedRef.current = true;  dtRef.current?.kill() }
+  const handleMouseLeave = () => { pausedRef.current = false; hideTooltip(); scheduleNext() }
 
   const handleBannerClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isMobile()) {
-      const rect = e.currentTarget.getBoundingClientRect()
-      const isLeft = e.clientX < rect.left + rect.width / 2
-      const arrow = arrowCursorRef.current
-      if (arrow) {
-        const path = arrow.querySelector('path')
-        if (path) path.setAttribute('d', isLeft ? 'M20 6L10 16l10 10' : 'M12 6l10 10-10 10')
-        arrow.style.transform = `translate(${e.clientX - 32}px, ${e.clientY - 32}px)`
-        arrow.style.opacity = '1'
-        if (arrowHideTimerRef.current !== null) clearTimeout(arrowHideTimerRef.current)
-        arrowHideTimerRef.current = window.setTimeout(() => {
-          if (arrowCursorRef.current) arrowCursorRef.current.style.opacity = '0'
-        }, 1500)
-      }
-      goTo(isLeft ? -1 : 1)
-      return
-    }
-    const dir = arrowCursorRef.current?.dataset.dir
-    goTo(dir === 'left' ? -1 : 1)
+    const rect = e.currentTarget.getBoundingClientRect()
+    goTo(e.clientX < rect.left + rect.width / 2 ? -1 : 1)
   }
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -291,7 +226,7 @@ export default function WorkBanner({ slots }: Props) {
   return (
     <div
       className="relative w-full overflow-hidden h-[72vh] md:h-[80vh]"
-      style={{ background: 'var(--color-orange)', borderTop: '2vw solid var(--color-orange)', borderBottom: '2vw solid var(--color-orange)', cursor: n === 0 ? 'default' : 'none' }}
+      style={{ background: 'var(--color-orange)', borderTop: '2vw solid var(--color-orange)', borderBottom: '2vw solid var(--color-orange)' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleBannerClick}
@@ -396,28 +331,43 @@ export default function WorkBanner({ slots }: Props) {
         })}
       </div>
 
-      {/* Directional arrow cursor — follows mouse, direction set imperatively */}
-      <div
-        ref={arrowCursorRef}
-        className="fixed top-0 left-0 z-[10000] pointer-events-none"
-        style={{
-          width: '64px',
-          height: '64px',
-          background: 'var(--color-gray-ui)',
-          border: '3px solid #0000FF',
-          borderRadius: '2px',
-          boxShadow: 'var(--shadow-card)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          opacity: 0,
-          willChange: 'transform',
-        }}
-      >
-        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="#0000FF" strokeWidth="3.5" strokeLinecap="square" aria-hidden="true">
-          <path d="M20 6L10 16l10 10" />
-        </svg>
-      </div>
+      {/* Permanent left edge arrow */}
+      {n > 0 && (
+        <button
+          aria-label="Previous image"
+          onClick={e => { e.stopPropagation(); goTo(-1) }}
+          className="absolute z-10 flex items-center justify-center"
+          style={{
+            left: '16px', top: '50%', transform: 'translateY(-50%)',
+            width: '48px', height: '48px',
+            background: 'var(--color-gray-ui)', border: 'var(--border)',
+            borderRadius: '2px', boxShadow: 'var(--shadow-card)', cursor: 'pointer',
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 32 32" fill="none" stroke="var(--color-ink)" strokeWidth="2.5" strokeLinecap="square" aria-hidden="true">
+            <path d="M20 6L10 16l10 10" />
+          </svg>
+        </button>
+      )}
+
+      {/* Permanent right edge arrow */}
+      {n > 0 && (
+        <button
+          aria-label="Next image"
+          onClick={e => { e.stopPropagation(); goTo(1) }}
+          className="absolute z-10 flex items-center justify-center"
+          style={{
+            right: '16px', top: '50%', transform: 'translateY(-50%)',
+            width: '48px', height: '48px',
+            background: 'var(--color-gray-ui)', border: 'var(--border)',
+            borderRadius: '2px', boxShadow: 'var(--shadow-card)', cursor: 'pointer',
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 32 32" fill="none" stroke="var(--color-ink)" strokeWidth="2.5" strokeLinecap="square" aria-hidden="true">
+            <path d="M12 6l10 10-10 10" />
+          </svg>
+        </button>
+      )}
     </div>
   )
 }
