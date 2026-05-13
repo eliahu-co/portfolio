@@ -41,6 +41,14 @@ body {
 }
 
 /* Profile photo fade-in (About section eye-tracking) */
+/* About section peeks up on load then retreats — scroll affordance hint */
+@keyframes about-peek {
+  0%   { transform: translateY(0); }
+  35%  { transform: translateY(-80px); }
+  65%  { transform: translateY(-80px); }
+  100% { transform: translateY(0); }
+}
+
 @keyframes photo-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }

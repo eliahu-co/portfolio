@@ -126,7 +126,7 @@ export default function About() {
   }, [isMobileLayout])
 
   return (
-    <section id="about" className="relative px-4 py-16 md:px-16 lg:px-24" style={{ zIndex: 1, background: '#f5f5f5' }}>
+    <section id="about" className="relative px-4 py-16 md:px-16 lg:px-24" style={{ zIndex: 1, background: '#f5f5f5', animation: 'about-peek 2.2s ease-in-out 1.5s both' }}>
 
       {isMobileLayout ? (
         /* ── Mobile: photo + tags row, bio below ── */
