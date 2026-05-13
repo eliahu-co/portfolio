@@ -577,7 +577,7 @@ export default function PanelScene() {
   }, [])
 
   return (
-    <div ref={containerRef} className="fixed" style={{ top: 0, bottom: 0, left: mobileBleed ? 0 : '-20vw', right: mobileBleed ? 0 : '-20vw', zIndex: 0 }}>
+    <div ref={containerRef} className="fixed" style={{ top: 0, bottom: 0, left: mobileBleed ? 0 : '-20vw', right: mobileBleed ? 0 : '-20vw', zIndex: overlayVisible ? 60 : 0 }}>
 
       {overlayVisible && (
         <div
