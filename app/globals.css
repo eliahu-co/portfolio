@@ -78,8 +78,8 @@ body {
 
 /* Hide fixed UI elements while the mobile tap-to-enter overlay is active */
 body.overlay-active [data-overlay-hide] {
-  opacity: 0;
-  pointer-events: none;
+  opacity: 0 !important;
+  pointer-events: none !important;
   transition: opacity 0.2s;
 }
 
