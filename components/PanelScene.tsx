@@ -134,8 +134,10 @@ function classifyNode(nodeName: string, meshName?: string): LayerName | null {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function PanelScene() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const labelRefs = useRef<Partial<Record<LayerName, HTMLDivElement | null>>>({})
+  const containerRef    = useRef<HTMLDivElement>(null)
+  const labelRefs       = useRef<Partial<Record<LayerName, HTMLDivElement | null>>>({})
+  const rootGroupRef    = useRef<THREE.Group | null>(null)
+  const overlayShownRef = useRef(false)
   const [overlayVisible, setOverlayVisible] = useState(false)
   const [sceneReady,     setSceneReady]     = useState(false)
   const neutralRef     = useRef({ beta: 0, gamma: 0, alpha: 0 })
@@ -178,6 +180,18 @@ export default function PanelScene() {
       document.body.style.overflow = ''
       document.body.classList.remove('overlay-active')
     }
+  }, [overlayVisible])
+
+  // Entrance rotation for no-gyro mobile: sweep from isometric angle to the static base
+  useEffect(() => {
+    if (overlayVisible) { overlayShownRef.current = true; return }
+    if (!overlayShownRef.current || !rootGroupRef.current || !isMobile()) return
+    if (gyroActiveRef.current) return  // gyro lerp provides its own natural animation
+    gsap.fromTo(
+      rootGroupRef.current.rotation,
+      { x: -0.12, y: -0.38 },
+      { x: MOBILE_BASE_ROTATION.x, y: MOBILE_BASE_ROTATION.y, duration: 1.2, ease: 'power2.out' }
+    )
   }, [overlayVisible])
 
   useEffect(() => {
@@ -227,6 +241,7 @@ export default function PanelScene() {
     // ── Root group — presentation + mouse parallax ──
     const mobile = isMobile()
     const rootGroup = new THREE.Group()
+    rootGroupRef.current = rootGroup
     rootGroup.rotation.x = mobile ? MOBILE_BASE_ROTATION.x : BASE_ROTATION.x
     rootGroup.rotation.y = mobile ? MOBILE_BASE_ROTATION.y : BASE_ROTATION.y
     rootGroup.scale.setScalar(mobile ? 55 : SCALE)
