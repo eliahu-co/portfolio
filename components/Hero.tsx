@@ -1,7 +1,7 @@
 // components/Hero.tsx
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { showTooltip, hideTooltip } from '@/components/Tooltip'
 import { MOBILE_BREAKPOINT } from '@/lib/tokens'
@@ -15,10 +15,23 @@ const HERO_TOOLTIP =
   `A building has a stack, components, users, and a PRD. You ship it, it goes live, and someone files a bug.\n\n` +
   `It's not a coincidence you call it a build — whether you're raising a floor plate or a codebase, you need an architect on the team.`
 
+const STALE_DELAY = 2500
+
 export default function Hero() {
   const [scrolled,       setScrolled]       = useState(false)
   const [overlayActive,  setOverlayActive]  = useState(false)
   const [ctaBottom,      setCtaBottom]      = useState<number | null>(null)
+  const staleTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const clearStale = () => {
+    if (staleTimer.current) { clearTimeout(staleTimer.current); staleTimer.current = null }
+  }
+  const resetStale = () => {
+    clearStale()
+    hideTooltip()
+    staleTimer.current = setTimeout(() => showTooltip(HERO_TOOLTIP), STALE_DELAY)
+  }
+  const onHeroLeave = () => { clearStale(); hideTooltip() }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 0)
@@ -52,8 +65,9 @@ export default function Hero() {
       id="hero"
       className="relative h-screen w-full overflow-hidden"
       style={{ background: '#f5f5f5', borderBottom: '2px solid var(--color-orange)' }}
-      onMouseEnter={() => showTooltip(HERO_TOOLTIP)}
-      onMouseLeave={hideTooltip}
+      onMouseEnter={resetStale}
+      onMouseMove={resetStale}
+      onMouseLeave={onHeroLeave}
     >
       {/* Three.js canvas — fills entire section */}
       <PanelScene />
