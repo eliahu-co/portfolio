@@ -73,12 +73,15 @@ export default function Nameplate() {
       data-overlay-hide
       style={{
         transformOrigin: 'center bottom',
-        // Mini: anchor above float nav like FloatNav itself — no dynamic calc needed
+        // Mini: anchor above float nav; clip to h1 height so invisible children don't inflate layout
         ...(mobileShrunk ? {
-          top:       'auto',
-          left:      '50%',
-          bottom:    `${MINI_BOTTOM}px`,
-          transform: `translateX(-50%) scale(${SCALE})`,
+          top:        'auto',
+          left:       '50%',
+          bottom:     `${MINI_BOTTOM}px`,
+          height:     '42px',
+          overflow:   'hidden',
+          whiteSpace: 'nowrap',
+          transform:  `translateX(-50%) scale(${SCALE})`,
         } : {}),
         opacity:       mobileVisible ? 1 : 0,
         pointerEvents: (!mobileVisible || mobileShrunk) ? 'none' : undefined,
