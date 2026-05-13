@@ -21,7 +21,8 @@ export default function Hero() {
   const [scrolled,       setScrolled]       = useState(false)
   const [overlayActive,  setOverlayActive]  = useState(false)
   const [ctaBottom,      setCtaBottom]      = useState<number | null>(null)
-  const staleTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const staleTimer      = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const tooltipShownRef = useRef(false)
 
   const clearStale = () => {
     if (staleTimer.current) { clearTimeout(staleTimer.current); staleTimer.current = null }
@@ -29,9 +30,23 @@ export default function Hero() {
   const resetStale = () => {
     clearStale()
     hideTooltip()
-    staleTimer.current = setTimeout(() => showTooltip(HERO_TOOLTIP), STALE_DELAY)
+    tooltipShownRef.current = false
+    staleTimer.current = setTimeout(() => {
+      showTooltip(HERO_TOOLTIP)
+      tooltipShownRef.current = true
+    }, STALE_DELAY)
   }
-  const onHeroLeave = () => { clearStale(); hideTooltip() }
+  const onHeroLeave = () => { clearStale(); hideTooltip(); tooltipShownRef.current = false }
+  const onHeroClick = () => {
+    if (tooltipShownRef.current) {
+      hideTooltip()
+      tooltipShownRef.current = false
+    } else {
+      clearStale()
+      showTooltip(HERO_TOOLTIP)
+      tooltipShownRef.current = true
+    }
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 0)
@@ -68,6 +83,7 @@ export default function Hero() {
       onMouseEnter={resetStale}
       onMouseMove={resetStale}
       onMouseLeave={onHeroLeave}
+      onClick={onHeroClick}
     >
       {/* Three.js canvas — fills entire section */}
       <PanelScene />
