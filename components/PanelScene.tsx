@@ -69,6 +69,11 @@ const BASE_ROTATION = {
   x: -0.2,  // slight downward camera tilt (top edge visible)
   y: -0.3,  // rotate so right side of wall comes toward viewer
 }
+// Mobile no-gyro: nearly frontal with a hint of corner — gyro lerps away from this naturally
+const MOBILE_BASE_ROTATION = {
+  x: -0.05,
+  y: -0.12,
+}
 const PARALLAX_STRENGTH = { x: 1.2, y: 1.2 }
 const PARALLAX_LERP     = 0.05
 const HOVER_EMISSIVE_HEX       = 0xffffff
@@ -220,10 +225,11 @@ export default function PanelScene() {
     scene.add(ambient, dirLight, fillLight)
 
     // ── Root group — presentation + mouse parallax ──
+    const mobile = isMobile()
     const rootGroup = new THREE.Group()
-    rootGroup.rotation.x = BASE_ROTATION.x
-    rootGroup.rotation.y = BASE_ROTATION.y
-    rootGroup.scale.setScalar(isMobile() ? 55 : SCALE)
+    rootGroup.rotation.x = mobile ? MOBILE_BASE_ROTATION.x : BASE_ROTATION.x
+    rootGroup.rotation.y = mobile ? MOBILE_BASE_ROTATION.y : BASE_ROTATION.y
+    rootGroup.scale.setScalar(mobile ? 55 : SCALE)
     scene.add(rootGroup)
 
     // ── Correction group — centres the model at the rootGroup origin ──
@@ -245,8 +251,8 @@ export default function PanelScene() {
 
     // ── Mouse parallax state ──
     let mouseX = 0, mouseY = 0
-    let currentRotX = BASE_ROTATION.x
-    let currentRotY = BASE_ROTATION.y
+    let currentRotX = mobile ? MOBILE_BASE_ROTATION.x : BASE_ROTATION.x
+    let currentRotY = mobile ? MOBILE_BASE_ROTATION.y : BASE_ROTATION.y
     let rafId = 0
     let scrollProgress = 0
 
