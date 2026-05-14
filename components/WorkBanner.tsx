@@ -13,8 +13,9 @@ export interface ImageMeta {
 }
 
 export interface ImageEntry {
-  src:  string
-  meta: ImageMeta | null
+  src:     string
+  meta:    ImageMeta | null
+  isVideo?: boolean
 }
 
 // A slot holds 1 image, or 2 landscape images stacked vertically.
@@ -29,6 +30,7 @@ interface Props { slots: ImageSlot[] }
 
 const GAP_VW       = 2
 const DEFAULT_HOLD = 3          // seconds for non-GIFs or parse failures
+const VIDEO_HOLD   = 10         // seconds for video slots
 const TRAVEL_S     = 0.7
 
 // Parse a GIF's total animation duration by summing frame delays in the binary.
@@ -90,10 +92,12 @@ export default function WorkBanner({ slots }: Props) {
   const [centeredRIdx, setCenteredRIdx] = useState(n)
   const [stripReady,   setStripReady]   = useState(false)
 
-  // Pre-fetch GIF durations
+  // Pre-fetch GIF durations; set longer hold for video slots
   useEffect(() => {
     slots.forEach(({ a }, i) => {
-      if (/\.gif$/i.test(a.src)) {
+      if (a.isVideo) {
+        durationsRef.current[i] = VIDEO_HOLD
+      } else if (/\.gif$/i.test(a.src)) {
         getGifDuration(a.src).then(d => { durationsRef.current[i] = d })
       }
     })
@@ -295,6 +299,26 @@ export default function WorkBanner({ slots }: Props) {
                   src={slot.b.src}
                   alt={slot.b.meta?.title ?? ''}
                   style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+            )
+          }
+
+          // ── Single video slot ────────────────────────────────────────────
+          if (slot.a.isVideo) {
+            return (
+              <div
+                key={i}
+                ref={el => { slotRefs.current[i] = el }}
+                className="wb-slot"
+                style={{ position: 'relative', height: '100%', width: 'auto', flexShrink: 0 }}
+                onMouseEnter={() => showTooltip(tooltipLabel, 'below-center')}
+                onMouseLeave={hideTooltip}
+              >
+                <video
+                  src={slot.a.src}
+                  autoPlay muted loop playsInline
+                  className="wb-img"
                 />
               </div>
             )

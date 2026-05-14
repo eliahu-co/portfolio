@@ -12,10 +12,11 @@ const MINI_BOTTOM = NAV_BOTTOM + NAV_H + 10  // 10px gap above float nav
 
 export default function Nameplate() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [hidden,   setHidden]   = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const [shrunk,   setShrunk]   = useState(false)
-  const [atTop,    setAtTop]    = useState(true)
+  const [hidden,        setHidden]        = useState(false)
+  const [isMobile,      setIsMobile]      = useState(false)
+  const [shrunk,        setShrunk]        = useState(false)
+  const [atTop,         setAtTop]         = useState(true)
+  const [whatIDoInView, setWhatIDoInView] = useState(false)
 
   // Hide subtitle + contacts while work-strip is in view
   useEffect(() => {
@@ -24,6 +25,18 @@ export default function Nameplate() {
     const obs = new IntersectionObserver(
       ([entry]) => setHidden(entry.isIntersecting),
       { rootMargin: '0px 0px -20% 0px' }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  // Disable contact link pointer-events while what-i-do is in view (prevents blocking card clicks)
+  useEffect(() => {
+    const el = document.getElementById('what-i-do')
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => setWhatIDoInView(entry.isIntersecting),
+      {}
     )
     obs.observe(el)
     return () => obs.disconnect()
@@ -110,7 +123,7 @@ export default function Nameplate() {
           opacity:       (hidden || mobileShrunk) ? 0 : 1,
           transform:     hidden ? 'translateY(-8px)' : 'translateY(0)',
           transition:    'opacity 0.2s, transform 0.2s',
-          pointerEvents: (hidden || mobileShrunk) ? 'none' : 'auto',
+          pointerEvents: (hidden || mobileShrunk || whatIDoInView) ? 'none' : 'auto',
         }}
       >
         {CONTACT_LINKS.filter(({ mobileOnly }) => !mobileOnly || isMobile).map(({ label, href, download, external }) => (

@@ -16,6 +16,7 @@ import WorkBannerSwitcher from './WorkBannerSwitcher'
 import { type ImageMeta, type ImageSlot } from './WorkBanner'
 
 const IMAGE_EXTS = /\.(gif|png|jpg|jpeg|webp|avif)$/i
+const VIDEO_EXTS = /\.(mp4|webm|ogg)$/i
 
 function shuffle<T>(arr: T[]): T[] {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -86,20 +87,30 @@ function readDimensions(filePath: string): { w: number; h: number } | null {
   }
 }
 
-type RawEntry = { filePath: string; src: string; meta: ImageMeta | null }
+type RawEntry = { filePath: string; src: string; meta: ImageMeta | null; isVideo?: boolean }
 
 // Group consecutive landscape images (w > h) into paired slots.
-// Every other image becomes a single slot.
+// Videos and non-landscape images become single slots.
 function pairLandscapes(raw: RawEntry[]): ImageSlot[] {
   const slots: ImageSlot[] = []
   let i = 0
   while (i < raw.length) {
     const curr      = raw[i]
+    if (curr.isVideo) {
+      slots.push({ a: { src: curr.src, meta: curr.meta, isVideo: true }, b: null })
+      i++
+      continue
+    }
     const currDims  = readDimensions(curr.filePath)
     const currIsLandscape = currDims !== null && currDims.w > currDims.h
 
     if (currIsLandscape && i + 1 < raw.length) {
       const next     = raw[i + 1]
+      if (next.isVideo) {
+        slots.push({ a: { src: curr.src, meta: curr.meta }, b: null })
+        i++
+        continue
+      }
       const nextDims = readDimensions(next.filePath)
       if (nextDims !== null && nextDims.w > nextDims.h) {
         // aspectRatio = 1 / (1/aspect_a + 1/aspect_b)
@@ -156,11 +167,12 @@ function readImageDir(dirName: string, meta: Record<string, ImageMeta>): ImageSl
       // Flat dir — shuffle order
       raw = shuffle(
         entries
-          .filter(e => e.isFile() && IMAGE_EXTS.test(e.name))
+          .filter(e => e.isFile() && (IMAGE_EXTS.test(e.name) || VIDEO_EXTS.test(e.name)))
           .map(e => ({
             filePath: join(dir, e.name),
             src:      `/${dirName}/${encodeURIComponent(e.name)}`,
             meta:     meta[e.name] ?? null,
+            ...(VIDEO_EXTS.test(e.name) ? { isVideo: true } : {}),
           }))
       )
     }
