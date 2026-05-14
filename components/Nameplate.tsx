@@ -97,7 +97,7 @@ export default function Nameplate() {
           transform:  `translateX(-50%) scale(${SCALE})`,
         } : {}),
         opacity:       mobileVisible ? 1 : 0,
-        pointerEvents: (!mobileVisible || mobileShrunk) ? 'none' : undefined,
+        pointerEvents: 'none',
         transition:    mobileShrunk ? 'none' : 'opacity 0.25s',
       }}
     >
