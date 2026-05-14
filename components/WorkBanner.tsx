@@ -346,13 +346,13 @@ export default function WorkBanner({ slots }: Props) {
                   ref={el => { imgRefs.current[i] = el }}
                   src={slot.a.src}
                   alt={slot.a.meta?.title ?? ''}
-                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                  style={{ width: '100%', height: 'auto', display: 'block', opacity: i === centeredRIdx ? 1 : 0 }}
                 />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={slot.b.src}
                   alt={slot.b.meta?.title ?? ''}
-                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                  style={{ width: '100%', height: 'auto', display: 'block', opacity: i === centeredRIdx ? 1 : 0 }}
                 />
               </div>
             )

@@ -2,7 +2,7 @@
   "fast-ener.mp4": {
     "title": "FAST-ener",
     "year": "2024",
-    "description": "Revit add-in for parametric fastener scheduling and bill-of-materials automation.",
-    "link": "https://github.com/eliahu-co/fast-ener.git"
+    "description": "Web-based fastener selection tool for light-gauge steel connections. Based on IBC / AISI S100 · ASTM C955",
+    "link": "https://fast-ener.vercel.app/"
   }
 }
