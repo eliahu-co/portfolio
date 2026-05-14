@@ -197,14 +197,20 @@ export default function WorkBanner({ slots }: Props) {
     const strip = stripRef.current
     if (!strip) return
 
-    // Collect every <img> in the strip (covers both single and paired slots)
-    const imgs = Array.from(strip.querySelectorAll('img')) as HTMLImageElement[]
+    // Collect every <img> and <video> in the strip
+    const imgs = Array.from(strip.querySelectorAll('img'))  as HTMLImageElement[]
+    const vids = Array.from(strip.querySelectorAll('video')) as HTMLVideoElement[]
 
-    Promise.all(
-      imgs.map(img =>
+    Promise.all([
+      ...imgs.map(img =>
         img.complete ? Promise.resolve() : new Promise<void>(res => { img.onload = () => res() })
-      )
-    ).then(() => {
+      ),
+      ...vids.map(vid =>
+        vid.readyState >= 1
+          ? Promise.resolve()
+          : new Promise<void>(res => { vid.onloadedmetadata = () => res(); vid.onerror = () => res() })
+      ),
+    ]).then(() => {
       if (!alive) return
       const startIdx = n === 1 ? 0 : n
       const t = getTranslate(startIdx); if (t !== null) gsap.set(strip, { x: t })

@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function WorkBannerSwitcher({ sets }: Props) {
-  const [activeSet, setActiveSet]       = useState<SetKey>('design')
+  const [activeSet, setActiveSet]       = useState<SetKey>('product')
   const [overlayOpacity, setOverlay]    = useState(0)
   const pending = useRef<SetKey | null>(null)
 

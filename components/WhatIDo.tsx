@@ -33,7 +33,7 @@ const CARDS: { category: string; title: string; mobileTitle?: string; descriptio
 export default function WhatIDo() {
   const sectionRef   = useRef<HTMLElement>(null)
   const cardsRef     = useRef<HTMLDivElement>(null)
-  const [activeCard,  setActiveCard]  = useState<string | null>('Design')
+  const [activeCard,  setActiveCard]  = useState<string | null>('Product & Dev')
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
 
   const handleClick = (title: string) => {
