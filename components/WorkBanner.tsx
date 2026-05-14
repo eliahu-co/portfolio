@@ -88,7 +88,9 @@ export default function WorkBanner({ slots }: Props) {
   const stripRef      = useRef<HTMLDivElement>(null)
   const slotRefs      = useRef<(HTMLDivElement | null)[]>([])
   const imgRefs       = useRef<(HTMLImageElement | null)[]>([])
+  const imgBRefs      = useRef<(HTMLImageElement | null)[]>([])
   const canvasRefs    = useRef<(HTMLCanvasElement | null)[]>([])
+  const canvasBRefs   = useRef<(HTMLCanvasElement | null)[]>([])
   const tlRef         = useRef<gsap.core.Tween | null>(null)
   const dtRef         = useRef<gsap.core.Tween | null>(null)
   const idxRef        = useRef(n === 1 ? 0 : n)
@@ -132,20 +134,41 @@ export default function WorkBanner({ slots }: Props) {
   const getHold = (renderIdx: number) => durationsRef.current[renderIdx % n]
 
   const freezeImage = useCallback((i: number) => {
-    const canvas = canvasRefs.current[i]  // null for paired slots → early return
-    const img    = imgRefs.current[i]
-    if (!canvas || !img) return
-    canvas.width        = img.offsetWidth
-    canvas.height       = img.offsetHeight
-    canvas.style.width  = `${img.offsetWidth}px`
-    canvas.style.height = `${img.offsetHeight}px`
-    canvas.getContext('2d')?.drawImage(img, 0, 0, canvas.width, canvas.height)
+    const imgA    = imgRefs.current[i]
+    const canvasA = canvasRefs.current[i]
+    const imgB    = imgBRefs.current[i]
+    const canvasB = canvasBRefs.current[i]
+
+    if (imgB && canvasB) {
+      // Paired slot: freeze both images
+      if (imgA && canvasA) {
+        canvasA.width        = imgA.offsetWidth
+        canvasA.height       = imgA.offsetHeight
+        canvasA.style.width  = `${imgA.offsetWidth}px`
+        canvasA.style.height = `${imgA.offsetHeight}px`
+        canvasA.getContext('2d')?.drawImage(imgA, 0, 0, canvasA.width, canvasA.height)
+      }
+      canvasB.width        = imgB.offsetWidth
+      canvasB.height       = imgB.offsetHeight
+      canvasB.style.width  = `${imgB.offsetWidth}px`
+      canvasB.style.height = `${imgB.offsetHeight}px`
+      canvasB.style.top    = `${imgB.offsetTop}px`
+      canvasB.getContext('2d')?.drawImage(imgB, 0, 0, canvasB.width, canvasB.height)
+      return
+    }
+
+    if (!canvasA || !imgA) return
+    canvasA.width        = imgA.offsetWidth
+    canvasA.height       = imgA.offsetHeight
+    canvasA.style.width  = `${imgA.offsetWidth}px`
+    canvasA.style.height = `${imgA.offsetHeight}px`
+    canvasA.getContext('2d')?.drawImage(imgA, 0, 0, canvasA.width, canvasA.height)
   }, [])
 
   const scheduleNext = useCallback(() => {
     dtRef.current?.kill()
     if (pausedRef.current) return
-    if (n === 1 && idxRef.current !== 0) return  // stop at placeholder, don't loop
+    if (n === 1) return  // single real slot — no autoplay
     const hold = getHold(idxRef.current)
     dtRef.current = gsap.delayedCall(hold, () => goTo(1, scheduleNext)) // eslint-disable-line @typescript-eslint/no-use-before-define
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
@@ -350,9 +373,29 @@ export default function WorkBanner({ slots }: Props) {
                 />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
+                  ref={el => { imgBRefs.current[i] = el }}
                   src={slot.b.src}
                   alt={slot.b.meta?.title ?? ''}
                   style={{ width: '100%', height: 'auto', display: 'block', opacity: i === centeredRIdx ? 1 : 0 }}
+                />
+                {/* Frozen-frame canvases for non-centered paired slots */}
+                <canvas
+                  ref={el => { canvasRefs.current[i] = el }}
+                  style={{
+                    position: 'absolute', left: 0, top: 0,
+                    opacity: i === centeredRIdx ? 0 : 1,
+                    transition: 'opacity 0.1s',
+                    pointerEvents: 'none',
+                  }}
+                />
+                <canvas
+                  ref={el => { canvasBRefs.current[i] = el }}
+                  style={{
+                    position: 'absolute', left: 0, top: 0,
+                    opacity: i === centeredRIdx ? 0 : 1,
+                    transition: 'opacity 0.1s',
+                    pointerEvents: 'none',
+                  }}
                 />
               </div>
             )
