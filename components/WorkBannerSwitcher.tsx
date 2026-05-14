@@ -43,7 +43,7 @@ export default function WorkBannerSwitcher({ sets }: Props) {
 
   return (
     <div style={{ position: 'relative' }}>
-      <WorkBanner key={activeSet} slots={sets[activeSet]} />
+      <WorkBanner key={activeSet} slots={sets[activeSet]} linear={activeSet === 'product'} />
       <div
         aria-hidden="true"
         onTransitionEnd={onTransitionEnd}

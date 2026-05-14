@@ -28,7 +28,7 @@ export interface ImageSlot {
   aspectRatio?: number  // paired only: 1 / (1/aspect_a + 1/aspect_b)
 }
 
-interface Props { slots: ImageSlot[] }
+interface Props { slots: ImageSlot[]; linear?: boolean }
 
 const GAP_VW       = 2
 const DEFAULT_HOLD = 3          // seconds for non-GIFs or parse failures
@@ -78,12 +78,12 @@ async function getGifDuration(src: string): Promise<number> {
   }
 }
 
-export default function WorkBanner({ slots }: Props) {
+export default function WorkBanner({ slots, linear }: Props) {
   const n             = slots.length
-  // n===1: 2-slot linear [real, placeholder]; n>1: infinite triple array
+  // linear: [real slots…, placeholder] with no wrap; else infinite triple array
   const SLOTS_RENDER  = useMemo(
-    () => n === 1 ? [slots[0], PLACEHOLDER_SLOT] : [...slots, ...slots, ...slots],
-    [slots] // eslint-disable-line react-hooks/exhaustive-deps
+    () => linear ? [...slots, PLACEHOLDER_SLOT] : [...slots, ...slots, ...slots],
+    [slots, linear] // eslint-disable-line react-hooks/exhaustive-deps
   )
   const stripRef      = useRef<HTMLDivElement>(null)
   const slotRefs      = useRef<(HTMLDivElement | null)[]>([])
@@ -93,13 +93,13 @@ export default function WorkBanner({ slots }: Props) {
   const canvasBRefs   = useRef<(HTMLCanvasElement | null)[]>([])
   const tlRef         = useRef<gsap.core.Tween | null>(null)
   const dtRef         = useRef<gsap.core.Tween | null>(null)
-  const idxRef        = useRef(n === 1 ? 0 : n)
+  const idxRef        = useRef(linear ? 0 : n)
   const pausedRef     = useRef(false)
   const busyRef       = useRef(false)
   const touchStartX   = useRef(0)
   const durationsRef  = useRef<number[]>(new Array(n).fill(DEFAULT_HOLD))
 
-  const [centeredRIdx, setCenteredRIdx] = useState(n === 1 ? 0 : n)
+  const [centeredRIdx, setCenteredRIdx] = useState(linear ? 0 : n)
   const [stripReady,   setStripReady]   = useState(false)
 
   // Pre-fetch GIF durations; set longer hold for video slots
@@ -168,17 +168,17 @@ export default function WorkBanner({ slots }: Props) {
   const scheduleNext = useCallback(() => {
     dtRef.current?.kill()
     if (pausedRef.current) return
-    if (n === 1) return  // single real slot — no autoplay
+    if (linear) return  // linear mode — no autoplay
     const hold = getHold(idxRef.current)
     dtRef.current = gsap.delayedCall(hold, () => goTo(1, scheduleNext)) // eslint-disable-line @typescript-eslint/no-use-before-define
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const goTo = useCallback((delta: number, onDone?: () => void) => {
     if (busyRef.current) return
-    // Single-slot mode: clamp to [0, 1] with no wrapping
-    if (n === 1) {
+    // Linear mode: clamp to [0, n] (n = placeholder index), no wrapping
+    if (linear) {
       const clamped = idxRef.current + delta
-      if (clamped < 0 || clamped > 1) { onDone?.(); return }
+      if (clamped < 0 || clamped > n) { onDone?.(); return }
     }
     const tx = getTranslate(idxRef.current + delta)
     if (tx === null || !stripRef.current) return
@@ -197,7 +197,7 @@ export default function WorkBanner({ slots }: Props) {
       onComplete: () => {
         idxRef.current = next
 
-        if (n !== 1) {
+        if (!linear) {
           if (idxRef.current >= 2 * n) {
             idxRef.current = n
             const t = getTranslate(n); if (t !== null) gsap.set(stripRef.current, { x: t })
@@ -235,7 +235,7 @@ export default function WorkBanner({ slots }: Props) {
       ),
     ]).then(() => {
       if (!alive) return
-      const startIdx = n === 1 ? 0 : n
+      const startIdx = linear ? 0 : n
       const t = getTranslate(startIdx); if (t !== null) gsap.set(strip, { x: t })
       setStripReady(true)
       for (let i = 0; i < SLOTS_RENDER.length; i++) { if (i !== startIdx) freezeImage(i) }
@@ -462,8 +462,8 @@ export default function WorkBanner({ slots }: Props) {
         })}
       </div>
 
-      {/* Left arrow: always for n>1; n===1 only when on placeholder */}
-      {n > 0 && (n !== 1 || centeredRIdx > 0) && (
+      {/* Left arrow: always for non-linear; linear only when not at first slot */}
+      {n > 0 && (!linear || centeredRIdx > 0) && (
         <button
           aria-label="Previous image"
           onClick={e => { e.stopPropagation(); goTo(-1) }}
@@ -481,8 +481,8 @@ export default function WorkBanner({ slots }: Props) {
         </button>
       )}
 
-      {/* Right arrow: always for n>1; n===1 only when on real slot */}
-      {n > 0 && (n !== 1 || centeredRIdx === 0) && (
+      {/* Right arrow: always for non-linear; linear only when not at placeholder */}
+      {n > 0 && (!linear || centeredRIdx < n) && (
         <button
           aria-label="Next image"
           onClick={e => { e.stopPropagation(); goTo(1) }}
