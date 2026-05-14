@@ -10,6 +10,7 @@ export interface ImageMeta {
   title:       string
   year:        string
   description: string
+  link?:       string
 }
 
 export interface ImageEntry {
@@ -280,7 +281,9 @@ export default function WorkBanner({ slots }: Props) {
         style={{ gap: `${GAP_VW}vw`, willChange: 'transform', opacity: stripReady ? 1 : 0, transition: 'opacity 0.3s' }}
       >
         {SLOTS_RENDER.map((slot, i) => {
-          const tooltipLabel = slot.a.meta ? `${slot.a.meta.title}, ${slot.a.meta.year}` : 'tooltip to be added'
+          const tooltipLabel = slot.a.meta
+            ? `${slot.a.meta.title}${slot.a.meta.link ? ' ↗' : ''}, ${slot.a.meta.year}`
+            : 'tooltip to be added'
 
           // ── Placeholder slot ─────────────────────────────────────────────
           if (slot.a.isPlaceholder) {
@@ -351,6 +354,7 @@ export default function WorkBanner({ slots }: Props) {
 
           // ── Single video slot ────────────────────────────────────────────
           if (slot.a.isVideo) {
+            const link = slot.a.meta?.link
             return (
               <div
                 key={i}
@@ -360,11 +364,19 @@ export default function WorkBanner({ slots }: Props) {
                 onMouseEnter={() => showTooltip(tooltipLabel, 'below-center')}
                 onMouseLeave={hideTooltip}
               >
-                <video
-                  src={slot.a.src}
-                  autoPlay muted loop playsInline
-                  className="wb-img"
-                />
+                {link ? (
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={e => e.stopPropagation()}
+                    style={{ display: 'block', height: '100%' }}
+                  >
+                    <video src={slot.a.src} autoPlay muted loop playsInline className="wb-img" />
+                  </a>
+                ) : (
+                  <video src={slot.a.src} autoPlay muted loop playsInline className="wb-img" />
+                )}
               </div>
             )
           }
