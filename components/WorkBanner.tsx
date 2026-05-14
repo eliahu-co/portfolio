@@ -419,7 +419,7 @@ export default function WorkBanner({ slots }: Props) {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={e => e.stopPropagation()}
-                    style={{ display: 'block', height: '100%' }}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}
                   >
                     <video src={slot.a.src} autoPlay muted loop playsInline className="wb-img" />
                   </a>
