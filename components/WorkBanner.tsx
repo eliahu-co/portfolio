@@ -13,9 +13,10 @@ export interface ImageMeta {
 }
 
 export interface ImageEntry {
-  src:     string
-  meta:    ImageMeta | null
-  isVideo?: boolean
+  src:          string
+  meta:         ImageMeta | null
+  isVideo?:     boolean
+  isPlaceholder?: boolean
 }
 
 // A slot holds 1 image, or 2 landscape images stacked vertically.
@@ -32,6 +33,8 @@ const GAP_VW       = 2
 const DEFAULT_HOLD = 3          // seconds for non-GIFs or parse failures
 const VIDEO_HOLD   = 10         // seconds for video slots
 const TRAVEL_S     = 0.7
+
+const PLACEHOLDER_SLOT: ImageSlot = { a: { src: '', meta: null, isPlaceholder: true }, b: null }
 
 // Parse a GIF's total animation duration by summing frame delays in the binary.
 // GIF frame delays live in Graphic Control Extension blocks (0x21 0xF9),
@@ -76,20 +79,24 @@ async function getGifDuration(src: string): Promise<number> {
 
 export default function WorkBanner({ slots }: Props) {
   const n             = slots.length
-  const SLOTS_RENDER  = useMemo(() => [...slots, ...slots, ...slots], [slots])
+  // n===1: 2-slot linear [real, placeholder]; n>1: infinite triple array
+  const SLOTS_RENDER  = useMemo(
+    () => n === 1 ? [slots[0], PLACEHOLDER_SLOT] : [...slots, ...slots, ...slots],
+    [slots] // eslint-disable-line react-hooks/exhaustive-deps
+  )
   const stripRef      = useRef<HTMLDivElement>(null)
   const slotRefs      = useRef<(HTMLDivElement | null)[]>([])
   const imgRefs       = useRef<(HTMLImageElement | null)[]>([])
   const canvasRefs    = useRef<(HTMLCanvasElement | null)[]>([])
   const tlRef         = useRef<gsap.core.Tween | null>(null)
   const dtRef         = useRef<gsap.core.Tween | null>(null)
-  const idxRef        = useRef(n)
+  const idxRef        = useRef(n === 1 ? 0 : n)
   const pausedRef     = useRef(false)
   const busyRef       = useRef(false)
   const touchStartX   = useRef(0)
   const durationsRef  = useRef<number[]>(new Array(n).fill(DEFAULT_HOLD))
 
-  const [centeredRIdx, setCenteredRIdx] = useState(n)
+  const [centeredRIdx, setCenteredRIdx] = useState(n === 1 ? 0 : n)
   const [stripReady,   setStripReady]   = useState(false)
 
   // Pre-fetch GIF durations; set longer hold for video slots
@@ -137,12 +144,18 @@ export default function WorkBanner({ slots }: Props) {
   const scheduleNext = useCallback(() => {
     dtRef.current?.kill()
     if (pausedRef.current) return
+    if (n === 1 && idxRef.current !== 0) return  // stop at placeholder, don't loop
     const hold = getHold(idxRef.current)
     dtRef.current = gsap.delayedCall(hold, () => goTo(1, scheduleNext)) // eslint-disable-line @typescript-eslint/no-use-before-define
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const goTo = useCallback((delta: number, onDone?: () => void) => {
     if (busyRef.current) return
+    // Single-slot mode: clamp to [0, 1] with no wrapping
+    if (n === 1) {
+      const clamped = idxRef.current + delta
+      if (clamped < 0 || clamped > 1) { onDone?.(); return }
+    }
     const tx = getTranslate(idxRef.current + delta)
     if (tx === null || !stripRef.current) return
     busyRef.current = true
@@ -160,14 +173,16 @@ export default function WorkBanner({ slots }: Props) {
       onComplete: () => {
         idxRef.current = next
 
-        if (idxRef.current >= 2 * n) {
-          idxRef.current = n
-          const t = getTranslate(n); if (t !== null) gsap.set(stripRef.current, { x: t })
-          setCenteredRIdx(n)
-        } else if (idxRef.current < n) {
-          idxRef.current = 2 * n - 1
-          const t = getTranslate(2 * n - 1); if (t !== null) gsap.set(stripRef.current, { x: t })
-          setCenteredRIdx(2 * n - 1)
+        if (n !== 1) {
+          if (idxRef.current >= 2 * n) {
+            idxRef.current = n
+            const t = getTranslate(n); if (t !== null) gsap.set(stripRef.current, { x: t })
+            setCenteredRIdx(n)
+          } else if (idxRef.current < n) {
+            idxRef.current = 2 * n - 1
+            const t = getTranslate(2 * n - 1); if (t !== null) gsap.set(stripRef.current, { x: t })
+            setCenteredRIdx(2 * n - 1)
+          }
         }
 
         busyRef.current = false
@@ -190,9 +205,10 @@ export default function WorkBanner({ slots }: Props) {
       )
     ).then(() => {
       if (!alive) return
-      const t = getTranslate(n); if (t !== null) gsap.set(strip, { x: t })
+      const startIdx = n === 1 ? 0 : n
+      const t = getTranslate(startIdx); if (t !== null) gsap.set(strip, { x: t })
       setStripReady(true)
-      for (let i = 0; i < SLOTS_RENDER.length; i++) { if (i !== n) freezeImage(i) }
+      for (let i = 0; i < SLOTS_RENDER.length; i++) { if (i !== startIdx) freezeImage(i) }
       scheduleNext()
     })
 
@@ -265,6 +281,35 @@ export default function WorkBanner({ slots }: Props) {
       >
         {SLOTS_RENDER.map((slot, i) => {
           const tooltipLabel = slot.a.meta ? `${slot.a.meta.title}, ${slot.a.meta.year}` : 'tooltip to be added'
+
+          // ── Placeholder slot ─────────────────────────────────────────────
+          if (slot.a.isPlaceholder) {
+            return (
+              <div
+                key={i}
+                ref={el => { slotRefs.current[i] = el }}
+                style={{
+                  position:       'relative',
+                  height:         '100%',
+                  flexShrink:     0,
+                  aspectRatio:    '3/4',
+                  background:     'var(--color-gray-ui)',
+                  display:        'flex',
+                  alignItems:     'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <div style={{ textAlign: 'center', padding: '0 24px' }}>
+                  <p className="font-sans text-[13px] uppercase tracking-[0.12em]" style={{ color: 'var(--color-orange)' }}>
+                    Under Construction.
+                  </p>
+                  <p className="font-sans text-[13px] uppercase tracking-[0.12em] mt-2" style={{ color: 'var(--color-orange)', opacity: 0.65 }}>
+                    To be added: FAST-ener, IFC QCer, Therm and Studio apps.
+                  </p>
+                </div>
+              </div>
+            )
+          }
 
           if (slot.b) {
             // ── Paired landscape slot ────────────────────────────────────────
@@ -355,8 +400,8 @@ export default function WorkBanner({ slots }: Props) {
         })}
       </div>
 
-      {/* Permanent left edge arrow */}
-      {n > 0 && (
+      {/* Left arrow: always for n>1; n===1 only when on placeholder */}
+      {n > 0 && (n !== 1 || centeredRIdx > 0) && (
         <button
           aria-label="Previous image"
           onClick={e => { e.stopPropagation(); goTo(-1) }}
@@ -374,8 +419,8 @@ export default function WorkBanner({ slots }: Props) {
         </button>
       )}
 
-      {/* Permanent right edge arrow */}
-      {n > 0 && (
+      {/* Right arrow: always for n>1; n===1 only when on real slot */}
+      {n > 0 && (n !== 1 || centeredRIdx === 0) && (
         <button
           aria-label="Next image"
           onClick={e => { e.stopPropagation(); goTo(1) }}
