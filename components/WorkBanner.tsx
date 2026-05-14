@@ -320,11 +320,11 @@ export default function WorkBanner({ slots, linear }: Props) {
               <div
                 key={i}
                 ref={el => { slotRefs.current[i] = el }}
+                className="w-[80vw] md:w-auto md:aspect-[3/4]"
                 style={{
                   position:       'relative',
                   height:         '100%',
                   flexShrink:     0,
-                  aspectRatio:    '3/4',
                   background:     'var(--color-gray-ui)',
                   display:        'flex',
                   alignItems:     'center',
