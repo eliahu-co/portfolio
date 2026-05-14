@@ -397,6 +397,7 @@ export default function WorkBanner({ slots }: Props) {
                 src={slot.a.src}
                 alt={slot.a.meta?.title ?? ''}
                 className="wb-img"
+                style={{ opacity: i === centeredRIdx ? 1 : 0, transition: 'opacity 0.1s' }}
               />
               <canvas
                 ref={el => { canvasRefs.current[i] = el }}
