@@ -15,6 +15,9 @@ const config: Config = {
         'accent-warm': '#c8a84a',
         'accent-cool': '#3a6ea8',
         subtle: '#e0ddd8',
+        // Autodesk primary brand palette — used by /HA-DrawingAnalyzer
+        'autodesk-blue': '#0696d7',
+        charcoal: '#666666',
       },
       fontFamily: {
         serif: ['var(--font-playfair)', 'Georgia', 'serif'],
