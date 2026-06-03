@@ -240,6 +240,7 @@ export const USE_CASE_2: UseCaseData = {
     steps: [
       { label: 'Issue identified onsite' },
       { label: 'Open Forma mobile' },
+      { label: 'Describe issue using text or voice' },
       { label: 'Locate correct drawing sheet' },
       { label: 'Locate room / object' },
       { label: 'Manually pin location' },
