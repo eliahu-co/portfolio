@@ -499,11 +499,11 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         <WorkflowComparison current={data.currentWorkflow} proposed={data.proposedWorkflow} />
       </Block>
 
-      <Block label="Value">
+      <Block label="Values">
         <CardList items={data.value} variant="value" />
       </Block>
 
-      <Block label="Risks & trade-offs">
+      <Block label="Risks">
         <CardList items={data.tradeoffs} variant="risk" />
         {data.tradeoff && (
           <p className="mt-5 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal">
