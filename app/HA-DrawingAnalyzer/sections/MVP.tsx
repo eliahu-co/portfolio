@@ -47,9 +47,9 @@ const METRICS: { kind: string; title: string; body: string; signal: string }[] =
   },
 ]
 const VARIABLES = [
-  { label: 'Accuracy', body: 'TODO: What accuracy is good enough, and how is it measured?' },
-  { label: 'Latency',  body: 'TODO: Acceptable time-to-result, and where it must be real-time vs. batch.' },
-  { label: 'Cost',     body: 'TODO: Per-drawing / per-project cost envelope and its sensitivity.' },
+  { label: 'Accuracy', body: 'What level of change-detection accuracy is required for designers to trust the review output?' },
+  { label: 'Latency',  body: 'Can analysis complete quickly enough to fit naturally into the upload workflow?' },
+  { label: 'Cost',     body: 'Can change validation run on every upload while remaining economically viable at project scale?' },
 ]
 
 function List({ title, items }: { title: string; items: string[] }) {
