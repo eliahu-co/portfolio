@@ -10,7 +10,8 @@ const SCOPE_IN = [
   'Detect added, removed, and modified drawing objects.',
   'Generate human-readable change descriptions.',
   'Allow designers to edit AI-generated change descriptions before submission.',
-  'Allow designers to reject unintended changes before creating a new version.',
+  'Allow designers to manually add changes not detected by the analyzer.',
+  'Allow designers to cancel version creation after reviewing the generated change summary.',
 ]
 const SCOPE_OUT = [
   'Multi-sheet drawing sets.',
@@ -24,19 +25,25 @@ const METRICS: { kind: string; title: string; body: string; signal: string }[] =
     kind: 'Primary',
     title: 'First-Pass Approval Rate',
     body: 'Percentage of revisions approved without being returned for rework.',
-    signal: 'Increase in first-pass approvals compared to baseline.',
+    signal: 'Increasing compared to baseline.',
   },
   {
     kind: 'Secondary',
     title: 'Upload Cancellation Rate After Change Review',
     body: 'Percentage of uploads cancelled after the designer reviews the AI-generated change summary.',
-    signal: 'Designers identify unintended changes before creating a new version.',
+    signal: 'Positive and sustained, indicating issues are being identified before version creation.',
   },
   {
     kind: 'Learning',
     title: 'Change Description Edit Rate',
     body: 'Percentage of AI-generated change descriptions modified by designers before submission.',
-    signal: 'Helps evaluate the usefulness and trustworthiness of generated change summaries.',
+    signal: 'Low and decreasing over time.',
+  },
+  {
+    kind: 'Learning',
+    title: 'Manually Added Change Rate',
+    body: 'Percentage of submissions where designers add changes not detected by the analyzer.',
+    signal: 'Low and decreasing over time.',
   },
 ]
 const VARIABLES = [
