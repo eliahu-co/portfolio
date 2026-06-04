@@ -70,6 +70,7 @@ export interface UseCaseData {
 
   value:     TitledItem[]
   tradeoffs: TitledItem[]
+  tradeoff?: { gain: string; cost: string } // one-line value⇄cost summary under the risks
 }
 
 /* ─── generic helpers ─────────────────────────────────────────────────────── */
@@ -504,6 +505,14 @@ export default function UseCase({ data }: { data: UseCaseData }) {
 
       <Block label="Risks & trade-offs">
         <CardList items={data.tradeoffs} variant="risk" />
+        {data.tradeoff && (
+          <p className="mt-5 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal">
+            <span className="font-bold mr-2">Tradeoff</span>
+            {data.tradeoff.gain}
+            <span className="mx-1" aria-hidden="true">⇄</span>
+            {data.tradeoff.cost}
+          </p>
+        )}
       </Block>
     </Section>
   )

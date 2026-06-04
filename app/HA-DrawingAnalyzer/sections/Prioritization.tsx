@@ -17,7 +17,7 @@ const CRITERIA_DEFS = [
 type Row = { useCase: string; scores: number[]; total: number; winner?: boolean }
 
 const ROWS: Row[] = [
-  { useCase: 'Design Revision Validation', scores: [5, 5, 5, 3], total: 18, winner: true },
+  { useCase: 'Change Validation',          scores: [5, 5, 5, 3], total: 18, winner: true },
   { useCase: 'Context Link',               scores: [5, 5, 3, 3], total: 16 },
   { useCase: 'Coordination Lock',          scores: [5, 4, 3, 2], total: 14 },
   { useCase: 'Program Conformance Review', scores: [4, 5, 2, 2], total: 13 },
@@ -82,10 +82,10 @@ export default function Prioritization() {
         </table>
       </div>
 
-      <div className="max-w-2xl border-t-2 border-charcoal/20 pt-5">
+      <div className="max-w-2xl">
         <p className="font-sans text-[9px] uppercase tracking-[0.14em] text-autodesk-blue mb-2">Decision</p>
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          Design Revision Validation scores highest (18) — pairing the strongest impact and
+          Change Validation scores highest (18) — pairing the strongest impact and
           platform leverage with high implementation confidence — making it the recommended
           starting point. Context Link (16) is the next strongest and a natural follow-on,
           reusing the same structured-drawing foundation.

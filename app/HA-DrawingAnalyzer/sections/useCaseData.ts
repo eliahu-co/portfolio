@@ -107,6 +107,8 @@ export const USE_CASE_1: UseCaseData = {
       body: 'The validation step is introduced into every revision submission. If users perceive the review as slow, noisy, or low-value, it may become an annoyance rather than a productivity aid.',
     },
   ],
+
+  tradeoff: { gain: 'Fewer review cycles', cost: 'Added submission step' },
 }
 
 export const USE_CASE_2: UseCaseData = {
@@ -221,6 +223,8 @@ export const USE_CASE_2: UseCaseData = {
       body: 'If the system frequently surfaces low-confidence or irrelevant suggestions, users may begin ignoring the generated context altogether.',
     },
   ],
+
+  tradeoff: { gain: 'Faster RFI cycle', cost: 'Context needs verification' },
 }
 
 export const USE_CASE_3: UseCaseData = {
@@ -328,6 +332,8 @@ export const USE_CASE_3: UseCaseData = {
       body: 'Creating and maintaining coordination dependencies introduces additional work for coordinators. The workflow must provide enough value to justify that investment.',
     },
   ],
+
+  tradeoff: { gain: 'Coordination awareness', cost: 'Maintenance overhead' },
 }
 
 export const USE_CASE_4: UseCaseData = {
@@ -432,4 +438,6 @@ export const USE_CASE_4: UseCaseData = {
       body: 'Poorly defined, outdated, or overly granular criteria may generate low-value findings and reduce trust in the review output.',
     },
   ],
+
+  tradeoff: { gain: 'Consistent standards', cost: 'Flexibility & setup effort' },
 }
