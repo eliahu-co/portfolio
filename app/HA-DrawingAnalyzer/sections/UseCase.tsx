@@ -58,13 +58,12 @@ export interface UseCaseData {
   currentWorkflow:  Workflow
   proposedWorkflow: Workflow
 
-  whyAnalyzer: {
-    intro:            string[] // paragraphs before the examples
-    examples?:        string[] // bullet examples (optional)
-    body:             string[] // paragraphs after the examples, before the quotes
-    quotes?:          string[] // quotes (rendered as blockquotes)
-    quotesAfterIntro?: boolean // place quotes right after the intro instead of after the body
-    closing:          string   // final paragraph
+  opportunity: {
+    statement: string   // headline opportunity statement
+    intro?:    string   // optional lead-in paragraph (often ends with a colon)
+    quotes?:   string[] // optional example quotes (rendered as blockquotes)
+    outro?:    string   // optional paragraph after the quotes
+    image?:    string   // optional image shown to the left of the text
   }
 
   value:     TitledItem[]
@@ -114,22 +113,6 @@ function WarningBadge() {
       <rect x="7.3" y="5.8" width="1.4" height="4.2" rx="0.7" fill="#fff" />
       <circle cx="8" cy="11.6" r="0.9" fill="#fff" />
     </svg>
-  )
-}
-
-function WhyQuotes({ quotes }: { quotes?: string[] }) {
-  if (!quotes || quotes.length === 0) return null
-  return (
-    <div className="flex flex-col gap-2 mt-3">
-      {quotes.map((q, i) => (
-        <blockquote
-          key={i}
-          className="border-l-2 border-autodesk-blue pl-3 py-0.5 font-sans italic text-[14px] leading-relaxed text-charcoal"
-        >
-          “{q}”
-        </blockquote>
-      ))}
-    </div>
   )
 }
 
@@ -430,28 +413,36 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         <Bullets items={data.problem.consequences} />
       </Block>
 
-      <Block label="Workflow">
-        <WorkflowComparison current={data.currentWorkflow} proposed={data.proposedWorkflow} />
+      <Block label="The AI Drawing Analyzer Opportunity">
+        <div>
+          <Para>{data.opportunity.statement}</Para>
+          {data.opportunity.intro && <div className="mt-3"><Para>{data.opportunity.intro}</Para></div>}
+          {data.opportunity.quotes && data.opportunity.quotes.length > 0 && (
+            <div className="flex flex-col gap-2 mt-3">
+              {data.opportunity.quotes.map((q, i) => (
+                <blockquote
+                  key={i}
+                  className="border-l-2 border-autodesk-blue pl-3 py-0.5 font-sans italic text-[14px] leading-relaxed text-charcoal"
+                >
+                  “{q}”
+                </blockquote>
+              ))}
+            </div>
+          )}
+          {data.opportunity.outro && <div className="mt-3"><Para>{data.opportunity.outro}</Para></div>}
+          {data.opportunity.image && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={data.opportunity.image}
+              alt=""
+              className="w-full rounded-lg border-2 border-autodesk-blue/60 mt-5"
+            />
+          )}
+        </div>
       </Block>
 
-      <Block label="Why the AI Drawing Analyzer is required">
-        <div className="flex flex-col gap-3">
-          {data.whyAnalyzer.intro.map((p, i) => <Para key={i}>{p}</Para>)}
-        </div>
-        {data.whyAnalyzer.quotesAfterIntro && <WhyQuotes quotes={data.whyAnalyzer.quotes} />}
-        {data.whyAnalyzer.examples && data.whyAnalyzer.examples.length > 0 && (
-          <>
-            <MiniLabel>Examples</MiniLabel>
-            <Bullets items={data.whyAnalyzer.examples} />
-          </>
-        )}
-        <div className="flex flex-col gap-3 mt-4">
-          {data.whyAnalyzer.body.map((p, i) => <Para key={i}>{p}</Para>)}
-        </div>
-        {!data.whyAnalyzer.quotesAfterIntro && <WhyQuotes quotes={data.whyAnalyzer.quotes} />}
-        <div className="mt-4">
-          <Para>{data.whyAnalyzer.closing}</Para>
-        </div>
+      <Block label="Workflow">
+        <WorkflowComparison current={data.currentWorkflow} proposed={data.proposedWorkflow} />
       </Block>
 
       <Block label="Value">

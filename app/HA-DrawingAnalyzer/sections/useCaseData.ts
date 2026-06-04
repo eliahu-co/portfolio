@@ -28,18 +28,10 @@ export const USE_CASE_1: UseCaseData = {
 
   problem: {
     intro: 'Designers frequently introduce unintended changes while modifying complex drawings.',
-    examples: [
-      'Accidentally moving objects',
-      'Modifying a room boundary',
-      'Removing equipment',
-      'Changing dimensions or annotations',
-    ],
     consequences: [
-      'Reviews become diff-finding exercises instead of design validation',
-      'Senior reviewers spend time identifying changes rather than evaluating decisions',
-      'Multiple review rounds are required',
-      'Designers receive feedback after they have already switched context',
-      'Drawing revision disconnected to file version',
+      'Reviewers spend time identifying changes (e.g., moved objects, modified room boundaries, removed equipment, or annotation updates) rather than evaluating design decisions',
+      'Additional review cycles are required when unintended changes are discovered late',
+      'Designers receive feedback after they have already switched context to other work',
     ],
   },
 
@@ -48,6 +40,7 @@ export const USE_CASE_1: UseCaseData = {
     steps: [
       { label: 'Designer modifies drawing' },
       { label: 'Uploads drawing', note: 'New version created' },
+      { label: 'Designer manually compares drawings', note: 'Mistake not caught' },
       { label: 'Designer submits for review', emphasis: true },
       { label: 'Reviewer identifies unintended changes', kind: 'catch', actor: 'reviewer', note: 'Caught late — at human review' },
       { label: 'Review sent back to initiator', kind: 'reject' },
@@ -72,26 +65,11 @@ export const USE_CASE_1: UseCaseData = {
     ],
   },
 
-  whyAnalyzer: {
-    intro: [
-      'Traditional document comparison tools compare visual or vector-level differences and often generate excessive noise. The AI Drawing Analyzer compares the semantic structure of the drawing.',
-    ],
-    examples: [
-      'Moving a room label within the same room does not create a meaningful change',
-      'Repositioning views on a sheet without modifying them does not trigger unnecessary alerts',
-      'Changes are identified based on geometry, objects, and their relationships rather than visual movement on the sheet',
-    ],
-    body: [
-      'This allows designers to focus on actual design modifications rather than document noise.',
-      'In addition, the analyzer can automatically generate a human-readable summary of detected modifications, such as:',
-    ],
-    quotes: [
-      'Added two doors to Corridor A',
-      'Room 105 area increased by 8%',
-      'Relocated HVAC Unit 12',
-    ],
-    closing:
-      'This transforms drawing revisions from simple file versions into structured change records that can be understood, reviewed, and searched by project stakeholders.',
+  opportunity: {
+    image: '/drawinganalyzer/use-case-1.png',
+    statement:
+      'Transform drawing revisions from static file versions into structured, reviewable change sets that can be validated and documented before entering the formal approval process.',
+    outro: 'This creates a reusable change-intelligence capability that can support design reviews, coordination workflows, compliance documentation, project handoffs, and long-term auditability.',
   },
 
   value: [
@@ -196,20 +174,13 @@ export const USE_CASE_2: UseCaseData = {
     ],
   },
 
-  whyAnalyzer: {
-    intro: [
-      'Field users typically describe issues using the language they use on site:',
-    ],
-    quotes: [
-      'Window in Conference Room A on Level 3 doesn’t match spec.',
-    ],
-    quotesAfterIntro: true,
-    body: [
-      'The challenge is not capturing the issue description, but connecting it to the relevant project context.',
-      'The AI Drawing Analyzer enables the system to resolve that description into the appropriate room, drawing sheet, object, schedule entry, and specification section, allowing RFIs to be submitted with richer context and reducing the need for clarification cycles.',
-    ],
-    closing:
-      'This extends Autodesk’s existing Quick Create RFI workflow by adding drawing intelligence rather than replacing it.',
+  opportunity: {
+    image: '/drawinganalyzer/use-case-2.png',
+    statement:
+      'Transform free-form issue descriptions into context-rich project records by automatically connecting RFIs to the relevant drawings, objects, schedules, specifications, and locations.',
+    intro: 'Example:',
+    quotes: ['Window in Conference Room A on Level 3 doesn’t match spec.'],
+    outro: 'This enables project context to be inferred from the issue description rather than manually reconstructed throughout the RFI lifecycle. It also creates a reusable context-linking capability that can later support RFIs, observations, punch items, and issue management workflows.',
   },
 
   value: [
@@ -313,15 +284,10 @@ export const USE_CASE_3: UseCaseData = {
     ],
   },
 
-  whyAnalyzer: {
-    intro: [
-      'The value of this workflow comes from creating and maintaining relationships between coordinated elements across discipline drawings.',
-    ],
-    body: [
-      'Without drawing understanding, coordination decisions remain isolated to meetings, markups, and email threads. The system has no way to recognize when a future drawing change impacts a previously coordinated element.',
-    ],
-    closing:
-      'The AI Drawing Analyzer enables those relationships to be captured from the drawings themselves and monitored as designs evolve.',
+  opportunity: {
+    image: '/drawinganalyzer/use-case-3.png',
+    statement:
+      'Transform temporary coordination decisions into persistent, traceable dependencies that can be monitored as drawings evolve across disciplines.',
   },
 
   value: [
@@ -347,20 +313,20 @@ export const USE_CASE_3: UseCaseData = {
   tradeoffs: [
     {
       primary: true,
-      title: 'Project Complexity Dependency',
-      body: 'Smaller projects may not justify the additional coordination workflow.',
-    },
-    {
-      title: 'Data Coverage',
-      body: 'The workflow depends on all relevant discipline drawings being available.',
-    },
-    {
       title: 'Relationship Ambiguity',
-      body: 'Some cross-discipline relationships may be difficult to infer confidently.',
+      body: 'Some cross-discipline relationships may be difficult to infer confidently, creating review overhead and reducing trust in the suggested dependencies.',
     },
     {
-      title: 'Workflow Adoption',
-      body: 'Teams may view the solution as competing with existing coordination practices.',
+      title: 'Over-Constraining Future Changes',
+      body: 'Persistent coordination dependencies may continue surfacing review requirements even when the original relationship is no longer relevant, creating unnecessary friction.',
+    },
+    {
+      title: 'Coordination Noise',
+      body: 'If too many dependencies generate review alerts, teams may begin ignoring coordination flags altogether.',
+    },
+    {
+      title: 'Process Overhead',
+      body: 'Creating and maintaining coordination dependencies introduces additional work for coordinators. The workflow must provide enough value to justify that investment.',
     },
   ],
 }
