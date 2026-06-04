@@ -258,8 +258,8 @@ function StepCell({
         <span className={`relative shrink-0 text-[11px] md:text-[12px] leading-none ${marker}`} aria-hidden="true">
           {markerGlyph(kind)}
         </span>
-        <span className="relative min-w-0">
-          <span className={`font-sans text-[11px] md:text-[12px] leading-snug ${labelColor}`}>
+        <span className="relative min-w-0 text-[11px] md:text-[12px] leading-snug">
+          <span className={`font-sans ${labelColor}`}>
             {step.label}
           </span>
           {step.note && (
@@ -362,7 +362,7 @@ export default function UseCase({ data }: { data: UseCaseData }) {
             <p className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/50 mb-2">
               {Array.isArray(data.secondaryUser) && data.secondaryUser.length > 1 ? 'Secondary users' : 'Secondary user'}
             </p>
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-2">
               {(Array.isArray(data.secondaryUser) ? data.secondaryUser : [data.secondaryUser]).map((u, i) => (
                 <Role key={i} data={u} />
               ))}
