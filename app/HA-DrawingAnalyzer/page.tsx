@@ -14,8 +14,8 @@ import { USE_CASE_1, USE_CASE_2, USE_CASE_3, USE_CASE_4 } from './sections/useCa
 import Prioritization from './sections/Prioritization'
 import MVP from './sections/MVP'
 import PrototypeDemo from './sections/PrototypeDemo'
-import OpenQuestions from './sections/OpenQuestions'
 import AssumptionsSources from './sections/AssumptionsSources'
+import Approach from './sections/Approach'
 
 export const metadata: Metadata = {
   title: 'AI Drawing Analyzer — Product Strategy · Eliahu Cohen',
@@ -39,8 +39,8 @@ export default function HADrawingAnalyzerPage() {
             <Prioritization />
             <MVP />
             <PrototypeDemo />
-            <OpenQuestions />
             <AssumptionsSources />
+            <Approach />
 
             {/* Footer — back-home link, matching app/cv/page.tsx */}
             <footer className="border-t-2 border-autodesk-blue pt-5 mt-4">
