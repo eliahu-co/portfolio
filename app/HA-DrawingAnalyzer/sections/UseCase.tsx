@@ -58,11 +58,11 @@ export interface UseCaseData {
   proposedWorkflow: Workflow
 
   whyAnalyzer: {
-    intro:    string[] // paragraphs before the examples
-    examples: string[] // bullet examples
-    body:     string[] // paragraphs after the examples, before the quotes
-    quotes:   string[] // machine-generated change summaries (rendered as quotes)
-    closing:  string   // final paragraph
+    intro:     string[] // paragraphs before the examples
+    examples?: string[] // bullet examples (optional)
+    body:      string[] // paragraphs after the examples, before the quotes
+    quotes?:   string[] // machine-generated change summaries (rendered as quotes)
+    closing:   string   // final paragraph
   }
 
   value:     TitledItem[]
@@ -232,7 +232,7 @@ function StepCell({
   if (kind === 'ai') box = 'bg-autodesk-blue/5 border-autodesk-blue/45 shadow-[0_0_10px_-2px_rgba(6,150,215,0.3)]'
   else if (kind === 'approve') box = proposed ? 'bg-autodesk-blue/10 border-autodesk-blue/70' : 'bg-white border-charcoal/45'
   else if (kind === 'catch') box = isEmphasis
-    ? (proposed ? 'bg-autodesk-blue/5 border-autodesk-blue' : 'bg-white border-charcoal/60')
+    ? (proposed ? 'bg-autodesk-blue/10 border-autodesk-blue/70' : 'bg-white border-charcoal/60')
     : (proposed ? 'bg-autodesk-blue/5 border-autodesk-blue/30' : 'bg-white border-charcoal/25')
   else if (kind === 'reject') box = 'bg-white border-charcoal/60'
   else if (kind === 'repeat') box = 'bg-white border-charcoal/45'
@@ -355,11 +355,11 @@ export default function UseCase({ data }: { data: UseCaseData }) {
       <Block label="User">
         <div className="grid md:grid-cols-2 gap-x-10 gap-y-6">
           <div>
-            <p className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/50 mb-2">Primary user</p>
+            <p className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/50 -mb-0.5">Primary user</p>
             <Role data={data.primaryUser} />
           </div>
           <div>
-            <p className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/50 mb-2">
+            <p className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/50 -mb-0.5">
               {Array.isArray(data.secondaryUser) && data.secondaryUser.length > 1 ? 'Secondary users' : 'Secondary user'}
             </p>
             <div className="flex flex-col gap-2">
@@ -391,21 +391,27 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         <div className="flex flex-col gap-3">
           {data.whyAnalyzer.intro.map((p, i) => <Para key={i}>{p}</Para>)}
         </div>
-        <MiniLabel>Examples</MiniLabel>
-        <Bullets items={data.whyAnalyzer.examples} />
+        {data.whyAnalyzer.examples && data.whyAnalyzer.examples.length > 0 && (
+          <>
+            <MiniLabel>Examples</MiniLabel>
+            <Bullets items={data.whyAnalyzer.examples} />
+          </>
+        )}
         <div className="flex flex-col gap-3 mt-4">
           {data.whyAnalyzer.body.map((p, i) => <Para key={i}>{p}</Para>)}
         </div>
-        <div className="flex flex-col gap-2 mt-3">
-          {data.whyAnalyzer.quotes.map((q, i) => (
-            <blockquote
-              key={i}
-              className="border-l-2 border-autodesk-blue pl-3 py-0.5 font-sans italic text-[14px] leading-relaxed text-charcoal"
-            >
-              “{q}”
-            </blockquote>
-          ))}
-        </div>
+        {data.whyAnalyzer.quotes && data.whyAnalyzer.quotes.length > 0 && (
+          <div className="flex flex-col gap-2 mt-3">
+            {data.whyAnalyzer.quotes.map((q, i) => (
+              <blockquote
+                key={i}
+                className="border-l-2 border-autodesk-blue pl-3 py-0.5 font-sans italic text-[14px] leading-relaxed text-charcoal"
+              >
+                “{q}”
+              </blockquote>
+            ))}
+          </div>
+        )}
         <div className="mt-4">
           <Para>{data.whyAnalyzer.closing}</Para>
         </div>
