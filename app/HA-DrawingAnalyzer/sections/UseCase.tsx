@@ -499,7 +499,7 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         <WorkflowComparison current={data.currentWorkflow} proposed={data.proposedWorkflow} />
       </Block>
 
-      <Block label="Value proposition">
+      <Block label="Value delivered">
         <CardList items={data.value} variant="value" />
       </Block>
 

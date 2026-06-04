@@ -28,7 +28,7 @@ const METRICS: { kind: string; title: string; body: string; signal: string }[] =
     signal: 'Increasing compared to baseline.',
   },
   {
-    kind: 'Usage metric',
+    kind: 'Usage',
     title: 'Upload Cancellation Rate After Change Review',
     body: 'Percentage of uploads cancelled after the designer reviews the AI-generated change summary.',
     signal: 'Positive and sustained, indicating issues are being identified before version creation.',
@@ -81,9 +81,9 @@ export default function MVP() {
         <div className="flex flex-col gap-5">
           {METRICS.map(({ kind, title, body, signal }) => (
             <div key={title} className="pl-3 border-l-4 border-autodesk-blue">
-              <p className="font-serif text-[14px] text-black mb-0.5 flex items-center gap-2">
+              <p className="font-serif text-[14px] text-black mb-0.5 flex items-center gap-3">
                 <span className="min-w-0">{title}</span>
-                <Pill tone="blue" className="ml-auto shrink-0">{kind}</Pill>
+                <Pill tone="blue" className="shrink-0">{kind}</Pill>
               </p>
               <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80">{body}</p>
               <p className="mt-2 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal">

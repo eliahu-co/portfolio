@@ -32,8 +32,9 @@ export default function Prioritization() {
     <Section id="prioritization" eyebrow="Prioritization" title="Criteria, scoring & decision">
       <div className="max-w-2xl mb-6">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          The evaluation uses an ICE-inspired framework tailored for strategic platform opportunities. Traditional frameworks such as RICE rely heavily on reach estimates. Each use case is scored from 1–5 on four criteria; the total is their sum (max 20).
-          Every criterion is oriented so that a higher score is better.
+          Each use case is scored from 1–5 across four criteria. Scores are intended to compare
+          strategic opportunities rather than estimate outcomes with precision. All criteria are
+          oriented so that higher scores indicate a more attractive investment opportunity.
         </p>
       </div>
 
