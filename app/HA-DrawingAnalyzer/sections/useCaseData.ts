@@ -74,8 +74,7 @@ export const USE_CASE_1: UseCaseData = {
 
   whyAnalyzer: {
     intro: [
-      'Traditional document comparison tools compare visual or vector-level differences and often generate excessive noise.',
-      'The AI Drawing Analyzer compares the semantic structure of the drawing.',
+      'Traditional document comparison tools compare visual or vector-level differences and often generate excessive noise. The AI Drawing Analyzer compares the semantic structure of the drawing.',
     ],
     examples: [
       'Moving a room label within the same room does not create a meaningful change',
@@ -97,58 +96,37 @@ export const USE_CASE_1: UseCaseData = {
 
   value: [
     {
-      title: 'Reduced Review Cycles',
-      body: 'Issues are identified before reaching formal review, reducing the number of rejected revisions and resubmissions.',
+      primary: true,
+      title: 'Fewer Review Cycles',
+      body: 'Catch unintended changes before submission, reducing rejected revisions and resubmissions.',
     },
     {
-      title: 'Faster Approval Process',
-      body: 'Higher-quality revisions are submitted to reviewers, increasing the likelihood of first-pass approval.',
+      title: 'Faster Approvals',
+      body: 'Higher-quality revisions reach reviewers, increasing first-pass approval rates.',
     },
     {
       title: 'Reduced Reviewer Effort',
-      body: 'Reviewers spend less time identifying differences and more time evaluating design decisions.',
+      body: 'Reviewers spend less time finding differences and more time evaluating design decisions.',
     },
     {
-      title: 'Reduced Context Switching',
-      body: 'Designers discover mistakes immediately after making changes rather than days later after receiving review feedback.',
-    },
-    {
-      title: 'Cleaner Version History',
-      body: 'Only validated revisions enter the formal review process, reducing version noise and unnecessary document churn.',
-    },
-    {
-      title: 'Structured Change Audit Trail',
-      body: 'Each revision automatically generates a machine-readable and human-readable record of what changed. Over time, this creates a searchable history of design decisions that can support:',
-      bullets: [
-        'Design reviews',
-        'Coordination meetings',
-        'Compliance documentation',
-        'Project handoffs',
-        'Root-cause analysis when issues are discovered later in the project lifecycle',
-      ],
+      title: 'Structured Change History',
+      body: 'Every revision generates a searchable record of what changed and why.',
     },
   ],
 
   tradeoffs: [
     {
-      title: 'Missed Changes',
-      body: 'If the AI fails to identify a change, users may gain false confidence in the revision.',
+      primary: true,
+      title: 'False Confidence',
+      body: 'Designers may assume the change set is complete and overlook modifications that were not detected by the AI.',
     },
     {
-      title: 'Incorrect Classification',
-      body: 'The AI may incorrectly classify objects or generate inaccurate descriptions of modifications.',
+      title: 'Change Noise',
+      body: 'Cosmetic or low-value modifications may generate unnecessary alerts, making it harder to identify meaningful design changes.',
     },
     {
-      title: 'Noise From Low-Value Changes',
-      body: 'Formatting, annotations, or sheet-level modifications may generate unnecessary alerts if not properly filtered.',
-    },
-    {
-      title: 'User Trust',
-      body: 'The workflow depends on designers trusting the generated change set enough to incorporate it into their review process.',
-    },
-    {
-      title: 'Additional Review Step',
-      body: 'The workflow introduces a validation step before submission. If the detected changes are not sufficiently accurate or valuable, users may perceive the process as slowing them down rather than helping them.',
+      title: 'Workflow Friction',
+      body: 'The validation step is introduced into every revision submission. If users perceive the review as slow, noisy, or low-value, it may become an annoyance rather than a productivity aid.',
     },
   ],
 }
@@ -156,7 +134,7 @@ export const USE_CASE_1: UseCaseData = {
 export const USE_CASE_2: UseCaseData = {
   id:      'use-case-2',
   eyebrow: 'Use Case 2',
-  title:   'RFI Spatial Link',
+  title:   'RFI Context Link',
 
   constructionPhase: {
     name: 'Construction',
@@ -186,13 +164,9 @@ export const USE_CASE_2: UseCaseData = {
     intro:
       'Field teams often struggle to provide complete context when creating RFIs. Identifying the correct drawing sheet, room, object, schedule entry, and specification section requires navigating large drawing sets from a mobile device while working onsite.',
     consequences: [
-      'RFIs are submitted with incomplete information',
-      'Designers request clarification',
-      'Resolution cycles increase',
-      'Construction work may be delayed while waiting for answers',
-      'Industry RFI turnaround times frequently exceed 7 days',
-      'Autodesk customer forums contain requests for drawing-aware RFIs and automatic specification linkage',
-      'Autodesk’s Quick Create RFI improves text generation but does not understand drawing content',
+      'RFIs are submitted with incomplete context, leading to clarification requests and longer resolution cycles',
+      'Construction work may be delayed while waiting for answers, especially when RFIs impact critical-path activities',
+      'Teams spend additional time coordinating, investigating, and re-establishing context that could have been captured during RFI creation',
     ],
   },
 
@@ -202,12 +176,9 @@ export const USE_CASE_2: UseCaseData = {
       { label: 'Issue identified onsite' },
       { label: 'Open Forma mobile' },
       { label: 'Describe issue using text or voice' },
-      { label: 'Locate correct drawing sheet' },
-      { label: 'Locate room / object' },
-      { label: 'Manually pin location' },
-      { label: 'Add drawing references' },
-      { label: 'Add schedule / specification references' },
+      { label: '(Optional) Attach photo and files' },
       { label: 'Submit RFI', emphasis: true },
+      { label: 'Designer investigates issue', actor: 'designer', emphasis: true, note: 'Attempts to reconstruct context' },
       { label: 'Designer requests clarification', kind: 'catch', actor: 'designer', note: 'Incomplete context' },
       { label: 'RFI cycle restarts', kind: 'repeat' },
     ],
@@ -218,7 +189,7 @@ export const USE_CASE_2: UseCaseData = {
       { label: 'Issue identified onsite' },
       { label: 'Open Forma mobile' },
       { label: 'Describe issue using text or voice' },
-      { label: 'Spatial Link suggests context', kind: 'ai', note: 'Room • Object • Sheet • Schedule • Specification' },
+      { label: 'Context Link suggests context', kind: 'ai', note: 'Room • Object • Sheet • Schedule • Specification' },
       { label: 'User confirms context' },
       { label: 'Submit RFI', emphasis: true },
       { label: 'RFI answered without clarification cycle', kind: 'approve', actor: 'designer', note: 'No clarification required' },
@@ -227,61 +198,57 @@ export const USE_CASE_2: UseCaseData = {
 
   whyAnalyzer: {
     intro: [
-      'This workflow requires the system to understand the contents of construction drawings rather than simply storing files.',
-      'The AI Drawing Analyzer enables:',
-    ],
-    examples: [
-      'Room and space detection',
-      'Object and equipment detection',
-      'Text-to-geometry association',
-      'Drawing-to-schedule relationships',
-      'Structured drawing representation',
-    ],
-    body: [
-      'Unlike a traditional PDF viewer, the system can resolve natural-language references such as:',
+      'Field users typically describe issues using the language they use on site:',
     ],
     quotes: [
-      'Window in Conference Room A on Level 3',
+      'Window in Conference Room A on Level 3 doesn’t match spec.',
+    ],
+    quotesAfterIntro: true,
+    body: [
+      'The challenge is not capturing the issue description, but connecting it to the relevant project context.',
+      'The AI Drawing Analyzer enables the system to resolve that description into the appropriate room, drawing sheet, object, schedule entry, and specification section, allowing RFIs to be submitted with richer context and reducing the need for clarification cycles.',
     ],
     closing:
-      'It resolves this into the correct room, the relevant drawing sheet, the associated window type, related schedule entries, and applicable specification sections. The system can then present candidate matches transparently and allow the user to confirm the correct context before submission. This extends Autodesk’s existing Quick Create RFI workflow by adding drawing intelligence rather than replacing it.',
+      'This extends Autodesk’s existing Quick Create RFI workflow by adding drawing intelligence rather than replacing it.',
   },
 
   value: [
     {
-      title: 'Higher First-Pass Resolution',
-      body: 'RFIs arrive with richer spatial and document context, reducing clarification requests and rework.',
+      primary: true,
+      title: 'Improved Field Productivity',
+      body: 'Field teams spend less time gathering, reconstructing, and communicating project context when creating RFIs.',
     },
     {
       title: 'Reduced RFI Cycle Time',
-      body: 'Complete context enables faster responses from designers and consultants.',
+      body: 'Context-rich RFIs reduce the need for clarification and accelerate resolution.',
     },
     {
-      title: 'Improved Field Productivity',
-      body: 'Field users spend less time navigating drawings and gathering supporting information. The workflow is mobile-friendly, voice-friendly, and better suited to field conditions.',
+      title: 'Reduced Designer Investigation Effort',
+      body: 'Designers spend less time determining which room, object, drawing, or specification the issue refers to.',
     },
     {
-      title: 'Strategic Platform Value',
-      body: 'Demonstrates how the structured drawing representation created by the AI Drawing Analyzer can be reused beyond drawing review workflows. The same room, object, drawing, schedule, and specification relationships used to enrich RFIs can support additional workflows across Autodesk Construction Cloud, increasing the value of the underlying AI Drawing Analyzer investment.',
+      title: 'Better Project Records',
+      body: 'RFIs become automatically linked to rooms, objects, drawings, schedules, and specifications.',
     },
   ],
 
   tradeoffs: [
     {
+      primary: true,
+      title: 'Incorrect Context Association',
+      body: 'The system may link an issue to the wrong room, object, drawing, or specification, creating confusion and sending designers down the wrong investigation path.',
+    },
+    {
       title: 'Natural Language Ambiguity',
-      body: 'Descriptions such as “the window near the conference room” may refer to multiple drawing elements.',
-    },
-    {
-      title: 'Drawing Register Accuracy',
-      body: 'Incorrect room, object, or schedule associations may lead to incomplete or inaccurate RFIs.',
-    },
-    {
-      title: 'User Adoption',
-      body: 'Some users may prefer existing pin-based workflows and may not trust AI-assisted context generation.',
+      body: 'Issue descriptions may be too vague to reliably identify a single object or location, resulting in multiple possible matches.',
     },
     {
       title: 'False Confidence',
-      body: 'Users may accept incorrect AI suggestions without sufficient verification.',
+      body: 'Field users may accept AI-suggested context without verifying it, increasing the risk of inaccurate RFIs.',
+    },
+    {
+      title: 'Workflow Noise',
+      body: 'If the system frequently surfaces low-confidence or irrelevant suggestions, users may begin ignoring the generated context altogether.',
     },
   ],
 }
@@ -348,54 +315,52 @@ export const USE_CASE_3: UseCaseData = {
 
   whyAnalyzer: {
     intro: [
-      'This workflow requires the system to understand relationships between objects across multiple discipline drawings rather than treating each sheet as an independent document.',
+      'The value of this workflow comes from creating and maintaining relationships between coordinated elements across discipline drawings.',
     ],
     body: [
-      'Unlike a traditional PDF viewer, the AI Drawing Analyzer can identify when objects on different sheets are likely referring to the same physical space, equipment, or coordinated design decision. It can then surface those relationships for review and maintain them over time as drawings evolve.',
+      'Without drawing understanding, coordination decisions remain isolated to meetings, markups, and email threads. The system has no way to recognize when a future drawing change impacts a previously coordinated element.',
     ],
     closing:
-      'For example, a ceiling-mounted unit shown on an architectural reflected ceiling plan and a related electrical junction box shown on an electrical plan may represent a coordinated design decision. Once confirmed by the coordinator, that relationship can be monitored across future revisions and automatically flagged when either side changes.',
+      'The AI Drawing Analyzer enables those relationships to be captured from the drawings themselves and monitored as designs evolve.',
   },
 
   value: [
     {
+      primary: true,
       title: 'Earlier Conflict Detection',
-      body: 'Cross-discipline issues are flagged before they reach the field, where fixes are significantly more expensive.',
+      body: 'Previously coordinated elements are automatically flagged when related objects change.',
     },
     {
       title: 'Persistent Coordination History',
-      body: 'Confirmed relationships become a living record of coordination decisions rather than disappearing into meetings, markups, and email threads.',
+      body: 'Coordination decisions become durable project knowledge rather than disappearing into meetings and email threads.',
     },
     {
       title: 'Better Change Impact Awareness',
-      body: 'When one coordinated object changes, related objects are automatically flagged for review, reducing the likelihood of downstream conflicts.',
+      body: 'Teams understand when a modification affects previously coordinated work.',
     },
     {
-      title: 'Works on Issued 2D Drawings',
-      body: 'The workflow operates on the drawing set that teams actually build from, including projects where BIM models are incomplete, outdated, or not consistently maintained.',
+      title: 'Reduced Coordination Effort',
+      body: 'Coordinators spend less time manually rechecking relationships across discipline drawings.',
     },
   ],
 
   tradeoffs: [
     {
+      primary: true,
       title: 'Project Complexity Dependency',
-      body: 'The use case is most valuable on large, complex projects with many cross-discipline dependencies. Simpler projects may not justify the coordination overhead.',
+      body: 'Smaller projects may not justify the additional coordination workflow.',
     },
     {
       title: 'Data Coverage',
-      body: 'The workflow depends on relevant discipline sheets being available within Autodesk’s environment. Missing disciplines limit the value of the coordination graph.',
+      body: 'The workflow depends on all relevant discipline drawings being available.',
     },
     {
-      title: 'Usability Complexity',
-      body: 'Coordinators need to compare relationships across multiple sheets while clearly distinguishing high-confidence matches from lower-confidence suggestions.',
-    },
-    {
-      title: 'AI Ambiguity',
-      body: 'Some relationships are obvious (e.g., matching equipment tags), while others require spatial inference and may be inherently ambiguous.',
+      title: 'Relationship Ambiguity',
+      body: 'Some cross-discipline relationships may be difficult to infer confidently.',
     },
     {
       title: 'Workflow Adoption',
-      body: 'BIM coordination workflows are already established. The product must be positioned as a coordination layer for issued 2D documents rather than a replacement for 3D clash detection.',
+      body: 'Teams may view the solution as competing with existing coordination practices.',
     },
   ],
 }

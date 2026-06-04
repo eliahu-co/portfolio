@@ -20,6 +20,7 @@ export interface TitledItem {
   title:    string
   body:     string
   bullets?: string[] // optional sub-bullets (e.g. the audit-trail value item)
+  primary?: boolean  // highlight as the headline value (thicker bar + star + pill)
 }
 
 // Workflow steps carry a semantic kind so the comparison lanes can highlight
@@ -58,11 +59,12 @@ export interface UseCaseData {
   proposedWorkflow: Workflow
 
   whyAnalyzer: {
-    intro:     string[] // paragraphs before the examples
-    examples?: string[] // bullet examples (optional)
-    body:      string[] // paragraphs after the examples, before the quotes
-    quotes?:   string[] // machine-generated change summaries (rendered as quotes)
-    closing:   string   // final paragraph
+    intro:            string[] // paragraphs before the examples
+    examples?:        string[] // bullet examples (optional)
+    body:             string[] // paragraphs after the examples, before the quotes
+    quotes?:          string[] // quotes (rendered as blockquotes)
+    quotesAfterIntro?: boolean // place quotes right after the intro instead of after the body
+    closing:          string   // final paragraph
   }
 
   value:     TitledItem[]
@@ -103,6 +105,34 @@ function MiniLabel({ children }: { children: ReactNode }) {
   return <p className="font-sans text-[11px] text-charcoal/60 mt-4 mb-1.5">{children}</p>
 }
 
+// Filled yellow warning triangle with a white exclamation — marks the primary
+// risk card.
+function WarningBadge() {
+  return (
+    <svg viewBox="0 0 16 16" className="inline-block w-3 h-3 align-middle" fill="none" aria-hidden="true">
+      <path d="M8 1.8 L14.7 13.6 Q15 14.2 14.3 14.2 H1.7 Q1 14.2 1.3 13.6 Z" fill="#f4b400" />
+      <rect x="7.3" y="5.8" width="1.4" height="4.2" rx="0.7" fill="#fff" />
+      <circle cx="8" cy="11.6" r="0.9" fill="#fff" />
+    </svg>
+  )
+}
+
+function WhyQuotes({ quotes }: { quotes?: string[] }) {
+  if (!quotes || quotes.length === 0) return null
+  return (
+    <div className="flex flex-col gap-2 mt-3">
+      {quotes.map((q, i) => (
+        <blockquote
+          key={i}
+          className="border-l-2 border-autodesk-blue pl-3 py-0.5 font-sans italic text-[14px] leading-relaxed text-charcoal"
+        >
+          “{q}”
+        </blockquote>
+      ))}
+    </div>
+  )
+}
+
 // Small uppercase tag used to label a user/actor. `tone` picks the colour and
 // `className` controls placement (e.g. `inline-block mb-2` vs `ml-1.5 align-middle`).
 function Pill({
@@ -140,32 +170,49 @@ function Role({ data }: { data: NamedRole }) {
   )
 }
 
-function TitledList({
-  items,
-  marker,
-  markerClass = 'text-autodesk-blue',
+// Compact card grid for the Value / Risks sections. Each item is a left
+// accent-bar card (blue for value, amber for risks) with the body styled like
+// the workflow step notes (small + italic). A `primary` value item renders
+// full-width with a thicker bar, a star, and a "Primary" pill.
+function Card({
+  item,
+  variant,
+  fullWidth = false,
 }: {
-  items: TitledItem[]
-  marker?: string
-  markerClass?: string
+  item: TitledItem
+  variant: 'value' | 'risk'
+  fullWidth?: boolean
 }) {
+  const bar = item.primary
+    ? (variant === 'value' ? 'border-l-4 border-autodesk-blue' : 'border-l-4 border-[#f4b400]')
+    : (variant === 'value' ? 'border-l-2 border-autodesk-blue/55' : 'border-l-2 border-[#f4b400]/70')
+  const span = item.primary || fullWidth ? 'sm:col-span-2' : ''
   return (
-    <div className="flex flex-col gap-6">
-      {items.map((it, i) => (
-        <div key={i} className={marker ? 'flex gap-2.5' : undefined}>
-          {marker && (
-            <span className={`shrink-0 mt-1 w-3.5 text-center text-[14px] leading-none ${markerClass}`} aria-hidden="true">{marker}</span>
-          )}
-          <div>
-            <p className="font-serif text-[16px] text-black mb-1">{it.title}</p>
-            <p className="font-sans text-[14px] leading-relaxed text-charcoal">{it.body}</p>
-            {it.bullets && (
-              <div className="mt-2">
-                <Bullets items={it.bullets} />
-              </div>
-            )}
-          </div>
+    <div className={`pl-3 ${bar} ${span}`}>
+      <p className="font-serif text-[14px] text-black mb-0.5 flex items-center gap-1.5">
+        {item.primary && variant === 'value' && <span className="shrink-0 text-[13px] leading-none text-autodesk-blue" aria-hidden="true">★</span>}
+        {item.primary && variant === 'risk' && <WarningBadge />}
+        <span className="min-w-0">{item.title}</span>
+      </p>
+      <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80">{item.body}</p>
+      {item.bullets && (
+        <div className="mt-1.5">
+          <Bullets items={item.bullets} />
         </div>
+      )}
+    </div>
+  )
+}
+
+function CardList({ items, variant }: { items: TitledItem[]; variant: 'value' | 'risk' }) {
+  const primary = items.find(it => it.primary)
+  const rest = items.filter(it => it !== primary)
+  return (
+    <div className="grid sm:grid-cols-2 gap-x-3.5 gap-y-4">
+      {primary && <Card item={primary} variant={variant} />}
+      {rest.map((it, i) => (
+        // avoid a lonely half-width card on the last row
+        <Card key={i} item={it} variant={variant} fullWidth={i === rest.length - 1 && rest.length % 2 === 1} />
       ))}
     </div>
   )
@@ -391,6 +438,7 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         <div className="flex flex-col gap-3">
           {data.whyAnalyzer.intro.map((p, i) => <Para key={i}>{p}</Para>)}
         </div>
+        {data.whyAnalyzer.quotesAfterIntro && <WhyQuotes quotes={data.whyAnalyzer.quotes} />}
         {data.whyAnalyzer.examples && data.whyAnalyzer.examples.length > 0 && (
           <>
             <MiniLabel>Examples</MiniLabel>
@@ -400,29 +448,18 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         <div className="flex flex-col gap-3 mt-4">
           {data.whyAnalyzer.body.map((p, i) => <Para key={i}>{p}</Para>)}
         </div>
-        {data.whyAnalyzer.quotes && data.whyAnalyzer.quotes.length > 0 && (
-          <div className="flex flex-col gap-2 mt-3">
-            {data.whyAnalyzer.quotes.map((q, i) => (
-              <blockquote
-                key={i}
-                className="border-l-2 border-autodesk-blue pl-3 py-0.5 font-sans italic text-[14px] leading-relaxed text-charcoal"
-              >
-                “{q}”
-              </blockquote>
-            ))}
-          </div>
-        )}
+        {!data.whyAnalyzer.quotesAfterIntro && <WhyQuotes quotes={data.whyAnalyzer.quotes} />}
         <div className="mt-4">
           <Para>{data.whyAnalyzer.closing}</Para>
         </div>
       </Block>
 
       <Block label="Value">
-        <TitledList items={data.value} marker="★" />
+        <CardList items={data.value} variant="value" />
       </Block>
 
       <Block label="Risks & trade-offs">
-        <TitledList items={data.tradeoffs} marker={'⚠︎'} markerClass="text-accent-warm" />
+        <CardList items={data.tradeoffs} variant="risk" />
       </Block>
     </Section>
   )
