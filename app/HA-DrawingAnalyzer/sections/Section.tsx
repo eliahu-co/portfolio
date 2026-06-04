@@ -29,10 +29,10 @@ export default function Section({
     <section
       id={id}
       // scroll-mt keeps the section heading clear of the top edge when jumped to
-      className="scroll-mt-8 border-t-2 border-autodesk-blue pt-5 pb-16"
+      className="scroll-mt-8 border-t-4 border-autodesk-blue pt-5 pb-16"
     >
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="font-serif text-[clamp(26px,3.5vw,40px)] leading-tight text-black mb-5 whitespace-pre-line">
+      <h2 className="font-serif text-[clamp(22px,3vw,32px)] leading-tight text-black mb-5 whitespace-pre-line">
         {title}
       </h2>
       {children}

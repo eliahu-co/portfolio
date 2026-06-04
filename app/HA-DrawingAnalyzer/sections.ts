@@ -13,6 +13,7 @@ export const SECTIONS: PageSection[] = [
   { id: 'use-case-1',    label: 'Use Case 1' },
   { id: 'use-case-2',    label: 'Use Case 2' },
   { id: 'use-case-3',    label: 'Use Case 3' },
+  { id: 'use-case-4',    label: 'Use Case 4' },
   { id: 'prioritization', label: 'Prioritization' },
   { id: 'mvp',           label: 'MVP' },
   { id: 'prototype',     label: 'Prototype' },

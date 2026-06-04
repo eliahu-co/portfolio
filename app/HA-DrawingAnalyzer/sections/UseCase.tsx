@@ -31,7 +31,7 @@ export interface WorkflowStep {
   label:     string
   kind?:     StepKind             // defaults to 'normal'
   note?:     string               // small annotation under the step (e.g. "Caught late")
-  actor?:    'reviewer' | 'designer' // tags the step with the persona performing it
+  actor?:    'reviewer' | 'designer' | 'owner' // tags the step with the persona performing it
   emphasis?: boolean              // force the bold treatment on an otherwise-normal step
 }
 
@@ -52,6 +52,7 @@ export interface UseCaseData {
   problem: {
     intro:        string
     examples?:    string[]
+    body?:        string   // optional paragraph after the examples, before "As a result"
     consequences: string[]
   }
 
@@ -83,7 +84,7 @@ function BlockLabel({ children }: { children: ReactNode }) {
 
 function Block({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="mb-9">
+    <div className="mb-6">
       <BlockLabel>{label}</BlockLabel>
       {children}
     </div>
@@ -193,18 +194,22 @@ function Role({ data }: { data: NamedRole }) {
 // accent-bar card (blue for value, amber for risks) with the body styled like
 // the workflow step notes (small + italic). A `primary` value item renders
 // full-width with a thicker bar, a star, and a "Primary" pill.
+export type CardVariant = 'value' | 'risk' | 'neutral'
+
 function Card({
   item,
   variant,
   fullWidth = false,
 }: {
   item: TitledItem
-  variant: 'value' | 'risk'
+  variant: CardVariant
   fullWidth?: boolean
 }) {
-  const bar = item.primary
-    ? (variant === 'value' ? 'border-l-4 border-autodesk-blue' : 'border-l-4 border-[#f4b400]')
-    : (variant === 'value' ? 'border-l-2 border-autodesk-blue/55' : 'border-l-2 border-[#f4b400]/70')
+  const bar = variant === 'neutral'
+    ? 'border-l-2 border-black'
+    : item.primary
+      ? (variant === 'value' ? 'border-l-4 border-autodesk-blue' : 'border-l-4 border-[#f4b400]')
+      : (variant === 'value' ? 'border-l-2 border-autodesk-blue/55' : 'border-l-2 border-[#f4b400]/70')
   const span = item.primary || fullWidth ? 'sm:col-span-2' : ''
   return (
     <div className={`pl-3 ${bar} ${span}`}>
@@ -223,7 +228,22 @@ function Card({
   )
 }
 
-function CardList({ items, variant }: { items: TitledItem[]; variant: 'value' | 'risk' }) {
+export function CardList({
+  items,
+  variant,
+  columns = 2,
+}: {
+  items: TitledItem[]
+  variant: CardVariant
+  columns?: 1 | 2
+}) {
+  if (columns === 1) {
+    return (
+      <div className="flex flex-col gap-4">
+        {items.map((it, i) => <Card key={i} item={it} variant={variant} />)}
+      </div>
+    )
+  }
   const primary = items.find(it => it.primary)
   const rest = items.filter(it => it !== primary)
   return (
@@ -411,7 +431,7 @@ export default function UseCase({ data }: { data: UseCaseData }) {
     <Section id={data.id} eyebrow={data.eyebrow} title={data.title}>
       <Block label="Phase">
         <div className="flex flex-wrap gap-2 mb-2">
-          {data.constructionPhase.name.split('/').map((p, i) => (
+          {data.constructionPhase.name.split(/[/→]/).map((p, i) => (
             <Pill key={i}>{p.trim()}</Pill>
           ))}
         </div>
@@ -445,11 +465,12 @@ export default function UseCase({ data }: { data: UseCaseData }) {
             <Bullets items={data.problem.examples} />
           </>
         )}
+        {data.problem.body && <div className="mt-3"><Para>{data.problem.body}</Para></div>}
         <MiniLabel>As a result</MiniLabel>
         <Bullets items={data.problem.consequences} />
       </Block>
 
-      <div className="mb-9">
+      <div className="mb-6">
         {data.opportunity.image && data.opportunity.imageAside ? (
           // portrait image: to the left of the text, no border; label sits above the text
           <div className="grid md:grid-cols-[280px_1fr] gap-5 md:gap-8 items-start">

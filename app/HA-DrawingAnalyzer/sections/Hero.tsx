@@ -8,7 +8,7 @@ export default function Hero() {
         Product Strategy · Home Assignment
       </p>
 
-      <h1 className="font-serif text-[clamp(34px,6vw,64px)] leading-[1.05] text-black mb-4">
+      <h1 className="font-serif text-[clamp(30px,5vw,48px)] leading-[1.05] text-black mb-4">
         AI Drawing Analyzer
         <span className="block text-charcoal">Product Strategy</span>
       </h1>

@@ -1,28 +1,45 @@
 // app/HA-DrawingAnalyzer/sections/Prioritization.tsx
-// Section 6 — Prioritization: criteria, scoring across the three use cases,
-// and the resulting decision. Placeholder scoring table.
+// Section — Prioritization: scoring framework, scores across the four use
+// cases, and the resulting decision.
 
 import Section from './Section'
+import { CardList } from './UseCase'
 
-const CRITERIA = ['Impact', 'Reach', 'Confidence', 'Effort']
+const CRITERIA = ['Impact', 'Platform Leverage', 'Confidence', 'Feasibility']
 
-type Row = { useCase: string; scores: string[]; total: string }
+const CRITERIA_DEFS = [
+  { title: 'Impact', body: 'Magnitude of value delivered if successful. Considers problem severity, workflow frequency, and business impact.' },
+  { title: 'Platform Leverage', body: 'How strongly the use case demonstrates and extends the unique capabilities of the AI Drawing Analyzer.' },
+  { title: 'Confidence', body: 'Confidence that the workflow can be implemented accurately and adopted successfully given current technology and user behavior.' },
+  { title: 'Feasibility', body: 'Likelihood that the use case can be successfully delivered and adopted given current technology, workflow constraints, and implementation complexity. Higher scores indicate lower overall delivery risk.' },
+]
+
+type Row = { useCase: string; scores: number[]; total: number; winner?: boolean }
 
 const ROWS: Row[] = [
-  { useCase: 'Use Case 1 — Bid-to-IFC', scores: ['TODO', 'TODO', 'TODO', 'TODO'], total: 'TODO' },
-  { useCase: 'Use Case 2 — RFI Linking', scores: ['TODO', 'TODO', 'TODO', 'TODO'], total: 'TODO' },
-  { useCase: 'Use Case 3 — TBD',         scores: ['TODO', 'TODO', 'TODO', 'TODO'], total: 'TODO' },
+  { useCase: 'Design Revision Validation', scores: [5, 5, 5, 3], total: 18, winner: true },
+  { useCase: 'Context Link',               scores: [5, 5, 3, 3], total: 16 },
+  { useCase: 'Coordination Lock',          scores: [5, 4, 3, 2], total: 14 },
+  { useCase: 'Program Conformance Review', scores: [4, 5, 2, 2], total: 13 },
 ]
+
+// Medals for the top three totals (computed by rank so it survives reordering)
+const MEDALS = ['🥇', '🥈', '🥉']
+const RANKED_TOTALS = [...ROWS].map((r) => r.total).sort((a, b) => b - a)
 
 export default function Prioritization() {
   return (
     <Section id="prioritization" eyebrow="Prioritization" title="Criteria, scoring & decision">
-      <div className="max-w-2xl mb-8">
+      <div className="max-w-2xl mb-6">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          {/* TODO: Explain the framework (e.g. RICE / ICE) and why these criteria. */}
-          TODO: Describe the scoring framework and why these criteria matter for this
-          decision. Note the scale (e.g. 1–5).
+          The evaluation uses an ICE-inspired framework tailored for strategic platform opportunities. Traditional frameworks such as RICE rely heavily on reach estimates. Each use case is scored from 1–5 on four criteria; the total is their sum (max 20).
+          Every criterion is oriented so that a higher score is better.
         </p>
+      </div>
+
+      {/* Criterion definitions — reuse the value/risk card style, black accent */}
+      <div className="max-w-2xl mb-8">
+        <CardList items={CRITERIA_DEFS} variant="neutral" columns={1} />
       </div>
 
       {/* Scoring table */}
@@ -34,25 +51,33 @@ export default function Prioritization() {
                 Use case
               </th>
               {CRITERIA.map((c) => (
-                <th key={c} className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 px-3">
+                <th key={c} className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 px-3 text-center">
                   {c}
                 </th>
               ))}
-              <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pl-3">
+              <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pl-3 text-center">
                 Total
               </th>
             </tr>
           </thead>
           <tbody>
-            {ROWS.map((row) => (
-              <tr key={row.useCase} className="border-b border-charcoal/15">
-                <td className="font-sans text-[13px] text-charcoal py-3 pr-4">{row.useCase}</td>
+            {ROWS.map((row) => {
+              const medal = MEDALS[RANKED_TOTALS.indexOf(row.total)]
+              return (
+              <tr key={row.useCase} className={`border-b border-charcoal/15 ${row.winner ? 'bg-autodesk-blue/5' : ''}`}>
+                <td className={`font-sans text-[13px] py-3 pr-4 ${row.winner ? 'text-black font-medium' : 'text-charcoal'}`}>
+                  {medal && <span className="mr-1.5" aria-hidden="true">{medal}</span>}
+                  {row.useCase}
+                </td>
                 {row.scores.map((s, i) => (
-                  <td key={i} className="font-sans text-[13px] text-charcoal/70 py-3 px-3">{s}</td>
+                  <td key={i} className="font-sans text-[13px] text-charcoal/70 py-3 px-3 text-center">{s}</td>
                 ))}
-                <td className="font-sans text-[13px] font-medium text-black py-3 pl-3">{row.total}</td>
+                <td className={`font-sans text-[14px] py-3 pl-3 text-center font-medium ${row.winner ? 'text-autodesk-blue' : 'text-black'}`}>
+                  {row.total}
+                </td>
               </tr>
-            ))}
+              )
+            })}
           </tbody>
         </table>
       </div>
@@ -60,8 +85,10 @@ export default function Prioritization() {
       <div className="max-w-2xl border-t-2 border-charcoal/20 pt-5">
         <p className="font-sans text-[9px] uppercase tracking-[0.14em] text-autodesk-blue mb-2">Decision</p>
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          {/* TODO: State which use case wins and the reasoning. */}
-          TODO: State the chosen use case and summarize why it wins on the criteria above.
+          Design Revision Validation scores highest (18) — pairing the strongest impact and
+          platform leverage with high implementation confidence — making it the recommended
+          starting point. Context Link (16) is the next strongest and a natural follow-on,
+          reusing the same structured-drawing foundation.
         </p>
       </div>
     </Section>

@@ -10,7 +10,7 @@ import SideNav from './SideNav'
 
 import Hero from './sections/Hero'
 import UseCase from './sections/UseCase'
-import { USE_CASE_1, USE_CASE_2, USE_CASE_3 } from './sections/useCaseData'
+import { USE_CASE_1, USE_CASE_2, USE_CASE_3, USE_CASE_4 } from './sections/useCaseData'
 import Prioritization from './sections/Prioritization'
 import MVP from './sections/MVP'
 import PrototypeDemo from './sections/PrototypeDemo'
@@ -35,6 +35,7 @@ export default function HADrawingAnalyzerPage() {
             <UseCase data={USE_CASE_1} />
             <UseCase data={USE_CASE_2} />
             <UseCase data={USE_CASE_3} />
+            <UseCase data={USE_CASE_4} />
             <Prioritization />
             <MVP />
             <PrototypeDemo />

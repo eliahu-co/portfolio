@@ -329,3 +329,107 @@ export const USE_CASE_3: UseCaseData = {
     },
   ],
 }
+
+export const USE_CASE_4: UseCaseData = {
+  id:      'use-case-4',
+  eyebrow: 'Use Case 4',
+  title:   'Program Conformance Review',
+
+  constructionPhase: {
+    name: 'Project Conception, Design & Planning → Pre-Construction',
+    description:
+      'Occurs when a design submission is reviewed against an owner-defined program, prototype, or standards brief before approval.',
+  },
+
+  primaryUser: {
+    pill: 'Owner',
+    role: 'Developer / Standards Lead / Program Manager',
+    description: 'Responsible for validating that submitted designs conform to organizational requirements, prototype standards, and project programs.',
+  },
+  secondaryUser: {
+    pill: 'Designer',
+    role: 'Architect',
+    description: 'Designs against the program and may perform self-validation before submission.',
+  },
+
+  problem: {
+    intro: 'Many building owners operate with standardized building programs that define requirements for room counts, areas, adjacencies, equipment, accessibility, and design standards.',
+    body: 'Validating that submitted designs conform to these requirements is largely a manual review process.',
+    consequences: [
+      'Reviewers spend time verifying objective criteria rather than evaluating design quality and intent',
+      'Standards are applied inconsistently across reviewers and projects',
+      'Design deviations are often discovered late, increasing review cycles and rework',
+      'Standards teams become bottlenecks as project volume grows',
+    ],
+  },
+
+  opportunity: {
+    image: '/drawinganalyzer/use-case-4.png',
+    statement:
+      'Enable automated validation of submitted designs against owner-defined program requirements by transforming drawing sets into structured, queryable building data.',
+    outro: 'This creates a reusable foundation for standards enforcement and prototype validation across projects.',
+  },
+
+  currentWorkflow: {
+    stat: 'Inconsistent manual review',
+    steps: [
+      { label: 'Owner defines program brief' },
+      { label: 'Architect submits design' },
+      { label: 'Owner manually validates requirements', actor: 'owner' },
+      { label: 'Objective criteria verified manually', actor: 'owner', emphasis: true, note: 'Manual validation creates bottlenecks' },
+      { label: 'Owner checks design quality and intent', actor: 'owner', emphasis: true },
+      { label: 'Standards applied inconsistently', emphasis: true },
+      { label: 'Review quality depends on reviewer expertise', emphasis: true },
+    ],
+  },
+  proposedWorkflow: {
+    stat: 'Faster, consistent reviews',
+    steps: [
+      { label: 'Owner defines structured program criteria' },
+      { label: 'Architect submits design' },
+      { label: 'Program Conformance Review generated', kind: 'ai', note: 'Rooms, Areas, Adjacencies, Equipment' },
+      { label: 'Owner focuses on design quality and intent', actor: 'owner', emphasis: true },
+      { label: 'Consistent standards enforcement', kind: 'approve', note: 'Scalable review process' },
+    ],
+  },
+
+  value: [
+    {
+      primary: true,
+      title: 'Consistent Standards Enforcement',
+      body: 'Every design is evaluated against the same criteria, reducing reviewer variance and standards drift across projects.',
+    },
+    {
+      title: 'Faster Reviews',
+      body: 'Objective criteria are evaluated automatically, allowing reviewers to focus on higher-value decisions.',
+    },
+    {
+      title: 'Earlier Feedback',
+      body: 'Architects can identify deviations before formal review, reducing downstream rework.',
+    },
+    {
+      title: 'Scalable Review Process',
+      body: 'Organizations can review more projects without proportionally increasing standards-review effort.',
+    },
+  ],
+
+  tradeoffs: [
+    {
+      primary: true,
+      title: 'Structured Criteria Adoption',
+      body: 'Organizations must invest effort upfront to translate program requirements into structured, reviewable criteria before automated validation can provide value.',
+    },
+    {
+      title: 'False Confidence / Criteria Coverage',
+      body: 'Reviewers may assume the system evaluated the entire program, even when some requirements are subjective, ambiguous, or outside the system’s scope.',
+    },
+    {
+      title: 'Standards Rigidity',
+      body: 'Over-reliance on automated conformance checks may discourage legitimate design variation and reduce flexibility where deviations are intentional or context-specific.',
+    },
+    {
+      title: 'Rule Quality',
+      body: 'Poorly defined, outdated, or overly granular criteria may generate low-value findings and reduce trust in the review output.',
+    },
+  ],
+}
