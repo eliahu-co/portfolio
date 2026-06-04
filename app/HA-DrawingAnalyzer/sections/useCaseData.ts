@@ -176,10 +176,9 @@ export const USE_CASE_2: UseCaseData = {
 
   opportunity: {
     image: '/drawinganalyzer/use-case-2.png',
+    imageAside: true,
     statement:
       'Transform free-form issue descriptions into context-rich project records by automatically connecting RFIs to the relevant drawings, objects, schedules, specifications, and locations.',
-    intro: 'Example:',
-    quotes: ['Window in Conference Room A on Level 3 doesn’t match spec.'],
     outro: 'This enables project context to be inferred from the issue description rather than manually reconstructed throughout the RFI lifecycle. It also creates a reusable context-linking capability that can later support RFIs, observations, punch items, and issue management workflows.',
   },
 

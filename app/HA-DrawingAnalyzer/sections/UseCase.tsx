@@ -63,7 +63,8 @@ export interface UseCaseData {
     intro?:    string   // optional lead-in paragraph (often ends with a colon)
     quotes?:   string[] // optional example quotes (rendered as blockquotes)
     outro?:    string   // optional paragraph after the quotes
-    image?:    string   // optional image shown to the left of the text
+    image?:    string   // optional image shown with the text
+    imageAside?: boolean // portrait images: render beside the text instead of below
   }
 
   value:     TitledItem[]
@@ -72,12 +73,18 @@ export interface UseCaseData {
 
 /* ─── generic helpers ─────────────────────────────────────────────────────── */
 
+function BlockLabel({ children }: { children: ReactNode }) {
+  return (
+    <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-charcoal mb-3">
+      {children}
+    </p>
+  )
+}
+
 function Block({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="mb-9">
-      <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-charcoal mb-3">
-        {label}
-      </p>
+      <BlockLabel>{label}</BlockLabel>
       {children}
     </div>
   )
@@ -102,6 +109,35 @@ function Bullets({ items }: { items: string[] }) {
 
 function MiniLabel({ children }: { children: ReactNode }) {
   return <p className="font-sans text-[11px] text-charcoal/60 mt-4 mb-1.5">{children}</p>
+}
+
+function OpportunityText({ opp }: { opp: UseCaseData['opportunity'] }) {
+  return (
+    <>
+      <Para>{opp.statement}</Para>
+      {opp.intro && <div className="mt-3"><Para>{opp.intro}</Para></div>}
+      {opp.quotes && opp.quotes.length > 0 && (
+        <div className="flex flex-col gap-2 mt-3">
+          {opp.quotes.map((q, i) => (
+            <blockquote
+              key={i}
+              className="border-l-2 border-autodesk-blue pl-3 py-0.5 font-sans italic text-[14px] leading-relaxed text-charcoal"
+            >
+              “{q}”
+            </blockquote>
+          ))}
+        </div>
+      )}
+      {opp.outro && <div className="mt-3"><Para>{opp.outro}</Para></div>}
+    </>
+  )
+}
+
+function OpportunityImage({ src, bordered = true }: { src: string; bordered?: boolean }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt="" className={`w-full h-auto rounded-lg ${bordered ? 'border-2 border-autodesk-blue/70' : ''}`} />
+  )
 }
 
 // Filled yellow warning triangle with a white exclamation — marks the primary
@@ -413,33 +449,29 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         <Bullets items={data.problem.consequences} />
       </Block>
 
-      <Block label="The AI Drawing Analyzer Opportunity">
-        <div>
-          <Para>{data.opportunity.statement}</Para>
-          {data.opportunity.intro && <div className="mt-3"><Para>{data.opportunity.intro}</Para></div>}
-          {data.opportunity.quotes && data.opportunity.quotes.length > 0 && (
-            <div className="flex flex-col gap-2 mt-3">
-              {data.opportunity.quotes.map((q, i) => (
-                <blockquote
-                  key={i}
-                  className="border-l-2 border-autodesk-blue pl-3 py-0.5 font-sans italic text-[14px] leading-relaxed text-charcoal"
-                >
-                  “{q}”
-                </blockquote>
-              ))}
+      <div className="mb-9">
+        {data.opportunity.image && data.opportunity.imageAside ? (
+          // portrait image: to the left of the text, no border; label sits above the text
+          <div className="grid md:grid-cols-[280px_1fr] gap-5 md:gap-8 items-start">
+            <OpportunityImage src={data.opportunity.image} bordered={false} />
+            <div>
+              <BlockLabel>The AI Drawing Analyzer Opportunity</BlockLabel>
+              <OpportunityText opp={data.opportunity} />
             </div>
-          )}
-          {data.opportunity.outro && <div className="mt-3"><Para>{data.opportunity.outro}</Para></div>}
-          {data.opportunity.image && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={data.opportunity.image}
-              alt=""
-              className="w-full rounded-lg border-2 border-autodesk-blue/60 mt-5"
-            />
-          )}
-        </div>
-      </Block>
+          </div>
+        ) : (
+          // landscape (or no image): label on top, image below the text, full width
+          <>
+            <BlockLabel>The AI Drawing Analyzer Opportunity</BlockLabel>
+            <OpportunityText opp={data.opportunity} />
+            {data.opportunity.image && (
+              <div className="mt-5">
+                <OpportunityImage src={data.opportunity.image} />
+              </div>
+            )}
+          </>
+        )}
+      </div>
 
       <Block label="Workflow">
         <WorkflowComparison current={data.currentWorkflow} proposed={data.proposedWorkflow} />
