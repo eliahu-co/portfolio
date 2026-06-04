@@ -156,7 +156,7 @@ function WarningBadge() {
 
 // Small uppercase tag used to label a user/actor. `tone` picks the colour and
 // `className` controls placement (e.g. `inline-block mb-2` vs `ml-1.5 align-middle`).
-function Pill({
+export function Pill({
   children,
   tone = 'charcoal',
   className = '',
@@ -168,7 +168,7 @@ function Pill({
   const toneClass =
     tone === 'blue' ? 'text-autodesk-blue border-autodesk-blue/50' : 'text-charcoal border-charcoal/50'
   return (
-    <span className={`text-[8px] font-bold uppercase tracking-wider rounded px-1 py-px border-2 ${toneClass} ${className}`}>
+    <span className={`font-sans text-[8px] font-bold uppercase tracking-wider rounded px-1 py-px border-2 ${toneClass} ${className}`}>
       {children}
     </span>
   )

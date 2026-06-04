@@ -3,19 +3,41 @@
 // (accuracy / latency / cost) that define feasibility.
 
 import Section from './Section'
+import { Pill } from './UseCase'
 
 const SCOPE_IN = [
-  'TODO: In-scope capability for v1.',
-  'TODO: In-scope capability for v1.',
+  'Compare two versions of a single drawing sheet.',
+  'Detect added, removed, and modified drawing objects.',
+  'Generate human-readable change descriptions.',
+  'Allow designers to edit AI-generated change descriptions before submission.',
+  'Allow designers to reject unintended changes before creating a new version.',
 ]
 const SCOPE_OUT = [
-  'TODO: Explicitly out of scope for v1.',
-  'TODO: Explicitly out of scope for v1.',
+  'Multi-sheet drawing sets.',
+  'Historical change report visibility.',
+  'Change severity scoring and risk classification.',
+  'Selective approval or rejection of individual detected changes.',
+  'Automatic filtering of cosmetic or low-impact changes.',
 ]
-const METRICS = [
-  'TODO: Primary success metric (with target).',
-  'TODO: Secondary metric.',
-  'TODO: Guardrail metric.',
+const METRICS: { kind: string; title: string; body: string; signal: string }[] = [
+  {
+    kind: 'Primary',
+    title: 'First-Pass Approval Rate',
+    body: 'Percentage of revisions approved without being returned for rework.',
+    signal: 'Increase in first-pass approvals compared to baseline.',
+  },
+  {
+    kind: 'Secondary',
+    title: 'Upload Cancellation Rate After Change Review',
+    body: 'Percentage of uploads cancelled after the designer reviews the AI-generated change summary.',
+    signal: 'Designers identify unintended changes before creating a new version.',
+  },
+  {
+    kind: 'Learning',
+    title: 'Change Description Edit Rate',
+    body: 'Percentage of AI-generated change descriptions modified by designers before submission.',
+    signal: 'Helps evaluate the usefulness and trustworthiness of generated change summaries.',
+  },
 ]
 const VARIABLES = [
   { label: 'Accuracy', body: 'TODO: What accuracy is good enough, and how is it measured?' },
@@ -48,7 +70,21 @@ export default function MVP() {
       </div>
 
       <div className="mb-10 max-w-3xl">
-        <List title="Success metrics" items={METRICS} />
+        <p className="font-sans text-[9px] uppercase tracking-[0.14em] text-charcoal/70 mb-4">Success metrics</p>
+        <div className="flex flex-col gap-5">
+          {METRICS.map(({ kind, title, body, signal }) => (
+            <div key={title} className="pl-3 border-l-4 border-autodesk-blue">
+              <p className="font-serif text-[14px] text-black mb-0.5 flex items-center gap-2">
+                <span className="min-w-0">{title}</span>
+                <Pill tone="blue" className="ml-auto shrink-0">{kind}</Pill>
+              </p>
+              <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80">{body}</p>
+              <p className="mt-2 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal">
+                <span className="font-bold mr-2">Success signal</span>{signal}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="border-t-2 border-charcoal/20 pt-5">

@@ -1,11 +1,11 @@
 // app/HA-DrawingAnalyzer/sections/Hero.tsx
 // Section 1 — Hero / Intro. Title, subtitle, author, summary, back-home link.
 
-const CAPABILITIES: { useCase: string; capability: string }[] = [
-  { useCase: 'Change Validation',          capability: 'Change Intelligence' },
-  { useCase: 'Context Link',               capability: 'Context Intelligence' },
-  { useCase: 'Coordination Lock',          capability: 'Coordination Intelligence' },
-  { useCase: 'Program Conformance Review', capability: 'Standards Intelligence' },
+const CAPABILITIES: { useCase: string; user: string; capability: string }[] = [
+  { useCase: 'Change Validation',          user: 'Designer',   capability: 'Change Intelligence' },
+  { useCase: 'Context Link',               user: 'Field User', capability: 'Context Intelligence' },
+  { useCase: 'Coordination Lock',          user: 'BIM/VDC',    capability: 'Coordination Intelligence' },
+  { useCase: 'Program Conformance Review', user: 'Owner',      capability: 'Standards Intelligence' },
 ]
 
 export default function Hero() {
@@ -42,15 +42,17 @@ export default function Hero() {
           <thead>
             <tr className="border-b border-charcoal/15">
               <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pr-4">Use case</th>
+              <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 px-4">User</th>
               <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pl-4">AI Drawing Analyzer capability</th>
             </tr>
           </thead>
           <tbody>
-            {CAPABILITIES.map(({ useCase, capability }, i) => (
+            {CAPABILITIES.map(({ useCase, user, capability }, i) => (
               <tr key={useCase} className="border-b border-charcoal/15">
                 <td className="font-sans text-[13px] text-charcoal py-2.5 pr-4">
                   <span className="mr-1.5">{i + 1}.</span>{useCase}
                 </td>
+                <td className="font-sans text-[13px] text-charcoal py-2.5 px-4">{user}</td>
                 <td className="font-sans text-[13px] text-charcoal py-2.5 pl-4">{capability}</td>
               </tr>
             ))}
