@@ -22,25 +22,25 @@ const SCOPE_OUT = [
 ]
 const METRICS: { kind: string; title: string; body: string; signal: string }[] = [
   {
-    kind: 'Primary',
+    kind: 'Business outcome',
     title: 'First-Pass Approval Rate',
     body: 'Percentage of revisions approved without being returned for rework.',
     signal: 'Increasing compared to baseline.',
   },
   {
-    kind: 'Secondary',
+    kind: 'Usage metric',
     title: 'Upload Cancellation Rate After Change Review',
     body: 'Percentage of uploads cancelled after the designer reviews the AI-generated change summary.',
     signal: 'Positive and sustained, indicating issues are being identified before version creation.',
   },
   {
-    kind: 'Learning',
+    kind: 'Quality',
     title: 'Change Description Edit Rate',
     body: 'Percentage of AI-generated change descriptions modified by designers before submission.',
     signal: 'Low and decreasing over time.',
   },
   {
-    kind: 'Learning',
+    kind: 'Quality',
     title: 'Manually Added Change Rate',
     body: 'Percentage of submissions where designers add changes not detected by the analyzer.',
     signal: 'Low and decreasing over time.',
