@@ -1,9 +1,10 @@
 // app/HA-DrawingAnalyzer/demo/FloorPlan.tsx
 // Inline-SVG reproduction of Veev sheet A102 "Floor Plan – Second Floor",
-// drawn in monochrome CD convention. `version` toggles the three detected
-// changes (added corridor doors, shifted Bedroom 3 partition, removed Bath 2
-// toilet). `focus` emphasises one change's highlight; `viewBox` overrides the
-// frame for cropped thumbnails.
+// drawn in monochrome CD convention (all black ink — the original's blue is
+// just Veev's "locally-installed work" layer). `version` toggles the three
+// detected changes (added corridor doors, shifted Bedroom 3 partition, removed
+// Bath 2 toilet). `focus` emphasises one change's highlight; `viewBox`
+// overrides the frame for cropped thumbnails.
 
 import { CHANGES, TYPE_META } from './data'
 
@@ -11,61 +12,72 @@ const INK = '#1a1a1a'
 const GRID = '#b8bdc2'
 const FIXTURE = '#5a5a5a'
 
-// Plan envelope and the two interior column lines.
-const ENV = { x: 120, y: 100, w: 760, h: 520 }
-const COL1 = 300 // left | middle
-const COL2 = 560 // middle | right
+const ENV = { x: 120, y: 100, w: 760, h: 550 }
 
 type RoomDef = { name: string; sf: string; x: number; y: number; w: number; h: number }
 
-// Rooms that are identical in both versions.
+// Rooms identical in both versions (Bedroom 3 is drawn separately — it changes).
 const ROOMS: RoomDef[] = [
-  { name: 'BATH 2', sf: '32 SF', x: 120, y: 100, w: 180, h: 95 },
-  { name: 'BATH 2', sf: '39 SF', x: 120, y: 195, w: 180, h: 90 },
-  { name: 'LAUNDRY', sf: '52 SF', x: 120, y: 285, w: 180, h: 90 },
-  { name: 'BEDROOM 2', sf: '126 SF', x: 120, y: 375, w: 180, h: 245 },
-  { name: 'PRIMARY BATH', sf: '163 SF', x: 300, y: 100, w: 260, h: 140 },
-  { name: 'WALK-IN CLOSET', sf: '98 SF', x: 300, y: 240, w: 170, h: 120 },
-  { name: 'LINEN', sf: '9 SF', x: 470, y: 240, w: 90, h: 60 },
-  { name: 'SHAFT', sf: '4 SF', x: 470, y: 300, w: 90, h: 60 },
-  { name: 'CORRIDOR', sf: '144 SF', x: 300, y: 360, w: 260, h: 70 },
-  { name: 'PRIMARY BDRM', sf: '254 SF', x: 560, y: 100, w: 320, h: 260 },
-  { name: 'BONUS ROOM', sf: '366 SF', x: 560, y: 360, w: 320, h: 260 },
+  { name: 'BATH 2', sf: '32 SF', x: 120, y: 100, w: 120, h: 118 },
+  { name: '', sf: '25 SF', x: 240, y: 100, w: 77, h: 118 },
+  { name: 'PRIMARY BATH', sf: '163 SF', x: 317, y: 100, w: 214, h: 160 },
+  { name: 'SHAFT', sf: '10 SF', x: 531, y: 100, w: 53, h: 267 },
+  { name: 'PRIMARY BDRM', sf: '254 SF', x: 584, y: 100, w: 296, h: 267 },
+  { name: 'BATH 2', sf: '39 SF', x: 120, y: 218, w: 120, h: 131 },
+  { name: 'LINEN', sf: '9 SF', x: 240, y: 218, w: 77, h: 90 },
+  { name: 'WALK-IN CLOSET', sf: '98 SF', x: 317, y: 260, w: 214, h: 107 },
+  { name: 'SHAFT', sf: '4 SF', x: 240, y: 308, w: 77, h: 130 },
+  { name: 'LAUNDRY', sf: '52 SF', x: 120, y: 349, w: 120, h: 89 },
+  { name: 'CORRIDOR', sf: '144 SF', x: 317, y: 367, w: 267, h: 71 },
+  { name: 'BONUS ROOM', sf: '366 SF', x: 584, y: 367, w: 296, h: 283 },
+  { name: 'BEDROOM 2', sf: '126 SF', x: 120, y: 438, w: 242, h: 212 },
+]
+
+// Two small closets sitting at the top of the bedroom band.
+const CLOSETS: RoomDef[] = [
+  { name: '', sf: '12 SF', x: 262, y: 438, w: 100, h: 52 },
+  { name: '', sf: '12 SF', x: 384, y: 438, w: 100, h: 52 },
 ]
 
 const V_GRID = [
-  { x: 120, l: '1' }, { x: 300, l: '2' }, { x: 470, l: '3' },
-  { x: 560, l: '4' }, { x: 720, l: '5' }, { x: 880, l: '6' },
+  { x: 120, l: '1' }, { x: 240, l: '2' }, { x: 317, l: '3' },
+  { x: 531, l: '4' }, { x: 584, l: '5' }, { x: 740, l: '6' }, { x: 880, l: '7' },
 ]
 const H_GRID = [
-  { y: 100, l: 'A' }, { y: 240, l: 'B' }, { y: 360, l: 'C' },
-  { y: 430, l: 'D' }, { y: 620, l: 'E' },
+  { y: 100, l: 'A' }, { y: 218, l: 'B' }, { y: 367, l: 'C' },
+  { y: 438, l: 'D' }, { y: 650, l: 'E' },
 ]
 
 // Highlight rectangles for the detected-change overlay (incoming only).
 const HILITE: Record<string, { x: number; y: number; w: number; h: number }> = {
-  doors: { x: 312, y: 356, w: 210, h: 80 },
-  bedroom3: { x: 260, y: 428, w: 82, h: 194 },
-  toilet: { x: 122, y: 197, w: 122, h: 88 },
+  doors: { x: 322, y: 362, w: 210, h: 82 },
+  bedroom3: { x: 322, y: 436, w: 70, h: 210 },
+  toilet: { x: 122, y: 220, w: 116, h: 127 },
 }
 
 function Room({ name, sf, x, y, w, h }: RoomDef) {
   return (
     <g>
       <rect x={x} y={y} width={w} height={h} fill="#ffffff" stroke={INK} strokeWidth={1.4} />
-      <text x={x + w / 2} y={y + h / 2 - 2} textAnchor="middle" fontSize={13} fontWeight={600} fill={INK}>{name}</text>
-      <text x={x + w / 2} y={y + h / 2 + 14} textAnchor="middle" fontSize={11} fill={FIXTURE}>{sf}</text>
+      {name ? (
+        <>
+          <text x={x + w / 2} y={y + h / 2 - 2} textAnchor="middle" fontSize={12} fontWeight={600} fill={INK}>{name}</text>
+          <text x={x + w / 2} y={y + h / 2 + 13} textAnchor="middle" fontSize={10} fill={FIXTURE}>{sf}</text>
+        </>
+      ) : (
+        <text x={x + w / 2} y={y + h / 2 + 4} textAnchor="middle" fontSize={10} fill={FIXTURE}>{sf}</text>
+      )}
     </g>
   )
 }
 
 // A 90° door: leaf line from the hinge plus a swing arc. `rot` orients it.
-function Door({ x, y, size = 34, rot = 0, accent }: { x: number; y: number; size?: number; rot?: number; accent?: string }) {
+function Door({ x, y, size = 30, rot = 0, accent }: { x: number; y: number; size?: number; rot?: number; accent?: string }) {
   const c = accent ?? INK
   return (
     <g transform={`rotate(${rot} ${x} ${y})`}>
-      <line x1={x} y1={y} x2={x + size} y2={y} stroke={c} strokeWidth={accent ? 2 : 1.2} />
-      <path d={`M ${x + size} ${y} A ${size} ${size} 0 0 1 ${x} ${y + size}`} fill="none" stroke={c} strokeWidth={accent ? 1.6 : 0.9} />
+      <line x1={x} y1={y} x2={x + size} y2={y} stroke={c} strokeWidth={accent ? 2 : 1.1} />
+      <path d={`M ${x + size} ${y} A ${size} ${size} 0 0 1 ${x} ${y + size}`} fill="none" stroke={c} strokeWidth={accent ? 1.6 : 0.8} />
     </g>
   )
 }
@@ -99,11 +111,11 @@ export default function FloorPlan({
 }) {
   const incoming = version === 'incoming'
   // Bedroom 3 partition shifts left (into Bedroom 2) on the incoming revision.
-  const b3Left = incoming ? 278 : 300
+  const b3Left = incoming ? 340 : 362
   const b3SF = incoming ? '149 SF' : '138 SF'
 
   return (
-    <svg viewBox={viewBox ?? '40 50 900 640'} className="w-full h-full" style={{ background: '#ffffff' }} preserveAspectRatio="xMidYMid meet">
+    <svg viewBox={viewBox ?? '40 50 920 660'} className="w-full h-full" style={{ background: '#ffffff' }} preserveAspectRatio="xMidYMid meet">
       {/* Grid lines + bubbles */}
       <g>
         {V_GRID.map((g) => (
@@ -127,65 +139,73 @@ export default function FloorPlan({
       <rect x={ENV.x + 6} y={ENV.y + 6} width={ENV.w - 12} height={ENV.h - 12} fill="none" stroke={INK} strokeWidth={0.8} />
 
       {/* Static rooms */}
-      {ROOMS.map((r) => <Room key={r.name + r.sf} {...r} />)}
+      {ROOMS.map((r) => <Room key={r.name + r.sf + r.x} {...r} />)}
 
-      {/* Bedroom 3 (its left partition + SF differ by version) */}
-      <Room name="BEDROOM 3" sf={b3SF} x={b3Left} y={430} w={560 - b3Left} h={190} />
+      {/* Bedroom 3 (left partition + SF differ by version) */}
+      <Room name="BEDROOM 3" sf={b3SF} x={b3Left} y={438} w={584 - b3Left} h={212} />
+
+      {/* Closets carved from the top of the bedroom band (drawn over bedrooms) */}
+      {CLOSETS.map((r) => <Room key={`c${r.x}`} {...r} />)}
 
       {/* Fixtures ---------------------------------------------------------- */}
       {/* Tub in upper Bath 2 (vertical, against the left exterior wall) */}
-      <rect x={130} y={112} width={42} height={70} rx={6} fill="none" stroke={FIXTURE} strokeWidth={1} />
-      {/* Vanity + tub in Primary Bath (along top wall) */}
-      <rect x={360} y={112} width={130} height={34} rx={6} fill="none" stroke={FIXTURE} strokeWidth={1} />
-      <rect x={310} y={112} width={42} height={22} fill="none" stroke={FIXTURE} strokeWidth={1} />
+      <rect x={130} y={112} width={40} height={66} rx={6} fill="none" stroke={FIXTURE} strokeWidth={1} />
+      {/* Shower stall in the 25 SF WC */}
+      <rect x={250} y={112} width={48} height={44} fill="none" stroke={FIXTURE} strokeWidth={1} />
+      <line x1={250} y1={112} x2={298} y2={156} stroke={FIXTURE} strokeWidth={0.7} />
+      {/* Tub + vanity in Primary Bath (along the top wall) */}
+      <rect x={360} y={112} width={120} height={34} rx={6} fill="none" stroke={FIXTURE} strokeWidth={1} />
+      <rect x={325} y={112} width={28} height={20} fill="none" stroke={FIXTURE} strokeWidth={1} />
       {/* Washer + dryer in Laundry */}
-      <rect x={138} y={300} width={28} height={28} fill="none" stroke={FIXTURE} strokeWidth={1} />
-      <circle cx={152} cy={314} r={9} fill="none" stroke={FIXTURE} strokeWidth={1} />
-      <rect x={172} y={300} width={28} height={28} fill="none" stroke={FIXTURE} strokeWidth={1} />
-      <circle cx={186} cy={314} r={9} fill="none" stroke={FIXTURE} strokeWidth={1} />
+      <rect x={134} y={360} width={26} height={26} fill="none" stroke={FIXTURE} strokeWidth={1} />
+      <circle cx={147} cy={373} r={8} fill="none" stroke={FIXTURE} strokeWidth={1} />
+      <rect x={166} y={360} width={26} height={26} fill="none" stroke={FIXTURE} strokeWidth={1} />
+      <circle cx={179} cy={373} r={8} fill="none" stroke={FIXTURE} strokeWidth={1} />
       {/* Mezzanine opening + guardrail note in Bonus Room */}
-      <circle cx={720} cy={490} r={46} fill="none" stroke={FIXTURE} strokeWidth={1} strokeDasharray="4 3" />
-      <text x={720} y={560} textAnchor="middle" fontSize={8} fill={FIXTURE}>GUARDRAIL @ MEZZANINE</text>
+      <circle cx={700} cy={500} r={46} fill="none" stroke={FIXTURE} strokeWidth={1} strokeDasharray="4 3" />
+      <text x={700} y={568} textAnchor="middle" fontSize={8} fill={FIXTURE}>GUARDRAIL @ MEZZANINE</text>
 
       {/* Toilet in lower Bath 2 — present in current, removed in incoming */}
       {!incoming ? (
         <g>
-          <ellipse cx={158} cy={240} rx={13} ry={16} fill="none" stroke={FIXTURE} strokeWidth={1} />
-          <rect x={148} y={222} width={20} height={9} rx={2} fill="none" stroke={FIXTURE} strokeWidth={1} />
+          <ellipse cx={180} cy={300} rx={13} ry={16} fill="none" stroke={FIXTURE} strokeWidth={1} />
+          <rect x={170} y={282} width={20} height={9} rx={2} fill="none" stroke={FIXTURE} strokeWidth={1} />
         </g>
       ) : (
         <g opacity={0.35}>
-          <ellipse cx={158} cy={240} rx={13} ry={16} fill="none" stroke={FIXTURE} strokeWidth={0.8} strokeDasharray="3 3" />
+          <ellipse cx={180} cy={300} rx={13} ry={16} fill="none" stroke={FIXTURE} strokeWidth={0.8} strokeDasharray="3 3" />
         </g>
       )}
 
       {/* Doors (static) */}
-      <Door x={300} y={150} rot={90} />
-      <Door x={470} y={300} rot={180} />
-      <Door x={560} y={150} rot={90} />
-      <Door x={300} y={470} rot={0} />
-      <DoorTag x={304} y={138} l="201" />
-      <DoorTag x={304} y={486} l="208" />
-      <DoorTag x={564} y={138} l="202" />
+      <Door x={240} y={150} rot={90} />
+      <Door x={317} y={300} rot={0} />
+      <Door x={584} y={150} rot={90} />
+      <Door x={150} y={438} rot={-90} />
+      <Door x={470} y={438} rot={-90} />
+      <DoorTag x={232} y={205} l="201" />
+      <DoorTag x={584} y={205} l="202" />
+      <DoorTag x={232} y={428} l="207" />
 
       {/* Window tags on exterior walls */}
-      <WindowTag x={210} y={100} l="W2-0" />
+      <WindowTag x={180} y={100} l="W2-0" />
       <WindowTag x={420} y={100} l="W2-0" />
-      <WindowTag x={720} y={100} l="W4-0" />
-      <WindowTag x={120} y={240} l="W1-0" />
-      <WindowTag x={400} y={620} l="EER0" />
-      <WindowTag x={640} y={620} l="W2-0" />
+      <WindowTag x={700} y={100} l="W4-0" />
+      <WindowTag x={120} y={280} l="W1-0" />
+      <WindowTag x={300} y={650} l="EER0" />
+      <WindowTag x={460} y={650} l="EER0" />
+      <WindowTag x={700} y={650} l="W2-0" />
 
       {/* Two doors added to the Corridor — incoming only, drawn in green */}
       {incoming && (
         <g>
-          <Door x={360} y={430} rot={-90} size={36} accent={TYPE_META.added.color} />
-          <Door x={500} y={430} rot={-90} size={36} accent={TYPE_META.added.color} />
+          <Door x={370} y={438} rot={-90} size={32} accent={TYPE_META.added.color} />
+          <Door x={500} y={438} rot={-90} size={32} accent={TYPE_META.added.color} />
         </g>
       )}
 
       {/* Detected-change highlight overlay (incoming only) */}
-      {incoming && CHANGES.map((c) => {
+      {incoming && CHANGES.map((c, i) => {
         const r = HILITE[c.id]
         if (!r) return null
         const color = TYPE_META[c.type].color
@@ -198,9 +218,7 @@ export default function FloorPlan({
               stroke={color} strokeWidth={active ? 2.4 : 1.4} strokeOpacity={0.85}
             />
             <circle cx={c.marker.x} cy={c.marker.y} r={11} fill={color} />
-            <text x={c.marker.x} y={c.marker.y + 4} textAnchor="middle" fontSize={12} fontWeight={700} fill="#fff">
-              {CHANGES.findIndex((x) => x.id === c.id) + 1}
-            </text>
+            <text x={c.marker.x} y={c.marker.y + 4} textAnchor="middle" fontSize={12} fontWeight={700} fill="#fff">{i + 1}</text>
           </g>
         )
       })}
