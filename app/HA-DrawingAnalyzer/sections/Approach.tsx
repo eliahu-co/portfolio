@@ -17,12 +17,13 @@ export default function Approach() {
           understanding objects, relationships, and changes within drawings appeared to create unique
           value. I intentionally excluded areas such as code compliance, which require a higher level
           of accuracy and regulatory confidence than I could reasonably assume for an MVP, as well as
-          bidding workflows, where stakeholders often have competing incentives and definitions of success.
+          bidding workflows, where stakeholders often have competing incentives.
         </p>
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
           The resulting use cases span design review, construction execution, coordination, and owner
           governance, allowing evaluation of the AI Drawing Analyzer across different users, project
-          phases, and business outcomes.
+          phases, and business outcomes. Each use case was analyzed using a common framework to enable
+          apples-to-apples comparison during prioritization.
         </p>
       </div>
     </Section>

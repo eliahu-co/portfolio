@@ -42,6 +42,15 @@ export default function HADrawingAnalyzerPage() {
             <AssumptionsSources />
             <Approach />
 
+            <div className="mt-4">
+              <a
+                href="#hero"
+                className="inline-flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal/70 hover:text-autodesk-blue transition-colors no-underline"
+              >
+                <span aria-hidden="true">↑</span> Back to top
+              </a>
+            </div>
+
             <p className="mt-8 font-sans text-[10px] leading-relaxed text-charcoal/40">
               This page was created specifically for the Autodesk interview process and is not publicly discoverable.
             </p>
