@@ -182,7 +182,7 @@ export const USE_CASE_2: UseCaseData = {
     image: '/drawinganalyzer/use-case-2.png',
     imageAside: true,
     statement:
-      'Automatically connect RFIs to the relevant drawings, objects, schedules, specifications, and locations. Creates a reusable context-linking capability that can support punch items and issue management workflows.',
+      'Automatically connect RFIs to the relevant drawings, objects, schedules, specifications, and locations by identifying the project elements referenced in the issue description and linking them to structured drawing data. This capability can later support punch items, observations, and other issue-management workflows.',
   },
 
   value: [

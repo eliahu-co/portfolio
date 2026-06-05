@@ -142,8 +142,8 @@ export default function Prioritization() {
             support Context Link and other downstream opportunities.
           </p>
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Context Link (16) is the next strongest candidate and a natural follow-on investment, reusing
-            the same structured-drawing foundation.
+            Context Link (16) is the next strongest candidate and a natural follow-on investment, leveraging
+            the same ability to identify and relate objects within drawings.
           </p>
         </div>
       </div>

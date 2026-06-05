@@ -111,7 +111,7 @@ function Bullets({ items }: { items: string[] }) {
 }
 
 function MiniLabel({ children }: { children: ReactNode }) {
-  return <p className="font-sans text-[11px] text-charcoal/60 mt-4 mb-1.5">{children}</p>
+  return <p className="font-sans text-[10px] uppercase tracking-[0.1em] text-charcoal/60 mt-4 mb-1.5">{children}</p>
 }
 
 function OpportunityText({ opp }: { opp: UseCaseData['opportunity'] }) {
