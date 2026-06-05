@@ -4,9 +4,11 @@
 import Section from './Section'
 
 const ASSUMPTIONS = [
-  'TODO: Assumption the strategy depends on.',
-  'TODO: Assumption about user behavior or market.',
-  'TODO: Assumption about technical feasibility.',
+  'The AI Drawing Analyzer can reliably identify and relate common drawing objects across revisions.',
+  'The AI Drawing Analyzer can process drawings quickly enough to fit within existing user workflows.',
+  'Forma has reliable integration with the AI Drawing Analyzer’s structured output.',
+  'Target users already work within Autodesk construction and design workflows.',
+  'Most analyzed drawings follow standard industry conventions and contain sufficient quality for automated interpretation.',
 ]
 
 export default function AssumptionsSources() {

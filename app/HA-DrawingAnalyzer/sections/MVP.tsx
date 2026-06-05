@@ -49,7 +49,7 @@ const METRICS: { kind: string; title: string; body: string; signal: string }[] =
 const VARIABLES = [
   { label: 'Accuracy', body: 'At what level of detection accuracy does the generated change review become more useful than creating a change log manually?' },
   { label: 'Latency',  body: 'Can analysis complete quickly enough to fit naturally into the upload workflow?' },
-  { label: 'Cost',     body: 'Can change validation run on every upload while remaining economically viable at project scale?' },
+  { label: 'Cost',     body: 'Can change validation run on every review initiated while remaining economically viable at project scale?' },
 ]
 
 function List({ title, items }: { title: string; items: string[] }) {
