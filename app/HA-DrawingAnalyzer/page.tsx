@@ -42,15 +42,9 @@ export default function HADrawingAnalyzerPage() {
             <AssumptionsSources />
             <Approach />
 
-            {/* Footer — back-home link, matching app/cv/page.tsx */}
-            <footer className="border-t-2 border-autodesk-blue pt-5 mt-4">
-              <a
-                href="/"
-                className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal/70 hover:text-autodesk-blue transition-colors no-underline"
-              >
-                ← Portfolio
-              </a>
-            </footer>
+            <p className="mt-8 font-sans text-[10px] leading-relaxed text-charcoal/40">
+              This page was created specifically for the Autodesk interview process and is not publicly discoverable.
+            </p>
           </main>
         </div>
       </div>
