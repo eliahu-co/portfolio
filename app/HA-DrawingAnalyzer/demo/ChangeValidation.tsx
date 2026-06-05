@@ -95,7 +95,7 @@ export default function ChangeValidation({
       <div className="flex flex-1 min-h-0">
         {/* Panes */}
         <main className="flex-1 min-w-0 flex flex-col p-4 gap-3">
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 flex-1 min-h-0">
+          <div className="grid grid-cols-1 xl:grid-cols-2 auto-rows-fr gap-4 flex-1 min-h-0">
             <Pane label="Current" version="current" />
             <Pane label="Incoming" version="incoming" focus={focus} />
           </div>

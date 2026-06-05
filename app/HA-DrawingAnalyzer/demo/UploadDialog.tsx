@@ -38,7 +38,8 @@ export default function UploadDialog({ onComplete, onCancel }: { onComplete: () 
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/40 grid place-items-center"
+      className="fixed inset-0 z-50 grid place-items-center"
+      style={{ background: 'rgba(0,0,0,0.45)' }}
       onClick={onCancel}
     >
       <div
