@@ -262,7 +262,7 @@ export function CardList({
 
 function markerGlyph(kind: StepKind): string {
   switch (kind) {
-    case 'ai':      return '◆'
+    case 'ai':      return '⚡︎'
     case 'catch':   return '⚑'
     case 'reject':  return '✕'
     case 'approve': return '✓'
@@ -316,7 +316,7 @@ function StepCell({
 
   // box background + border
   let box = proposed ? 'bg-autodesk-blue/5 border-autodesk-blue/30' : 'bg-white border-charcoal/25'
-  if (kind === 'ai') box = 'bg-autodesk-blue/5 border-autodesk-blue/45 shadow-[0_0_10px_-2px_rgba(6,150,215,0.3)]'
+  if (kind === 'ai') box = 'bg-autodesk-blue/5 border-autodesk-blue/45 shadow-[0_0_16px_-1px_rgba(6,150,215,0.5)]'
   else if (kind === 'approve') box = proposed ? 'bg-autodesk-blue/10 border-autodesk-blue/70' : 'bg-white border-charcoal/45'
   else if (kind === 'catch') box = isEmphasis
     ? (proposed ? 'bg-autodesk-blue/10 border-autodesk-blue/70' : 'bg-white border-charcoal/60')
@@ -342,7 +342,7 @@ function StepCell({
   return (
     <div className="flex flex-col">
       <div className={`relative overflow-hidden rounded-sm ${borderW} px-2.5 py-1 flex items-center gap-2 ${box}`}>
-        <span className={`relative shrink-0 text-[11px] md:text-[12px] leading-none ${marker}`} aria-hidden="true">
+        <span className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] md:text-[17px] font-bold' : 'text-[11px] md:text-[12px]'} ${marker}`} aria-hidden="true">
           {markerGlyph(kind)}
         </span>
         <span className="relative min-w-0 text-[11px] md:text-[12px] leading-snug">
@@ -355,7 +355,7 @@ function StepCell({
         </span>
         {(kind === 'ai' || step.actor) && (
           <span className="ml-auto shrink-0 flex items-center gap-1.5">
-            {kind === 'ai' && <Pill tone="blue">AI</Pill>}
+            {kind === 'ai' && <Pill tone="blue">DA</Pill>}
             {step.actor && (
               <Pill tone={proposed ? 'blue' : 'charcoal'}>
                 {step.actor.charAt(0).toUpperCase() + step.actor.slice(1)}
@@ -376,7 +376,7 @@ function Legend({ current, proposed }: { current: Workflow; proposed: Workflow }
   for (const s of [...current.steps, ...proposed.steps]) used.add(s.kind ?? 'normal')
 
   const items = ([
-    { kind: 'ai',      glyph: '◆', label: 'AI step' },
+    { kind: 'ai',      glyph: '⚡︎', label: 'Powered by AI Drawing Analyzer' },
     { kind: 'catch',   glyph: '⚑', label: 'Issue caught' },
     { kind: 'reject',  glyph: '✕', label: 'Rejected' },
     { kind: 'approve', glyph: '✓', label: 'Approved' },
@@ -385,12 +385,20 @@ function Legend({ current, proposed }: { current: Workflow; proposed: Workflow }
 
   return (
     <div className="flex flex-wrap gap-x-5 gap-y-1 mt-5">
-      {items.map(({ glyph, label }) => (
-        <span key={label} className="font-sans text-[10px] text-charcoal/70">
-          <span className="text-charcoal mr-1" aria-hidden="true">{glyph}</span>
-          {label}
-        </span>
-      ))}
+      {items.map(({ kind, glyph, label }) => {
+        const isAi = kind === 'ai'
+        return (
+          <span key={label} className={`font-sans text-[10px] ${isAi ? 'text-autodesk-blue' : 'text-charcoal/70'}`}>
+            <span
+              className={`mr-1 ${isAi ? 'text-autodesk-blue font-bold text-[13px]' : 'text-charcoal'}`}
+              aria-hidden="true"
+            >
+              {glyph}
+            </span>
+            {label}
+          </span>
+        )
+      })}
     </div>
   )
 }
@@ -412,7 +420,7 @@ function WorkflowComparison({ current, proposed }: { current: Workflow; proposed
     <div>
       <div className="grid grid-cols-2 gap-x-4 md:gap-x-6 mb-4">
         <LaneHeader proposed={false} title="Current" stat={current.stat} />
-        <LaneHeader proposed title="Proposed · Powered by AI Drawing Analyzer" stat={proposed.stat} />
+        <LaneHeader proposed title="Proposed" stat={proposed.stat} />
       </div>
 
       <div className="grid grid-cols-2 gap-x-4 md:gap-x-6 items-start">
