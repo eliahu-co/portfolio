@@ -110,7 +110,7 @@ export const USE_CASE_1: UseCaseData = {
     },
   ],
 
-  tradeoff: { gain: 'Fewer review cycles', cost: 'Added submission step' },
+  tradeoff: { gain: 'Fewer review cycles', cost: 'Added pre-submission validation step' },
 }
 
 export const USE_CASE_2: UseCaseData = {
@@ -225,7 +225,7 @@ export const USE_CASE_2: UseCaseData = {
     },
   ],
 
-  tradeoff: { gain: 'Faster RFI cycle', cost: 'Context needs verification' },
+  tradeoff: { gain: 'Faster issue resolution', cost: 'Occasional incorrect context associations' },
 }
 
 export const USE_CASE_3: UseCaseData = {
@@ -335,7 +335,7 @@ export const USE_CASE_3: UseCaseData = {
     },
   ],
 
-  tradeoff: { gain: 'Coordination awareness', cost: 'Maintenance overhead' },
+  tradeoff: { gain: 'Persistent dependency tracking', cost: 'Additional coordination setup effort' },
 }
 
 export const USE_CASE_4: UseCaseData = {
@@ -382,7 +382,7 @@ export const USE_CASE_4: UseCaseData = {
     stat: 'Review time spent on verification',
     steps: [
       { label: 'Defines program requirements' },
-      { label: 'Architect submits design' },
+      { label: 'Architect submits design', actor: 'designer' },
       { label: 'Verifies requirements manually', note: 'Manual validation creates bottlenecks' },
       { label: 'Reviews design quality and intent' },
       { label: 'Standards applied inconsistently', kind: 'reject' },
@@ -393,7 +393,7 @@ export const USE_CASE_4: UseCaseData = {
     stat: 'Review time spent on design quality',
     steps: [
       { label: 'Defines structured program criteria' },
-      { label: 'Architect submits design' },
+      { label: 'Architect submits design', actor: 'designer' },
       { label: 'Program Conformance Review generated', kind: 'ai', note: 'Rooms, Areas, Adjacencies, Equipment' },
       { label: 'Reviews exceptions and deviations', note: 'Focuses on design quality and intent' },
       { label: 'Consistent standards enforcement at scale', kind: 'approve' },
@@ -436,5 +436,5 @@ export const USE_CASE_4: UseCaseData = {
     },
   ],
 
-  tradeoff: { gain: 'Consistent standards', cost: 'Flexibility & setup effort' },
+  tradeoff: { gain: 'Scalable reviews', cost: 'Upfront criteria definition and maintenance' },
 }
