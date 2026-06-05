@@ -346,7 +346,7 @@ export const USE_CASE_4: UseCaseData = {
   constructionPhase: {
     name: 'Project Conception, Design & Planning / Pre-Construction',
     description:
-      'Design submissions are reviewed against owner-defined requirements and standards before approval.',
+      'Design proposals are evaluated and refined before construction begins, requiring alignment with owner expectations and project goals.',
   },
 
   primaryUser: {
