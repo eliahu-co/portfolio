@@ -3,15 +3,46 @@
 // cases, and the resulting decision.
 
 import Section from './Section'
-import { CardList } from './UseCase'
 
 const CRITERIA = ['Impact', 'Platform Leverage', 'Confidence', 'Feasibility']
 
-const CRITERIA_DEFS = [
-  { title: 'Impact', body: 'Magnitude of value delivered if successful. Considers problem severity, workflow frequency, and business impact.' },
-  { title: 'Platform Leverage', body: 'How strongly the use case demonstrates and extends the unique capabilities of the AI Drawing Analyzer.' },
-  { title: 'Confidence', body: 'Confidence that the workflow can be implemented accurately and adopted successfully given current technology and user behavior.' },
-  { title: 'Feasibility', body: 'Likelihood that the use case can be successfully delivered and adopted given current technology, workflow constraints, and implementation complexity. Higher scores indicate lower overall delivery risk.' },
+const CRITERIA_DEFS: { title: string; body: string; rubric: [string, string][] }[] = [
+  {
+    title: 'Impact',
+    body: 'Magnitude of value delivered if successful.',
+    rubric: [
+      ['5', 'High-frequency workflow with significant user and business impact.'],
+      ['3', 'Valuable but limited to a smaller workflow or user segment.'],
+      ['1', 'Nice-to-have improvement with limited measurable impact.'],
+    ],
+  },
+  {
+    title: 'Platform Leverage',
+    body: 'Degree to which the use case extends the unique capabilities of the AI Drawing Analyzer.',
+    rubric: [
+      ['5', 'Relies heavily on object understanding, relationships, or change detection.'],
+      ['3', 'Partially benefits from structured drawing data.'],
+      ['1', 'Could be implemented without the AI Drawing Analyzer.'],
+    ],
+  },
+  {
+    title: 'Confidence',
+    body: 'Confidence that users will understand, adopt, and realize value from the workflow.',
+    rubric: [
+      ['5', 'Clear pain point, obvious value, and minimal behavior change.'],
+      ['3', 'Moderate adoption risk or workflow change required.'],
+      ['1', 'Significant uncertainty around user value or adoption.'],
+    ],
+  },
+  {
+    title: 'Feasibility',
+    body: 'Likelihood the use case can be delivered successfully given current technology and implementation complexity.',
+    rubric: [
+      ['5', 'Technically straightforward with limited dependencies.'],
+      ['3', 'Moderate complexity or dependency risk.'],
+      ['1', 'Significant technical, data, or workflow challenges.'],
+    ],
+  },
 ]
 
 type Row = { useCase: string; scores: number[]; total: number; winner?: boolean }
@@ -38,9 +69,23 @@ export default function Prioritization() {
         </p>
       </div>
 
-      {/* Criterion definitions — reuse the value/risk card style, black accent */}
-      <div className="max-w-2xl mb-8">
-        <CardList items={CRITERIA_DEFS} variant="neutral" columns={1} />
+      {/* Criterion definitions + scoring rubric */}
+      <div className="max-w-2xl mb-8 flex flex-col gap-4">
+        {CRITERIA_DEFS.map(({ title, body, rubric }) => (
+          <div key={title} className="pl-3 border-l-4 border-charcoal">
+            <p className="font-serif text-[14px] text-black mb-0.5">{title}</p>
+            <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80">{body}</p>
+            <div className="mt-1.5 flex flex-col gap-0.5">
+              {rubric.map(([score, desc]) => (
+                <p key={score} className="font-sans text-[11px] leading-relaxed text-charcoal/70">
+                  <span className="font-bold text-charcoal">{score}</span>
+                  <span className="text-charcoal/40"> — </span>
+                  {desc}
+                </p>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Scoring table */}
@@ -89,12 +134,18 @@ export default function Prioritization() {
 
       <div className="max-w-2xl">
         <p className="font-sans text-[9px] uppercase tracking-[0.14em] text-autodesk-blue mb-2">Decision</p>
-        <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          Change Validation scores highest (18) — pairing the strongest impact and
-          platform leverage with high implementation confidence — making it the recommended
-          starting point. Context Link (16) is the next strongest and a natural follow-on,
-          reusing the same structured-drawing foundation.
-        </p>
+        <div className="flex flex-col gap-3">
+          <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+            Change Validation scores highest (18) and is recommended as the starting point. It addresses
+            a high-frequency workflow with clear user value, strong platform leverage, and relatively low
+            implementation risk. It also establishes the structured change foundation that can later
+            support Context Link and other downstream opportunities.
+          </p>
+          <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+            Context Link (16) is the next strongest candidate and a natural follow-on investment, reusing
+            the same structured-drawing foundation.
+          </p>
+        </div>
       </div>
     </Section>
   )
