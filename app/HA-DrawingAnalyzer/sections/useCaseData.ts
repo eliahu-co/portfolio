@@ -121,7 +121,7 @@ export const USE_CASE_2: UseCaseData = {
   constructionPhase: {
     name: 'Construction',
     description:
-      'Field teams encounter issues that require clarification and resolution to maintain project progress.',
+      'Questions, discrepancies, and unforeseen conditions frequently surface at the construction site and require clarification before work can proceed.',
   },
 
   primaryUser: {
@@ -376,26 +376,27 @@ export const USE_CASE_4: UseCaseData = {
       'Automatically validate submitted designs against owner-defined program requirements and standards. This creates a reusable foundation for standards enforcement and prototype validation across projects.',
   },
 
+  legendAiOnly: true,
+
   currentWorkflow: {
-    stat: 'Inconsistent manual review',
+    stat: 'Review time spent on verification',
     steps: [
-      { label: 'Defines program brief' },
+      { label: 'Defines program requirements' },
       { label: 'Architect submits design' },
-      { label: 'Manually validates requirements' },
-      { label: 'Verifies drawing conformance to criteria manually', emphasis: true, note: 'Manual validation creates bottlenecks' },
-      { label: 'Checks design quality and intent', emphasis: true },
-      { label: 'Standards applied inconsistently', emphasis: true },
-      { label: 'Review quality depends on reviewer expertise', emphasis: true },
+      { label: 'Verifies requirements manually', note: 'Manual validation creates bottlenecks' },
+      { label: 'Reviews design quality and intent' },
+      { label: 'Standards applied inconsistently', kind: 'reject' },
+      { label: 'Review capacity scales with reviewer effort', kind: 'reject' },
     ],
   },
   proposedWorkflow: {
-    stat: 'Faster, consistent reviews',
+    stat: 'Review time spent on design quality',
     steps: [
       { label: 'Defines structured program criteria' },
       { label: 'Architect submits design' },
       { label: 'Program Conformance Review generated', kind: 'ai', note: 'Rooms, Areas, Adjacencies, Equipment' },
-      { label: 'Focuses on design quality and intent', emphasis: true },
-      { label: 'Consistent standards enforcement', kind: 'approve', note: 'Scalable review process' },
+      { label: 'Reviews exceptions and deviations', note: 'Focuses on design quality and intent' },
+      { label: 'Consistent standards enforcement at scale', kind: 'approve' },
     ],
   },
 

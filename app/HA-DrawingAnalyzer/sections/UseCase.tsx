@@ -210,7 +210,7 @@ function Card({
   fullWidth?: boolean
 }) {
   const bar = variant === 'neutral'
-    ? 'border-l-2 border-black'
+    ? 'border-l-4 border-charcoal'
     : item.primary
       ? (variant === 'value' ? 'border-l-4 border-autodesk-blue' : 'border-l-4 border-[#f4b400]')
       : (variant === 'value' ? 'border-l-2 border-autodesk-blue/55' : 'border-l-2 border-[#f4b400]/70')

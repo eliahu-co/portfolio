@@ -23,6 +23,16 @@ const config: Config = {
         serif: ['var(--font-playfair)', 'Georgia', 'serif'],
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
+      keyframes: {
+        // moving gradient — used for the champion row in the prioritization table
+        shimmer: {
+          '0%':   { backgroundPosition: '200% 0' },
+          '100%': { backgroundPosition: '-200% 0' },
+        },
+      },
+      animation: {
+        shimmer: 'shimmer 3.2s linear infinite',
+      },
     },
   },
   plugins: [],

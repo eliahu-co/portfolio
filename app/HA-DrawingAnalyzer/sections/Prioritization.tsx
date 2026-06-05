@@ -65,7 +65,11 @@ export default function Prioritization() {
             {ROWS.map((row) => {
               const medal = MEDALS[RANKED_TOTALS.indexOf(row.total)]
               return (
-              <tr key={row.useCase} className={`border-b border-charcoal/15 ${row.winner ? 'bg-autodesk-blue/5' : ''}`}>
+              <tr
+                key={row.useCase}
+                className={`border-b border-charcoal/15 ${row.winner ? 'animate-shimmer motion-reduce:animate-none' : ''}`}
+                style={row.winner ? { backgroundImage: 'linear-gradient(90deg, rgba(6,150,215,0.06) 0%, rgba(6,150,215,0.22) 50%, rgba(6,150,215,0.06) 100%)', backgroundSize: '200% 100%' } : undefined}
+              >
                 <td className={`font-sans text-[13px] py-3 pr-4 ${row.winner ? 'text-black font-medium' : 'text-charcoal'}`}>
                   {medal && <span className="mr-1.5" aria-hidden="true">{medal}</span>}
                   {row.useCase}
