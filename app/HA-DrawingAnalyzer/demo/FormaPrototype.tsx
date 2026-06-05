@@ -1,10 +1,11 @@
 'use client'
 import FormaShell from './FormaShell'
+import FilesScreen from './FilesScreen'
 
 export default function FormaPrototype() {
   return (
     <FormaShell>
-      <div className="p-8 text-[13px] text-[#5a5a5a] font-sans">Files screen goes here.</div>
+      <FilesScreen version={1} status="none" onUpload={() => {}} onSubmit={() => {}} />
     </FormaShell>
   )
 }
