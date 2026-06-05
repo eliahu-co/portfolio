@@ -13,7 +13,7 @@ const ASSUMPTIONS = [
 
 export default function AssumptionsSources() {
   return (
-    <Section id="assumptions" eyebrow="Assumptions" title="What this rests on">
+    <Section id="assumptions" eyebrow="Assumptions">
       <div className="max-w-2xl">
         <ul className="flex flex-col gap-1.5">
           {ASSUMPTIONS.map((a, i) => (

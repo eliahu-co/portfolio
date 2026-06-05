@@ -22,7 +22,7 @@ export default function Section({
 }: {
   id: string
   eyebrow: string
-  title: string
+  title?: string
   children: ReactNode
 }) {
   return (
@@ -32,9 +32,11 @@ export default function Section({
       className="scroll-mt-8 border-t-4 border-autodesk-blue pt-5 pb-16"
     >
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="font-serif text-[clamp(22px,3vw,32px)] leading-tight text-black mb-5 whitespace-pre-line">
-        {title}
-      </h2>
+      {title && (
+        <h2 className="font-serif text-[clamp(22px,3vw,32px)] leading-tight text-black mb-5 whitespace-pre-line">
+          {title}
+        </h2>
+      )}
       {children}
     </section>
   )
