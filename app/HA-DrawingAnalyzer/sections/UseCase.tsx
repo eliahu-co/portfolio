@@ -58,6 +58,7 @@ export interface UseCaseData {
 
   currentWorkflow:  Workflow
   proposedWorkflow: Workflow
+  legendAiOnly?:    boolean // show only the AI Drawing Analyzer entry in the workflow legend
 
   opportunity: {
     statement: string   // headline opportunity statement
@@ -373,7 +374,7 @@ function StepCell({
 
 // Only show legend entries for the step kinds that actually appear in this use
 // case's lanes, so e.g. a workflow with no rejected step doesn't list "Rejected".
-function Legend({ current, proposed }: { current: Workflow; proposed: Workflow }) {
+function Legend({ current, proposed, aiOnly }: { current: Workflow; proposed: Workflow; aiOnly?: boolean }) {
   const used = new Set<StepKind>()
   for (const s of [...current.steps, ...proposed.steps]) used.add(s.kind ?? 'normal')
 
@@ -383,7 +384,7 @@ function Legend({ current, proposed }: { current: Workflow; proposed: Workflow }
     { kind: 'reject',  glyph: '✕', label: 'Rejected' },
     { kind: 'approve', glyph: '✓', label: 'Approved' },
     { kind: 'repeat',  glyph: '⟲', label: 'Repeat review cycle' },
-  ] as const).filter(it => used.has(it.kind))
+  ] as const).filter(it => used.has(it.kind) && (!aiOnly || it.kind === 'ai'))
 
   return (
     <div className="flex flex-wrap gap-x-5 gap-y-1 mt-5">
@@ -417,7 +418,7 @@ function Lane({ workflow, proposed }: { workflow: Workflow; proposed: boolean })
   )
 }
 
-function WorkflowComparison({ current, proposed }: { current: Workflow; proposed: Workflow }) {
+function WorkflowComparison({ current, proposed, legendAiOnly }: { current: Workflow; proposed: Workflow; legendAiOnly?: boolean }) {
   return (
     <div>
       <div className="grid grid-cols-2 gap-x-4 md:gap-x-6 mb-4">
@@ -430,7 +431,7 @@ function WorkflowComparison({ current, proposed }: { current: Workflow; proposed
         <Lane workflow={proposed} proposed />
       </div>
 
-      <Legend current={current} proposed={proposed} />
+      <Legend current={current} proposed={proposed} aiOnly={legendAiOnly} />
     </div>
   )
 }
@@ -522,7 +523,7 @@ export default function UseCase({ data }: { data: UseCaseData }) {
       )}
 
       <Block label="Workflow">
-        <WorkflowComparison current={data.currentWorkflow} proposed={data.proposedWorkflow} />
+        <WorkflowComparison current={data.currentWorkflow} proposed={data.proposedWorkflow} legendAiOnly={data.legendAiOnly} />
       </Block>
 
       <Block label="Value delivered">

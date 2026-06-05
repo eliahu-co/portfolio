@@ -125,7 +125,7 @@ export const USE_CASE_2: UseCaseData = {
   },
 
   primaryUser: {
-    pill: 'Field user',
+    pill: 'Field team',
     role: 'Superintendent / Foreman / Field Engineer',
     description: 'Identifies field issues and creates RFIs, often from a mobile device in time-constrained conditions.',
   },
@@ -155,11 +155,11 @@ export const USE_CASE_2: UseCaseData = {
   currentWorkflow: {
     stat: 'Repeated RFI cycles',
     steps: [
-      { label: 'Issue identified onsite' },
-      { label: 'Open Forma mobile' },
-      { label: 'Describe issue using text or voice' },
-      { label: '(Optional) Attach photo and files' },
-      { label: 'Submit RFI', emphasis: true },
+      { label: 'Identifies issue onsite' },
+      { label: 'Opens Forma mobile' },
+      { label: 'Describes issue using text or voice' },
+      { label: '(Optional) Attaches photo and files' },
+      { label: 'Submits RFI', emphasis: true },
       { label: 'Designer investigates issue', actor: 'designer', emphasis: true, note: 'Attempts to reconstruct context' },
       { label: 'Designer requests clarification', kind: 'catch', actor: 'designer', note: 'Incomplete context' },
       { label: 'RFI cycle restarts', kind: 'repeat' },
@@ -168,12 +168,12 @@ export const USE_CASE_2: UseCaseData = {
   proposedWorkflow: {
     stat: 'First-pass resolution',
     steps: [
-      { label: 'Issue identified onsite' },
-      { label: 'Open Forma mobile' },
-      { label: 'Describe issue using text or voice' },
+      { label: 'Identifies issue onsite' },
+      { label: 'Opens Forma mobile' },
+      { label: 'Describes issue using text or voice' },
       { label: 'Context Link suggests context', kind: 'ai', note: 'Room • Object • Sheet • Schedule • Specification' },
-      { label: 'User confirms context' },
-      { label: 'Submit RFI', emphasis: true },
+      { label: 'Confirms context' },
+      { label: 'Submits RFI', emphasis: true },
       { label: 'RFI answered without clarification cycle', kind: 'approve', actor: 'designer', note: 'No clarification required' },
     ],
   },
@@ -261,30 +261,31 @@ export const USE_CASE_3: UseCaseData = {
     ],
   },
 
+  legendAiOnly: true,
+
   currentWorkflow: {
-    stat: 'Conflicts resurface late',
+    stat: 'Dependencies forgotten',
     steps: [
-      { label: 'Coordinator selects discipline drawings' },
-      { label: 'Manually compares related sheets' },
-      { label: 'Identifies potential cross-discipline conflicts' },
-      { label: 'Discusses issue in coordination meeting' },
-      { label: 'Teams agree on resolution' },
-      { label: 'Resolution tracked manually' },
-      { label: 'Related elements change later' },
-      { label: 'No automatic notification' },
-      { label: 'Conflict may be rediscovered late', kind: 'catch', note: 'Caught late — in the field' },
+      { label: 'Reviews discipline drawings' },
+      { label: 'Identifies relationships between objects' },
+      { label: 'Relies on memory to track relationships' },
+      { label: 'MEP drawing is updated' },
+      { label: 'Checks for coordination impacts manually' },
+      { label: 'Misses dependency impact', note: 'Forgets relationship' },
+      { label: 'Issue is discovered in the field', kind: 'catch' },
+      { label: 'High-cost rework', kind: 'reject' },
     ],
   },
   proposedWorkflow: {
-    stat: 'Conflicts caught early',
+    stat: 'Dependencies monitored',
     steps: [
-      { label: 'Coordinator selects discipline drawings' },
-      { label: 'AI identifies cross-discipline relationships', kind: 'ai' },
-      { label: 'Coordinator reviews suggestions' },
-      { label: 'Coordination Lock created', emphasis: true, note: 'Persistent dependency' },
-      { label: 'Related object changes later' },
-      { label: 'Linked elements automatically flagged', kind: 'catch', note: 'Impact detected' },
-      { label: 'Cross-discipline conflict caught early', kind: 'approve', note: 'Before construction' },
+      { label: 'Reviews discipline drawings' },
+      { label: 'Coordination Lock suggests relationships', kind: 'ai' },
+      { label: 'Confirms relationships' },
+      { label: 'Coordination Lock records dependencies', kind: 'ai' },
+      { label: 'MEP drawing is updated' },
+      { label: 'Coordination Lock flags dependency impact', kind: 'ai' },
+      { label: 'Resolves coordination issue before construction', kind: 'approve' },
     ],
   },
 
@@ -372,18 +373,17 @@ export const USE_CASE_4: UseCaseData = {
   opportunity: {
     image: '/drawinganalyzer/use-case-4.png',
     statement:
-      'Automatically validate submitted designs against owner-defined program requirements and standards.',
-    outro: 'This creates a reusable foundation for standards enforcement and prototype validation across projects.',
+      'Automatically validate submitted designs against owner-defined program requirements and standards. This creates a reusable foundation for standards enforcement and prototype validation across projects.',
   },
 
   currentWorkflow: {
     stat: 'Inconsistent manual review',
     steps: [
-      { label: 'Owner defines program brief' },
+      { label: 'Defines program brief' },
       { label: 'Architect submits design' },
-      { label: 'Owner manually validates requirements', actor: 'owner' },
-      { label: 'Objective criteria verified manually', actor: 'owner', emphasis: true, note: 'Manual validation creates bottlenecks' },
-      { label: 'Owner checks design quality and intent', actor: 'owner', emphasis: true },
+      { label: 'Manually validates requirements' },
+      { label: 'Verifies drawing conformance to criteria manually', emphasis: true, note: 'Manual validation creates bottlenecks' },
+      { label: 'Checks design quality and intent', emphasis: true },
       { label: 'Standards applied inconsistently', emphasis: true },
       { label: 'Review quality depends on reviewer expertise', emphasis: true },
     ],
@@ -391,10 +391,10 @@ export const USE_CASE_4: UseCaseData = {
   proposedWorkflow: {
     stat: 'Faster, consistent reviews',
     steps: [
-      { label: 'Owner defines structured program criteria' },
+      { label: 'Defines structured program criteria' },
       { label: 'Architect submits design' },
       { label: 'Program Conformance Review generated', kind: 'ai', note: 'Rooms, Areas, Adjacencies, Equipment' },
-      { label: 'Owner focuses on design quality and intent', actor: 'owner', emphasis: true },
+      { label: 'Focuses on design quality and intent', emphasis: true },
       { label: 'Consistent standards enforcement', kind: 'approve', note: 'Scalable review process' },
     ],
   },

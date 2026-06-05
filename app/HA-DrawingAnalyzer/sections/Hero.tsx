@@ -3,7 +3,7 @@
 
 const CAPABILITIES: { useCase: string; user: string; capability: string }[] = [
   { useCase: 'Change Validation',          user: 'Designer',   capability: 'Change Intelligence' },
-  { useCase: 'Context Link',               user: 'Field User', capability: 'Context Intelligence' },
+  { useCase: 'Context Link',               user: 'Field Team', capability: 'Context Intelligence' },
   { useCase: 'Coordination Lock',          user: 'BIM/VDC',    capability: 'Coordination Intelligence' },
   { useCase: 'Program Conformance Review', user: 'Owner',      capability: 'Standards Intelligence' },
 ]
