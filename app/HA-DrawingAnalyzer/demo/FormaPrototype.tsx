@@ -1,9 +1,10 @@
 'use client'
+import FormaShell from './FormaShell'
 
 export default function FormaPrototype() {
   return (
-    <div className="min-h-screen bg-[#fafafa] text-[#1a1a1a] grid place-items-center">
-      <p className="font-sans text-sm">Forma prototype — coming up.</p>
-    </div>
+    <FormaShell>
+      <div className="p-8 text-[13px] text-[#5a5a5a] font-sans">Files screen goes here.</div>
+    </FormaShell>
   )
 }
