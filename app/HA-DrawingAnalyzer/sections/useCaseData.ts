@@ -10,26 +10,26 @@ export const USE_CASE_1: UseCaseData = {
   title:   'Change Validation\n("Drawing Pull Requests")',
 
   constructionPhase: {
-    name: 'Project conception, design and planning / Building Permits',
+    name: 'Project Conception, Design & Planning / Building Permits',
     description:
-      'This phase involves frequent revisions across architectural, structural, and MEP drawings, requiring multiple review and approval cycles.',
+      'Frequent drawing revisions and review cycles across evolving project documentation.',
   },
 
   primaryUser: {
     pill: 'Designer',
     role: 'Architect / Structural Engineer / MEP Designer',
-    description: 'The person creating and submitting drawing revisions.',
+    description: 'Creates and submits drawing revisions.',
   },
   secondaryUser: {
     pill: 'Reviewer',
     role: 'Senior Architect / Discipline Lead',
-    description: 'The reviewer responsible for approving revisions and ensuring design quality.',
+    description: 'Approves drawing revisions and ensures design quality.',
   },
 
   problem: {
     intro: 'Designers frequently introduce unintended changes while modifying complex drawings.',
     consequences: [
-      'Reviewers spend time identifying changes (e.g., moved objects, modified room boundaries, removed equipment, or annotation updates) rather than evaluating design decisions',
+      'Reviewers spend time identifying changes rather than evaluating design decisions',
       'Additional review cycles are required when unintended changes are discovered late',
       'Designers receive feedback after they have already switched context to other work',
     ],
@@ -68,8 +68,7 @@ export const USE_CASE_1: UseCaseData = {
   opportunity: {
     image: '/drawinganalyzer/use-case-1.png',
     statement:
-      'Transform drawing revisions from static file versions into structured, reviewable change sets that can be validated and documented before entering the formal approval process.',
-    outro: 'This creates a reusable change-intelligence capability that can support design reviews, coordination workflows, compliance documentation, project handoffs, and long-term auditability.',
+      'Generate reviewable change sets that can be validated and documented before entering the formal approval process. This creates a reusable change-intelligence capability for design reviews, coordination workflows, and project documentation.',
   },
 
   value: [
@@ -119,34 +118,34 @@ export const USE_CASE_2: UseCaseData = {
   constructionPhase: {
     name: 'Construction',
     description:
-      'During construction, field teams frequently encounter issues that require clarification from designers, consultants, or project stakeholders. Speed and context are critical to avoid delays.',
+      'Field teams encounter issues that require clarification and resolution to maintain project progress.',
   },
 
   primaryUser: {
     pill: 'Field user',
-    role: 'Field Superintendent / Foreman',
-    description: 'Responsible for identifying issues onsite and creating RFIs, often from a mobile device in time-constrained conditions.',
+    role: 'Superintendent / Foreman / Field Engineer',
+    description: 'Identifies field issues and creates RFIs, often from a mobile device in time-constrained conditions.',
   },
   secondaryUser: [
     {
       pill: 'Designer',
       role: 'Architect / Structural Engineer / MEP Designer',
-      description: 'Responsible for reviewing RFIs and resolving design-related questions.',
+      description: 'Reviews RFIs and resolves design-related questions.',
     },
     {
       pill: 'Project stakeholders',
-      role: 'Subcontractors / Project Manager / Owners',
-      description: 'Stakeholders who depend on timely RFI resolution to maintain project progress and coordination.',
+      role: 'Subcontractors / Project Managers / Owners',
+      description: 'Depend on timely RFI resolution to maintain project progress and coordination.',
     },
   ],
 
   problem: {
     intro:
-      'Field teams often struggle to provide complete context when creating RFIs. Identifying the correct drawing sheet, room, object, schedule entry, and specification section requires navigating large drawing sets from a mobile device while working onsite.',
+      'Field teams often struggle to provide complete context when creating RFIs. Work is performed at the construction site, often from mobile devices, under time pressure.',
     consequences: [
       'RFIs are submitted with incomplete context, leading to clarification requests and longer resolution cycles',
-      'Construction work may be delayed while waiting for answers, especially when RFIs impact critical-path activities',
-      'Teams spend additional time coordinating, investigating, and re-establishing context that could have been captured during RFI creation',
+      'Construction work may be delayed while waiting for answers, particularly when RFIs affect critical-path activities',
+      'Teams spend additional time investigating and re-establishing context that could have been captured during RFI creation',
     ],
   },
 
@@ -180,8 +179,7 @@ export const USE_CASE_2: UseCaseData = {
     image: '/drawinganalyzer/use-case-2.png',
     imageAside: true,
     statement:
-      'Transform free-form issue descriptions into context-rich project records by automatically connecting RFIs to the relevant drawings, objects, schedules, specifications, and locations.',
-    outro: 'This enables project context to be inferred from the issue description rather than manually reconstructed throughout the RFI lifecycle. It also creates a reusable context-linking capability that can later support RFIs, observations, punch items, and issue management workflows.',
+      'Automatically connect RFIs to the relevant drawings, objects, schedules, specifications, and locations. This creates a reusable context-linking capability that can support punch items and issue management workflows.',
   },
 
   value: [
@@ -233,25 +231,25 @@ export const USE_CASE_3: UseCaseData = {
   title:   'Cross-Discipline Coordination Lock',
 
   constructionPhase: {
-    name: 'Design Coordination / Preconstruction',
+    name: 'Design Coordination / Pre-Construction',
     description:
-      'This phase requires architectural, structural, and MEP teams to coordinate design intent before construction begins.',
+      'Different disciplines coordinate design decisions and dependencies before construction begins.',
   },
 
   primaryUser: {
     pill: 'Coordinator',
     role: 'BIM Coordinator / VDC Lead',
-    description: 'Responsible for coordinating drawings across disciplines and identifying conflicts before they reach the field.',
+    description: 'Coordinates drawings across disciplines and identifies conflicts before they reach the field.',
   },
   secondaryUser: {
     pill: 'Design leads',
-    role: 'Design Leads / Discipline Engineers',
-    description: 'Architects, structural engineers, and MEP engineers responsible for responding to coordination issues.',
+    role: 'Architects / Structural Engineers / MEP Engineers',
+    description: 'Review and resolve coordination issues identified during the coordination process.',
   },
 
   problem: {
     intro:
-      'Different discipline drawings describe the same physical space but are not formally connected. When an architectural element changes, related MEP or structural elements may not be flagged automatically. Coordination is handled through meetings, manual drawing review, clash detection, and email threads. Once a conflict is resolved, the relationship between the elements is rarely stored as a persistent dependency.',
+      'Related design decisions across architectural, structural, and MEP drawings are not formally connected. Once coordination issues are resolved, those relationships are rarely maintained as persistent project knowledge.',
     consequences: [
       'Resolved coordination issues can reappear later',
       'Teams rely on memory and manual follow-up',
@@ -342,25 +340,24 @@ export const USE_CASE_4: UseCaseData = {
   title:   'Program Conformance Review',
 
   constructionPhase: {
-    name: 'Project Conception, Design & Planning → Pre-Construction',
+    name: 'Project Conception, Design & Planning / Pre-Construction',
     description:
-      'Occurs when a design submission is reviewed against an owner-defined program, prototype, or standards brief before approval.',
+      'Design submissions are reviewed against owner-defined requirements and standards before approval.',
   },
 
   primaryUser: {
     pill: 'Owner',
     role: 'Developer / Standards Lead / Program Manager',
-    description: 'Responsible for validating that submitted designs conform to organizational requirements, prototype standards, and project programs.',
+    description: 'Validates submitted designs against organizational requirements, standards, and project programs.',
   },
   secondaryUser: {
     pill: 'Designer',
     role: 'Architect',
-    description: 'Designs against the program and may perform self-validation before submission.',
+    description: 'Designs against program requirements and may perform self-validation before submission.',
   },
 
   problem: {
-    intro: 'Many building owners operate with standardized building programs that define requirements for room counts, areas, adjacencies, equipment, accessibility, and design standards.',
-    body: 'Validating that submitted designs conform to these requirements is largely a manual review process.',
+    intro: 'Validating that submitted designs conform to owner-defined requirements and standards is largely a manual review process. Requirements such as room counts, areas, adjacencies, equipment, accessibility, and design standards often require manual verification.',
     consequences: [
       'Reviewers spend time verifying objective criteria rather than evaluating design quality and intent',
       'Standards are applied inconsistently across reviewers and projects',
@@ -372,7 +369,7 @@ export const USE_CASE_4: UseCaseData = {
   opportunity: {
     image: '/drawinganalyzer/use-case-4.png',
     statement:
-      'Enable automated validation of submitted designs against owner-defined program requirements by transforming drawing sets into structured, queryable building data.',
+      'Automatically validate submitted designs against owner-defined program requirements and standards.',
     outro: 'This creates a reusable foundation for standards enforcement and prototype validation across projects.',
   },
 
