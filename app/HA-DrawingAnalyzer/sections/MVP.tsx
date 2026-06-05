@@ -8,8 +8,8 @@ import { Pill } from './UseCase'
 const SCOPE_IN = [
   'Compare two versions of a single drawing sheet.',
   'Detect added, removed, and modified objects.',
-  'Generate visual previews and human-readable descriptions.',
-  'Review detected changes before review submission.',
+  'Generate visual previews of detected changes.',
+  'Approve detected changes and submit review.',
   'Cancel review submission and return to editing.',
 ]
 const SCOPE_OUT = [
@@ -19,8 +19,9 @@ const SCOPE_OUT = [
   'Change severity scoring and risk classification.',
   'Approval or rejection of individual detected changes.',
   'Automatic filtering of cosmetic or low-impact changes.',
+  'Generate human-readable change descriptions.',
 ]
-const METRICS: { kind: string; title: string; body: string; signal: string }[] = [
+const METRICS: { kind: string; title: string; body: string; signal?: string }[] = [
   {
     kind: 'Business outcome',
     title: 'First-Pass Approval Rate',
@@ -29,26 +30,26 @@ const METRICS: { kind: string; title: string; body: string; signal: string }[] =
   },
   {
     kind: 'Usage',
-    title: 'Revision Rate After Change Validation',
-    body: 'Percentage of review submissions where the designer returns to modify the drawing after viewing the generated change review.',
+    title: 'Pre-Review Revision Rate',
+    body: 'Percentage of initiated reviews where the designer modifies the drawing after Change Validation.',
     signal: 'Positive and sustained, indicating issues are being identified before submission.',
   },
   {
     kind: 'Quality',
-    title: 'Description Edit Rate',
-    body: 'Percentage of AI-generated descriptions modified by designers before submission.',
-    signal: 'Low and decreasing over time.',
+    title: 'Change Validation Satisfaction',
+    body: 'Collected through a lightweight thumbs-up/down or periodic survey.',
+    signal: 'High and increasing over time.',
   },
   {
-    kind: 'Quality',
-    title: 'Manually Added Diff Rate',
-    body: 'Percentage of submissions where designers add diffs not detected by the analyzer.',
-    signal: 'Low and decreasing over time.',
+    kind: 'Guardrail',
+    title: 'Review Submission Volume',
+    body: 'Number of reviews submitted per project.',
+    signal: 'Stable relative to baseline, indicating the added validation step is not reducing workflow adoption.',
   },
 ]
 const VARIABLES = [
-  { label: 'Accuracy', body: 'At what level of detection accuracy does the generated change review become more useful than creating a change log manually?' },
-  { label: 'Latency',  body: 'Can analysis complete quickly enough to fit naturally into the upload workflow?' },
+  { label: 'Accuracy', body: 'What confidence threshold should be required before a detected change is surfaced to the user?' },
+  { label: 'Latency',  body: 'What response time is required for Change Validation to fit naturally into the review submission workflow?' },
   { label: 'Cost',     body: 'Can change validation run on every review initiated while remaining economically viable at project scale?' },
 ]
 
@@ -102,9 +103,11 @@ export default function MVP() {
                 <Pill tone="blue" className="shrink-0">{kind}</Pill>
               </p>
               <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80 whitespace-pre-line">{body}</p>
-              <p className="mt-2 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal">
-                <span className="font-bold mr-2">Success signal</span>{signal}
-              </p>
+              {signal && (
+                <p className="mt-2 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal">
+                  <span className="font-bold mr-2">Success signal</span>{signal}
+                </p>
+              )}
             </div>
           ))}
         </div>
