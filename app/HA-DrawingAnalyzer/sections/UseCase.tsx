@@ -162,11 +162,13 @@ export function Pill({
   className = '',
 }: {
   children: ReactNode
-  tone?: 'charcoal' | 'blue'
+  tone?: 'charcoal' | 'blue' | 'solid'
   className?: string
 }) {
   const toneClass =
-    tone === 'blue' ? 'text-autodesk-blue border-autodesk-blue/50' : 'text-charcoal border-charcoal/50'
+    tone === 'solid' ? 'bg-autodesk-blue/80 text-white border-autodesk-blue'
+    : tone === 'blue' ? 'text-autodesk-blue border-autodesk-blue/50'
+    : 'text-charcoal border-charcoal/50'
   return (
     <span className={`font-sans text-[8px] font-bold uppercase tracking-wider rounded px-1 py-px border-2 ${toneClass} ${className}`}>
       {children}
@@ -315,15 +317,15 @@ function StepCell({
   const isEmphasis = step.emphasis ?? (kind === 'catch' || kind === 'reject' || kind === 'approve' || kind === 'repeat')
 
   // box background + border
-  let box = proposed ? 'bg-autodesk-blue/5 border-autodesk-blue/30' : 'bg-white border-charcoal/25'
-  if (kind === 'ai') box = 'bg-autodesk-blue/5 border-autodesk-blue/45 shadow-[0_0_16px_-1px_rgba(6,150,215,0.5)]'
-  else if (kind === 'approve') box = proposed ? 'bg-autodesk-blue/10 border-autodesk-blue/70' : 'bg-white border-charcoal/45'
+  let box = proposed ? 'bg-white border-autodesk-blue/30' : 'bg-white border-charcoal/25'
+  if (kind === 'ai') box = 'bg-autodesk-blue/10 border-autodesk-blue/45 shadow-[0_0_16px_-1px_rgba(6,150,215,0.5)]'
+  else if (kind === 'approve') box = proposed ? 'bg-white border-autodesk-blue/70' : 'bg-white border-charcoal/45'
   else if (kind === 'catch') box = isEmphasis
-    ? (proposed ? 'bg-autodesk-blue/10 border-autodesk-blue/70' : 'bg-white border-charcoal/60')
-    : (proposed ? 'bg-autodesk-blue/5 border-autodesk-blue/30' : 'bg-white border-charcoal/25')
+    ? (proposed ? 'bg-white border-autodesk-blue/70' : 'bg-white border-charcoal/60')
+    : (proposed ? 'bg-white border-autodesk-blue/30' : 'bg-white border-charcoal/25')
   else if (kind === 'reject') box = 'bg-white border-charcoal/60'
   else if (kind === 'repeat') box = 'bg-white border-charcoal/45'
-  else if (step.emphasis) box = proposed ? 'bg-autodesk-blue/10 border-autodesk-blue/70' : 'bg-white border-charcoal/60'
+  else if (step.emphasis) box = proposed ? 'bg-white border-autodesk-blue/70' : 'bg-white border-charcoal/60'
 
   // border thickness — matches the connector stroke; thicker for emphasis steps
   const borderW = isEmphasis ? 'border-2' : 'border'
@@ -354,8 +356,8 @@ function StepCell({
           )}
         </span>
         {(kind === 'ai' || step.actor) && (
-          <span className="ml-auto shrink-0 flex items-center gap-1.5">
-            {kind === 'ai' && <Pill tone="blue">DA</Pill>}
+          <span className="relative ml-auto shrink-0 flex items-center gap-1.5">
+            {kind === 'ai' && <Pill tone="solid">DA</Pill>}
             {step.actor && (
               <Pill tone={proposed ? 'blue' : 'charcoal'}>
                 {step.actor.charAt(0).toUpperCase() + step.actor.slice(1)}
@@ -436,6 +438,36 @@ function WorkflowComparison({ current, proposed }: { current: Workflow; proposed
 /* ─── the use case ────────────────────────────────────────────────────────── */
 
 export default function UseCase({ data }: { data: UseCaseData }) {
+  const opp = data.opportunity
+  const asideImage = Boolean(opp.image && opp.imageAside)
+
+  const problemSection = (
+    <Block label="Problem">
+      <Para>{data.problem.intro}</Para>
+      {data.problem.examples && data.problem.examples.length > 0 && (
+        <>
+          <MiniLabel>Examples include</MiniLabel>
+          <Bullets items={data.problem.examples} />
+        </>
+      )}
+      {data.problem.body && <div className="mt-3"><Para>{data.problem.body}</Para></div>}
+      <MiniLabel>As a result</MiniLabel>
+      <Bullets items={data.problem.consequences} />
+    </Block>
+  )
+
+  const opportunityHead = (
+    <>
+      <BlockLabel>
+        <span className="inline-flex items-center gap-2 align-middle">
+          The AI Drawing Analyzer Opportunity
+          <Pill tone="solid">DA</Pill>
+        </span>
+      </BlockLabel>
+      <OpportunityText opp={opp} />
+    </>
+  )
+
   return (
     <Section id={data.id} eyebrow={data.eyebrow} title={data.title}>
       <Block label="Phase">
@@ -466,42 +498,28 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         </div>
       </Block>
 
-      <Block label="Problem">
-        <Para>{data.problem.intro}</Para>
-        {data.problem.examples && data.problem.examples.length > 0 && (
-          <>
-            <MiniLabel>Examples include</MiniLabel>
-            <Bullets items={data.problem.examples} />
-          </>
-        )}
-        {data.problem.body && <div className="mt-3"><Para>{data.problem.body}</Para></div>}
-        <MiniLabel>As a result</MiniLabel>
-        <Bullets items={data.problem.consequences} />
-      </Block>
-
-      <div className="mb-6">
-        {data.opportunity.image && data.opportunity.imageAside ? (
-          // portrait image: to the left of the text, no border; label sits above the text
-          <div className="grid md:grid-cols-[280px_1fr] gap-5 md:gap-8 items-start">
-            <OpportunityImage src={data.opportunity.image} bordered={false} />
-            <div>
-              <BlockLabel>The AI Drawing Analyzer Opportunity</BlockLabel>
-              <OpportunityText opp={data.opportunity} />
-            </div>
+      {asideImage ? (
+        // portrait image sits in a right column spanning Problem + Opportunity
+        <div className="grid md:grid-cols-[1fr_280px] gap-6 md:gap-10 items-start mb-6">
+          <div>
+            {problemSection}
+            <div>{opportunityHead}</div>
           </div>
-        ) : (
-          // landscape (or no image): label on top, image below the text, full width
-          <>
-            <BlockLabel>The AI Drawing Analyzer Opportunity</BlockLabel>
-            <OpportunityText opp={data.opportunity} />
-            {data.opportunity.image && (
+          <OpportunityImage src={opp.image!} bordered={false} />
+        </div>
+      ) : (
+        <>
+          {problemSection}
+          <div className="mb-6">
+            {opportunityHead}
+            {opp.image && (
               <div className="mt-5">
-                <OpportunityImage src={data.opportunity.image} />
+                <OpportunityImage src={opp.image} />
               </div>
             )}
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
 
       <Block label="Workflow">
         <WorkflowComparison current={data.currentWorkflow} proposed={data.proposedWorkflow} />

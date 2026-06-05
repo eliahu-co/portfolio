@@ -79,15 +79,15 @@ export const USE_CASE_1: UseCaseData = {
     },
     {
       title: 'Faster Approvals',
-      body: 'Higher-quality revisions reach reviewers, increasing first-pass approval rates.',
+      body: 'Higher-quality submissions improve first-pass approval rates.',
     },
     {
       title: 'Reduced Reviewer Effort',
-      body: 'Reviewers spend less time finding differences and more time evaluating design decisions.',
+      body: 'Reviewers can focus on evaluating design decisions rather than identifying changes.',
     },
     {
       title: 'Structured Change History',
-      body: 'Every revision generates a searchable record of what changed and why.',
+      body: 'Creates a consistent record of design changes across revisions.',
     },
   ],
 
@@ -95,15 +95,15 @@ export const USE_CASE_1: UseCaseData = {
     {
       primary: true,
       title: 'False Confidence',
-      body: 'Designers may assume the change set is complete and overlook modifications that were not detected by the AI.',
+      body: 'Users may rely on generated change reviews despite incomplete detection.',
     },
     {
       title: 'Change Noise',
-      body: 'Cosmetic or low-value modifications may generate unnecessary alerts, making it harder to identify meaningful design changes.',
+      body: 'Excessive low-value changes may make important updates harder to identify.',
     },
     {
       title: 'Workflow Friction',
-      body: 'The validation step is introduced into every revision submission. If users perceive the review as slow, noisy, or low-value, it may become an annoyance rather than a productivity aid.',
+      body: 'Additional review steps may reduce adoption if the perceived value is low.',
     },
   ],
 
@@ -179,26 +179,26 @@ export const USE_CASE_2: UseCaseData = {
     image: '/drawinganalyzer/use-case-2.png',
     imageAside: true,
     statement:
-      'Automatically connect RFIs to the relevant drawings, objects, schedules, specifications, and locations. This creates a reusable context-linking capability that can support punch items and issue management workflows.',
+      'Automatically connect RFIs to the relevant drawings, objects, schedules, specifications, and locations. Creates a reusable context-linking capability that can support punch items and issue management workflows.',
   },
 
   value: [
     {
       primary: true,
       title: 'Improved Field Productivity',
-      body: 'Field teams spend less time gathering, reconstructing, and communicating project context when creating RFIs.',
+      body: 'Less time waiting for answers and more time progressing work.',
     },
     {
-      title: 'Reduced RFI Cycle Time',
-      body: 'Context-rich RFIs reduce the need for clarification and accelerate resolution.',
+      title: 'Faster Issue Resolution',
+      body: 'Reduces clarification cycles and accelerates responses to field issues.',
     },
     {
-      title: 'Reduced Designer Investigation Effort',
-      body: 'Designers spend less time determining which room, object, drawing, or specification the issue refers to.',
+      title: 'Higher-Quality RFIs',
+      body: 'Improves the completeness and consistency of submitted RFIs.',
     },
     {
-      title: 'Better Project Records',
-      body: 'RFIs become automatically linked to rooms, objects, drawings, schedules, and specifications.',
+      title: 'Reduced Investigation Effort',
+      body: 'Reduces the effort required to understand and resolve issues.',
     },
   ],
 
@@ -206,19 +206,19 @@ export const USE_CASE_2: UseCaseData = {
     {
       primary: true,
       title: 'Incorrect Context Association',
-      body: 'The system may link an issue to the wrong room, object, drawing, or specification, creating confusion and sending designers down the wrong investigation path.',
+      body: 'Suggested context may be incorrect, leading to confusion and misdirected investigation.',
     },
     {
       title: 'Natural Language Ambiguity',
-      body: 'Issue descriptions may be too vague to reliably identify a single object or location, resulting in multiple possible matches.',
+      body: 'Some issue descriptions may not provide enough information to identify a single, reliable match.',
     },
     {
       title: 'False Confidence',
-      body: 'Field users may accept AI-suggested context without verifying it, increasing the risk of inaccurate RFIs.',
+      body: 'Users may trust generated context without verification, increasing the risk of inaccurate RFIs.',
     },
     {
       title: 'Workflow Noise',
-      body: 'If the system frequently surfaces low-confidence or irrelevant suggestions, users may begin ignoring the generated context altogether.',
+      body: 'Excessive low-confidence suggestions may reduce trust and adoption over time.',
     },
   ],
 
@@ -295,19 +295,19 @@ export const USE_CASE_3: UseCaseData = {
     {
       primary: true,
       title: 'Earlier Conflict Detection',
-      body: 'Previously coordinated elements are automatically flagged when related objects change.',
+      body: 'Potential coordination issues are surfaced before they reach the field.',
     },
     {
       title: 'Persistent Coordination History',
-      body: 'Coordination decisions become durable project knowledge rather than disappearing into meetings and email threads.',
+      body: 'Coordination decisions remain accessible as project knowledge over time.',
     },
     {
       title: 'Better Change Impact Awareness',
-      body: 'Teams understand when a modification affects previously coordinated work.',
+      body: 'Improves visibility into how changes affect previously coordinated work.',
     },
     {
       title: 'Reduced Coordination Effort',
-      body: 'Coordinators spend less time manually rechecking relationships across discipline drawings.',
+      body: 'Less time spent manually reviewing and revalidating coordination decisions.',
     },
   ],
 
@@ -315,19 +315,19 @@ export const USE_CASE_3: UseCaseData = {
     {
       primary: true,
       title: 'Relationship Ambiguity',
-      body: 'Some cross-discipline relationships may be difficult to infer confidently, creating review overhead and reducing trust in the suggested dependencies.',
+      body: 'Some dependencies may be difficult to identify reliably, reducing trust in the results.',
     },
     {
       title: 'Over-Constraining Future Changes',
-      body: 'Persistent coordination dependencies may continue surfacing review requirements even when the original relationship is no longer relevant, creating unnecessary friction.',
+      body: 'Outdated dependencies may continue triggering reviews after they are no longer relevant.',
     },
     {
       title: 'Coordination Noise',
-      body: 'If too many dependencies generate review alerts, teams may begin ignoring coordination flags altogether.',
+      body: 'Excessive coordination alerts may reduce attention to important issues.',
     },
     {
       title: 'Process Overhead',
-      body: 'Creating and maintaining coordination dependencies introduces additional work for coordinators. The workflow must provide enough value to justify that investment.',
+      body: 'Maintaining coordination dependencies may require additional effort from project teams.',
     },
   ],
 
@@ -400,19 +400,19 @@ export const USE_CASE_4: UseCaseData = {
     {
       primary: true,
       title: 'Consistent Standards Enforcement',
-      body: 'Every design is evaluated against the same criteria, reducing reviewer variance and standards drift across projects.',
+      body: 'Applies the same review criteria across projects and reviewers.',
     },
     {
       title: 'Faster Reviews',
-      body: 'Objective criteria are evaluated automatically, allowing reviewers to focus on higher-value decisions.',
+      body: 'Reduces manual verification of objective requirements.',
     },
     {
       title: 'Earlier Feedback',
-      body: 'Architects can identify deviations before formal review, reducing downstream rework.',
+      body: 'Identifies deviations before formal review, reducing downstream rework.',
     },
     {
       title: 'Scalable Review Process',
-      body: 'Organizations can review more projects without proportionally increasing standards-review effort.',
+      body: 'Enables more projects to be reviewed without proportional growth in review effort.',
     },
   ],
 
@@ -420,19 +420,15 @@ export const USE_CASE_4: UseCaseData = {
     {
       primary: true,
       title: 'Structured Criteria Adoption',
-      body: 'Organizations must invest effort upfront to translate program requirements into structured, reviewable criteria before automated validation can provide value.',
+      body: 'Creating and maintaining structured review criteria requires upfront organizational investment.',
     },
     {
-      title: 'False Confidence / Criteria Coverage',
-      body: 'Reviewers may assume the system evaluated the entire program, even when some requirements are subjective, ambiguous, or outside the system’s scope.',
+      title: 'False Confidence',
+      body: 'Reviewers may assume all requirements have been evaluated, even when some remain outside the system’s scope.',
     },
     {
       title: 'Standards Rigidity',
-      body: 'Over-reliance on automated conformance checks may discourage legitimate design variation and reduce flexibility where deviations are intentional or context-specific.',
-    },
-    {
-      title: 'Rule Quality',
-      body: 'Poorly defined, outdated, or overly granular criteria may generate low-value findings and reduce trust in the review output.',
+      body: 'Over-reliance on automated validation may discourage appropriate design variation.',
     },
   ],
 
