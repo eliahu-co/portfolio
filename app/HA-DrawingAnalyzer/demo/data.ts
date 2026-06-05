@@ -25,9 +25,9 @@ export type Change = {
 }
 
 export const CHANGES: Change[] = [
-  { id: 'doors',    type: 'added',    title: 'Doors added',                 description: '2 doors added to Corridor.',                       crop: '0 0 100 100', marker: { x: 0, y: 0 } },
-  { id: 'bedroom3', type: 'modified', title: 'Bedroom 3 boundary modified', description: 'Partition shifted — area 138 SF → 149 SF (+8%).',   crop: '0 0 100 100', marker: { x: 0, y: 0 } },
-  { id: 'toilet',   type: 'removed',  title: 'Toilet removed',              description: 'Toilet removed from Bath 2.',                      crop: '0 0 100 100', marker: { x: 0, y: 0 } },
+  { id: 'doors',    type: 'added',    title: 'Doors added',                 description: '2 doors added to Corridor.',                       crop: '290 340 260 130', marker: { x: 430, y: 396 } },
+  { id: 'bedroom3', type: 'modified', title: 'Bedroom 3 boundary modified', description: 'Partition shifted — area 138 SF → 149 SF (+8%).',   crop: '240 415 200 210', marker: { x: 300, y: 525 } },
+  { id: 'toilet',   type: 'removed',  title: 'Toilet removed',              description: 'Toilet removed from Bath 2.',                      crop: '110 185 175 115', marker: { x: 168, y: 242 } },
 ]
 
 export const TYPE_META: Record<ChangeType, { label: string; color: string }> = {
