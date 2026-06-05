@@ -390,9 +390,9 @@ function Legend({ current, proposed }: { current: Workflow; proposed: Workflow }
       {items.map(({ kind, glyph, label }) => {
         const isAi = kind === 'ai'
         return (
-          <span key={label} className={`font-sans text-[10px] ${isAi ? 'text-autodesk-blue' : 'text-charcoal/70'}`}>
+          <span key={label} className={`inline-flex items-center font-sans text-[10px] leading-none ${isAi ? 'text-autodesk-blue' : 'text-charcoal/70'}`}>
             <span
-              className={`mr-1 ${isAi ? 'text-autodesk-blue font-bold text-[13px]' : 'text-charcoal'}`}
+              className={`mr-1 leading-none ${isAi ? 'text-autodesk-blue font-bold text-[13px]' : 'text-charcoal'}`}
               aria-hidden="true"
             >
               {glyph}

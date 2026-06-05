@@ -38,37 +38,36 @@ export const USE_CASE_1: UseCaseData = {
   currentWorkflow: {
     stat: 'Repeated review cycles',
     steps: [
-      { label: 'Designer modifies drawing' },
-      { label: 'Uploads drawing', note: 'New version created' },
-      { label: 'Designer manually compares drawings', note: 'Mistake not caught' },
-      { label: 'Designer submits for review', emphasis: true },
+      { label: 'Uploads modified drawing' },
+      { label: 'Compares manually', note: 'Mistake not caught' },
+      { label: 'Submits for review', emphasis: true },
       { label: 'Reviewer identifies unintended changes', kind: 'catch', actor: 'reviewer', note: 'Caught late — at human review' },
       { label: 'Review sent back to initiator', kind: 'reject' },
-      { label: 'Designer modifies drawing' },
-      { label: 'Uploads drawing', note: 'New version created' },
-      { label: 'Designer submits for review again', kind: 'repeat', note: 'Second review round' },
-      { label: 'Review approved', kind: 'approve', actor: 'reviewer', note: 'Two rounds review' },
+      { label: 'Uploads modified drawing' },
+      { label: 'Compares manually', note: 'Mistake not caught' },
+      { label: 'Submits for review again', kind: 'repeat', note: 'Second review round' },
+      { label: 'Review approved', kind: 'approve', actor: 'reviewer', note: 'Multiple rounds review' },
     ],
   },
   proposedWorkflow: {
     stat: 'First-pass approval',
     steps: [
-      { label: 'Designer modifies drawing' },
-      { label: 'Uploads drawing' },
-      { label: 'Change Validation Review', kind: 'ai', note: 'Preview + Description' },
-      { label: 'Designer catches unintended changes', kind: 'catch', emphasis: false, note: 'Caught early — before review\nNo new version created' },
-      { label: 'Designer modifies drawing' },
-      { label: 'Uploads drawing' },
-      { label: 'Change Validation Review', kind: 'ai', note: 'Preview + Description' },
-      { label: 'Designer submits for review', emphasis: true },
-      { label: 'Review approved', kind: 'approve', actor: 'reviewer', note: 'Single review pass\nNew version created' },
+      { label: 'Uploads modified drawing' },
+      { label: 'Initiates review submission' },
+      { label: 'Change Validation', kind: 'ai', note: 'Compares to current approved version' },
+      { label: 'Catches unintended changes', kind: 'catch', emphasis: false, note: 'Caught early — before review' },
+      { label: 'Uploads modified drawing' },
+      { label: 'Initiates review submission' },
+      { label: 'Change Validation', kind: 'ai', note: 'Compares to current approved version' },
+      { label: 'Confirms review submission', emphasis: true },
+      { label: 'Review approved', kind: 'approve', actor: 'reviewer', note: 'First-pass approval' },
     ],
   },
 
   opportunity: {
     image: '/drawinganalyzer/use-case-1.png',
     statement:
-      'Generate reviewable change sets that can be validated and documented before entering the formal approval process. This creates a reusable change-intelligence capability for design reviews, coordination workflows, and project documentation.',
+      'Generate reviewable change sets with visual previews and human-readable descriptions by identifying added, removed, and modified objects across revisions rather than relying on sheet-level comparison.',
   },
 
   value: [
@@ -76,6 +75,10 @@ export const USE_CASE_1: UseCaseData = {
       primary: true,
       title: 'Fewer Review Cycles',
       body: 'Catch unintended changes before submission, reducing rejected revisions and resubmissions.',
+    },
+    {
+      title: 'Reduced Context Switching',
+      body: 'Reduces rework after attention has shifted to other tasks.',
     },
     {
       title: 'Faster Approvals',
