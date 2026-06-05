@@ -13,13 +13,13 @@ const SCOPE_IN = [
   'Cancel review submission and return to editing.',
 ]
 const SCOPE_OUT = [
-  'Multi-sheet drawing sets.',
   'Manual addition of undetected changes.',
-  'Historical change reports.',
-  'Change severity scoring and risk classification.',
   'Approval or rejection of individual detected changes.',
-  'Automatic filtering of cosmetic or low-impact changes.',
   'Generate human-readable change descriptions.',
+  'Automatic filtering of cosmetic or low-impact changes.',
+  'Change severity scoring and risk classification.',
+  'Historical change reports.',
+  'Multi-sheet drawing sets.',
 ]
 const METRICS: { kind: string; title: string; body: string; signal?: string }[] = [
   {
