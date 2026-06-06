@@ -23,19 +23,17 @@ function TypeTag({ type }: { type: keyof typeof TYPE_META }) {
   )
 }
 
-function Pane({ label, version, focus }: { label: string; version: 'current' | 'incoming'; focus?: string | null }) {
+function Pane({ version, focus }: { version: 'current' | 'incoming'; focus?: string | null }) {
   const accent = version === 'incoming'
   return (
-    <div className="flex flex-col min-h-0 rounded-md border border-[#e6e6e6] bg-white overflow-hidden">
-      <div className="flex items-center justify-between px-3 py-1.5 border-b border-[#eee] bg-[#fafafa]">
-        <span className="text-[12px] font-medium text-[#1a1a1a]">{label}</span>
-        <span
-          className="text-[10px] uppercase tracking-wide rounded-full px-2 py-0.5 border"
-          style={accent ? { color: BLUE, borderColor: `${BLUE}80` } : { color: '#5a5a5a', borderColor: '#d9d9d9' }}
-        >
-          {accent ? 'Incoming · V2' : 'Current · V1'}
-        </span>
-      </div>
+    <div className="relative flex flex-col min-h-0 rounded-md border border-[#e6e6e6] bg-white overflow-hidden">
+      {/* version pill floats on top of the drawing */}
+      <span
+        className="absolute top-2.5 left-2.5 z-10 text-[11px] font-semibold uppercase tracking-wide rounded-full px-2.5 py-0.5 border bg-white"
+        style={accent ? { color: BLUE, borderColor: `${BLUE}80` } : { color: '#5a5a5a', borderColor: '#d9d9d9' }}
+      >
+        {accent ? 'Incoming · V2' : 'Current · V1'}
+      </span>
       <div className="flex-1 min-h-0 p-2">
         <FloorPlan version={version} focus={focus} />
       </div>
@@ -51,7 +49,6 @@ export default function ChangeValidation({
   onConfirm: () => void
 }) {
   const [focus, setFocus] = useState<string | null>(null)
-  const [changesOnly, setChangesOnly] = useState(true)
 
   return (
     <div className="flex flex-col h-screen bg-[#fafafa] font-sans text-[#1a1a1a]">
@@ -64,27 +61,9 @@ export default function ChangeValidation({
           >
             <span aria-hidden>←</span> Back to Files
           </button>
-          <div className="h-4 w-px bg-[#e6e6e6]" />
-          <h1 className="text-[14px] font-medium">A102 — Second Floor Plan</h1>
-          <span className="text-[11px] text-[#5a5a5a] rounded bg-[#f2f4f6] px-2 py-0.5">Change Validation</span>
-
-          <div className="ml-auto flex items-center gap-3">
-            <span className="flex items-center gap-1.5 text-[11px] text-[#5a5a5a]">
-              <span className="rounded-full border border-[#d9d9d9] px-2 py-0.5">Current · V1</span>
-              <span aria-hidden>→</span>
-              <span className="rounded-full px-2 py-0.5 border" style={{ color: BLUE, borderColor: `${BLUE}80` }}>Incoming · V2</span>
-            </span>
-            <button
-              onClick={() => setChangesOnly((v) => !v)}
-              className="flex items-center gap-2 text-[12px] text-[#5a5a5a]"
-              aria-pressed={changesOnly}
-            >
-              <span className={`relative inline-block h-4 w-7 rounded-full transition-colors ${changesOnly ? 'bg-[#0d66d0]' : 'bg-[#cbd0d4]'}`}>
-                <span className={`absolute top-0.5 h-3 w-3 rounded-full bg-white transition-all ${changesOnly ? 'left-3.5' : 'left-0.5'}`} />
-              </span>
-              Show changes only
-            </button>
-          </div>
+          <div className="h-5 w-px bg-[#e6e6e6]" />
+          <h1 className="text-[15px] font-medium" style={{ color: BLUE }}>Change Validation</h1>
+          <span className="text-[13px] text-[#5a5a5a]">A102 — Second Floor Plan</span>
         </div>
         <p className="mt-1.5 text-[11px] italic text-[#7a7f84]">
           Changes detected from drawing objects and their relationships — not a pixel overlay.
@@ -96,8 +75,8 @@ export default function ChangeValidation({
         {/* Panes */}
         <main className="flex-1 min-w-0 flex flex-col p-4 gap-3">
           <div className="grid grid-cols-1 xl:grid-cols-2 auto-rows-fr gap-4 flex-1 min-h-0">
-            <Pane label="Current" version="current" />
-            <Pane label="Incoming" version="incoming" focus={focus} />
+            <Pane version="current" />
+            <Pane version="incoming" focus={focus} />
           </div>
           {/* Legend */}
           <div className="shrink-0 flex items-center gap-5 text-[11px] text-[#5a5a5a]">
@@ -141,7 +120,7 @@ export default function ChangeValidation({
                         className="grid place-items-center h-4 w-4 rounded-full text-[9px] font-bold text-white shrink-0"
                         style={{ background: color }}
                       >
-                        {i + 1}
+                        {String.fromCharCode(65 + i)}
                       </span>
                       <TypeTag type={c.type} />
                     </div>

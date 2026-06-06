@@ -1,18 +1,14 @@
 // app/HA-DrawingAnalyzer/demo/FloorPlan.tsx
 // Inline-SVG reproduction of Veev sheet A102 "Floor Plan – Second Floor",
-// monochrome CD convention (black ink + gray wall poché + light floor hatch),
-// drawn to read like the PDF:
-//   • walls as thick gray-poché rectangles
-//   • doors: solid leaf rectangle perpendicular to the wall + dashed swing arc,
-//     sitting in a clean punched opening (never clashing the poché)
-//   • plumbing fixtures with their backs flush to walls (tubs, double vanities,
-//     toilets, W/D), small utility shafts with ⊗ vents, a stair to the level
-//     below, mullion windows, dashed gridlines + bubbles
+// monochrome CD convention (black ink + gray wall poché + light floor hatch).
+// Doors are a solid leaf rectangle perpendicular to the wall + dashed swing arc
+// in a clean punched opening; fixtures sit with their backs flush to walls.
 //
-// Detected changes render as *coloured objects* on the pane that carries them
-// (removed → Current, added/modified → Incoming), plus a numbered marker and a
-// dashed locating tint. The modified partition is drawn yellow and its SF label
-// turns bold yellow. `focus` strengthens one change; `viewBox` crops thumbnails.
+// Detected changes render as coloured objects on the pane that carries them
+// (removed → red dashed ghost on Incoming; added doors → green; modified wall →
+// yellow with bold yellow SF), each with a lettered marker (A/B/C). The
+// modified room also gets a dashed area rectangle. `focus` strengthens one
+// change; `viewBox` crops thumbnails.
 
 import { CHANGES, TYPE_META } from './data'
 
@@ -30,24 +26,22 @@ const ENV = { x: 120, y: 100, w: 760, h: 550 }
 type HWall = { d: 'h'; x1: number; x2: number; y: number; t: number }
 type VWall = { d: 'v'; y1: number; y2: number; x: number; t: number }
 const WALLS: (HWall | VWall)[] = [
+  // exterior
   { d: 'h', x1: 120, x2: 880, y: 100, t: T_EXT },
   { d: 'h', x1: 120, x2: 880, y: 650, t: T_EXT },
   { d: 'v', y1: 100, y2: 650, x: 120, t: T_EXT },
   { d: 'v', y1: 100, y2: 650, x: 880, t: T_EXT },
-  { d: 'v', y1: 100, y2: 438, x: 240, t: T_INT },
-  { d: 'v', y1: 100, y2: 438, x: 317, t: T_INT },
-  { d: 'v', y1: 100, y2: 367, x: 531, t: T_INT },
-  { d: 'v', y1: 100, y2: 650, x: 584, t: T_INT },
+  // interior verticals
+  { d: 'v', y1: 100, y2: 438, x: 240, t: T_INT }, // left rooms | hall
+  { d: 'v', y1: 100, y2: 438, x: 317, t: T_INT }, // hall | bath/walk-in/corridor
+  { d: 'v', y1: 100, y2: 367, x: 531, t: T_INT }, // primary bath/walk-in | primary bdrm
+  { d: 'v', y1: 367, y2: 650, x: 584, t: T_INT }, // corridor | bonus
+  // interior horizontals
   { d: 'h', x1: 120, x2: 317, y: 218, t: T_INT },
   { d: 'h', x1: 317, x2: 531, y: 260, t: T_INT },
-  { d: 'h', x1: 240, x2: 317, y: 308, t: T_INT },
-  { d: 'h', x1: 120, x2: 240, y: 349, t: T_INT },
-  { d: 'h', x1: 531, x2: 584, y: 170, t: T_INT }, // shaft 10 / hall split
-  { d: 'h', x1: 317, x2: 880, y: 367, t: T_INT },
-  { d: 'h', x1: 120, x2: 584, y: 438, t: T_INT },
-  { d: 'h', x1: 262, x2: 484, y: 490, t: T_INT },
-  { d: 'v', y1: 438, y2: 490, x: 262, t: T_INT },
-  { d: 'v', y1: 438, y2: 490, x: 484, t: T_INT },
+  { d: 'h', x1: 120, x2: 240, y: 367, t: T_INT }, // bath 2 (39) | laundry
+  { d: 'h', x1: 317, x2: 880, y: 367, t: T_INT }, // walk-in/bdrm | corridor/bonus
+  { d: 'h', x1: 120, x2: 584, y: 438, t: T_INT }, // upper | bedrooms
 ]
 
 type RoomDef = { name: string; sf: string; x: number; y: number; w: number; h: number; wet?: boolean }
@@ -55,30 +49,15 @@ const ROOMS: RoomDef[] = [
   { name: 'BATH 2', sf: '32 SF', x: 120, y: 100, w: 120, h: 118, wet: true },
   { name: '', sf: '25 SF', x: 240, y: 100, w: 77, h: 118, wet: true },
   { name: 'PRIMARY BATH', sf: '163 SF', x: 317, y: 100, w: 214, h: 160, wet: true },
-  { name: 'PRIMARY BDRM', sf: '254 SF', x: 584, y: 100, w: 296, h: 267 },
-  { name: 'BATH 2', sf: '39 SF', x: 120, y: 218, w: 120, h: 131, wet: true },
-  { name: 'LINEN', sf: '9 SF', x: 240, y: 218, w: 77, h: 90 },
+  { name: 'PRIMARY BDRM', sf: '254 SF', x: 531, y: 100, w: 349, h: 267 },
+  { name: 'BATH 2', sf: '39 SF', x: 120, y: 218, w: 120, h: 149, wet: true },
   { name: 'WALK-IN CLOSET', sf: '98 SF', x: 317, y: 260, w: 214, h: 107 },
-  { name: 'LAUNDRY', sf: '52 SF', x: 120, y: 349, w: 120, h: 89 },
+  { name: 'LAUNDRY', sf: '52 SF', x: 120, y: 367, w: 120, h: 71 },
   { name: 'CORRIDOR', sf: '144 SF', x: 317, y: 367, w: 267, h: 71 },
   { name: 'BONUS ROOM', sf: '366 SF', x: 584, y: 367, w: 296, h: 283 },
-  { name: 'BEDROOM 2', sf: '126 SF', x: 120, y: 438, w: 242, h: 212 },
 ]
-const CLOSETS: RoomDef[] = [
-  { name: '', sf: '12 SF', x: 262, y: 438, w: 100, h: 52 },
-  { name: '', sf: '12 SF', x: 384, y: 438, w: 100, h: 52 },
-]
-// blank floors (hatch only, no label): hall + shaft-4 lobby
-const BLANK: RoomDef[] = [
-  { name: '', sf: '', x: 531, y: 170, w: 53, h: 197 },
-  { name: '', sf: '', x: 240, y: 308, w: 77, h: 130 },
-]
-
-const SHAFTS = [
-  { x: 531, y: 100, w: 53, h: 70, sf: '10 SF', vents: 2 },
-  { x: 246, y: 312, w: 54, h: 52, sf: '4 SF', vents: 1 },
-  { x: 646, y: 374, w: 44, h: 46, sf: '3 SF', vents: 1 },
-]
+// blank floor (hatch only): the hall (former 25 SF lower / linen / lobby)
+const BLANK: RoomDef[] = [{ name: '', sf: '', x: 240, y: 218, w: 77, h: 220 }]
 
 const V_GRID = [
   { x: 120, l: '1' }, { x: 240, l: '2' }, { x: 317, l: '3' },
@@ -89,11 +68,7 @@ const H_GRID = [
   { y: 438, l: 'D' }, { y: 650, l: 'E' },
 ]
 
-const HILITE: Record<string, { x: number; y: number; w: number; h: number }> = {
-  doors: { x: 318, y: 360, w: 270, h: 84 },
-  bedroom3: { x: 320, y: 436, w: 110, h: 210 },
-  toilet: { x: 122, y: 252, w: 120, h: 96 },
-}
+const HILITE = { bedroom3: { x: 338, y: 440, w: 246, h: 208 } }
 
 // ---- primitives ----------------------------------------------------------
 function wallRect(w: HWall | VWall, key: string, stroke = INK, fill = POCHE, sw = 0.6) {
@@ -110,12 +85,10 @@ function Hatch({ x, y, w, h, gap = 11, grid = false }: { x: number; y: number; w
   return <g stroke={HATCH} strokeWidth={0.4}>{lines}</g>
 }
 
-// Door: leaf rectangle perpendicular to wall + dashed quarter-arc swing.
-// rot: 0 leaf→right (opening↓), 90 leaf→down (opening←), 180 leaf→left (opening↑), 270 leaf→up (opening→)
-function Door({ x, y, len = 34, rot = 0, accent }: { x: number; y: number; len?: number; rot?: number; accent?: string }) {
+function Door({ x, y, len = 34, rot = 0, accent, mirror = false }: { x: number; y: number; len?: number; rot?: number; accent?: string; mirror?: boolean }) {
   const c = accent ?? INK
   return (
-    <g transform={`translate(${x} ${y}) rotate(${rot})`}>
+    <g transform={`translate(${x} ${y}) rotate(${rot})${mirror ? ' scale(-1 1)' : ''}`}>
       <rect x={0} y={-1.7} width={len} height={3.4} fill={accent ? c : '#fff'} stroke={c} strokeWidth={accent ? 2.4 : 1.1} />
       <path d={`M ${len} 0 A ${len} ${len} 0 0 1 0 ${len}`} fill="none" stroke={c} strokeWidth={accent ? 1.5 : 0.8} strokeDasharray="4 3" />
     </g>
@@ -136,11 +109,10 @@ function Tub({ x, y, w, h }: { x: number; y: number; w: number; h: number }) {
     </g>
   )
 }
-// Toilet anchored with the tank BACK at (x,y) on the wall; bowl points `dir` into the room.
 const TROT: Record<string, number> = { down: 0, up: 180, left: 90, right: 270 }
-function Toilet({ x, y, dir = 'down', color = FIXTURE, bold = false }: { x: number; y: number; dir?: 'up' | 'down' | 'left' | 'right'; color?: string; bold?: boolean }) {
+function Toilet({ x, y, dir = 'down', color = FIXTURE, bold = false, dashed = false }: { x: number; y: number; dir?: 'up' | 'down' | 'left' | 'right'; color?: string; bold?: boolean; dashed?: boolean }) {
   return (
-    <g transform={`translate(${x} ${y}) rotate(${TROT[dir]})`} stroke={color} strokeWidth={bold ? 2.2 : 1} fill="none">
+    <g transform={`translate(${x} ${y}) rotate(${TROT[dir]})`} stroke={color} strokeWidth={bold ? 2.2 : 1} fill="none" strokeDasharray={dashed ? '4 3' : undefined}>
       <rect x={-9} y={0} width={18} height={6} rx={1.5} />
       <ellipse cx={0} cy={16} rx={8.5} ry={11} />
     </g>
@@ -158,23 +130,8 @@ function Vanity({ x, y, w, h, basins = 1, vertical = false }: { x: number; y: nu
 function WasherDryer({ x, y }: { x: number; y: number }) {
   return (
     <g stroke={FIXTURE} strokeWidth={1} fill="none">
-      <rect x={x} y={y} width={26} height={26} /><circle cx={x + 13} cy={y + 13} r={8} />
-      <rect x={x + 30} y={y} width={26} height={26} /><circle cx={x + 43} cy={y + 13} r={8} />
-    </g>
-  )
-}
-function Shaft({ x, y, w, h, sf, vents }: { x: number; y: number; w: number; h: number; sf: string; vents: number }) {
-  return (
-    <g>
-      <rect x={x} y={y} width={w} height={h} fill="#fff" stroke={INK} strokeWidth={0.8} />
-      <g stroke={FIXTURE} strokeWidth={0.8} fill="none">
-        {Array.from({ length: vents }).map((_, i) => {
-          const cx = x + w / 2, cy = y + (h / (vents + 1)) * (i + 1)
-          return <g key={i}><circle cx={cx} cy={cy} r={6} /><line x1={cx - 4.2} y1={cy - 4.2} x2={cx + 4.2} y2={cy + 4.2} /><line x1={cx - 4.2} y1={cy + 4.2} x2={cx + 4.2} y2={cy - 4.2} /></g>
-        })}
-      </g>
-      <text x={x + w + 3} y={y + 9} fontSize={8} fontWeight={600} fill={INK}>SHAFT</text>
-      <text x={x + w + 3} y={y + 19} fontSize={8} fill={FIXTURE}>{sf}</text>
+      <rect x={x} y={y} width={24} height={24} /><circle cx={x + 12} cy={y + 12} r={7.5} />
+      <rect x={x + 28} y={y} width={24} height={24} /><circle cx={x + 40} cy={y + 12} r={7.5} />
     </g>
   )
 }
@@ -213,9 +170,10 @@ export default function FloorPlan({
   const incoming = version === 'incoming'
   const b3Left = incoming ? 340 : 362
   const b3SF = incoming ? '149 SF' : '138 SF'
+  const b2: RoomDef = { name: 'BEDROOM 2', sf: '126 SF', x: 120, y: 438, w: b3Left - 120, h: 212 }
+  const b3: RoomDef = { name: 'BEDROOM 3', sf: b3SF, x: b3Left, y: 438, w: 584 - b3Left, h: 212 }
 
-  const labeled = [...ROOMS, ...CLOSETS]
-  const hatchRects = [...ROOMS, ...CLOSETS, ...BLANK, { name: '', sf: '', x: b3Left, y: 438, w: 584 - b3Left, h: 212 }]
+  const hatchRects = [...ROOMS, ...BLANK, b2, b3]
   const marked = CHANGES.filter((c) => c.shownIn === version)
 
   return (
@@ -238,17 +196,20 @@ export default function FloorPlan({
       {WALLS.map((w, i) => wallRect(w, `w${i}`))}
       {wallRect({ d: 'v', y1: 438, y2: 650, x: b3Left, t: T_INT }, 'b3wall')}
 
-      {/* door openings (clean white gaps) */}
-      {gap(195, 218, 34, 'h', 'g1')}
-      {gap(360, 260, 38, 'h', 'g2')}
-      {gap(400, 367, 38, 'h', 'g3')}
-      {gap(164, 438, 38, 'h', 'g4')}
-      {gap(430, 438, 38, 'h', 'g5')}
-      {gap(584, 240, 40, 'v', 'g6')}
-      {gap(317, 150, 34, 'v', 'g7')}
-      {gap(540, 367, 36, 'h', 'g8')}
-      {incoming && gap(317, 393, 32, 'v', 'ga1')}
-      {incoming && gap(584, 393, 32, 'v', 'ga2')}
+      {/* door openings */}
+      {gap(195, 218, 34, 'h', 'g1')}      {/* bath2-32 ↔ bath2-39 */}
+      {gap(240, 285, 32, 'v', 'g2')}      {/* bath2-39 ↔ hall */}
+      {gap(240, 395, 30, 'v', 'g3')}      {/* laundry ↔ hall */}
+      {gap(265, 218, 30, 'h', 'g4')}      {/* 25 SF ↔ hall */}
+      {gap(360, 260, 38, 'h', 'g5')}      {/* primary bath ↔ walk-in */}
+      {gap(400, 367, 38, 'h', 'g6')}      {/* walk-in ↔ corridor */}
+      {gap(531, 115, 40, 'v', 'g7')}      {/* primary bdrm ↔ primary bath */}
+      {gap(550, 367, 34, 'h', 'g8')}      {/* primary bdrm ↔ corridor */}
+      {gap(317, 398, 34, 'v', 'g9')}      {/* corridor ↔ hall (to the bath) */}
+      {gap(270, 438, 38, 'h', 'g10')}     {/* bedroom 2 ↔ hall */}
+      {gap(430, 438, 38, 'h', 'g11')}     {/* bedroom 3 ↔ corridor */}
+      {incoming && gap(584, 375, 30, 'v', 'ga1')}
+      {incoming && gap(584, 407, 28, 'v', 'ga2')}
 
       {/* windows */}
       <Win x={150} y={100} len={56} dir="h" />
@@ -265,27 +226,29 @@ export default function FloorPlan({
       <Tub x={128} y={108} w={46} h={84} />
       <Toilet x={236} y={150} dir="left" />
       <Toilet x={278} y={107} dir="down" />
-      <Vanity x={126} y={238} w={28} h={100} basins={2} vertical />
-      <WasherDryer x={138} y={356} />
+      <Vanity x={126} y={240} w={28} h={110} basins={2} vertical />
+      <WasherDryer x={134} y={400} />
       <Vanity x={322} y={108} w={84} h={18} basins={2} />
       <Tub x={430} y={110} w={92} h={40} />
-      <Toilet x={527} y={150} dir="left" />
+      <Toilet x={519} y={205} dir="left" />
       <g stroke={FIXTURE} strokeWidth={0.7} fill="none"><line x1={321} y1={268} x2={527} y2={268} /><line x1={321} y1={273} x2={527} y2={273} /></g>
-      {SHAFTS.map((s, i) => <Shaft key={i} {...s} />)}
-      <Stair x={596} y={400} w={52} h={210} />
+      <Stair x={588} y={442} w={52} h={202} />
 
       {/* doors */}
       <Door x={195} y={218} len={34} rot={270} />
+      <Door x={240} y={285} len={32} rot={0} mirror />
+      <Door x={240} y={395} len={30} rot={0} mirror />
+      <Door x={265} y={218} len={30} rot={270} />
       <Door x={360} y={260} len={38} rot={270} />
       <Door x={400} y={367} len={38} rot={270} />
-      <Door x={164} y={438} len={38} rot={90} />
-      <Door x={430} y={438} len={38} rot={90} />
-      <Door x={584} y={240} len={40} rot={0} />
-      <Door x={317} y={150} len={34} rot={0} />
-      <Door x={540} y={367} len={36} rot={270} />
+      <Door x={531} y={115} len={40} rot={0} />
+      <Door x={550} y={367} len={34} rot={270} />
+      <Door x={317} y={398} len={34} rot={0} />
+      <Door x={308} y={438} len={38} rot={90} />
+      <Door x={468} y={438} len={38} rot={90} />
 
       {/* room labels */}
-      {labeled.map((r) => (
+      {[...ROOMS, b2].map((r) => (
         <g key={`lbl${r.name}${r.sf}${r.x}`}>
           {r.name
             ? (<><text x={r.x + r.w / 2} y={r.y + r.h / 2 - 2} textAnchor="middle" fontSize={12} fontWeight={600} fill={INK}>{r.name}</text>
@@ -293,34 +256,41 @@ export default function FloorPlan({
             : (<text x={r.x + r.w / 2} y={r.y + r.h / 2 + 4} textAnchor="middle" fontSize={10} fill={FIXTURE}>{r.sf}</text>)}
         </g>
       ))}
-      {/* Bedroom 3 label (SF turns bold yellow when modified, on Incoming) */}
-      <text x={b3Left + (584 - b3Left) / 2} y={538} textAnchor="middle" fontSize={12} fontWeight={600} fill={INK}>BEDROOM 3</text>
-      <text x={b3Left + (584 - b3Left) / 2} y={553} textAnchor="middle" fontSize={incoming ? 11 : 10} fontWeight={incoming ? 700 : 400} fill={incoming ? YELLOW : FIXTURE}>{b3SF}</text>
+      {/* Bedroom 3 label (SF bold yellow when modified, on Incoming) */}
+      <text x={b3.x + b3.w / 2} y={538} textAnchor="middle" fontSize={12} fontWeight={600} fill={INK}>BEDROOM 3</text>
+      <text x={b3.x + b3.w / 2} y={553} textAnchor="middle" fontSize={incoming ? 11 : 10} fontWeight={incoming ? 700 : 400} fill={incoming ? YELLOW : FIXTURE}>{b3SF}</text>
 
-      {/* === DETECTED CHANGES (coloured objects) === */}
-      {/* removed toilet — red, Current pane only, back flush to right wall of Bath 2 (39 SF) */}
-      {!incoming && <Toilet x={236} y={300} dir="left" color={TYPE_META.removed.color} bold />}
+      {/* === DETECTED CHANGES === */}
+      {/* Bath 2 (39 SF) toilet: solid in Current; red dashed ghost in Incoming (removed) */}
+      <Toilet x={236} y={300} dir="left" color={incoming ? TYPE_META.removed.color : FIXTURE} bold={incoming} dashed={incoming} />
 
       {/* added corridor doors — green, Incoming only */}
       {incoming && (<>
-        <Door x={317} y={393} len={32} rot={0} accent={TYPE_META.added.color} />
-        <Door x={584} y={393} len={32} rot={180} accent={TYPE_META.added.color} />
+        <Door x={584} y={375} len={30} rot={0} mirror accent={TYPE_META.added.color} />
+        <Door x={584} y={407} len={28} rot={0} mirror accent={TYPE_META.added.color} />
       </>)}
 
       {/* modified partition — moved Bedroom 3 wall drawn yellow, Incoming only */}
       {incoming && wallRect({ d: 'v', y1: 438, y2: 650, x: b3Left, t: T_INT }, 'b3y', YELLOW, YELLOW, 1)}
 
-      {/* dashed locating tint + numbered marker for each marked change */}
+      {/* lettered markers; only the Bedroom 3 boundary change carries an area rect */}
       {marked.map((c) => {
-        const r = HILITE[c.id]
         const color = TYPE_META[c.type].color
         const active = focus === c.id
-        const idx = CHANGES.findIndex((x) => x.id === c.id) + 1
+        const letter = String.fromCharCode(65 + CHANGES.findIndex((x) => x.id === c.id))
+        const dots = c.id === 'doors' ? [{ x: 566, y: 388 }, { x: 566, y: 419 }]
+          : c.id === 'bedroom3' ? [{ x: 362, y: 602 }, { x: 508, y: 551 }]
+          : [c.marker]
+        const rect = c.id === 'bedroom3' ? HILITE.bedroom3 : null
         return (
           <g key={c.id}>
-            {r && <rect x={r.x} y={r.y} width={r.w} height={r.h} rx={6} fill={color} fillOpacity={active ? 0.16 : 0.08} stroke={color} strokeWidth={active ? 3 : 2} strokeOpacity={0.9} strokeDasharray="7 4" />}
-            <circle cx={c.marker.x} cy={c.marker.y} r={13} fill={color} stroke="#fff" strokeWidth={2} />
-            <text x={c.marker.x} y={c.marker.y + 4.5} textAnchor="middle" fontSize={13} fontWeight={700} fill="#fff">{idx}</text>
+            {rect && <rect x={rect.x} y={rect.y} width={rect.w} height={rect.h} rx={6} fill={color} fillOpacity={active ? 0.16 : 0.08} stroke={color} strokeWidth={active ? 3 : 2} strokeOpacity={0.9} strokeDasharray="7 4" />}
+            {dots.map((m, i) => (
+              <g key={i}>
+                <circle cx={m.x} cy={m.y} r={13} fill={color} stroke="#fff" strokeWidth={2} />
+                <text x={m.x} y={m.y + 4.5} textAnchor="middle" fontSize={13} fontWeight={700} fill="#fff">{letter}</text>
+              </g>
+            ))}
           </g>
         )
       })}
