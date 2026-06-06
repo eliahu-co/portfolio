@@ -7,7 +7,7 @@
 
 import { useState } from 'react'
 import FloorPlan from './FloorPlan'
-import { CHANGES, TYPE_META, CONF_META } from './data'
+import { CHANGES, TYPE_META } from './data'
 
 const BLUE = '#0d66d0'
 
@@ -126,8 +126,7 @@ export default function ChangeValidation({
                           {letter}
                         </span>
                         <TypeTag type={c.type} />
-                        <span className="ml-auto flex items-center gap-1 text-[10px] text-[#5a5a5a] shrink-0" title="AI confidence this is a real change">
-                          <span className="inline-block h-2 w-2 rounded-[1px]" style={{ background: CONF_META[c.confidence] }} />
+                        <span className="ml-auto shrink-0 text-[9px] font-medium uppercase tracking-[0.06em] text-[#5a5a5a] bg-[#f1f3f5] rounded-full px-2 py-0.5" title="AI confidence this is a real change">
                           {c.confidence}
                         </span>
                       </div>
