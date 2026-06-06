@@ -7,18 +7,16 @@ import { showTooltip, hideTooltip } from '@/components/Tooltip'
 import { useScramble } from '@/hooks/useScramble'
 import { ORANGE, MOBILE_BREAKPOINT } from '@/lib/tokens'
 
-const SKILL_TAGS = ['Architecture', 'Product', 'Full Stack', 'BIM', 'ConTech', 'Digital Twin', 'CAD-to-CAM']
+const SKILL_TAGS = ['Architecture', 'Product Manager', 'Full Stack', 'BIM', 'ConTech']
 
 const DEFAULT_BIO = `After a decade spanning architectural practice across Brazil, the Netherlands, and Israel, I spent the last five years at Veev as a Senior R&D Product Architect — owning the full product lifecycle from PRDs and technology research to hands-on BIM, data, and manufacturing pipelines. In my last year I embedded part-time in the engineering team, shipping production code alongside the core dev squad.`
 
 const TAG_BIO: Record<string, string> = {
   'Architecture':  DEFAULT_BIO,
-  'Product':       `Five years owning full product lifecycles at Veev — from writing PRDs and evaluating technology to leading cross-functional teams across Software, Data, Automation, and BIM. Responsible for documenting and driving NPI processes end-to-end. Having sat on both sides of the PRD process — as the R&D author and as an engineer implementing specs — I write requirements that engineering can actually act on.`,
+  'Product Manager': `Five years owning product lifecycles at Veev, from evaluating new technologies and writing PRDs to leading cross-functional teams across Software, Data, Automation, and BIM. Responsible for defining requirements, aligning stakeholders, and driving NPI initiatives from concept through delivery.\n\nHaving worked on both sides of the product-development process—as the product owner authoring requirements and as an engineer implementing them—I focus on creating specifications that are clear, actionable, and grounded in technical reality.`,
   'BIM':           `A decade of BIM practice across three countries — from construction documents and coordination models to complex combo family creation, custom scripts, add-ons, and MCP development. At Veev, I was part of the team building the digital backbone of a factory-built housing system, including full review and delivery processes through ACC.`,
   'ConTech':       `Five years at the intersection of construction and technology — deploying both software and hardware products across BIM, manufacturing, and site operations. From IFC automation to digital twin dashboards and physical tooling, I've built ConTech products that made it to the field.`,
   'Full Stack':    `Trained at ITC and battle-tested at Veev — where I spent my last year embedded in the core engineering team, shipping production React and Node.js code alongside full-time devs. I work across the stack in Python, FastAPI, and TypeScript: internal tooling, BIM automation pipelines, and client-facing applications. This portfolio is one of them.`,
-  'Digital Twin':  `Led the development of Veev's digital twin infrastructure — connecting BIM geometry to live factory and site data. Built the pipelines that turned construction models into operational dashboards used by field and manufacturing teams.`,
-  'CAD-to-CAM':    `Owned the CAD-to-CAM pipeline at Veev, translating architectural models into machine-ready manufacturing instructions. Worked across Revit, custom Python automation, and CNC tooling to close the loop between design and fabrication.`,
 }
 
 
@@ -202,7 +200,7 @@ export default function About() {
           {/* Bio text below photo and tags */}
           <p
             ref={rightRef}
-            className="font-sans text-[19px] leading-relaxed font-medium text-ink/80 px-2"
+            className="font-sans text-[19px] leading-relaxed font-medium text-ink/80 px-2 whitespace-pre-line"
           >
             {bioText}
           </p>
@@ -265,7 +263,7 @@ export default function About() {
                 </span>
               ))}
             </div>
-            <p className="font-sans text-[17px] leading-relaxed font-medium text-ink/80">
+            <p className="font-sans text-[17px] leading-relaxed font-medium text-ink/80 whitespace-pre-line">
               {bioText}
             </p>
           </div>
