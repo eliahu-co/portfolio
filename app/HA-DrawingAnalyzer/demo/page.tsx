@@ -13,9 +13,17 @@ export default function ChangeValidationDemoPage() {
         <FormaPrototype />
       </div>
       <div className="lg:hidden min-h-screen bg-[#fafafa] text-[#1a1a1a] grid place-items-center px-8 text-center">
-        <p className="font-sans text-[15px] leading-relaxed text-[#5a5a5a]">
-          The Change Validation demo is only available on desktop.
-        </p>
+        <div className="flex flex-col items-center gap-6">
+          <p className="font-sans text-[15px] leading-relaxed text-[#5a5a5a]">
+            The Change Validation demo is only available on desktop.
+          </p>
+          <a
+            href="/HA-DrawingAnalyzer"
+            className="font-sans text-[11px] uppercase tracking-[0.06em] no-underline border-2 border-autodesk-blue/60 text-autodesk-blue rounded-sm px-3.5 py-2 hover:bg-autodesk-blue/10 hover:border-autodesk-blue transition-colors"
+          >
+            ← Home assignment
+          </a>
+        </div>
       </div>
       <style>{`
         .demo-root, .demo-root * { cursor: default !important; }
