@@ -39,11 +39,11 @@ const CRITERIA_DEFS: { title: string; body: string; rubric: [string, string][] }
   },
   {
     title: 'Feasibility',
-    body: 'Likelihood the use case can be delivered successfully given current technology and implementation complexity.',
+    body: 'Estimated effort required to deliver and validate the use case.',
     rubric: [
-      ['5', 'Technically straightforward with limited dependencies.'],
-      ['3', 'Moderate complexity or dependency risk.'],
-      ['1', 'Significant technical, data, or workflow challenges.'],
+      ['5', 'Can be delivered with relatively low effort and limited dependencies.'],
+      ['3', 'Requires moderate engineering investment or coordination across multiple teams.'],
+      ['1', 'Requires significant engineering investment, complex integrations, or major workflow changes.'],
     ],
   },
 ]
