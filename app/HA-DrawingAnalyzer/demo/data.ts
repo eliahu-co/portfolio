@@ -26,7 +26,7 @@ export type Change = {
 
 // removed → marked on Current (the object that goes away); added/modified → Incoming.
 export const CHANGES: Change[] = [
-  { id: 'doors',    type: 'added',    title: 'Doors added',                 description: '2 doors added to Corridor.',                     shownIn: 'incoming', crop: '300 350 300 110', marker: { x: 450, y: 402 } },
+  { id: 'doors',    type: 'added',    title: 'Doors added',                 description: '2 doors added — Laundry and Corridor.',          shownIn: 'incoming', crop: '470 345 150 120', marker: { x: 450, y: 402 } },
   { id: 'bedroom3', type: 'modified', title: 'Bedroom 3 boundary modified', description: 'Wall moved — area 138 SF → 149 SF (+8%).', shownIn: 'incoming', crop: '332 430 260 224', marker: { x: 408, y: 600 } },
   { id: 'toilet',   type: 'removed',  title: 'Toilet removed',              description: 'Toilet removed from Bath 2.',                    shownIn: 'incoming', crop: '116 230 150 130', marker: { x: 206, y: 300 } },
 ]

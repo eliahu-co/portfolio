@@ -199,7 +199,6 @@ export default function FloorPlan({
       {/* door openings */}
       {gap(195, 218, 34, 'h', 'g1')}      {/* bath2-32 ↔ bath2-39 */}
       {gap(240, 285, 32, 'v', 'g2')}      {/* bath2-39 ↔ hall */}
-      {gap(240, 395, 30, 'v', 'g3')}      {/* laundry ↔ hall */}
       {gap(265, 218, 30, 'h', 'g4')}      {/* 25 SF ↔ hall */}
       {gap(360, 260, 38, 'h', 'g5')}      {/* primary bath ↔ walk-in */}
       {gap(531, 115, 40, 'v', 'g7')}      {/* primary bdrm ↔ primary bath */}
@@ -207,8 +206,8 @@ export default function FloorPlan({
       {gap(317, 398, 34, 'v', 'g9')}      {/* corridor ↔ hall (to the bath) */}
       {gap(270, 438, 38, 'h', 'g10')}     {/* bedroom 2 ↔ hall */}
       {gap(430, 438, 38, 'h', 'g11')}     {/* bedroom 3 ↔ corridor */}
-      {incoming && gap(584, 375, 30, 'v', 'ga1')}
-      {incoming && gap(584, 407, 28, 'v', 'ga2')}
+      {incoming && gap(240, 395, 30, 'v', 'ga1')}  {/* added: laundry door */}
+      {incoming && gap(584, 390, 30, 'v', 'ga2')}  {/* added: corridor ↔ bonus */}
 
       {/* windows */}
       <Win x={150} y={100} len={56} dir="h" />
@@ -236,7 +235,6 @@ export default function FloorPlan({
       {/* doors */}
       <Door x={195} y={218} len={34} rot={270} />
       <Door x={240} y={285} len={32} rot={0} mirror />
-      <Door x={240} y={395} len={30} rot={0} mirror />
       <Door x={265} y={218} len={30} rot={270} />
       <Door x={360} y={260} len={38} rot={270} />
       <Door x={531} y={115} len={40} rot={0} />
@@ -264,8 +262,8 @@ export default function FloorPlan({
 
       {/* added corridor doors — green, Incoming only */}
       {incoming && (<>
-        <Door x={584} y={375} len={30} rot={0} mirror accent={TYPE_META.added.color} />
-        <Door x={584} y={407} len={28} rot={0} mirror accent={TYPE_META.added.color} />
+        <Door x={240} y={395} len={30} rot={0} mirror accent={TYPE_META.added.color} />
+        <Door x={584} y={390} len={30} rot={0} mirror accent={TYPE_META.added.color} />
       </>)}
 
       {/* modified partition — moved Bedroom 3 wall drawn yellow, Incoming only */}
@@ -276,7 +274,7 @@ export default function FloorPlan({
         const color = TYPE_META[c.type].color
         const active = focus === c.id
         const letter = String.fromCharCode(65 + CHANGES.findIndex((x) => x.id === c.id))
-        const dots = c.id === 'doors' ? [{ x: 566, y: 388 }, { x: 566, y: 419 }]
+        const dots = c.id === 'doors' ? [{ x: 218, y: 396 }, { x: 566, y: 391 }]
           : c.id === 'bedroom3' ? [{ x: 362, y: 602 }, { x: 508, y: 551 }]
           : [c.marker]
         const rect = c.id === 'bedroom3' ? HILITE.bedroom3 : null
