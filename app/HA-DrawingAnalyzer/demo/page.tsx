@@ -18,7 +18,7 @@ export default function ChangeValidationDemoPage() {
             The Change Validation demo is only available on desktop.
           </p>
           <a
-            href="/HA-DrawingAnalyzer"
+            href="https://eliahu.co/HA-DrawingAnalyzer#prototype"
             className="font-sans text-[11px] uppercase tracking-[0.06em] no-underline border-2 border-autodesk-blue/60 text-autodesk-blue rounded-sm px-3.5 py-2 hover:bg-autodesk-blue/10 hover:border-autodesk-blue transition-colors"
           >
             ← Home assignment
