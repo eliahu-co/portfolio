@@ -32,7 +32,7 @@ function Pane({ version, focus, onFocus, pass }: { version: 'current' | 'incomin
         className="absolute top-2.5 left-2.5 z-10 text-[11px] font-semibold uppercase tracking-wide rounded-full px-2.5 py-0.5 border bg-white"
         style={accent ? { color: BLUE, borderColor: `${BLUE}80` } : { color: '#5a5a5a', borderColor: '#d9d9d9' }}
       >
-        {accent ? 'Incoming · V2' : 'Current · V1'}
+        {accent ? (pass === 2 ? 'Incoming · V3' : 'Incoming · V2') : 'Current · V1'}
       </span>
       <div className="flex-1 min-h-0 p-2">
         <FloorPlan version={version} focus={focus} onFocus={onFocus} pass={pass} />
@@ -162,7 +162,8 @@ export default function ChangeValidation({
           </button>
           <button
             onClick={onConfirm}
-            className={`text-[13px] font-semibold text-white rounded px-4 py-2 shadow-sm hover:opacity-90 ${pass === 2 ? 'demo-shake' : ''}`}
+            disabled={pass === 1}
+            className={`text-[13px] font-semibold text-white rounded px-4 py-2 shadow-sm ${pass === 1 ? 'demo-mock opacity-50' : 'demo-shake hover:opacity-90'}`}
             style={{ background: BLUE }}
           >
             Confirm changes

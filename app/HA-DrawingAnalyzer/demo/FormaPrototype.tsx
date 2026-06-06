@@ -57,7 +57,7 @@ export default function FormaPrototype() {
       {screen === 'review' ? (
         <>
           <ChangeValidation onReturn={handleReturn} onConfirm={handleConfirm} pass={pass} />
-          {submitOpen && <SubmitReviewDialog onSubmit={handleSubmitReview} onCancel={() => setSubmitOpen(false)} />}
+          {submitOpen && <SubmitReviewDialog onSubmit={handleSubmitReview} onCancel={() => setSubmitOpen(false)} version={version} />}
         </>
       ) : (
         <FormaShell>
