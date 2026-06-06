@@ -74,10 +74,15 @@ const HILITE: Record<string, { x: number; y: number; w: number; h: number }> = {
 }
 
 // ---- primitives ----------------------------------------------------------
+// At each end a wall extends to the FAR face of the wall it meets, so junctions
+// sit flush (interior walls reach the thick exterior face instead of stopping
+// inside it). Exterior gridlines: x = 120/880, y = 100/650.
+const extX = (v: number) => (v === 120 || v === 880 ? T_EXT / 2 : T_INT / 2)
+const extY = (v: number) => (v === 100 || v === 650 ? T_EXT / 2 : T_INT / 2)
 function wallRect(w: HWall | VWall, key: string, stroke = INK, fill = POCHE, sw = 0.6) {
   const r = w.d === 'h'
-    ? { x: w.x1 - w.t / 2, y: w.y - w.t / 2, width: w.x2 - w.x1 + w.t, height: w.t }
-    : { x: w.x - w.t / 2, y: w.y1 - w.t / 2, width: w.t, height: w.y2 - w.y1 + w.t }
+    ? { x: w.x1 - extX(w.x1), y: w.y - w.t / 2, width: (w.x2 - w.x1) + extX(w.x1) + extX(w.x2), height: w.t }
+    : { x: w.x - w.t / 2, y: w.y1 - extY(w.y1), width: w.t, height: (w.y2 - w.y1) + extY(w.y1) + extY(w.y2) }
   return <rect key={key} {...r} fill={fill} stroke={stroke} strokeWidth={sw} />
 }
 
@@ -204,7 +209,7 @@ export default function FloorPlan({
       {gap(240, 252, 32, 'v', 'g2')}      {/* bath2-39 ↔ hall (above the toilet) */}
       {gap(265, 218, 30, 'h', 'g4')}      {/* 25 SF ↔ hall */}
       {gap(360, 260, 38, 'h', 'g5')}      {/* primary bath ↔ walk-in */}
-      {gap(531, 115, 40, 'v', 'g7')}      {/* primary bdrm ↔ primary bath */}
+      {gap(531, 166, 40, 'v', 'g7')}      {/* primary bdrm ↔ primary bath (between tub and toilet) */}
       {gap(550, 367, 34, 'h', 'g8')}      {/* primary bdrm ↔ corridor */}
       {gap(270, 438, 38, 'h', 'g10')}     {/* bedroom 2 ↔ hall */}
       {gap(430, 438, 38, 'h', 'g11')}     {/* bedroom 3 ↔ corridor */}
@@ -230,7 +235,7 @@ export default function FloorPlan({
       <WasherDryer x={126} y={410} />
       <Vanity x={322} y={108} w={84} h={18} basins={2} />
       <Tub x={430} y={110} w={92} h={40} />
-      <Toilet x={527} y={205} dir="left" />
+      <Toilet x={527} y={242} dir="left" />
       <g stroke={FIXTURE} strokeWidth={0.7} fill="none"><line x1={321} y1={268} x2={527} y2={268} /><line x1={321} y1={273} x2={527} y2={273} /></g>
       <Stair x={588} y={442} w={52} h={202} />
       <rect x={640} y={442} width={52} height={202} fill="none" stroke={FIXTURE} strokeWidth={0.9} strokeDasharray="5 4" />
@@ -239,8 +244,8 @@ export default function FloorPlan({
       <Door x={195} y={218} len={34} rot={270} />
       <Door x={240} y={252} len={32} rot={0} mirror />
       <Door x={265} y={218} len={30} rot={270} />
-      <Door x={360} y={260} len={38} rot={270} />
-      <Door x={531} y={115} len={40} rot={0} />
+      <Door x={398} y={260} len={38} rot={90} mirror />
+      <Door x={531} y={166} len={40} rot={0} mirror />
       <Door x={550} y={367} len={34} rot={270} />
       <Door x={308} y={438} len={38} rot={90} />
       <Door x={468} y={438} len={38} rot={90} />
@@ -293,7 +298,8 @@ export default function FloorPlan({
             {rect && <rect x={rect.x} y={rect.y} width={rect.w} height={rect.h} rx={6} fill={color} fillOpacity={active ? 0.16 : 0.08} stroke={color} strokeWidth={active ? 3 : 2} strokeOpacity={0.9} strokeDasharray="7 4" />}
             {dots.map((m, i) => (
               <g key={i}>
-                <circle cx={m.x} cy={m.y} r={13} fill={color} stroke="#fff" strokeWidth={2} />
+                {active && <circle cx={m.x} cy={m.y} r={24} fill={color} fillOpacity={0.22} />}
+                <circle cx={m.x} cy={m.y} r={active ? 14 : 13} fill={color} stroke="#fff" strokeWidth={2} />
                 <text x={m.x} y={m.y + 4.5} textAnchor="middle" fontSize={13} fontWeight={700} fill="#fff">{letter}</text>
               </g>
             ))}
