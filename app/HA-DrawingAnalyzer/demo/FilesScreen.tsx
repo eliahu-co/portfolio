@@ -204,9 +204,9 @@ export default function FilesScreen({
                 {/* Review status */}
                 <div className="px-2">
                   {isTarget && status === 'in-review' ? (
-                    <span className="text-[#b8860b] bg-[#b8860b]/10 rounded px-1.5 py-0.5 text-[11px]">In review</span>
+                    <span className="inline-block text-[11px] text-[#b8860b] bg-[#b8860b]/10 border border-[#b8860b]/50 rounded-full px-1.5 leading-5">In review</span>
                   ) : isTarget && version === 1 ? (
-                    <span className="text-[#2e7d32] bg-[#2e7d32]/10 rounded px-1.5 py-0.5 text-[11px]">Approved</span>
+                    <span className="inline-block text-[11px] text-[#2e7d32] bg-[#2e7d32]/10 border border-[#2e7d32]/50 rounded-full px-1.5 leading-5">Approved</span>
                   ) : null}
                 </div>
 
