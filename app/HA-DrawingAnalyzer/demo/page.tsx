@@ -18,8 +18,9 @@ export default function ChangeValidationDemoPage() {
         </p>
       </div>
       <style>{`
-        .demo-root, .demo-root * { cursor: auto !important; }
+        .demo-root, .demo-root * { cursor: default !important; }
         .demo-root a, .demo-root button, .demo-root [role="button"] { cursor: pointer !important; }
+        .demo-root .demo-mock, .demo-root .demo-mock * { cursor: not-allowed !important; }
       `}</style>
     </div>
   )

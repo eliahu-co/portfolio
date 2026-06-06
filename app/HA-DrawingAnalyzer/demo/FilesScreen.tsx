@@ -114,7 +114,7 @@ export default function FilesScreen({
         <h1 className="text-[20px] font-medium text-[#1a1a1a]">Files</h1>
 
         {/* Tab row */}
-        <div className="flex gap-5 mt-3 text-[13px] border-b border-[#e6e6e6]">
+        <div className="demo-mock flex gap-5 mt-3 text-[13px] border-b border-[#e6e6e6]">
           <button className="pb-2 text-[#0d66d0] font-medium border-b-2 border-[#0d66d0] -mb-px">
             Folders
           </button>
@@ -127,7 +127,7 @@ export default function FilesScreen({
       {/* Two-column body */}
       <div className="flex flex-1 min-h-0 overflow-auto">
         {/* Left: folder tree */}
-        <aside className="w-[220px] shrink-0 border-r border-[#e6e6e6] py-3 text-[13px] overflow-y-auto bg-white">
+        <aside className="demo-mock w-[220px] shrink-0 border-r border-[#e6e6e6] py-3 text-[13px] overflow-y-auto bg-white">
           {renderTree(TREE)}
         </aside>
 

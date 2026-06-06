@@ -19,7 +19,7 @@ export default function FormaShell({ children }: { children: React.ReactNode }) 
   return (
     <div className="flex flex-col h-screen font-sans">
       {/* Top bar */}
-      <div className="h-9 bg-[#1a1a1a] text-white flex items-center px-3 gap-2 shrink-0">
+      <div className="demo-mock h-9 bg-[#1a1a1a] text-white flex items-center px-3 gap-2 shrink-0">
         <span className="text-[10px] text-white/60 mr-0.5">▲</span>
         <span className="text-[11px] font-semibold tracking-wide">AUTODESK</span>
         <span className="text-[13px]">Forma</span>
@@ -33,7 +33,7 @@ export default function FormaShell({ children }: { children: React.ReactNode }) 
       </div>
 
       {/* Sub bar */}
-      <div className="h-11 bg-white border-b border-[#e6e6e6] flex items-center px-3 gap-3 text-[#1a1a1a] shrink-0">
+      <div className="demo-mock h-11 bg-white border-b border-[#e6e6e6] flex items-center px-3 gap-3 text-[#1a1a1a] shrink-0">
         {/* App icon */}
         <div className="h-6 w-6 rounded bg-[#0d66d0]/10 text-[#0d66d0] grid place-items-center text-[11px] shrink-0">
           ▦
@@ -56,7 +56,7 @@ export default function FormaShell({ children }: { children: React.ReactNode }) 
       {/* Body */}
       <div className="flex flex-1 min-h-0">
         {/* Left nav */}
-        <nav className="w-[200px] shrink-0 border-r border-[#e6e6e6] bg-white py-3 text-[13px] flex flex-col">
+        <nav className="demo-mock w-[200px] shrink-0 border-r border-[#e6e6e6] bg-white py-3 text-[13px] flex flex-col">
           <div className="flex flex-col">
             {NAV_ITEMS_TOP.map((item) => (
               <div
