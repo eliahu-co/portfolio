@@ -11,7 +11,7 @@ const CAPABILITIES: { useCase: string; user: string }[] = [
 export default function Hero() {
   return (
     <section id="hero" className="scroll-mt-8 pt-2 pb-16">
-      <p className="font-sans text-[9px] uppercase tracking-[0.14em] text-autodesk-blue mb-4">
+      <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-autodesk-blue mb-4">
         Product Manager · Home Assignment
       </p>
 
