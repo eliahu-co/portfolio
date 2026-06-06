@@ -98,12 +98,14 @@ function PdfGlyph() {
 export default function FilesScreen({
   version,
   status,
+  action,
   onUpload,
   onSubmit,
   busyHint,
 }: {
-  version: 1 | 2
+  version: 1 | 2 | 3
   status: 'none' | 'in-review'
+  action: 'upload' | 'submit'
   onUpload: () => void
   onSubmit: () => void
   busyHint?: string | null
@@ -151,7 +153,7 @@ export default function FilesScreen({
           {FILE_ROWS.map((row) => {
             const isTarget = !!row.isTarget
             const displayVersion = isTarget ? version : 1
-            const versionBumped = isTarget && version === 2
+            const versionBumped = isTarget && version >= 2
             const updated = versionBumped ? 'Jun 10, 2026 17:30' : row.updated
 
             return (
@@ -170,7 +172,7 @@ export default function FilesScreen({
                         <span className="h-3.5 w-3.5 rounded-full border-2 border-[#0d66d0]/30 border-t-[#0d66d0] animate-spin" aria-hidden="true" />
                         <span className="text-[12px] text-[#5a5a5a] whitespace-nowrap">{busyHint}</span>
                       </span>
-                    ) : version === 1 ? (
+                    ) : action === 'upload' ? (
                       <span className="demo-shake relative inline-flex rounded shrink-0">
                         <span className="absolute inset-0 rounded ring-2 ring-[#0d66d0]/30 animate-pulse" />
                         <button onClick={onUpload} className="relative text-[12px] text-[#0d66d0] border border-[#0d66d0]/50 bg-white rounded px-2.5 py-1 hover:bg-[#0d66d0]/5 whitespace-nowrap">
