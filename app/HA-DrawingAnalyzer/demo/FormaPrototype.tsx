@@ -13,10 +13,13 @@ export default function FormaPrototype() {
   const [uploadOpen, setUploadOpen] = useState(false)
   const [validating, setValidating] = useState(false)
   const [submitOpen, setSubmitOpen] = useState(false)
+  const [uploaded, setUploaded] = useState(false)
 
   function handleUploadComplete() {
     setUploadOpen(false)
     setVersion(2)
+    setUploaded(true)
+    setTimeout(() => setUploaded(false), 3500)
   }
   function handleSubmit() {
     setValidating(true)
@@ -42,6 +45,7 @@ export default function FormaPrototype() {
     setUploadOpen(false)
     setValidating(false)
     setSubmitOpen(false)
+    setUploaded(false)
   }
 
   const done = status === 'in-review'
@@ -66,6 +70,17 @@ export default function FormaPrototype() {
             <UploadDialog onComplete={handleUploadComplete} onCancel={() => setUploadOpen(false)} />
           )}
         </FormaShell>
+      )}
+
+      {/* Upload success banner */}
+      {uploaded && !done && (
+        <div className="fixed top-[80px] left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 bg-white border border-[#d9d9d9] rounded-lg shadow-lg px-4 py-2.5">
+          <span className="grid place-items-center h-6 w-6 rounded-full bg-[#2e7d32] text-white text-[12px]" aria-hidden>✓</span>
+          <div>
+            <p className="text-[13px] font-medium text-[#1a1a1a]">New version uploaded successfully</p>
+            <p className="text-[11px] text-[#5a5a5a]">The drawing is now V2 — submit it for review.</p>
+          </div>
+        </div>
       )}
 
       {/* Completion banner — demo ends after the review is filed */}
