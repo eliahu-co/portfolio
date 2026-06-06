@@ -178,7 +178,7 @@ export default function FilesScreen({
                         </button>
                       </span>
                     ) : (
-                      <span className="relative inline-flex rounded shrink-0">
+                      <span className="demo-shake relative inline-flex rounded shrink-0">
                         <span className="absolute inset-0 rounded ring-2 ring-[#0d66d0]/30 animate-pulse" />
                         <button onClick={onSubmit} className="relative text-[12px] text-white bg-[#0d66d0] rounded px-2.5 py-1 hover:opacity-90 whitespace-nowrap">
                           Submit for review
