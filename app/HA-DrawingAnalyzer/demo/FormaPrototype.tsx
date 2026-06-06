@@ -19,9 +19,9 @@ export default function FormaPrototype() {
     setUploadOpen(false)
     setVersion(2)
     setUploaded(true)
-    setTimeout(() => setUploaded(false), 3500)
   }
   function handleSubmit() {
+    setUploaded(false)
     setValidating(true)
     setTimeout(() => { setValidating(false); setScreen('review') }, 1100)
   }
