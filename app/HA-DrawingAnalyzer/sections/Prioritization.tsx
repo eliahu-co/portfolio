@@ -2,6 +2,9 @@
 // Section — Prioritization: scoring framework, scores across the four use
 // cases, and the resulting decision.
 
+'use client'
+
+import { useState } from 'react'
 import Section from './Section'
 
 const CRITERIA = ['Impact', 'Platform Leverage', 'Confidence', 'Feasibility']
@@ -59,6 +62,14 @@ const MEDALS = ['🥇', '🥈', '🥉']
 const RANKED_TOTALS = [...ROWS].map((r) => r.total).sort((a, b) => b - a)
 
 export default function Prioritization() {
+  const [open, setOpen] = useState<Set<string>>(new Set())
+  const toggle = (title: string) =>
+    setOpen((prev) => {
+      const next = new Set(prev)
+      if (next.has(title)) next.delete(title)
+      else next.add(title)
+      return next
+    })
   return (
     <Section id="prioritization" eyebrow="Prioritization" title="Criteria, scoring & decision">
       <div className="max-w-2xl mb-6">
@@ -69,23 +80,38 @@ export default function Prioritization() {
         </p>
       </div>
 
-      {/* Criterion definitions + scoring rubric */}
-      <div className="max-w-2xl mb-8 flex flex-col gap-4">
-        {CRITERIA_DEFS.map(({ title, body, rubric }) => (
-          <div key={title} className="pl-3 border-l-4 border-charcoal">
-            <p className="font-serif text-[14px] text-black mb-0.5">{title}</p>
-            <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80">{body}</p>
-            <div className="mt-1.5 flex flex-col gap-0.5">
-              {rubric.map(([score, desc]) => (
-                <p key={score} className="font-sans text-[11px] leading-relaxed text-charcoal/70">
-                  <span className="font-bold text-charcoal">{score}</span>
-                  <span className="text-charcoal/40"> — </span>
-                  {desc}
-                </p>
-              ))}
+      {/* Criterion definitions + scoring rubric (accordion) */}
+      <div className="max-w-2xl mb-8 flex flex-col gap-2.5">
+        {CRITERIA_DEFS.map(({ title, body, rubric }) => {
+          const isOpen = open.has(title)
+          return (
+            <div key={title} className="pl-3 border-l-4 border-charcoal">
+              <button
+                type="button"
+                onClick={() => toggle(title)}
+                aria-expanded={isOpen}
+                className="flex items-center gap-2 text-left"
+              >
+                <span className={`text-charcoal/45 text-[9px] transition-transform duration-150 ${isOpen ? 'rotate-90' : ''}`} aria-hidden="true">▶</span>
+                <span className="font-serif text-[14px] text-black">{title}</span>
+              </button>
+              {isOpen && (
+                <div className="mt-1 ml-[18px]">
+                  <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80">{body}</p>
+                  <div className="mt-1.5 flex flex-col gap-0.5">
+                    {rubric.map(([score, desc]) => (
+                      <p key={score} className="font-sans text-[11px] leading-relaxed text-charcoal/70">
+                        <span className="font-bold text-charcoal">{score}</span>
+                        <span className="text-charcoal/40"> — </span>
+                        {desc}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
       {/* Scoring table */}
