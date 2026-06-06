@@ -9,9 +9,9 @@ export default function PrototypeDemo() {
     <Section id="prototype" eyebrow="Prototype demo" title="Change Validation, interactive">
       <div className="max-w-2xl flex flex-col gap-4">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          An interactive concept prototype of the Change Validation flow, built to feel embedded in
-          Autodesk Forma: upload a revised drawing, run change validation before submission,
-          review the detected object-level changes on a two-pane plan compare, and submit for review.
+          An interactive concept prototype of Change Validation, designed to feel embedded within
+          Autodesk Forma. Upload a revised drawing, validate detected object-level changes before
+          submission, and submit a higher-quality revision for review.
         </p>
         <a
           href="/HA-DrawingAnalyzer/demo"
