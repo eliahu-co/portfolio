@@ -20,7 +20,8 @@ const TREE: TreeNode[] = [
           { label: '01 Submitted' },
           { label: '02 Under Review' },
           { label: '03 Revised' },
-          { label: '04 NTA Approved', selected: true },
+          { label: '04 Work In Progress', selected: true },
+          { label: '05 NTA Approved' },
         ],
       },
     ],
@@ -163,7 +164,7 @@ export default function FilesScreen({
                 <div className="flex items-center gap-2.5 px-2 min-w-0">
                   <PdfGlyph />
                   <span className="truncate text-[#1a1a1a]">{row.name}</span>
-                  {isTarget && (
+                  {isTarget && status !== 'in-review' && (
                     busyHint ? (
                       <span className="flex items-center gap-1.5 shrink-0">
                         <span className="h-3.5 w-3.5 rounded-full border-2 border-[#0d66d0]/30 border-t-[#0d66d0] animate-spin" aria-hidden="true" />

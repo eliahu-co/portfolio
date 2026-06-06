@@ -13,7 +13,6 @@ export default function FormaPrototype() {
   const [uploadOpen, setUploadOpen] = useState(false)
   const [validating, setValidating] = useState(false)
   const [submitOpen, setSubmitOpen] = useState(false)
-  const [toast, setToast] = useState<string | null>(null)
 
   function handleUploadComplete() {
     setUploadOpen(false)
@@ -27,13 +26,11 @@ export default function FormaPrototype() {
   function handleConfirm() {
     setSubmitOpen(true)
   }
-  // The modal's Submit is what actually files the review.
+  // The modal's Submit is what actually files the review — and ends the demo.
   function handleSubmitReview() {
     setSubmitOpen(false)
     setScreen('files')
     setStatus('in-review')
-    setToast('Submitted for review')
-    setTimeout(() => setToast(null), 3200)
   }
   function handleReturn() {
     setScreen('files')
@@ -45,8 +42,9 @@ export default function FormaPrototype() {
     setUploadOpen(false)
     setValidating(false)
     setSubmitOpen(false)
-    setToast(null)
   }
+
+  const done = status === 'in-review'
 
   return (
     <div className="relative">
@@ -70,11 +68,17 @@ export default function FormaPrototype() {
         </FormaShell>
       )}
 
-      {/* Toast (top-center, clear of the demo control) */}
-      {toast && (
-        <div className="fixed top-[88px] left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2 bg-[#1a1a1a] text-white text-[13px] px-4 py-2.5 rounded shadow-lg">
-          <span className="grid place-items-center h-4 w-4 rounded-full bg-[#2e7d32] text-[10px]" aria-hidden>✓</span>
-          {toast}
+      {/* Completion banner — demo ends after the review is filed */}
+      {done && (
+        <div className="fixed top-[80px] left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 bg-white border border-[#d9d9d9] rounded-lg shadow-lg px-4 py-2.5">
+          <span className="grid place-items-center h-6 w-6 rounded-full bg-[#2e7d32] text-white text-[12px]" aria-hidden>✓</span>
+          <div>
+            <p className="text-[13px] font-medium text-[#1a1a1a]">Submitted for review · Demo ended</p>
+            <p className="text-[11px] text-[#5a5a5a]">The drawing is now In review.</p>
+          </div>
+          <button onClick={handleRestart} className="ml-2 text-[12px] font-semibold text-white bg-[#0d66d0] rounded px-3 py-1.5 hover:opacity-90">
+            ↺ Restart demo
+          </button>
         </div>
       )}
 
