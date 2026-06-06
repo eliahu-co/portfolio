@@ -151,6 +151,7 @@ export default function FilesScreen({
             const isTarget = !!row.isTarget
             const displayVersion = isTarget ? version : 1
             const versionBumped = isTarget && version === 2
+            const updated = versionBumped ? 'Jun 10, 2026 17:30' : row.updated
 
             return (
               <div
@@ -211,7 +212,7 @@ export default function FilesScreen({
                 </div>
 
                 {/* Last updated */}
-                <span className="px-2 text-[#5a5a5a]">{row.updated}</span>
+                <span className="px-2 text-[#5a5a5a]">{updated}</span>
 
                 {/* Updated by */}
                 <span className="px-2 text-[#5a5a5a]">{row.by}</span>
