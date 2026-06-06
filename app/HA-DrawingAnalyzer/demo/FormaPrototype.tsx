@@ -67,12 +67,15 @@ export default function FormaPrototype() {
       )}
 
       {/* Demo control — deliberately distinct from the Forma UI (dark pill, centered) */}
-      <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2.5 bg-[#111316] text-white rounded-full pl-3 pr-1.5 py-1 shadow-lg ring-1 ring-white/10">
+      <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2 bg-[#111316] text-white rounded-full pl-3 pr-1.5 py-1 shadow-lg ring-1 ring-white/10">
         <span className="text-[10px] uppercase tracking-[0.14em] text-white/55">Prototype</span>
         <span className="h-3.5 w-px bg-white/20" />
         <button onClick={handleRestart} className="text-[12px] font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/15 rounded-full px-2.5 py-1">
           ↺ Restart demo
         </button>
+        <a href="/HA-DrawingAnalyzer" className="text-[12px] font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/15 rounded-full px-2.5 py-1 no-underline">
+          ← Back to home assignment
+        </a>
       </div>
     </div>
   )
