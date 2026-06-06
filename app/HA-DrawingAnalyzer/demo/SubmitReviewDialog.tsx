@@ -24,7 +24,7 @@ function PersonChip({ initials, name, color }: { initials: string; name: string;
   )
 }
 
-export default function SubmitReviewDialog({ onSubmit, onCancel }: { onSubmit: () => void; onCancel: () => void }) {
+export default function SubmitReviewDialog({ onSubmit, onCancel, version }: { onSubmit: () => void; onCancel: () => void; version: number }) {
   return (
     <div className="fixed inset-0 z-[55] grid place-items-center" style={{ background: 'rgba(0,0,0,0.45)' }} onClick={onCancel}>
       <div className="bg-white rounded-lg shadow-xl w-[520px] max-w-[92vw] font-sans text-[#1a1a1a]" onClick={(e) => e.stopPropagation()}>
@@ -73,20 +73,27 @@ export default function SubmitReviewDialog({ onSubmit, onCancel }: { onSubmit: (
             <div className="flex items-center gap-2 border border-[#eee] rounded px-2.5 py-2">
               <span className="inline-flex items-center justify-center w-7 h-7 rounded text-[8px] font-bold text-[#c62828] border border-[#c62828]/40 bg-[#c62828]/5 shrink-0">PDF</span>
               <span className="text-[12.5px] truncate flex-1">P1016 Bulletin 1 - Second Floor Plan.pdf</span>
-              <span className="inline-block text-[11px] text-[#0d66d0] border border-[#0d66d0]/50 rounded-full px-1.5 leading-5 shrink-0">V2</span>
+              <span className="inline-block text-[11px] text-[#0d66d0] border border-[#0d66d0]/50 rounded-full px-1.5 leading-5 shrink-0">V{version}</span>
             </div>
           </div>
 
-          <div className="flex items-center justify-between border-t border-[#eee] pt-3 text-[13px] text-[#5a5a5a]">
-            <span>Notes</span>
-            <span>▾</span>
+          <div className="border-t border-[#eee] pt-3">
+            <div className="flex items-center justify-between text-[13px] text-[#1a1a1a] mb-1.5">
+              <span>Notes</span>
+              <span className="text-[#5a5a5a]">▴</span>
+            </div>
+            <div className="border border-[#d9d9d9] rounded px-3 py-2 text-[12px] text-[#1a1a1a] leading-relaxed">
+              <p>• 2 doors added — Laundry and Corridor</p>
+              <p>• Bedroom 2 area — 126 SF → 116 SF</p>
+              <p>• Bedroom 3 area — 138 SF → 149 SF</p>
+            </div>
           </div>
         </div>
 
         {/* Footer */}
         <div className="flex items-center justify-end gap-3 px-6 py-4">
           <button onClick={onCancel} className="text-[13px] font-medium" style={{ color: BLUE }}>Cancel</button>
-          <button onClick={onSubmit} className="text-[13px] font-semibold text-white rounded px-4 py-2 shadow-sm hover:opacity-90" style={{ background: BLUE }}>Submit</button>
+          <button onClick={onSubmit} className="demo-shake text-[13px] font-semibold text-white rounded px-4 py-2 shadow-sm hover:opacity-90" style={{ background: BLUE }}>Submit</button>
         </div>
       </div>
     </div>

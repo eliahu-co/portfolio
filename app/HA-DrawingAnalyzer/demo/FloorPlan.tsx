@@ -169,12 +169,13 @@ function Win({ x, y, len, dir }: { x: number; y: number; len: number; dir: 'h' |
 }
 
 export default function FloorPlan({
-  version, focus, viewBox, onFocus,
+  version, focus, viewBox, onFocus, pass = 1,
 }: {
   version: 'current' | 'incoming'
   focus?: string | null
   viewBox?: string
   onFocus?: (id: string | null) => void
+  pass?: 1 | 2
 }) {
   const incoming = version === 'incoming'
   const b3Left = incoming ? 340 : 362
@@ -183,7 +184,8 @@ export default function FloorPlan({
   const b3: RoomDef = { name: 'BEDROOM 3', sf: b3SF, x: b3Left, y: 438, w: 584 - b3Left, h: 212 }
 
   const hatchRects = [...ROOMS, ...BLANK, b2, b3]
-  const marked = CHANGES.filter((c) => c.shownIn === version)
+  const active = incoming ? CHANGES.filter((c) => c.passes.includes(pass)) : []
+  const has = (id: string) => active.some((c) => c.id === id)
 
   return (
     <svg viewBox={viewBox ?? '6 46 988 736'} className="w-full h-full" style={{ background: '#ffffff' }} preserveAspectRatio="xMidYMid meet">
@@ -269,23 +271,23 @@ export default function FloorPlan({
       <text x={b3.x + b3.w / 2} y={538} textAnchor="middle" fontSize={12} fontWeight={600} fill={INK}>BEDROOM 3</text>
       <text x={b3.x + b3.w / 2} y={553} textAnchor="middle" fontSize={incoming ? 11 : 10} fontWeight={incoming ? 700 : 400} fill={incoming ? YELLOW : FIXTURE}>{b3SF}</text>
 
-      {/* === DETECTED CHANGES === */}
-      {/* Bath 2 (39 SF) toilet: solid in Current; red dashed ghost in Incoming (removed) */}
-      <Toilet x={236} y={300} dir="left" color={incoming ? TYPE_META.removed.color : FIXTURE} bold={incoming} dashed={incoming} />
+      {/* === DETECTED CHANGES (active = changes reported in the current pass) === */}
+      {/* Bath 2 (39 SF) toilet: solid normally; red dashed ghost only when "removed" is active (pass 1) */}
+      <Toilet x={236} y={300} dir="left" color={has('toilet') ? TYPE_META.removed.color : FIXTURE} bold={has('toilet')} dashed={has('toilet')} />
 
-      {/* added corridor doors — green, Incoming only */}
-      {incoming && (<>
+      {/* added corridor doors — green, when active */}
+      {has('doors') && (<>
         <Door x={240} y={395} len={30} rot={0} mirror accent={TYPE_META.added.color} />
         <Door x={584} y={390} len={30} rot={0} mirror accent={TYPE_META.added.color} />
       </>)}
 
-      {/* modified partition — moved Bedroom 3 wall drawn yellow, Incoming only */}
-      {incoming && wallRect({ d: 'v', y1: 438, y2: 650, x: b3Left, t: T_INT }, 'b3y', YELLOW, YELLOW, 1)}
+      {/* modified partition — moved Bedroom 3 wall drawn yellow, when active */}
+      {has('wall') && wallRect({ d: 'v', y1: 438, y2: 650, x: b3Left, t: T_INT }, 'b3y', YELLOW, YELLOW, 1)}
 
       {/* lettered markers; only the Bedroom 3 boundary change carries an area rect */}
-      {marked.map((c) => {
+      {active.map((c) => {
         const color = TYPE_META[c.type].color
-        const active = focus === c.id
+        const isActive = focus === c.id
         const letter = String.fromCharCode(65 + CHANGES.findIndex((x) => x.id === c.id))
         const dots = c.id === 'doors' ? [{ x: 218, y: 396 }, { x: 566, y: 391 }]
           : c.id === 'bedroom3' ? [{ x: 508, y: 551 }]
@@ -300,11 +302,11 @@ export default function FloorPlan({
             onMouseLeave={onFocus ? () => onFocus(null) : undefined}
             style={onFocus ? { cursor: 'pointer' } : undefined}
           >
-            {rect && <rect x={rect.x} y={rect.y} width={rect.w} height={rect.h} rx={6} fill={color} fillOpacity={active ? 0.16 : 0.08} stroke={color} strokeWidth={active ? 3 : 2} strokeOpacity={0.9} strokeDasharray="7 4" />}
+            {rect && <rect x={rect.x} y={rect.y} width={rect.w} height={rect.h} rx={6} fill={color} fillOpacity={isActive ? 0.16 : 0.08} stroke={color} strokeWidth={isActive ? 3 : 2} strokeOpacity={0.9} strokeDasharray="7 4" />}
             {dots.map((m, i) => (
               <g key={i}>
-                {active && <circle cx={m.x} cy={m.y} r={24} fill={color} fillOpacity={0.22} />}
-                <circle cx={m.x} cy={m.y} r={active ? 14 : 13} fill={color} stroke="#fff" strokeWidth={2} />
+                {isActive && <circle cx={m.x} cy={m.y} r={24} fill={color} fillOpacity={0.22} />}
+                <circle cx={m.x} cy={m.y} r={isActive ? 14 : 13} fill={color} stroke="#fff" strokeWidth={2} />
                 <text x={m.x} y={m.y + 4.5} textAnchor="middle" fontSize={13} fontWeight={700} fill="#fff">{letter}</text>
               </g>
             ))}
