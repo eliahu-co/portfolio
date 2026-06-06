@@ -53,7 +53,7 @@ export default function SubmitReviewDialog({ onSubmit, onCancel }: { onSubmit: (
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <p className="text-[12px] font-medium text-[#1a1a1a]">Reviewer<span className="text-[#c62828]"> *</span></p>
-                <button className="text-[12px]" style={{ color: BLUE }}>Add reviewers</button>
+                <button className="demo-mock text-[12px]" style={{ color: BLUE }}>Add reviewers</button>
               </div>
               <div className="border border-[#d9d9d9] rounded px-2 h-9 flex items-center">
                 <PersonChip initials="OS" name="Or Shanoon" color="#0d66d0" />
