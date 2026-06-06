@@ -8,7 +8,7 @@ import type { ReactNode } from 'react'
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="font-sans text-[9px] uppercase tracking-[0.14em] text-autodesk-blue mb-3">
+    <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-autodesk-blue mb-3">
       {children}
     </p>
   )
