@@ -105,36 +105,43 @@ export default function ChangeValidation({
               const color = TYPE_META[c.type].color
               const letter = String.fromCharCode(65 + CHANGES.findIndex((x) => x.id === c.id))
               return (
-                <button
-                  key={c.id}
-                  onMouseEnter={() => setFocus(c.id)}
-                  onMouseLeave={() => setFocus(null)}
-                  onClick={() => setFocus(c.id)}
-                  className={`text-left rounded-md border bg-white p-2.5 flex gap-3 transition-shadow ${active ? 'shadow-sm' : ''}`}
-                  style={{ borderColor: active ? color : '#e6e6e6' }}
-                >
-                  {/* thumbnail crop — the incoming plan for the current pass */}
-                  <div className="shrink-0 w-[92px] h-[68px] rounded border border-[#eee] overflow-hidden bg-white">
-                    <FloorPlan version="incoming" pass={pass} viewBox={c.crop} focus={c.id} />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <span
-                        className="grid place-items-center h-4 w-4 rounded-full text-[9px] font-bold text-white shrink-0"
-                        style={{ background: color }}
-                      >
-                        {letter}
-                      </span>
-                      <TypeTag type={c.type} />
-                      <span className="ml-auto flex items-center gap-1 text-[10px] text-[#5a5a5a] shrink-0" title="AI confidence this is a real change">
-                        <span className="inline-block h-2 w-2 rounded-full" style={{ background: CONF_META[c.confidence] }} />
-                        {c.confidence}
-                      </span>
+                <div key={c.id} className={c.id === 'toilet' ? 'demo-shake flex flex-col gap-1.5' : ''}>
+                  {c.id === 'toilet' && (
+                    <div className="rounded-md bg-[#1a1a1a] text-white text-[11px] leading-snug px-3 py-2 shadow-lg">
+                      <span className="font-semibold">Demo note — </span>
+                      the designer didn&apos;t mean to remove this toilet. Hit <span className="font-semibold">Cancel</span> instead of submitting.
                     </div>
-                    <p className="text-[12.5px] font-medium leading-tight">{c.title}</p>
-                    <p className="text-[11px] text-[#5a5a5a] leading-snug mt-0.5">{c.description}</p>
-                  </div>
-                </button>
+                  )}
+                  <button
+                    onMouseEnter={() => setFocus(c.id)}
+                    onMouseLeave={() => setFocus(null)}
+                    onClick={() => setFocus(c.id)}
+                    className={`w-full text-left rounded-md border bg-white p-2.5 flex gap-3 transition-shadow ${active ? 'shadow-sm' : ''}`}
+                    style={{ borderColor: active ? color : '#e6e6e6' }}
+                  >
+                    {/* thumbnail crop — the incoming plan for the current pass */}
+                    <div className="shrink-0 w-[92px] h-[68px] rounded border border-[#eee] overflow-hidden bg-white">
+                      <FloorPlan version="incoming" pass={pass} viewBox={c.crop} focus={c.id} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span
+                          className="grid place-items-center h-4 w-4 rounded-full text-[9px] font-bold text-white shrink-0"
+                          style={{ background: color }}
+                        >
+                          {letter}
+                        </span>
+                        <TypeTag type={c.type} />
+                        <span className="ml-auto flex items-center gap-1 text-[10px] text-[#5a5a5a] shrink-0" title="AI confidence this is a real change">
+                          <span className="inline-block h-2 w-2 rounded-full" style={{ background: CONF_META[c.confidence] }} />
+                          {c.confidence}
+                        </span>
+                      </div>
+                      <p className="text-[12.5px] font-medium leading-tight">{c.title}</p>
+                      <p className="text-[11px] text-[#5a5a5a] leading-snug mt-0.5">{c.description}</p>
+                    </div>
+                  </button>
+                </div>
               )
             })}
           </div>
@@ -149,13 +156,13 @@ export default function ChangeValidation({
         <div className="ml-auto flex items-center gap-2.5">
           <button
             onClick={onReturn}
-            className="text-[13px] font-medium text-[#1a1a1a] border border-[#d9d9d9] bg-white rounded px-4 py-2 hover:bg-[#f5f6f7]"
+            className={`text-[13px] font-medium text-[#1a1a1a] border border-[#d9d9d9] bg-white rounded px-4 py-2 hover:bg-[#f5f6f7] ${pass === 1 ? 'demo-shake' : ''}`}
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="text-[13px] font-semibold text-white rounded px-4 py-2 shadow-sm hover:opacity-90"
+            className={`text-[13px] font-semibold text-white rounded px-4 py-2 shadow-sm hover:opacity-90 ${pass === 2 ? 'demo-shake' : ''}`}
             style={{ background: BLUE }}
           >
             Confirm changes
