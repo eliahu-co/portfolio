@@ -51,7 +51,10 @@ export default function SubmitReviewDialog({ onSubmit, onCancel }: { onSubmit: (
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label required>Reviewer</Label>
+              <div className="flex items-center justify-between mb-1.5">
+                <p className="text-[12px] font-medium text-[#1a1a1a]">Reviewer<span className="text-[#c62828]"> *</span></p>
+                <button className="text-[12px]" style={{ color: BLUE }}>Add reviewers</button>
+              </div>
               <div className="border border-[#d9d9d9] rounded px-2 h-9 flex items-center">
                 <PersonChip initials="OS" name="Or Shanoon" color="#0d66d0" />
               </div>
@@ -65,10 +68,7 @@ export default function SubmitReviewDialog({ onSubmit, onCancel }: { onSubmit: (
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <Label required>Files for review</Label>
-              <button className="text-[12px]" style={{ color: BLUE }}>Add files</button>
-            </div>
+            <Label required>Files for review</Label>
             <p className="text-[12px] text-[#5a5a5a] mb-2">Total: <span className="font-medium text-[#1a1a1a]">1 file</span></p>
             <div className="flex items-center gap-2 border border-[#eee] rounded px-2.5 py-2">
               <span className="inline-flex items-center justify-center w-7 h-7 rounded text-[8px] font-bold text-[#c62828] border border-[#c62828]/40 bg-[#c62828]/5 shrink-0">PDF</span>
