@@ -51,10 +51,12 @@ export default function ChangeValidation({
   onReturn,
   onConfirm,
   pass,
+  submitOpen,
 }: {
   onReturn: () => void
   onConfirm: () => void
   pass: 1 | 2
+  submitOpen?: boolean
 }) {
   const [focus, setFocus] = useState<string | null>(null)
 
@@ -176,7 +178,7 @@ export default function ChangeValidation({
           <button
             onClick={onConfirm}
             disabled={pass === 1}
-            className={`text-[13px] font-semibold text-white rounded px-4 py-2 shadow-sm ${pass === 1 ? 'demo-mock opacity-50' : 'demo-shake hover:opacity-90'}`}
+            className={`text-[13px] font-semibold text-white rounded px-4 py-2 shadow-sm ${pass === 1 ? 'demo-mock opacity-50' : `hover:opacity-90 ${submitOpen ? '' : 'demo-shake'}`}`}
             style={{ background: BLUE }}
           >
             Confirm changes

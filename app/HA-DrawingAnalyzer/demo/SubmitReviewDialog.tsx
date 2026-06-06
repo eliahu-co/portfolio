@@ -93,7 +93,7 @@ export default function SubmitReviewDialog({ onSubmit, onCancel, version }: { on
         {/* Footer */}
         <div className="flex items-center justify-end gap-3 px-6 py-4">
           <button onClick={onCancel} className="text-[13px] font-medium" style={{ color: BLUE }}>Cancel</button>
-          <button onClick={onSubmit} className="text-[13px] font-semibold text-white rounded px-4 py-2 shadow-sm hover:opacity-90" style={{ background: BLUE }}>Submit</button>
+          <button onClick={onSubmit} className="demo-shake text-[13px] font-semibold text-white rounded px-4 py-2 shadow-sm hover:opacity-90" style={{ background: BLUE }}>Submit</button>
         </div>
       </div>
     </div>

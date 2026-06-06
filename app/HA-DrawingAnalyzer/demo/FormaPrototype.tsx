@@ -56,7 +56,7 @@ export default function FormaPrototype() {
     <div className="relative">
       {screen === 'review' ? (
         <>
-          <ChangeValidation onReturn={handleReturn} onConfirm={handleConfirm} pass={pass} />
+          <ChangeValidation onReturn={handleReturn} onConfirm={handleConfirm} pass={pass} submitOpen={submitOpen} />
           {submitOpen && <SubmitReviewDialog onSubmit={handleSubmitReview} onCancel={() => setSubmitOpen(false)} version={version} />}
         </>
       ) : (
