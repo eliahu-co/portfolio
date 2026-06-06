@@ -53,14 +53,19 @@ Version increments **V1 → V2 → V3**. Restart resets to V1 / pass 1 / status 
 ## Change data (`data.ts`)
 
 Each `Change` gains `passes: number[]` and `confidence: 'High' | 'Medium' | 'Low'`.
+**Confidence = how confident the AI is that this is a real change.**
 
 | id        | type     | passes | confidence |
 |-----------|----------|--------|------------|
 | doors     | added    | [1, 2] | High       |
-| wall      | modified | [1, 2] | High       |
-| bedroom3  | modified | [1, 2] | Medium     |
-| bedroom2  | modified | [1, 2] | Medium     |
+| wall      | modified | [1, 2] | Medium     |
+| bedroom3  | modified | [1, 2] | High       |
+| bedroom2  | modified | [1, 2] | High       |
 | toilet    | removed  | [1]    | High       |
+
+Rationale: the wall move is the subtler geometric change, so the model is only
+**Medium** sure it is a real change; the area recalcs and added/removed objects are
+clear differences (**High**).
 
 `ChangeValidation` renders `CHANGES.filter(c => c.passes.includes(currentPass))`.
 (No change is "Low" in this dataset; the dot/label badge still supports Low if one
