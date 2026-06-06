@@ -202,7 +202,6 @@ export default function FloorPlan({
       {gap(240, 395, 30, 'v', 'g3')}      {/* laundry ↔ hall */}
       {gap(265, 218, 30, 'h', 'g4')}      {/* 25 SF ↔ hall */}
       {gap(360, 260, 38, 'h', 'g5')}      {/* primary bath ↔ walk-in */}
-      {gap(400, 367, 38, 'h', 'g6')}      {/* walk-in ↔ corridor */}
       {gap(531, 115, 40, 'v', 'g7')}      {/* primary bdrm ↔ primary bath */}
       {gap(550, 367, 34, 'h', 'g8')}      {/* primary bdrm ↔ corridor */}
       {gap(317, 398, 34, 'v', 'g9')}      {/* corridor ↔ hall (to the bath) */}
@@ -240,7 +239,6 @@ export default function FloorPlan({
       <Door x={240} y={395} len={30} rot={0} mirror />
       <Door x={265} y={218} len={30} rot={270} />
       <Door x={360} y={260} len={38} rot={270} />
-      <Door x={400} y={367} len={38} rot={270} />
       <Door x={531} y={115} len={40} rot={0} />
       <Door x={550} y={367} len={34} rot={270} />
       <Door x={317} y={398} len={34} rot={0} />
