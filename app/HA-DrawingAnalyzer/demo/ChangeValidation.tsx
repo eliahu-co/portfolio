@@ -106,12 +106,6 @@ export default function ChangeValidation({
               const letter = String.fromCharCode(65 + CHANGES.findIndex((x) => x.id === c.id))
               return (
                 <div key={c.id} className={c.id === 'toilet' ? 'demo-shake flex flex-col gap-1.5' : ''}>
-                  {c.id === 'toilet' && (
-                    <div className="rounded-md bg-[#1a1a1a] text-white text-[11px] leading-snug px-3 py-2 shadow-lg">
-                      <span className="font-semibold">Demo note — </span>
-                      the designer didn&apos;t mean to remove this toilet. Hit <span className="font-semibold">Cancel</span> instead of submitting.
-                    </div>
-                  )}
                   <button
                     onMouseEnter={() => setFocus(c.id)}
                     onMouseLeave={() => setFocus(null)}
@@ -141,6 +135,31 @@ export default function ChangeValidation({
                       <p className="text-[11px] text-[#5a5a5a] leading-snug mt-0.5">{c.description}</p>
                     </div>
                   </button>
+                  {c.id === 'toilet' && (
+                    <div className="relative w-[290px] max-w-full self-center">
+                      <svg viewBox="0 0 300 108" className="w-full block" aria-hidden>
+                        <g fill="#0696d7">
+                          <rect x="18" y="40" width="264" height="40" rx="20" />
+                          <circle cx="60" cy="42" r="22" />
+                          <circle cx="112" cy="34" r="28" />
+                          <circle cx="162" cy="32" r="30" />
+                          <circle cx="214" cy="36" r="26" />
+                          <circle cx="256" cy="44" r="20" />
+                          <circle cx="72" cy="78" r="20" />
+                          <circle cx="152" cy="84" r="22" />
+                          <circle cx="226" cy="80" r="20" />
+                          <circle cx="40" cy="14" r="5" />
+                          <circle cx="28" cy="6" r="3" />
+                        </g>
+                      </svg>
+                      <div className="absolute inset-x-0 top-[30px] bottom-[10px] flex flex-col items-center justify-center text-center px-10">
+                        <span className="inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-white/85">
+                          <span aria-hidden>⚑</span> Issue caught
+                        </span>
+                        <p className="text-[11px] italic text-white leading-snug mt-0.5">Oops, you didn&apos;t mean to remove this toilet.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )
             })}
