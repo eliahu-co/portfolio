@@ -25,7 +25,7 @@ export default function DemoVideo() {
       <video
         ref={ref}
         src="/drawinganalyzer/demovideo.mp4"
-        preload="metadata"
+        preload="auto"
         playsInline
         controls={state === 'playing'}
         className="block h-auto w-full"
