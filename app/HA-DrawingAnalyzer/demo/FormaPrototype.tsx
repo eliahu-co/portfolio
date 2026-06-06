@@ -4,6 +4,7 @@ import FormaShell from './FormaShell'
 import FilesScreen from './FilesScreen'
 import UploadDialog from './UploadDialog'
 import ChangeValidation from './ChangeValidation'
+import SubmitReviewDialog from './SubmitReviewDialog'
 
 export default function FormaPrototype() {
   const [screen, setScreen] = useState<'files' | 'review'>('files')
@@ -11,6 +12,7 @@ export default function FormaPrototype() {
   const [status, setStatus] = useState<'none' | 'in-review'>('none')
   const [uploadOpen, setUploadOpen] = useState(false)
   const [validating, setValidating] = useState(false)
+  const [submitOpen, setSubmitOpen] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
 
   function handleUploadComplete() {
@@ -21,7 +23,13 @@ export default function FormaPrototype() {
     setValidating(true)
     setTimeout(() => { setValidating(false); setScreen('review') }, 1100)
   }
+  // Confirming the detected changes opens the Submit-for-review modal.
   function handleConfirm() {
+    setSubmitOpen(true)
+  }
+  // The modal's Submit is what actually files the review.
+  function handleSubmitReview() {
+    setSubmitOpen(false)
     setScreen('files')
     setStatus('in-review')
     setToast('Submitted for review')
@@ -36,13 +44,17 @@ export default function FormaPrototype() {
     setStatus('none')
     setUploadOpen(false)
     setValidating(false)
+    setSubmitOpen(false)
     setToast(null)
   }
 
   return (
     <div className="relative">
       {screen === 'review' ? (
-        <ChangeValidation onReturn={handleReturn} onConfirm={handleConfirm} />
+        <>
+          <ChangeValidation onReturn={handleReturn} onConfirm={handleConfirm} />
+          {submitOpen && <SubmitReviewDialog onSubmit={handleSubmitReview} onCancel={() => setSubmitOpen(false)} />}
+        </>
       ) : (
         <FormaShell>
           <FilesScreen
@@ -67,9 +79,7 @@ export default function FormaPrototype() {
       )}
 
       {/* Demo control — deliberately distinct from the Forma UI (dark pill, centered) */}
-      <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2 bg-[#111316] text-white rounded-full pl-3 pr-1.5 py-1 shadow-lg ring-1 ring-white/10">
-        <span className="text-[10px] uppercase tracking-[0.14em] text-white/55">Prototype</span>
-        <span className="h-3.5 w-px bg-white/20" />
+      <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2 bg-[#111316] text-white rounded-full px-1.5 py-1 shadow-lg ring-1 ring-white/10">
         <a href="/HA-DrawingAnalyzer" className="text-[11px] font-medium uppercase tracking-[0.06em] text-white/90 hover:text-white bg-white/10 hover:bg-white/15 rounded-full px-2.5 py-1 no-underline">
           ← Home assignment
         </a>
