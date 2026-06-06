@@ -172,7 +172,7 @@ export default function ChangeValidation({
             className="text-[13px] font-semibold text-white rounded px-4 py-2 shadow-sm hover:opacity-90"
             style={{ background: BLUE }}
           >
-            Confirm &amp; submit review
+            Confirm
           </button>
         </div>
       </footer>
