@@ -58,20 +58,19 @@ export default function FormaPrototype() {
         </FormaShell>
       )}
 
-      {/* Toast */}
+      {/* Toast (top-center, clear of the demo control) */}
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-[#1a1a1a] text-white text-[13px] px-4 py-2.5 rounded shadow-lg">
+        <div className="fixed top-[88px] left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2 bg-[#1a1a1a] text-white text-[13px] px-4 py-2.5 rounded shadow-lg">
           <span className="grid place-items-center h-4 w-4 rounded-full bg-[#2e7d32] text-[10px]" aria-hidden>✓</span>
           {toast}
         </div>
       )}
 
-      {/* Prototype tag + restart */}
-      <div className="fixed bottom-3 right-3 z-50 flex items-center gap-2">
-        <span className="text-[10px] uppercase tracking-wider text-[#5a5a5a] bg-white/90 border border-[#d9d9d9] rounded px-1.5 py-0.5 shadow-sm">
-          Prototype
-        </span>
-        <button onClick={handleRestart} className="text-[11px] text-[#0d66d0] hover:underline bg-white border border-[#d9d9d9] rounded px-2 py-1 shadow-sm">
+      {/* Demo control — deliberately distinct from the Forma UI (dark pill, centered) */}
+      <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2.5 bg-[#111316] text-white rounded-full pl-3 pr-1.5 py-1 shadow-lg ring-1 ring-white/10">
+        <span className="text-[10px] uppercase tracking-[0.14em] text-white/55">Prototype</span>
+        <span className="h-3.5 w-px bg-white/20" />
+        <button onClick={handleRestart} className="text-[12px] font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/15 rounded-full px-2.5 py-1">
           ↺ Restart demo
         </button>
       </div>

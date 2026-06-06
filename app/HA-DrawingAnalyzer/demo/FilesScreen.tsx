@@ -136,9 +136,7 @@ export default function FilesScreen({
           {/* Table header */}
           <div
             className="grid text-[11px] uppercase tracking-wide text-[#5a5a5a] border-b border-[#e6e6e6] pb-1.5 mb-0"
-            style={{
-              gridTemplateColumns: '1fr 70px 80px 110px 160px 140px 220px',
-            }}
+            style={{ gridTemplateColumns: '1fr 70px 80px 120px 150px 140px' }}
           >
             <span className="px-2">Name</span>
             <span className="px-2">Revision</span>
@@ -146,7 +144,6 @@ export default function FilesScreen({
             <span className="px-2">Review status</span>
             <span className="px-2">Last updated</span>
             <span className="px-2">Updated by</span>
-            <span className="px-2" />
           </div>
 
           {/* Table rows */}
@@ -159,14 +156,34 @@ export default function FilesScreen({
               <div
                 key={row.id}
                 className="grid items-center border-b border-[#f0f0f0] text-[13px] py-2.5 hover:bg-[#0d66d0]/[0.03] group"
-                style={{
-                  gridTemplateColumns: '1fr 70px 80px 110px 160px 140px 220px',
-                }}
+                style={{ gridTemplateColumns: '1fr 70px 80px 120px 150px 140px' }}
               >
-                {/* Name */}
-                <div className="flex items-center gap-1.5 px-2 min-w-0">
+                {/* Name + inline action (action sits right beside the filename) */}
+                <div className="flex items-center gap-2.5 px-2 min-w-0">
                   <PdfGlyph />
                   <span className="truncate text-[#1a1a1a]">{row.name}</span>
+                  {isTarget && (
+                    busyHint ? (
+                      <span className="flex items-center gap-1.5 shrink-0">
+                        <span className="h-3.5 w-3.5 rounded-full border-2 border-[#0d66d0]/30 border-t-[#0d66d0] animate-spin" aria-hidden="true" />
+                        <span className="text-[12px] text-[#5a5a5a] whitespace-nowrap">{busyHint}</span>
+                      </span>
+                    ) : version === 1 ? (
+                      <span className="relative inline-flex rounded shrink-0">
+                        <span className="absolute inset-0 rounded ring-2 ring-[#0d66d0]/30 animate-pulse" />
+                        <button onClick={onUpload} className="relative text-[12px] text-[#0d66d0] border border-[#0d66d0]/50 bg-white rounded px-2.5 py-1 hover:bg-[#0d66d0]/5 whitespace-nowrap">
+                          Upload new version
+                        </button>
+                      </span>
+                    ) : (
+                      <span className="relative inline-flex rounded shrink-0">
+                        <span className="absolute inset-0 rounded ring-2 ring-[#0d66d0]/30 animate-pulse" />
+                        <button onClick={onSubmit} className="relative text-[12px] text-white bg-[#0d66d0] rounded px-2.5 py-1 hover:opacity-90 whitespace-nowrap">
+                          Submit for review
+                        </button>
+                      </span>
+                    )
+                  )}
                 </div>
 
                 {/* Revision */}
@@ -187,9 +204,7 @@ export default function FilesScreen({
                 {/* Review status */}
                 <div className="px-2">
                   {isTarget && status === 'in-review' ? (
-                    <span className="text-[#b8860b] bg-[#b8860b]/10 rounded px-1.5 py-0.5 text-[11px]">
-                      In review
-                    </span>
+                    <span className="text-[#b8860b] bg-[#b8860b]/10 rounded px-1.5 py-0.5 text-[11px]">In review</span>
                   ) : null}
                 </div>
 
@@ -198,43 +213,6 @@ export default function FilesScreen({
 
                 {/* Updated by */}
                 <span className="px-2 text-[#5a5a5a]">{row.by}</span>
-
-                {/* Inline action (target row only) */}
-                <div className="px-2 flex items-center justify-end">
-                  {isTarget ? (
-                    busyHint ? (
-                      <span className="flex items-center gap-1.5">
-                        <span
-                          className="h-3.5 w-3.5 rounded-full border-2 border-[#0d66d0]/30 border-t-[#0d66d0] animate-spin shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span className="text-[12px] text-[#5a5a5a] whitespace-nowrap">
-                          {busyHint}
-                        </span>
-                      </span>
-                    ) : version === 1 ? (
-                      <span className="relative inline-flex rounded">
-                        <span className="absolute inset-0 rounded ring-2 ring-[#0d66d0]/30 animate-pulse" />
-                        <button
-                          onClick={onUpload}
-                          className="relative text-[12px] text-[#0d66d0] border border-[#0d66d0]/50 bg-white rounded px-2.5 py-1 hover:bg-[#0d66d0]/5 whitespace-nowrap"
-                        >
-                          Upload new version
-                        </button>
-                      </span>
-                    ) : (
-                      <span className="relative inline-flex rounded">
-                        <span className="absolute inset-0 rounded ring-2 ring-[#0d66d0]/30 animate-pulse" />
-                        <button
-                          onClick={onSubmit}
-                          className="relative text-[12px] text-white bg-[#0d66d0] rounded px-2.5 py-1 hover:opacity-90 whitespace-nowrap"
-                        >
-                          Submit for review
-                        </button>
-                      </span>
-                    )
-                  ) : null}
-                </div>
               </div>
             )
           })}

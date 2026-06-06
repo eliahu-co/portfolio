@@ -131,9 +131,9 @@ export default function ChangeValidation({
                   className={`text-left rounded-md border bg-white p-2.5 flex gap-3 transition-shadow ${active ? 'shadow-sm' : ''}`}
                   style={{ borderColor: active ? color : '#e6e6e6' }}
                 >
-                  {/* thumbnail crop */}
+                  {/* thumbnail crop — from the pane that carries the change */}
                   <div className="shrink-0 w-[92px] h-[68px] rounded border border-[#eee] overflow-hidden bg-white">
-                    <FloorPlan version="incoming" viewBox={c.crop} focus={c.id} />
+                    <FloorPlan version={c.shownIn} viewBox={c.crop} focus={c.id} />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-0.5">
@@ -157,19 +157,19 @@ export default function ChangeValidation({
 
       {/* Footer actions */}
       <footer className="shrink-0 bg-white border-t border-[#e6e6e6] px-4 py-3 flex items-center">
-        <p className="text-[11px] text-[#7a7f84]">
-          Review the detected changes, then confirm to submit V2 for review.
+        <p className="text-[12px] text-[#5a5a5a]">
+          <span className="font-semibold text-[#1a1a1a]">{CHANGES.length} object-level changes</span> detected in this revision.
         </p>
         <div className="ml-auto flex items-center gap-2.5">
           <button
             onClick={onReturn}
-            className="text-[13px] text-[#1a1a1a] border border-[#d9d9d9] bg-white rounded px-3.5 py-1.5 hover:bg-[#f5f6f7]"
+            className="text-[13px] font-medium text-[#1a1a1a] border border-[#d9d9d9] bg-white rounded px-4 py-2 hover:bg-[#f5f6f7]"
           >
-            Return to drawing
+            Don&apos;t start review
           </button>
           <button
             onClick={onConfirm}
-            className="text-[13px] text-white rounded px-3.5 py-1.5 hover:opacity-90"
+            className="text-[13px] font-semibold text-white rounded px-4 py-2 shadow-sm hover:opacity-90"
             style={{ background: BLUE }}
           >
             Confirm &amp; submit review
