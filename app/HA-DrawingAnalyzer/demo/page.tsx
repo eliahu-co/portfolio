@@ -21,6 +21,16 @@ export default function ChangeValidationDemoPage() {
         .demo-root, .demo-root * { cursor: default !important; }
         .demo-root a, .demo-root button, .demo-root [role="button"] { cursor: pointer !important; }
         .demo-root .demo-mock, .demo-root .demo-mock * { cursor: not-allowed !important; }
+        @keyframes demo-shake {
+          0%, 86%, 100% { transform: translateX(0); }
+          88% { transform: translateX(-3px); }
+          90% { transform: translateX(3px); }
+          92% { transform: translateX(-3px); }
+          94% { transform: translateX(2px); }
+          96% { transform: translateX(-2px); }
+          98% { transform: translateX(1px); }
+        }
+        .demo-root .demo-shake { animation: demo-shake 3s ease-in-out infinite; }
       `}</style>
     </div>
   )

@@ -171,7 +171,7 @@ export default function FilesScreen({
                         <span className="text-[12px] text-[#5a5a5a] whitespace-nowrap">{busyHint}</span>
                       </span>
                     ) : version === 1 ? (
-                      <span className="relative inline-flex rounded shrink-0">
+                      <span className="demo-shake relative inline-flex rounded shrink-0">
                         <span className="absolute inset-0 rounded ring-2 ring-[#0d66d0]/30 animate-pulse" />
                         <button onClick={onUpload} className="relative text-[12px] text-[#0d66d0] border border-[#0d66d0]/50 bg-white rounded px-2.5 py-1 hover:bg-[#0d66d0]/5 whitespace-nowrap">
                           Upload modified drawing
