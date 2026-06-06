@@ -33,7 +33,7 @@ const WALLS: (HWall | VWall)[] = [
   { d: 'v', y1: 100, y2: 650, x: 880, t: T_EXT },
   // interior verticals
   { d: 'v', y1: 100, y2: 438, x: 240, t: T_INT }, // left rooms | hall
-  { d: 'v', y1: 100, y2: 438, x: 317, t: T_INT }, // hall | bath/walk-in/corridor
+  { d: 'v', y1: 100, y2: 367, x: 317, t: T_INT }, // hall | primary bath + walk-in (corridor below is open → L-shaped)
   { d: 'v', y1: 100, y2: 367, x: 531, t: T_INT }, // primary bath/walk-in | primary bdrm
   { d: 'v', y1: 367, y2: 650, x: 584, t: T_INT }, // corridor | bonus
   // interior horizontals
@@ -68,7 +68,10 @@ const H_GRID = [
   { y: 438, l: 'D' }, { y: 650, l: 'E' },
 ]
 
-const HILITE = { bedroom3: { x: 338, y: 440, w: 246, h: 208 } }
+const HILITE: Record<string, { x: number; y: number; w: number; h: number }> = {
+  bedroom3: { x: 338, y: 440, w: 246, h: 208 },
+  bedroom2: { x: 124, y: 440, w: 212, h: 208 },
+}
 
 // ---- primitives ----------------------------------------------------------
 function wallRect(w: HWall | VWall, key: string, stroke = INK, fill = POCHE, sw = 0.6) {
@@ -170,7 +173,7 @@ export default function FloorPlan({
   const incoming = version === 'incoming'
   const b3Left = incoming ? 340 : 362
   const b3SF = incoming ? '149 SF' : '138 SF'
-  const b2: RoomDef = { name: 'BEDROOM 2', sf: '126 SF', x: 120, y: 438, w: b3Left - 120, h: 212 }
+  const b2: RoomDef = { name: 'BEDROOM 2', sf: incoming ? '116 SF' : '126 SF', x: 120, y: 438, w: b3Left - 120, h: 212 }
   const b3: RoomDef = { name: 'BEDROOM 3', sf: b3SF, x: b3Left, y: 438, w: 584 - b3Left, h: 212 }
 
   const hatchRects = [...ROOMS, ...BLANK, b2, b3]
@@ -198,12 +201,11 @@ export default function FloorPlan({
 
       {/* door openings */}
       {gap(195, 218, 34, 'h', 'g1')}      {/* bath2-32 ↔ bath2-39 */}
-      {gap(240, 285, 32, 'v', 'g2')}      {/* bath2-39 ↔ hall */}
+      {gap(240, 252, 32, 'v', 'g2')}      {/* bath2-39 ↔ hall (above the toilet) */}
       {gap(265, 218, 30, 'h', 'g4')}      {/* 25 SF ↔ hall */}
       {gap(360, 260, 38, 'h', 'g5')}      {/* primary bath ↔ walk-in */}
       {gap(531, 115, 40, 'v', 'g7')}      {/* primary bdrm ↔ primary bath */}
       {gap(550, 367, 34, 'h', 'g8')}      {/* primary bdrm ↔ corridor */}
-      {gap(317, 398, 34, 'v', 'g9')}      {/* corridor ↔ hall (to the bath) */}
       {gap(270, 438, 38, 'h', 'g10')}     {/* bedroom 2 ↔ hall */}
       {gap(430, 438, 38, 'h', 'g11')}     {/* bedroom 3 ↔ corridor */}
       {incoming && gap(240, 395, 30, 'v', 'ga1')}  {/* added: laundry door */}
@@ -225,34 +227,40 @@ export default function FloorPlan({
       <Toilet x={236} y={150} dir="left" />
       <Toilet x={278} y={107} dir="down" />
       <Vanity x={126} y={240} w={28} h={110} basins={2} vertical />
-      <WasherDryer x={134} y={400} />
+      <WasherDryer x={126} y={410} />
       <Vanity x={322} y={108} w={84} h={18} basins={2} />
       <Tub x={430} y={110} w={92} h={40} />
-      <Toilet x={519} y={205} dir="left" />
+      <Toilet x={527} y={205} dir="left" />
       <g stroke={FIXTURE} strokeWidth={0.7} fill="none"><line x1={321} y1={268} x2={527} y2={268} /><line x1={321} y1={273} x2={527} y2={273} /></g>
       <Stair x={588} y={442} w={52} h={202} />
+      <rect x={640} y={442} width={52} height={202} fill="none" stroke={FIXTURE} strokeWidth={0.9} strokeDasharray="5 4" />
 
       {/* doors */}
       <Door x={195} y={218} len={34} rot={270} />
-      <Door x={240} y={285} len={32} rot={0} mirror />
+      <Door x={240} y={252} len={32} rot={0} mirror />
       <Door x={265} y={218} len={30} rot={270} />
       <Door x={360} y={260} len={38} rot={270} />
       <Door x={531} y={115} len={40} rot={0} />
       <Door x={550} y={367} len={34} rot={270} />
-      <Door x={317} y={398} len={34} rot={0} />
       <Door x={308} y={438} len={38} rot={90} />
       <Door x={468} y={438} len={38} rot={90} />
 
       {/* room labels */}
-      {[...ROOMS, b2].map((r) => (
-        <g key={`lbl${r.name}${r.sf}${r.x}`}>
-          {r.name
-            ? (<><text x={r.x + r.w / 2} y={r.y + r.h / 2 - 2} textAnchor="middle" fontSize={12} fontWeight={600} fill={INK}>{r.name}</text>
-              <text x={r.x + r.w / 2} y={r.y + r.h / 2 + 13} textAnchor="middle" fontSize={10} fill={FIXTURE}>{r.sf}</text></>)
-            : (<text x={r.x + r.w / 2} y={r.y + r.h / 2 + 4} textAnchor="middle" fontSize={10} fill={FIXTURE}>{r.sf}</text>)}
-        </g>
-      ))}
-      {/* Bedroom 3 label (SF bold yellow when modified, on Incoming) */}
+      {ROOMS.map((r) => {
+        const cx = r.x + r.w / 2
+        const cy = r.name === 'LAUNDRY' ? r.y + 24 : r.y + r.h / 2 // lift laundry clear of the W/D
+        return (
+          <g key={`lbl${r.name}${r.sf}${r.x}`}>
+            {r.name
+              ? (<><text x={cx} y={cy - 2} textAnchor="middle" fontSize={12} fontWeight={600} fill={INK}>{r.name}</text>
+                <text x={cx} y={cy + 13} textAnchor="middle" fontSize={10} fill={FIXTURE}>{r.sf}</text></>)
+              : (<text x={cx} y={r.y + r.h / 2 + 4} textAnchor="middle" fontSize={10} fill={FIXTURE}>{r.sf}</text>)}
+          </g>
+        )
+      })}
+      {/* Bedroom 2 + 3 labels (SF bold yellow when modified, on Incoming) */}
+      <text x={b2.x + b2.w / 2} y={538} textAnchor="middle" fontSize={12} fontWeight={600} fill={INK}>BEDROOM 2</text>
+      <text x={b2.x + b2.w / 2} y={553} textAnchor="middle" fontSize={incoming ? 11 : 10} fontWeight={incoming ? 700 : 400} fill={incoming ? YELLOW : FIXTURE}>{b2.sf}</text>
       <text x={b3.x + b3.w / 2} y={538} textAnchor="middle" fontSize={12} fontWeight={600} fill={INK}>BEDROOM 3</text>
       <text x={b3.x + b3.w / 2} y={553} textAnchor="middle" fontSize={incoming ? 11 : 10} fontWeight={incoming ? 700 : 400} fill={incoming ? YELLOW : FIXTURE}>{b3SF}</text>
 
@@ -275,9 +283,11 @@ export default function FloorPlan({
         const active = focus === c.id
         const letter = String.fromCharCode(65 + CHANGES.findIndex((x) => x.id === c.id))
         const dots = c.id === 'doors' ? [{ x: 218, y: 396 }, { x: 566, y: 391 }]
-          : c.id === 'bedroom3' ? [{ x: 362, y: 602 }, { x: 508, y: 551 }]
+          : c.id === 'bedroom3' ? [{ x: 508, y: 551 }]
+          : c.id === 'bedroom2' ? [{ x: 284, y: 551 }]
+          : c.id === 'wall' ? [{ x: 340, y: 548 }]
           : [c.marker]
-        const rect = c.id === 'bedroom3' ? HILITE.bedroom3 : null
+        const rect = c.id === 'bedroom3' ? HILITE.bedroom3 : c.id === 'bedroom2' ? HILITE.bedroom2 : null
         return (
           <g key={c.id}>
             {rect && <rect x={rect.x} y={rect.y} width={rect.w} height={rect.h} rx={6} fill={color} fillOpacity={active ? 0.16 : 0.08} stroke={color} strokeWidth={active ? 3 : 2} strokeOpacity={0.9} strokeDasharray="7 4" />}
