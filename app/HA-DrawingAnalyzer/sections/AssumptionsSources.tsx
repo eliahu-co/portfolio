@@ -4,6 +4,7 @@
 import Section from './Section'
 
 const ASSUMPTIONS = [
+  'The AI Drawing Analyzer is assumed to analyze and interpret drawings, not create or modify design content.',
   'The AI Drawing Analyzer can reliably identify and relate common drawing objects across revisions.',
   'The AI Drawing Analyzer can process drawings quickly enough to fit within existing user workflows.',
   'Forma has reliable integration with the AI Drawing Analyzer’s structured output.',
