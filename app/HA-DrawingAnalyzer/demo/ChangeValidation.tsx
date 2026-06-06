@@ -23,7 +23,7 @@ function TypeTag({ type }: { type: keyof typeof TYPE_META }) {
   )
 }
 
-function Pane({ version, focus }: { version: 'current' | 'incoming'; focus?: string | null }) {
+function Pane({ version, focus, onFocus }: { version: 'current' | 'incoming'; focus?: string | null; onFocus?: (id: string | null) => void }) {
   const accent = version === 'incoming'
   return (
     <div className="relative flex flex-col min-h-0 rounded-md border border-[#e6e6e6] bg-white overflow-hidden">
@@ -35,7 +35,7 @@ function Pane({ version, focus }: { version: 'current' | 'incoming'; focus?: str
         {accent ? 'Incoming · V2' : 'Current · V1'}
       </span>
       <div className="flex-1 min-h-0 p-2">
-        <FloorPlan version={version} focus={focus} />
+        <FloorPlan version={version} focus={focus} onFocus={onFocus} />
       </div>
     </div>
   )
@@ -76,7 +76,7 @@ export default function ChangeValidation({
         <main className="flex-1 min-w-0 flex flex-col p-4 gap-3">
           <div className="grid grid-cols-1 xl:grid-cols-2 auto-rows-fr gap-4 flex-1 min-h-0">
             <Pane version="current" />
-            <Pane version="incoming" focus={focus} />
+            <Pane version="incoming" focus={focus} onFocus={setFocus} />
           </div>
           {/* Legend */}
           <div className="shrink-0 flex items-center gap-5 text-[11px] text-[#5a5a5a]">

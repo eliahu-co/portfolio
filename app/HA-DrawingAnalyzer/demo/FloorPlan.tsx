@@ -169,11 +169,12 @@ function Win({ x, y, len, dir }: { x: number; y: number; len: number; dir: 'h' |
 }
 
 export default function FloorPlan({
-  version, focus, viewBox,
+  version, focus, viewBox, onFocus,
 }: {
   version: 'current' | 'incoming'
   focus?: string | null
   viewBox?: string
+  onFocus?: (id: string | null) => void
 }) {
   const incoming = version === 'incoming'
   const b3Left = incoming ? 340 : 362
@@ -236,7 +237,6 @@ export default function FloorPlan({
       <Vanity x={322} y={108} w={84} h={18} basins={2} />
       <Tub x={430} y={110} w={92} h={40} />
       <Toilet x={527} y={242} dir="left" />
-      <g stroke={FIXTURE} strokeWidth={0.7} fill="none"><line x1={321} y1={268} x2={527} y2={268} /><line x1={321} y1={273} x2={527} y2={273} /></g>
       <Stair x={588} y={442} w={52} h={202} />
       <rect x={640} y={442} width={52} height={202} fill="none" stroke={FIXTURE} strokeWidth={0.9} strokeDasharray="5 4" />
 
@@ -294,7 +294,12 @@ export default function FloorPlan({
           : [c.marker]
         const rect = c.id === 'bedroom3' ? HILITE.bedroom3 : c.id === 'bedroom2' ? HILITE.bedroom2 : null
         return (
-          <g key={c.id}>
+          <g
+            key={c.id}
+            onMouseEnter={onFocus ? () => onFocus(c.id) : undefined}
+            onMouseLeave={onFocus ? () => onFocus(null) : undefined}
+            style={onFocus ? { cursor: 'pointer' } : undefined}
+          >
             {rect && <rect x={rect.x} y={rect.y} width={rect.w} height={rect.h} rx={6} fill={color} fillOpacity={active ? 0.16 : 0.08} stroke={color} strokeWidth={active ? 3 : 2} strokeOpacity={0.9} strokeDasharray="7 4" />}
             {dots.map((m, i) => (
               <g key={i}>
