@@ -113,7 +113,7 @@ export default function Nameplate() {
           transition: 'opacity 0.2s, transform 0.2s',
         }}
       >
-        AEC Architect. Software Developer. Builder.
+        Architect. Product Manager. Builder.
       </p>
 
       {/* Contact links — hide when work-strip is in view or nameplate is shrunk */}
