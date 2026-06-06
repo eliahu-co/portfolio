@@ -74,7 +74,7 @@ export default function FormaPrototype() {
           ↺ Restart demo
         </button>
         <a href="/HA-DrawingAnalyzer" className="text-[12px] font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/15 rounded-full px-2.5 py-1 no-underline">
-          ← Back to home assignment
+          ← Home assignment
         </a>
       </div>
     </div>
