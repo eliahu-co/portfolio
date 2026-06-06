@@ -77,9 +77,16 @@ export default function SubmitReviewDialog({ onSubmit, onCancel, version }: { on
             </div>
           </div>
 
-          <div className="flex items-center justify-between border-t border-[#eee] pt-3 text-[13px] text-[#5a5a5a]">
-            <span>Notes</span>
-            <span>▾</span>
+          <div className="border-t border-[#eee] pt-3">
+            <div className="flex items-center justify-between text-[13px] text-[#1a1a1a] mb-1.5">
+              <span>Notes</span>
+              <span className="text-[#5a5a5a]">▴</span>
+            </div>
+            <div className="border border-[#d9d9d9] rounded px-3 py-2 text-[12px] text-[#1a1a1a] leading-relaxed">
+              <p>• 2 doors added — Laundry and Corridor</p>
+              <p>• Bedroom 2 area — 126 SF → 116 SF</p>
+              <p>• Bedroom 3 area — 138 SF → 149 SF</p>
+            </div>
           </div>
         </div>
 
