@@ -275,11 +275,9 @@ export default function FloorPlan({
       {/* Bath 2 (39 SF) toilet: solid normally; red dashed ghost only when "removed" is active (pass 1) */}
       <Toilet x={236} y={300} dir="left" color={has('toilet') ? TYPE_META.removed.color : FIXTURE} bold={has('toilet')} dashed={has('toilet')} />
 
-      {/* added corridor doors — green, when active */}
-      {has('doors') && (<>
-        <Door x={240} y={395} len={30} rot={0} mirror accent={TYPE_META.added.color} />
-        <Door x={584} y={390} len={30} rot={0} mirror accent={TYPE_META.added.color} />
-      </>)}
+      {/* added doors — green, each gated on its own change */}
+      {has('door-laundry') && <Door x={240} y={395} len={30} rot={0} mirror accent={TYPE_META.added.color} />}
+      {has('door-corridor') && <Door x={584} y={390} len={30} rot={0} mirror accent={TYPE_META.added.color} />}
 
       {/* modified partition — moved Bedroom 3 wall drawn yellow, when active */}
       {has('wall') && wallRect({ d: 'v', y1: 438, y2: 650, x: b3Left, t: T_INT }, 'b3y', YELLOW, YELLOW, 1)}
@@ -289,8 +287,7 @@ export default function FloorPlan({
         const color = TYPE_META[c.type].color
         const isActive = focus === c.id
         const letter = String.fromCharCode(65 + CHANGES.findIndex((x) => x.id === c.id))
-        const dots = c.id === 'doors' ? [{ x: 218, y: 396 }, { x: 566, y: 391 }]
-          : c.id === 'bedroom3' ? [{ x: 508, y: 551 }]
+        const dots = c.id === 'bedroom3' ? [{ x: 508, y: 551 }]
           : c.id === 'bedroom2' ? [{ x: 284, y: 551 }]
           : c.id === 'wall' ? [{ x: 340, y: 548 }]
           : [c.marker]
