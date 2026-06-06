@@ -10,7 +10,7 @@ export default function PrototypeDemo() {
       <div className="max-w-2xl flex flex-col gap-4">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
           An interactive concept prototype of the Change Validation flow, built to feel embedded in
-          Autodesk Forma / ACC: upload a revised drawing, run change validation before submission,
+          Autodesk Forma: upload a revised drawing, run change validation before submission,
           review the detected object-level changes on a two-pane plan compare, and submit for review.
         </p>
         <a
@@ -21,7 +21,7 @@ export default function PrototypeDemo() {
         >
           Open interactive prototype ↗
         </a>
-        <p className="font-sans text-[11px] text-charcoal/70">Best viewed on desktop.</p>
+        <p className="font-sans text-[11px] uppercase tracking-[0.08em] text-charcoal/70">Only available on desktop</p>
       </div>
     </Section>
   )
