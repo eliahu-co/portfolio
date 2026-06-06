@@ -18,10 +18,25 @@ import KeyUnknowns from './sections/KeyUnknowns'
 import AssumptionsSources from './sections/AssumptionsSources'
 import Approach from './sections/Approach'
 
+const OG_IMAGE = 'https://eliahu.co/drawinganalyzer/ha-drawing-analyzer-poster.jpg'
+
 export const metadata: Metadata = {
   title: 'AI Drawing Analyzer — Product Strategy · Eliahu Cohen',
   description: 'Product strategy walkthrough for an AI Drawing Analyzer.',
   robots: { index: false, follow: false }, // assignment deliverable — keep out of search
+  openGraph: {
+    title: 'AI Drawing Analyzer — Product Strategy',
+    description: 'Product strategy walkthrough for an AI Drawing Analyzer.',
+    url: 'https://eliahu.co/HA-DrawingAnalyzer',
+    type: 'article',
+    images: [{ url: OG_IMAGE, width: 1212, height: 681, alt: 'AI Drawing Analyzer' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI Drawing Analyzer — Product Strategy',
+    description: 'Product strategy walkthrough for an AI Drawing Analyzer.',
+    images: [OG_IMAGE],
+  },
 }
 
 export default function HADrawingAnalyzerPage() {

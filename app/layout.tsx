@@ -25,6 +25,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://eliahu.co'),
   title: 'Eliahu Cohen — R&D Product Architect',
   description:
     'Architect. Product Manager. Builder. Senior R&D Product Architect with a background in architecture and full-stack development.',
