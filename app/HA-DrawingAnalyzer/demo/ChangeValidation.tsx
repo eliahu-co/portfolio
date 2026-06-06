@@ -127,7 +127,7 @@ export default function ChangeValidation({
                         </span>
                         <TypeTag type={c.type} />
                         <span className="ml-auto flex items-center gap-1 text-[10px] text-[#5a5a5a] shrink-0" title="AI confidence this is a real change">
-                          <span className="inline-block h-2 w-2 rounded-full" style={{ background: CONF_META[c.confidence] }} />
+                          <span className="inline-block h-2 w-2 rounded-[1px]" style={{ background: CONF_META[c.confidence] }} />
                           {c.confidence}
                         </span>
                       </div>
