@@ -139,15 +139,17 @@ export default function ChangeValidation({
                     <div className="relative w-[290px] max-w-full self-center">
                       <svg viewBox="0 0 300 108" className="w-full block" aria-hidden>
                         <g fill="#0696d7">
-                          <rect x="18" y="40" width="264" height="40" rx="20" />
-                          <circle cx="60" cy="42" r="22" />
-                          <circle cx="112" cy="34" r="28" />
-                          <circle cx="162" cy="32" r="30" />
-                          <circle cx="214" cy="36" r="26" />
-                          <circle cx="256" cy="44" r="20" />
-                          <circle cx="72" cy="78" r="20" />
-                          <circle cx="152" cy="84" r="22" />
-                          <circle cx="226" cy="80" r="20" />
+                          <rect x="26" y="44" width="248" height="28" rx="14" />
+                          <circle cx="58" cy="46" r="22" />
+                          <circle cx="106" cy="38" r="27" />
+                          <circle cx="154" cy="36" r="29" />
+                          <circle cx="204" cy="39" r="27" />
+                          <circle cx="248" cy="46" r="21" />
+                          <circle cx="58" cy="70" r="21" />
+                          <circle cx="106" cy="78" r="25" />
+                          <circle cx="154" cy="80" r="26" />
+                          <circle cx="204" cy="77" r="25" />
+                          <circle cx="248" cy="70" r="20" />
                           <circle cx="40" cy="14" r="5" />
                           <circle cx="28" cy="6" r="3" />
                         </g>
