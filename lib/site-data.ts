@@ -11,7 +11,6 @@ export interface ContactLink {
 export const CONTACT_LINKS: ContactLink[] = [
   { label: 'Call ↗',        href: 'tel:+972528901495',                                  external: false, download: false, mobileOnly: true },
   { label: 'hi@eliahu.co',   href: 'mailto:hi@eliahu.co',                                external: false, download: false },
-  { label: 'GitHub ↗',       href: 'https://github.com/eliahu-co/',                      external: true,  download: false },
   { label: 'LinkedIn ↗',     href: 'https://www.linkedin.com/in/eliahu-cohen-b32374114', external: true,  download: false },
   { label: 'Download CV ↓',  href: '/cv.pdf',                                            external: false, download: true  },
 ]
