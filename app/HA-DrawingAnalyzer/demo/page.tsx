@@ -19,7 +19,7 @@ export default function ChangeValidationDemoPage() {
       </div>
       <style>{`
         .demo-root, .demo-root * { cursor: default !important; }
-        .demo-root a, .demo-root button, .demo-root [role="button"] { cursor: pointer !important; }
+        .demo-root a, .demo-root button { cursor: pointer !important; }
         .demo-root .demo-mock, .demo-root .demo-mock * { cursor: not-allowed !important; }
         @keyframes demo-shake {
           0%, 86%, 100% { transform: translateX(0); }

@@ -68,7 +68,7 @@ export default function HADrawingAnalyzerPage() {
 
         @media print {
           .ha-page { background: #fff !important; }
-          .ha-page nav[aria-label="Section navigation"] { display: none !important; }
+          .ha-page nav[aria-label='Section navigation'] { display: none !important; }
           .ha-page .grid { display: block !important; }
           .ha-page section { break-inside: avoid; }
           * { cursor: auto !important; }
