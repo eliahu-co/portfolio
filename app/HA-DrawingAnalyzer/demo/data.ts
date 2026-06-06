@@ -1,0 +1,40 @@
+export type FileRow = {
+  id: string
+  name: string
+  version: 1 | 2
+  updated: string
+  by: string
+  isTarget?: boolean
+}
+
+export const FILE_ROWS: FileRow[] = [
+  { id: 'narrative', name: 'P1016 Bulletin 1 - Change Narrative.pdf', version: 1, updated: 'Jun 6, 2026 10:59', by: 'Eliahu Cohen' },
+  { id: 'drawings',  name: 'P1016 Bulletin 1 - Second Floor Plan.pdf', version: 1, updated: 'Jun 6, 2026 11:00', by: 'Eliahu Cohen', isTarget: true },
+]
+
+export type ChangeType = 'added' | 'modified' | 'removed'
+
+export type Change = {
+  id: string
+  type: ChangeType
+  title: string
+  description: string
+  shownIn: 'current' | 'incoming'    // which pane carries the marked object
+  crop: string                       // SVG viewBox "minX minY w h" for thumbnail
+  marker: { x: number; y: number }   // marker chip center in plan coords
+}
+
+// removed → marked on Current (the object that goes away); added/modified → Incoming.
+export const CHANGES: Change[] = [
+  { id: 'doors',    type: 'added',    title: 'Doors added',          description: '2 doors added — Laundry and Corridor.',  shownIn: 'incoming', crop: '470 345 150 120', marker: { x: 450, y: 402 } },
+  { id: 'bedroom3', type: 'modified', title: 'Bedroom 3 area changed', description: 'Area 138 SF → 149 SF (+8%).',           shownIn: 'incoming', crop: '332 430 260 224', marker: { x: 508, y: 551 } },
+  { id: 'bedroom2', type: 'modified', title: 'Bedroom 2 area changed', description: 'Area 126 SF → 116 SF (−8%).',           shownIn: 'incoming', crop: '116 432 240 222', marker: { x: 284, y: 551 } },
+  { id: 'wall',     type: 'modified', title: 'Wall moved',           description: 'Partition between Bedroom 2 and 3 relocated.', shownIn: 'incoming', crop: '270 470 150 150', marker: { x: 340, y: 548 } },
+  { id: 'toilet',   type: 'removed',  title: 'Toilet removed',       description: 'Toilet removed from Bath 2.',            shownIn: 'incoming', crop: '116 230 150 130', marker: { x: 206, y: 300 } },
+]
+
+export const TYPE_META: Record<ChangeType, { label: string; color: string }> = {
+  added:    { label: 'Added',    color: '#2e7d32' },
+  modified: { label: 'Modified', color: '#caa000' },
+  removed:  { label: 'Removed',  color: '#c62828' },
+}
