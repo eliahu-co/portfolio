@@ -102,7 +102,7 @@ export default function ChangeValidation({
         {/* Review rail */}
         <aside className="w-[360px] shrink-0 border-l border-[#e6e6e6] bg-white flex flex-col min-h-0">
           <div className="px-4 py-3 border-b border-[#eee]">
-            <h2 className="text-[13px] font-semibold">Change Validation Review</h2>
+            <h2 className="text-[13px] font-semibold">Changes Summary</h2>
             <p className="text-[11px] text-[#5a5a5a] mt-0.5">{CHANGES.filter((c) => c.passes.includes(pass)).length} changes detected · object-level diff</p>
           </div>
           <div className="flex-1 overflow-auto p-3 flex flex-col gap-2.5">
