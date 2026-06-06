@@ -61,7 +61,7 @@ function List({
 }) {
   return (
     <div>
-      <p className="font-sans text-[9px] uppercase tracking-[0.14em] text-charcoal/70 mb-2">{title}</p>
+      <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal mb-2">{title}</p>
       <ul className="flex flex-col gap-1.5">
         {items.map((b, i) => (
           <li key={i} className={`font-sans text-[14px] leading-relaxed flex gap-2 ${textClass}`}>
@@ -87,7 +87,7 @@ export default function MVP() {
       </div>
 
       <div className="mb-10 max-w-3xl">
-        <p className="font-sans text-[9px] uppercase tracking-[0.14em] text-charcoal/70 mb-4">Success metrics</p>
+        <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal mb-4">Success metrics</p>
         <div className="flex flex-col gap-5">
           {METRICS.map(({ kind, title, body, signal }) => (
             <div key={title} className="pl-3 border-l-4 border-autodesk-blue">

@@ -111,7 +111,7 @@ function Bullets({ items }: { items: string[] }) {
 }
 
 function MiniLabel({ children }: { children: ReactNode }) {
-  return <p className="font-sans text-[10px] uppercase tracking-[0.1em] text-charcoal/60 mt-4 mb-1.5">{children}</p>
+  return <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal mt-4 mb-1.5">{children}</p>
 }
 
 function OpportunityText({ opp }: { opp: UseCaseData['opportunity'] }) {
@@ -483,11 +483,11 @@ export default function UseCase({ data }: { data: UseCaseData }) {
       <Block label="User">
         <div className="grid md:grid-cols-2 gap-x-10 gap-y-6">
           <div>
-            <p className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/50 -mb-0.5">Primary user</p>
+            <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal -mb-0.5">Primary user</p>
             <Role data={data.primaryUser} />
           </div>
           <div>
-            <p className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/50 -mb-0.5">
+            <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal -mb-0.5">
               {Array.isArray(data.secondaryUser) && data.secondaryUser.length > 1 ? 'Secondary users' : 'Secondary user'}
             </p>
             <div className="flex flex-col gap-2">
