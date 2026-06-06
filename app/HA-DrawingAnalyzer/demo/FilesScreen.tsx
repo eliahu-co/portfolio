@@ -172,7 +172,7 @@ export default function FilesScreen({
                       <span className="relative inline-flex rounded shrink-0">
                         <span className="absolute inset-0 rounded ring-2 ring-[#0d66d0]/30 animate-pulse" />
                         <button onClick={onUpload} className="relative text-[12px] text-[#0d66d0] border border-[#0d66d0]/50 bg-white rounded px-2.5 py-1 hover:bg-[#0d66d0]/5 whitespace-nowrap">
-                          Upload new version
+                          Upload modified drawing
                         </button>
                       </span>
                     ) : (
@@ -205,6 +205,8 @@ export default function FilesScreen({
                 <div className="px-2">
                   {isTarget && status === 'in-review' ? (
                     <span className="text-[#b8860b] bg-[#b8860b]/10 rounded px-1.5 py-0.5 text-[11px]">In review</span>
+                  ) : isTarget && version === 1 ? (
+                    <span className="text-[#2e7d32] bg-[#2e7d32]/10 rounded px-1.5 py-0.5 text-[11px]">Approved</span>
                   ) : null}
                 </div>
 

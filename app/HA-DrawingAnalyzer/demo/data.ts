@@ -8,8 +8,8 @@ export type FileRow = {
 }
 
 export const FILE_ROWS: FileRow[] = [
-  { id: 'narrative', name: '2026-06-10 - P1016 Bulletin 1 - Change Narrative.pdf', version: 1, updated: 'Jun 10, 2026 10:59', by: 'Ronit Haquim' },
-  { id: 'drawings',  name: '2026-06-10 - P1016 Bulletin 1 - Drawings.pdf',          version: 1, updated: 'Jun 10, 2026 11:00', by: 'Ronit Haquim', isTarget: true },
+  { id: 'narrative', name: '2026-06-10 - P1016 Bulletin 1 - Change Narrative.pdf', version: 1, updated: 'Jun 10, 2026 10:59', by: 'Eliahu Cohen' },
+  { id: 'drawings',  name: '2026-06-10 - P1016 Bulletin 1 - Drawings.pdf',          version: 1, updated: 'Jun 10, 2026 11:00', by: 'Eliahu Cohen', isTarget: true },
 ]
 
 export type ChangeType = 'added' | 'modified' | 'removed'
