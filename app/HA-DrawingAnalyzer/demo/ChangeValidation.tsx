@@ -11,6 +11,12 @@ import { CHANGES, TYPE_META } from './data'
 
 const BLUE = '#0d66d0'
 
+const CONF_EXPLAIN: Record<string, string> = {
+  High: 'High confidence — the model is highly certain this is a real change.',
+  Medium: 'Medium confidence — the model is moderately certain; worth a closer look.',
+  Low: 'Low confidence — the model is unsure; please verify.',
+}
+
 function TypeTag({ type }: { type: keyof typeof TYPE_META }) {
   const m = TYPE_META[type]
   return (
@@ -126,8 +132,13 @@ export default function ChangeValidation({
                           {letter}
                         </span>
                         <TypeTag type={c.type} />
-                        <span className="ml-auto shrink-0 text-[9px] font-medium uppercase tracking-[0.06em] text-[#5a5a5a] bg-[#f1f3f5] rounded-full px-2 py-0.5" title="AI confidence this is a real change">
-                          {c.confidence}
+                        <span className="ml-auto shrink-0 relative group">
+                          <span className="block text-[9px] font-medium uppercase tracking-[0.06em] text-[#5a5a5a] bg-[#f1f3f5] rounded-full px-2 py-0.5">
+                            {c.confidence}
+                          </span>
+                          <span className="pointer-events-none absolute right-0 top-full mt-1.5 z-30 w-48 rounded-md bg-[#1a1a1a] text-white text-[10px] leading-snug px-2.5 py-1.5 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                            {CONF_EXPLAIN[c.confidence]}
+                          </span>
                         </span>
                       </div>
                       <p className="text-[12.5px] font-medium leading-tight">{c.title}</p>
@@ -135,30 +146,12 @@ export default function ChangeValidation({
                     </div>
                   </button>
                   {c.id === 'toilet' && (
-                    <div className="relative w-[290px] max-w-full self-center">
-                      <svg viewBox="0 0 300 108" className="w-full block" aria-hidden>
-                        <g fill="#0696d7">
-                          <rect x="26" y="44" width="248" height="28" rx="14" />
-                          <circle cx="58" cy="46" r="22" />
-                          <circle cx="106" cy="38" r="27" />
-                          <circle cx="154" cy="36" r="29" />
-                          <circle cx="204" cy="39" r="27" />
-                          <circle cx="248" cy="46" r="21" />
-                          <circle cx="58" cy="70" r="21" />
-                          <circle cx="106" cy="78" r="25" />
-                          <circle cx="154" cy="80" r="26" />
-                          <circle cx="204" cy="77" r="25" />
-                          <circle cx="248" cy="70" r="20" />
-                          <circle cx="40" cy="14" r="5" />
-                          <circle cx="28" cy="6" r="3" />
-                        </g>
-                      </svg>
-                      <div className="absolute inset-x-0 top-[30px] bottom-[10px] flex flex-col items-center justify-center text-center px-10">
-                        <span className="inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-white/85">
-                          <span aria-hidden>⚑</span> Issue caught
-                        </span>
-                        <p className="text-[11px] italic text-white leading-snug mt-0.5">Oops, you didn&apos;t mean to remove this toilet.</p>
+                    <div className="rounded-md border border-[#c62828]/30 border-l-[3px] border-l-[#c62828] bg-[#c62828]/[0.06] px-3 py-2">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[8px] font-bold uppercase tracking-[0.1em] text-white bg-[#1a1a1a] rounded px-1.5 py-[2px]">Demo note</span>
+                        <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-[#c62828]"><span aria-hidden>⚑</span> Issue caught</span>
                       </div>
+                      <p className="text-[11px] text-[#5a5a5a] leading-snug">Oops — you didn&apos;t mean to remove this toilet.</p>
                     </div>
                   )}
                 </div>
