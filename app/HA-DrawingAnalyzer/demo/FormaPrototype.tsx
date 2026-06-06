@@ -70,10 +70,10 @@ export default function FormaPrototype() {
       <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-2 bg-[#111316] text-white rounded-full pl-3 pr-1.5 py-1 shadow-lg ring-1 ring-white/10">
         <span className="text-[10px] uppercase tracking-[0.14em] text-white/55">Prototype</span>
         <span className="h-3.5 w-px bg-white/20" />
-        <button onClick={handleRestart} className="text-[12px] font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/15 rounded-full px-2.5 py-1">
+        <button onClick={handleRestart} className="text-[11px] font-medium uppercase tracking-[0.06em] text-white/90 hover:text-white bg-white/10 hover:bg-white/15 rounded-full px-2.5 py-1">
           ↺ Restart demo
         </button>
-        <a href="/HA-DrawingAnalyzer" className="text-[12px] font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/15 rounded-full px-2.5 py-1 no-underline">
+        <a href="/HA-DrawingAnalyzer" className="text-[11px] font-medium uppercase tracking-[0.06em] text-white/90 hover:text-white bg-white/10 hover:bg-white/15 rounded-full px-2.5 py-1 no-underline">
           ← Home assignment
         </a>
       </div>
