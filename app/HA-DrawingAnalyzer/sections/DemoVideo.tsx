@@ -21,14 +21,14 @@ export default function DemoVideo() {
   }
 
   return (
-    <div className="relative aspect-video w-full overflow-hidden rounded-md border border-charcoal/15 bg-black">
+    <div className="relative w-full overflow-hidden">
       <video
         ref={ref}
         src="/drawinganalyzer/demovideo.mp4"
         preload="metadata"
         playsInline
         controls={state === 'playing'}
-        className="h-full w-full"
+        className="block h-auto w-full"
         onPlay={() => setState('playing')}
         onEnded={() => setState('ended')}
       />
