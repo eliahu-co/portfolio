@@ -27,10 +27,10 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: 'Eliahu Cohen — R&D Product Architect',
   description:
-    'Architect. Developer. Builder. Senior R&D Product Architect with a background in architecture and full-stack development.',
+    'Architect. Product Manager. Builder. Senior R&D Product Architect with a background in architecture and full-stack development.',
   openGraph: {
     title: 'Eliahu Cohen',
-    description: 'Architect. Developer. Builder.',
+    description: 'Architect. Product Manager. Builder.',
     url: 'https://eliahu.co',
     siteName: 'Eliahu Cohen',
     locale: 'en_US',
