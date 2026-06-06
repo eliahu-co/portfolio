@@ -146,10 +146,10 @@ export default function ChangeValidation({
                     </div>
                   </button>
                   {c.id === 'toilet' && (
-                    <div className="rounded-md border border-[#c62828]/30 border-l-[3px] border-l-[#c62828] bg-[#c62828]/[0.06] px-3 py-2">
+                    <div className="rounded-md border border-autodesk-blue/30 border-l-[3px] border-l-autodesk-blue bg-autodesk-blue/[0.06] px-3 py-2">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-[8px] font-bold uppercase tracking-[0.1em] text-white bg-[#1a1a1a] rounded px-1.5 py-[2px]">Demo note</span>
-                        <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-[#c62828]"><span aria-hidden>⚑</span> Issue caught</span>
+                        <span className="text-[8px] font-bold uppercase tracking-[0.1em] text-white bg-autodesk-blue rounded px-1.5 py-[2px]">Demo note</span>
+                        <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-autodesk-blue"><span aria-hidden>⚑</span> Issue caught</span>
                       </div>
                       <p className="text-[11px] text-[#5a5a5a] leading-snug">Oops — you didn&apos;t mean to remove this toilet.</p>
                     </div>
