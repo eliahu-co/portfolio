@@ -3,6 +3,7 @@
 // prototype (a full-screen route that simulates the flow inside Autodesk Forma).
 
 import Section from './Section'
+import DemoVideo from './DemoVideo'
 
 export default function PrototypeDemo() {
   return (
@@ -13,6 +14,7 @@ export default function PrototypeDemo() {
           Autodesk Forma. Upload a revised drawing, validate detected object-level changes before
           submission, and submit a higher-quality revision for review.
         </p>
+        <DemoVideo />
         <a
           href="/HA-DrawingAnalyzer/demo"
           target="_blank"
