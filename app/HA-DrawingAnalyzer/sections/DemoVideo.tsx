@@ -37,7 +37,7 @@ export default function DemoVideo() {
           type="button"
           onClick={state === 'ended' ? replay : play}
           aria-label={state === 'ended' ? 'Replay video' : 'Play video'}
-          className="absolute inset-0 grid place-items-center gap-3 bg-black/35 transition-colors hover:bg-black/25"
+          className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/35 transition-colors hover:bg-black/25"
         >
           <span className="grid h-16 w-16 place-items-center rounded-full bg-white/95 text-autodesk-blue shadow-lg">
             {state === 'ended' ? (
