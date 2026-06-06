@@ -534,7 +534,7 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         <CardList items={data.tradeoffs} variant="risk" />
         {data.tradeoff && (
           <p className="mt-8 font-sans text-[10px] font-medium uppercase tracking-[0.14em] text-[#f4b400]">
-            <span className="mr-2 font-extrabold">Tradeoff</span>
+            <span className="mr-2 font-extrabold text-black">Tradeoff</span>
             {data.tradeoff.gain}
             <span className="mx-1" aria-hidden="true">⇄</span>
             {data.tradeoff.cost}
