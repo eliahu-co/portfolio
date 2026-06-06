@@ -1,9 +1,24 @@
 import type { Metadata } from 'next'
 import FormaPrototype from './FormaPrototype'
 
+const OG_IMAGE = 'https://eliahu.co/drawinganalyzer/ha-drawing-analyzer-poster.jpg'
+
 export const metadata: Metadata = {
   title: 'Change Validation — Interactive Prototype',
   robots: { index: false, follow: false },
+  openGraph: {
+    title: 'Change Validation — Interactive Prototype',
+    description: 'Interactive concept prototype of Change Validation, embedded within Autodesk Forma.',
+    url: 'https://eliahu.co/HA-DrawingAnalyzer/demo',
+    type: 'article',
+    images: [{ url: OG_IMAGE, width: 1212, height: 681, alt: 'AI Drawing Analyzer' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Change Validation — Interactive Prototype',
+    description: 'Interactive concept prototype of Change Validation, embedded within Autodesk Forma.',
+    images: [OG_IMAGE],
+  },
 }
 
 export default function ChangeValidationDemoPage() {
