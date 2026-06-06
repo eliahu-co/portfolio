@@ -47,7 +47,7 @@ export default function UploadDialog({ onComplete, onCancel }: { onComplete: () 
             PDF
           </span>
           <span className="text-[13px] text-[#1a1a1a] truncate flex-1">
-            P1016 Bulletin 1 - Drawings.pdf
+            P1016 Bulletin 1 - Second Floor Plan.pdf
           </span>
           <span className="text-[12px] text-[#5a5a5a] tabular-nums">{progress}%</span>
         </div>

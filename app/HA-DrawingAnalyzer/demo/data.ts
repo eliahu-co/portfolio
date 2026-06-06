@@ -9,7 +9,7 @@ export type FileRow = {
 
 export const FILE_ROWS: FileRow[] = [
   { id: 'narrative', name: 'P1016 Bulletin 1 - Change Narrative.pdf', version: 1, updated: 'Jun 6, 2026 10:59', by: 'Eliahu Cohen' },
-  { id: 'drawings',  name: 'P1016 Bulletin 1 - Drawings.pdf',          version: 1, updated: 'Jun 6, 2026 11:00', by: 'Eliahu Cohen', isTarget: true },
+  { id: 'drawings',  name: 'P1016 Bulletin 1 - Second Floor Plan.pdf', version: 1, updated: 'Jun 6, 2026 11:00', by: 'Eliahu Cohen', isTarget: true },
 ]
 
 export type ChangeType = 'added' | 'modified' | 'removed'
