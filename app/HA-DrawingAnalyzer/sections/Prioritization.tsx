@@ -95,18 +95,16 @@ export default function Prioritization() {
                 <span className={`text-charcoal/45 text-[9px] transition-transform duration-150 ${isOpen ? 'rotate-90' : ''}`} aria-hidden="true">▶</span>
                 <span className="font-serif text-[14px] text-black">{title}</span>
               </button>
+              <p className="ml-[18px] font-sans text-[11px] italic leading-relaxed text-charcoal/80">{body}</p>
               {isOpen && (
-                <div className="mt-1 ml-[18px]">
-                  <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80">{body}</p>
-                  <div className="mt-1.5 flex flex-col gap-0.5">
-                    {rubric.map(([score, desc]) => (
-                      <p key={score} className="font-sans text-[11px] leading-relaxed text-charcoal/70">
-                        <span className="font-bold text-charcoal">{score}</span>
-                        <span className="text-charcoal/40"> — </span>
-                        {desc}
-                      </p>
-                    ))}
-                  </div>
+                <div className="mt-1.5 ml-[18px] flex flex-col gap-0.5">
+                  {rubric.map(([score, desc]) => (
+                    <p key={score} className="font-sans text-[11px] leading-relaxed text-charcoal/70">
+                      <span className="font-bold text-charcoal">{score}</span>
+                      <span className="text-charcoal/40"> — </span>
+                      {desc}
+                    </p>
+                  ))}
                 </div>
               )}
             </div>
