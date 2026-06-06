@@ -61,7 +61,7 @@ export default function SideNav() {
           background: ${BLUE}1a;
           border-color: ${BLUE};
         }
-        .ha-sidenav-link[aria-current='true'] {
+        .ha-sidenav-link[aria-current=true] {
           background: ${BLUE};
           border-color: ${BLUE};
           color: #ffffff;
