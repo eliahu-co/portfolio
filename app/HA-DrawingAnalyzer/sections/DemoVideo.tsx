@@ -21,14 +21,15 @@ export default function DemoVideo() {
   }
 
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative aspect-video w-full overflow-hidden">
       <video
         ref={ref}
         src="/drawinganalyzer/demovideo.mp4"
+        poster="/drawinganalyzer/ha-drawing-analyzer-poster.jpg"
         preload="auto"
         playsInline
         controls={state === 'playing'}
-        className="block h-auto w-full"
+        className="absolute inset-0 h-full w-full object-cover"
         onPlay={() => setState('playing')}
         onEnded={() => setState('ended')}
       />
