@@ -165,7 +165,7 @@ export default function ChangeValidation({
             onClick={onReturn}
             className="text-[13px] font-medium text-[#1a1a1a] border border-[#d9d9d9] bg-white rounded px-4 py-2 hover:bg-[#f5f6f7]"
           >
-            Don&apos;t start review
+            Cancel
           </button>
           <button
             onClick={onConfirm}
