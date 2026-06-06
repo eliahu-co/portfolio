@@ -14,6 +14,7 @@ import { USE_CASE_1, USE_CASE_2, USE_CASE_3, USE_CASE_4 } from './sections/useCa
 import Prioritization from './sections/Prioritization'
 import MVP from './sections/MVP'
 import PrototypeDemo from './sections/PrototypeDemo'
+import KeyUnknowns from './sections/KeyUnknowns'
 import AssumptionsSources from './sections/AssumptionsSources'
 import Approach from './sections/Approach'
 
@@ -39,6 +40,7 @@ export default function HADrawingAnalyzerPage() {
             <Prioritization />
             <MVP />
             <PrototypeDemo />
+            <KeyUnknowns />
             <AssumptionsSources />
             <Approach />
 

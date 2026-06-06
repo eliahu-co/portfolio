@@ -78,7 +78,7 @@ export interface UseCaseData {
 
 function BlockLabel({ children }: { children: ReactNode }) {
   return (
-    <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-charcoal mb-3">
+    <p className="font-sans text-[10px] font-extrabold uppercase tracking-[0.14em] text-black mb-3">
       {children}
     </p>
   )

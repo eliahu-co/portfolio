@@ -1,6 +1,5 @@
 // app/HA-DrawingAnalyzer/sections/MVP.tsx
-// Section 7 — MVP: scope, success metrics, and the open variables
-// (accuracy / latency / cost) that define feasibility.
+// Section 7 — MVP: scope and success metrics.
 
 import Section from './Section'
 import { Pill } from './UseCase'
@@ -47,12 +46,6 @@ const METRICS: { kind: string; title: string; body: string; signal?: string }[] 
     signal: 'Stable relative to baseline, indicating the added validation step is not reducing workflow adoption.',
   },
 ]
-const VARIABLES = [
-  { label: 'Accuracy', body: 'What confidence threshold should be required before a detected change is surfaced to the user?' },
-  { label: 'Latency',  body: 'What response time is required for Change Validation to fit naturally into the review submission workflow?' },
-  { label: 'Cost',     body: 'Can change validation run on every review initiated while remaining economically viable at project scale?' },
-]
-
 function List({
   title,
   items,
@@ -83,7 +76,7 @@ function List({
 
 export default function MVP() {
   return (
-    <Section id="mvp" eyebrow="MVP" title="Scope, metrics & open variables">
+    <Section id="mvp" eyebrow="MVP" title="Scope & metrics">
       <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-6 max-w-2xl">
         The focus is on validating whether pre-submission change review improves first-pass approvals.
         Features that do not directly support that learning objective are intentionally excluded.
@@ -108,20 +101,6 @@ export default function MVP() {
                   <span className="font-bold mr-2">Success signal</span>{signal}
                 </p>
               )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="border-t-2 border-charcoal/20 pt-5">
-        <p className="font-sans text-[9px] uppercase tracking-[0.14em] text-charcoal/70 mb-4">
-          Open variables — feasibility unknowns
-        </p>
-        <div className="grid md:grid-cols-3 gap-6">
-          {VARIABLES.map(({ label, body }) => (
-            <div key={label}>
-              <p className="font-serif text-[18px] text-autodesk-blue mb-1">{label}</p>
-              <p className="font-sans text-[13px] leading-relaxed text-charcoal">{body}</p>
             </div>
           ))}
         </div>
