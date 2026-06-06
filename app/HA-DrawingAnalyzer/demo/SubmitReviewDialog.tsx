@@ -85,8 +85,9 @@ export default function SubmitReviewDialog({ onSubmit, onCancel, version }: { on
             <div className="border border-[#d9d9d9] rounded px-3 py-2 text-[12px] text-[#1a1a1a] leading-relaxed">
               <p>• Door added at Corridor</p>
               <p>• Door added at Laundry</p>
-              <p>• Bedroom 2 area — 126 SF → 116 SF</p>
+              <p>• Wall moved between Bedroom 2 and 3</p>
               <p>• Bedroom 3 area — 138 SF → 149 SF</p>
+              <p>• Bedroom 2 area — 126 SF → 116 SF</p>
             </div>
           </div>
         </div>
