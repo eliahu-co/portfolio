@@ -15,13 +15,13 @@ export default function Hero() {
         Product Manager · Home Assignment
       </p>
 
-      <h1 className="font-serif text-[clamp(30px,5vw,48px)] leading-[1.05] text-black mb-4">
+      <h1 className="font-serif text-[clamp(30px,5vw,48px)] leading-[1.05] text-black mb-6">
         AI Drawing Analyzer
         <span className="block text-[clamp(14px,1.8vw,18px)] text-charcoal mt-1">Autodesk Construction Solutions</span>
       </h1>
 
-      <div className="border-t-2 border-charcoal/20 pt-6 max-w-2xl">
-        <p className="font-sans text-[11px] uppercase tracking-[0.12em] text-charcoal mb-3">
+      <div className="border-t-2 border-charcoal/20 pt-3 max-w-2xl">
+        <p className="font-sans text-[11px] uppercase tracking-[0.12em] text-charcoal border-b-2 border-charcoal/20 pb-3">
           Eliahu Cohen
           <span className="text-charcoal/45">
             <span className="mx-2">·</span>
@@ -30,7 +30,7 @@ export default function Hero() {
             <a href="mailto:hi@eliahu.co" className="no-underline text-charcoal/45 hover:text-autodesk-blue transition-colors">hi@eliahu.co</a>
           </span>
         </p>
-        <p className="font-sans text-[15px] leading-relaxed text-charcoal">
+        <p className="font-sans pt-8 text-[15px] leading-relaxed text-charcoal">
           The following use cases were selected to represent different points of view across the
           construction lifecycle—from designers and field teams to owners—while spanning multiple
           project phases and workflows. Together they illustrate the breadth of opportunities
