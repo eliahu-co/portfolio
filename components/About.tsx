@@ -250,8 +250,8 @@ export default function About() {
                   style={activeTag === tag
                     ? { background: ORANGE, border: `2px solid ${ORANGE}`, color: '#fff' }
                     : { border: `2px solid ${ORANGE}99`, color: ORANGE }}
-                  onMouseEnter={() => { showTooltip('Click'); if (tag === pinnedTag) return; setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
-                  onMouseLeave={() => { hideTooltip(); if (tag === pinnedTag) return; setActiveTag(pinnedTag); scrambleTo(TAG_BIO[pinnedTag] ?? DEFAULT_BIO) }}
+                  onMouseEnter={() => { showTooltip('Click'); if (tag === activeTag) return; setActiveTag(tag); scrambleTo(TAG_BIO[tag] ?? DEFAULT_BIO) }}
+                  onMouseLeave={hideTooltip}
                   onClick={() => {
                     pinnedTagRef.current = tag
                     setPinnedTag(tag)
