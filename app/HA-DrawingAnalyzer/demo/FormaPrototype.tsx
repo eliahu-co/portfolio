@@ -8,53 +8,55 @@ import SubmitReviewDialog from './SubmitReviewDialog'
 
 export default function FormaPrototype() {
   const [screen, setScreen] = useState<'files' | 'review'>('files')
-  const [version, setVersion] = useState<1 | 2>(1)
+  const [version, setVersion] = useState<1 | 2 | 3>(1)
+  const [pass, setPass] = useState<1 | 2>(1)
   const [status, setStatus] = useState<'none' | 'in-review'>('none')
+  const [awaitingUpload, setAwaitingUpload] = useState(true)   // true = next action is "upload"
   const [uploadOpen, setUploadOpen] = useState(false)
   const [validating, setValidating] = useState(false)
   const [submitOpen, setSubmitOpen] = useState(false)
-  const [uploaded, setUploaded] = useState(false)
+  const [uploaded, setUploaded] = useState(false)              // "new version uploaded" banner
+  const [reuploadHint, setReuploadHint] = useState(false)      // "unintended change found" hint after cancel
 
   function handleUploadComplete() {
     setUploadOpen(false)
-    setVersion(2)
+    setReuploadHint(false)
+    if (version === 1) { setVersion(2); setPass(1) }
+    else { setVersion(3); setPass(2) }
+    setAwaitingUpload(false)
     setUploaded(true)
   }
-  function handleSubmit() {
+  function handleSubmit() {            // Files "Submit for review"
     setUploaded(false)
     setValidating(true)
     setTimeout(() => { setValidating(false); setScreen('review') }, 1100)
   }
-  // Confirming the detected changes opens the Submit-for-review modal.
-  function handleConfirm() {
+  function handleConfirm() {           // CV "Confirm changes" → open submit modal
     setSubmitOpen(true)
   }
-  // The modal's Submit is what actually files the review — and ends the demo.
-  function handleSubmitReview() {
+  function handleSubmitReview() {      // modal Submit → file the review, end demo
     setSubmitOpen(false)
     setScreen('files')
     setStatus('in-review')
   }
-  function handleReturn() {
+  function handleReturn() {            // CV "Cancel"
     setScreen('files')
+    if (pass === 1) { setAwaitingUpload(true); setReuploadHint(true) } // upload a corrected drawing
   }
   function handleRestart() {
-    setScreen('files')
-    setVersion(1)
-    setStatus('none')
-    setUploadOpen(false)
-    setValidating(false)
-    setSubmitOpen(false)
-    setUploaded(false)
+    setScreen('files'); setVersion(1); setPass(1); setStatus('none')
+    setAwaitingUpload(true); setUploadOpen(false); setValidating(false)
+    setSubmitOpen(false); setUploaded(false); setReuploadHint(false)
   }
 
   const done = status === 'in-review'
+  const action: 'upload' | 'submit' = awaitingUpload ? 'upload' : 'submit'
 
   return (
     <div className="relative">
       {screen === 'review' ? (
         <>
-          <ChangeValidation onReturn={handleReturn} onConfirm={handleConfirm} />
+          <ChangeValidation onReturn={handleReturn} onConfirm={handleConfirm} pass={pass} />
           {submitOpen && <SubmitReviewDialog onSubmit={handleSubmitReview} onCancel={() => setSubmitOpen(false)} />}
         </>
       ) : (
@@ -62,6 +64,7 @@ export default function FormaPrototype() {
           <FilesScreen
             version={version}
             status={status}
+            action={action}
             onUpload={() => setUploadOpen(true)}
             onSubmit={handleSubmit}
             busyHint={validating ? 'Generating change review…' : null}
@@ -72,13 +75,24 @@ export default function FormaPrototype() {
         </FormaShell>
       )}
 
+      {/* Unintended-change hint after cancelling pass 1 */}
+      {reuploadHint && (
+        <div className="fixed top-[80px] left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 bg-white border border-[#c62828]/40 rounded-lg shadow-lg px-4 py-2.5">
+          <span className="grid place-items-center h-6 w-6 rounded-full bg-[#c62828] text-white text-[12px]" aria-hidden>!</span>
+          <div>
+            <p className="text-[13px] font-medium text-[#1a1a1a]">Review cancelled — unintended change found</p>
+            <p className="text-[11px] text-[#5a5a5a]">Upload a corrected drawing, then submit again.</p>
+          </div>
+        </div>
+      )}
+
       {/* Upload success banner */}
       {uploaded && !done && (
         <div className="fixed top-[80px] left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 bg-white border border-[#d9d9d9] rounded-lg shadow-lg px-4 py-2.5">
           <span className="grid place-items-center h-6 w-6 rounded-full bg-[#2e7d32] text-white text-[12px]" aria-hidden>✓</span>
           <div>
             <p className="text-[13px] font-medium text-[#1a1a1a]">New version uploaded successfully</p>
-            <p className="text-[11px] text-[#5a5a5a]">The drawing is now V2 — submit it for review.</p>
+            <p className="text-[11px] text-[#5a5a5a]">The drawing is now V{version} — submit it for review.</p>
           </div>
         </div>
       )}
