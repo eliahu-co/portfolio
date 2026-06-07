@@ -9,6 +9,7 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
     current: {
       steps: [
         { label: 'Design Change' },
+        { label: 'Self-check' },
         { label: 'Review' },
         { label: 'Issue Found' },
         { label: 'Rework' },
@@ -19,7 +20,7 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
     proposed: {
       steps: [
         { label: 'Design Change' },
-        { label: 'Change Validation', kind: 'ai' },
+        { label: 'Self-check', kind: 'ai' },
         { label: 'Issue Found' },
         { label: 'Correction' },
         { label: 'Review', kind: 'approve', actor: 'Reviewer' },
