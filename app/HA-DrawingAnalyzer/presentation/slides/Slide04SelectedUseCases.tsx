@@ -11,7 +11,7 @@ function shortTitle(t: string): string {
 
 export default function Slide04SelectedUseCases() {
   return (
-    <SlideShell eyebrow="Use cases" title="Four opportunities, one framework">
+    <SlideShell eyebrow="Use cases" title="Four opportunities">
       <table className="w-full border-collapse text-left">
         <thead>
           <tr className="border-b-2 border-black">
