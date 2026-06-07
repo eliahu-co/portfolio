@@ -20,7 +20,17 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
         <h2 className="mb-8 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black whitespace-pre-line">{title}</h2>
 
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,380px)_1fr]">
-          {wf && <ExecWorkflow current={wf.current} proposed={wf.proposed} />}
+          <div>
+            {wf && <ExecWorkflow current={wf.current} proposed={wf.proposed} />}
+            {data.tradeoff && (
+              <p className="mt-6 font-sans text-[11px] uppercase leading-relaxed tracking-[0.1em] text-black">
+                <span className="mr-2 font-extrabold">Tradeoff</span>
+                {data.tradeoff.gain}
+                <span className="mx-1.5" aria-hidden="true">⇄</span>
+                {data.tradeoff.cost}
+              </p>
+            )}
+          </div>
           {image && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
