@@ -10,8 +10,8 @@ export default function Slide01Cover() {
         alt=""
         className="absolute inset-0 h-full w-full object-cover"
       />
-      {/* gradient scrim — keeps the dark title legible over the image */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white via-white/70 to-transparent" />
+      {/* solid translucent scrim — keeps the dark title legible over the image */}
+      <div className="absolute inset-0 bg-white/60" />
       <div className="relative z-10 h-full">
         <SlideShell eyebrow="Autodesk · Product Manager">
           <h1 className="font-serif text-[clamp(40px,7vw,84px)] leading-[1.02] text-black">AI Drawing Analyzer</h1>
