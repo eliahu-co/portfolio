@@ -34,7 +34,7 @@ export function SlideShell({
 
 export function Counter({ index, total }: { index: number; total: number }) {
   return (
-    <p className="deck-counter fixed bottom-5 left-1/2 z-20 -translate-x-1/2 font-sans text-[12px] tracking-[0.12em] text-charcoal/60">
+    <p className="deck-counter fixed bottom-16 left-1/2 z-20 -translate-x-1/2 font-sans text-[12px] tracking-[0.12em] text-charcoal/60 lg:bottom-20">
       {index + 1} / {total}
     </p>
   )

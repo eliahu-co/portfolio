@@ -115,7 +115,7 @@ export default function PresentationDeck() {
           ))}
           <Counter index={current} total={total} />
           {/* prev/next aligned to the content margins (same max-w + padding as SlideShell) */}
-          <div className="fixed inset-x-0 bottom-5 z-20 mx-auto flex max-w-7xl items-center justify-between px-12 lg:px-20">
+          <div className="fixed inset-x-0 bottom-16 z-20 mx-auto flex max-w-7xl items-center justify-between px-12 lg:bottom-20 lg:px-20">
             <div className="min-w-0">
               {current > 0 && (
                 <button
