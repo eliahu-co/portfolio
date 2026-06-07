@@ -39,6 +39,26 @@ const SLIDES: ReactNode[] = [
   <Slide18ThankYou key="18" />,
 ]
 
+// Short names for the prev/next bottom-corner nav (must match SLIDES order).
+const SLIDE_NAMES = [
+  'Cover',
+  'About',
+  'Approach',
+  'Use Cases',
+  'Change Validation',
+  'Context Link',
+  'Coordination Lock',
+  'Conformance Review',
+  'Assumptions',
+  'Criteria',
+  'Scoring',
+  'Value, Risks & Metrics',
+  'MVP Scope',
+  'Prototype',
+  'Key Unknowns',
+  'Thank You',
+]
+
 export default function PresentationDeck() {
   const router = useRouter()
   const total = TOTAL_SLIDES
@@ -94,6 +114,24 @@ export default function PresentationDeck() {
             </section>
           ))}
           <Counter index={current} total={total} />
+          {current > 0 && (
+            <button
+              type="button"
+              onClick={() => setCurrent((c) => stepIndex(c, -1, total))}
+              className="fixed bottom-5 left-6 z-20 flex items-center gap-2 font-sans text-[12px] uppercase tracking-[0.08em] text-charcoal transition-colors hover:text-black"
+            >
+              <span aria-hidden="true">←</span>{SLIDE_NAMES[current - 1]}
+            </button>
+          )}
+          {current < total - 1 && (
+            <button
+              type="button"
+              onClick={() => setCurrent((c) => stepIndex(c, 1, total))}
+              className="fixed bottom-5 right-6 z-20 flex items-center gap-2 font-sans text-[12px] uppercase tracking-[0.08em] text-charcoal transition-colors hover:text-black"
+            >
+              {SLIDE_NAMES[current + 1]}<span aria-hidden="true">→</span>
+            </button>
+          )}
         </div>
       </div>
 
