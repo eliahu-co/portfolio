@@ -5,8 +5,14 @@ import { LIFECYCLE_PHASES, LIFECYCLE_GROUPS, APPROACH_FLOW } from '../deckData'
 const COLS = LIFECYCLE_PHASES.length
 const gridCols = { gridTemplateColumns: `repeat(${COLS}, minmax(0, 1fr))` }
 
-// the per-use-case analysis sections, revealed on hovering "Use Cases" in the flow
-const USE_CASE_SECTIONS = ['User', 'Phase', 'Problem', 'Workflow', 'Opportunity', 'Value, risks, metrics', 'Tradeoff']
+// the per-use-case analysis sections (grouped into rows), revealed on hovering "Use Cases"
+const SECTION_ROWS = [
+  ['User', 'Phase'],
+  ['Problem', 'Workflow'],
+  ['Opportunity'],
+  ['Value, risks, metrics'],
+  ['Tradeoff'],
+]
 
 export default function Slide03Approach() {
   return (
@@ -20,8 +26,12 @@ export default function Slide03Approach() {
                 {f}
                 {/* hover popover — yellow section pills (pt bridges the gap so hover stays) */}
                 <span className="invisible absolute left-0 top-full z-30 flex flex-col items-start gap-1.5 pt-3 opacity-0 transition-opacity group-hover:visible group-hover:opacity-100">
-                  {USE_CASE_SECTIONS.map((s) => (
-                    <span key={s} className="whitespace-nowrap rounded-none bg-[#ffff00] px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wider text-black">{s}</span>
+                  {SECTION_ROWS.map((row, ri) => (
+                    <span key={ri} className="flex gap-1.5">
+                      {row.map((s) => (
+                        <span key={s} className="whitespace-nowrap rounded-none bg-[#ffff00] px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wider text-black">{s}</span>
+                      ))}
+                    </span>
                   ))}
                 </span>
               </span>
