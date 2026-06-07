@@ -8,8 +8,8 @@ const ICONS: Record<string, JSX.Element> = {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8">
       <circle cx="10" cy="14" r="7.5" />
       <circle cx="10" cy="14" r="3" />
-      <path d="M10 14 L21 3" />
-      <path d="M15.5 3 H21 V8.5" />
+      <path d="M21 3 L10 14" />
+      <path d="M10 9.5 V14 H14.5" />
     </svg>
   ),
   Latency: (
