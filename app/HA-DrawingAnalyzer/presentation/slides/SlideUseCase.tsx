@@ -17,9 +17,8 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
   return (
     <div className="relative h-full w-full bg-[#c9c9c9]">
       <SlideShell>
-        {/* header: eyebrow, then user pill + construction phase beneath it */}
-        <p className="font-sans text-[12px] font-bold uppercase tracking-[0.14em] text-black">Use Case {index}</p>
-        <div className="mb-3 mt-2 flex flex-wrap items-center gap-3">
+        {/* header: user pill + construction phase */}
+        <div className="mb-4 flex flex-wrap items-center gap-3">
           <span className="rounded-none bg-black px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wider text-white">{data.primaryUser.pill}</span>
           <span className="font-sans text-[11px] uppercase tracking-[0.1em] text-charcoal">{data.constructionPhase.name}</span>
         </div>
