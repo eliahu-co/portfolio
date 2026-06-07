@@ -3,7 +3,7 @@
 // marked TODO — replace before presenting.
 import { SlideShell } from '../primitives'
 
-const TIMELINE = ['Brazil', 'Netherlands', 'Israel'] // TODO: confirm/expand
+const TIMELINE = ['Brazil', 'Holland', 'Israel'] // TODO: confirm/expand
 
 const BULLETS = [
   '31 years old',
@@ -16,14 +16,15 @@ const BULLETS = [
 export default function Slide02AboutMe() {
   return (
     <SlideShell eyebrow="About" title="Architect · Product Manager · Builder">
-      <div className="grid grid-cols-1 items-center gap-y-6 lg:grid-cols-[auto_1fr] lg:gap-x-4">
+      <div className="grid grid-cols-1 items-stretch gap-y-6 lg:grid-cols-[auto_1fr] lg:gap-x-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/presentation/family.jpeg"
           alt="Eliahu and family"
-          className="w-full max-w-[300px] rounded-lg shadow-sm"
+          className="w-full max-w-[320px] self-start rounded-lg shadow-sm"
         />
-        <div>
+        {/* Text column matches the image height: timeline at top, last bullet at bottom */}
+        <div className="flex h-full flex-col justify-between py-1">
           <div className="flex flex-wrap items-center gap-3">
             {TIMELINE.map((place, i) => (
               <span key={place} className="flex items-center gap-3">
@@ -32,14 +33,12 @@ export default function Slide02AboutMe() {
               </span>
             ))}
           </div>
-          <ul className="mt-8 flex flex-col gap-3">
-            {BULLETS.map((b) => (
-              <li key={b} className="flex gap-3 font-sans text-[18px] leading-relaxed text-charcoal">
-                <span className="mt-0.5 shrink-0 text-autodesk-blue" aria-hidden="true">—</span>
-                <span>{b}</span>
-              </li>
-            ))}
-          </ul>
+          {BULLETS.map((b) => (
+            <div key={b} className="flex gap-3 font-sans text-[18px] leading-relaxed text-charcoal">
+              <span className="shrink-0 text-autodesk-blue" aria-hidden="true">—</span>
+              <span>{b}</span>
+            </div>
+          ))}
         </div>
       </div>
     </SlideShell>
