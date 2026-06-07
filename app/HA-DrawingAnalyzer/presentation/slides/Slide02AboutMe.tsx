@@ -9,6 +9,7 @@ const BULLETS = [
   '31 years old',
   'Married',
   'Crossfitter',
+  'Made Aliyah 7 years ago',
   '10 years in the AEC industry',
   '6 years in ConTech',
 ]
