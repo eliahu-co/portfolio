@@ -55,12 +55,12 @@ export const SCOPE_OUT = [
 
 // Executive assumptions — each completes the title "The Drawing Analyzer is…".
 export const ASSUMPTIONS = [
-  'able to identify and relate objects across files and revisions',
-  'fast enough to fit within existing workflows',
-  'augmenting drawings, but not replacing the documents as source of truth',
-  'analyzing the design, but not modifying it',
-  'integrated into Forma',
-  'compatible with standard industry drawings',
+  'Able to identify and relate objects across files and revisions',
+  'Fast enough to fit within existing workflows',
+  'Augmenting drawings, not replacing them as the source of truth',
+  'Analyzing designs, not modifying them',
+  'Integrated into Forma',
+  'Compatible with standard industry drawings',
 ]
 
 // SOURCE: sections/KeyUnknowns.tsx VARIABLES — keep in sync.
