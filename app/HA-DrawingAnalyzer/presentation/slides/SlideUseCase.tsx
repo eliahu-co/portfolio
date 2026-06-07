@@ -18,7 +18,15 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
         {wf && <ExecWorkflow current={wf.current} proposed={wf.proposed} />}
         {data.opportunity.image && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={data.opportunity.image} alt="" className={`max-h-[84vh] w-full rounded-lg object-contain ${index === 2 ? '' : 'border-2 border-autodesk-blue/60'}`} />
+          <img
+            src={data.opportunity.image}
+            alt=""
+            className={
+              index === 2
+                ? 'mx-auto max-h-[62vh] w-auto rounded-lg object-contain' // portrait — fit by height
+                : 'max-h-[84vh] w-full rounded-lg border-2 border-autodesk-blue/60 object-contain'
+            }
+          />
         )}
       </div>
     </SlideShell>
