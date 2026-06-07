@@ -8,7 +8,7 @@ const gridCols = { gridTemplateColumns: `repeat(${COLS}, minmax(0, 1fr))` }
 export default function Slide03Approach() {
   return (
     <SlideShell eyebrow="Approach">
-      <div className="mb-12">
+      <div className="mt-12 mb-24">
         {/* Stage grouping brackets */}
         <div className="grid gap-x-3" style={gridCols}>
           {LIFECYCLE_GROUPS.map((g) => (
@@ -27,7 +27,7 @@ export default function Slide03Approach() {
         </div>
 
         {/* Phase circles + names */}
-        <div className="mt-4 grid items-start gap-x-3" style={gridCols}>
+        <div className="mt-7 grid items-start gap-x-3" style={gridCols}>
           {LIFECYCLE_PHASES.map((p) => (
             <div key={p.initials} className="flex flex-col items-center">
               <div className="grid aspect-square w-full max-w-[84px] place-items-center rounded-full border-2 border-autodesk-blue">
