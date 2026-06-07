@@ -3,9 +3,15 @@ import type { ReactNode } from 'react'
 import { SlideShell, ScoreTable } from '../primitives'
 import { CRITERIA, SCORE_ROWS } from '../deckData'
 
-// yellow highlight behind key phrases (black text); clone so it wraps per line
+// phrase highlights (box-decoration-clone so they wrap per line)
 function Hl({ children }: { children: ReactNode }) {
   return <span className="box-decoration-clone bg-[#ffff00] px-0.5 text-black">{children}</span>
+}
+function HlDark({ children }: { children: ReactNode }) {
+  return <span className="box-decoration-clone bg-charcoal px-0.5 text-white">{children}</span>
+}
+function HlLight({ children }: { children: ReactNode }) {
+  return <span className="box-decoration-clone bg-[#c9c9c9] px-0.5 text-black">{children}</span>
 }
 
 export default function Slide11Results() {
@@ -18,10 +24,10 @@ export default function Slide11Results() {
           <Hl>Change Validation</Hl> is introduced on a <Hl>high-frequency</Hl> workflow with clear user value, and <Hl>minimal behavior change</Hl>.
         </p>
         <p className="mt-3 font-sans text-[14px] leading-relaxed text-charcoal">
-          <Hl>Context Link</Hl> has greater adoption risk: field teams operate under time pressure in dynamic <Hl>construction environments</Hl> — the additional verification step is a <Hl>harder sell</Hl>.
+          <HlDark>Context Link</HlDark> has greater adoption risk: field teams operate under time pressure in dynamic <HlDark>construction environments</HlDark> — the additional verification step is a <HlDark>harder sell</HlDark>.
         </p>
         <p className="mt-3 font-sans text-[14px] leading-relaxed text-charcoal">
-          <Hl>Coordination Lock</Hl> and <Hl>Program Conformance</Hl> require creating a <Hl>new behavior</Hl>.
+          <HlLight>Coordination Lock</HlLight> and <HlLight>Program Conformance</HlLight> require creating a <HlLight>new behavior</HlLight>.
         </p>
       </div>
     </SlideShell>
