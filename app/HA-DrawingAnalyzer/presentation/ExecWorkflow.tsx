@@ -9,7 +9,7 @@ export type ExecLane = { steps: ExecStep[]; footer: string }
 
 // Down-arrow connector — same geometry as the site's Connector.
 function Connector({ proposed }: { proposed: boolean }) {
-  const color = proposed ? 'rgba(6,150,215,0.7)' : 'rgba(102,102,102,0.45)'
+  const color = proposed ? '#000000' : 'rgba(102,102,102,0.6)'
   return (
     <div className="flex justify-center">
       <svg width="14" height="15" viewBox="0 0 14 15" fill="none" aria-hidden="true" style={{ display: 'block' }}>
@@ -24,18 +24,18 @@ function Step({ step, proposed }: { step: ExecStep; proposed: boolean }) {
   const kind = step.kind
   const isEmphasis = kind === 'approve'
 
-  let box = proposed ? 'bg-white border-autodesk-blue/30' : 'bg-white border-charcoal/25'
-  if (kind === 'ai') box = 'bg-autodesk-blue/10 border-autodesk-blue/45 shadow-[0_0_16px_-1px_rgba(6,150,215,0.5)]'
-  else if (kind === 'approve') box = proposed ? 'bg-white border-autodesk-blue/70' : 'bg-white border-charcoal/45'
+  let box = proposed ? 'bg-white border-black/55' : 'bg-white border-charcoal/40'
+  if (kind === 'ai') box = 'bg-[#ffff00] border-black'
+  else if (kind === 'approve') box = 'bg-white border-black'
 
-  const borderW = isEmphasis ? 'border-2' : 'border'
-  const labelColor = kind ? 'text-black font-medium' : 'text-charcoal'
+  const borderW = isEmphasis || kind === 'ai' ? 'border-2' : 'border'
+  const labelColor = kind ? 'text-black font-semibold' : proposed ? 'text-black' : 'text-charcoal'
 
   return (
-    <div className={`relative flex items-center gap-1.5 overflow-hidden rounded-sm ${borderW} px-2 py-1.5 ${box}`}>
+    <div className={`relative flex items-center gap-2 overflow-hidden rounded-none ${borderW} px-2 py-1.5 ${box}`}>
       <span
-        className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] font-bold text-autodesk-blue' : 'text-[12px]'} ${
-          kind === 'approve' ? 'text-autodesk-blue' : kind === 'ai' ? '' : 'text-transparent'
+        className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] font-bold text-black' : 'text-[12px]'} ${
+          kind === 'approve' ? 'text-black' : kind === 'ai' ? '' : 'text-transparent'
         }`}
         aria-hidden="true"
       >
@@ -45,10 +45,10 @@ function Step({ step, proposed }: { step: ExecStep; proposed: boolean }) {
       {(kind === 'ai' || step.actor) && (
         <span className="relative ml-auto flex shrink-0 items-center gap-1.5">
           {kind === 'ai' && (
-            <span className="rounded border-2 border-autodesk-blue bg-autodesk-blue/80 px-1 py-px text-[8px] font-bold uppercase tracking-wider text-white">DA</span>
+            <span className="rounded-none border border-black bg-black px-1 py-px text-[8px] font-bold uppercase tracking-wider text-white">DA</span>
           )}
           {step.actor && (
-            <span className={`rounded border-2 px-1 py-px text-[8px] font-bold uppercase tracking-wider ${proposed ? 'border-autodesk-blue/50 text-autodesk-blue' : 'border-charcoal/50 text-charcoal'}`}>{step.actor}</span>
+            <span className="rounded-none border border-black px-1 py-px text-[8px] font-bold uppercase tracking-wider text-black">{step.actor}</span>
           )}
         </span>
       )}
@@ -57,11 +57,11 @@ function Step({ step, proposed }: { step: ExecStep; proposed: boolean }) {
 }
 
 function Lane({ lane, proposed }: { lane: ExecLane; proposed: boolean }) {
-  const accent = proposed ? 'text-autodesk-blue' : 'text-charcoal'
+  const accent = proposed ? 'text-black' : 'text-charcoal'
   return (
     <div className="flex h-full flex-col">
-      <div className={`mb-3 border-b-2 pb-1.5 ${proposed ? 'border-autodesk-blue' : 'border-charcoal/40'}`}>
-        <span className={`font-sans text-[10px] uppercase tracking-[0.12em] ${accent}`}>
+      <div className={`mb-3 border-b-2 pb-1.5 ${proposed ? 'border-black' : 'border-charcoal/40'}`}>
+        <span className={`font-sans text-[10px] font-bold uppercase tracking-[0.12em] ${accent}`}>
           {proposed ? 'Proposed' : 'Current'}
         </span>
       </div>
@@ -73,7 +73,7 @@ function Lane({ lane, proposed }: { lane: ExecLane; proposed: boolean }) {
           </div>
         ))}
       </div>
-      <p className={`mt-auto pt-4 font-serif text-[15px] ${accent}`}>{lane.footer}</p>
+      <p className={`mt-auto pt-4 text-[15px] font-bold ${accent}`}>{lane.footer}</p>
     </div>
   )
 }
