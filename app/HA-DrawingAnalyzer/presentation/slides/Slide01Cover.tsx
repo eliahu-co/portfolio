@@ -11,7 +11,7 @@ export default function Slide01Cover() {
         className="absolute inset-0 h-full w-full object-cover grayscale"
       />
       {/* translucent Hello Yellow overlay — duotone with the grayscale image, keeps the black title legible */}
-      <div className="absolute inset-0 bg-[#ffff00]/75" />
+      <div className="absolute inset-0 bg-[#ffff00]/90" />
       <div className="relative z-10 h-full">
         <SlideShell eyebrow="Autodesk · Product Manager" variant="centered">
           <h1 className="font-extrabold text-[clamp(40px,7vw,84px)] leading-[1.02] text-black">AI Drawing Analyzer</h1>
