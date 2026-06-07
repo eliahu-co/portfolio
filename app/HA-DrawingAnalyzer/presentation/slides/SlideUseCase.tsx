@@ -24,11 +24,11 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
         </div>
         <h2 className="mb-8 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black whitespace-pre-line">{title}</h2>
 
-        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,380px)_1fr]">
-          <div>
+        <div className="grid grid-cols-1 items-stretch gap-10 lg:grid-cols-[minmax(0,380px)_1fr]">
+          <div className="flex h-full flex-col">
             {wf && <ExecWorkflow current={wf.current} proposed={wf.proposed} />}
             {tradeoff && (
-              <p className="mt-12 font-sans text-[11px] uppercase leading-relaxed tracking-[0.1em] text-charcoal">
+              <p className="mt-auto pt-8 font-sans text-[11px] uppercase leading-relaxed tracking-[0.1em] text-charcoal">
                 {tradeoff.gain}
                 <span className="mx-1.5" aria-hidden="true">⇄</span>
                 {tradeoff.cost}
