@@ -23,7 +23,7 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
           <div>
             {wf && <ExecWorkflow current={wf.current} proposed={wf.proposed} />}
             {data.tradeoff && (
-              <p className="mt-6 font-sans text-[11px] uppercase leading-relaxed tracking-[0.1em] text-black">
+              <p className="mt-6 font-sans text-[11px] uppercase leading-relaxed tracking-[0.1em] text-charcoal">
                 {data.tradeoff.gain}
                 <span className="mx-1.5" aria-hidden="true">⇄</span>
                 {data.tradeoff.cost}
