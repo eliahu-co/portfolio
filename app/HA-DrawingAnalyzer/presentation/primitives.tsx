@@ -45,8 +45,8 @@ const GLYPH: Record<string, string> = {
 }
 
 function Lane({ steps, proposed }: { steps: WorkflowStep[]; proposed: boolean }) {
-  const accent = proposed ? 'text-autodesk-blue' : 'text-charcoal'
-  const border = proposed ? 'border-autodesk-blue/40' : 'border-charcoal/25'
+  const accent = proposed ? 'text-black' : 'text-charcoal'
+  const border = proposed ? 'border-black/55' : 'border-charcoal/25'
   return (
     <div className="flex flex-1 flex-col gap-2">
       <p className={`mb-1 font-sans text-[12px] uppercase tracking-[0.12em] ${accent}`}>
@@ -56,7 +56,7 @@ function Lane({ steps, proposed }: { steps: WorkflowStep[]; proposed: boolean })
         const kind = s.kind ?? 'normal'
         return (
           <div key={i} className={`flex items-center gap-2 rounded-sm border ${border} bg-white px-3 py-2`}>
-            <span className={`shrink-0 text-[13px] ${kind === 'ai' ? 'text-autodesk-blue' : 'text-charcoal/70'}`} aria-hidden="true">
+            <span className={`shrink-0 text-[13px] ${kind === 'ai' ? 'text-black' : 'text-charcoal/70'}`} aria-hidden="true">
               {GLYPH[kind]}
             </span>
             <span className="font-sans text-[13px] leading-snug text-charcoal">{s.label}</span>
@@ -77,10 +77,10 @@ export function MiniWorkflow({ current, proposed }: { current: WorkflowStep[]; p
 }
 
 export function MiniCard({ title, tone }: { title: string; tone: 'value' | 'risk' }) {
-  const bar = tone === 'value' ? 'border-autodesk-blue' : 'border-[#f4b400]'
+  const bar = tone === 'value' ? 'border-black' : 'border-[#ffff00]'
   return (
-    <div className={`border-l-4 ${bar} pl-4 py-2`}>
-      <p className="font-serif text-[20px] leading-snug text-black">{title}</p>
+    <div className={`border-l-8 ${bar} pl-4 py-2`}>
+      <p className="text-[20px] font-semibold leading-snug text-black">{title}</p>
     </div>
   )
 }
@@ -95,26 +95,22 @@ export function ScoreTable({
   return (
     <table className="w-full border-collapse text-left">
       <thead>
-        <tr className="border-b-2 border-autodesk-blue">
-          <th className="py-3 pr-4 font-sans text-[11px] uppercase tracking-[0.12em] text-charcoal/70">Use case</th>
+        <tr className="border-b-2 border-black">
+          <th className="py-3 pr-4 font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">Use case</th>
           {criteria.map((c) => (
-            <th key={c} className="px-3 py-3 text-center font-sans text-[11px] uppercase tracking-[0.12em] text-charcoal/70">{c}</th>
+            <th key={c} className="px-3 py-3 text-center font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">{c}</th>
           ))}
-          <th className="pl-3 py-3 text-center font-sans text-[11px] uppercase tracking-[0.12em] text-charcoal/70">Total</th>
+          <th className="pl-3 py-3 text-center font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">Total</th>
         </tr>
       </thead>
       <tbody>
         {rows.map((r) => (
-          <tr
-            key={r.useCase}
-            className="border-b border-charcoal/15"
-            style={r.winner ? { backgroundImage: 'linear-gradient(90deg, rgba(6,150,215,0.06) 0%, rgba(6,150,215,0.20) 50%, rgba(6,150,215,0.06) 100%)' } : undefined}
-          >
-            <td className={`py-3 pr-4 font-sans text-[16px] ${r.winner ? 'font-medium text-black' : 'text-charcoal'}`}>{r.useCase}</td>
+          <tr key={r.useCase} className="border-b border-charcoal/15" style={r.winner ? { backgroundColor: '#ffff00' } : undefined}>
+            <td className={`py-3 pr-4 font-sans text-[16px] ${r.winner ? 'font-bold text-black' : 'text-charcoal'}`}>{r.useCase}</td>
             {r.scores.map((s, i) => (
-              <td key={i} className="px-3 py-3 text-center font-sans text-[16px] text-charcoal/70">{s}</td>
+              <td key={i} className={`px-3 py-3 text-center font-sans text-[16px] ${r.winner ? 'text-black' : 'text-charcoal/70'}`}>{s}</td>
             ))}
-            <td className={`pl-3 py-3 text-center font-sans text-[18px] font-medium ${r.winner ? 'text-autodesk-blue' : 'text-black'}`}>{r.total}</td>
+            <td className={`pl-3 py-3 text-center font-sans text-[18px] font-bold text-black`}>{r.total}</td>
           </tr>
         ))}
       </tbody>
