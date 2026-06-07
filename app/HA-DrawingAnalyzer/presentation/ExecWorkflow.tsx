@@ -4,7 +4,7 @@
 // outcome step, the AI step with a blue glow + bold ⚡ + "DA" pill, and SVG
 // down-arrow connectors. Recreated here so no existing site file is edited.
 
-export type ExecStep = { label: string; kind?: 'ai' | 'approve' }
+export type ExecStep = { label: string; kind?: 'ai' | 'approve'; actor?: string }
 export type ExecLane = { steps: ExecStep[]; footer: string }
 
 // Down-arrow connector — same geometry as the site's Connector.
@@ -42,9 +42,14 @@ function Step({ step, proposed }: { step: ExecStep; proposed: boolean }) {
         {kind === 'ai' ? '⚡︎' : kind === 'approve' ? '✓' : '•'}
       </span>
       <span className={`relative min-w-0 font-sans text-[10px] leading-snug ${labelColor}`}>{step.label}</span>
-      {kind === 'ai' && (
-        <span className="relative ml-auto shrink-0 rounded border-2 border-autodesk-blue bg-autodesk-blue/80 px-1 py-px text-[8px] font-bold uppercase tracking-wider text-white">
-          DA
+      {(kind === 'ai' || step.actor) && (
+        <span className="relative ml-auto flex shrink-0 items-center gap-1.5">
+          {kind === 'ai' && (
+            <span className="rounded border-2 border-autodesk-blue bg-autodesk-blue/80 px-1 py-px text-[8px] font-bold uppercase tracking-wider text-white">DA</span>
+          )}
+          {step.actor && (
+            <span className={`rounded border-2 px-1 py-px text-[8px] font-bold uppercase tracking-wider ${proposed ? 'border-autodesk-blue/50 text-autodesk-blue' : 'border-charcoal/50 text-charcoal'}`}>{step.actor}</span>
+          )}
         </span>
       )}
     </div>

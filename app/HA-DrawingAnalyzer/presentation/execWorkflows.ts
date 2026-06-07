@@ -22,7 +22,7 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
         { label: 'Change Validation', kind: 'ai' },
         { label: 'Issue Found' },
         { label: 'Correction' },
-        { label: 'Review', kind: 'approve' },
+        { label: 'Review', kind: 'approve', actor: 'Reviewer' },
       ],
       footer: 'First-Pass Approval',
     },
@@ -32,7 +32,7 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
       steps: [
         { label: 'Issue Identified' },
         { label: 'RFI Submitted' },
-        { label: 'Designer Tries to Guess Context' },
+        { label: 'Designer Tries to Guess Context', actor: 'Designer' },
         { label: 'Clarification Required' },
         { label: 'Back and Forth' },
         { label: 'Response' },
@@ -52,7 +52,8 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
   'use-case-3': {
     current: {
       steps: [
-        { label: 'Discipline A Changes Design' },
+        { label: 'Disciplines coordinated' },
+        { label: 'Design change', actor: 'Designer' },
         { label: 'Impact Not Visible' },
         { label: 'Conflict Discovered Later' },
         { label: 'Coordination Rework' },
@@ -61,7 +62,8 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
     },
     proposed: {
       steps: [
-        { label: 'Discipline A Changes Design' },
+        { label: 'Disciplines coordinated' },
+        { label: 'Design change', actor: 'Designer' },
         { label: 'Impacted Dependencies Identified', kind: 'ai' },
         { label: 'Teams Notified' },
         { label: 'Issue Resolved Early', kind: 'approve' },
@@ -72,7 +74,8 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
   'use-case-4': {
     current: {
       steps: [
-        { label: 'Design Progresses' },
+        { label: 'Requirements defined' },
+        { label: 'Design Progresses', actor: 'Designer' },
         { label: 'Manual Program Review' },
         { label: 'Limited Review Capacity' },
         { label: 'Inconsistent Enforcement' },
@@ -81,7 +84,8 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
     },
     proposed: {
       steps: [
-        { label: 'Design Progresses' },
+        { label: 'Requirements defined' },
+        { label: 'Design Progresses', actor: 'Designer' },
         { label: 'Program Continuously Evaluated', kind: 'ai' },
         { label: 'Requirements Tracked' },
         { label: 'Consistent Enforcement', kind: 'approve' },
