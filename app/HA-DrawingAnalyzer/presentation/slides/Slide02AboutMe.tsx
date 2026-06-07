@@ -16,13 +16,14 @@ const BULLETS = [
 
 export default function Slide02AboutMe() {
   return (
-    <SlideShell eyebrow="About" title="Architect · Product Manager · Builder">
+    <SlideShell eyebrow="About">
+      <h2 className="mb-8 whitespace-nowrap text-[clamp(22px,3.6vw,48px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black">Architect · Product Manager · Builder</h2>
       <div className="grid grid-cols-1 items-stretch gap-y-6 lg:grid-cols-[auto_1fr] lg:gap-x-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/presentation/family.jpeg"
           alt="Eliahu and family"
-          className="w-full max-w-[320px] self-start"
+          className="w-full max-w-[320px] self-start rounded-tl-[28px]"
         />
         {/* Text column matches the image height: timeline at top, last bullet at bottom */}
         <div className="flex h-full flex-col justify-between py-1">
