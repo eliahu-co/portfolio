@@ -12,9 +12,26 @@ const inter = Inter({
   display: 'swap',
 })
 
+const OG_IMAGE = 'https://eliahu.co/presentation/thumb.png'
+const OG_DESCRIPTION = 'Four product opportunities for AI Drawing Analyzer, from concept to interactive prototype.'
+
 export const metadata: Metadata = {
   title: 'AI Drawing Analyzer — Presentation',
+  description: OG_DESCRIPTION,
   robots: { index: false, follow: false },
+  openGraph: {
+    title: 'AI Drawing Analyzer — Presentation',
+    description: OG_DESCRIPTION,
+    url: 'https://eliahu.co/HA-DrawingAnalyzer/presentation',
+    type: 'article',
+    images: [{ url: OG_IMAGE, width: 1912, height: 982, alt: 'AI Drawing Analyzer' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI Drawing Analyzer — Presentation',
+    description: OG_DESCRIPTION,
+    images: [OG_IMAGE],
+  },
 }
 
 export default function PresentationPage() {
