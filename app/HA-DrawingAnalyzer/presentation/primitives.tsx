@@ -76,13 +76,16 @@ export function MiniWorkflow({ current, proposed }: { current: WorkflowStep[]; p
   )
 }
 
-export function MiniCard({ title, tone, primary }: { title: string; tone: 'value' | 'risk' | 'metric'; primary?: boolean }) {
+export function MiniCard({ title, tone, primary, tag }: { title: string; tone: 'value' | 'risk' | 'metric'; primary?: boolean; tag?: string }) {
   const color = tone === 'value' ? 'border-black' : tone === 'risk' ? 'border-[#ffff00]' : 'border-[#1d91d0]'
   // thicker bar for the primary item; padding compensates so text stays aligned (border + pl = 20px)
   const bar = primary ? 'border-l-8 pl-3' : 'border-l-4 pl-4'
   return (
-    <div className={`${bar} ${color} py-2`}>
+    <div className={`flex items-center justify-between gap-2 ${bar} ${color} py-2`}>
       <p className="text-[20px] font-semibold leading-snug text-black">{title}</p>
+      {tag && (
+        <span className="shrink-0 rounded-none bg-[#1d91d0] px-2 py-0.5 font-sans text-[10px] font-semibold uppercase tracking-wider text-white">{tag}</span>
+      )}
     </div>
   )
 }

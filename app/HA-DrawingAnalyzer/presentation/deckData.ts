@@ -27,12 +27,12 @@ export const CRITERIA_DEFS: CriterionDef[] = [
   { title: 'Feasibility', body: 'Effort to Deliver an MVP', rubric: [['5', 'Low effort, limited dependencies'], ['3', 'Moderate effort, coordination required'], ['1', 'Significant effort, high complexity']] },
 ]
 
-// SOURCE: sections/MVP.tsx METRICS — success-metric titles for the deck.
+// SOURCE: sections/MVP.tsx METRICS — success metrics + their type for the deck.
 export const METRICS = [
-  'First-Pass Approval Rate',
-  'Pre-Review Revision Rate',
-  'Change Validation Satisfaction',
-  'Review Submission Volume',
+  { title: 'First-Pass Approval Rate', type: 'Business outcome' },
+  { title: 'Pre-Review Revision Rate', type: 'Usage' },
+  { title: 'Change Validation Satisfaction', type: 'Quality' },
+  { title: 'Review Submission Volume', type: 'Guardrail' },
 ]
 
 // SOURCE: sections/MVP.tsx SCOPE_IN / SCOPE_OUT — keep in sync.

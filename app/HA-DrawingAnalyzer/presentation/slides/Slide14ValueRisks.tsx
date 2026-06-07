@@ -22,7 +22,7 @@ export default function Slide14ValueRisks() {
         <div>
           <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black">Metrics</p>
           <div className="flex flex-col gap-3">
-            {METRICS.map((m, i) => <MiniCard key={m} title={m} tone="metric" primary={i === 0} />)}
+            {METRICS.map((m, i) => <MiniCard key={m.title} title={m.title} tone="metric" tag={m.type} primary={i === 0} />)}
           </div>
         </div>
       </div>
