@@ -56,6 +56,7 @@ export const SCOPE_OUT = [
 // Executive assumptions — each completes the title "The Drawing Analyzer is…".
 export const ASSUMPTIONS = [
   'Able to identify and relate objects across files and revisions',
+  'Probabilistic and requires human verification',
   'Fast enough to fit within existing workflows',
   'Augmenting drawings, not replacing them as the source of truth',
   'Analyzing designs, not modifying them',
