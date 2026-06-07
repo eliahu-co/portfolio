@@ -1,0 +1,12 @@
+// app/HA-DrawingAnalyzer/presentation/slides/Slide01Cover.tsx
+import { SlideShell } from '../primitives'
+
+export default function Slide01Cover() {
+  return (
+    <SlideShell eyebrow="Autodesk · Product Manager">
+      <h1 className="font-serif text-[clamp(40px,7vw,84px)] leading-[1.02] text-black">AI Drawing Analyzer</h1>
+      <p className="mt-4 font-serif text-[clamp(18px,2.4vw,30px)] text-charcoal">Product Opportunities &amp; MVP Recommendation</p>
+      <p className="mt-10 font-sans text-[14px] uppercase tracking-[0.12em] text-charcoal/60">Eliahu Cohen</p>
+    </SlideShell>
+  )
+}
