@@ -114,24 +114,31 @@ export default function PresentationDeck() {
             </section>
           ))}
           <Counter index={current} total={total} />
-          {current > 0 && (
-            <button
-              type="button"
-              onClick={() => setCurrent((c) => stepIndex(c, -1, total))}
-              className="fixed bottom-5 left-6 z-20 flex items-center gap-2 font-sans text-[12px] uppercase tracking-[0.08em] text-charcoal transition-colors hover:text-black"
-            >
-              <span aria-hidden="true">←</span>{SLIDE_NAMES[current - 1]}
-            </button>
-          )}
-          {current < total - 1 && (
-            <button
-              type="button"
-              onClick={() => setCurrent((c) => stepIndex(c, 1, total))}
-              className="fixed bottom-5 right-6 z-20 flex items-center gap-2 font-sans text-[12px] uppercase tracking-[0.08em] text-charcoal transition-colors hover:text-black"
-            >
-              {SLIDE_NAMES[current + 1]}<span aria-hidden="true">→</span>
-            </button>
-          )}
+          {/* prev/next aligned to the content margins (same max-w + padding as SlideShell) */}
+          <div className="fixed inset-x-0 bottom-5 z-20 mx-auto flex max-w-7xl items-center justify-between px-12 lg:px-20">
+            <div className="min-w-0">
+              {current > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setCurrent((c) => stepIndex(c, -1, total))}
+                  className="flex items-center gap-2 font-sans text-[12px] uppercase tracking-[0.08em] text-charcoal transition-colors hover:text-black"
+                >
+                  <span aria-hidden="true">←</span>{SLIDE_NAMES[current - 1]}
+                </button>
+              )}
+            </div>
+            <div className="min-w-0">
+              {current < total - 1 && (
+                <button
+                  type="button"
+                  onClick={() => setCurrent((c) => stepIndex(c, 1, total))}
+                  className="flex items-center gap-2 font-sans text-[12px] uppercase tracking-[0.08em] text-charcoal transition-colors hover:text-black"
+                >
+                  {SLIDE_NAMES[current + 1]}<span aria-hidden="true">→</span>
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
