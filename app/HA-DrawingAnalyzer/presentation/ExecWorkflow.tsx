@@ -4,7 +4,7 @@
 // outcome step, the AI step with a blue glow + bold ⚡ + "DA" pill, and SVG
 // down-arrow connectors. Recreated here so no existing site file is edited.
 
-export type ExecStep = { label: string; kind?: 'ai' | 'approve'; actor?: string }
+export type ExecStep = { label: string; kind?: 'ai' | 'approve' | 'repeat'; actor?: string }
 export type ExecLane = { steps: ExecStep[]; footer: string }
 
 // Down-arrow connector — same geometry as the site's Connector.
@@ -29,17 +29,21 @@ function Step({ step, proposed }: { step: ExecStep; proposed: boolean }) {
   else if (kind === 'approve') box = 'bg-[#c9c9c9] border-black'
 
   const borderW = isEmphasis || kind === 'ai' ? 'border-2' : 'border'
-  const labelColor = kind ? 'text-black font-semibold' : proposed ? 'text-black' : 'text-charcoal'
+  const labelColor = kind === 'ai' || kind === 'approve' ? 'text-black font-semibold' : proposed ? 'text-black' : 'text-charcoal'
+
+  const glyph = kind === 'ai' ? '⚡︎' : kind === 'approve' ? '✓' : kind === 'repeat' ? '⟲' : '•'
+  const glyphColor =
+    kind === 'ai' || kind === 'approve' ? 'text-black'
+    : kind === 'repeat' ? (proposed ? 'text-black' : 'text-charcoal')
+    : 'text-transparent'
 
   return (
     <div className={`relative flex items-center gap-2 overflow-hidden rounded-none ${borderW} px-2 py-1.5 ${box}`}>
       <span
-        className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] font-bold text-black' : 'text-[12px]'} ${
-          kind === 'approve' ? 'text-black' : kind === 'ai' ? '' : 'text-transparent'
-        }`}
+        className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] font-bold' : 'text-[12px]'} ${glyphColor}`}
         aria-hidden="true"
       >
-        {kind === 'ai' ? '⚡︎' : kind === 'approve' ? '✓' : '•'}
+        {glyph}
       </span>
       <span className={`relative min-w-0 font-sans text-[10px] leading-snug ${labelColor}`}>{step.label}</span>
       {(kind === 'ai' || step.actor) && (

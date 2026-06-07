@@ -10,10 +10,10 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
       steps: [
         { label: 'Design Change' },
         { label: 'Self-check' },
-        { label: 'Review' },
+        { label: 'Review', actor: 'Reviewer' },
         { label: 'Issue Found' },
         { label: 'Rework' },
-        { label: 'Review Again' },
+        { label: 'Review Again', kind: 'repeat', actor: 'Reviewer' },
       ],
       footer: 'Repeated Review Cycles',
     },
