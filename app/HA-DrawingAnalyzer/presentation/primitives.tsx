@@ -22,10 +22,10 @@ export function SlideShell({
   return (
     <div className={`mx-auto flex h-full w-full max-w-7xl flex-col px-12 lg:px-20 ${layout}`}>
       {eyebrow && (
-        <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.14em] text-autodesk-blue">{eyebrow}</p>
+        <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.14em] text-black">{eyebrow}</p>
       )}
       {title && (
-        <h2 className="mb-8 font-serif text-[clamp(28px,4vw,52px)] leading-[1.05] text-black whitespace-pre-line">{title}</h2>
+        <h2 className="mb-8 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black whitespace-pre-line">{title}</h2>
       )}
       {children}
     </div>

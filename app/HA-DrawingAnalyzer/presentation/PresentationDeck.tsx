@@ -117,6 +117,7 @@ export default function PresentationDeck() {
       </div>
 
       <style>{`
+        .deck-root, .deck-root * { font-family: var(--font-deck), system-ui, sans-serif !important; }
         .deck-root, .deck-root * { cursor: auto !important; }
         .deck-root a, .deck-root button { cursor: pointer !important; }
         .deck-print { display: none; }
