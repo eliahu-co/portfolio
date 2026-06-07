@@ -84,7 +84,7 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
     },
     proposed: {
       steps: [
-        { label: 'Requirements defined' },
+        { label: 'Requirements defined', kind: 'ai' },
         { label: 'Design Progresses', actor: 'Designer' },
         { label: 'Program Continuously Evaluated', kind: 'ai' },
         { label: 'Requirements Tracked' },
