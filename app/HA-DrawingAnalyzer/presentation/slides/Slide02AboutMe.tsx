@@ -18,7 +18,7 @@ export default function Slide02AboutMe() {
   return (
     <SlideShell eyebrow="About">
       <h2 className="mb-3 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black">Eliahu Cohen</h2>
-      <p className="mb-8 font-sans text-[12px] font-bold uppercase tracking-[0.14em] text-black">Architect, Product Manager, Builder</p>
+      <p className="mb-8 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black">Architect, Product Manager, Builder</p>
       <div className="grid grid-cols-1 items-stretch gap-y-6 lg:grid-cols-[auto_1fr] lg:gap-x-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
