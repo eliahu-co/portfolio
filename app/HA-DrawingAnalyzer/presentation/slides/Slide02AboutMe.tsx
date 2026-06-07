@@ -28,9 +28,9 @@ export default function Slide02AboutMe() {
         <div className="flex h-full flex-col justify-between py-1">
           <div className="flex flex-wrap items-center gap-3">
             {TIMELINE.map((place, i) => (
-              <span key={place} className="flex items-center gap-3">
-                <span className="font-serif text-[26px] text-black">{place}</span>
-                {i < TIMELINE.length - 1 && <span className="text-autodesk-blue" aria-hidden="true">→</span>}
+              <span key={place} className="flex items-center gap-2">
+                <span className="font-sans text-[12px] uppercase tracking-[0.12em] text-charcoal/60">{place}</span>
+                {i < TIMELINE.length - 1 && <span className="text-[12px] text-autodesk-blue" aria-hidden="true">→</span>}
               </span>
             ))}
           </div>
