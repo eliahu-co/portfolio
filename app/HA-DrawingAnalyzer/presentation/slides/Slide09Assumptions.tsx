@@ -4,7 +4,7 @@ import { ASSUMPTIONS } from '../deckData'
 
 export default function Slide09Assumptions() {
   return (
-    <SlideShell eyebrow="Assumptions">
+    <SlideShell eyebrow="Assumptions" variant="centered">
       <div className="flex max-w-3xl flex-col gap-4">
         {ASSUMPTIONS.map((a, i) => (
           <div key={i} className="border-l-4 border-black pl-4">
