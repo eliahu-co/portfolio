@@ -5,9 +5,7 @@ import { DEMO_HREF } from '../deckData'
 
 export default function Slide16Prototype() {
   return (
-    <SlideShell>
-      <p className="mb-3 text-center font-sans text-[12px] font-bold uppercase tracking-[0.14em] text-black">Prototype</p>
-      <h2 className="mb-8 text-center text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black">Change Validation, interactive</h2>
+    <SlideShell eyebrow="Prototype" title="Change Validation, interactive">
       <div className="flex flex-col items-start gap-6">
         <div className="w-full max-w-6xl">
           <DemoVideo />
