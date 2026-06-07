@@ -6,22 +6,18 @@ import { DEMO_HREF } from '../deckData'
 export default function Slide16Prototype() {
   return (
     <SlideShell eyebrow="Prototype" title="Change Validation, interactive">
-      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
-        <DemoVideo />
-        <div className="flex flex-col items-start gap-5">
-          <p className="font-sans text-[16px] leading-relaxed text-charcoal">
-            A working prototype that simulates the Change Validation flow inside Autodesk Forma.
-          </p>
-          <a
-            href={DEMO_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-none bg-black px-5 py-3 font-sans text-[13px] font-semibold uppercase tracking-[0.08em] text-white no-underline hover:opacity-90"
-          >
-            Open interactive prototype ↗
-          </a>
-          <p className="font-sans text-[12px] tracking-[0.06em] text-charcoal/60">eliahu.co/HA-DrawingAnalyzer/demo</p>
+      <div className="flex flex-col items-center gap-6">
+        <div className="w-full max-w-5xl">
+          <DemoVideo />
         </div>
+        <a
+          href={DEMO_HREF}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-none bg-black px-5 py-3 font-sans text-[13px] font-semibold uppercase tracking-[0.08em] text-white no-underline hover:opacity-90"
+        >
+          Open interactive prototype ↗
+        </a>
       </div>
     </SlideShell>
   )
