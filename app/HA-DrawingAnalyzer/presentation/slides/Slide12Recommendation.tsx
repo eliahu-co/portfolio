@@ -4,7 +4,7 @@ import { RECOMMENDATION_PILLARS } from '../deckData'
 
 export default function Slide12Recommendation() {
   return (
-    <SlideShell eyebrow="Recommendation">
+    <SlideShell eyebrow="Recommendation" variant="centered">
       <h2 className="font-serif text-[clamp(34px,5.5vw,68px)] leading-[1.04] text-black">
         Build <span className="text-autodesk-blue">Change Validation</span> first.
       </h2>

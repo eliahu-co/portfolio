@@ -4,17 +4,23 @@
 import type { ReactNode } from 'react'
 import type { WorkflowStep } from '@/app/HA-DrawingAnalyzer/sections/UseCase'
 
+// variant 'anchored' (default): header pinned to a consistent top position, body flows
+// below — so the eyebrow/title stay in the same place as you advance slides.
+// variant 'centered': vertically centered hero layout (cover, recommendation).
 export function SlideShell({
   eyebrow,
   title,
   children,
+  variant = 'anchored',
 }: {
   eyebrow?: string
   title?: ReactNode
   children?: ReactNode
+  variant?: 'anchored' | 'centered'
 }) {
+  const layout = variant === 'centered' ? 'justify-center py-16' : 'justify-start pt-16 pb-16 lg:pt-20'
   return (
-    <div className="mx-auto flex h-full w-full max-w-5xl flex-col justify-center px-12 py-16 lg:px-20">
+    <div className={`mx-auto flex h-full w-full max-w-7xl flex-col px-12 lg:px-20 ${layout}`}>
       {eyebrow && (
         <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.14em] text-autodesk-blue">{eyebrow}</p>
       )}
