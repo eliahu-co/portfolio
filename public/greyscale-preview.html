@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greyscale Mockup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, sans-serif;
+    background: #111;
+    color: #f0f0f0;
+    padding: 32px 24px 60px;
+  }
+  h1 { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #555; margin-bottom: 6px; }
+  .subtitle { font-size: 22px; font-weight: 300; margin-bottom: 32px; }
+
+  /* ── Full-page mock ── */
+  .page-mock {
+    width: 100%;
+    max-width: 960px;
+    border: 1px solid #333;
+    border-radius: 3px;
+    overflow: hidden;
+    font-family: system-ui, sans-serif;
+  }
+
+  /* HERO */
+  .section-hero {
+    background: #1a1a1a;
+    height: 280px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #2e2e2e;
+  }
+  .nameplate {
+    position: absolute;
+    top: 18px;
+    left: 24px;
+  }
+  .nameplate-name {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: #f0f0f0;
+  }
+  .nameplate-slogan {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #666;
+    margin-top: 4px;
+  }
+  .nameplate-links {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 8px;
+  }
+  .nameplate-link {
+    font-size: 7px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border: 1px solid #444;
+    color: #aaa;
+    display: inline-block;
+    width: fit-content;
+    border-radius: 1px;
+  }
+  .panel-3d {
+    width: 44%;
+    height: 58%;
+    border: 1px solid #333;
+    background: rgba(255,255,255,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #444;
+    border-radius: 1px;
+  }
+  .float-nav {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    background: #f0f0f0;
+    border: 1px solid #2e2e2e;
+    border-radius: 2px;
+    overflow: hidden;
+    font-size: 7px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .float-nav span {
+    padding: 5px 12px;
+    color: #1a1a1a;
+    border-right: 1px solid #ccc;
+  }
+  .float-nav span:last-child { border-right: none; }
+  .float-nav span.active { background: #1a1a1a; color: #f0f0f0; }
+
+  /* ABOUT */
+  .section-about {
+    background: #f5f5f5;
+    padding: 28px 28px 24px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    border-bottom: 2px solid #1a1a1a;
+  }
+  .about-photo {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+    border-radius: 1px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+  }
+  .about-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .about-text { flex: 1; color: #1a1a1a; }
+  .about-para {
+    font-size: 11px;
+    line-height: 1.7;
+    color: #333;
+    margin-bottom: 14px;
+  }
+  .tag-row { display: flex; gap: 5px; flex-wrap: wrap; }
+  .tag {
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border: 1px solid #bbb;
+    color: #666;
+    border-radius: 1px;
+  }
+
+  /* WHAT I DO */
+  .section-cards {
+    background: #f0f0f0;
+    border-bottom: 2px solid #1a1a1a;
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: none;
+  }
+  .card {
+    padding: 14px 16px 12px;
+    border-right: 2px solid #1a1a1a;
+    transition: background 0.2s;
+  }
+  .card:last-child { border-right: none; }
+  .card-cat {
+    font-size: 7px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 6px;
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+  .card.active { background: #d8d8d8; }
+
+  /* BANNER */
+  .section-banner {
+    background: #1a1a1a;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 2px solid #2e2e2e;
+  }
+  .banner-img {
+    height: 100%;
+    aspect-ratio: 4/3;
+    background: #2e2e2e;
+    border: 1px solid #3a3a3a;
+    flex-shrink: 0;
+    border-radius: 1px;
+  }
+  .banner-arrow {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    background: #f0f0f0;
+    border: 1px solid #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #1a1a1a;
+    font-weight: bold;
+    border-radius: 1px;
+    z-index: 2;
+  }
+
+  /* Divider labels */
+  .divider-label {
+    font-size: 7px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    padding: 5px 28px;
+    background: #f5f5f5;
+    border-top: 2px solid #1a1a1a;
+    border-bottom: 1px solid #ddd;
+  }
+
+  /* Colour chips */
+  .chips {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+    max-width: 960px;
+  }
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #888;
+  }
+  .chip-swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    flex-shrink: 0;
+  }
+  .chip-label { font-size: 10px; color: #666; }
+</style>
+</head>
+<body>
+
+<h1>Portfolio · Greyscale Mockup</h1>
+<p class="subtitle">Black & white with line divisors · dark work strip</p>
+
+<div class="page-mock">
+
+  <!-- HERO -->
+  <div class="section-hero">
+    <div class="nameplate">
+      <div class="nameplate-name">Eliahu Cohen</div>
+      <div class="nameplate-slogan">AEC Architect · Software Developer · Builder</div>
+      <div class="nameplate-links">
+        <span class="nameplate-link">hi@eliahu.co</span>
+        <span class="nameplate-link">LinkedIn ↗</span>
+        <span class="nameplate-link">Download CV ↓</span>
+      </div>
+    </div>
+    <div class="panel-3d">3D Wall Panel</div>
+    <div class="float-nav">
+      <span class="active">Home</span>
+      <span>About</span>
+      <span>What I Do</span>
+    </div>
+  </div>
+
+  <!-- ABOUT divider -->
+  <div class="divider-label">About</div>
+
+  <!-- ABOUT -->
+  <div class="section-about">
+    <div class="about-photo">
+      <img src="/profile_pic.jpeg" alt="">
+    </div>
+    <div class="about-text">
+      <p class="about-para">
+        After a decade spanning architectural practice across Brazil, the Netherlands, and Israel,
+        I spent the last five years at Veev as a Senior R&D Product Architect — owning the full product
+        lifecycle from PRDs and technology research to hands-on BIM, data, and manufacturing pipelines.
+      </p>
+      <div class="tag-row">
+        <span class="tag">Product</span>
+        <span class="tag">BIM</span>
+        <span class="tag">ConTech</span>
+        <span class="tag">React · Node.js</span>
+        <span class="tag">Digital Twin</span>
+        <span class="tag">CAD-to-CAM</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT I DO -->
+  <div class="section-cards">
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-cat">Strategy · Full-Stack</div>
+        <div class="card-title">Product & Dev</div>
+      </div>
+      <div class="card">
+        <div class="card-cat">Construction · BIM</div>
+        <div class="card-title">Architecture</div>
+      </div>
+      <div class="card">
+        <div class="card-cat">Innovation · Problem-Solving</div>
+        <div class="card-title">Research & Development</div>
+      </div>
+      <div class="card active">
+        <div class="card-cat">Product · Furniture</div>
+        <div class="card-title">Design</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORK BANNER (black) -->
+  <div class="section-banner">
+    <div class="banner-arrow">‹</div>
+    <div class="banner-img"></div>
+    <div class="banner-img" style="opacity:.75"></div>
+    <div class="banner-img" style="opacity:.5"></div>
+    <div class="banner-img" style="opacity:.3"></div>
+    <div class="banner-img" style="opacity:.15"></div>
+  </div>
+
+</div>
+
+<!-- Colour palette -->
+<div class="chips">
+  <div class="chip">
+    <div class="chip-swatch" style="background:#1a1a1a"></div>
+    <div><div style="color:#ccc;font-size:11px;">#1a1a1a</div><div class="chip-label">Hero · Banner · Borders</div></div>
+  </div>
+  <div class="chip">
+    <div class="chip-swatch" style="background:#f5f5f5"></div>
+    <div><div style="color:#ccc;font-size:11px;">#f5f5f5</div><div class="chip-label">About · WhatIDo bg</div></div>
+  </div>
+  <div class="chip">
+    <div class="chip-swatch" style="background:#f0f0f0"></div>
+    <div><div style="color:#ccc;font-size:11px;">#f0f0f0</div><div class="chip-label">Cards · FloatNav</div></div>
+  </div>
+  <div class="chip">
+    <div class="chip-swatch" style="background:#d8d8d8"></div>
+    <div><div style="color:#ccc;font-size:11px;">#d8d8d8</div><div class="chip-label">Active card hover</div></div>
+  </div>
+  <div class="chip">
+    <div class="chip-swatch" style="background:#2e2e2e; border-color:#555"></div>
+    <div><div style="color:#ccc;font-size:11px;">#2e2e2e</div><div class="chip-label">Banner images</div></div>
+  </div>
+</div>
+
+</body>
+</html>

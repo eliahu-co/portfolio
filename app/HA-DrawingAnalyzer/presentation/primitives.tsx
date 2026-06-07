@@ -84,7 +84,7 @@ export function MiniCard({ title, tone, primary, tag }: { title: string; tone: '
     <div className={`flex items-center justify-between gap-2 ${bar} ${color} py-2`}>
       <p className="text-[20px] font-semibold leading-snug text-black">{title}</p>
       {tag && (
-        <span className="shrink-0 rounded-none bg-[#1d91d0] px-2 py-0.5 font-sans text-[10px] font-semibold uppercase tracking-wider text-white">{tag}</span>
+        <span className="shrink-0 whitespace-pre-line rounded-none bg-[#1d91d0] px-2 py-0.5 text-center font-sans text-[10px] font-semibold uppercase leading-tight tracking-wider text-white">{tag}</span>
       )}
     </div>
   )

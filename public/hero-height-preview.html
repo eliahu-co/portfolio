@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero Height — Layout Preview</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #e8e6e0; padding: 32px 24px; color: #1a1a1a; }
+  h1  { font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  p.sub { font-size: 12px; color: #666; margin-bottom: 32px; letter-spacing: 0.04em; }
+
+  .split { display: flex; gap: 24px; align-items: flex-start; }
+  @media (max-width: 700px) { .split { flex-direction: column; } }
+
+  .col { flex: 1; }
+  .col h2 { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #888; margin-bottom: 10px; }
+
+  /* Browser chrome */
+  .browser { border: 2px solid #1a1a1a; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+  .chrome  { background: #d4d4d4; border-bottom: 2px solid #1a1a1a; padding: 6px 10px; display: flex; gap: 6px; align-items: center; }
+  .dot     { width: 8px; height: 8px; border-radius: 50%; background: #1a1a1a; opacity: 0.3; }
+  .bar     { flex: 1; height: 8px; background: #bbb; border-radius: 2px; }
+
+  /* Viewport representation — 400px tall represents 100vh */
+  .viewport { height: 400px; overflow: hidden; position: relative; }
+
+  /* Hero section */
+  .hero-100 { height: 400px; background: #f5f5f5; position: relative; border-bottom: 3px solid #FF6B35; }
+  .hero-80  { height: 320px; background: #f5f5f5; position: relative; border-bottom: 3px solid #FF6B35; }
+
+  /* 3D placeholder */
+  .hero-3d  {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .model-placeholder {
+    width: 160px; height: 200px;
+    border: 1.5px dashed #bbb;
+    display: flex; align-items: center; justify-content: center;
+    color: #aaa; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+
+  /* Nameplate */
+  .nameplate {
+    position: absolute; top: 10px; left: 14px;
+    font-size: 18px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.01em;
+  }
+
+  /* Scroll CTA */
+  .cta {
+    position: absolute; bottom: 10px; left: 14px;
+    width: 20px; height: 20px; background: #d4d4d4;
+    border: 1.5px solid #1a1a1a; border-radius: 1px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cta svg { display: block; }
+
+  /* Next section peeking */
+  .peek {
+    background: #fff;
+    padding: 14px;
+    border-top: none;
+  }
+  .peek-label {
+    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #999;
+    margin-bottom: 6px;
+  }
+  .peek-line { height: 6px; background: #e0e0e0; border-radius: 2px; margin-bottom: 5px; }
+  .peek-line.short { width: 60%; }
+
+  /* Float nav */
+  .floatnav {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    display: flex; justify-content: center; align-items: center; gap: 4px;
+    padding: 6px 0; background: #d4d4d4; border-top: 1.5px solid #1a1a1a;
+    font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: #1a1a1a;
+  }
+  .nav-dot { width: 3px; height: 3px; border-radius: 50%; background: #999; }
+
+  /* Annotations */
+  .tag {
+    display: inline-block; margin-top: 12px;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    background: #1a1a1a; color: #fff; padding: 3px 8px; border-radius: 2px;
+  }
+  .tag.orange { background: #FF6B35; }
+  .note { margin-top: 10px; font-size: 11px; color: #555; line-height: 1.5; }
+
+  /* Dimension callout */
+  .dim-bar {
+    display: flex; align-items: center; gap: 6px; margin: 8px 0 4px;
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: #888;
+  }
+  .dim-line { flex: 1; height: 1px; background: #bbb; }
+</style>
+</head>
+<body>
+
+<h1>Hero Height — Scroll Affordance</h1>
+<p class="sub">Goal: make it obvious there is content below the hero. Both previews show the same 400px tall viewport.</p>
+
+<div class="split">
+
+  <!-- OPTION A: Current 100vh -->
+  <div class="col">
+    <h2>A — Current (100vh)</h2>
+    <div class="browser">
+      <div class="chrome"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="bar"></div></div>
+      <div class="viewport">
+        <div class="hero-100">
+          <div class="nameplate">Eliahu Cohen</div>
+          <div class="hero-3d">
+            <div class="model-placeholder">3D model</div>
+          </div>
+          <div class="cta">
+            <svg width="8" height="8" viewBox="0 0 10 10" fill="none" stroke="#1a1a1a" stroke-width="1.5"><path d="M2 3.5l3 3 3-3"/></svg>
+          </div>
+        </div>
+        <!-- Next section NOT visible — exactly flush -->
+        <div class="floatnav">About &nbsp;<div class="nav-dot"></div>&nbsp; Work &nbsp;<div class="nav-dot"></div>&nbsp; Contact</div>
+      </div>
+    </div>
+    <span class="tag">Hero fills 100% of viewport</span>
+    <p class="note">Next section is completely hidden. Users have no visual clue that scrolling reveals anything — they go straight to the FloatNav.</p>
+  </div>
+
+  <!-- OPTION B: Proposed 80vh -->
+  <div class="col">
+    <h2>B — Proposed (80vh)</h2>
+    <div class="browser">
+      <div class="chrome"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="bar"></div></div>
+      <div class="viewport">
+        <div class="hero-80">
+          <div class="nameplate">Eliahu Cohen</div>
+          <div class="hero-3d">
+            <div class="model-placeholder">3D model</div>
+          </div>
+          <div class="cta">
+            <svg width="8" height="8" viewBox="0 0 10 10" fill="none" stroke="#1a1a1a" stroke-width="1.5"><path d="M2 3.5l3 3 3-3"/></svg>
+          </div>
+        </div>
+        <!-- About section peeks below -->
+        <div class="peek">
+          <div class="peek-label">About</div>
+          <div class="peek-line"></div>
+          <div class="peek-line short"></div>
+        </div>
+        <div class="floatnav">About &nbsp;<div class="nav-dot"></div>&nbsp; Work &nbsp;<div class="nav-dot"></div>&nbsp; Contact</div>
+      </div>
+    </div>
+    <span class="tag orange">Hero = 80vh · next section peeks</span>
+    <p class="note">The About section is visible below the fold. The orange border + content peek together signal: <em>there is more here.</em></p>
+  </div>
+
+</div>
+
+<p style="margin-top:32px; font-size:11px; color:#888; letter-spacing:0.04em;">
+  Questions in terminal: desktop only or also mobile?
+</p>
+
+</body>
+</html>

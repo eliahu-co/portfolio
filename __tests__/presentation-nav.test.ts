@@ -1,8 +1,8 @@
 import { TOTAL_SLIDES, clampIndex, step, hashForIndex, indexFromHash } from '@/app/HA-DrawingAnalyzer/presentation/nav'
 
 describe('presentation nav', () => {
-  it('has 17 slides', () => {
-    expect(TOTAL_SLIDES).toBe(17)
+  it('has 16 slides', () => {
+    expect(TOTAL_SLIDES).toBe(16)
   })
 
   it('clamps below and above range', () => {
@@ -20,16 +20,16 @@ describe('presentation nav', () => {
 
   it('round-trips index <-> hash (1-based)', () => {
     expect(hashForIndex(0)).toBe('#slide-1')
-    expect(hashForIndex(16)).toBe('#slide-17')
+    expect(hashForIndex(15)).toBe('#slide-16')
     expect(indexFromHash('#slide-1')).toBe(0)
-    expect(indexFromHash('slide-17')).toBe(16)
+    expect(indexFromHash('slide-16')).toBe(15)
   })
 
   it('returns null for invalid or out-of-range hashes', () => {
     expect(indexFromHash('')).toBeNull()
     expect(indexFromHash('#about')).toBeNull()
     expect(indexFromHash('#slide-0')).toBeNull()
-    expect(indexFromHash('#slide-18')).toBeNull()
+    expect(indexFromHash('#slide-17')).toBeNull()
     expect(indexFromHash('#slide-99')).toBeNull()
   })
 })

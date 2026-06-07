@@ -29,7 +29,7 @@ export const CRITERIA_DEFS: CriterionDef[] = [
 
 // SOURCE: sections/MVP.tsx METRICS — success metrics + their type for the deck.
 export const METRICS = [
-  { title: 'First-Pass Approval Rate', type: 'Business outcome' },
+  { title: 'First-Pass Approval Rate', type: 'Business\noutcome' },
   { title: 'Pre-Review Revision Rate', type: 'Usage' },
   { title: 'Change Validation Satisfaction', type: 'Quality' },
   { title: 'Review Submission Volume', type: 'Guardrail' },

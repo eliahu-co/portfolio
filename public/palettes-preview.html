@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Palette Options</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, sans-serif;
+    background: #111;
+    color: #f5f3ef;
+    padding: 32px 24px 80px;
+  }
+  h1 { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #666; margin-bottom: 6px; }
+  .subtitle { font-size: 24px; font-weight: 300; margin-bottom: 8px; }
+  .hint { font-size: 12px; color: #555; margin-bottom: 36px; letter-spacing: 0.05em; }
+
+  .palettes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1100px; }
+
+  .palette-card {
+    border: 2px solid #333;
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .palette-card:hover { border-color: #666; transform: translateY(-2px); }
+  .palette-card.selected { border-color: #ff6b35 !important; }
+
+  /* ── mini site mockup ── */
+  .site-mock { width: 100%; aspect-ratio: 16/9.5; position: relative; display: flex; flex-direction: column; overflow: hidden; }
+
+  .mock-nameplate { position: absolute; top: 9px; left: 12px; z-index: 10; line-height: 1; }
+  .mock-name { font-size: 12px; font-weight: 700; letter-spacing: 0.01em; }
+  .mock-slogan { font-size: 4.5px; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 3px; opacity: 0.65; }
+  .mock-links { display: flex; flex-direction: column; gap: 2px; margin-top: 5px; }
+  .mock-link { font-size: 4px; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 5px; display: inline-block; width: fit-content; font-weight: 600; border-radius: 1px; }
+
+  .mock-hero { height: 36%; position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .mock-3d { width: 52%; height: 68%; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 5px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; border-radius: 1px; }
+  .mock-nav { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); display: flex; overflow: hidden; font-size: 4px; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 2px; border: 1px solid rgba(0,0,0,0.25); }
+  .mock-nav span { padding: 3px 7px; white-space: nowrap; }
+
+  .mock-about { height: 25%; display: flex; align-items: center; gap: 10px; padding: 0 14px; flex-shrink: 0; }
+  .mock-photo { width: 42px; height: 42px; flex-shrink: 0; border-radius: 1px; overflow: hidden; }
+  .mock-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .mock-text { flex: 1; }
+  .mock-line { height: 3px; border-radius: 1px; margin-bottom: 3px; opacity: 0.2; }
+  .mock-tags { display: flex; gap: 2px; margin-top: 5px; }
+  .mock-tag { font-size: 3.5px; letter-spacing: 0.06em; text-transform: uppercase; padding: 1.5px 3px; border: 1px solid currentColor; opacity: 0.35; border-radius: 1px; }
+
+  .mock-cards { height: 15%; display: flex; flex-shrink: 0; }
+  .mock-card { flex: 1; padding: 5px 7px; display: flex; flex-direction: column; justify-content: flex-end; font-size: 5.5px; font-weight: 600; border-right: 1px solid rgba(0,0,0,0.15); }
+  .mock-card:last-child { border-right: none; }
+  .mock-card-cat { font-size: 3.5px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.38; margin-bottom: 2px; }
+
+  .mock-banner { height: 24%; display: flex; align-items: center; gap: 5px; padding: 7px 10px; overflow: hidden; flex-shrink: 0; position: relative; }
+  .mock-img { height: 100%; aspect-ratio: 4/3; border-radius: 1px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.07); flex-shrink: 0; }
+  .mock-arrow { position: absolute; left: 6px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; border-radius: 1px; display: flex; align-items: center; justify-content: center; font-size: 9px; border: 1px solid rgba(0,0,0,0.2); z-index: 2; font-weight: bold; }
+
+  /* ── label ── */
+  .palette-label { padding: 12px 16px; background: #1a1a1a; display: flex; align-items: center; justify-content: space-between; }
+  .palette-name { font-size: 13px; font-weight: 600; }
+  .palette-desc { font-size: 11px; color: #555; margin-top: 2px; }
+  .swatches { display: flex; gap: 5px; }
+  .swatch { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.08); }
+
+  /* ── selection bar ── */
+  #selection-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #ff6b35; color: white; text-align: center; padding: 12px; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; display: none; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>Portfolio · Colour Palettes</h1>
+<p class="subtitle">Pick the palette that feels right</p>
+<p class="hint">Click a card to select · Each shows hero → about → cards → banner</p>
+
+<div class="palettes">
+
+  <!-- A: Warm Studio -->
+  <div class="palette-card" onclick="pick(this,'A','Warm Studio')">
+    <div class="site-mock" style="background:#2C2826">
+      <div class="mock-nameplate" style="color:#D4A853">
+        <div class="mock-name">Eliahu Cohen</div>
+        <div class="mock-slogan" style="color:#f5f3ef">AEC Architect · Software Developer · Builder</div>
+        <div class="mock-links">
+          <span class="mock-link" style="background:#D4A853;color:#2C2826">hi@eliahu.co</span>
+          <span class="mock-link" style="background:#D4A853;color:#2C2826">LinkedIn ↗</span>
+          <span class="mock-link" style="background:#D4A853;color:#2C2826">Download CV ↓</span>
+        </div>
+      </div>
+      <div class="mock-hero" style="background:#2C2826;color:#f5f3ef">
+        <div class="mock-3d" style="border-color:rgba(212,168,83,.35);color:#D4A853">3D Panel</div>
+        <div class="mock-nav" style="background:#D4A853;color:#2C2826">
+          <span>Home</span><span>About</span><span style="background:#2C2826;color:#D4A853">What I Do</span>
+        </div>
+      </div>
+      <div class="mock-about" style="background:#F3DBC1;color:#1a1a1a">
+        <div class="mock-photo"><img src="/profile_pic.jpeg" alt=""></div>
+        <div class="mock-text" style="color:#1a1a1a">
+          <div class="mock-line" style="background:#1a1a1a;width:100%"></div>
+          <div class="mock-line" style="background:#1a1a1a;width:90%"></div>
+          <div class="mock-line" style="background:#1a1a1a;width:75%"></div>
+          <div class="mock-tags"><span class="mock-tag">Product</span><span class="mock-tag">BIM</span><span class="mock-tag">React</span></div>
+        </div>
+      </div>
+      <div class="mock-cards" style="background:#F3DBC1;color:#1a1a1a;border-top:1px solid rgba(26,26,26,.2)">
+        <div class="mock-card"><div class="mock-card-cat">Strategy</div>Product & Dev</div>
+        <div class="mock-card"><div class="mock-card-cat">BIM</div>Architecture</div>
+        <div class="mock-card"><div class="mock-card-cat">Innovation</div>R&D</div>
+        <div class="mock-card" style="background:#D4A853"><div class="mock-card-cat">Product</div>Design</div>
+      </div>
+      <div class="mock-banner" style="background:#8B5E3C">
+        <div class="mock-arrow" style="background:#D4A853;color:#2C2826">‹</div>
+        <div class="mock-img"></div><div class="mock-img" style="opacity:.7"></div><div class="mock-img" style="opacity:.4"></div><div class="mock-img" style="opacity:.2"></div>
+      </div>
+    </div>
+    <div class="palette-label">
+      <div><div class="palette-name">A — Warm Studio</div><div class="palette-desc">Near-black hero · warm beige sections · rich brown banner · gold accents</div></div>
+      <div class="swatches">
+        <div class="swatch" style="background:#2C2826"></div>
+        <div class="swatch" style="background:#F3DBC1"></div>
+        <div class="swatch" style="background:#8B5E3C"></div>
+        <div class="swatch" style="background:#D4A853"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B: Plum & Rose -->
+  <div class="palette-card" onclick="pick(this,'B','Plum & Rose')">
+    <div class="site-mock" style="background:#3A2535">
+      <div class="mock-nameplate" style="color:#D4A879">
+        <div class="mock-name">Eliahu Cohen</div>
+        <div class="mock-slogan" style="color:#f5f3ef">AEC Architect · Software Developer · Builder</div>
+        <div class="mock-links">
+          <span class="mock-link" style="background:#D4A879;color:#3A2535">hi@eliahu.co</span>
+          <span class="mock-link" style="background:#D4A879;color:#3A2535">LinkedIn ↗</span>
+          <span class="mock-link" style="background:#D4A879;color:#3A2535">Download CV ↓</span>
+        </div>
+      </div>
+      <div class="mock-hero" style="background:#3A2535;color:#f5f3ef">
+        <div class="mock-3d" style="border-color:rgba(212,168,121,.3);color:#D4A879">3D Panel</div>
+        <div class="mock-nav" style="background:#D4A879;color:#3A2535">
+          <span>Home</span><span>About</span><span style="background:#3A2535;color:#D4A879">What I Do</span>
+        </div>
+      </div>
+      <div class="mock-about" style="background:#EDD5D5;color:#2a1a1a">
+        <div class="mock-photo"><img src="/profile_pic.jpeg" alt=""></div>
+        <div class="mock-text" style="color:#2a1a1a">
+          <div class="mock-line" style="background:#2a1a1a;width:100%"></div>
+          <div class="mock-line" style="background:#2a1a1a;width:90%"></div>
+          <div class="mock-line" style="background:#2a1a1a;width:75%"></div>
+          <div class="mock-tags"><span class="mock-tag">Product</span><span class="mock-tag">BIM</span><span class="mock-tag">React</span></div>
+        </div>
+      </div>
+      <div class="mock-cards" style="background:#EDD5D5;color:#2a1a1a;border-top:1px solid rgba(42,26,26,.2)">
+        <div class="mock-card"><div class="mock-card-cat">Strategy</div>Product & Dev</div>
+        <div class="mock-card"><div class="mock-card-cat">BIM</div>Architecture</div>
+        <div class="mock-card"><div class="mock-card-cat">Innovation</div>R&D</div>
+        <div class="mock-card" style="background:#D4A879"><div class="mock-card-cat">Product</div>Design</div>
+      </div>
+      <div class="mock-banner" style="background:#7A4F6A">
+        <div class="mock-arrow" style="background:#D4A879;color:#3A2535">‹</div>
+        <div class="mock-img"></div><div class="mock-img" style="opacity:.7"></div><div class="mock-img" style="opacity:.4"></div><div class="mock-img" style="opacity:.2"></div>
+      </div>
+    </div>
+    <div class="palette-label">
+      <div><div class="palette-name">B — Plum & Rose</div><div class="palette-desc">Deep plum hero · blush sections · plum banner · tan gold accents</div></div>
+      <div class="swatches">
+        <div class="swatch" style="background:#3A2535"></div>
+        <div class="swatch" style="background:#EDD5D5"></div>
+        <div class="swatch" style="background:#7A4F6A"></div>
+        <div class="swatch" style="background:#D4A879"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C: Desert Terracotta -->
+  <div class="palette-card" onclick="pick(this,'C','Desert Terracotta')">
+    <div class="site-mock" style="background:#5C3A28">
+      <div class="mock-nameplate" style="color:#F2D16B">
+        <div class="mock-name">Eliahu Cohen</div>
+        <div class="mock-slogan" style="color:#f5f3ef">AEC Architect · Software Developer · Builder</div>
+        <div class="mock-links">
+          <span class="mock-link" style="background:#E8C060;color:#5C3A28">hi@eliahu.co</span>
+          <span class="mock-link" style="background:#E8C060;color:#5C3A28">LinkedIn ↗</span>
+          <span class="mock-link" style="background:#E8C060;color:#5C3A28">Download CV ↓</span>
+        </div>
+      </div>
+      <div class="mock-hero" style="background:#5C3A28;color:#f5f3ef">
+        <div class="mock-3d" style="border-color:rgba(242,209,107,.35);color:#F2D16B">3D Panel</div>
+        <div class="mock-nav" style="background:#E8C060;color:#5C3A28">
+          <span>Home</span><span>About</span><span style="background:#5C3A28;color:#E8C060">What I Do</span>
+        </div>
+      </div>
+      <div class="mock-about" style="background:#F5EBD8;color:#1a1a1a">
+        <div class="mock-photo"><img src="/profile_pic.jpeg" alt=""></div>
+        <div class="mock-text" style="color:#1a1a1a">
+          <div class="mock-line" style="background:#1a1a1a;width:100%"></div>
+          <div class="mock-line" style="background:#1a1a1a;width:90%"></div>
+          <div class="mock-line" style="background:#1a1a1a;width:75%"></div>
+          <div class="mock-tags"><span class="mock-tag">Product</span><span class="mock-tag">BIM</span><span class="mock-tag">React</span></div>
+        </div>
+      </div>
+      <div class="mock-cards" style="background:#F5EBD8;color:#1a1a1a;border-top:1px solid rgba(26,26,26,.15)">
+        <div class="mock-card"><div class="mock-card-cat">Strategy</div>Product & Dev</div>
+        <div class="mock-card"><div class="mock-card-cat">BIM</div>Architecture</div>
+        <div class="mock-card"><div class="mock-card-cat">Innovation</div>R&D</div>
+        <div class="mock-card" style="background:#E8C060"><div class="mock-card-cat">Product</div>Design</div>
+      </div>
+      <div class="mock-banner" style="background:#C17F5A">
+        <div class="mock-arrow" style="background:#E8C060;color:#5C3A28">‹</div>
+        <div class="mock-img"></div><div class="mock-img" style="opacity:.7"></div><div class="mock-img" style="opacity:.4"></div><div class="mock-img" style="opacity:.2"></div>
+      </div>
+    </div>
+    <div class="palette-label">
+      <div><div class="palette-name">C — Desert Terracotta</div><div class="palette-desc">Dark sienna hero · sand sections · terracotta banner · warm yellow accents</div></div>
+      <div class="swatches">
+        <div class="swatch" style="background:#5C3A28"></div>
+        <div class="swatch" style="background:#F5EBD8"></div>
+        <div class="swatch" style="background:#C17F5A"></div>
+        <div class="swatch" style="background:#E8C060"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D: Slate & Linen -->
+  <div class="palette-card" onclick="pick(this,'D','Slate & Linen')">
+    <div class="site-mock" style="background:#1E2D3D">
+      <div class="mock-nameplate" style="color:#C9A96E">
+        <div class="mock-name">Eliahu Cohen</div>
+        <div class="mock-slogan" style="color:#f5f3ef">AEC Architect · Software Developer · Builder</div>
+        <div class="mock-links">
+          <span class="mock-link" style="background:#C9A96E;color:#1E2D3D">hi@eliahu.co</span>
+          <span class="mock-link" style="background:#C9A96E;color:#1E2D3D">LinkedIn ↗</span>
+          <span class="mock-link" style="background:#C9A96E;color:#1E2D3D">Download CV ↓</span>
+        </div>
+      </div>
+      <div class="mock-hero" style="background:#1E2D3D;color:#f5f3ef">
+        <div class="mock-3d" style="border-color:rgba(201,169,110,.3);color:#C9A96E">3D Panel</div>
+        <div class="mock-nav" style="background:#C9A96E;color:#1E2D3D">
+          <span>Home</span><span>About</span><span style="background:#1E2D3D;color:#C9A96E">What I Do</span>
+        </div>
+      </div>
+      <div class="mock-about" style="background:#EEE8DF;color:#1a1a1a">
+        <div class="mock-photo"><img src="/profile_pic.jpeg" alt=""></div>
+        <div class="mock-text" style="color:#1a1a1a">
+          <div class="mock-line" style="background:#1a1a1a;width:100%"></div>
+          <div class="mock-line" style="background:#1a1a1a;width:90%"></div>
+          <div class="mock-line" style="background:#1a1a1a;width:75%"></div>
+          <div class="mock-tags"><span class="mock-tag">Product</span><span class="mock-tag">BIM</span><span class="mock-tag">React</span></div>
+        </div>
+      </div>
+      <div class="mock-cards" style="background:#EEE8DF;color:#1a1a1a;border-top:1px solid rgba(26,26,26,.15)">
+        <div class="mock-card"><div class="mock-card-cat">Strategy</div>Product & Dev</div>
+        <div class="mock-card"><div class="mock-card-cat">BIM</div>Architecture</div>
+        <div class="mock-card"><div class="mock-card-cat">Innovation</div>R&D</div>
+        <div class="mock-card" style="background:#C9A96E"><div class="mock-card-cat">Product</div>Design</div>
+      </div>
+      <div class="mock-banner" style="background:#3D6278">
+        <div class="mock-arrow" style="background:#C9A96E;color:#1E2D3D">‹</div>
+        <div class="mock-img"></div><div class="mock-img" style="opacity:.7"></div><div class="mock-img" style="opacity:.4"></div><div class="mock-img" style="opacity:.2"></div>
+      </div>
+    </div>
+    <div class="palette-label">
+      <div><div class="palette-name">D — Slate & Linen</div><div class="palette-desc">Dark navy-slate hero · linen sections · steel-blue banner · warm gold accents</div></div>
+      <div class="swatches">
+        <div class="swatch" style="background:#1E2D3D"></div>
+        <div class="swatch" style="background:#EEE8DF"></div>
+        <div class="swatch" style="background:#3D6278"></div>
+        <div class="swatch" style="background:#C9A96E"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="selection-bar"></div>
+
+<script>
+  function pick(el, letter, name) {
+    document.querySelectorAll('.palette-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    const bar = document.getElementById('selection-bar');
+    bar.textContent = '✓ Selected: ' + letter + ' — ' + name;
+    bar.style.display = 'block';
+  }
+</script>
+</body>
+</html>

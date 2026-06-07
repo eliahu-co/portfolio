@@ -15,7 +15,6 @@ const SLIDE_TITLES = [
   'Assumptions',
   'Criteria',
   'Scoring',
-  'Recommendation',
   'Value & Risks',
   'MVP Scope',
   'Prototype',
