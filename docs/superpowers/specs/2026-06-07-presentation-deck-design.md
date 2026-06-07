@@ -38,7 +38,13 @@ vertical scroll on mobile.
    ●⚑✕✓⟲⚡︎ glyphs, `Card`) are **not** exported and must not be edited. The deck
    **rebuilds simplified slide-local copies** of those visuals in `presentation/primitives.tsx`.
    `Section`/`Pill`/`CardList` remain importable if convenient, but the deck favors its own
-   larger-scale primitives sized for projection.
+   larger-scale primitives sized for projection. **`DemoVideo` (slide 16) is reused by
+   import** — read-only, no edit — since it already provides the exact poster→play→replay
+   player the slide needs.
+   - **Slide 16 = video + button, not an embedded prototype.** Embedding the full-screen,
+     desktop-only Forma prototype in an iframe would conflict with the deck's keyboard/focus
+     handling and force awkward scaling. Instead: `DemoVideo` walkthrough + a button that
+     opens `/HA-DrawingAnalyzer/demo` in a new tab.
 3. **Slide count:** 17, exactly as enumerated in the brief.
 
 ## File structure (all new)
@@ -89,6 +95,9 @@ app/HA-DrawingAnalyzer/presentation/
   - `ArrowLeft` / `Shift+Space` → previous (clamped at 0).
   - `Escape` → `router.push('/HA-DrawingAnalyzer')`.
   - `preventDefault()` on Space so the page doesn't scroll.
+  - **Ignore key events originating inside interactive media/controls** (e.g.
+    `event.target` is a `<video>`, `<button>`, `<a>`, or `<input>`) so pressing Space
+    to play/pause the slide-16 walkthrough video doesn't also advance the slide.
 - On `current` change, update `history.replaceState` hash to `#slide-n` (stable anchors,
   no scroll jump).
 - Rendering (desktop, `hidden lg:block` wrapper):
@@ -125,7 +134,7 @@ app/HA-DrawingAnalyzer/presentation/
 | 13 | Workflow | `USE_CASE_1` current/proposed via `MiniWorkflow` | — |
 | 14 | Value & Risks | `USE_CASE_1` value/risk **titles only** via `MiniCard` | — |
 | 15 | MVP Scope | `SCOPE_IN`/`SCOPE_OUT` (copied), large type | — |
-| 16 | Interactive Prototype | poster screenshot + `eliahu.co/HA-DrawingAnalyzer/demo` URL + QR placeholder; layout leaves room to swap in a live embed later | real QR |
+| 16 | Interactive Prototype | reused `DemoVideo` walkthrough player + primary "Open interactive prototype ↗" button → `/HA-DrawingAnalyzer/demo` (new tab) + URL; QR optional | QR (optional, for remote viewers) |
 | 17 | Key Unknowns to Validate | `VARIABLES` (copied) — Accuracy / Latency / Cost | — |
 
 ## Acceptance criteria
