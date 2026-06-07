@@ -13,9 +13,11 @@ executive **Current vs Proposed** workflow diagram, styled like the workflow lan
 
 ## Decisions (confirmed)
 
-- **Layout:** keep the mockup image; the workflow replaces the problem text in the left
-  column. Rebalance `SlideUseCase` columns from `0.85fr / 1.9fr` to **`1.25fr / 1fr`** so the
-  two-lane workflow is legible and the image stays sizable (smaller than before).
+- **Layout:** keep the mockup image **at its current size** (do NOT shrink it). Instead of
+  stealing width from the image, **widen the whole slide**: `SlideShell` gains a `wide` variant
+  (`max-w-7xl`, `px-12 lg:px-16`) used by the use-case slides. The image column is pinned to its
+  current width (`minmax(0, 560px)`) and the workflow takes the added width on the left. The
+  workflow replaces the problem text.
 - **Markers:** include ⚡ (blue AI glyph) on the product step and ✓ on the final proposed
   step. Current lanes stay plain.
 - **Slide 13** (standalone Change Validation workflow) is **kept** as-is.
@@ -67,12 +69,20 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
 }
 ```
 
+## `SlideShell` change (primitives.tsx)
+
+Add an optional `wide?: boolean` prop. When true, the inner container uses `max-w-7xl px-12
+lg:px-16` instead of `max-w-5xl px-12 lg:px-20`. Default (false) unchanged, so every other slide
+is untouched.
+
 ## `SlideUseCase.tsx` change
 
-- Columns: `lg:grid-cols-[1.25fr_1fr]` (was `0.85fr / 1.9fr`).
+- Pass `wide` to `SlideShell`.
+- Columns: `lg:grid-cols-[1fr_minmax(0,560px)]` — image column pinned to ~its current width
+  (so the image is **not** smaller), workflow gets the rest on the left.
 - Left column: keep `title`, `User`, `Phase`; **remove** the `problem.intro` paragraph and render
   `<ExecWorkflow {...EXEC_WORKFLOWS[data.id]} />` in its place.
-- Right column: image unchanged (still `max-h-[78vh] object-contain`, UC2 keeps no border).
+- Right column: image unchanged (`max-h-[78vh] w-full object-contain`, UC2 keeps no border).
 - If a use case has no entry in `EXEC_WORKFLOWS`, render nothing in that slot (defensive).
 
 ## Acceptance criteria
