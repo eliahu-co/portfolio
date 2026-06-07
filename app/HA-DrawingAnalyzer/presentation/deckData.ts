@@ -21,10 +21,10 @@ export const SCORE_ROWS: ScoreRow[] = [
 
 export type CriterionDef = { title: string; body: string; rubric: [string, string][] }
 export const CRITERIA_DEFS: CriterionDef[] = [
-  { title: 'Impact', body: 'Magnitude of value delivered if successful.', rubric: [['5', 'Significant user and business impact.'], ['3', 'Meaningful but limited impact.'], ['1', 'Nice-to-have improvement.']] },
-  { title: 'Platform Leverage', body: 'Degree to which the use case depends on the unique capabilities of the AI Drawing Analyzer.', rubric: [['5', 'Impossible without drawing intelligence.'], ['3', 'Somewhat benefits from it.'], ['1', 'Mostly unrelated.']] },
-  { title: 'Confidence', body: 'Confidence that users will understand, adopt, and realize value from the workflow.', rubric: [['5', 'Clear pain point and obvious value.'], ['3', 'Some adoption or behavior-change risk.'], ['1', 'Significant uncertainty around adoption or value.']] },
-  { title: 'Feasibility', body: 'Estimated effort required to deliver a valuable MVP.', rubric: [['5', 'Low effort and limited dependencies.'], ['3', 'Moderate effort or coordination required.'], ['1', 'Significant effort or complexity required.']] },
+  { title: 'Impact', body: 'Value × Number of Users', rubric: [['5', 'Significant impact'], ['3', 'Meaningful, but limited'], ['1', 'Nice-to-have improvement']] },
+  { title: 'Platform Leverage', body: 'Dependence on Drawing Intelligence', rubric: [['5', 'Impossible without it'], ['3', 'Benefits from it'], ['1', 'Mostly unrelated']] },
+  { title: 'Confidence', body: 'Likelihood of Adoption', rubric: [['5', 'Clear pain point and obvious value'], ['3', 'Some adoption risk'], ['1', 'Significant uncertainty']] },
+  { title: 'Feasibility', body: 'Effort to Deliver an MVP', rubric: [['5', 'Low effort, limited dependencies'], ['3', 'Moderate effort, coordination required'], ['1', 'Significant effort, high complexity']] },
 ]
 
 // SOURCE: sections/MVP.tsx SCOPE_IN / SCOPE_OUT — keep in sync.
