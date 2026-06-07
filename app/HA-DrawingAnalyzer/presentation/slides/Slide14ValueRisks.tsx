@@ -1,12 +1,12 @@
 // app/HA-DrawingAnalyzer/presentation/slides/Slide14ValueRisks.tsx
 import { SlideShell, MiniCard } from '../primitives'
-import { USE_CASES } from '../deckData'
+import { USE_CASES, METRICS } from '../deckData'
 
 export default function Slide14ValueRisks() {
   const cv = USE_CASES[0]
   return (
-    <SlideShell eyebrow="Change Validation" title="Value & risks">
-      <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+    <SlideShell eyebrow="Change Validation" title="Value, risks, metrics">
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
         <div>
           <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black">Value</p>
           <div className="flex flex-col gap-3">
@@ -17,6 +17,12 @@ export default function Slide14ValueRisks() {
           <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black">Risks</p>
           <div className="flex flex-col gap-3">
             {cv.tradeoffs.map((r) => <MiniCard key={r.title} title={r.title} tone="risk" primary={r.primary} />)}
+          </div>
+        </div>
+        <div>
+          <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black">Metrics</p>
+          <div className="flex flex-col gap-3">
+            {METRICS.map((m) => <MiniCard key={m} title={m} tone="metric" />)}
           </div>
         </div>
       </div>

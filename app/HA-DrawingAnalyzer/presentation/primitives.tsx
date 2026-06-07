@@ -76,8 +76,8 @@ export function MiniWorkflow({ current, proposed }: { current: WorkflowStep[]; p
   )
 }
 
-export function MiniCard({ title, tone, primary }: { title: string; tone: 'value' | 'risk'; primary?: boolean }) {
-  const color = tone === 'value' ? 'border-black' : 'border-[#ffff00]'
+export function MiniCard({ title, tone, primary }: { title: string; tone: 'value' | 'risk' | 'metric'; primary?: boolean }) {
+  const color = tone === 'value' ? 'border-black' : tone === 'risk' ? 'border-[#ffff00]' : 'border-charcoal/50'
   // thicker bar for the primary item; padding compensates so text stays aligned (border + pl = 20px)
   const bar = primary ? 'border-l-8 pl-3' : 'border-l-4 pl-4'
   return (

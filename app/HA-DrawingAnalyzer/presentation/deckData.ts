@@ -27,6 +27,14 @@ export const CRITERIA_DEFS: CriterionDef[] = [
   { title: 'Feasibility', body: 'Effort to Deliver an MVP', rubric: [['5', 'Low effort, limited dependencies'], ['3', 'Moderate effort, coordination required'], ['1', 'Significant effort, high complexity']] },
 ]
 
+// SOURCE: sections/MVP.tsx METRICS — success-metric titles for the deck.
+export const METRICS = [
+  'First-Pass Approval Rate',
+  'Pre-Review Revision Rate',
+  'Change Validation Satisfaction',
+  'Review Submission Volume',
+]
+
 // SOURCE: sections/MVP.tsx SCOPE_IN / SCOPE_OUT — keep in sync.
 export const SCOPE_IN = [
   'Compare two versions of a single drawing sheet.',
