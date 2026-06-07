@@ -17,7 +17,7 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
         </div>
         {data.opportunity.image && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={data.opportunity.image} alt="" className="max-h-[78vh] w-full rounded-lg border-2 border-autodesk-blue/60 object-contain" />
+          <img src={data.opportunity.image} alt="" className={`max-h-[78vh] w-full rounded-lg object-contain ${index === 2 ? '' : 'border-2 border-autodesk-blue/60'}`} />
         )}
       </div>
     </SlideShell>
