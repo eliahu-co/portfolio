@@ -8,7 +8,10 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
   const title = data.title.split('\n')[0]
   const wf = EXEC_WORKFLOWS[data.id]
   const image = index === 2 ? '/presentation/usecase-2.jpeg' : data.opportunity.image
-  const tradeoff = index === 2 ? { gain: 'Faster resolution', cost: 'Additional step' } : data.tradeoff
+  const tradeoff =
+    index === 1 ? { gain: 'Fewer review rounds', cost: 'Additional step' }
+    : index === 2 ? { gain: 'Faster resolution', cost: 'Additional step' }
+    : data.tradeoff
   return (
     <div className="relative h-full w-full bg-[#c9c9c9]">
       <SlideShell>
