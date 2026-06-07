@@ -63,7 +63,7 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
     },
     proposed: {
       steps: [
-        { label: 'Disciplines coordinated' },
+        { label: 'Disciplines coordinated', kind: 'ai' },
         { label: 'Design change', actor: 'Designer' },
         { label: 'Impacted Dependencies Identified', kind: 'ai' },
         { label: 'Teams Notified' },
