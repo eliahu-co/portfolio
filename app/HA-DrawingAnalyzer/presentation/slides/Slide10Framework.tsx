@@ -9,7 +9,7 @@ export default function Slide10Framework() {
       <h2 aria-hidden className="mb-8 select-none text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04]">&nbsp;</h2>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {CRITERIA_DEFS.map(({ title, body, rubric }) => (
-          <div key={title} className="border-l-4 border-charcoal pl-4">
+          <div key={title} className={`border-charcoal ${title === 'Confidence' ? 'border-l-8 pl-3' : 'border-l-4 pl-4'}`}>
             <p className="text-[20px] font-bold text-black">{title}</p>
             <p className="mt-1 font-sans text-[13px] italic leading-relaxed text-charcoal/80">{body}</p>
             <div className="mt-2 flex flex-col gap-0.5">
