@@ -18,7 +18,7 @@ export default function Slide11Results() {
   return (
     <SlideShell eyebrow="Prioritization" title="Change Validation">
       <ScoreTable criteria={CRITERIA} rows={SCORE_ROWS} />
-      <div className="mt-10 max-w-3xl border-t-2 border-black pt-4">
+      <div className="mt-10 max-w-5xl border-t-2 border-black pt-4">
         <p className="text-[22px] font-bold text-black">Highest Confidence</p>
         <p className="mt-3 font-sans text-[14px] leading-relaxed text-charcoal">
           <Hl>Change Validation</Hl> is introduced on a <Hl>high-frequency</Hl> workflow with clear user value, and <Hl>minimal behavior change</Hl>.
