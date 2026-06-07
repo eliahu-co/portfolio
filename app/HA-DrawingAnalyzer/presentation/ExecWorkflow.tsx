@@ -24,9 +24,9 @@ function Step({ step, proposed }: { step: ExecStep; proposed: boolean }) {
   const kind = step.kind
   const isEmphasis = kind === 'approve'
 
-  let box = proposed ? 'bg-white border-black/55' : 'bg-white border-charcoal/40'
+  let box = proposed ? 'bg-[#c9c9c9] border-black/55' : 'bg-[#c9c9c9] border-charcoal/40'
   if (kind === 'ai') box = 'bg-[#ffff00] border-black'
-  else if (kind === 'approve') box = 'bg-white border-black'
+  else if (kind === 'approve') box = 'bg-[#c9c9c9] border-black'
 
   const borderW = isEmphasis || kind === 'ai' ? 'border-2' : 'border'
   const labelColor = kind ? 'text-black font-semibold' : proposed ? 'text-black' : 'text-charcoal'
