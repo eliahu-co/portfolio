@@ -68,7 +68,7 @@ function Step({
             <span className="rounded-none border border-black bg-black px-1 py-px text-[8px] font-bold uppercase tracking-wider text-white">DA</span>
           )}
           {step.actor && (
-            <span className="rounded-none border border-black px-1 py-px text-[8px] font-bold uppercase tracking-wider text-black">{step.actor}</span>
+            <span className={`rounded-none border px-1 py-px text-[8px] font-bold uppercase tracking-wider ${proposed ? 'border-black text-black' : 'border-charcoal text-charcoal'}`}>{step.actor}</span>
           )}
         </span>
       )}
