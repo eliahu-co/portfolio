@@ -74,7 +74,7 @@ export default function PresentationDeck() {
   return (
     <div className="deck-root bg-white text-charcoal">
       {/* Desktop: crossfading overlay */}
-      <div className="hidden lg:block">
+      <div className="deck-overlay hidden lg:block">
         <div className="fixed inset-0 overflow-hidden">
           {SLIDES.map((slide, i) => (
             <section
@@ -92,22 +92,40 @@ export default function PresentationDeck() {
         </div>
       </div>
 
-      {/* Mobile / print: linear vertical stack */}
-      <div className="deck-linear lg:hidden">
+      {/* Mobile: desktop-only notice (mirrors the demo) */}
+      <div className="deck-mobile lg:hidden min-h-screen bg-[#fafafa] text-[#1a1a1a] grid place-items-center px-8 text-center">
+        <div className="flex flex-col items-center gap-6">
+          <p className="font-sans text-[15px] leading-relaxed text-[#5a5a5a]">
+            The presentation is only available on desktop.
+          </p>
+          <a
+            href="/HA-DrawingAnalyzer"
+            className="font-sans text-[11px] uppercase tracking-[0.06em] no-underline border-2 border-autodesk-blue/60 text-autodesk-blue rounded-sm px-3.5 py-2 hover:bg-autodesk-blue/10 hover:border-autodesk-blue transition-colors"
+          >
+            ← Home assignment
+          </a>
+        </div>
+      </div>
+
+      {/* Print only: linear stack of all slides (clean PDF) */}
+      <div className="deck-print">
         {SLIDES.map((slide, i) => (
-          <section key={i} id={`slide-${i + 1}`} className="flex min-h-screen w-full">
+          <section key={i} className="flex min-h-screen w-full">
             {slide}
           </section>
         ))}
       </div>
 
       <style>{`
-        .deck-root, .deck-root * { cursor: auto; }
+        .deck-root, .deck-root * { cursor: auto !important; }
+        .deck-root a, .deck-root button { cursor: pointer !important; }
+        .deck-print { display: none; }
         @media print {
-          .deck-root .hidden.lg\\:block { display: none !important; }
-          .deck-root .deck-linear { display: block !important; }
+          .deck-overlay { display: none !important; }
+          .deck-mobile { display: none !important; }
+          .deck-print { display: block !important; }
           .deck-counter { display: none !important; }
-          .deck-root section { break-after: page; min-height: 100vh; }
+          .deck-root .deck-print section { break-after: page; min-height: 100vh; }
         }
       `}</style>
     </div>
