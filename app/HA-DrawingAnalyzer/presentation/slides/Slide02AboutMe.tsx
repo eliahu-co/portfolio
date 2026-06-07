@@ -8,7 +8,13 @@ const TIMELINE = ['Brazil', 'Netherlands', 'Israel'] // TODO: confirm/expand
 export default function Slide02AboutMe() {
   return (
     <SlideShell eyebrow="About" title="Architect · Product Manager · Builder">
-      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_auto]">
+      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[auto_1fr]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/presentation/family.jpeg"
+          alt="Eliahu and family"
+          className="w-full max-w-[300px] rounded-lg shadow-sm"
+        />
         <div>
           <div className="flex flex-wrap items-center gap-3">
             {TIMELINE.map((place, i) => (
@@ -24,12 +30,6 @@ export default function Slide02AboutMe() {
             lifecycles and shipping production code alongside the team.
           </p>
         </div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/presentation/family.jpeg"
-          alt="Eliahu and family"
-          className="w-full max-w-[300px] rounded-lg shadow-sm"
-        />
       </div>
     </SlideShell>
   )
