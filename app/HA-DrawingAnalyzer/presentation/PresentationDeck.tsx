@@ -4,13 +4,42 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import { TOTAL_SLIDES, step as stepIndex, hashForIndex, indexFromHash } from './nav'
+import { Counter } from './primitives'
+import { USE_CASES } from './deckData'
+import Slide01Cover from './slides/Slide01Cover'
+import Slide02AboutMe from './slides/Slide02AboutMe'
+import Slide03Approach from './slides/Slide03Approach'
+import Slide04SelectedUseCases from './slides/Slide04SelectedUseCases'
+import SlideUseCase from './slides/SlideUseCase'
+import Slide09Assumptions from './slides/Slide09Assumptions'
+import Slide10Framework from './slides/Slide10Framework'
+import Slide11Results from './slides/Slide11Results'
+import Slide12Recommendation from './slides/Slide12Recommendation'
+import Slide13Workflow from './slides/Slide13Workflow'
+import Slide14ValueRisks from './slides/Slide14ValueRisks'
+import Slide15MvpScope from './slides/Slide15MvpScope'
+import Slide16Prototype from './slides/Slide16Prototype'
+import Slide17KeyUnknowns from './slides/Slide17KeyUnknowns'
 
-// Temporary placeholder slides — replaced by real slide components in later tasks.
-const SLIDES: ReactNode[] = Array.from({ length: 17 }, (_, i) => (
-  <div className="flex h-full w-full items-center justify-center">
-    <span className="font-serif text-[64px] text-black">Slide {i + 1}</span>
-  </div>
-))
+const SLIDES: ReactNode[] = [
+  <Slide01Cover key="1" />,
+  <Slide02AboutMe key="2" />,
+  <Slide03Approach key="3" />,
+  <Slide04SelectedUseCases key="4" />,
+  <SlideUseCase key="5" data={USE_CASES[0]} index={1} />,
+  <SlideUseCase key="6" data={USE_CASES[1]} index={2} />,
+  <SlideUseCase key="7" data={USE_CASES[2]} index={3} />,
+  <SlideUseCase key="8" data={USE_CASES[3]} index={4} />,
+  <Slide09Assumptions key="9" />,
+  <Slide10Framework key="10" />,
+  <Slide11Results key="11" />,
+  <Slide12Recommendation key="12" />,
+  <Slide13Workflow key="13" />,
+  <Slide14ValueRisks key="14" />,
+  <Slide15MvpScope key="15" />,
+  <Slide16Prototype key="16" />,
+  <Slide17KeyUnknowns key="17" />,
+]
 
 export default function PresentationDeck() {
   const router = useRouter()
@@ -59,9 +88,7 @@ export default function PresentationDeck() {
               {slide}
             </section>
           ))}
-          <p className="deck-counter fixed bottom-5 right-6 z-20 font-sans text-[12px] tracking-[0.12em] text-charcoal/60">
-            {current + 1} / {total}
-          </p>
+          <Counter index={current} total={total} />
         </div>
       </div>
 
