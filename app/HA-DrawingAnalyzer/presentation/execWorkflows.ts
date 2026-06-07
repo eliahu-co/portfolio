@@ -88,7 +88,6 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
         { label: 'Requirements defined', kind: 'ai' },
         { label: 'Design Progresses', actor: 'Designer' },
         { label: 'Program Review', kind: 'ai' },
-        { label: 'Requirements Tracked' },
         { label: 'Consistent Enforcement', kind: 'approve' },
       ],
       footer: 'Continuous Validation',
