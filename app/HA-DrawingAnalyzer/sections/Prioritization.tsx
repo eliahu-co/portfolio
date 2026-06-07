@@ -166,7 +166,7 @@ export default function Prioritization() {
             support Change Orders and other downstream opportunities.
           </p>
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Context Link (17) is the next strongest candidate and a natural follow-on investment, leveraging the same ability to identify and relate objects within drawings. Its lower confidence score reflects greater adoption risk: field teams typically operate under time pressure, making additional verification steps a harder sell unless the generated context is consistently accurate and clearly valuable.
+            Context Link (17) is the next strongest candidate and a natural follow-on investment, leveraging the same ability to identify and relate objects within drawings. Its lower confidence score reflects greater adoption risk: field teams operate under time pressure in dynamic construction environments, making additional verification steps a harder sell unless the generated context is highly accurate and immediately useful.
           </p>
         </div>
       </div>
