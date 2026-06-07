@@ -16,7 +16,7 @@ export default function Slide01Cover() {
         <SlideShell eyebrow="Autodesk · Product Manager" variant="centered">
           <h1 className="font-extrabold text-[clamp(40px,7vw,84px)] leading-[1.02] text-black">AI Drawing Analyzer</h1>
           <p className="mt-4 text-[clamp(18px,2.4vw,30px)] font-medium text-charcoal">Product Opportunities &amp; MVP Recommendation</p>
-          <p className="mt-10 font-sans text-[14px] uppercase tracking-[0.12em] text-charcoal/60">Eliahu Cohen</p>
+          <p className="mt-5 font-sans text-[12px] font-bold uppercase tracking-[0.14em] text-black">Eliahu Cohen</p>
         </SlideShell>
       </div>
     </div>
