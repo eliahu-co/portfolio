@@ -5,6 +5,8 @@ import { CRITERIA_DEFS } from '../deckData'
 export default function Slide10Framework() {
   return (
     <SlideShell eyebrow="Prioritization">
+      {/* invisible title-sized spacer so the body sits where a big title would put it */}
+      <h2 aria-hidden className="mb-8 select-none text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04]">&nbsp;</h2>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {CRITERIA_DEFS.map(({ title, body, rubric }) => (
           <div key={title} className="border-l-4 border-charcoal pl-4">
