@@ -85,6 +85,8 @@ export function MiniCard({ title, tone }: { title: string; tone: 'value' | 'risk
   )
 }
 
+const MEDALS = ['🥇', '🥈', '🥉', '']
+
 export function ScoreTable({
   criteria,
   rows,
@@ -104,9 +106,11 @@ export function ScoreTable({
         </tr>
       </thead>
       <tbody>
-        {rows.map((r) => (
+        {rows.map((r, ri) => (
           <tr key={r.useCase} className="border-b border-charcoal/15" style={r.winner ? { backgroundColor: '#ffff00' } : undefined}>
-            <td className={`py-3 pr-4 font-sans text-[16px] ${r.winner ? 'font-bold text-black' : 'text-charcoal'}`}>{r.useCase}</td>
+            <td className={`py-3 pr-4 font-sans text-[16px] ${r.winner ? 'font-bold text-black' : 'text-charcoal'}`}>
+              <span className="mr-2 inline-block w-7 text-center" aria-hidden="true">{MEDALS[ri]}</span>{r.useCase}
+            </td>
             {r.scores.map((s, i) => (
               <td key={i} className={`px-3 py-3 text-center font-sans text-[16px] ${r.winner ? 'text-black' : 'text-charcoal/70'}`}>{s}</td>
             ))}
