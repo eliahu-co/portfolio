@@ -77,7 +77,7 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
       steps: [
         { label: 'Requirements defined' },
         { label: 'Design Progresses', actor: 'Designer' },
-        { label: 'Manual Program Review' },
+        { label: 'Program Review' },
         { label: 'Limited Review Capacity' },
         { label: 'Inconsistent Enforcement' },
       ],
@@ -87,7 +87,7 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
       steps: [
         { label: 'Requirements defined', kind: 'ai' },
         { label: 'Design Progresses', actor: 'Designer' },
-        { label: 'Program Continuously Evaluated', kind: 'ai' },
+        { label: 'Program Review', kind: 'ai' },
         { label: 'Requirements Tracked' },
         { label: 'Consistent Enforcement', kind: 'approve' },
       ],
