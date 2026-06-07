@@ -67,7 +67,7 @@ sentence case. Eyebrow: `text-[12px] font-bold uppercase tracking-[0.14em] text-
 - **primitives.tsx**
   - `SlideShell`: title → Inter heavy + bigger (above); eyebrow → black.
   - `Counter`: unchanged (slate) — fine.
-  - `MiniWorkflow` / `MiniCard` / `ScoreTable`: recolor per the map (black/slate + yellow winner band, black value bar; risk bar may stay amber `#caa000` as a functional status or go black — **decision: black** to stay on-palette).
+  - `MiniWorkflow` / `MiniCard` / `ScoreTable`: recolor per the map (black/slate + yellow winner band). **Value bar = black; Risk bar/accent = Hello Yellow `#ffff00`** (thicker, e.g. `border-l-8`, so the yellow reads on white). The "Risks" heading **text stays black** (yellow text on white fails contrast) — yellow is the bar only.
 - **ExecWorkflow.tsx**: AI step → yellow fill + black ⚡ + black DA pill (no glow); approve → black `border-2` + black ✓; lane headers black (Proposed) / slate (Current); connectors black (Proposed) / slate (Current); actor pills → black outline.
 - **slides/Slide01Cover.tsx**: title Inter heavy; remove any rounding; scrim stays. Title/subtitle black.
 - **slides/Slide02AboutMe.tsx**: family photo `rounded-lg shadow-sm` → square, no shadow; timeline → black (drop blue); bullets markers → black.
@@ -78,7 +78,7 @@ sentence case. Eyebrow: `text-[12px] font-bold uppercase tracking-[0.14em] text-
 - **slides/Slide10Framework.tsx**: criterion bars/numbers → black.
 - **slides/Slide11Results.tsx**: winner via `ScoreTable` yellow band.
 - **slides/Slide12Recommendation.tsx**: "Change Validation" → black text on a **yellow** highlight (`bg-[#ffff00] px-2`); pillars top-border → black.
-- **slides/Slide13Workflow.tsx** & **Slide14ValueRisks.tsx**: recolor via `MiniWorkflow`/`MiniCard` (black/slate; value/risk bars black).
+- **slides/Slide13Workflow.tsx** & **Slide14ValueRisks.tsx**: recolor via `MiniWorkflow`/`MiniCard` (black/slate; **value bar black, risk bar yellow `#ffff00`**; "Value"/"Risks" headings stay black).
 - **slides/Slide15MvpScope.tsx**: in/out markers → black/slate.
 - **slides/Slide16Prototype.tsx**: button `bg-black text-white`; text black. `DemoVideo` untouched.
 - **slides/Slide17KeyUnknowns.tsx**: labels → black.
