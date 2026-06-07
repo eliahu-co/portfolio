@@ -15,7 +15,6 @@ import Slide09Assumptions from './slides/Slide09Assumptions'
 import Slide10Framework from './slides/Slide10Framework'
 import Slide11Results from './slides/Slide11Results'
 import Slide12Recommendation from './slides/Slide12Recommendation'
-import Slide13Workflow from './slides/Slide13Workflow'
 import Slide14ValueRisks from './slides/Slide14ValueRisks'
 import Slide15MvpScope from './slides/Slide15MvpScope'
 import Slide16Prototype from './slides/Slide16Prototype'
@@ -34,7 +33,6 @@ const SLIDES: ReactNode[] = [
   <Slide10Framework key="10" />,
   <Slide11Results key="11" />,
   <Slide12Recommendation key="12" />,
-  <Slide13Workflow key="13" />,
   <Slide14ValueRisks key="14" />,
   <Slide15MvpScope key="15" />,
   <Slide16Prototype key="16" />,
