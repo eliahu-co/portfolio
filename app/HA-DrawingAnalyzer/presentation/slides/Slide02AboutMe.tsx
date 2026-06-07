@@ -8,19 +8,29 @@ const TIMELINE = ['Brazil', 'Netherlands', 'Israel'] // TODO: confirm/expand
 export default function Slide02AboutMe() {
   return (
     <SlideShell eyebrow="About" title="Architect · Product Manager · Builder">
-      <div className="flex flex-wrap items-center gap-3">
-        {TIMELINE.map((place, i) => (
-          <span key={place} className="flex items-center gap-3">
-            <span className="font-serif text-[26px] text-black">{place}</span>
-            {i < TIMELINE.length - 1 && <span className="text-autodesk-blue" aria-hidden="true">→</span>}
-          </span>
-        ))}
+      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_auto]">
+        <div>
+          <div className="flex flex-wrap items-center gap-3">
+            {TIMELINE.map((place, i) => (
+              <span key={place} className="flex items-center gap-3">
+                <span className="font-serif text-[26px] text-black">{place}</span>
+                {i < TIMELINE.length - 1 && <span className="text-autodesk-blue" aria-hidden="true">→</span>}
+              </span>
+            ))}
+          </div>
+          <p className="mt-8 font-sans text-[18px] leading-relaxed text-charcoal">
+            {/* TODO: replace with real bio */}
+            Six years in ConTech across product and engineering — owning product
+            lifecycles and shipping production code alongside the team.
+          </p>
+        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/presentation/family.jpeg"
+          alt="Eliahu and family"
+          className="w-full max-w-[300px] rounded-lg shadow-sm"
+        />
       </div>
-      <p className="mt-8 font-sans text-[18px] leading-relaxed text-charcoal">
-        {/* TODO: replace with real bio */}
-        Six years in ConTech across product and engineering — owning product
-        lifecycles and shipping production code alongside the team.
-      </p>
     </SlideShell>
   )
 }
