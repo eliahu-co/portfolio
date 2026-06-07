@@ -79,7 +79,7 @@ export const LIFECYCLE_PHASES: LifecyclePhase[] = [
 export type LifecycleGroup = { label: string; start: number; span: number; muted?: boolean }
 export const LIFECYCLE_GROUPS: LifecycleGroup[] = [
   { label: 'Research', start: 0, span: 1 },
-  { label: 'Design + Documentation', start: 1, span: 4 },
+  { label: 'Design + Coordination + Planning', start: 1, span: 4 },
   { label: 'Pricing', start: 5, span: 1, muted: true },
   { label: 'Construction', start: 6, span: 1 },
 ]
