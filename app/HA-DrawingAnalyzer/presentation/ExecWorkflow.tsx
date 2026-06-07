@@ -1,7 +1,8 @@
 // app/HA-DrawingAnalyzer/presentation/ExecWorkflow.tsx
-// Executive Current-vs-Proposed workflow, styled like the workflow lanes on
-// /HA-DrawingAnalyzer (bordered step boxes + SVG down-arrow connectors + a serif
-// lane footer). Recreated here so no existing site file is touched.
+// Executive Current-vs-Proposed workflow, faithfully matching the workflow lanes
+// on /HA-DrawingAnalyzer: bordered step boxes, emphasis (border-2 + bold) on the
+// outcome step, the AI step with a blue glow + bold ⚡ + "DA" pill, and SVG
+// down-arrow connectors. Recreated here so no existing site file is edited.
 
 export type ExecStep = { label: string; kind?: 'ai' | 'approve' }
 export type ExecLane = { steps: ExecStep[]; footer: string }
@@ -10,8 +11,8 @@ export type ExecLane = { steps: ExecStep[]; footer: string }
 function Connector({ proposed }: { proposed: boolean }) {
   const color = proposed ? 'rgba(6,150,215,0.7)' : 'rgba(102,102,102,0.45)'
   return (
-    <div className="flex justify-center py-1">
-      <svg width="14" height="16" viewBox="0 0 14 15" fill="none" aria-hidden="true" style={{ display: 'block' }}>
+    <div className="flex justify-center">
+      <svg width="14" height="15" viewBox="0 0 14 15" fill="none" aria-hidden="true" style={{ display: 'block' }}>
         <path d="M7 0 V14" stroke={color} strokeWidth="1" strokeLinecap="round" />
         <path d="M2 10 L7 14 L12 10" stroke={color} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
@@ -21,19 +22,31 @@ function Connector({ proposed }: { proposed: boolean }) {
 
 function Step({ step, proposed }: { step: ExecStep; proposed: boolean }) {
   const kind = step.kind
-  const box =
-    kind === 'ai'
-      ? 'border-autodesk-blue/50 bg-autodesk-blue/10'
-      : proposed
-        ? 'border-autodesk-blue/30 bg-white'
-        : 'border-charcoal/25 bg-white'
-  const glyph = kind === 'ai' ? '⚡︎' : kind === 'approve' ? '✓' : null
-  const glyphColor = kind === 'ai' || proposed ? 'text-autodesk-blue' : 'text-charcoal'
-  const label = kind ? 'font-medium text-black' : 'text-charcoal'
+  const isEmphasis = kind === 'approve'
+
+  let box = proposed ? 'bg-white border-autodesk-blue/30' : 'bg-white border-charcoal/25'
+  if (kind === 'ai') box = 'bg-autodesk-blue/10 border-autodesk-blue/45 shadow-[0_0_16px_-1px_rgba(6,150,215,0.5)]'
+  else if (kind === 'approve') box = proposed ? 'bg-white border-autodesk-blue/70' : 'bg-white border-charcoal/45'
+
+  const borderW = isEmphasis ? 'border-2' : 'border'
+  const labelColor = kind ? 'text-black font-medium' : 'text-charcoal'
+
   return (
-    <div className={`flex items-center gap-2 rounded-sm border px-3 py-2 ${box}`}>
-      {glyph && <span className={`shrink-0 text-[13px] leading-none ${glyphColor}`} aria-hidden="true">{glyph}</span>}
-      <span className={`font-sans text-[12px] leading-snug ${label}`}>{step.label}</span>
+    <div className={`relative flex items-center gap-2 overflow-hidden rounded-sm ${borderW} px-3 py-2 ${box}`}>
+      <span
+        className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] font-bold text-autodesk-blue' : 'text-[12px]'} ${
+          kind === 'approve' ? 'text-autodesk-blue' : kind === 'ai' ? '' : 'text-transparent'
+        }`}
+        aria-hidden="true"
+      >
+        {kind === 'ai' ? '⚡︎' : kind === 'approve' ? '✓' : '•'}
+      </span>
+      <span className={`relative min-w-0 font-sans text-[12px] leading-snug ${labelColor}`}>{step.label}</span>
+      {kind === 'ai' && (
+        <span className="relative ml-auto shrink-0 rounded border-2 border-autodesk-blue bg-autodesk-blue/80 px-1 py-px text-[8px] font-bold uppercase tracking-wider text-white">
+          DA
+        </span>
+      )}
     </div>
   )
 }
@@ -42,9 +55,11 @@ function Lane({ lane, proposed }: { lane: ExecLane; proposed: boolean }) {
   const accent = proposed ? 'text-autodesk-blue' : 'text-charcoal'
   return (
     <div className="flex h-full flex-col">
-      <p className={`mb-3 font-sans text-[10px] uppercase tracking-[0.12em] ${accent}`}>
-        {proposed ? 'Proposed' : 'Current'}
-      </p>
+      <div className={`mb-3 border-b-2 pb-1.5 ${proposed ? 'border-autodesk-blue' : 'border-charcoal/40'}`}>
+        <span className={`font-sans text-[10px] uppercase tracking-[0.12em] ${accent}`}>
+          {proposed ? 'Proposed' : 'Current'}
+        </span>
+      </div>
       <div className="flex flex-col">
         {lane.steps.map((s, i) => (
           <div key={i}>
