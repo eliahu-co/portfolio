@@ -8,7 +8,7 @@ export default function Slide14ValueRisks() {
     <SlideShell eyebrow="Change Validation" title="Value, risks, metrics">
       <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
         <div>
-          <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black">Value</p>
+          <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black">Value delivered</p>
           <div className="flex flex-col gap-3">
             {cv.value.map((v) => <MiniCard key={v.title} title={v.title} tone="value" primary={v.primary} />)}
           </div>
@@ -22,7 +22,7 @@ export default function Slide14ValueRisks() {
         <div>
           <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black">Metrics</p>
           <div className="flex flex-col gap-3">
-            {METRICS.map((m) => <MiniCard key={m} title={m} tone="metric" />)}
+            {METRICS.map((m, i) => <MiniCard key={m} title={m} tone="metric" primary={i === 0} />)}
           </div>
         </div>
       </div>
