@@ -7,10 +7,8 @@ const gridCols = { gridTemplateColumns: `repeat(${COLS}, minmax(0, 1fr))` }
 
 export default function Slide03Approach() {
   return (
-    <SlideShell eyebrow="Approach" title="From lifecycle to MVP">
+    <SlideShell eyebrow="Approach">
       <div className="mb-12">
-        <p className="mb-5 font-sans text-[12px] uppercase tracking-[0.12em] text-charcoal/60">Construction lifecycle</p>
-
         {/* Stage grouping brackets */}
         <div className="grid gap-x-3" style={gridCols}>
           {LIFECYCLE_GROUPS.map((g) => (
