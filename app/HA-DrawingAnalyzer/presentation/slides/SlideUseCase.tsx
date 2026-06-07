@@ -7,6 +7,7 @@ import type { UseCaseData } from '@/app/HA-DrawingAnalyzer/sections/UseCase'
 export default function SlideUseCase({ data, index }: { data: UseCaseData; index: number }) {
   const title = data.title.split('\n')[0]
   const wf = EXEC_WORKFLOWS[data.id]
+  const image = index === 2 ? '/presentation/usecase-2.jpeg' : data.opportunity.image
   return (
     <div className="relative h-full w-full bg-[#c9c9c9]">
       <SlideShell>
@@ -20,14 +21,14 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
 
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,380px)_1fr]">
           {wf && <ExecWorkflow current={wf.current} proposed={wf.proposed} />}
-          {data.opportunity.image && (
+          {image && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={data.opportunity.image}
+              src={image}
               alt=""
               className={
                 index === 2
-                  ? 'mx-auto max-h-[62vh] w-auto rounded-tl-[28px] object-contain'
+                  ? 'max-h-[62vh] w-auto justify-self-start rounded-tl-[28px] object-contain'
                   : 'max-h-[84vh] w-full rounded-tl-[28px] object-contain'
               }
             />
