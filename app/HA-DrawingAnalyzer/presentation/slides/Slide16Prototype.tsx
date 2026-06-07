@@ -7,7 +7,7 @@ export default function Slide16Prototype() {
   return (
     <SlideShell eyebrow="Prototype" title="Change Validation, interactive">
       <div className="flex flex-col items-start gap-6">
-        <div className="w-full max-w-4xl">
+        <div className="w-full max-w-5xl">
           <DemoVideo />
         </div>
         <a
