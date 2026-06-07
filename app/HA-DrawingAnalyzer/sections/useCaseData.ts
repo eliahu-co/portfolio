@@ -44,7 +44,7 @@ export const USE_CASE_1: UseCaseData = {
       { label: 'Reviewer identifies unintended changes', kind: 'catch', actor: 'reviewer', note: 'Caught late — at human review' },
       { label: 'Review sent back to initiator', kind: 'reject' },
       { label: 'Uploads modified drawing' },
-      { label: 'Compares manually', note: 'Mistake not caught' },
+      { label: '(optional) Checks for mistakes manually' },
       { label: 'Submits for review again', kind: 'repeat', note: 'Second review round' },
       { label: 'Review approved', kind: 'approve', actor: 'reviewer', note: 'Multiple rounds review' },
     ],
