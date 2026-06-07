@@ -39,7 +39,7 @@ export const USE_CASE_1: UseCaseData = {
     stat: 'Repeated review cycles',
     steps: [
       { label: 'Uploads modified drawing' },
-      { label: '(optional) Checks for mistakes', note: 'Mistake not caught' },
+      { label: '(optional) Checks for mistakes manually', note: 'Mistake not caught' },
       { label: 'Submits for review', emphasis: true },
       { label: 'Reviewer identifies unintended changes', kind: 'catch', actor: 'reviewer', note: 'Caught late — at human review' },
       { label: 'Review sent back to initiator', kind: 'reject' },
