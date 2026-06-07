@@ -24,7 +24,7 @@ export default function Slide04SelectedUseCases() {
           {USE_CASES.map((uc, i) => (
             <tr key={uc.id} className="border-b border-charcoal/15">
               <td className="py-4 pr-4 font-serif text-[20px] text-black">
-                <span className="mr-2" aria-hidden="true">{MEDALS[i]}</span>{shortTitle(uc.title)}
+                <span className="mr-2 inline-block w-7 text-center" aria-hidden="true">{MEDALS[i]}</span>{shortTitle(uc.title)}
               </td>
               <td className="px-4 py-4 font-sans text-[14px] text-charcoal">{uc.primaryUser.pill}</td>
               <td className="pl-4 py-4 font-sans text-[14px] text-charcoal/70">{uc.constructionPhase.name.split('/')[0].trim()}</td>
