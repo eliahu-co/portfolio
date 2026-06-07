@@ -5,9 +5,7 @@ import { CRITERIA_DEFS } from '../deckData'
 export default function Slide10Framework() {
   return (
     <SlideShell eyebrow="Prioritization">
-      {/* eyebrow anchored at top; body centered in the remaining space */}
-      <div className="flex flex-1 flex-col justify-center">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {CRITERIA_DEFS.map(({ title, body, rubric }) => (
           <div key={title} className="border-l-4 border-charcoal pl-4">
             <p className="text-[20px] font-bold text-black">{title}</p>
@@ -21,8 +19,7 @@ export default function Slide10Framework() {
               ))}
             </div>
           </div>
-          ))}
-        </div>
+        ))}
       </div>
     </SlideShell>
   )
