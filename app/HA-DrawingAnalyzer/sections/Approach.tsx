@@ -15,7 +15,7 @@ export default function Approach() {
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
           I explored a broad set of opportunities and then narrowed the scope to workflows where
           understanding objects, relationships, and changes within drawings could create unique value.
-          I also reviewed adjacent offerings such as Bluebeam, Spacial, Higharc, Swapp, and Bananaz to
+          I also reviewed adjacent offerings such as Procore, Bluebeam, Spacial.io, Higharc, Swapp, and Bananaz to
           better understand emerging applications of drawing intelligence across design and construction
           workflows. I intentionally excluded areas such as code compliance, which require a higher level
           of accuracy and regulatory confidence than I could reasonably assume for an MVP, as well as
