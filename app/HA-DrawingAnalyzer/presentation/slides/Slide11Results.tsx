@@ -14,6 +14,9 @@ export default function Slide11Results() {
         <p className="mt-3 font-sans text-[14px] leading-relaxed text-charcoal">
           Context Link has greater adoption risk: field teams operate under time pressure in dynamic construction environments — the additional verification step is a harder sell.
         </p>
+        <p className="mt-3 font-sans text-[14px] leading-relaxed text-charcoal">
+          Coordination Lock and Program Conformance require creating a new behavior.
+        </p>
       </div>
     </SlideShell>
   )
