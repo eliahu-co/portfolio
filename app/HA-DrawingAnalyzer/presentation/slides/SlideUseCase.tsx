@@ -8,6 +8,7 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
   const title = data.title.split('\n')[0]
   const wf = EXEC_WORKFLOWS[data.id]
   const image = index === 2 ? '/presentation/usecase-2.jpeg' : data.opportunity.image
+  const tradeoff = index === 2 ? { gain: 'Faster resolution', cost: 'Additional step' } : data.tradeoff
   return (
     <div className="relative h-full w-full bg-[#c9c9c9]">
       <SlideShell>
@@ -22,11 +23,11 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,380px)_1fr]">
           <div>
             {wf && <ExecWorkflow current={wf.current} proposed={wf.proposed} />}
-            {data.tradeoff && (
+            {tradeoff && (
               <p className="mt-12 font-sans text-[11px] uppercase leading-relaxed tracking-[0.1em] text-charcoal">
-                {data.tradeoff.gain}
+                {tradeoff.gain}
                 <span className="mx-1.5" aria-hidden="true">⇄</span>
-                {data.tradeoff.cost}
+                {tradeoff.cost}
               </p>
             )}
           </div>
