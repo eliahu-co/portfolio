@@ -5,6 +5,14 @@ import { SlideShell } from '../primitives'
 
 const TIMELINE = ['Brazil', 'Netherlands', 'Israel'] // TODO: confirm/expand
 
+const BULLETS = [
+  '31 years old',
+  'Married',
+  'Crossfitter',
+  '10 years in the AEC industry',
+  '6 years in ConTech',
+]
+
 export default function Slide02AboutMe() {
   return (
     <SlideShell eyebrow="About" title="Architect · Product Manager · Builder">
@@ -24,11 +32,14 @@ export default function Slide02AboutMe() {
               </span>
             ))}
           </div>
-          <p className="mt-8 font-sans text-[18px] leading-relaxed text-charcoal">
-            {/* TODO: replace with real bio */}
-            Six years in ConTech across product and engineering — owning product
-            lifecycles and shipping production code alongside the team.
-          </p>
+          <ul className="mt-8 flex flex-col gap-3">
+            {BULLETS.map((b) => (
+              <li key={b} className="flex gap-3 font-sans text-[18px] leading-relaxed text-charcoal">
+                <span className="mt-0.5 shrink-0 text-autodesk-blue" aria-hidden="true">—</span>
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </SlideShell>
