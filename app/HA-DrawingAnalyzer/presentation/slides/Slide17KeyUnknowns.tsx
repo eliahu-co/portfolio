@@ -32,10 +32,12 @@ export default function Slide17KeyUnknowns() {
     <SlideShell eyebrow="Feasibility" title="Key unknowns to validate">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
         {VARIABLES.map(({ label, body }) => (
-          <div key={label}>
-            <div className="mb-4 text-black" aria-hidden="true">{ICONS[label]}</div>
-            <p className="mb-2 text-[24px] font-bold text-black">{label}</p>
-            <p className="font-sans text-[15px] leading-relaxed text-charcoal">{body}</p>
+          <div key={label} className="flex items-start gap-4">
+            <div className="shrink-0 text-black" aria-hidden="true">{ICONS[label]}</div>
+            <div>
+              <p className="mb-2 text-[24px] font-bold text-black">{label}</p>
+              <p className="font-sans text-[15px] leading-relaxed text-charcoal">{body}</p>
+            </div>
           </div>
         ))}
       </div>
