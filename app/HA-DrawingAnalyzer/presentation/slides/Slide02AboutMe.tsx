@@ -32,7 +32,7 @@ export default function Slide02AboutMe() {
             <div className="flex flex-wrap items-center gap-2">
               {TIMELINE.map((place, i) => (
                 <span key={place} className="flex items-center gap-2">
-                  <span className="font-sans text-[12px] uppercase tracking-[0.12em] text-charcoal/60">{place}</span>
+                  <span className="font-sans text-[12px] uppercase tracking-[0.12em] text-autodesk-blue">{place}</span>
                   {i < TIMELINE.length - 1 && <span className="text-[12px] text-autodesk-blue" aria-hidden="true">→</span>}
                 </span>
               ))}

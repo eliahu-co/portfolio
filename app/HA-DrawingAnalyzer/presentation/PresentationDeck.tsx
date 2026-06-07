@@ -75,13 +75,13 @@ export default function PresentationDeck() {
     <div className="deck-root bg-white text-charcoal">
       {/* Desktop: crossfading overlay */}
       <div className="deck-overlay hidden lg:block">
-        <div className="fixed inset-0 overflow-hidden">
+        <div className="fixed inset-0 overflow-hidden bg-white">
           {SLIDES.map((slide, i) => (
             <section
               key={i}
               id={`slide-${i + 1}`}
               aria-hidden={i !== current}
-              className={`absolute inset-0 transition-opacity duration-[250ms] ${
+              className={`absolute inset-0 bg-white transition-opacity duration-[250ms] ${
                 i === current ? 'z-10 opacity-100' : 'z-0 pointer-events-none opacity-0'
               }`}
             >
@@ -93,7 +93,7 @@ export default function PresentationDeck() {
       </div>
 
       {/* Mobile: desktop-only notice (mirrors the demo) */}
-      <div className="deck-mobile lg:hidden min-h-screen bg-[#fafafa] text-[#1a1a1a] grid place-items-center px-8 text-center">
+      <div className="deck-mobile lg:hidden min-h-screen bg-white text-[#1a1a1a] grid place-items-center px-8 text-center">
         <div className="flex flex-col items-center gap-6">
           <p className="font-sans text-[15px] leading-relaxed text-[#5a5a5a]">
             The presentation is only available on desktop.
@@ -110,7 +110,7 @@ export default function PresentationDeck() {
       {/* Print only: linear stack of all slides (clean PDF) */}
       <div className="deck-print">
         {SLIDES.map((slide, i) => (
-          <section key={i} className="flex min-h-screen w-full">
+          <section key={i} className="flex min-h-screen w-full bg-white">
             {slide}
           </section>
         ))}
