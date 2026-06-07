@@ -4,7 +4,7 @@ import { CRITERIA_DEFS } from '../deckData'
 
 export default function Slide10Framework() {
   return (
-    <SlideShell eyebrow="Prioritization" title="Four criteria, scored 1–5">
+    <SlideShell eyebrow="Prioritization">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {CRITERIA_DEFS.map(({ title, body, rubric }) => (
           <div key={title} className="border-l-4 border-charcoal pl-4">
