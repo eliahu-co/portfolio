@@ -23,7 +23,7 @@ export default function Slide02AboutMe() {
         <img
           src="/presentation/family.jpeg"
           alt="Eliahu and family"
-          className="w-full max-w-[320px] self-start rounded-tl-[28px]"
+          className="w-full max-w-[320px] self-start"
         />
         {/* Text column matches the image height: timeline at top, last bullet at bottom */}
         <div className="flex h-full flex-col justify-between py-1">

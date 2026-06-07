@@ -42,8 +42,8 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
               alt=""
               className={
                 index === 2
-                  ? 'max-h-[62vh] w-auto justify-self-start rounded-tl-[28px] object-contain'
-                  : 'max-h-[84vh] w-full rounded-tl-[28px] object-contain'
+                  ? 'max-h-[62vh] w-auto justify-self-start object-contain'
+                  : 'max-h-[84vh] w-full object-contain'
               }
             />
           )}
