@@ -15,7 +15,7 @@ export type ScoreRow = { useCase: string; scores: number[]; total: number; winne
 export const SCORE_ROWS: ScoreRow[] = [
   { useCase: 'Change Validation',          scores: [5, 5, 5, 3], total: 18, winner: true },
   { useCase: 'Context Link',               scores: [5, 5, 4, 3], total: 17 },
-  { useCase: 'Coordination Lock',          scores: [5, 4, 3, 2], total: 14 },
+  { useCase: 'Coordination Lock',          scores: [5, 5, 3, 2], total: 15 },
   { useCase: 'Program Conformance Review', scores: [4, 5, 2, 2], total: 13 },
 ]
 
