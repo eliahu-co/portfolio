@@ -63,8 +63,25 @@ export const VARIABLES = [
   { label: 'Cost',     body: 'Can change validation run on every review initiated while remaining economically viable at project scale?' },
 ]
 
-// Six construction-lifecycle phases for slide 3. Labels are adjustable — confirm with author.
-export const APPROACH_PHASES = ['Conception', 'Design & Planning', 'Permitting', 'Pre-Construction', 'Construction', 'Operations & Handover']
+// Construction lifecycle for slide 3 — phases (initials + name) and the
+// higher-level stage groups that bracket them (modeled on the AEC reference).
+export const LIFECYCLE_PHASES = [
+  { initials: 'PD', name: 'Pre Design' },
+  { initials: 'SD', name: 'Schematic Design' },
+  { initials: 'DD', name: 'Design Development' },
+  { initials: 'BP', name: 'Building Permit' },
+  { initials: 'CD', name: 'Construction Documents' },
+  { initials: 'BN', name: 'Bidding & Negotiation' },
+  { initials: 'CA', name: 'Construction Administration' },
+]
+
+export const LIFECYCLE_GROUPS = [
+  { label: 'Research', start: 0, span: 1 },
+  { label: 'Design + Documentation', start: 1, span: 4 },
+  { label: 'Pricing', start: 5, span: 1 },
+  { label: 'Construction', start: 6, span: 1 },
+]
+
 export const APPROACH_FLOW = ['Lifecycle', 'Bottlenecks', 'Use Cases', 'Prioritization', 'MVP']
 
 // Recommendation pillars (titles from brief; supporting lines adjustable).

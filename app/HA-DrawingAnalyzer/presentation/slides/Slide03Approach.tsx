@@ -1,18 +1,49 @@
 // app/HA-DrawingAnalyzer/presentation/slides/Slide03Approach.tsx
 import { SlideShell } from '../primitives'
-import { APPROACH_PHASES, APPROACH_FLOW } from '../deckData'
+import { LIFECYCLE_PHASES, LIFECYCLE_GROUPS, APPROACH_FLOW } from '../deckData'
+
+const COLS = LIFECYCLE_PHASES.length
+const gridCols = { gridTemplateColumns: `repeat(${COLS}, minmax(0, 1fr))` }
 
 export default function Slide03Approach() {
   return (
     <SlideShell eyebrow="Approach" title="From lifecycle to MVP">
-      <div className="mb-10">
-        <p className="mb-3 font-sans text-[12px] uppercase tracking-[0.12em] text-charcoal/60">Construction lifecycle</p>
-        <div className="flex flex-wrap gap-2">
-          {APPROACH_PHASES.map((p) => (
-            <span key={p} className="rounded-sm border-2 border-charcoal/40 px-3 py-1 font-sans text-[13px] text-charcoal">{p}</span>
+      <div className="mb-12">
+        <p className="mb-5 font-sans text-[12px] uppercase tracking-[0.12em] text-charcoal/60">Construction lifecycle</p>
+
+        {/* Stage grouping brackets */}
+        <div className="grid gap-x-3" style={gridCols}>
+          {LIFECYCLE_GROUPS.map((g) => (
+            <div
+              key={g.label}
+              style={{ gridColumn: `${g.start + 1} / span ${g.span}` }}
+              className="flex flex-col items-center"
+            >
+              <span className="mb-1.5 text-center font-sans text-[10px] font-medium uppercase tracking-[0.1em] text-charcoal/55">
+                {g.label}
+              </span>
+              {/* downward-opening bracket spanning the stage */}
+              <div className="h-2.5 w-full rounded-t-sm border-x-2 border-t-2 border-charcoal/30" />
+            </div>
+          ))}
+        </div>
+
+        {/* Phase circles + names */}
+        <div className="mt-4 grid items-start gap-x-3" style={gridCols}>
+          {LIFECYCLE_PHASES.map((p) => (
+            <div key={p.initials} className="flex flex-col items-center">
+              <div className="grid aspect-square w-full max-w-[84px] place-items-center rounded-full bg-autodesk-blue">
+                <span className="font-sans text-[clamp(16px,1.8vw,24px)] font-bold tracking-wide text-white">{p.initials}</span>
+              </div>
+              <span className="mt-2.5 max-w-[100px] text-center font-sans text-[10px] uppercase leading-tight tracking-[0.08em] text-charcoal">
+                {p.name}
+              </span>
+            </div>
           ))}
         </div>
       </div>
+
+      {/* Method flow */}
       <div className="flex flex-wrap items-center gap-3">
         {APPROACH_FLOW.map((f, i) => (
           <span key={f} className="flex items-center gap-3">
