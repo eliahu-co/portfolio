@@ -18,8 +18,8 @@ export default function Slide03Approach() {
         ))}
       </div>
 
-      {/* Lifecycle diagram */}
-      <div>
+      {/* Lifecycle diagram — pushed lower to roughly bottom-align with the prior slide's photo */}
+      <div className="mt-24">
         {/* Stage grouping brackets */}
         <div className="grid gap-x-3" style={gridCols}>
           {LIFECYCLE_GROUPS.map((g) => (
