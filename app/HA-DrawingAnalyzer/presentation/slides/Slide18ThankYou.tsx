@@ -31,7 +31,7 @@ export default function Slide18ThankYou() {
           <a
             key={t}
             href={`#slide-${i + 1}`}
-            className="rounded-none bg-[#ffff00] px-3 py-2 font-sans text-[11px] font-semibold uppercase tracking-wider text-black no-underline hover:opacity-90"
+            className="rounded-none border-2 border-[#ffff00] px-3 py-2 font-sans text-[11px] font-semibold uppercase tracking-wider text-black no-underline transition-colors hover:bg-[#ffff00]"
           >
             {i + 1}. {t}
           </a>
