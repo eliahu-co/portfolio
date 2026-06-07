@@ -15,7 +15,7 @@ export default function Slide03Approach() {
             <div
               key={g.label}
               style={{ gridColumn: `${g.start + 1} / span ${g.span}` }}
-              className="flex flex-col items-center"
+              className={`flex flex-col items-center transition-opacity ${g.muted ? 'opacity-30' : ''}`}
             >
               <span className="mb-1.5 text-center font-sans text-[10px] font-medium uppercase tracking-[0.1em] text-autodesk-blue">
                 {g.label}
@@ -29,7 +29,7 @@ export default function Slide03Approach() {
         {/* Phase circles + names */}
         <div className="mt-7 grid items-start gap-x-3" style={gridCols}>
           {LIFECYCLE_PHASES.map((p) => (
-            <div key={p.initials} className="flex flex-col items-center">
+            <div key={p.initials} className={`flex flex-col items-center transition-opacity ${p.muted ? 'opacity-30' : ''}`}>
               <div className="grid aspect-square w-full max-w-[84px] place-items-center rounded-full border-2 border-autodesk-blue">
                 <span className="font-sans text-[clamp(16px,1.8vw,24px)] font-bold tracking-wide text-autodesk-blue">{p.initials}</span>
               </div>

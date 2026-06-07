@@ -65,20 +65,22 @@ export const VARIABLES = [
 
 // Construction lifecycle for slide 3 — phases (initials + name) and the
 // higher-level stage groups that bracket them (modeled on the AEC reference).
-export const LIFECYCLE_PHASES = [
+export type LifecyclePhase = { initials: string; name: string; muted?: boolean }
+export const LIFECYCLE_PHASES: LifecyclePhase[] = [
   { initials: 'PD', name: 'Pre Design' },
   { initials: 'SD', name: 'Schematic Design' },
   { initials: 'DD', name: 'Design Development' },
-  { initials: 'BP', name: 'Building Permit' },
+  { initials: 'BP', name: 'Building Permit', muted: true },
   { initials: 'CD', name: 'Construction Documents' },
-  { initials: 'BN', name: 'Bidding & Negotiation' },
+  { initials: 'BN', name: 'Bidding & Negotiation', muted: true },
   { initials: 'CA', name: 'Construction Administration' },
 ]
 
-export const LIFECYCLE_GROUPS = [
+export type LifecycleGroup = { label: string; start: number; span: number; muted?: boolean }
+export const LIFECYCLE_GROUPS: LifecycleGroup[] = [
   { label: 'Research', start: 0, span: 1 },
   { label: 'Design + Documentation', start: 1, span: 4 },
-  { label: 'Pricing', start: 5, span: 1 },
+  { label: 'Pricing', start: 5, span: 1, muted: true },
   { label: 'Construction', start: 6, span: 1 },
 ]
 
