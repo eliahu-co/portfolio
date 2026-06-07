@@ -45,7 +45,7 @@ export default function Slide03Approach() {
       <div className="flex flex-wrap items-center gap-3">
         {APPROACH_FLOW.map((f, i) => (
           <span key={f} className="flex items-center gap-3">
-            <span className="font-serif text-[22px] text-black">{f}</span>
+            <span className="text-[22px] font-semibold text-black">{f}</span>
             {i < APPROACH_FLOW.length - 1 && <span className="text-black" aria-hidden="true">→</span>}
           </span>
         ))}

@@ -27,7 +27,7 @@ export default function Slide04SelectedUseCases() {
               className="border-b border-charcoal/15"
               style={i === 0 ? { backgroundColor: '#ffff00' } : undefined}
             >
-              <td className={`py-4 pr-4 font-serif text-[20px] text-black ${i === 0 ? 'font-medium' : ''}`}>
+              <td className="py-4 pr-4 text-[20px] font-semibold text-black">
                 <span className="mr-2 inline-block w-7 text-center" aria-hidden="true">{MEDALS[i]}</span>{shortTitle(uc.title)}
               </td>
               <td className="px-4 py-4 font-sans text-[14px] text-charcoal">{uc.primaryUser.pill}</td>

@@ -100,7 +100,7 @@ export default function PresentationDeck() {
           </p>
           <a
             href="/HA-DrawingAnalyzer"
-            className="font-sans text-[11px] uppercase tracking-[0.06em] no-underline border-2 border-autodesk-blue/60 text-autodesk-blue rounded-sm px-3.5 py-2 hover:bg-autodesk-blue/10 hover:border-autodesk-blue transition-colors"
+            className="font-sans text-[11px] uppercase tracking-[0.06em] no-underline border-2 border-black text-black rounded-none px-3.5 py-2 hover:bg-black/5 transition-colors"
           >
             ← Home assignment
           </a>
