@@ -19,6 +19,7 @@ import Slide14ValueRisks from './slides/Slide14ValueRisks'
 import Slide15MvpScope from './slides/Slide15MvpScope'
 import Slide16Prototype from './slides/Slide16Prototype'
 import Slide17KeyUnknowns from './slides/Slide17KeyUnknowns'
+import Slide18ThankYou from './slides/Slide18ThankYou'
 
 const SLIDES: ReactNode[] = [
   <Slide01Cover key="1" />,
@@ -37,6 +38,7 @@ const SLIDES: ReactNode[] = [
   <Slide15MvpScope key="15" />,
   <Slide16Prototype key="16" />,
   <Slide17KeyUnknowns key="17" />,
+  <Slide18ThankYou key="18" />,
 ]
 
 export default function PresentationDeck() {
@@ -47,6 +49,13 @@ export default function PresentationDeck() {
   useEffect(() => {
     const fromHash = indexFromHash(window.location.hash, total)
     if (fromHash !== null) setCurrent(fromHash)
+    // respond to in-deck hash navigation (e.g. the Thank-you slide's jump buttons)
+    const onHashChange = () => {
+      const idx = indexFromHash(window.location.hash, total)
+      if (idx !== null) setCurrent(idx)
+    }
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
   }, [total])
 
   useEffect(() => {
