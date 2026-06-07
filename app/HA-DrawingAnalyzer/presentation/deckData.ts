@@ -53,14 +53,14 @@ export const SCOPE_OUT = [
   'Multi-sheet drawing sets.',
 ]
 
-// Condensed, executive assumptions for the deck.
+// Executive assumptions — each completes the title "The Drawing Analyzer is…".
 export const ASSUMPTIONS = [
-  'Object identification across files/revisions (relationship mapping)',
-  'Fits within existing workflows (quick)',
-  'Drawings remain the source of truth',
-  'Analysis, not design authoring',
-  'Integrated into Forma',
-  'Standardized machine-readable drawings',
+  'able to identify and relate objects across files and revisions',
+  'fast enough to fit within existing workflows',
+  'augmenting drawings, but not replacing the documents as source of truth',
+  'analyzing the design, but not modifying it',
+  'integrated into Forma',
+  'compatible with standard industry drawings',
 ]
 
 // SOURCE: sections/KeyUnknowns.tsx VARIABLES — keep in sync.
