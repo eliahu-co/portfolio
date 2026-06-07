@@ -40,10 +40,10 @@ export default function Slide04SelectedUseCases() {
         /* quick blue sweep, then a long rest — so the shine happens occasionally */
         @keyframes cv-shine {
           0%   { background-position: 200% 0; }
-          25%  { background-position: -200% 0; }
+          35%  { background-position: -200% 0; }
           100% { background-position: -200% 0; }
         }
-        .cv-shine { animation: cv-shine 9s linear infinite; }
+        .cv-shine { animation: cv-shine 20s linear infinite; }
         @media (prefers-reduced-motion: reduce) { .cv-shine { animation: none; } }
       `}</style>
     </SlideShell>
