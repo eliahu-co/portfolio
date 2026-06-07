@@ -22,7 +22,11 @@ export default function Slide04SelectedUseCases() {
         </thead>
         <tbody>
           {USE_CASES.map((uc, i) => (
-            <tr key={uc.id} className="border-b border-charcoal/15">
+            <tr
+              key={uc.id}
+              className={`border-b border-charcoal/15 ${i === 0 ? 'animate-shimmer motion-reduce:animate-none' : ''}`}
+              style={i === 0 ? { backgroundImage: 'linear-gradient(90deg, rgba(6,150,215,0.06) 0%, rgba(6,150,215,0.22) 50%, rgba(6,150,215,0.06) 100%)', backgroundSize: '200% 100%' } : undefined}
+            >
               <td className="py-4 pr-4 font-serif text-[20px] text-black">
                 <span className="mr-2 inline-block w-7 text-center" aria-hidden="true">{MEDALS[i]}</span>{shortTitle(uc.title)}
               </td>
