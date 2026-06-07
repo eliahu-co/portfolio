@@ -32,7 +32,7 @@ function Step({ step, proposed }: { step: ExecStep; proposed: boolean }) {
   const labelColor = kind ? 'text-black font-medium' : 'text-charcoal'
 
   return (
-    <div className={`relative flex items-center gap-2 overflow-hidden rounded-sm ${borderW} px-3 py-2 ${box}`}>
+    <div className={`relative flex items-center gap-2 overflow-hidden rounded-sm ${borderW} px-2.5 py-1.5 ${box}`}>
       <span
         className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] font-bold text-autodesk-blue' : 'text-[12px]'} ${
           kind === 'approve' ? 'text-autodesk-blue' : kind === 'ai' ? '' : 'text-transparent'
@@ -41,7 +41,7 @@ function Step({ step, proposed }: { step: ExecStep; proposed: boolean }) {
       >
         {kind === 'ai' ? '⚡︎' : kind === 'approve' ? '✓' : '•'}
       </span>
-      <span className={`relative min-w-0 font-sans text-[12px] leading-snug ${labelColor}`}>{step.label}</span>
+      <span className={`relative min-w-0 font-sans text-[11px] leading-snug ${labelColor}`}>{step.label}</span>
       {kind === 'ai' && (
         <span className="relative ml-auto shrink-0 rounded border-2 border-autodesk-blue bg-autodesk-blue/80 px-1 py-px text-[8px] font-bold uppercase tracking-wider text-white">
           DA
@@ -75,7 +75,7 @@ function Lane({ lane, proposed }: { lane: ExecLane; proposed: boolean }) {
 
 export default function ExecWorkflow({ current, proposed }: { current: ExecLane; proposed: ExecLane }) {
   return (
-    <div className="grid grid-cols-2 items-stretch gap-x-5">
+    <div className="grid grid-cols-2 items-stretch gap-x-4">
       <Lane lane={current} proposed={false} />
       <Lane lane={proposed} proposed />
     </div>

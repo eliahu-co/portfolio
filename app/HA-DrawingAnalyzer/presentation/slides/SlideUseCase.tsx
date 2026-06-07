@@ -14,11 +14,11 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
         <p className="font-sans text-[13px]"><span className="font-bold uppercase tracking-[0.12em] text-charcoal">Phase</span><span className="ml-3 text-charcoal">{data.constructionPhase.name}</span></p>
       </div>
 
-      <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1fr_minmax(0,520px)]">
+      <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[minmax(0,460px)_1fr]">
         {wf && <ExecWorkflow current={wf.current} proposed={wf.proposed} />}
         {data.opportunity.image && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={data.opportunity.image} alt="" className={`max-h-[70vh] w-full rounded-lg object-contain ${index === 2 ? '' : 'border-2 border-autodesk-blue/60'}`} />
+          <img src={data.opportunity.image} alt="" className={`max-h-[80vh] w-full rounded-lg object-contain ${index === 2 ? '' : 'border-2 border-autodesk-blue/60'}`} />
         )}
       </div>
     </SlideShell>
