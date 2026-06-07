@@ -6,7 +6,7 @@ export default function Slide12Recommendation() {
   return (
     <SlideShell eyebrow="Recommendation" variant="centered">
       <h2 className="text-[clamp(34px,5.5vw,68px)] font-extrabold leading-[1.04] text-black">
-        Build <span className="bg-[#ffff00] px-2 text-black">Change Validation</span> first.
+        <span className="bg-[#ffff00] px-2 text-black">Change Validation</span>
       </h2>
       <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
         {RECOMMENDATION_PILLARS.map((p) => (
