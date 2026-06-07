@@ -3,6 +3,7 @@
 
 import { useEffect, useState, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
+import { TOTAL_SLIDES, step as stepIndex, hashForIndex, indexFromHash } from './nav'
 
 // Temporary placeholder slides — replaced by real slide components in later tasks.
 const SLIDES: ReactNode[] = Array.from({ length: 17 }, (_, i) => (
@@ -13,17 +14,22 @@ const SLIDES: ReactNode[] = Array.from({ length: 17 }, (_, i) => (
 
 export default function PresentationDeck() {
   const router = useRouter()
-  const total = SLIDES.length
+  const total = TOTAL_SLIDES
   const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    const fromHash = indexFromHash(window.location.hash, total)
+    if (fromHash !== null) setCurrent(fromHash)
+  }, [total])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement | null
       if (t && /^(VIDEO|BUTTON|A|INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return
       if (e.key === 'ArrowRight' || (e.key === ' ' && !e.shiftKey)) {
-        e.preventDefault(); setCurrent((c) => (c >= total - 1 ? c : c + 1))
+        e.preventDefault(); setCurrent((c) => stepIndex(c, 1, total))
       } else if (e.key === 'ArrowLeft' || (e.key === ' ' && e.shiftKey)) {
-        e.preventDefault(); setCurrent((c) => (c <= 0 ? c : c - 1))
+        e.preventDefault(); setCurrent((c) => stepIndex(c, -1, total))
       } else if (e.key === 'Escape') {
         router.push('/HA-DrawingAnalyzer')
       }
@@ -33,7 +39,7 @@ export default function PresentationDeck() {
   }, [router, total])
 
   useEffect(() => {
-    window.history.replaceState(null, '', `#slide-${current + 1}`)
+    window.history.replaceState(null, '', hashForIndex(current))
   }, [current])
 
   return (
