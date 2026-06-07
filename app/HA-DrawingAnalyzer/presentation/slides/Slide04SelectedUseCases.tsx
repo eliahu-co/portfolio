@@ -14,7 +14,7 @@ export default function Slide04SelectedUseCases() {
     <SlideShell eyebrow="Use cases" title="Four opportunities, one framework">
       <table className="w-full border-collapse text-left">
         <thead>
-          <tr className="border-b-2 border-autodesk-blue">
+          <tr className="border-b-2 border-black">
             <th className="py-3 pr-4 font-sans text-[11px] uppercase tracking-[0.12em] text-charcoal/70">Use case</th>
             <th className="px-4 py-3 font-sans text-[11px] uppercase tracking-[0.12em] text-charcoal/70">Primary user</th>
             <th className="pl-4 py-3 font-sans text-[11px] uppercase tracking-[0.12em] text-charcoal/70">Phase</th>
@@ -24,8 +24,8 @@ export default function Slide04SelectedUseCases() {
           {USE_CASES.map((uc, i) => (
             <tr
               key={uc.id}
-              className={`border-b border-charcoal/15 ${i === 0 ? 'cv-shine' : ''}`}
-              style={i === 0 ? { backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.30) 38%, rgba(6,150,215,0.60) 50%, rgba(255,255,255,0.30) 62%, rgba(255,255,255,0.10) 100%)', backgroundSize: '200% 100%' } : undefined}
+              className="border-b border-charcoal/15"
+              style={i === 0 ? { backgroundColor: '#ffff00' } : undefined}
             >
               <td className={`py-4 pr-4 font-serif text-[20px] text-black ${i === 0 ? 'font-medium' : ''}`}>
                 <span className="mr-2 inline-block w-7 text-center" aria-hidden="true">{MEDALS[i]}</span>{shortTitle(uc.title)}
@@ -36,16 +36,7 @@ export default function Slide04SelectedUseCases() {
           ))}
         </tbody>
       </table>
-      <style>{`
-        /* quick blue sweep, then a long rest — so the shine happens occasionally */
-        @keyframes cv-shine {
-          0%   { background-position: 200% 0; }
-          35%  { background-position: -200% 0; }
-          100% { background-position: -200% 0; }
-        }
-        .cv-shine { animation: cv-shine 20s linear infinite; }
-        @media (prefers-reduced-motion: reduce) { .cv-shine { animation: none; } }
-      `}</style>
+
     </SlideShell>
   )
 }

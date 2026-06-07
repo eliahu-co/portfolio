@@ -8,7 +8,7 @@ export default function Slide17KeyUnknowns() {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
         {VARIABLES.map(({ label, body }) => (
           <div key={label}>
-            <p className="mb-2 font-serif text-[24px] text-autodesk-blue">{label}</p>
+            <p className="mb-2 font-serif text-[24px] text-black">{label}</p>
             <p className="font-sans text-[15px] leading-relaxed text-charcoal">{body}</p>
           </div>
         ))}

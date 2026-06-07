@@ -16,7 +16,7 @@ export default function Slide16Prototype() {
             href={DEMO_HREF}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-sm bg-autodesk-blue px-5 py-3 font-sans text-[13px] font-semibold uppercase tracking-[0.08em] text-white no-underline hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-sm bg-black px-5 py-3 font-sans text-[13px] font-semibold uppercase tracking-[0.08em] text-white no-underline hover:opacity-90"
           >
             Open interactive prototype ↗
           </a>

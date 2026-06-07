@@ -7,11 +7,11 @@ export default function Slide15MvpScope() {
     <SlideShell eyebrow="MVP" title="Scope">
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
         <div>
-          <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-autodesk-blue">In scope</p>
+          <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black">In scope</p>
           <ul className="flex flex-col gap-3">
             {SCOPE_IN.map((s, i) => (
               <li key={i} className="flex gap-2 font-sans text-[16px] leading-relaxed text-charcoal">
-                <span className="mt-0.5 shrink-0 font-bold text-autodesk-blue" aria-hidden="true">✓</span><span>{s}</span>
+                <span className="mt-0.5 shrink-0 font-bold text-black" aria-hidden="true">✓</span><span>{s}</span>
               </li>
             ))}
           </ul>
