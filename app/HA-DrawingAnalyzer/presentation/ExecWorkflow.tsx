@@ -6,7 +6,7 @@
 
 import { useMemo, useState } from 'react'
 
-export type ExecStep = { label: string; kind?: 'ai' | 'approve' | 'repeat'; actor?: string }
+export type ExecStep = { label: string; kind?: 'ai' | 'approve' | 'repeat' | 'cost'; actor?: string }
 export type ExecLane = { steps: ExecStep[]; footer: string }
 
 const BRAND_BLUE = '#1d91d0'
@@ -45,10 +45,10 @@ function Step({
   const borderW = kind === 'approve' || kind === 'ai' ? 'border-2' : 'border'
   const labelColor = kind === 'ai' || kind === 'approve' ? 'text-black font-semibold' : proposed ? 'text-black' : 'text-charcoal'
 
-  const glyph = kind === 'ai' ? '⚡︎' : kind === 'approve' ? '✓' : kind === 'repeat' ? '⟲' : '•'
+  const glyph = kind === 'ai' ? '⚡︎' : kind === 'approve' ? '✓' : kind === 'repeat' ? '⟲' : kind === 'cost' ? '$' : '•'
   const glyphColor =
     kind === 'ai' || kind === 'approve' ? 'text-black'
-    : kind === 'repeat' ? (proposed ? 'text-black' : 'text-charcoal')
+    : kind === 'repeat' || kind === 'cost' ? (proposed ? 'text-black' : 'text-charcoal')
     : 'text-transparent'
 
   return (
