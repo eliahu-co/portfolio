@@ -9,13 +9,16 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
   const wf = EXEC_WORKFLOWS[data.id]
   return (
     <div className="relative h-full w-full bg-[#c9c9c9]">
-      <SlideShell eyebrow={`Use Case ${index}`} title={title}>
-        {/* user pill — fixed top-right of the slide, consistent across use cases */}
-        <span className="absolute right-12 top-16 rounded-none bg-black px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wider text-white lg:right-20 lg:top-20">
-          {data.primaryUser.pill}
-        </span>
+      <SlideShell>
+        {/* header: eyebrow + user pill + construction phase, inline */}
+        <div className="mb-3 flex flex-wrap items-center gap-3">
+          <span className="font-sans text-[12px] font-bold uppercase tracking-[0.14em] text-black">Use Case {index}</span>
+          <span className="rounded-none bg-black px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wider text-white">{data.primaryUser.pill}</span>
+          <span className="font-sans text-[11px] uppercase tracking-[0.1em] text-charcoal">{data.constructionPhase.name}</span>
+        </div>
+        <h2 className="mb-8 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black whitespace-pre-line">{title}</h2>
 
-        <div className="mt-2 grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,380px)_1fr]">
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,380px)_1fr]">
           {wf && <ExecWorkflow current={wf.current} proposed={wf.proposed} />}
           {data.opportunity.image && (
             // eslint-disable-next-line @next/next/no-img-element
