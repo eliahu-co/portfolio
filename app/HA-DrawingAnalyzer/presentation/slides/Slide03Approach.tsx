@@ -17,11 +17,11 @@ export default function Slide03Approach() {
               style={{ gridColumn: `${g.start + 1} / span ${g.span}` }}
               className={`flex flex-col items-center transition-opacity ${g.muted ? 'opacity-30' : ''}`}
             >
-              <span className="mb-1.5 text-center font-sans text-[10px] font-medium uppercase tracking-[0.1em] text-autodesk-blue">
+              <span className="mb-1.5 text-center font-sans text-[10px] font-medium uppercase tracking-[0.1em] text-black">
                 {g.label}
               </span>
               {/* downward-opening bracket spanning the stage */}
-              <div className="h-2.5 w-full rounded-t-sm border-x-2 border-t-2 border-autodesk-blue/70" />
+              <div className="h-2.5 w-full rounded-t-sm border-x-2 border-t-2 border-black" />
             </div>
           ))}
         </div>
@@ -30,8 +30,8 @@ export default function Slide03Approach() {
         <div className="mt-7 grid items-start gap-x-3" style={gridCols}>
           {LIFECYCLE_PHASES.map((p) => (
             <div key={p.initials} className={`flex flex-col items-center transition-opacity ${p.muted ? (p.initials === 'BP' ? 'opacity-50' : 'opacity-30') : ''}`}>
-              <div className="grid aspect-square w-full max-w-[84px] place-items-center rounded-full border-2 border-autodesk-blue">
-                <span className="font-sans text-[clamp(16px,1.8vw,24px)] font-bold tracking-wide text-autodesk-blue">{p.initials}</span>
+              <div className="grid aspect-square w-full max-w-[84px] place-items-center rounded-full border-2 border-black">
+                <span className="font-sans text-[clamp(16px,1.8vw,24px)] font-bold tracking-wide text-black">{p.initials}</span>
               </div>
               <span className="mt-2.5 max-w-[100px] text-center font-sans text-[10px] uppercase leading-tight tracking-[0.08em] text-charcoal">
                 {p.name}

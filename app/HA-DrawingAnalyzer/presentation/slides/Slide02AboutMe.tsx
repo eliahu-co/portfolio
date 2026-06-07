@@ -22,7 +22,7 @@ export default function Slide02AboutMe() {
         <img
           src="/presentation/family.jpeg"
           alt="Eliahu and family"
-          className="w-full max-w-[320px] self-start rounded-lg shadow-sm"
+          className="w-full max-w-[320px] self-start"
         />
         {/* Text column matches the image height: timeline at top, last bullet at bottom */}
         <div className="flex h-full flex-col justify-between py-1">
@@ -32,15 +32,15 @@ export default function Slide02AboutMe() {
             <div className="flex flex-wrap items-center gap-2">
               {TIMELINE.map((place, i) => (
                 <span key={place} className="flex items-center gap-2">
-                  <span className="font-sans text-[12px] font-medium uppercase tracking-[0.12em] text-autodesk-blue">{place}</span>
-                  {i < TIMELINE.length - 1 && <span className="text-[12px] text-autodesk-blue" aria-hidden="true">→</span>}
+                  <span className="font-sans text-[12px] font-medium uppercase tracking-[0.12em] text-black">{place}</span>
+                  {i < TIMELINE.length - 1 && <span className="text-[12px] text-black" aria-hidden="true">→</span>}
                 </span>
               ))}
             </div>
           </div>
           {BULLETS.map((b) => (
             <div key={b} className="flex gap-3 font-sans text-[18px] leading-relaxed text-charcoal">
-              <span className="shrink-0 text-autodesk-blue" aria-hidden="true">—</span>
+              <span className="shrink-0 text-black" aria-hidden="true">—</span>
               <span>{b}</span>
             </div>
           ))}
