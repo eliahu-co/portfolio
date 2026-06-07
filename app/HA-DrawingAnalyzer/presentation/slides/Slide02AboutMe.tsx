@@ -16,7 +16,7 @@ const BULLETS = [
 export default function Slide02AboutMe() {
   return (
     <SlideShell eyebrow="About" title="Architect · Product Manager · Builder">
-      <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-[auto_1fr]">
+      <div className="grid grid-cols-1 items-center gap-y-6 lg:grid-cols-[auto_1fr] lg:gap-x-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/presentation/family.jpeg"
