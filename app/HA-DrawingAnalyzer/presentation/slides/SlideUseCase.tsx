@@ -12,6 +12,7 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
     index === 1 ? { gain: 'Fewer review rounds', cost: 'Additional step' }
     : index === 2 ? { gain: 'Faster resolution', cost: 'Additional step' }
     : index === 3 ? { gain: 'Dependency tracking', cost: 'Setup effort' }
+    : index === 4 ? { gain: 'Scalable reviews', cost: 'Setup effort' }
     : data.tradeoff
   return (
     <div className="relative h-full w-full bg-[#c9c9c9]">
