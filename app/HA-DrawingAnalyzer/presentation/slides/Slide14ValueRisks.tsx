@@ -10,13 +10,13 @@ export default function Slide14ValueRisks() {
         <div>
           <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black">Value</p>
           <div className="flex flex-col gap-3">
-            {cv.value.map((v) => <MiniCard key={v.title} title={v.title} tone="value" />)}
+            {cv.value.map((v) => <MiniCard key={v.title} title={v.title} tone="value" primary={v.primary} />)}
           </div>
         </div>
         <div>
           <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black">Risks</p>
           <div className="flex flex-col gap-3">
-            {cv.tradeoffs.map((r) => <MiniCard key={r.title} title={r.title} tone="risk" />)}
+            {cv.tradeoffs.map((r) => <MiniCard key={r.title} title={r.title} tone="risk" primary={r.primary} />)}
           </div>
         </div>
       </div>
