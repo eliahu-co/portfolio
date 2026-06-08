@@ -53,7 +53,7 @@ export const SCORE_NOTES: string[][] = [
     'Coordination issues frequently create costly rework.',
     'Depends on understanding relationships between objects across disciplines.',
     'Requires teams to adopt a new coordination workflow.',
-    'Requires maintaining an object dependency graph across sheets.',
+    'Requires maintaining an object dependency graph across sheets over time.',
   ],
   [ // Program Conformance Review
     'High value, but relevant only where program requirements exist.',
