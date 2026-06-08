@@ -47,7 +47,7 @@ export const SCORE_NOTES: string[][] = [
     'RFIs are common and delays are expensive.',
     'Relies on mapping issue descriptions to project objects and locations.',
     'The effort and the value are realized by different users.',
-    'Requires connecting multiple project information sources.',
+    'Requires linking issue description to relevant context across objects, sheets, and project data.',
   ],
   [ // Coordination Lock
     'Coordination issues frequently create costly rework.',
