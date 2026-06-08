@@ -49,7 +49,7 @@ export default function ScoreTable({
                   key={ci}
                   onMouseEnter={() => setHover({ row: ri, col: ci })}
                   style={{ backgroundColor: on ? YELLOW : undefined }}
-                  className={`px-3 py-3 text-center font-sans text-[16px] ${bold ? 'font-bold' : ''} ${on ? 'text-black' : 'text-charcoal/70'}`}
+                  className={`px-3 py-3 text-center font-sans ${bold ? 'text-[18px] font-extrabold' : 'text-[16px]'} ${on ? 'text-black' : 'text-charcoal/70'}`}
                 >
                   {s}
                 </td>
