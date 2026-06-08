@@ -110,7 +110,7 @@ export const ASSUMPTIONS = [
 
 // SOURCE: sections/KeyUnknowns.tsx VARIABLES — keep in sync.
 export const VARIABLES = [
-  { label: 'Accuracy', body: 'What confidence threshold should be required before a detected change is surfaced to the user?', failures: ['False positive', 'False negative', 'Wrong description'] },
+  { label: 'Accuracy', body: 'What confidence threshold should be required before a detected change is surfaced to the user?', failures: ['False positive', 'False negative', 'Wrong description', 'Information overload'] },
   { label: 'Latency',  body: 'What response time is required for Change Validation to fit naturally into the review submission workflow?', failures: ['Too slow', 'Workflow bottleneck'] },
   { label: 'Cost',     body: 'Can change validation run on every review initiated while remaining economically viable at project scale?', failures: ['Poor unit economics'] },
 ]
