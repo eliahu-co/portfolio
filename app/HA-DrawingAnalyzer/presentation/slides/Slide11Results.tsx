@@ -23,7 +23,7 @@ export default function Slide11Results() {
   return (
     <SlideShell eyebrow="Prioritization" title="Change Validation">
       <ScoreTable criteria={CRITERIA} rows={SCORE_ROWS} onHoverChange={setHover} />
-      <div className="mt-10 max-w-5xl">
+      <div className="mt-10">
         {/* per-cell rationale, shown above the (dimmed) Highest Confidence on cell hover */}
         <div className="min-h-[2.5rem]">
           {note && <p className="max-w-3xl font-sans text-[16px] font-bold leading-relaxed text-black">{note}</p>}
