@@ -1,7 +1,7 @@
 // app/HA-DrawingAnalyzer/presentation/slides/SlideUseCase.tsx
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SlideShell, UserPill } from '../primitives'
 import ExecWorkflow from '../ExecWorkflow'
 import { EXEC_WORKFLOWS } from '../execWorkflows'
@@ -25,6 +25,12 @@ function RevealColumn({ items, tone }: { items: string[]; tone: 'value' | 'risk'
 
 export default function SlideUseCase({ data, index }: { data: UseCaseData; index: number }) {
   const [revealed, setRevealed] = useState(false)
+  // hide the reveal whenever the deck navigates, so returning to the slide is unactivated
+  useEffect(() => {
+    const reset = () => setRevealed(false)
+    window.addEventListener('deck:navigate', reset)
+    return () => window.removeEventListener('deck:navigate', reset)
+  }, [])
   const title = data.title.split('\n')[0]
   const wf = EXEC_WORKFLOWS[data.id]
   const image = index === 2 ? '/presentation/usecase-2.jpeg' : data.opportunity.image

@@ -103,6 +103,7 @@ export default function PresentationDeck() {
 
   useEffect(() => {
     window.history.replaceState(null, '', hashForIndex(current))
+    window.dispatchEvent(new Event('deck:navigate')) // lets slides reset transient state
   }, [current])
 
   return (
