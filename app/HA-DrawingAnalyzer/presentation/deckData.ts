@@ -58,7 +58,7 @@ export const SCORE_NOTES: string[][] = [
   [ // Program Conformance Review
     'High value, but applicable to a narrower set of stakeholders.',
     'Depends on understanding drawing content and spatial relationships.',
-    'Requires trust in AI-driven compliance recommendations.',
+    'Requires teams to maintain structured program requirements.',
     'Requires translating program requirements into machine-evaluable rules.',
   ],
 ]
