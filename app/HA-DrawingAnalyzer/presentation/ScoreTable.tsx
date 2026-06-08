@@ -61,7 +61,13 @@ export default function ScoreTable({
             <td
               onMouseEnter={() => setHover({ row: ri, col: totalCol })}
               style={{ backgroundColor: yellow(ri, totalCol) ? YELLOW : undefined }}
-              className={`pl-3 py-3 text-center font-sans text-[18px] text-black ${hover?.row === ri && hover?.col === totalCol ? 'font-extrabold' : 'font-bold'}`}
+              className={`pl-3 py-3 text-center font-sans text-[18px] text-black ${
+                !hover
+                  ? 'font-bold'
+                  : hover.row === ri
+                    ? hover.col === totalCol ? 'font-extrabold' : 'font-bold'
+                    : 'font-normal'
+              }`}
             >
               {r.total}
             </td>
