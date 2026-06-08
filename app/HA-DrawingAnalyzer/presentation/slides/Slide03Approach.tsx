@@ -8,6 +8,9 @@ import { LIFECYCLE_PHASES, LIFECYCLE_GROUPS, APPROACH_FLOW } from '../deckData'
 const COLS = LIFECYCLE_PHASES.length
 const gridCols = { gridTemplateColumns: `repeat(${COLS}, minmax(0, 1fr))` }
 
+// phases that, on hover, focus themselves (black, 100%) and dim the rest, with a yellow note
+const PHASE_NOTES: Record<string, string> = { BP: 'code compliance', BN: 'competing incentives' }
+
 // the per-use-case analysis sections (grouped into rows), revealed on hovering "Use Cases"
 const SECTION_ROWS = [
   ['User', 'Phase'],
@@ -22,6 +25,8 @@ export default function Slide03Approach() {
   const [revealed, setRevealed] = useState(false)
   // diagram dims to 50% while "Use Cases" is hovered
   const [dim, setDim] = useState(false)
+  // a focused phase (BP/BN) pops to full black while the rest dims to 20%
+  const [focus, setFocus] = useState<string | null>(null)
 
   return (
     <SlideShell eyebrow="Approach">
@@ -58,14 +63,14 @@ export default function Slide03Approach() {
       </div>
 
       {/* Lifecycle diagram — revealed (and kept) once "Lifecycle" is hovered */}
-      <div className={`mt-24 transition-opacity duration-300 ${!revealed ? 'opacity-0' : dim ? 'opacity-50' : 'opacity-100'}`} aria-hidden={!revealed}>
+      <div className={`mt-24 transition-opacity duration-300 ${!revealed ? 'pointer-events-none opacity-0' : dim ? 'opacity-20' : 'opacity-100'}`} aria-hidden={!revealed}>
         {/* Stage grouping brackets */}
         <div className="grid gap-x-3" style={gridCols}>
           {LIFECYCLE_GROUPS.map((g) => (
             <div
               key={g.label}
               style={{ gridColumn: `${g.start + 1} / span ${g.span}` }}
-              className={`flex flex-col items-center transition-opacity ${g.muted ? 'opacity-30' : ''}`}
+              className={`flex flex-col items-center transition-opacity ${focus ? 'opacity-20' : g.muted ? 'opacity-30' : ''}`}
             >
               <span className="mb-1.5 text-center font-sans text-[10px] font-medium uppercase tracking-[0.1em] text-black">
                 {g.label}
@@ -78,16 +83,33 @@ export default function Slide03Approach() {
 
         {/* Phase circles + names */}
         <div className="mt-7 grid items-start gap-x-3" style={gridCols}>
-          {LIFECYCLE_PHASES.map((p) => (
-            <div key={p.initials} className={`flex flex-col items-center transition-opacity ${p.muted ? (p.initials === 'BP' ? 'opacity-50' : 'opacity-30') : ''}`}>
-              <div className="grid aspect-square w-full max-w-[84px] place-items-center rounded-full border-2 border-black">
-                <span className="font-sans text-[clamp(16px,1.8vw,24px)] font-bold tracking-wide text-black">{p.initials}</span>
+          {LIFECYCLE_PHASES.map((p) => {
+            const note = PHASE_NOTES[p.initials]
+            const isFocused = focus === p.initials
+            const op = focus
+              ? isFocused ? 'opacity-100' : 'opacity-20'
+              : p.muted ? (p.initials === 'BP' ? 'opacity-50' : 'opacity-30') : 'opacity-100'
+            return (
+              <div
+                key={p.initials}
+                onMouseEnter={note ? () => setFocus(p.initials) : undefined}
+                onMouseLeave={note ? () => setFocus(null) : undefined}
+                className={`relative flex flex-col items-center transition-opacity ${op}`}
+              >
+                <div className="grid aspect-square w-full max-w-[84px] place-items-center rounded-full border-2 border-black">
+                  <span className="font-sans text-[clamp(16px,1.8vw,24px)] font-bold tracking-wide text-black">{p.initials}</span>
+                </div>
+                <span className={`mt-2.5 max-w-[100px] text-center font-sans text-[10px] uppercase leading-tight tracking-[0.08em] ${isFocused ? 'text-black' : 'text-charcoal'}`}>
+                  {p.name}
+                </span>
+                {note && (
+                  <span className={`absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-none bg-[#ffff00] px-2 py-0.5 font-sans text-[10px] font-semibold uppercase tracking-wider text-black transition-opacity ${isFocused ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
+                    {note}
+                  </span>
+                )}
               </div>
-              <span className="mt-2.5 max-w-[100px] text-center font-sans text-[10px] uppercase leading-tight tracking-[0.08em] text-charcoal">
-                {p.name}
-              </span>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </SlideShell>
