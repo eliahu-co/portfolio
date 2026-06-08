@@ -1,8 +1,12 @@
 // app/HA-DrawingAnalyzer/presentation/slides/SlideUseCase.tsx
-import { SlideShell } from '../primitives'
+import { SlideShell, UserPill } from '../primitives'
 import ExecWorkflow from '../ExecWorkflow'
 import { EXEC_WORKFLOWS } from '../execWorkflows'
 import type { UseCaseData } from '@/app/HA-DrawingAnalyzer/sections/UseCase'
+
+function roleExamples(data: UseCaseData): string[] {
+  return (data.primaryUser.role ?? '').split('/').map((s) => s.trim()).filter(Boolean)
+}
 
 export default function SlideUseCase({ data, index }: { data: UseCaseData; index: number }) {
   const title = data.title.split('\n')[0]
@@ -19,7 +23,7 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
       <SlideShell>
         {/* header: user pill + construction phase */}
         <div className="mb-4 flex flex-wrap items-center gap-3">
-          <span className="rounded-none bg-black px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wider text-white">{data.primaryUser.pill}</span>
+          <UserPill pill={data.primaryUser.pill ?? ''} examples={roleExamples(data)} />
           <span className="font-sans text-[11px] uppercase tracking-[0.1em] text-charcoal">{data.constructionPhase.name}</span>
         </div>
         <h2 className="mb-8 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black whitespace-pre-line">{title}</h2>

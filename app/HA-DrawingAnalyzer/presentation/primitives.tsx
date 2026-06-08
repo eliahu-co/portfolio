@@ -32,6 +32,22 @@ export function SlideShell({
   )
 }
 
+// Black user pill; hovering reveals the role examples stacked above it.
+export function UserPill({ pill, examples }: { pill: string; examples: string[] }) {
+  return (
+    <span className="group relative">
+      <span className="rounded-none bg-black px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wider text-white">{pill}</span>
+      {examples.length > 0 && (
+        <span className="invisible absolute bottom-full left-0 z-30 flex flex-col items-start gap-1 pb-2 opacity-0 transition-opacity group-hover:visible group-hover:opacity-100">
+          {examples.map((e) => (
+            <span key={e} className="whitespace-nowrap rounded-none bg-black px-2 py-0.5 font-sans text-[10px] font-semibold uppercase tracking-wider text-white">{e}</span>
+          ))}
+        </span>
+      )}
+    </span>
+  )
+}
+
 export function Counter({ index, total }: { index: number; total: number }) {
   return (
     <p className="deck-counter fixed bottom-16 left-1/2 z-20 -translate-x-1/2 font-sans text-[12px] tracking-[0.12em] text-charcoal/60 lg:bottom-20">
