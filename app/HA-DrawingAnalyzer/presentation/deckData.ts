@@ -73,10 +73,10 @@ export const CRITERIA_DEFS: CriterionDef[] = [
 
 // SOURCE: sections/MVP.tsx METRICS — success metrics + their type for the deck.
 export const METRICS = [
-  { title: 'First-Pass Approval Rate', type: 'Business\noutcome' },
-  { title: 'Pre-Review Revision Rate', type: 'Usage' },
-  { title: 'Change Validation Satisfaction', type: 'Quality' },
-  { title: 'Review Submission Volume', type: 'Guardrail' },
+  { title: 'First-Pass Approval Rate', type: 'Business\noutcome', signal: 'Increasing compared to baseline.' },
+  { title: 'Pre-Review Revision Rate', type: 'Usage', signal: 'Positive and sustained — issues identified before submission.' },
+  { title: 'Change Validation Satisfaction', type: 'Quality', signal: 'High and increasing over time.' },
+  { title: 'Review Submission Volume', type: 'Guardrail', signal: 'Stable relative to baseline — the added step is not reducing adoption.' },
 ]
 
 // SOURCE: sections/MVP.tsx SCOPE_IN / SCOPE_OUT — keep in sync.
