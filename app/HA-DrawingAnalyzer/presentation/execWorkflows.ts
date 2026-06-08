@@ -12,7 +12,7 @@ export const EXEC_WORKFLOWS: Record<string, { current: ExecLane; proposed: ExecL
         { label: 'Self-check' },
         { label: 'Review', actor: 'Reviewer' },
         { label: 'Issue Found' },
-        { label: 'Rework' },
+        { label: 'Correction' },
         { label: 'Review Again', kind: 'repeat', actor: 'Reviewer' },
       ],
       footer: 'Repeated Review Cycles',
