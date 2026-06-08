@@ -48,8 +48,7 @@ export default function Slide17KeyUnknowns() {
           type="button"
           onClick={() => setRevealed((v) => !v)}
           aria-pressed={revealed}
-          className="font-extrabold leading-[1.04] tracking-[-0.01em] text-black transition-colors"
-          style={{ backgroundColor: revealed ? '#ffff00' : undefined }}
+          className="font-extrabold leading-[1.04] tracking-[-0.01em] text-black"
         >
           validate
         </button>
@@ -66,7 +65,6 @@ export default function Slide17KeyUnknowns() {
               className={`mt-4 pl-9 transition-opacity duration-300 ${revealed ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
               aria-hidden={!revealed}
             >
-              <p className="mb-2 font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-charcoal">Failure modes</p>
               <div className="flex flex-wrap gap-1.5">
                 {failures.map((f) => (
                   <span key={f} className="rounded-none bg-black px-2 py-0.5 font-sans text-[11px] font-semibold text-white">{f}</span>
