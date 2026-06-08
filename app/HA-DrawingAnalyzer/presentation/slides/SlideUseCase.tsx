@@ -72,11 +72,11 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
             <img
               src={image}
               alt=""
-              className={
+              className={`transition-opacity duration-300 ${revealed ? 'opacity-20' : ''} ${
                 index === 2
                   ? 'max-h-[62vh] w-auto justify-self-start object-contain'
                   : 'max-h-[84vh] w-full object-contain'
-              }
+              }`}
             />
           )}
         </div>
