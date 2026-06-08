@@ -56,7 +56,7 @@ export const SCORE_NOTES: string[][] = [
     'Requires maintaining an object dependency graph across sheets over time.',
   ],
   [ // Program Conformance Review
-    'High value, but relevant only where program requirements exist.',
+    'High value, but applicable to a narrower set of stakeholders.',
     'Depends on understanding drawing content and spatial relationships.',
     'Requires trust in AI-driven compliance recommendations.',
     'Requires translating program requirements into machine-evaluable rules.',
