@@ -26,7 +26,7 @@ export default function Slide11Results() {
       <div className="mt-10 max-w-5xl">
         {/* per-cell rationale, shown above the (dimmed) Highest Confidence on cell hover */}
         <div className="min-h-[2.5rem]">
-          {note && <p className="max-w-3xl font-sans text-[16px] leading-relaxed text-black">{note}</p>}
+          {note && <p className="max-w-3xl font-sans text-[16px] font-bold leading-relaxed text-black">{note}</p>}
         </div>
         <div className={`mt-2 border-t-2 border-black pt-4 transition-opacity duration-300 ${hover ? 'opacity-20' : ''}`}>
           <p className="text-[22px] font-bold text-black">Highest Confidence</p>

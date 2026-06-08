@@ -41,7 +41,7 @@ export default function ScoreTable({
       <tbody>
         {rows.map((r, ri) => (
           <tr key={r.useCase} className="border-b border-charcoal/15">
-            <td onMouseEnter={() => setHover(null)} className={`py-3 pr-4 font-sans text-[16px] ${r.winner ? 'font-bold text-black' : 'text-charcoal'}`}>
+            <td onMouseEnter={() => setHover(null)} className={`py-3 pr-4 font-sans text-[16px] ${r.winner ? 'text-black' : 'text-charcoal'} ${r.winner && !hover ? 'font-bold' : ''}`}>
               <span className="mr-2 inline-block w-7 text-center" aria-hidden="true">{MEDALS[ri]}</span>{r.useCase}
             </td>
             {r.scores.map((s, ci) => {
