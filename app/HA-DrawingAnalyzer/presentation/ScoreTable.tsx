@@ -28,10 +28,10 @@ export default function ScoreTable({
   const headerYellow = (col: number) => hover?.col === col
 
   return (
-    <table className="w-full border-collapse text-left" onMouseLeave={() => setHover(null)}>
+    <table className="w-full table-fixed border-collapse text-left" onMouseLeave={() => setHover(null)}>
       <thead>
         <tr className="border-b-2 border-black">
-          <th className="py-3 pr-4 font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">Use case</th>
+          <th className="w-2/5 py-3 pr-4 font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">Use case</th>
           {criteria.map((c, ci) => (
             <th key={c} style={{ backgroundColor: headerYellow(ci) ? YELLOW : undefined }} className="px-3 py-3 text-center font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">{c}</th>
           ))}
