@@ -5,7 +5,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import { TOTAL_SLIDES, step as stepIndex, hashForIndex, indexFromHash } from './nav'
 import { Counter } from './primitives'
-import { USE_CASES, USE_CASE_PROBLEMS } from './deckData'
+import { USE_CASES, USE_CASE_PROBLEMS, USE_CASE_PROBLEM_HL } from './deckData'
 import Slide01Cover from './slides/Slide01Cover'
 import Slide02AboutMe from './slides/Slide02AboutMe'
 import Slide03Approach from './slides/Slide03Approach'
@@ -26,13 +26,13 @@ const SLIDES: ReactNode[] = [
   <Slide02AboutMe key="2" />,
   <Slide03Approach key="3" />,
   <Slide04SelectedUseCases key="4" />,
-  <SlideUseCaseProblem key="p1" data={USE_CASES[0]} problem={USE_CASE_PROBLEMS[0]} />,
+  <SlideUseCaseProblem key="p1" data={USE_CASES[0]} problem={USE_CASE_PROBLEMS[0]} highlight={USE_CASE_PROBLEM_HL[0]} />,
   <SlideUseCase key="5" data={USE_CASES[0]} index={1} />,
-  <SlideUseCaseProblem key="p2" data={USE_CASES[1]} problem={USE_CASE_PROBLEMS[1]} />,
+  <SlideUseCaseProblem key="p2" data={USE_CASES[1]} problem={USE_CASE_PROBLEMS[1]} highlight={USE_CASE_PROBLEM_HL[1]} />,
   <SlideUseCase key="6" data={USE_CASES[1]} index={2} />,
-  <SlideUseCaseProblem key="p3" data={USE_CASES[2]} problem={USE_CASE_PROBLEMS[2]} />,
+  <SlideUseCaseProblem key="p3" data={USE_CASES[2]} problem={USE_CASE_PROBLEMS[2]} highlight={USE_CASE_PROBLEM_HL[2]} />,
   <SlideUseCase key="7" data={USE_CASES[2]} index={3} />,
-  <SlideUseCaseProblem key="p4" data={USE_CASES[3]} problem={USE_CASE_PROBLEMS[3]} />,
+  <SlideUseCaseProblem key="p4" data={USE_CASES[3]} problem={USE_CASE_PROBLEMS[3]} highlight={USE_CASE_PROBLEM_HL[3]} />,
   <SlideUseCase key="8" data={USE_CASES[3]} index={4} />,
   <Slide09Assumptions key="9" />,
   <Slide10Framework key="10" />,

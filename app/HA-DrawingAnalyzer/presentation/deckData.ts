@@ -16,6 +16,14 @@ export const USE_CASE_PROBLEMS = [
   'Program compliance relies on manual review.',
 ]
 
+// phrase within each problem to highlight (revealed on hover)
+export const USE_CASE_PROBLEM_HL = [
+  'unintended modifications',
+  'lack the context',
+  'difficult to track',
+  'manual review',
+]
+
 // SOURCE: sections/Prioritization.tsx CRITERIA / ROWS — keep in sync.
 export const CRITERIA = ['Impact', 'Platform Leverage', 'Confidence', 'Feasibility'] as const
 
