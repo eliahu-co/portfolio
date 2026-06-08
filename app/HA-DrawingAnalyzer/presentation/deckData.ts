@@ -59,7 +59,7 @@ export const SCORE_NOTES: string[][] = [
     'High value, but applicable to a narrower set of stakeholders.',
     'Depends on understanding drawing content and spatial relationships.',
     'Requires teams to maintain structured program requirements.',
-    'Requires translating program requirements into machine-evaluable rules.',
+    'Requires structured program definitions and rule evaluation.',
   ],
 ]
 
