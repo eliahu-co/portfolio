@@ -1,5 +1,7 @@
 // app/HA-DrawingAnalyzer/presentation/slides/Slide11Results.tsx
-import type { ReactNode } from 'react'
+'use client'
+
+import { useState, type ReactNode } from 'react'
 import { SlideShell } from '../primitives'
 import ScoreTable from '../ScoreTable'
 import { CRITERIA, SCORE_ROWS } from '../deckData'
@@ -14,10 +16,11 @@ function Hl({ children }: { children: ReactNode }) {
 }
 
 export default function Slide11Results() {
+  const [dim, setDim] = useState(false)
   return (
     <SlideShell eyebrow="Prioritization" title="Change Validation">
-      <ScoreTable criteria={CRITERIA} rows={SCORE_ROWS} />
-      <div className="mt-10 max-w-5xl border-t-2 border-black pt-4">
+      <ScoreTable criteria={CRITERIA} rows={SCORE_ROWS} onHoverChange={setDim} />
+      <div className={`mt-10 max-w-5xl border-t-2 border-black pt-4 transition-opacity duration-300 ${dim ? 'opacity-20' : ''}`}>
         <p className="text-[22px] font-bold text-black">Highest Confidence</p>
         <p className="group mt-3 font-sans text-[14px] leading-relaxed text-charcoal">
           <Hl>Change Validation</Hl> is introduced on a <Hl>high-frequency</Hl> workflow with clear user value, and <Hl>minimal behavior change</Hl>.

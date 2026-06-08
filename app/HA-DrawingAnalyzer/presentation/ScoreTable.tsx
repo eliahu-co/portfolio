@@ -4,7 +4,7 @@
 // under the cursor goes bold. Leaving the table restores the winner highlight.
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const MEDALS = ['🥇', '🥈', '🥉', '']
 const YELLOW = '#ffff00'
@@ -12,11 +12,14 @@ const YELLOW = '#ffff00'
 export default function ScoreTable({
   criteria,
   rows,
+  onHoverChange,
 }: {
   criteria: readonly string[]
   rows: { useCase: string; scores: number[]; total: number; winner?: boolean }[]
+  onHoverChange?: (active: boolean) => void
 }) {
   const [hover, setHover] = useState<{ row: number; col: number } | null>(null)
+  useEffect(() => { onHoverChange?.(hover !== null) }, [hover, onHoverChange])
   const totalCol = criteria.length
 
   // a cell is yellow if its column is hovered; with no hover, the winner row is yellow
