@@ -55,7 +55,7 @@ function Step({
     <div
       onMouseEnter={() => onHover(step.label)}
       onMouseLeave={() => onHover(null)}
-      style={active ? { backgroundColor: BRAND_BLUE } : undefined}
+      style={active ? { backgroundColor: proposed ? BRAND_BLUE : 'rgba(29,145,208,0.3)' } : undefined}
       className={`relative flex items-center gap-2 overflow-hidden rounded-none ${borderW} px-2 py-1.5 transition-colors duration-150 ${box}`}
     >
       <span className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] font-bold' : 'text-[12px]'} ${glyphColor}`} aria-hidden="true">
