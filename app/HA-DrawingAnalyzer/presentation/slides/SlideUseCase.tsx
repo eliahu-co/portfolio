@@ -13,7 +13,7 @@ function roleExamples(data: UseCaseData): string[] {
 
 // one column of title pills (wraps within its width)
 function RevealColumn({ items, tone }: { items: string[]; tone: 'value' | 'risk' }) {
-  const cls = tone === 'value' ? 'bg-black text-white' : 'bg-[#ffff00] text-black'
+  const cls = tone === 'value' ? 'bg-[#ffff00] text-black' : 'bg-black text-white'
   return (
     <div className="flex flex-col items-start gap-3">
       {items.map((t) => (
