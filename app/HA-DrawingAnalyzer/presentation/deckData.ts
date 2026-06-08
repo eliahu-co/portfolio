@@ -46,7 +46,7 @@ export const SCORE_NOTES: string[][] = [
   [ // Context Link
     'RFIs are common and delays are expensive.',
     'Relies on mapping issue descriptions to project objects and locations.',
-    'Additional verification step may slow field users.',
+    'The effort and the value are realized by different users.',
     'Requires connecting multiple project information sources.',
   ],
   [ // Coordination Lock
