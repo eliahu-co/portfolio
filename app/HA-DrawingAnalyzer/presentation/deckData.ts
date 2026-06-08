@@ -39,7 +39,7 @@ export type CriterionDef = { title: string; body: string; rubric: [string, strin
 export const CRITERIA_DEFS: CriterionDef[] = [
   { title: 'Impact', body: 'Value × Number of Users', rubric: [['5', 'Significant impact'], ['3', 'Meaningful, but limited'], ['1', 'Nice-to-have improvement']] },
   { title: 'Platform Leverage', body: 'Dependence on Drawing Intelligence', rubric: [['5', 'Impossible without it'], ['3', 'Benefits from it'], ['1', 'Mostly unrelated']] },
-  { title: 'Confidence', body: 'Likelihood of Adoption', rubric: [['5', 'Clear pain point and obvious value'], ['3', 'Some adoption risk'], ['1', 'Significant uncertainty']] },
+  { title: 'Confidence', body: 'Likelihood of Adoption', rubric: [['5', 'Obvious value, min. behaviour change'], ['3', 'Some adoption risk'], ['1', 'Significant uncertainty']] },
   { title: 'Feasibility', body: 'Effort to Deliver', rubric: [['5', 'Low effort, limited dependencies'], ['3', 'Moderate effort, coordination required'], ['1', 'Significant effort, high complexity']] },
 ]
 
