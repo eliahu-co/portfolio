@@ -1,4 +1,7 @@
 // app/HA-DrawingAnalyzer/presentation/slides/Slide03Approach.tsx
+'use client'
+
+import { useState } from 'react'
 import { SlideShell } from '../primitives'
 import { LIFECYCLE_PHASES, LIFECYCLE_GROUPS, APPROACH_FLOW } from '../deckData'
 
@@ -15,6 +18,9 @@ const SECTION_ROWS = [
 ]
 
 export default function Slide03Approach() {
+  // diagram appears once "Lifecycle" is hovered, and stays on
+  const [revealed, setRevealed] = useState(false)
+
   return (
     <SlideShell eyebrow="Approach">
       {/* Method flow — above the lifecycle diagram */}
@@ -35,6 +41,8 @@ export default function Slide03Approach() {
                   ))}
                 </span>
               </span>
+            ) : f === 'Lifecycle' ? (
+              <span onMouseEnter={() => setRevealed(true)} className="cursor-default text-[22px] font-semibold text-black">{f}</span>
             ) : (
               <span className="text-[22px] font-semibold text-black">{f}</span>
             )}
@@ -43,8 +51,8 @@ export default function Slide03Approach() {
         ))}
       </div>
 
-      {/* Lifecycle diagram — pushed lower to roughly bottom-align with the prior slide's photo */}
-      <div className="mt-24">
+      {/* Lifecycle diagram — revealed (and kept) once "Lifecycle" is hovered */}
+      <div className={`mt-24 transition-opacity duration-300 ${revealed ? 'opacity-100' : 'opacity-0'}`} aria-hidden={!revealed}>
         {/* Stage grouping brackets */}
         <div className="grid gap-x-3" style={gridCols}>
           {LIFECYCLE_GROUPS.map((g) => (
