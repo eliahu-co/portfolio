@@ -1,7 +1,7 @@
 // app/HA-DrawingAnalyzer/presentation/nav.ts
 // Pure navigation helpers for the presentation deck (no React, no DOM).
 
-export const TOTAL_SLIDES = 16
+export const TOTAL_SLIDES = 20
 
 export function clampIndex(i: number, total: number = TOTAL_SLIDES): number {
   if (i < 0) return 0

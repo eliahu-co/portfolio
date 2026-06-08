@@ -8,6 +8,14 @@ import type { UseCaseData } from '@/app/HA-DrawingAnalyzer/sections/UseCase'
 
 export const USE_CASES: UseCaseData[] = [USE_CASE_1, USE_CASE_2, USE_CASE_3, USE_CASE_4]
 
+// One-line problem statement shown on the intro slide before each use case.
+export const USE_CASE_PROBLEMS = [
+  'Changes are often submitted with unintended modifications, leading to avoidable review cycles.',
+  'RFIs often lack the context needed for a timely response.',
+  'Design dependencies are difficult to track across disciplines.',
+  'Program compliance relies on manual review.',
+]
+
 // SOURCE: sections/Prioritization.tsx CRITERIA / ROWS — keep in sync.
 export const CRITERIA = ['Impact', 'Platform Leverage', 'Confidence', 'Feasibility'] as const
 
