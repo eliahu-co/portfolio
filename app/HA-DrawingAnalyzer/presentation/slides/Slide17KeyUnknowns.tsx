@@ -1,4 +1,7 @@
 // app/HA-DrawingAnalyzer/presentation/slides/Slide17KeyUnknowns.tsx
+'use client'
+
+import { useEffect, useState } from 'react'
 import { SlideShell } from '../primitives'
 import { VARIABLES } from '../deckData'
 
@@ -28,16 +31,48 @@ const ICONS: Record<string, JSX.Element> = {
 }
 
 export default function Slide17KeyUnknowns() {
+  // Clicking "validate" in the title reveals the failure modes under each unknown.
+  const [revealed, setRevealed] = useState(false)
+  // reset the reveal whenever the deck navigates away/back
+  useEffect(() => {
+    const reset = () => setRevealed(false)
+    window.addEventListener('deck:navigate', reset)
+    return () => window.removeEventListener('deck:navigate', reset)
+  }, [])
+
   return (
-    <SlideShell eyebrow="Feasibility" title="Key unknowns to validate">
+    <SlideShell eyebrow="Feasibility">
+      <h2 className="mb-8 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black">
+        Key unknowns to{' '}
+        <button
+          type="button"
+          onClick={() => setRevealed((v) => !v)}
+          aria-pressed={revealed}
+          className="font-extrabold leading-[1.04] tracking-[-0.01em] text-black transition-colors"
+          style={{ backgroundColor: revealed ? '#ffff00' : undefined }}
+        >
+          validate
+        </button>
+      </h2>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-        {VARIABLES.map(({ label, body }) => (
+        {VARIABLES.map(({ label, body, failures }) => (
           <div key={label}>
             <div className="flex items-center gap-3">
               <span className="shrink-0 text-black" aria-hidden="true">{ICONS[label]}</span>
               <p className="text-[24px] font-bold leading-none text-black">{label}</p>
             </div>
             <p className="mt-3 pl-9 font-sans text-[15px] leading-relaxed text-charcoal">{body}</p>
+            <div
+              className={`mt-4 pl-9 transition-opacity duration-300 ${revealed ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+              aria-hidden={!revealed}
+            >
+              <p className="mb-2 font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-charcoal">Failure modes</p>
+              <div className="flex flex-wrap gap-1.5">
+                {failures.map((f) => (
+                  <span key={f} className="rounded-none bg-black px-2 py-0.5 font-sans text-[11px] font-semibold text-white">{f}</span>
+                ))}
+              </div>
+            </div>
           </div>
         ))}
       </div>
