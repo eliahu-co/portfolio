@@ -14,7 +14,7 @@ function roleExamples(data: UseCaseData): string[] {
 // one column of titles (wraps within its width)
 function RevealColumn({ items }: { items: string[] }) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-3">
       {items.map((t) => (
         <span key={t} className="font-sans text-[10px] font-semibold uppercase leading-tight tracking-[0.06em] text-black">{t}</span>
       ))}
