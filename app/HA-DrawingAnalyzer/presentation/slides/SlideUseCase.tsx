@@ -11,14 +11,14 @@ function roleExamples(data: UseCaseData): string[] {
   return (data.primaryUser.role ?? '').split('/').map((s) => s.trim()).filter(Boolean)
 }
 
-// list of titles that grows upward from the tradeoff side, shown only when revealed
-function RevealList({ items, shown }: { items: string[]; shown: boolean }) {
+// one column of titles (wraps within its width)
+function RevealColumn({ items }: { items: string[] }) {
   return (
-    <span className={`absolute bottom-full left-0 mb-2 flex flex-col gap-1 transition-opacity ${shown ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
+    <div className="flex flex-col gap-1.5">
       {items.map((t) => (
-        <span key={t} className="whitespace-nowrap font-sans text-[11px] font-semibold uppercase leading-tight tracking-[0.08em] text-black">{t}</span>
+        <span key={t} className="font-sans text-[10px] font-semibold uppercase leading-tight tracking-[0.06em] text-black">{t}</span>
       ))}
-    </span>
+    </div>
   )
 }
 
@@ -53,17 +53,16 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
             {tradeoff && (
               <div
                 onClick={() => setRevealed((v) => !v)}
-                className="mt-auto pt-8 font-sans text-[11px] uppercase leading-relaxed tracking-[0.1em] text-charcoal"
+                className="relative mt-auto pt-8 font-sans text-[11px] uppercase leading-relaxed tracking-[0.1em] text-charcoal"
               >
-                <span className="relative">
-                  <RevealList items={values} shown={revealed} />
-                  {tradeoff.gain}
-                </span>
+                {/* values (left) / risks (right) panel, revealed above the tradeoff */}
+                <div className={`absolute inset-x-0 bottom-full mb-3 grid grid-cols-2 gap-x-10 transition-opacity ${revealed ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
+                  <RevealColumn items={values} />
+                  <RevealColumn items={risks} />
+                </div>
+                {tradeoff.gain}
                 <span className="mx-1.5" aria-hidden="true">⇄</span>
-                <span className="relative">
-                  <RevealList items={risks} shown={revealed} />
-                  {tradeoff.cost}
-                </span>
+                {tradeoff.cost}
               </div>
             )}
           </div>
