@@ -35,6 +35,34 @@ export const SCORE_ROWS: ScoreRow[] = [
   { useCase: 'Program Conformance Review', scores: [4, 5, 2, 2], total: 13 },
 ]
 
+// per-cell rationale, indexed [SCORE_ROWS row][criteria col]
+export const SCORE_NOTES: string[][] = [
+  [ // Change Validation
+    'High-frequency workflow affecting nearly every design revision.',
+    'Impossible without object-level change detection.',
+    'Clear pain point and minimal workflow change.',
+    'Requires reliable object matching across revisions.',
+  ],
+  [ // Context Link
+    'RFIs are common and delays are expensive.',
+    'Depends on relating issues to drawing objects and project context.',
+    'Additional verification step may slow field users.',
+    'Requires connecting multiple project information sources.',
+  ],
+  [ // Coordination Lock
+    'Coordination issues frequently create costly rework.',
+    'Depends on understanding relationships between objects across disciplines.',
+    'Requires teams to adopt a new coordination workflow.',
+    'Requires maintaining cross-disciplinary dependency graphs.',
+  ],
+  [ // Program Conformance Review
+    'High value, but relevant only where program requirements exist.',
+    'Depends on understanding drawing content and spatial relationships.',
+    'Requires trust in AI-driven compliance recommendations.',
+    'Requires translating program requirements into machine-evaluable rules.',
+  ],
+]
+
 export type CriterionDef = { title: string; body: string; rubric: [string, string][] }
 export const CRITERIA_DEFS: CriterionDef[] = [
   { title: 'Impact', body: 'Value × Number of Users', rubric: [['5', 'Significant impact'], ['3', 'Meaningful, but limited'], ['1', 'Nice-to-have improvement']] },
