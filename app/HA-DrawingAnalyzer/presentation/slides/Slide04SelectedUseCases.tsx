@@ -22,11 +22,7 @@ export default function Slide04SelectedUseCases() {
         </thead>
         <tbody>
           {USE_CASES.map((uc, i) => (
-            <tr
-              key={uc.id}
-              className="border-b border-charcoal/15"
-              style={i === 0 ? { backgroundColor: '#ffff00' } : undefined}
-            >
+            <tr key={uc.id} className="border-b border-charcoal/15">
               <td className="py-4 pr-4 text-[20px] font-semibold text-black">
                 <span className="mr-2 inline-block w-7 text-center" aria-hidden="true">{MEDALS[i]}</span>{shortTitle(uc.title)}
               </td>
