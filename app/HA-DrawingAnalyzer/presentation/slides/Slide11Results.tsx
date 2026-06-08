@@ -23,8 +23,12 @@ export default function Slide11Results() {
   return (
     <SlideShell eyebrow="Prioritization" title="Change Validation">
       <ScoreTable criteria={CRITERIA} rows={SCORE_ROWS} onHoverChange={setHover} />
-      <div className="relative mt-10 max-w-5xl">
-        <div className={`border-t-2 border-black pt-4 transition-opacity duration-300 ${hover ? 'opacity-20' : ''}`}>
+      <div className="mt-10 max-w-5xl">
+        {/* per-cell rationale, shown above the (dimmed) Highest Confidence on cell hover */}
+        <div className="min-h-[2.5rem]">
+          {note && <p className="max-w-3xl font-sans text-[16px] leading-relaxed text-black">{note}</p>}
+        </div>
+        <div className={`mt-2 border-t-2 border-black pt-4 transition-opacity duration-300 ${hover ? 'opacity-20' : ''}`}>
           <p className="text-[22px] font-bold text-black">Highest Confidence</p>
           <p className="group mt-3 font-sans text-[14px] leading-relaxed text-charcoal">
             <Hl>Change Validation</Hl> is introduced on a <Hl>high-frequency</Hl> workflow with clear user value, and <Hl>minimal behavior change</Hl>.
@@ -36,17 +40,6 @@ export default function Slide11Results() {
             <Hl>Coordination Lock</Hl> and <Hl>Program Conformance</Hl> require creating a <Hl>new behavior</Hl>.
           </p>
         </div>
-
-        {/* per-cell rationale, shown over the dimmed section while hovering a score cell */}
-        {hover && note && (
-          <div className="absolute inset-x-0 top-0 border-t-2 border-black pt-4">
-            <p className="text-[22px] font-bold text-black">{SCORE_ROWS[hover.row].useCase}</p>
-            <p className="mt-3 font-sans text-[13px] font-bold uppercase tracking-[0.1em] text-black">
-              {CRITERIA[hover.col]} = {SCORE_ROWS[hover.row].scores[hover.col]}
-            </p>
-            <p className="mt-1 max-w-3xl font-sans text-[15px] leading-relaxed text-charcoal">{note}</p>
-          </div>
-        )}
       </div>
     </SlideShell>
   )
