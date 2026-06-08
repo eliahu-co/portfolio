@@ -20,6 +20,8 @@ const SECTION_ROWS = [
 export default function Slide03Approach() {
   // diagram appears once "Lifecycle" is hovered, and stays on
   const [revealed, setRevealed] = useState(false)
+  // diagram dims to 50% while "Use Cases" is hovered
+  const [dim, setDim] = useState(false)
 
   return (
     <SlideShell eyebrow="Approach">
@@ -28,7 +30,11 @@ export default function Slide03Approach() {
         {APPROACH_FLOW.map((f, i) => (
           <span key={f} className="flex items-center gap-3">
             {f === 'Use Cases' ? (
-              <span className="group relative cursor-default text-[22px] font-semibold text-black">
+              <span
+                onMouseEnter={() => setDim(true)}
+                onMouseLeave={() => setDim(false)}
+                className="group relative cursor-default text-[22px] font-semibold text-black"
+              >
                 {f}
                 {/* hover popover — yellow section pills (pt bridges the gap so hover stays) */}
                 <span className="invisible absolute left-0 top-full z-30 flex flex-col items-start gap-1.5 pt-3 opacity-0 transition-opacity group-hover:visible group-hover:opacity-100">
@@ -52,7 +58,7 @@ export default function Slide03Approach() {
       </div>
 
       {/* Lifecycle diagram — revealed (and kept) once "Lifecycle" is hovered */}
-      <div className={`mt-24 transition-opacity duration-300 ${revealed ? 'opacity-100' : 'opacity-0'}`} aria-hidden={!revealed}>
+      <div className={`mt-24 transition-opacity duration-300 ${!revealed ? 'opacity-0' : dim ? 'opacity-50' : 'opacity-100'}`} aria-hidden={!revealed}>
         {/* Stage grouping brackets */}
         <div className="grid gap-x-3" style={gridCols}>
           {LIFECYCLE_GROUPS.map((g) => (
