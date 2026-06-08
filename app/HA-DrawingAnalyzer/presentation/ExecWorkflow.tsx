@@ -40,7 +40,7 @@ function Step({
   let box = proposed ? 'bg-[#c9c9c9] border-black/55' : 'bg-[#c9c9c9] border-charcoal/40'
   if (kind === 'ai') box = 'bg-[#ffff00] border-black'
   else if (kind === 'approve') box = 'bg-[#c9c9c9] border-black'
-  if (active) box = 'border-[#1d91d0]'
+  // (active highlight is applied via background only — keep the original border)
 
   const borderW = kind === 'approve' || kind === 'ai' ? 'border-2' : 'border'
   const labelColor = kind === 'ai' || kind === 'approve' ? 'text-black font-semibold' : proposed ? 'text-black' : 'text-charcoal'
