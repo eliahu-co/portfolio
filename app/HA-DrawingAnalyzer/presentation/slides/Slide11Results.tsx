@@ -1,6 +1,7 @@
 // app/HA-DrawingAnalyzer/presentation/slides/Slide11Results.tsx
 import type { ReactNode } from 'react'
-import { SlideShell, ScoreTable } from '../primitives'
+import { SlideShell } from '../primitives'
+import ScoreTable from '../ScoreTable'
 import { CRITERIA, SCORE_ROWS } from '../deckData'
 
 // yellow highlight that only appears when its sentence (the parent `group`) is hovered

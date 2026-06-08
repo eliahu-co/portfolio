@@ -106,39 +106,3 @@ export function MiniCard({ title, tone, primary, tag }: { title: string; tone: '
   )
 }
 
-const MEDALS = ['🥇', '🥈', '🥉', '']
-
-export function ScoreTable({
-  criteria,
-  rows,
-}: {
-  criteria: readonly string[]
-  rows: { useCase: string; scores: number[]; total: number; winner?: boolean }[]
-}) {
-  return (
-    <table className="w-full border-collapse text-left">
-      <thead>
-        <tr className="border-b-2 border-black">
-          <th className="py-3 pr-4 font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">Use case</th>
-          {criteria.map((c) => (
-            <th key={c} className="px-3 py-3 text-center font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">{c}</th>
-          ))}
-          <th className="pl-3 py-3 text-center font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((r, ri) => (
-          <tr key={r.useCase} className="border-b border-charcoal/15" style={r.winner ? { backgroundColor: '#ffff00' } : undefined}>
-            <td className={`py-3 pr-4 font-sans text-[16px] ${r.winner ? 'font-bold text-black' : 'text-charcoal'}`}>
-              <span className="mr-2 inline-block w-7 text-center" aria-hidden="true">{MEDALS[ri]}</span>{r.useCase}
-            </td>
-            {r.scores.map((s, i) => (
-              <td key={i} className={`px-3 py-3 text-center font-sans text-[16px] ${r.winner ? 'text-black' : 'text-charcoal/70'}`}>{s}</td>
-            ))}
-            <td className={`pl-3 py-3 text-center font-sans text-[18px] font-bold text-black`}>{r.total}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  )
-}
