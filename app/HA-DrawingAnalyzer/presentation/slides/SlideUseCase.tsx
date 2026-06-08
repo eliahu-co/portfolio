@@ -11,12 +11,13 @@ function roleExamples(data: UseCaseData): string[] {
   return (data.primaryUser.role ?? '').split('/').map((s) => s.trim()).filter(Boolean)
 }
 
-// one column of titles (wraps within its width)
-function RevealColumn({ items }: { items: string[] }) {
+// one column of title pills (wraps within its width)
+function RevealColumn({ items, tone }: { items: string[]; tone: 'value' | 'risk' }) {
+  const cls = tone === 'value' ? 'bg-black text-white' : 'bg-[#ffff00] text-black'
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col items-start gap-3">
       {items.map((t) => (
-        <span key={t} className="font-sans text-[10px] font-semibold uppercase leading-tight tracking-[0.06em] text-black">{t}</span>
+        <span key={t} className={`rounded-none px-2 py-1 font-sans text-[10px] font-semibold uppercase leading-tight tracking-[0.06em] ${cls}`}>{t}</span>
       ))}
     </div>
   )
@@ -57,8 +58,8 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
               >
                 {/* values (left) / risks (right) panel, revealed above the tradeoff */}
                 <div className={`absolute inset-x-0 bottom-full mb-3 grid grid-cols-2 gap-x-10 transition-opacity ${revealed ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
-                  <RevealColumn items={values} />
-                  <RevealColumn items={risks} />
+                  <RevealColumn items={values} tone="value" />
+                  <RevealColumn items={risks} tone="risk" />
                 </div>
                 {tradeoff.gain}
                 <span className="mx-1.5" aria-hidden="true">⇄</span>
