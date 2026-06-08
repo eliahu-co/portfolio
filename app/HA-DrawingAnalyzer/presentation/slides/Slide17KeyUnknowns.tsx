@@ -44,14 +44,21 @@ export default function Slide17KeyUnknowns() {
     <SlideShell eyebrow="Feasibility">
       <h2 className="mb-8 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black">
         Key unknowns to{' '}
-        <button
-          type="button"
+        <span
+          role="button"
+          tabIndex={0}
           onClick={() => setRevealed((v) => !v)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              setRevealed((v) => !v)
+            }
+          }}
           aria-pressed={revealed}
           className="font-extrabold leading-[1.04] tracking-[-0.01em] text-black"
         >
           validate
-        </button>
+        </span>
       </h2>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
         {VARIABLES.map(({ label, body, failures }) => (
