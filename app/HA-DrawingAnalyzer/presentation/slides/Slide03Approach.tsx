@@ -53,9 +53,9 @@ export default function Slide03Approach() {
                 </span>
               </span>
             ) : f === 'Lifecycle' ? (
-              <span onMouseEnter={() => setRevealed(true)} className="cursor-default text-[22px] font-semibold text-black">{f}</span>
+              <span onMouseEnter={() => setRevealed(true)} className="cursor-default rounded-none px-1 text-[22px] font-semibold text-black transition-colors hover:bg-[#ffff00]">{f}</span>
             ) : (
-              <span className="text-[22px] font-semibold text-black">{f}</span>
+              <span className="rounded-none px-1 text-[22px] font-semibold text-black transition-colors hover:bg-[#ffff00]">{f}</span>
             )}
             {i < APPROACH_FLOW.length - 1 && <span className="text-black" aria-hidden="true">→</span>}
           </span>
