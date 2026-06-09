@@ -106,7 +106,7 @@ export default function Slide17KeyUnknowns() {
           </span>
         </h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {VARIABLES.map(({ label, body, failures }, i) => (
+          {VARIABLES.map(({ label, alt, body, failures }, i) => (
             <div
               key={label}
               onMouseEnter={() => setUnknown(i)}
@@ -115,7 +115,7 @@ export default function Slide17KeyUnknowns() {
             >
               <div className="flex items-center gap-3">
                 <span className="shrink-0 text-black" aria-hidden="true">{ICONS[label]}</span>
-                <p className="text-[24px] font-bold leading-none text-black">{label}</p>
+                <p className="text-[24px] font-bold leading-none text-black">{unknown === i ? alt : label}</p>
               </div>
               <p className="mt-3 pl-9 font-sans text-[15px] leading-relaxed text-charcoal">{body}</p>
               <div
