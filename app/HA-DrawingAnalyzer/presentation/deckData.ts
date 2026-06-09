@@ -79,6 +79,12 @@ export const METRICS = [
   { title: 'Review Submission Volume', type: 'Guardrail', signal: 'Stable relative to baseline — the added step is not reducing adoption.' },
 ]
 
+// Deck-only relabels for value titles (the USE_CASES source of truth stays untouched,
+// so the live product use-case pages are unaffected). Keyed by the original title.
+export const VALUE_LABELS: Record<string, string> = {
+  'Fewer Review Cycles': 'Fewer Review Rounds',
+}
+
 // Mitigation per Change Validation risk (risk titles come from USE_CASES[0].tradeoffs).
 // Shown on hover on the Value, Risks, Metrics slide — mirrors METRICS success signals.
 export const RISK_MITIGATIONS: Record<string, string> = {

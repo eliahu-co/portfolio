@@ -3,12 +3,9 @@
 
 import { useState } from 'react'
 import { SlideShell, MiniCard } from '../primitives'
-import { USE_CASES, METRICS, RISK_MITIGATIONS } from '../deckData'
+import { USE_CASES, METRICS, RISK_MITIGATIONS, VALUE_LABELS } from '../deckData'
 
 const HEADING = 'mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black'
-
-// deck-only relabels for value titles (source of truth in USE_CASES stays untouched)
-const VALUE_LABELS: Record<string, string> = { 'Fewer Review Cycles': 'Fewer Review Rounds' }
 
 export default function Slide14ValueRisks() {
   const cv = USE_CASES[0]
