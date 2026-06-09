@@ -7,6 +7,9 @@ import { USE_CASES, METRICS, RISK_MITIGATIONS } from '../deckData'
 
 const HEADING = 'mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black'
 
+// deck-only relabels for value titles (source of truth in USE_CASES stays untouched)
+const VALUE_LABELS: Record<string, string> = { 'Fewer Review Cycles': 'Fewer Review Rounds' }
+
 export default function Slide14ValueRisks() {
   const cv = USE_CASES[0]
   // hovering a metric or a risk focuses it: its sentence shows below, the rest dims
@@ -20,7 +23,7 @@ export default function Slide14ValueRisks() {
         <div className={`transition-opacity duration-300 ${focused ? 'opacity-20' : ''}`}>
           <p className={HEADING}>Value delivered</p>
           <div className="flex flex-col gap-3">
-            {cv.value.map((v) => <MiniCard key={v.title} title={v.title} tone="value" primary={v.primary} />)}
+            {cv.value.map((v) => <MiniCard key={v.title} title={VALUE_LABELS[v.title] ?? v.title} tone="value" primary={v.primary} />)}
           </div>
         </div>
 
