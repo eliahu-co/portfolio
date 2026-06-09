@@ -83,7 +83,7 @@ export const METRICS = [
 // Shown on hover on the Value, Risks, Metrics slide — mirrors METRICS success signals.
 export const RISK_MITIGATIONS: Record<string, string> = {
   'False Confidence': 'Position as decision support, not review automation.',
-  'Change Noise': 'Surface only meaningful changes.',
+  'Change Noise': 'Surface only meaningful changes. Capture lightweight feedback.',
   'Workflow Friction': 'Keep validation fast and optional.',
 }
 
