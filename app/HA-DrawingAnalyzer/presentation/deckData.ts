@@ -90,7 +90,7 @@ export const VALUE_LABELS: Record<string, string> = {
 export const RISK_MITIGATIONS: Record<string, string> = {
   'False Confidence': 'Position as decision support, not review automation.',
   'Change Noise': 'Surface only meaningful changes. Capture lightweight feedback.',
-  'Workflow Friction': 'Keep validation fast and optional.',
+  'Workflow Friction': 'Keep validation fast / optional.',
 }
 
 // SOURCE: sections/MVP.tsx SCOPE_IN / SCOPE_OUT — keep in sync.
