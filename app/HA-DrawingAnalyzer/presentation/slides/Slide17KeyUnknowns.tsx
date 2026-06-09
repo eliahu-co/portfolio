@@ -49,6 +49,19 @@ export default function Slide17KeyUnknowns() {
     return () => window.removeEventListener('deck:navigate', reset)
   }, [])
 
+  // render a description sentence with its key phrase (`em`) in bold black
+  const withEmphasis = (body: string, em: string) => {
+    const i = body.indexOf(em)
+    if (i === -1) return body
+    return (
+      <>
+        {body.slice(0, i)}
+        <strong className="font-semibold text-black">{em}</strong>
+        {body.slice(i + em.length)}
+      </>
+    )
+  }
+
   const toggle = (set: (fn: (v: boolean) => boolean) => void) => ({
     onClick: () => set((v) => !v),
     onKeyDown: (e: React.KeyboardEvent) => {
@@ -132,7 +145,7 @@ export default function Slide17KeyUnknowns() {
           ))}
         </div>
         <p className="mx-auto mt-5 min-h-[2.75rem] max-w-[640px] text-center font-sans text-[16px] leading-relaxed text-charcoal">
-          {hovered !== null ? VALIDATION_STEPS[hovered].body : ''}
+          {hovered !== null ? withEmphasis(VALIDATION_STEPS[hovered].body, VALIDATION_STEPS[hovered].em) : ''}
         </p>
       </div>
     </SlideShell>
