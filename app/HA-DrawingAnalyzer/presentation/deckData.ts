@@ -21,7 +21,7 @@ export const USE_CASE_PROBLEM_HL = [
   'unintended modifications',
   'lack the context',
   'difficult to track',
-  'manual review',
+  'requirements compliance',
 ]
 
 // SOURCE: sections/Prioritization.tsx CRITERIA / ROWS — keep in sync.
