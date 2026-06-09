@@ -13,7 +13,7 @@ export const USE_CASE_PROBLEMS = [
   'Changes are often submitted with unintended modifications.',
   'RFIs often lack the context needed for a timely response.',
   'Design dependencies are difficult to track across disciplines.',
-  'Program compliance relies on manual review.',
+  'Program requirements compliance relies on manual review.',
 ]
 
 // phrase within each problem to highlight (revealed on hover)
@@ -21,7 +21,7 @@ export const USE_CASE_PROBLEM_HL = [
   'unintended modifications',
   'lack the context',
   'difficult to track',
-  'manual review',
+  'requirements compliance',
 ]
 
 // SOURCE: sections/Prioritization.tsx CRITERIA / ROWS — keep in sync.

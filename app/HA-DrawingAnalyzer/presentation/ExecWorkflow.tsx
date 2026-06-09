@@ -1,24 +1,26 @@
 // app/HA-DrawingAnalyzer/presentation/ExecWorkflow.tsx
-// Executive Current-vs-Proposed workflow in Autodesk-brand styling. Hovering a
-// step whose exact label appears in BOTH lanes highlights both matches in the
-// Autodesk brand blue (Twilight #1D91D0).
+// Executive Current-vs-Proposed workflow in Autodesk-brand styling. One lane is
+// "active" (full opacity) and the other is faded; landing defaults to Current
+// active. Clicking the "Current" / "Proposed" header switches which lane is
+// active. Hovering a step whose exact label appears in BOTH lanes highlights
+// both matches in the Autodesk brand blue (Twilight #1D91D0).
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 export type ExecStep = { label: string; kind?: 'ai' | 'approve' | 'repeat' | 'cost'; actor?: string }
 export type ExecLane = { steps: ExecStep[]; footer: string }
 
 const BRAND_BLUE = '#1d91d0'
 
-// Down-arrow connector — same geometry as the site's Connector.
-function Connector({ proposed }: { proposed: boolean }) {
-  const color = proposed ? '#000000' : 'rgba(102,102,102,0.6)'
+// Down-arrow connector — same geometry as the site's Connector. (Lane opacity
+// handles fading, so the connector is always drawn at full strength.)
+function Connector() {
   return (
     <div className="flex justify-center">
       <svg width="14" height="15" viewBox="0 0 14 15" fill="none" aria-hidden="true" style={{ display: 'block' }}>
-        <path d="M7 0 V14" stroke={color} strokeWidth="1" strokeLinecap="round" />
-        <path d="M2 10 L7 14 L12 10" stroke={color} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M7 0 V14" stroke="#000000" strokeWidth="1" strokeLinecap="round" />
+        <path d="M2 10 L7 14 L12 10" stroke="#000000" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </div>
   )
@@ -26,36 +28,30 @@ function Connector({ proposed }: { proposed: boolean }) {
 
 function Step({
   step,
-  proposed,
-  active,
+  highlighted,
   onHover,
 }: {
   step: ExecStep
-  proposed: boolean
-  active: boolean
+  highlighted: boolean
   onHover: (label: string | null) => void
 }) {
   const kind = step.kind
 
-  let box = proposed ? 'bg-[#c9c9c9] border-black/55' : 'bg-[#c9c9c9] border-charcoal/40'
+  let box = 'bg-[#c9c9c9] border-black/55'
   if (kind === 'ai') box = 'bg-[#ffff00] border-black'
   else if (kind === 'approve') box = 'bg-[#c9c9c9] border-black'
-  // (active highlight is applied via background only — keep the original border)
 
   const borderW = kind === 'approve' || kind === 'ai' ? 'border-2' : 'border'
-  const labelColor = kind === 'ai' || kind === 'approve' ? 'text-black font-semibold' : proposed ? 'text-black' : 'text-charcoal'
+  const labelColor = kind === 'ai' || kind === 'approve' ? 'text-black font-semibold' : 'text-black'
 
   const glyph = kind === 'ai' ? '⚡︎' : kind === 'approve' ? '✓' : kind === 'repeat' ? '⟲' : kind === 'cost' ? '$' : '•'
-  const glyphColor =
-    kind === 'ai' || kind === 'approve' ? 'text-black'
-    : kind === 'repeat' || kind === 'cost' ? (proposed ? 'text-black' : 'text-charcoal')
-    : 'text-transparent'
+  const glyphColor = kind ? 'text-black' : 'text-transparent'
 
   return (
     <div
       onMouseEnter={() => onHover(step.label)}
       onMouseLeave={() => onHover(null)}
-      style={active ? { backgroundColor: proposed ? BRAND_BLUE : 'rgba(29,145,208,0.3)' } : undefined}
+      style={highlighted ? { backgroundColor: BRAND_BLUE } : undefined}
       className={`relative flex items-center gap-2 overflow-hidden rounded-none ${borderW} px-2 py-1.5 transition-colors duration-150 ${box}`}
     >
       <span className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] font-bold' : 'text-[12px]'} ${glyphColor}`} aria-hidden="true">
@@ -68,7 +64,7 @@ function Step({
             <span className="rounded-none border border-black bg-black px-1 py-px text-[8px] font-bold uppercase tracking-wider text-white">DA</span>
           )}
           {step.actor && (
-            <span className={`rounded-none border px-1 py-px text-[8px] font-bold uppercase tracking-wider ${proposed ? 'border-black text-black' : 'border-charcoal text-charcoal'}`}>{step.actor}</span>
+            <span className="rounded-none border border-black px-1 py-px text-[8px] font-bold uppercase tracking-wider text-black">{step.actor}</span>
           )}
         </span>
       )}
@@ -76,51 +72,92 @@ function Step({
   )
 }
 
+type HoverState = { label: string; lane: 'current' | 'proposed' } | null
+
 function Lane({
   lane,
   proposed,
+  selected,
   hovered,
   shared,
   onHover,
+  onSelect,
 }: {
   lane: ExecLane
   proposed: boolean
-  hovered: string | null
+  selected: boolean
+  hovered: HoverState
   shared: Set<string>
-  onHover: (label: string | null) => void
+  onHover: (label: string | null, lane: 'current' | 'proposed') => void
+  onSelect: () => void
 }) {
-  const accent = proposed ? 'text-black' : 'text-charcoal'
+  const laneKey: 'current' | 'proposed' = proposed ? 'proposed' : 'current'
+  // A step lights up only when its label is shared across both lanes. Hovering a
+  // Proposed step lights both lanes (the matching Current step mirrors it);
+  // hovering a Current step lights only the Current lane (no Proposed mirror).
+  const isHighlighted = (label: string) => {
+    if (!hovered || hovered.label !== label || !shared.has(label)) return false
+    if (hovered.lane === 'proposed') return true
+    return laneKey === 'current'
+  }
   return (
     <div className="flex h-full flex-col">
-      <div className={`mb-3 border-b-2 pb-1.5 ${proposed ? 'border-black' : 'border-charcoal/40'}`}>
-        <span className={`font-sans text-[10px] font-bold uppercase tracking-[0.12em] ${accent}`}>
+      {/* clickable header — always full opacity so both lanes stay selectable */}
+      <div className={`mb-3 border-b-2 pb-1.5 ${selected ? 'border-black' : 'border-charcoal/40'}`}>
+        <span
+          role="button"
+          tabIndex={0}
+          onClick={onSelect}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              onSelect()
+            }
+          }}
+          aria-pressed={selected}
+          className={`font-sans text-[10px] font-bold uppercase tracking-[0.12em] transition-colors ${selected ? 'text-black' : 'text-charcoal'}`}
+        >
           {proposed ? 'Proposed' : 'Current'}
         </span>
       </div>
-      <div className="flex flex-col">
-        {lane.steps.map((s, i) => (
-          <div key={i}>
-            <Step step={s} proposed={proposed} active={hovered === s.label && shared.has(s.label)} onHover={onHover} />
-            {i < lane.steps.length - 1 && <Connector proposed={proposed} />}
-          </div>
-        ))}
+      {/* body fades when this lane is not the active one */}
+      <div className={`flex flex-1 flex-col transition-opacity duration-300 ${selected ? 'opacity-100' : 'opacity-40'}`}>
+        <div className="flex flex-col">
+          {lane.steps.map((s, i) => (
+            <div key={i}>
+              <Step step={s} highlighted={isHighlighted(s.label)} onHover={(label) => onHover(label, laneKey)} />
+              {i < lane.steps.length - 1 && <Connector />}
+            </div>
+          ))}
+        </div>
+        <p className="mt-auto pt-4 text-[15px] font-bold text-black">{lane.footer}</p>
       </div>
-      <p className={`mt-auto pt-4 text-[15px] font-bold ${accent}`}>{lane.footer}</p>
     </div>
   )
 }
 
 export default function ExecWorkflow({ current, proposed }: { current: ExecLane; proposed: ExecLane }) {
-  const [hovered, setHovered] = useState<string | null>(null)
+  const [hovered, setHovered] = useState<HoverState>(null)
+  // which lane is emphasized; landing defaults to Current, reset on navigation
+  const [active, setActive] = useState<'current' | 'proposed'>('current')
+  useEffect(() => {
+    const reset = () => setActive('current')
+    window.addEventListener('deck:navigate', reset)
+    return () => window.removeEventListener('deck:navigate', reset)
+  }, [])
+
   const shared = useMemo(() => {
     const inCurrent = new Set(current.steps.map((s) => s.label))
     return new Set(proposed.steps.filter((s) => inCurrent.has(s.label)).map((s) => s.label))
   }, [current, proposed])
 
+  const handleHover = (label: string | null, lane: 'current' | 'proposed') =>
+    setHovered(label ? { label, lane } : null)
+
   return (
     <div className="grid grid-cols-2 items-stretch gap-x-4">
-      <Lane lane={current} proposed={false} hovered={hovered} shared={shared} onHover={setHovered} />
-      <Lane lane={proposed} proposed hovered={hovered} shared={shared} onHover={setHovered} />
+      <Lane lane={current} proposed={false} selected={active === 'current'} hovered={hovered} shared={shared} onHover={handleHover} onSelect={() => setActive('current')} />
+      <Lane lane={proposed} proposed selected={active === 'proposed'} hovered={hovered} shared={shared} onHover={handleHover} onSelect={() => setActive('proposed')} />
     </div>
   )
 }
