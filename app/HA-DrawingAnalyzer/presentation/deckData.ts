@@ -110,9 +110,23 @@ export const ASSUMPTIONS = [
 
 // SOURCE: sections/KeyUnknowns.tsx VARIABLES — keep in sync.
 export const VARIABLES = [
-  { label: 'Accuracy', body: 'What confidence threshold should be required before a detected change is surfaced to the user?' },
-  { label: 'Latency',  body: 'What response time is required for Change Validation to fit naturally into the review submission workflow?' },
-  { label: 'Cost',     body: 'Can change validation run on every review initiated while remaining economically viable at project scale?' },
+  { label: 'Accuracy', body: 'What confidence threshold should be required before a detected change is surfaced to the user?', failures: ['False positive', 'False negative', 'Wrong description', 'Information overload'] },
+  { label: 'Latency',  body: 'What response time is required for Change Validation to fit naturally into the review submission workflow?', failures: ['Too slow', 'Workflow bottleneck'] },
+  { label: 'Cost',     body: 'Can change validation run on every review initiated while remaining economically viable at project scale?', failures: ['Poor unit economics', 'High storage / relationship maintenance'] },
+]
+
+// Validation roadmap for slide 19 — revealed by clicking the "Feasibility"
+// eyebrow. Each step's body sentence appears on hover; `em` is the key phrase
+// within body that renders bold. Titles render uppercase.
+export const VALIDATION_STEPS = [
+  { title: 'Align',      body: 'Pin down the target user, the workflow entry point, and the business objective.', em: 'target user, the workflow entry point, and the business objective' },
+  { title: 'Baseline',   body: 'Measure the current review cycle to establish a baseline.', em: 'current review cycle' },
+  { title: 'Data test',  body: 'Run on historical drawing reviews — measure accuracy, noise, latency, and failure.', em: 'accuracy, noise, latency, and failure' },
+  { title: 'User test',  body: 'Put prototype outputs in front of designers — do they understand, trust, and act?', em: 'understand, trust, and act' },
+  { title: 'Thresholds', body: 'Set the minimum acceptable confidence, latency, and signal-to-noise rate to surface a change.', em: 'minimum acceptable confidence, latency, and signal-to-noise rate' },
+  { title: 'MVP scope',  body: 'Lock the smallest workflow that proves value.', em: 'smallest workflow that proves value' },
+  { title: 'Pilot',      body: 'Launch on a small set of projects to validate in the field.', em: 'small set of projects' },
+  { title: 'Decision',   body: 'Scale, narrow scope, or pivot based on what the pilot shows.', em: 'Scale, narrow scope, or pivot' },
 ]
 
 // Construction lifecycle for slide 3 — phases (initials + name) and the
