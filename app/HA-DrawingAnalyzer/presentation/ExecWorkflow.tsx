@@ -72,6 +72,8 @@ function Step({
   )
 }
 
+type HoverState = { label: string; lane: 'current' | 'proposed' } | null
+
 function Lane({
   lane,
   proposed,
@@ -84,11 +86,20 @@ function Lane({
   lane: ExecLane
   proposed: boolean
   selected: boolean
-  hovered: string | null
+  hovered: HoverState
   shared: Set<string>
-  onHover: (label: string | null) => void
+  onHover: (label: string | null, lane: 'current' | 'proposed') => void
   onSelect: () => void
 }) {
+  const laneKey: 'current' | 'proposed' = proposed ? 'proposed' : 'current'
+  // A step lights up only when its label is shared across both lanes. Hovering a
+  // Proposed step lights both lanes (the matching Current step mirrors it);
+  // hovering a Current step lights only the Current lane (no Proposed mirror).
+  const isHighlighted = (label: string) => {
+    if (!hovered || hovered.label !== label || !shared.has(label)) return false
+    if (hovered.lane === 'proposed') return true
+    return laneKey === 'current'
+  }
   return (
     <div className="flex h-full flex-col">
       {/* clickable header — always full opacity so both lanes stay selectable */}
@@ -114,7 +125,7 @@ function Lane({
         <div className="flex flex-col">
           {lane.steps.map((s, i) => (
             <div key={i}>
-              <Step step={s} highlighted={hovered === s.label && shared.has(s.label)} onHover={onHover} />
+              <Step step={s} highlighted={isHighlighted(s.label)} onHover={(label) => onHover(label, laneKey)} />
               {i < lane.steps.length - 1 && <Connector />}
             </div>
           ))}
@@ -126,7 +137,7 @@ function Lane({
 }
 
 export default function ExecWorkflow({ current, proposed }: { current: ExecLane; proposed: ExecLane }) {
-  const [hovered, setHovered] = useState<string | null>(null)
+  const [hovered, setHovered] = useState<HoverState>(null)
   // which lane is emphasized; landing defaults to Current, reset on navigation
   const [active, setActive] = useState<'current' | 'proposed'>('current')
   useEffect(() => {
@@ -140,10 +151,13 @@ export default function ExecWorkflow({ current, proposed }: { current: ExecLane;
     return new Set(proposed.steps.filter((s) => inCurrent.has(s.label)).map((s) => s.label))
   }, [current, proposed])
 
+  const handleHover = (label: string | null, lane: 'current' | 'proposed') =>
+    setHovered(label ? { label, lane } : null)
+
   return (
     <div className="grid grid-cols-2 items-stretch gap-x-4">
-      <Lane lane={current} proposed={false} selected={active === 'current'} hovered={hovered} shared={shared} onHover={setHovered} onSelect={() => setActive('current')} />
-      <Lane lane={proposed} proposed selected={active === 'proposed'} hovered={hovered} shared={shared} onHover={setHovered} onSelect={() => setActive('proposed')} />
+      <Lane lane={current} proposed={false} selected={active === 'current'} hovered={hovered} shared={shared} onHover={handleHover} onSelect={() => setActive('current')} />
+      <Lane lane={proposed} proposed selected={active === 'proposed'} hovered={hovered} shared={shared} onHover={handleHover} onSelect={() => setActive('proposed')} />
     </div>
   )
 }
