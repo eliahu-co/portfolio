@@ -92,13 +92,13 @@ function Lane({
   onSelect: () => void
 }) {
   const laneKey: 'current' | 'proposed' = proposed ? 'proposed' : 'current'
-  // Hovering a Current step lights only that step (any step, no Proposed mirror).
-  // Hovering a Proposed step lights both lanes, but only for labels shared across
-  // both (the matching Current step mirrors it).
+  // The directly hovered step always lights (any step, either lane). Additionally,
+  // hovering a shared Proposed step mirrors onto the matching Current step.
+  // Hovering a Current step never mirrors onto Proposed.
   const isHighlighted = (label: string) => {
     if (!hovered || hovered.label !== label) return false
-    if (hovered.lane === 'current') return laneKey === 'current'
-    return shared.has(label)
+    if (hovered.lane === laneKey) return true
+    return laneKey === 'current' && hovered.lane === 'proposed' && shared.has(label)
   }
   return (
     <div className="flex h-full flex-col">
