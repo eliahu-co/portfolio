@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { SlideShell, UserPill } from '../primitives'
 import ExecWorkflow from '../ExecWorkflow'
 import { EXEC_WORKFLOWS } from '../execWorkflows'
+import { VALUE_LABELS } from '../deckData'
 import type { UseCaseData } from '@/app/HA-DrawingAnalyzer/sections/UseCase'
 
 function roleExamples(data: UseCaseData): string[] {
@@ -34,7 +35,7 @@ export default function SlideUseCase({ data, index }: { data: UseCaseData; index
   const title = data.title.split('\n')[0]
   const wf = EXEC_WORKFLOWS[data.id]
   const image = index === 2 ? '/presentation/usecase-2.jpeg' : data.opportunity.image
-  const values = data.value.map((v) => v.title)
+  const values = data.value.map((v) => VALUE_LABELS[v.title] ?? v.title)
   const risks = data.tradeoffs.map((t) => t.title)
   const tradeoff =
     index === 1 ? { gain: 'Fewer review rounds', cost: 'Additional step' }

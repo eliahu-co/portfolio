@@ -79,12 +79,26 @@ export const METRICS = [
   { title: 'Review Submission Volume', type: 'Guardrail', signal: 'Stable relative to baseline — the added step is not reducing adoption.' },
 ]
 
+// Deck-only relabels for value titles (the USE_CASES source of truth stays untouched,
+// so the live product use-case pages are unaffected). Keyed by the original title.
+export const VALUE_LABELS: Record<string, string> = {
+  'Fewer Review Cycles': 'Fewer Review Rounds',
+}
+
+// Mitigation per Change Validation risk (risk titles come from USE_CASES[0].tradeoffs).
+// Shown on hover on the Value, Risks, Metrics slide — mirrors METRICS success signals.
+export const RISK_MITIGATIONS: Record<string, string> = {
+  'False Confidence': 'Position as decision support, not review automation.',
+  'Change Noise': 'Surface only meaningful changes. Capture lightweight feedback.',
+  'Workflow Friction': 'Keep validation fast / optional.',
+}
+
 // SOURCE: sections/MVP.tsx SCOPE_IN / SCOPE_OUT — keep in sync.
 export const SCOPE_IN = [
   'Compare two versions of a single drawing sheet.',
   'Detect added, removed, and modified objects.',
   'Generate visual previews of detected changes.',
-  'Approve detected changes and submit review.',
+  'Submit review after change validation.',
   'Cancel review submission and return to editing.',
 ]
 export const SCOPE_OUT = [
@@ -92,6 +106,7 @@ export const SCOPE_OUT = [
   'Approval or rejection of individual detected changes.',
   'Generate human-readable change descriptions.',
   'Automatic filtering of cosmetic or low-impact changes.',
+  'Explicit user feedback on detection quality.',
   'Change severity scoring and risk classification.',
   'Historical change reports.',
   'Multi-sheet drawing sets.',
@@ -110,12 +125,12 @@ export const ASSUMPTIONS = [
 
 // SOURCE: sections/KeyUnknowns.tsx VARIABLES — keep in sync.
 export const VARIABLES = [
-  { label: 'Accuracy', body: 'What confidence threshold should be required before a detected change is surfaced to the user?', failures: ['False positive', 'False negative', 'Wrong description', 'Information overload'] },
-  { label: 'Latency',  body: 'What response time is required for Change Validation to fit naturally into the review submission workflow?', failures: ['Too slow', 'Workflow bottleneck'] },
-  { label: 'Cost',     body: 'Can change validation run on every review initiated while remaining economically viable at project scale?', failures: ['Poor unit economics', 'High storage / relationship maintenance'] },
+  { label: 'Accuracy', alt: 'Trust',        body: 'What confidence threshold should be required before a detected change is surfaced to the user?', failures: ['False positive', 'False negative', 'Wrong description', 'Information overload'] },
+  { label: 'Latency',  alt: 'Workflow fit', body: 'What response time is required for Change Validation to fit naturally into the review submission workflow?', failures: ['Too slow', 'Workflow bottleneck'] },
+  { label: 'Cost',     alt: 'Economics',    body: 'Can change validation run on every review initiated while remaining economically viable at project scale?', failures: ['Poor unit economics', 'High storage / relationship maintenance'] },
 ]
 
-// Validation roadmap for slide 19 — revealed by clicking the "Feasibility"
+// Validation roadmap for slide 19 — revealed by clicking the "Discovery"
 // eyebrow. Each step's body sentence appears on hover; `em` is the key phrase
 // within body that renders bold. Titles render uppercase.
 export const VALIDATION_STEPS = [
