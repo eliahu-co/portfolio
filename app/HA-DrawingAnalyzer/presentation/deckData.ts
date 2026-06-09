@@ -106,6 +106,7 @@ export const SCOPE_OUT = [
   'Approval or rejection of individual detected changes.',
   'Generate human-readable change descriptions.',
   'Automatic filtering of cosmetic or low-impact changes.',
+  'Explicit user feedback on detection quality.',
   'Change severity scoring and risk classification.',
   'Historical change reports.',
   'Multi-sheet drawing sets.',
