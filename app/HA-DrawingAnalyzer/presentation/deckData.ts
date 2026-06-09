@@ -98,7 +98,7 @@ export const SCOPE_IN = [
   'Compare two versions of a single drawing sheet.',
   'Detect added, removed, and modified objects.',
   'Generate visual previews of detected changes.',
-  'Approve detected changes and submit review.',
+  'Submit review after change validation.',
   'Cancel review submission and return to editing.',
 ]
 export const SCOPE_OUT = [
