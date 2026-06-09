@@ -79,6 +79,14 @@ export const METRICS = [
   { title: 'Review Submission Volume', type: 'Guardrail', signal: 'Stable relative to baseline — the added step is not reducing adoption.' },
 ]
 
+// Mitigation per Change Validation risk (risk titles come from USE_CASES[0].tradeoffs).
+// Shown on hover on the Value, Risks, Metrics slide — mirrors METRICS success signals.
+export const RISK_MITIGATIONS: Record<string, string> = {
+  'False Confidence': 'Position as decision support, not review automation.',
+  'Change Noise': 'Surface only meaningful changes.',
+  'Workflow Friction': 'Keep validation fast and optional.',
+}
+
 // SOURCE: sections/MVP.tsx SCOPE_IN / SCOPE_OUT — keep in sync.
 export const SCOPE_IN = [
   'Compare two versions of a single drawing sheet.',

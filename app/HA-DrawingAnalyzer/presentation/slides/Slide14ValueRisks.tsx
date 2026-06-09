@@ -3,15 +3,16 @@
 
 import { useState } from 'react'
 import { SlideShell, MiniCard } from '../primitives'
-import { USE_CASES, METRICS } from '../deckData'
+import { USE_CASES, METRICS, RISK_MITIGATIONS } from '../deckData'
 
 const HEADING = 'mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black'
 
 export default function Slide14ValueRisks() {
   const cv = USE_CASES[0]
-  // hovering a metric focuses it: its success signal shows below, the rest dims
-  const [hovered, setHovered] = useState<number | null>(null)
-  const focused = hovered !== null
+  // hovering a metric or a risk focuses it: its sentence shows below, the rest dims
+  const [metric, setMetric] = useState<number | null>(null)
+  const [risk, setRisk] = useState<number | null>(null)
+  const focused = metric !== null || risk !== null
 
   return (
     <SlideShell eyebrow="Change Validation" title="Value, risks, metrics">
@@ -23,10 +24,28 @@ export default function Slide14ValueRisks() {
           </div>
         </div>
 
-        <div className={`transition-opacity duration-300 ${focused ? 'opacity-20' : ''}`}>
-          <p className={HEADING}>Risks</p>
+        <div className="flex flex-col">
+          <p className={`${HEADING} transition-opacity duration-300 ${focused ? 'opacity-20' : ''}`}>Risks</p>
           <div className="flex flex-col gap-3">
-            {cv.tradeoffs.map((r) => <MiniCard key={r.title} title={r.title} tone="risk" primary={r.primary} />)}
+            {cv.tradeoffs.map((r, i) => (
+              <div
+                key={r.title}
+                onMouseEnter={() => setRisk(i)}
+                onMouseLeave={() => setRisk(null)}
+                className={`transition-opacity duration-300 ${focused && risk !== i ? 'opacity-20' : ''}`}
+              >
+                <MiniCard title={r.title} tone="risk" primary={r.primary} />
+              </div>
+            ))}
+          </div>
+          {/* mitigation of the hovered risk, pinned at the bottom of the column */}
+          <div className="mt-6 min-h-[4rem]">
+            {risk !== null && (
+              <p className="font-sans text-[13px] leading-relaxed text-black">
+                <span className="mr-2 font-bold uppercase tracking-[0.08em]">Mitigation</span>
+                {RISK_MITIGATIONS[cv.tradeoffs[risk].title]}
+              </p>
+            )}
           </div>
         </div>
 
@@ -36,9 +55,9 @@ export default function Slide14ValueRisks() {
             {METRICS.map((m, i) => (
               <div
                 key={m.title}
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
-                className={`transition-opacity duration-300 ${focused && hovered !== i ? 'opacity-20' : ''}`}
+                onMouseEnter={() => setMetric(i)}
+                onMouseLeave={() => setMetric(null)}
+                className={`transition-opacity duration-300 ${focused && metric !== i ? 'opacity-20' : ''}`}
               >
                 <MiniCard title={m.title} tone="metric" tag={m.type} primary={i === 0} />
               </div>
@@ -46,10 +65,10 @@ export default function Slide14ValueRisks() {
           </div>
           {/* success signal of the hovered metric, pinned at the bottom of the column */}
           <div className="mt-6 min-h-[4rem]">
-            {hovered !== null && (
+            {metric !== null && (
               <p className="font-sans text-[13px] leading-relaxed text-black">
                 <span className="mr-2 font-bold uppercase tracking-[0.08em]">Success signal</span>
-                {METRICS[hovered].signal}
+                {METRICS[metric].signal}
               </p>
             )}
           </div>
