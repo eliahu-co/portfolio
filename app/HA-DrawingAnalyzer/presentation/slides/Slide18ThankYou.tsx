@@ -17,8 +17,8 @@ const SLIDE_LINKS = [
   { label: 'Assumptions', slide: 13 },
   { label: 'Criteria', slide: 14 },
   { label: 'Scoring', slide: 15 },
-  { label: 'Value, Risks & Metrics', slide: 16 },
-  { label: 'MVP Scope', slide: 17 },
+  { label: 'MVP Scope', slide: 16 },
+  { label: 'Value, Risks & Metrics', slide: 17 },
   { label: 'Prototype', slide: 18 },
   { label: 'Key Unknowns', slide: 19 },
 ]
