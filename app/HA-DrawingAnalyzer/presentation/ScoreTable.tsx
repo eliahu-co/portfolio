@@ -13,10 +13,12 @@ export default function ScoreTable({
   criteria,
   rows,
   onHoverChange,
+  onColumnClick,
 }: {
   criteria: readonly string[]
   rows: { useCase: string; scores: number[]; total: number; winner?: boolean }[]
   onHoverChange?: (cell: { row: number; col: number } | null) => void
+  onColumnClick?: (col: number) => void
 }) {
   const [hover, setHover] = useState<{ row: number; col: number } | null>(null)
   useEffect(() => { onHoverChange?.(hover) }, [hover, onHoverChange])
@@ -33,7 +35,7 @@ export default function ScoreTable({
         <tr className="border-b-2 border-black">
           <th className="w-2/5 py-3 pr-4 font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">Use case</th>
           {criteria.map((c, ci) => (
-            <th key={c} style={{ backgroundColor: headerYellow(ci) ? YELLOW : undefined }} className="px-3 py-3 text-center font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">{c}</th>
+            <th key={c} onClick={() => onColumnClick?.(ci)} style={{ backgroundColor: headerYellow(ci) ? YELLOW : undefined }} className="px-3 py-3 text-center font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">{c}</th>
           ))}
           <th style={{ backgroundColor: headerYellow(totalCol) ? YELLOW : undefined }} className="pl-3 py-3 text-center font-sans text-[11px] font-bold uppercase tracking-[0.12em] text-charcoal">Total</th>
         </tr>
@@ -51,6 +53,7 @@ export default function ScoreTable({
                 <td
                   key={ci}
                   onMouseEnter={() => setHover({ row: ri, col: ci })}
+                  onClick={() => onColumnClick?.(ci)}
                   style={{ backgroundColor: on ? YELLOW : undefined }}
                   className={`px-3 py-3 text-center font-sans ${bold ? 'text-[18px] font-extrabold' : 'text-[16px]'} ${on ? 'text-black' : 'text-charcoal/70'}`}
                 >

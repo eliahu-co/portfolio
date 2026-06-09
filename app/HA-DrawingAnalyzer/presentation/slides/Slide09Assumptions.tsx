@@ -7,7 +7,7 @@ export default function Slide09Assumptions() {
     <SlideShell eyebrow="Assumptions" title="The Drawing Analyzer is…">
       <div className="flex max-w-3xl flex-col gap-4">
         {ASSUMPTIONS.map((a, i) => (
-          <div key={i} className={`border-black ${i >= 1 && i <= 3 ? 'border-l-8 pl-3' : 'border-l-4 pl-4'}`}>
+          <div key={i} className={`border-black hover:font-bold ${i >= 1 && i <= 3 ? 'border-l-8 pl-3' : 'border-l-4 pl-4'}`}>
             <p className="font-sans text-[15px] leading-relaxed text-black">{a}</p>
           </div>
         ))}
