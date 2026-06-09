@@ -130,7 +130,7 @@ export const VARIABLES = [
   { label: 'Cost',     alt: 'Economics',    body: 'Can change validation run on every review initiated while remaining economically viable at project scale?', failures: ['Poor unit economics', 'High storage / relationship maintenance'] },
 ]
 
-// Validation roadmap for slide 19 — revealed by clicking the "Feasibility"
+// Validation roadmap for slide 19 — revealed by clicking the "Discovery"
 // eyebrow. Each step's body sentence appears on hover; `em` is the key phrase
 // within body that renders bold. Titles render uppercase.
 export const VALIDATION_STEPS = [

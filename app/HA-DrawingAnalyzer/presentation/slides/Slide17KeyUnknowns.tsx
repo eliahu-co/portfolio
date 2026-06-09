@@ -33,7 +33,7 @@ const ICONS: Record<string, JSX.Element> = {
 export default function Slide17KeyUnknowns() {
   // Clicking "validate" reveals the failure modes under each unknown.
   const [revealed, setRevealed] = useState(false)
-  // Clicking the "Feasibility" eyebrow reveals the validation roadmap below.
+  // Clicking the "Discovery" eyebrow reveals the validation roadmap below.
   const [roadmap, setRoadmap] = useState(false)
   // index of the hovered roadmap step (null = none)
   const [hovered, setHovered] = useState<number | null>(null)
@@ -87,7 +87,7 @@ export default function Slide17KeyUnknowns() {
           {...toggle(setRoadmap)}
           className="font-sans text-[12px] font-bold uppercase tracking-[0.14em] text-black"
         >
-          Feasibility
+          Discovery
         </span>
       </p>
 
