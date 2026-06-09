@@ -10,7 +10,7 @@ export default function Slide15MvpScope() {
           <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-black">In scope</p>
           <ul className="flex flex-col gap-3">
             {SCOPE_IN.map((s, i) => (
-              <li key={i} className="flex gap-2 font-sans text-[16px] leading-relaxed text-charcoal">
+              <li key={i} className="flex gap-2 font-sans text-[16px] leading-relaxed text-charcoal hover:font-bold">
                 <span className="mt-0.5 shrink-0 font-bold text-black" aria-hidden="true">✓</span><span>{s}</span>
               </li>
             ))}
@@ -20,7 +20,7 @@ export default function Slide15MvpScope() {
           <p className="mb-4 font-sans text-[12px] font-bold uppercase tracking-[0.12em] text-charcoal/50">Out of scope</p>
           <ul className="flex flex-col gap-3">
             {SCOPE_OUT.map((s, i) => (
-              <li key={i} className="flex gap-2 font-sans text-[16px] leading-relaxed text-charcoal/60">
+              <li key={i} className="flex gap-2 font-sans text-[16px] leading-relaxed text-charcoal/60 hover:font-bold">
                 <span className="mt-0.5 shrink-0 font-bold text-charcoal/40" aria-hidden="true">✕</span><span>{s}</span>
               </li>
             ))}
