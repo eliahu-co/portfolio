@@ -115,6 +115,19 @@ export const VARIABLES = [
   { label: 'Cost',     body: 'Can change validation run on every review initiated while remaining economically viable at project scale?', failures: ['Poor unit economics', 'High storage / relationship maintenance'] },
 ]
 
+// Validation roadmap for slide 19 — revealed by clicking the "Feasibility"
+// eyebrow. Each step's body sentence appears on hover. Titles render uppercase.
+export const VALIDATION_STEPS = [
+  { title: 'Align',      body: 'Pin down the target user, the workflow entry point, and the business objective.' },
+  { title: 'Baseline',   body: 'Measure the current review cycle to establish a baseline.' },
+  { title: 'Data test',  body: 'Run on historical drawing reviews — measure accuracy, noise, latency, and failure.' },
+  { title: 'User test',  body: 'Put prototype outputs in front of designers — do they understand, trust, and act?' },
+  { title: 'Thresholds', body: 'Set the minimum acceptable confidence, latency, and signal-to-noise rate to surface a change.' },
+  { title: 'MVP scope',  body: 'Lock the smallest workflow that proves value.' },
+  { title: 'Pilot',      body: 'Launch on a small set of projects to validate in the field.' },
+  { title: 'Decision',   body: 'Scale, narrow scope, or pivot based on what the pilot shows.' },
+]
+
 // Construction lifecycle for slide 3 — phases (initials + name) and the
 // higher-level stage groups that bracket them (modeled on the AEC reference).
 export type LifecyclePhase = { initials: string; name: string; muted?: boolean }
