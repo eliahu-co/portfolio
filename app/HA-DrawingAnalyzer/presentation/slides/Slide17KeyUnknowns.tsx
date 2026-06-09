@@ -37,6 +37,9 @@ export default function Slide17KeyUnknowns() {
   const [roadmap, setRoadmap] = useState(false)
   // index of the hovered roadmap step (null = none)
   const [hovered, setHovered] = useState<number | null>(null)
+  // index of the hovered unknown column (null = none) — focuses it, fades the rest
+  const [unknown, setUnknown] = useState<number | null>(null)
+  const unknownFocused = unknown !== null
 
   // reset every transient state whenever the deck navigates away/back
   useEffect(() => {
@@ -44,6 +47,7 @@ export default function Slide17KeyUnknowns() {
       setRevealed(false)
       setRoadmap(false)
       setHovered(null)
+      setUnknown(null)
     }
     window.addEventListener('deck:navigate', reset)
     return () => window.removeEventListener('deck:navigate', reset)
@@ -102,8 +106,13 @@ export default function Slide17KeyUnknowns() {
           </span>
         </h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {VARIABLES.map(({ label, body, failures }) => (
-            <div key={label}>
+          {VARIABLES.map(({ label, body, failures }, i) => (
+            <div
+              key={label}
+              onMouseEnter={() => setUnknown(i)}
+              onMouseLeave={() => setUnknown(null)}
+              className={`transition-opacity duration-300 ${unknownFocused && unknown !== i ? 'opacity-20' : ''}`}
+            >
               <div className="flex items-center gap-3">
                 <span className="shrink-0 text-black" aria-hidden="true">{ICONS[label]}</span>
                 <p className="text-[24px] font-bold leading-none text-black">{label}</p>
