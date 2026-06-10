@@ -11,7 +11,7 @@ export const USE_CASES: UseCaseData[] = [USE_CASE_1, USE_CASE_2, USE_CASE_3, USE
 // One-line problem statement shown on the intro slide before each use case.
 export const USE_CASE_PROBLEMS = [
   'Changes are often submitted with unintended modifications.',
-  'RFIs often lack the context needed for a timely response.',
+  'Questions often lack the context needed for a quick answer.',
   'Design dependencies are difficult to track across disciplines.',
   'Program requirements compliance relies on manual review.',
 ]
