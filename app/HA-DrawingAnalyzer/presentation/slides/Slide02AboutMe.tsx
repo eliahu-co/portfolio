@@ -1,6 +1,9 @@
 // app/HA-DrawingAnalyzer/presentation/slides/Slide02AboutMe.tsx
 // NOTE: copy and photo are author-supplied. Values below are placeholders
 // marked TODO — replace before presenting.
+'use client'
+
+import { useState } from 'react'
 import { SlideShell } from '../primitives'
 
 const TIMELINE = ['Brazil', 'Holland', 'Israel'] // TODO: confirm/expand
@@ -15,9 +18,11 @@ const BULLETS = [
 ]
 
 export default function Slide02AboutMe() {
+  // hovering "Brazil" swaps the first name (a nod to the Brazilian origin)
+  const [brazil, setBrazil] = useState(false)
   return (
     <SlideShell eyebrow="About">
-      <h2 className="mb-3 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black">Eliahu Cohen</h2>
+      <h2 className="mb-3 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black">{brazil ? 'Eduardo' : 'Eliahu'} Cohen</h2>
       <p className="mb-8 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black">Architect, Product Manager</p>
       <div className="grid grid-cols-1 items-stretch gap-y-6 lg:grid-cols-[auto_1fr] lg:gap-x-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -34,7 +39,11 @@ export default function Slide02AboutMe() {
             <div className="flex flex-wrap items-center gap-2">
               {TIMELINE.map((place, i) => (
                 <span key={place} className="flex items-center gap-2">
-                  <span className="rounded-none px-1 font-sans text-[12px] font-medium uppercase tracking-[0.12em] text-black transition-colors hover:bg-[#ffff00]">{place}</span>
+                  <span
+                    onMouseEnter={place === 'Brazil' ? () => setBrazil(true) : undefined}
+                    onMouseLeave={place === 'Brazil' ? () => setBrazil(false) : undefined}
+                    className="rounded-none px-1 font-sans text-[12px] font-medium uppercase tracking-[0.12em] text-black transition-colors hover:bg-[#ffff00]"
+                  >{place}</span>
                   {i < TIMELINE.length - 1 && <span className="text-[12px] text-black" aria-hidden="true">→</span>}
                 </span>
               ))}
