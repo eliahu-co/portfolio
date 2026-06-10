@@ -23,12 +23,12 @@ export default function Slide02AboutMe() {
   return (
     <SlideShell eyebrow="About">
       <h2 className="mb-3 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black">
-        {/* crossfade the first name on Brazil hover; invisible sizer holds the width */}
+        {/* crossfade the whole name on Brazil hover; invisible sizer holds the width */}
         <span className="relative inline-block">
-          <span className="invisible" aria-hidden="true">Eduardo</span>
-          <span aria-hidden={brazil} className={`absolute left-0 top-0 transition-opacity duration-500 ${brazil ? 'opacity-0' : 'opacity-100'}`}>Eliahu</span>
-          <span aria-hidden={!brazil} className={`absolute left-0 top-0 transition-opacity duration-500 ${brazil ? 'opacity-100' : 'opacity-0'}`}>Eduardo</span>
-        </span>{' '}Cohen
+          <span className="invisible" aria-hidden="true">Eduardo Cohen</span>
+          <span aria-hidden={brazil} className={`absolute left-0 top-0 whitespace-nowrap transition-opacity duration-500 ${brazil ? 'opacity-0' : 'opacity-100'}`}>Eliahu Cohen</span>
+          <span aria-hidden={!brazil} className={`absolute left-0 top-0 whitespace-nowrap transition-opacity duration-500 ${brazil ? 'opacity-100' : 'opacity-0'}`}>Eduardo Cohen</span>
+        </span>
       </h2>
       <p className="mb-8 text-[clamp(34px,5vw,64px)] font-extrabold leading-[1.04] tracking-[-0.01em] text-black">Architect, Product Manager</p>
       <div className="grid grid-cols-1 items-stretch gap-y-6 lg:grid-cols-[auto_1fr] lg:gap-x-4">
