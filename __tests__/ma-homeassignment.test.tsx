@@ -28,3 +28,9 @@ it('renders the Coin Master hero banner', () => {
   const h1 = hero.querySelector('h1')!
   expect(h1.className).toContain('text-cm-gold-bright')
 })
+
+it('renders workflow lanes inside the parchment panel', () => {
+  render(<MAHomeAssignmentPage />)
+  const useCase1 = document.getElementById('use-case-1')!
+  expect(useCase1.querySelector('.border-cm-wood')).not.toBeNull()
+})

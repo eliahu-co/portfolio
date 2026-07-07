@@ -278,7 +278,7 @@ function markerGlyph(kind: StepKind): string {
 // (display:block, no padding/margin) so the shaft starts at the box above and
 // the arrowhead tip ends at the box below — no glyph line-box gap to fight.
 function Connector({ proposed }: { proposed: boolean }) {
-  const color = proposed ? 'rgba(6,150,215,0.7)' : 'rgba(102,102,102,0.45)'
+  const color = proposed ? 'rgba(144,57,0,0.75)' : 'rgba(144,57,0,0.35)'
   return (
     <div className="flex justify-center">
       <svg width="14" height="15" viewBox="0 0 14 15" fill="none" aria-hidden="true" style={{ display: 'block' }}>
@@ -290,9 +290,9 @@ function Connector({ proposed }: { proposed: boolean }) {
 }
 
 function LaneHeader({ proposed, title, stat }: { proposed: boolean; title: string; stat: string }) {
-  const accent = proposed ? 'text-autodesk-blue' : 'text-charcoal'
+  const accent = proposed ? 'text-cm-wood' : 'text-[#8a6a3f]'
   return (
-    <div className={`pb-2 border-b-2 ${proposed ? 'border-autodesk-blue' : 'border-charcoal/40'}`}>
+    <div className={`pb-2 border-b-2 ${proposed ? 'border-cm-wood' : 'border-cm-wood/30'}`}>
       <span className={`font-sans text-[10px] uppercase tracking-[0.12em] ${accent}`}>{title}</span>
       <span className={`block mt-1 font-serif text-[15px] ${accent}`}>{stat}</span>
     </div>
@@ -317,30 +317,33 @@ function StepCell({
   // light — its shine carries the emphasis instead.
   const isEmphasis = step.emphasis ?? (kind === 'catch' || kind === 'reject' || kind === 'approve' || kind === 'repeat')
 
-  // box background + border
-  let box = proposed ? 'bg-white border-autodesk-blue/30' : 'bg-white border-charcoal/25'
-  if (kind === 'ai') box = 'bg-autodesk-blue/10 border-autodesk-blue/45 shadow-[0_0_16px_-1px_rgba(6,150,215,0.5)]'
-  else if (kind === 'approve') box = proposed ? 'bg-white border-autodesk-blue/70' : 'bg-white border-charcoal/45'
+  // box background + border — near-white cards sitting on the parchment panel
+  let box = proposed ? 'bg-white/90 border-cm-wood/30' : 'bg-white/70 border-cm-wood/25'
+  if (kind === 'ai') box = 'bg-gradient-to-b from-[#5FC9F5] to-cm-sky border-[#1D5E7E] shadow-[0_0_12px_rgba(79,191,239,0.7)]'
+  else if (kind === 'approve') box = 'bg-white/90 border-[#4C9B3C]'
   else if (kind === 'catch') box = isEmphasis
-    ? (proposed ? 'bg-white border-autodesk-blue/70' : 'bg-white border-charcoal/60')
-    : (proposed ? 'bg-white border-autodesk-blue/30' : 'bg-white border-charcoal/25')
-  else if (kind === 'reject') box = 'bg-white border-charcoal/60'
-  else if (kind === 'repeat') box = 'bg-white border-charcoal/45'
-  else if (step.emphasis) box = proposed ? 'bg-white border-autodesk-blue/70' : 'bg-white border-charcoal/60'
+    ? (proposed ? 'bg-white/90 border-cm-wood/70' : 'bg-white/80 border-cm-wood/60')
+    : (proposed ? 'bg-white/90 border-cm-wood/30' : 'bg-white/70 border-cm-wood/25')
+  else if (kind === 'reject') box = 'bg-white/80 border-cm-crimson'
+  else if (kind === 'repeat') box = 'bg-white/80 border-cm-wood/45'
+  else if (step.emphasis) box = proposed ? 'bg-white/90 border-cm-wood/70' : 'bg-white/80 border-cm-wood/60'
 
   // border thickness — matches the connector stroke; thicker for emphasis steps
   const borderW = isEmphasis ? 'border-2' : 'border'
 
   // marker colour
-  let marker = proposed ? 'text-autodesk-blue/60' : 'text-charcoal/40'
-  if (kind === 'ai') marker = 'text-autodesk-blue'
-  else if (kind === 'approve') marker = proposed ? 'text-autodesk-blue' : 'text-charcoal'
-  else if (kind === 'reject' || kind === 'repeat') marker = 'text-charcoal'
-  else if (kind === 'catch') marker = proposed ? 'text-autodesk-blue' : 'text-charcoal'
+  let marker = proposed ? 'text-cm-wood/70' : 'text-cm-wood/40'
+  if (kind === 'ai') marker = 'text-[#0F3D54]'
+  else if (kind === 'approve') marker = 'text-[#3C7A2F]'
+  else if (kind === 'reject') marker = 'text-cm-crimson'
+  else if (kind === 'repeat') marker = 'text-cm-wood'
+  else if (kind === 'catch') marker = proposed ? 'text-cm-wood' : 'text-charcoal'
 
-  const labelColor = isEmphasis ? 'text-black font-medium' : 'text-charcoal'
+  const labelColor = kind === 'ai'
+    ? 'text-[#0F3D54] font-bold'
+    : isEmphasis ? 'text-black font-medium' : 'text-charcoal'
 
-  const noteColor = proposed ? 'text-autodesk-blue' : 'text-charcoal/60'
+  const noteColor = proposed ? 'text-cm-wood' : 'text-charcoal/60'
 
   return (
     <div className="flex flex-col">
@@ -391,9 +394,9 @@ function Legend({ current, proposed, aiOnly }: { current: Workflow; proposed: Wo
       {items.map(({ kind, glyph, label }) => {
         const isAi = kind === 'ai'
         return (
-          <span key={label} className={`inline-flex items-center font-sans text-[10px] leading-none ${isAi ? 'text-autodesk-blue' : 'text-charcoal/70'}`}>
+          <span key={label} className={`inline-flex items-center font-sans text-[10px] leading-none ${isAi ? 'text-[#1D5E7E]' : 'text-cm-wood/80'}`}>
             <span
-              className={`mr-1 leading-none ${isAi ? 'text-autodesk-blue font-bold text-[13px]' : 'text-charcoal'}`}
+              className={`mr-1 leading-none ${isAi ? 'text-[#1D5E7E] font-bold text-[13px]' : 'text-cm-wood'}`}
               aria-hidden="true"
             >
               {glyph}
@@ -420,7 +423,7 @@ function Lane({ workflow, proposed }: { workflow: Workflow; proposed: boolean })
 
 function WorkflowComparison({ current, proposed, legendAiOnly }: { current: Workflow; proposed: Workflow; legendAiOnly?: boolean }) {
   return (
-    <div>
+    <div className="rounded-[14px] border-2 border-cm-wood bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] p-4 shadow-[0_3px_0_rgba(144,57,0,0.35)]">
       <div className="grid grid-cols-2 gap-x-4 md:gap-x-6 mb-4">
         <LaneHeader proposed={false} title="Current" stat={current.stat} />
         <LaneHeader proposed title="Proposed" stat={proposed.stat} />
