@@ -85,15 +85,15 @@ export default function Prioritization() {
         {CRITERIA_DEFS.map(({ title, body, rubric }) => {
           const isOpen = open.has(title)
           return (
-            <div key={title} className="pl-3 border-l-4 border-charcoal">
+            <div key={title} className="pl-3 border-l-4 border-cm-wood">
               <button
                 type="button"
                 onClick={() => toggle(title)}
                 aria-expanded={isOpen}
                 className="flex items-center gap-2 text-left"
               >
-                <span className={`text-charcoal/45 text-[9px] transition-transform duration-150 ${isOpen ? 'rotate-90' : ''}`} aria-hidden="true">▶</span>
-                <span className="font-serif text-[14px] text-black">{title}</span>
+                <span className={`text-cm-wood/60 text-[9px] transition-transform duration-150 ${isOpen ? 'rotate-90' : ''}`} aria-hidden="true">▶</span>
+                <span className="font-serif text-[14px] text-cm-violet-deep">{title}</span>
               </button>
               <p className="ml-[18px] font-sans text-[11px] italic leading-relaxed text-charcoal/80">{body}</p>
               {isOpen && (
@@ -116,7 +116,7 @@ export default function Prioritization() {
       <div className="overflow-x-auto mb-8">
         <table className="w-full border-collapse text-left">
           <thead>
-            <tr className="border-b-2 border-autodesk-blue">
+            <tr className="border-b-2 border-cm-wood">
               <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pr-4">
                 Use case
               </th>
@@ -137,7 +137,7 @@ export default function Prioritization() {
               <tr
                 key={row.useCase}
                 className={`border-b border-charcoal/15 ${row.winner ? 'animate-shimmer motion-reduce:animate-none' : ''}`}
-                style={row.winner ? { backgroundImage: 'linear-gradient(90deg, rgba(6,150,215,0.06) 0%, rgba(6,150,215,0.22) 50%, rgba(6,150,215,0.06) 100%)', backgroundSize: '200% 100%' } : undefined}
+                style={row.winner ? { backgroundImage: 'linear-gradient(90deg, rgba(245,168,0,0.08) 0%, rgba(245,168,0,0.28) 50%, rgba(245,168,0,0.08) 100%)', backgroundSize: '200% 100%' } : undefined}
               >
                 <td className={`font-sans text-[13px] py-3 pr-4 ${row.winner ? 'text-black font-medium' : 'text-charcoal'}`}>
                   {medal && <span className="mr-1.5" aria-hidden="true">{medal}</span>}
@@ -146,7 +146,7 @@ export default function Prioritization() {
                 {row.scores.map((s, i) => (
                   <td key={i} className="font-sans text-[13px] text-charcoal/70 py-3 px-3 text-center">{s}</td>
                 ))}
-                <td className={`font-sans text-[14px] py-3 pl-3 text-center font-medium ${row.winner ? 'text-autodesk-blue' : 'text-black'}`}>
+                <td className={`font-sans text-[14px] py-3 pl-3 text-center font-medium ${row.winner ? 'text-cm-crimson' : 'text-black'}`}>
                   {row.total}
                 </td>
               </tr>
@@ -157,7 +157,7 @@ export default function Prioritization() {
       </div>
 
       <div className="max-w-2xl">
-        <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-autodesk-blue mb-2">Decision</p>
+        <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-crimson mb-2">Decision</p>
         <div className="flex flex-col gap-3">
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
             Change Validation scores highest (18) and is recommended as the starting point. It addresses

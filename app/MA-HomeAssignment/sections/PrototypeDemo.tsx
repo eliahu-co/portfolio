@@ -19,7 +19,7 @@ export default function PrototypeDemo() {
           href="/HA-DrawingAnalyzer/demo"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 self-start font-sans text-[12px] font-semibold uppercase tracking-[0.08em] text-white bg-autodesk-blue rounded-sm px-4 py-2.5 no-underline hover:opacity-90 transition-opacity"
+          className="inline-flex items-center gap-2 self-start font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-cm-violet-deep bg-gradient-to-b from-[#FFD95C] to-cm-gold rounded-full px-5 py-2.5 no-underline shadow-[0_3px_0_#B7202E] hover:brightness-105 transition-[filter]"
         >
           Open interactive prototype ↗
         </a>

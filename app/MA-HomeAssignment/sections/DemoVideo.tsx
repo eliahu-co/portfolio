@@ -40,7 +40,7 @@ export default function DemoVideo() {
           aria-label={state === 'ended' ? 'Replay video' : 'Play video'}
           className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/35 transition-colors hover:bg-black/25"
         >
-          <span className="grid h-16 w-16 place-items-center rounded-full bg-autodesk-blue text-white shadow-lg">
+          <span className="grid h-16 w-16 place-items-center rounded-full bg-gradient-to-b from-[#FFD95C] to-cm-gold text-cm-violet-deep shadow-lg">
             {state === 'ended' ? (
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M21 12a9 9 0 1 1-2.64-6.36" />

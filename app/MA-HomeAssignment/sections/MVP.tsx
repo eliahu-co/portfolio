@@ -82,7 +82,7 @@ export default function MVP() {
         Features that do not directly support that learning objective are intentionally excluded.
       </p>
       <div className="grid md:grid-cols-2 gap-x-10 gap-y-8 mb-10 max-w-3xl">
-        <List title="In scope" items={SCOPE_IN} marker="✓" markerClass="text-autodesk-blue" />
+        <List title="In scope" items={SCOPE_IN} marker="✓" markerClass="text-cm-gold" />
         <List title="Out of scope" items={SCOPE_OUT} marker="✕" markerClass="text-charcoal/40" textClass="text-charcoal/60" />
       </div>
 
@@ -90,8 +90,8 @@ export default function MVP() {
         <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal mb-4">Success metrics</p>
         <div className="flex flex-col gap-5">
           {METRICS.map(({ kind, title, body, signal }) => (
-            <div key={title} className="pl-3 border-l-4 border-autodesk-blue">
-              <p className="font-serif text-[14px] text-black mb-0.5 flex items-center gap-3">
+            <div key={title} className="rounded-[10px] border border-cm-gold/40 border-l-4 border-l-cm-gold bg-white px-3 py-2.5 shadow-[0_2px_6px_rgba(42,27,84,0.08)]">
+              <p className="font-serif text-[14px] text-cm-violet-deep mb-0.5 flex items-center gap-3">
                 <span className="min-w-0">{title}</span>
                 <Pill tone="blue" className="shrink-0">{kind}</Pill>
               </p>

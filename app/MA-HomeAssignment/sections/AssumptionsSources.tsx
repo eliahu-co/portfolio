@@ -20,7 +20,7 @@ export default function AssumptionsSources() {
         <ul className="flex flex-col gap-1.5">
           {ASSUMPTIONS.map((a, i) => (
             <li key={i} className="font-sans text-[14px] leading-relaxed text-charcoal flex gap-2">
-              <span className="text-autodesk-blue mt-1 shrink-0">—</span>
+              <span className="text-cm-gold mt-1 shrink-0">—</span>
               <span>{a}</span>
             </li>
           ))}

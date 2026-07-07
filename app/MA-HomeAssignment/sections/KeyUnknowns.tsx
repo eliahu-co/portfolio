@@ -16,7 +16,7 @@ export default function KeyUnknowns() {
       <div className="grid md:grid-cols-3 gap-6 max-w-3xl">
         {VARIABLES.map(({ label, body }) => (
           <div key={label}>
-            <p className="font-serif text-[18px] text-autodesk-blue mb-1">{label}</p>
+            <p className="font-serif text-[18px] text-cm-wood mb-1">{label}</p>
             <p className="font-sans text-[13px] leading-relaxed text-charcoal">{body}</p>
           </div>
         ))}
