@@ -1,4 +1,4 @@
-// app/HA-DrawingAnalyzer/sections/AssumptionsSources.tsx
+// app/MA-HomeAssignment/sections/AssumptionsSources.tsx
 // Section 10 — Assumptions & sources.
 
 import Section from './Section'

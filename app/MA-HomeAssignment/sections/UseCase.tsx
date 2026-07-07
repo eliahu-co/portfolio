@@ -1,4 +1,4 @@
-// app/HA-DrawingAnalyzer/sections/UseCase.tsx
+// app/MA-HomeAssignment/sections/UseCase.tsx
 // Reusable case-study block. Every use-case section renders one of these with
 // its own anchor id, so all use cases share the same structure. Drive content
 // from the `UseCaseData` objects in ./useCaseData.ts — never edit layout here

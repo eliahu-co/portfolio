@@ -1,4 +1,4 @@
-// app/HA-DrawingAnalyzer/sections/useCaseData.ts
+// app/MA-HomeAssignment/sections/useCaseData.ts
 // Content for the three use-case blocks. Edit copy here without touching layout.
 // Use Cases 2 & 3 are placeholders (TODO) following the same structure.
 
