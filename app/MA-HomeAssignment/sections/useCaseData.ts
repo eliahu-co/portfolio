@@ -1,4 +1,4 @@
-// app/MA-HomeAssignment/sections/useCaseData.ts
+// app/HA-DrawingAnalyzer/sections/useCaseData.ts
 // Content for the three use-case blocks. Edit copy here without touching layout.
 // Use Cases 2 & 3 are placeholders (TODO) following the same structure.
 
@@ -427,7 +427,7 @@ export const USE_CASE_4: UseCaseData = {
     },
     {
       title: 'False Confidence',
-      body: 'Reviewers may assume all requirements have been evaluated, even when some remain outside the system\'s scope.',
+      body: 'Reviewers may assume all requirements have been evaluated, even when some remain outside the system’s scope.',
     },
     {
       title: 'Standards Rigidity',

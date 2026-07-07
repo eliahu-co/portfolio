@@ -1,4 +1,4 @@
-// app/MA-HomeAssignment/sections/UseCase.tsx
+// app/HA-DrawingAnalyzer/sections/UseCase.tsx
 // Reusable case-study block. Every use-case section renders one of these with
 // its own anchor id, so all use cases share the same structure. Drive content
 // from the `UseCaseData` objects in ./useCaseData.ts — never edit layout here
@@ -126,7 +126,7 @@ function OpportunityText({ opp }: { opp: UseCaseData['opportunity'] }) {
               key={i}
               className="border-l-2 border-autodesk-blue pl-3 py-0.5 font-sans italic text-[14px] leading-relaxed text-charcoal"
             >
-              "{q}"
+              “{q}”
             </blockquote>
           ))}
         </div>
