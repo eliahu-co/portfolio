@@ -8,7 +8,7 @@ import type { ReactNode } from 'react'
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-autodesk-blue mb-3">
+    <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-crimson mb-3">
       {children}
     </p>
   )
@@ -29,11 +29,13 @@ export default function Section({
     <section
       id={id}
       // scroll-mt keeps the section heading clear of the top edge when jumped to
-      className="scroll-mt-8 border-t-4 border-autodesk-blue pt-5 pb-16"
+      className="scroll-mt-8 pt-0 pb-16"
     >
+      {/* gold→crimson gradient rule replaces the flat brand border */}
+      <div className="h-1 rounded-full bg-gradient-to-r from-cm-gold to-cm-crimson mb-5" aria-hidden="true" />
       <Eyebrow>{eyebrow}</Eyebrow>
       {title && (
-        <h2 className="font-serif text-[clamp(22px,3vw,32px)] leading-tight text-black mb-5 whitespace-pre-line">
+        <h2 className="font-serif text-[clamp(22px,3vw,32px)] leading-tight text-cm-violet-deep mb-5 whitespace-pre-line">
           {title}
         </h2>
       )}
