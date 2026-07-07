@@ -42,12 +42,13 @@ export const metadata: Metadata = {
 export default function MAHomeAssignmentPage() {
   return (
     <>
-      <div className="ma-page min-h-screen bg-white text-charcoal">
+      <div className="ma-page min-h-screen bg-cm-cream text-charcoal">
+        <Hero />
+
         <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 py-10 md:py-16 grid md:grid-cols-[180px_1fr] gap-10 md:gap-16">
           <SideNav />
 
           <main className="min-w-0">
-            <Hero />
             <UseCase data={USE_CASE_1} />
             <UseCase data={USE_CASE_2} />
             <UseCase data={USE_CASE_3} />
@@ -62,7 +63,7 @@ export default function MAHomeAssignmentPage() {
             <div className="mt-4">
               <a
                 href="#hero"
-                className="inline-flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal/70 hover:text-autodesk-blue transition-colors no-underline"
+                className="inline-flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal/70 hover:text-cm-crimson transition-colors no-underline"
               >
                 <span aria-hidden="true">↑</span> Back to top
               </a>

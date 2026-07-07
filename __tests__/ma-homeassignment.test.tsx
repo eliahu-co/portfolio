@@ -18,3 +18,13 @@ it('renders every side-nav section anchor', () => {
     expect(document.getElementById(id)).toBeInTheDocument()
   }
 })
+
+it('renders the Coin Master hero banner', () => {
+  render(<MAHomeAssignmentPage />)
+  const hero = document.getElementById('hero')!
+  // full-bleed violet banner
+  expect(hero.className).toContain('from-cm-violet-deep')
+  // chunky display font applied to the title
+  const h1 = hero.querySelector('h1')!
+  expect(h1.className).toContain('text-cm-gold-bright')
+})
