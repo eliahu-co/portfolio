@@ -18,6 +18,16 @@ const config: Config = {
         // Autodesk primary brand palette — used by /HA-DrawingAnalyzer
         'autodesk-blue': '#0696d7',
         charcoal: '#666666',
+        // Coin Master (Moon Active) brand palette — used by /MA-HomeAssignment
+        'cm-violet':      '#3B1F63',
+        'cm-violet-deep': '#2A1B54',
+        'cm-gold':        '#F5A800',
+        'cm-gold-bright': '#FFC93C',
+        'cm-coin':        '#FFCB70',
+        'cm-wood':        '#903900',
+        'cm-sky':         '#4FBFEF',
+        'cm-crimson':     '#C8102E',
+        'cm-cream':       '#FFF9EE',
       },
       fontFamily: {
         serif: ['var(--font-playfair)', 'Georgia', 'serif'],
