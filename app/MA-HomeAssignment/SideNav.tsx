@@ -5,13 +5,16 @@
 // matches components/FloatNav.tsx (IntersectionObserver, -40% top/bottom
 // rootMargin). Pills are styled after the About-section skill tags
 // (components/About.tsx) — outline when inactive, filled when active — but in
-// the Autodesk-blue brand colour instead of orange. Smooth-scroll is global
+// the Coin Master gold/wood palette instead of orange. Smooth-scroll is global
 // (html { scroll-behavior: smooth } in globals.css).
 
 import { useEffect, useState } from 'react'
 import { SECTIONS } from './sections'
 
-const BLUE = '#0696d7'
+const GOLD = '#F5A800'
+const WOOD = '#903900'
+const CRIMSON = '#C8102E'
+const VIOLET = '#2A1B54'
 
 export default function SideNav() {
   const [activeId, setActiveId] = useState<string>(SECTIONS[0].id)
@@ -53,21 +56,22 @@ export default function SideNav() {
 
       <style>{`
         .ma-sidenav-link {
-          border: 2px solid ${BLUE}99;
-          color: ${BLUE};
+          border: 2px solid ${GOLD}99;
+          color: ${WOOD};
           background: transparent;
         }
         .ma-sidenav-link:hover {
-          background: ${BLUE}1a;
-          border-color: ${BLUE};
+          background: ${CRIMSON}1a;
+          border-color: ${CRIMSON};
+          color: ${CRIMSON};
         }
         .ma-sidenav-link[aria-current=true] {
-          background: ${BLUE};
-          border-color: ${BLUE};
-          color: #ffffff;
+          background: ${GOLD};
+          border-color: ${GOLD};
+          color: ${VIOLET};
         }
         .ma-sidenav-link:focus-visible {
-          outline: 1px solid ${BLUE};
+          outline: 1px solid ${WOOD};
           outline-offset: 2px;
         }
       `}</style>
