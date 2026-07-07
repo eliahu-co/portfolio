@@ -102,7 +102,7 @@ function Bullets({ items }: { items: string[] }) {
     <ul className="flex flex-col gap-1.5">
       {items.map((b, i) => (
         <li key={i} className="font-sans text-[14px] leading-relaxed text-charcoal flex gap-2">
-          <span className="text-autodesk-blue mt-1 shrink-0">—</span>
+          <span className="text-cm-gold mt-1 shrink-0">—</span>
           <span>{b}</span>
         </li>
       ))}
@@ -124,7 +124,7 @@ function OpportunityText({ opp }: { opp: UseCaseData['opportunity'] }) {
           {opp.quotes.map((q, i) => (
             <blockquote
               key={i}
-              className="border-l-2 border-autodesk-blue pl-3 py-0.5 font-sans italic text-[14px] leading-relaxed text-charcoal"
+              className="border-l-2 border-cm-gold pl-3 py-0.5 font-sans italic text-[14px] leading-relaxed text-charcoal"
             >
               “{q}”
             </blockquote>
@@ -139,7 +139,7 @@ function OpportunityText({ opp }: { opp: UseCaseData['opportunity'] }) {
 function OpportunityImage({ src, bordered = true }: { src: string; bordered?: boolean }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={src} alt="" className={`w-full h-auto rounded-lg ${bordered ? 'border-2 border-autodesk-blue/70' : ''}`} />
+    <img src={src} alt="" className={`w-full h-auto rounded-lg ${bordered ? 'border-2 border-cm-wood/50' : ''}`} />
   )
 }
 
@@ -167,8 +167,8 @@ export function Pill({
   className?: string
 }) {
   const toneClass =
-    tone === 'solid' ? 'bg-autodesk-blue/80 text-white border-autodesk-blue'
-    : tone === 'blue' ? 'text-autodesk-blue border-autodesk-blue/50'
+    tone === 'solid' ? 'bg-gradient-to-b from-cm-gold-bright to-cm-gold text-cm-violet-deep border-cm-wood/60'
+    : tone === 'blue' ? 'text-cm-violet border-cm-violet/50'
     : 'text-charcoal border-charcoal/50'
   return (
     <span className={`font-sans text-[8px] font-bold uppercase tracking-wider rounded px-1 py-px border-2 ${toneClass} ${className}`}>
@@ -209,16 +209,16 @@ function Card({
   variant: CardVariant
   fullWidth?: boolean
 }) {
-  const bar = variant === 'neutral'
-    ? 'border-l-4 border-charcoal'
-    : item.primary
-      ? (variant === 'value' ? 'border-l-4 border-autodesk-blue' : 'border-l-4 border-[#f4b400]')
-      : (variant === 'value' ? 'border-l-2 border-autodesk-blue/55' : 'border-l-2 border-[#f4b400]/70')
+  const edge = variant === 'neutral'
+    ? 'border-charcoal/30 border-l-charcoal border-l-4'
+    : variant === 'value'
+      ? `border-cm-gold/40 border-l-cm-gold ${item.primary ? 'border-l-[5px]' : 'border-l-4'}`
+      : `border-cm-crimson/35 border-l-cm-crimson ${item.primary ? 'border-l-[5px]' : 'border-l-4'}`
   const span = item.primary || fullWidth ? 'sm:col-span-2' : ''
   return (
-    <div className={`pl-3 ${bar} ${span}`}>
-      <p className="font-serif text-[14px] text-black mb-0.5 flex items-center gap-1.5">
-        {item.primary && variant === 'value' && <span className="shrink-0 text-[13px] leading-none text-autodesk-blue" aria-hidden="true">★</span>}
+    <div className={`rounded-[10px] border bg-white px-3 py-2.5 shadow-[0_2px_6px_rgba(42,27,84,0.08)] ${edge} ${span}`}>
+      <p className="font-serif text-[14px] text-cm-violet-deep mb-0.5 flex items-center gap-1.5">
+        {item.primary && variant === 'value' && <span className="shrink-0 text-[13px] leading-none text-cm-gold" aria-hidden="true">★</span>}
         {item.primary && variant === 'risk' && <WarningBadge />}
         <span className="min-w-0">{item.title}</span>
       </p>
@@ -533,8 +533,8 @@ export default function UseCase({ data }: { data: UseCaseData }) {
       <Block label="Risks">
         <CardList items={data.tradeoffs} variant="risk" />
         {data.tradeoff && (
-          <p className="mt-8 font-sans text-[10px] font-medium uppercase tracking-[0.14em] text-[#f4b400]">
-            <span className="mr-2 font-extrabold text-black">Tradeoff</span>
+          <p className="mt-8 font-sans text-[10px] font-medium uppercase tracking-[0.14em] text-cm-wood">
+            <span className="mr-2 font-extrabold text-cm-crimson">Tradeoff</span>
             {data.tradeoff.gain}
             <span className="mx-1" aria-hidden="true">⇄</span>
             {data.tradeoff.cost}
