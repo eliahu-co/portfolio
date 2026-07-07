@@ -317,16 +317,23 @@ function StepCell({
   // light — its shine carries the emphasis instead.
   const isEmphasis = step.emphasis ?? (kind === 'catch' || kind === 'reject' || kind === 'approve' || kind === 'repeat')
 
-  // box background + border — near-white cards sitting on the parchment panel
-  let box = proposed ? 'bg-white/90 border-cm-wood/30' : 'bg-white/70 border-cm-wood/25'
+  // box background + border — each step is its own small parchment card with a
+  // wood drop edge (the proposed lane's parchment is warmer than the current's)
+  const parchment      = 'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3]'
+  const parchmentLight = 'bg-gradient-to-b from-[#FFF6E5] to-[#FFEBC9]'
+  const woodEdge       = 'shadow-[0_2px_0_rgba(144,57,0,0.25)]'
+  const woodEdgeLight  = 'shadow-[0_2px_0_rgba(144,57,0,0.15)]'
+  let box = proposed
+    ? `${parchment} border-cm-wood/50 ${woodEdge}`
+    : `${parchmentLight} border-cm-wood/30 ${woodEdgeLight}`
   if (kind === 'ai') box = 'bg-gradient-to-b from-[#5FC9F5] to-cm-sky border-[#1D5E7E] shadow-[0_0_12px_rgba(79,191,239,0.7)]'
-  else if (kind === 'approve') box = 'bg-white/90 border-[#4C9B3C]'
+  else if (kind === 'approve') box = `${parchment} border-[#4C9B3C] shadow-[0_2px_0_rgba(76,155,60,0.35)]`
   else if (kind === 'catch') box = isEmphasis
-    ? (proposed ? 'bg-white/90 border-cm-wood/70' : 'bg-white/80 border-cm-wood/60')
-    : (proposed ? 'bg-white/90 border-cm-wood/30' : 'bg-white/70 border-cm-wood/25')
-  else if (kind === 'reject') box = 'bg-white/80 border-cm-crimson'
-  else if (kind === 'repeat') box = 'bg-white/80 border-cm-wood/45'
-  else if (step.emphasis) box = proposed ? 'bg-white/90 border-cm-wood/70' : 'bg-white/80 border-cm-wood/60'
+    ? (proposed ? `${parchment} border-cm-wood/70 ${woodEdge}` : `${parchmentLight} border-cm-wood/60 ${woodEdgeLight}`)
+    : (proposed ? `${parchment} border-cm-wood/50 ${woodEdge}` : `${parchmentLight} border-cm-wood/30 ${woodEdgeLight}`)
+  else if (kind === 'reject') box = `${parchmentLight} border-cm-crimson shadow-[0_2px_0_rgba(200,16,46,0.3)]`
+  else if (kind === 'repeat') box = `${parchmentLight} border-cm-wood/45 ${woodEdgeLight}`
+  else if (step.emphasis) box = proposed ? `${parchment} border-cm-wood/70 ${woodEdge}` : `${parchmentLight} border-cm-wood/60 ${woodEdgeLight}`
 
   // border thickness — matches the connector stroke; thicker for emphasis steps
   const borderW = isEmphasis ? 'border-2' : 'border'
@@ -347,7 +354,7 @@ function StepCell({
 
   return (
     <div className="flex flex-col">
-      <div className={`relative overflow-hidden rounded-sm ${borderW} px-2.5 py-1 flex items-center gap-2 ${box}`}>
+      <div className={`relative overflow-hidden rounded-lg ${borderW} px-2.5 py-1 flex items-center gap-2 ${box}`}>
         <span className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] md:text-[17px] font-bold' : 'text-[11px] md:text-[12px]'} ${marker}`} aria-hidden="true">
           {markerGlyph(kind)}
         </span>
@@ -423,7 +430,7 @@ function Lane({ workflow, proposed }: { workflow: Workflow; proposed: boolean })
 
 function WorkflowComparison({ current, proposed, legendAiOnly }: { current: Workflow; proposed: Workflow; legendAiOnly?: boolean }) {
   return (
-    <div className="rounded-[14px] border-2 border-cm-wood bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] p-4 shadow-[0_3px_0_rgba(144,57,0,0.35)]">
+    <div>
       <div className="grid grid-cols-2 gap-x-4 md:gap-x-6 mb-4">
         <LaneHeader proposed={false} title="Current" stat={current.stat} />
         <LaneHeader proposed title="Proposed" stat={proposed.stat} />
