@@ -97,16 +97,14 @@ export default function CoreLoopDiagram() {
         {/* blob, meta group box, and connector arrows — behind the cards */}
         <svg viewBox="0 0 560 280" className="absolute inset-0 h-full w-full" fill="none" aria-hidden="true">
           <defs>
-            <filter id="cl-blur" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="13" />
-            </filter>
             <marker id="cl-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="#FFD98A" />
             </marker>
           </defs>
 
-          {/* the blue "core loop" blob from the reference sketch */}
-          <ellipse cx="168" cy="132" rx="150" ry="88" fill="#4FBFEF" opacity="0.30" filter="url(#cl-blur)" />
+          {/* core-loop group container — matches the meta bracket */}
+          <rect x="44" y="38" width="258" height="178" rx="14" fill="#2A1B54" opacity="0.28" />
+          <rect x="44" y="38" width="258" height="178" rx="14" fill="none" stroke="#FFC93C" strokeOpacity="0.35" strokeWidth="1.5" />
 
           {/* meta group container */}
           <rect x="424" y="34" width="98" height="200" rx="12" fill="#2A1B54" opacity="0.28" />
