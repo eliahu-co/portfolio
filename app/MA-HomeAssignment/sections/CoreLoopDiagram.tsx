@@ -50,9 +50,9 @@ function style(kind: Kind) {
     }
   if (kind === 'feeder')
     return {
-      box:   'bg-[#0b1660]/60 border-cm-gold/70',
-      text:  'text-cm-gold-bright',
-      glyph: 'text-cm-gold-bright/80',
+      box:   'bg-[#FFFDF8] border-cm-wood/45',
+      text:  'text-cm-wood',
+      glyph: 'text-cm-gold',
       size:  'px-2 py-1 text-[9px] md:text-[10px]',
     }
   return {
@@ -87,16 +87,17 @@ function Card({ n }: { n: Node }) {
   )
 }
 
-// A Coin Master-style framed plaque: hard drop shadow, deep-blue panel wash, a
-// cream frame, and an inner bevel highlight — mirrors the loyalty.coinmaster.com
-// panel styling (rounded, cream border, inset bevel, 0 6px drop).
+// A Coin Master-style framed plaque for the cream page: hard drop shadow, a
+// warm parchment panel wash, a wood-brown frame, and an inner bevel highlight —
+// mirrors the loyalty.coinmaster.com panel styling (rounded, framed, inset
+// bevel, 0 6px drop) but toned for a light background.
 function Plaque({ x, y, w, h, r = 16 }: { x: number; y: number; w: number; h: number; r?: number }) {
   return (
     <g>
-      <rect x={x} y={y + 4} width={w} height={h} rx={r} fill="#000000" opacity="0.22" />
-      <rect x={x} y={y} width={w} height={h} rx={r} fill="#22317f" opacity="0.5" />
-      <rect x={x} y={y} width={w} height={h} rx={r} fill="none" stroke="#F2E4CE" strokeOpacity="0.75" strokeWidth="2.5" />
-      <rect x={x + 3} y={y + 3} width={w - 6} height={h - 6} rx={r - 3} fill="none" stroke="#ffffff" strokeOpacity="0.16" strokeWidth="1" />
+      <rect x={x} y={y + 4} width={w} height={h} rx={r} fill="#7a3b12" opacity="0.18" />
+      <rect x={x} y={y} width={w} height={h} rx={r} fill="#F4E8D0" opacity="0.7" />
+      <rect x={x} y={y} width={w} height={h} rx={r} fill="none" stroke="#903900" strokeOpacity="0.5" strokeWidth="2.5" />
+      <rect x={x + 3} y={y + 3} width={w - 6} height={h - 6} rx={r - 3} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="1" />
     </g>
   )
 }
@@ -112,7 +113,7 @@ export default function CoreLoopDiagram() {
         <svg viewBox="0 0 560 300" className="absolute inset-0 h-full w-full" fill="none" aria-hidden="true">
           <defs>
             <marker id="cl-arrow" viewBox="0 0 10 10" refX="6.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-              <path d="M0,0 L10,5 L0,10 z" fill="#FFC93C" />
+              <path d="M0,0 L10,5 L0,10 z" fill="#F5A800" />
             </marker>
             <marker id="cl-arrow-shadow" viewBox="0 0 10 10" refX="6.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="#903900" fillOpacity="0.4" />
@@ -131,7 +132,7 @@ export default function CoreLoopDiagram() {
           </g>
           {/* gold arrows on top */}
           {ARROWS.map((d) => (
-            <path key={d} d={d} stroke="#FFC93C" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" markerEnd="url(#cl-arrow)" />
+            <path key={d} d={d} stroke="#F5A800" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" markerEnd="url(#cl-arrow)" />
           ))}
         </svg>
 
