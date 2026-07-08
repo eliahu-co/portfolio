@@ -66,7 +66,7 @@ function style(kind: Kind) {
 function Label({ text, cx, cy }: { text: string; cx: number; cy: number }) {
   return (
     <span
-      className="absolute -translate-x-1/2 -translate-y-1/2 font-sans text-[9px] md:text-[10px] font-bold uppercase tracking-[0.16em] text-cm-gold-bright/90"
+      className="absolute -translate-x-1/2 -translate-y-1/2 font-sans text-[9px] md:text-[10px] font-bold uppercase tracking-[0.16em] text-cm-wood"
       style={{ left: `${(cx / 560) * 100}%`, top: `${(cy / 300) * 100}%` }}
     >
       {text}
