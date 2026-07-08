@@ -45,7 +45,7 @@ export default function SideNav() {
             <a
               href={`#${id}`}
               aria-current={activeId === id ? 'true' : undefined}
-              className="ma-sidenav-link inline-block font-sans text-[10px] uppercase tracking-[0.06em] px-2 py-0.5 rounded-sm no-underline transition-all duration-150"
+              className="ma-sidenav-link inline-block font-sans text-[10px] font-extrabold uppercase tracking-[0.06em] px-2.5 py-1 rounded-full no-underline transition-all duration-150"
             >
               {label}
             </a>
@@ -54,20 +54,21 @@ export default function SideNav() {
       </ul>
 
       <style>{`
+        /* game-button pills, same treatment as the gold CTA
+           (gradient fill + hard drop edge), in the nav's sky palette */
         .ma-sidenav-link {
-          border: 2px solid ${SKY}99;
+          background: linear-gradient(180deg, #E4F5FE, #C8EAFB);
           color: ${TEAL};
-          background: transparent;
+          box-shadow: 0 2px 0 ${TEAL}66;
         }
         .ma-sidenav-link:hover {
-          background: ${SKY}1a;
-          border-color: ${SKY};
+          background: linear-gradient(180deg, #D2EFFD, #A9DFF9);
           color: ${TEAL_DEEP};
         }
         .ma-sidenav-link[aria-current=true] {
-          background: ${SKY};
-          border-color: ${SKY};
+          background: linear-gradient(180deg, #5FC9F5, ${SKY});
           color: ${TEAL_DEEP};
+          box-shadow: 0 3px 0 ${TEAL};
         }
         .ma-sidenav-link:focus-visible {
           outline: 1px solid ${TEAL};
