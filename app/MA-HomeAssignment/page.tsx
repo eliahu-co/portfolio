@@ -87,7 +87,7 @@ export default function MAHomeAssignmentPage() {
       {/* This page uses the native OS cursor, not the site's custom one.
           globals.css forces `* { cursor: none !important }`, so override it
           here (and restore pointer/text cursors on interactive elements). */}
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .ma-page, .ma-page * { cursor: auto !important; }
         .ma-page a, .ma-page button { cursor: pointer !important; }
         .ma-page video, .ma-page video * { cursor: auto !important; }
@@ -114,7 +114,7 @@ export default function MAHomeAssignmentPage() {
           .ma-page section { break-inside: avoid; }
           * { cursor: auto !important; }
         }
-      `}</style>
+      ` }} />
     </>
   )
 }
