@@ -20,7 +20,11 @@ export default function Hero() {
       id="hero"
       className="scroll-mt-8 bg-gradient-to-br from-cm-violet-deep via-cm-violet to-[#4A1E7A]"
     >
-      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-14">
+      {/* mirrors the body's sidebar grid (page.tsx: md:grid-cols-[180px_1fr] gap-16)
+          so the hero text lines up with the section content below it */}
+      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-14 md:grid md:grid-cols-[180px_1fr] md:gap-16">
+        <div className="hidden md:block" aria-hidden="true" />
+        <div className="min-w-0">
         <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-gold-bright mb-4">
           Product Manager · Home Assignment
         </p>
@@ -70,6 +74,7 @@ export default function Hero() {
               ))}
             </tbody>
           </table>
+        </div>
         </div>
       </div>
     </section>
