@@ -25,8 +25,7 @@ export default function Hero() {
           so the hero text lines up with the section content below it */}
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-14 md:grid md:grid-cols-[180px_1fr] md:gap-16">
         <div className="hidden md:block" aria-hidden="true" />
-        <div className="min-w-0 lg:flex lg:items-start lg:gap-10">
-        <div className="min-w-0 lg:flex-1">
+        <div className="min-w-0">
         <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-gold-bright mb-4">
           Product Manager · Home Assignment
         </p>
@@ -46,6 +45,11 @@ export default function Hero() {
             <a href="tel:+972528901495" className="no-underline text-[#B9A8E8] hover:text-cm-gold-bright transition-colors">+972 52 8901495</a>
             <a href="mailto:hi@eliahu.co" className="no-underline text-[#B9A8E8] hover:text-cm-gold-bright transition-colors">hi@eliahu.co</a>
           </p>
+
+          <div className="mt-6">
+            <CoreLoopDiagram />
+          </div>
+
           <p className="font-sans pt-8 text-[15px] leading-relaxed text-[#EDE6FF]">
             The following use cases were selected to represent different points of view across the
             construction lifecycle—from designers and field teams to owners—while spanning multiple
@@ -73,11 +77,6 @@ export default function Hero() {
             </tbody>
           </table>
         </div>
-        </div>
-
-          <div className="mt-10 flex justify-center lg:mt-1 lg:block lg:w-[340px] lg:shrink-0">
-            <CoreLoopDiagram />
-          </div>
         </div>
       </div>
     </section>
