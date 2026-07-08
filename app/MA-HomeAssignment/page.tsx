@@ -97,6 +97,10 @@ export default function MAHomeAssignmentPage() {
            (~ Filson Pro). The hero title keeps its own Lilita One face. */
         .ma-page .font-serif {
           font-family: var(--font-cm-display), 'Nunito', ui-rounded, sans-serif;
+          font-weight: 700;
+        }
+        /* only the big section headings carry the heaviest weight */
+        .ma-page h2.font-serif {
           font-weight: 800;
         }
         .ma-page .font-sans {
