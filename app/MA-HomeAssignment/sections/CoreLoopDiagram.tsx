@@ -14,7 +14,7 @@
 // node's centre as a percentage, keeping the CSS parchment styling) over one
 // SVG layer (blob, meta group, arrows) in the same coordinates.
 
-type Kind = 'engine' | 'parchment' | 'feeder'
+type Kind = 'engine' | 'parchment' | 'feeder' | 'meta'
 
 type Node = { id: string; label: string; glyph: string; cx: number; cy: number; kind: Kind }
 
@@ -26,10 +26,10 @@ const LOOP: Node[] = [
 ]
 
 const META: Node[] = [
-  { id: 'pvp',      label: 'PvP',      glyph: '⚔', cx: 472, cy: 58,  kind: 'feeder' },
-  { id: 'building', label: 'Building', glyph: '⛏', cx: 472, cy: 108, kind: 'feeder' },
-  { id: 'pet',      label: 'Pet',      glyph: '❋', cx: 472, cy: 158, kind: 'feeder' },
-  { id: 'cards',    label: 'Cards',    glyph: '❐', cx: 472, cy: 208, kind: 'feeder' },
+  { id: 'pvp',      label: 'PvP',      glyph: '⚔', cx: 472, cy: 58,  kind: 'meta' },
+  { id: 'building', label: 'Building', glyph: '⛏', cx: 472, cy: 108, kind: 'meta' },
+  { id: 'pet',      label: 'Pet',      glyph: '❋', cx: 472, cy: 158, kind: 'meta' },
+  { id: 'cards',    label: 'Cards',    glyph: '❐', cx: 472, cy: 208, kind: 'meta' },
 ]
 
 const ARROWS: string[] = [
@@ -43,23 +43,35 @@ const ARROWS: string[] = [
 function style(kind: Kind) {
   if (kind === 'engine')
     return {
-      box:   'bg-gradient-to-b from-[#5FC9F5] to-cm-sky border-[#1D5E7E] shadow-[0_0_14px_rgba(79,191,239,0.75)]',
-      text:  'text-[#0F3D54]',
-      glyph: 'text-[#0F3D54]',
-      size:  'px-3 py-1.5 text-[11px] md:text-[12px]',
+      box:    'bg-gradient-to-b from-[#5FC9F5] to-cm-sky border-[#1D5E7E] shadow-[0_0_14px_rgba(79,191,239,0.75)]',
+      text:   'text-[#0F3D54]',
+      glyph:  'text-[#0F3D54]',
+      size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
+      weight: 'font-extrabold',
     }
   if (kind === 'feeder')
     return {
-      box:   'bg-[#FFFDF8] border-cm-wood/45',
-      text:  'text-cm-wood',
-      glyph: 'text-cm-gold',
-      size:  'px-2 py-1 text-[9px] md:text-[10px]',
+      box:    'bg-[#FFFDF8] border-cm-wood/45',
+      text:   'text-cm-wood',
+      glyph:  'text-cm-gold',
+      size:   'px-2 py-1 text-[9px] md:text-[10px]',
+      weight: 'font-extrabold',
+    }
+  // meta: same parchment pill as the core-loop nodes, but smaller and lighter
+  if (kind === 'meta')
+    return {
+      box:    'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 shadow-[0_1.5px_0_rgba(144,57,0,0.3)]',
+      text:   'text-cm-wood',
+      glyph:  'text-cm-wood/70',
+      size:   'px-2 py-1 text-[9px] md:text-[10px]',
+      weight: 'font-semibold',
     }
   return {
-    box:   'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 shadow-[0_2px_0_rgba(144,57,0,0.3)]',
-    text:  'text-cm-wood',
-    glyph: 'text-cm-wood/70',
-    size:  'px-3 py-1.5 text-[11px] md:text-[12px]',
+    box:    'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 shadow-[0_2px_0_rgba(144,57,0,0.3)]',
+    text:   'text-cm-wood',
+    glyph:  'text-cm-wood/70',
+    size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
+    weight: 'font-extrabold',
   }
 }
 
@@ -82,7 +94,7 @@ function Card({ n }: { n: Node }) {
       style={{ left: `${(n.cx / 560) * 100}%`, top: `${(n.cy / 300) * 100}%` }}
     >
       <span className={`leading-none ${s.glyph}`} aria-hidden="true">{n.glyph}</span>
-      <span className={`font-sans font-extrabold uppercase tracking-wide leading-none ${s.text}`}>{n.label}</span>
+      <span className={`font-sans ${s.weight} uppercase tracking-wide leading-none ${s.text}`}>{n.label}</span>
     </div>
   )
 }
