@@ -5,16 +5,16 @@
 // gold connector arrows.
 //
 // Left: the core loop — SPIN → REWARDS → VILLAGE → SPIN, with a LiveOps feeder
-// into SPIN, on the blue blob from the reference sketch. Right: the META stack
-// (PVP / Building / Pet / Cards) that feeds back into the loop. Feeder systems
-// (LiveOps, Meta) share the gold-outline-on-violet tone so they read as
-// external inputs, distinct from the warm parchment core-loop nodes.
+// into SPIN, framed by a wood plaque. Right: the META stack (PVP / Building /
+// Pet / Cards) that feeds back into the loop. On the cream page the loop nodes
+// are warm parchment pills, SPIN is the sky-blue engine, the meta items are
+// smaller/lighter parchment pills, and LiveOps is a deep header-blue callout.
 //
 // Layout is a fixed 560×300 coordinate space: cards are HTML (positioned by the
 // node's centre as a percentage, keeping the CSS parchment styling) over one
 // SVG layer (blob, meta group, arrows) in the same coordinates.
 
-type Kind = 'engine' | 'parchment' | 'feeder' | 'meta'
+type Kind = 'engine' | 'parchment' | 'meta' | 'liveops'
 
 type Node = { id: string; label: string; glyph: string; cx: number; cy: number; kind: Kind }
 
@@ -22,7 +22,7 @@ const LOOP: Node[] = [
   { id: 'rewards', label: 'Rewards', glyph: '★', cx: 170, cy: 60,  kind: 'parchment' },
   { id: 'spin',    label: 'Spin',    glyph: '⟳', cx: 92,  cy: 164, kind: 'engine' },
   { id: 'village', label: 'Village', glyph: '⌂', cx: 250, cy: 164, kind: 'parchment' },
-  { id: 'liveops', label: 'LiveOps', glyph: '✦', cx: 92,  cy: 270, kind: 'feeder' },
+  { id: 'liveops', label: 'LiveOps', glyph: '✦', cx: 92,  cy: 270, kind: 'liveops' },
 ]
 
 const META: Node[] = [
@@ -49,13 +49,14 @@ function style(kind: Kind) {
       size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
       weight: 'font-extrabold',
     }
-  if (kind === 'feeder')
+  // liveops: its own callout in the header blue, tying it to the hero band
+  if (kind === 'liveops')
     return {
-      box:    'bg-[#FFFDF8] border-cm-wood/45',
-      text:   'text-cm-wood',
-      glyph:  'text-cm-gold',
+      box:    'bg-gradient-to-b from-[#12105c] to-[#040b55] border-cm-gold/50 shadow-[0_1.5px_0_rgba(0,0,0,0.35)]',
+      text:   'text-cm-gold-bright',
+      glyph:  'text-cm-gold-bright/85',
       size:   'px-2 py-1 text-[9px] md:text-[10px]',
-      weight: 'font-extrabold',
+      weight: 'font-bold',
     }
   // meta: same parchment pill as the core-loop nodes, but smaller and lighter
   if (kind === 'meta')
@@ -108,7 +109,7 @@ function Plaque({ x, y, w, h, r = 16 }: { x: number; y: number; w: number; h: nu
     <g>
       <rect x={x} y={y + 4} width={w} height={h} rx={r} fill="#7a3b12" opacity="0.18" />
       <rect x={x} y={y} width={w} height={h} rx={r} fill="#F4E8D0" opacity="0.7" />
-      <rect x={x} y={y} width={w} height={h} rx={r} fill="none" stroke="#903900" strokeOpacity="0.5" strokeWidth="2.5" />
+      <rect x={x} y={y} width={w} height={h} rx={r} fill="none" stroke="#903900" strokeOpacity="0.5" strokeWidth="1.5" />
       <rect x={x + 3} y={y + 3} width={w - 6} height={h - 6} rx={r - 3} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="1" />
     </g>
   )
