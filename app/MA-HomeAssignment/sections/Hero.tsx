@@ -19,7 +19,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="scroll-mt-8 bg-gradient-to-br from-cm-violet-deep via-cm-violet to-[#4A1E7A]"
+      className="scroll-mt-8 bg-gradient-to-br from-[#040b55] via-[#12105c] to-[#0d335a]"
     >
       {/* mirrors the body's sidebar grid (page.tsx: md:grid-cols-[180px_1fr] gap-16)
           so the hero text lines up with the section content below it */}

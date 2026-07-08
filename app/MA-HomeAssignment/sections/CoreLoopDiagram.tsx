@@ -50,7 +50,7 @@ function style(kind: Kind) {
     }
   if (kind === 'feeder')
     return {
-      box:   'bg-cm-violet-deep/50 border-cm-gold/70',
+      box:   'bg-[#0b1660]/60 border-cm-gold/70',
       text:  'text-cm-gold-bright',
       glyph: 'text-cm-gold-bright/80',
       size:  'px-2 py-1 text-[9px] md:text-[10px]',
@@ -87,6 +87,20 @@ function Card({ n }: { n: Node }) {
   )
 }
 
+// A Coin Master-style framed plaque: hard drop shadow, deep-blue panel wash, a
+// cream frame, and an inner bevel highlight — mirrors the loyalty.coinmaster.com
+// panel styling (rounded, cream border, inset bevel, 0 6px drop).
+function Plaque({ x, y, w, h, r = 16 }: { x: number; y: number; w: number; h: number; r?: number }) {
+  return (
+    <g>
+      <rect x={x} y={y + 4} width={w} height={h} rx={r} fill="#000000" opacity="0.22" />
+      <rect x={x} y={y} width={w} height={h} rx={r} fill="#22317f" opacity="0.5" />
+      <rect x={x} y={y} width={w} height={h} rx={r} fill="none" stroke="#F2E4CE" strokeOpacity="0.75" strokeWidth="2.5" />
+      <rect x={x + 3} y={y + 3} width={w - 6} height={h - 6} rx={r - 3} fill="none" stroke="#ffffff" strokeOpacity="0.16" strokeWidth="1" />
+    </g>
+  )
+}
+
 export default function CoreLoopDiagram() {
   return (
     <figure
@@ -105,13 +119,9 @@ export default function CoreLoopDiagram() {
             </marker>
           </defs>
 
-          {/* core-loop group container — matches the meta bracket */}
-          <rect x="44" y="38" width="258" height="178" rx="14" fill="#2A1B54" opacity="0.28" />
-          <rect x="44" y="38" width="258" height="178" rx="14" fill="none" stroke="#FFC93C" strokeOpacity="0.35" strokeWidth="1.5" />
-
-          {/* meta group container */}
-          <rect x="424" y="34" width="98" height="200" rx="12" fill="#2A1B54" opacity="0.28" />
-          <rect x="424" y="34" width="98" height="200" rx="12" fill="none" stroke="#FFC93C" strokeOpacity="0.35" strokeWidth="1.5" />
+          {/* Coin Master-style framed plaques (cream frame, bevel, drop shadow) */}
+          <Plaque x={44} y={38} w={258} h={178} />
+          <Plaque x={424} y={34} w={98} h={200} />
 
           {/* wood drop-edge shadow, offset down like the cards' 0 2px 0 edge */}
           <g transform="translate(0,2.5)">
