@@ -39,14 +39,10 @@ export default function Hero() {
         </h1>
 
         <div className="border-t-2 border-cm-gold/40 pt-3 max-w-2xl">
-          <p className="font-sans text-[11px] uppercase tracking-[0.12em] text-[#EDE6FF] border-b-2 border-cm-gold/40 pb-3">
-            Eliahu Cohen
-            <span className="text-[#B9A8E8]">
-              <span className="mx-2">·</span>
-              <a href="tel:+972528901495" className="no-underline text-[#B9A8E8] hover:text-cm-gold-bright transition-colors">+972 52 8901495</a>
-              <span className="mx-2">·</span>
-              <a href="mailto:hi@eliahu.co" className="no-underline text-[#B9A8E8] hover:text-cm-gold-bright transition-colors">hi@eliahu.co</a>
-            </span>
+          <p className="font-sans text-[11px] uppercase tracking-[0.12em] text-[#EDE6FF] border-b-2 border-cm-gold/40 pb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+            <span>Eliahu Cohen</span>
+            <a href="tel:+972528901495" className="no-underline text-[#B9A8E8] hover:text-cm-gold-bright transition-colors">+972 52 8901495</a>
+            <a href="mailto:hi@eliahu.co" className="no-underline text-[#B9A8E8] hover:text-cm-gold-bright transition-colors">hi@eliahu.co</a>
           </p>
           <p className="font-sans pt-8 text-[15px] leading-relaxed text-[#EDE6FF]">
             The following use cases were selected to represent different points of view across the
