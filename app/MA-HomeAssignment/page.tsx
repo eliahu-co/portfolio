@@ -6,6 +6,7 @@
 // edited without touching layout.
 
 import type { Metadata } from 'next'
+import { Nunito, Nunito_Sans } from 'next/font/google'
 import SideNav from './SideNav'
 
 import Hero from './sections/Hero'
@@ -17,6 +18,13 @@ import PrototypeDemo from './sections/PrototypeDemo'
 import KeyUnknowns from './sections/KeyUnknowns'
 import AssumptionsSources from './sections/AssumptionsSources'
 import Approach from './sections/Approach'
+
+// Page-scoped Moon Active-style type: their site runs Filson Pro/Soft (Adobe
+// Fonts) — Nunito (headings) + Nunito Sans (body) are the closest free
+// counterparts. Scoped via CSS vars + the .ma-page overrides below so the
+// rest of the portfolio keeps its own fonts.
+const nunito = Nunito({ subsets: ['latin'], variable: '--font-cm-display', display: 'swap' })
+const nunitoSans = Nunito_Sans({ subsets: ['latin'], variable: '--font-cm-body', display: 'swap' })
 
 const OG_IMAGE = 'https://eliahu.co/drawinganalyzer/ha-drawing-analyzer-poster.jpg'
 
@@ -42,7 +50,7 @@ export const metadata: Metadata = {
 export default function MAHomeAssignmentPage() {
   return (
     <>
-      <div className="ma-page min-h-screen bg-cm-cream text-charcoal">
+      <div className={`ma-page ${nunito.variable} ${nunitoSans.variable} min-h-screen bg-cm-cream text-charcoal`}>
         <Hero />
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 py-10 md:py-16 grid md:grid-cols-[180px_1fr] gap-10 md:gap-16">
@@ -83,6 +91,17 @@ export default function MAHomeAssignmentPage() {
         .ma-page, .ma-page * { cursor: auto !important; }
         .ma-page a, .ma-page button { cursor: pointer !important; }
         .ma-page video, .ma-page video * { cursor: auto !important; }
+
+        /* Moon Active-style type: remap this page's serif headings to Nunito
+           (chunky, rounded ~ Filson Soft) and sans body to Nunito Sans
+           (~ Filson Pro). The hero title keeps its own Lilita One face. */
+        .ma-page .font-serif {
+          font-family: var(--font-cm-display), 'Nunito', ui-rounded, sans-serif;
+          font-weight: 800;
+        }
+        .ma-page .font-sans {
+          font-family: var(--font-cm-body), 'Nunito Sans', system-ui, sans-serif;
+        }
 
         @media print {
           .ma-page { background: #fff !important; }
