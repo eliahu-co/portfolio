@@ -5,16 +5,15 @@
 // matches components/FloatNav.tsx (IntersectionObserver, -40% top/bottom
 // rootMargin). Pills are styled after the About-section skill tags
 // (components/About.tsx) — outline when inactive, filled when active — but in
-// the Coin Master gold/wood palette instead of orange. Smooth-scroll is global
+// the Coin Master sky-blue palette instead of orange. Smooth-scroll is global
 // (html { scroll-behavior: smooth } in globals.css).
 
 import { useEffect, useState } from 'react'
 import { SECTIONS } from './sections'
 
-const GOLD = '#F5A800'
-const WOOD = '#903900'
-const CRIMSON = '#C8102E'
-const VIOLET = '#2A1B54'
+const SKY = '#4FBFEF'
+const TEAL = '#1D5E7E'      // dark sky-blue companion — readable on cream
+const TEAL_DEEP = '#0F3D54' // text on the solid sky active pill
 
 export default function SideNav() {
   const [activeId, setActiveId] = useState<string>(SECTIONS[0].id)
@@ -56,22 +55,22 @@ export default function SideNav() {
 
       <style>{`
         .ma-sidenav-link {
-          border: 2px solid ${GOLD}99;
-          color: ${WOOD};
+          border: 2px solid ${SKY}99;
+          color: ${TEAL};
           background: transparent;
         }
         .ma-sidenav-link:hover {
-          background: ${CRIMSON}1a;
-          border-color: ${CRIMSON};
-          color: ${CRIMSON};
+          background: ${SKY}1a;
+          border-color: ${SKY};
+          color: ${TEAL_DEEP};
         }
         .ma-sidenav-link[aria-current=true] {
-          background: ${GOLD};
-          border-color: ${GOLD};
-          color: ${VIOLET};
+          background: ${SKY};
+          border-color: ${SKY};
+          color: ${TEAL_DEEP};
         }
         .ma-sidenav-link:focus-visible {
-          outline: 1px solid ${WOOD};
+          outline: 1px solid ${TEAL};
           outline-offset: 2px;
         }
       `}</style>
