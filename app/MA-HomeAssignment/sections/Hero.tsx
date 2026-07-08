@@ -13,7 +13,7 @@ const lilita = Lilita_One({ subsets: ['latin'], weight: '400', display: 'swap' }
 export default function Hero() {
   return (
     <section
-      id="hero"
+      id="top"
       className="scroll-mt-8 bg-gradient-to-br from-[#040b55] via-[#12105c] to-[#0d335a]"
     >
       {/* mirrors the body's sidebar grid so the title lines up with the content below */}

@@ -2,7 +2,7 @@
 // Coin Master core-loop + meta diagram for the hero, drawn in the same visual
 // language as the use-case workflow lanes: parchment step-cards with a wood
 // drop edge, the sky-blue "engine" highlight (same as the AI step), and drawn
-// gold connector arrows.
+// thin wood connector arrows (matching the workflow lanes).
 //
 // Left: the core loop — SPIN → REWARDS → VILLAGE → SPIN, with a LiveOps feeder
 // into SPIN, framed by a wood plaque. Right: the META stack (PVP / Building /
@@ -126,11 +126,9 @@ export default function CoreLoopDiagram() {
         {/* blob, meta group box, and connector arrows — behind the cards */}
         <svg viewBox="0 0 560 300" className="absolute inset-0 h-full w-full" fill="none" aria-hidden="true">
           <defs>
-            <marker id="cl-arrow" viewBox="0 0 10 10" refX="6.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-              <path d="M0,0 L10,5 L0,10 z" fill="#F5A800" />
-            </marker>
-            <marker id="cl-arrow-shadow" viewBox="0 0 10 10" refX="6.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-              <path d="M0,0 L10,5 L0,10 z" fill="#903900" fillOpacity="0.4" />
+            {/* minimal open chevron, matching the workflow-lane Connector */}
+            <marker id="cl-arrow" viewBox="0 0 12 12" refX="8" refY="6" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M3.5,2.5 L8,6 L3.5,9.5" fill="none" stroke="#903900" strokeOpacity="0.75" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </marker>
           </defs>
 
@@ -138,15 +136,9 @@ export default function CoreLoopDiagram() {
           <Plaque x={44} y={38} w={258} h={178} />
           <Plaque x={424} y={34} w={98} h={200} />
 
-          {/* wood drop-edge shadow, offset down like the cards' 0 2px 0 edge */}
-          <g transform="translate(0,2.5)">
-            {ARROWS.map((d) => (
-              <path key={d} d={d} stroke="#903900" strokeOpacity="0.4" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" markerEnd="url(#cl-arrow-shadow)" />
-            ))}
-          </g>
-          {/* gold arrows on top */}
+          {/* thin wood connectors, matching the workflow lanes further down */}
           {ARROWS.map((d) => (
-            <path key={d} d={d} stroke="#F5A800" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" markerEnd="url(#cl-arrow)" />
+            <path key={d} d={d} stroke="#903900" strokeOpacity="0.75" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" markerEnd="url(#cl-arrow)" />
           ))}
         </svg>
 

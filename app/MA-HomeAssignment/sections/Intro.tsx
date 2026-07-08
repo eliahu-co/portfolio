@@ -15,7 +15,7 @@ const CAPABILITIES: { useCase: string; user: string }[] = [
 
 export default function Intro() {
   return (
-    <div className="max-w-2xl mb-14">
+    <div id="hero" className="scroll-mt-8 max-w-2xl mb-14">
       <CoreLoopDiagram />
 
       <p className="font-sans pt-8 text-[15px] leading-relaxed text-charcoal">

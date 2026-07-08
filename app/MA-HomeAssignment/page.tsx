@@ -72,7 +72,7 @@ export default function MAHomeAssignmentPage() {
 
             <div className="mt-4">
               <a
-                href="#hero"
+                href="#top"
                 className="inline-flex items-center gap-1.5 font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal/70 hover:text-cm-crimson transition-colors no-underline"
               >
                 <span aria-hidden="true">↑</span> Back to top
