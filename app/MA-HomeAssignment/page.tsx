@@ -10,6 +10,7 @@ import { Nunito, Nunito_Sans } from 'next/font/google'
 import SideNav from './SideNav'
 
 import Hero from './sections/Hero'
+import Intro from './sections/Intro'
 import UseCase from './sections/UseCase'
 import { USE_CASE_1, USE_CASE_2, USE_CASE_3, USE_CASE_4 } from './sections/useCaseData'
 import Prioritization from './sections/Prioritization'
@@ -57,6 +58,7 @@ export default function MAHomeAssignmentPage() {
           <SideNav />
 
           <main className="min-w-0">
+            <Intro />
             <UseCase data={USE_CASE_1} />
             <UseCase data={USE_CASE_2} />
             <UseCase data={USE_CASE_3} />
