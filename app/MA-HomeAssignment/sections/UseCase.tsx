@@ -214,9 +214,16 @@ function Card({
     : variant === 'value'
       ? `border-cm-sky/40 border-l-cm-sky ${item.primary ? 'border-l-[5px]' : 'border-l-4'}`
       : `border-cm-crimson/35 border-l-cm-crimson ${item.primary ? 'border-l-[5px]' : 'border-l-4'}`
+  // card surface — tinted per variant so cards sit warm on the cream page
+  // (plain white reads cold against bg-cm-cream)
+  const surface = variant === 'neutral'
+    ? 'bg-gradient-to-b from-[#FBF7F0] to-[#F3ECDF]'
+    : variant === 'value'
+      ? 'bg-gradient-to-b from-[#F4FBFF] to-[#E6F5FE]'
+      : 'bg-gradient-to-b from-[#FFF4F1] to-[#FBE9E7]'
   const span = item.primary || fullWidth ? 'sm:col-span-2' : ''
   return (
-    <div className={`rounded-[10px] border bg-white px-3 py-2.5 shadow-[0_2px_6px_rgba(42,27,84,0.08)] ${edge} ${span}`}>
+    <div className={`rounded-[10px] border px-3 py-2.5 shadow-[0_2px_6px_rgba(42,27,84,0.08)] ${surface} ${edge} ${span}`}>
       <p className="font-serif text-[14px] text-cm-violet-deep mb-0.5 flex items-center gap-1.5">
         {item.primary && variant === 'value' && <span className="shrink-0 text-[13px] leading-none text-cm-sky" aria-hidden="true">★</span>}
         {item.primary && variant === 'risk' && <WarningBadge />}

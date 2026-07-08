@@ -90,7 +90,7 @@ export default function MVP() {
         <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal mb-4">Success metrics</p>
         <div className="flex flex-col gap-5">
           {METRICS.map(({ kind, title, body, signal }) => (
-            <div key={title} className="rounded-[10px] border border-cm-gold/40 border-l-4 border-l-cm-gold bg-white px-3 py-2.5 shadow-[0_2px_6px_rgba(42,27,84,0.08)]">
+            <div key={title} className="rounded-[10px] border border-cm-gold/40 border-l-4 border-l-cm-gold bg-gradient-to-b from-[#FFFBF2] to-[#FFF3DC] px-3 py-2.5 shadow-[0_2px_6px_rgba(42,27,84,0.08)]">
               <p className="font-serif text-[14px] text-cm-violet-deep mb-0.5 flex items-center gap-3">
                 <span className="min-w-0">{title}</span>
                 <Pill tone="blue" className="shrink-0">{kind}</Pill>
