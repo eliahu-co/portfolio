@@ -4,6 +4,7 @@
 // body text. Content strings are identical to the HA-DrawingAnalyzer original.
 
 import { Lilita_One } from 'next/font/google'
+import CoreLoopDiagram from './CoreLoopDiagram'
 
 const lilita = Lilita_One({ subsets: ['latin'], weight: '400', display: 'swap' })
 
@@ -24,7 +25,8 @@ export default function Hero() {
           so the hero text lines up with the section content below it */}
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-14 md:grid md:grid-cols-[180px_1fr] md:gap-16">
         <div className="hidden md:block" aria-hidden="true" />
-        <div className="min-w-0">
+        <div className="min-w-0 lg:flex lg:items-start lg:gap-10">
+        <div className="min-w-0 lg:flex-1">
         <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-gold-bright mb-4">
           Product Manager · Home Assignment
         </p>
@@ -71,6 +73,11 @@ export default function Hero() {
             </tbody>
           </table>
         </div>
+        </div>
+
+          <div className="mt-10 flex justify-center lg:mt-1 lg:block lg:w-[340px] lg:shrink-0">
+            <CoreLoopDiagram />
+          </div>
         </div>
       </div>
     </section>
