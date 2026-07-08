@@ -37,7 +37,7 @@ const ARROWS: string[] = [
   'M202,82 Q262,98 244,148',    // rewards → village
   'M198,184 Q166,206 130,184',  // village → spin
   'M92,222 L92,190',            // liveops → spin
-  'M420,140 Q352,134 298,152',  // meta → loop (feeds the loop)
+  'M424,126 Q366,124 305,126',  // meta → loop (points at the core-loop bracket edge, x=302)
 ]
 
 function style(kind: Kind) {
