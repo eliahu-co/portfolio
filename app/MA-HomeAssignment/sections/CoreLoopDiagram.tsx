@@ -97,8 +97,11 @@ export default function CoreLoopDiagram() {
         {/* blob, meta group box, and connector arrows — behind the cards */}
         <svg viewBox="0 0 560 280" className="absolute inset-0 h-full w-full" fill="none" aria-hidden="true">
           <defs>
-            <marker id="cl-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
-              <path d="M0,0 L10,5 L0,10 z" fill="#FFD98A" />
+            <marker id="cl-arrow" viewBox="0 0 10 10" refX="6.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#FFC93C" />
+            </marker>
+            <marker id="cl-arrow-shadow" viewBox="0 0 10 10" refX="6.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#903900" fillOpacity="0.4" />
             </marker>
           </defs>
 
@@ -110,8 +113,15 @@ export default function CoreLoopDiagram() {
           <rect x="424" y="34" width="98" height="200" rx="12" fill="#2A1B54" opacity="0.28" />
           <rect x="424" y="34" width="98" height="200" rx="12" fill="none" stroke="#FFC93C" strokeOpacity="0.35" strokeWidth="1.5" />
 
+          {/* wood drop-edge shadow, offset down like the cards' 0 2px 0 edge */}
+          <g transform="translate(0,2.5)">
+            {ARROWS.map((d) => (
+              <path key={d} d={d} stroke="#903900" strokeOpacity="0.4" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" markerEnd="url(#cl-arrow-shadow)" />
+            ))}
+          </g>
+          {/* gold arrows on top */}
           {ARROWS.map((d) => (
-            <path key={d} d={d} stroke="#FFD98A" strokeWidth="2.5" strokeLinecap="round" opacity="0.92" markerEnd="url(#cl-arrow)" />
+            <path key={d} d={d} stroke="#FFC93C" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" markerEnd="url(#cl-arrow)" />
           ))}
         </svg>
 
