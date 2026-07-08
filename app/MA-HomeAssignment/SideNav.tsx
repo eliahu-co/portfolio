@@ -5,15 +5,16 @@
 // matches components/FloatNav.tsx (IntersectionObserver, -40% top/bottom
 // rootMargin). Pills are styled after the About-section skill tags
 // (components/About.tsx) — outline when inactive, filled when active — but in
-// the Coin Master sky-blue palette instead of orange. Smooth-scroll is global
+// the Coin Master gold CTA-button palette instead of orange. Smooth-scroll is global
 // (html { scroll-behavior: smooth } in globals.css).
 
 import { useEffect, useState } from 'react'
 import { SECTIONS } from './sections'
 
-const SKY = '#4FBFEF'
-const TEAL = '#1D5E7E'      // dark sky-blue companion — readable on cream
-const TEAL_DEEP = '#0F3D54' // text on the solid sky active pill
+const GOLD_TOP = '#FFD95C'  // CTA button gradient (PrototypeDemo)
+const GOLD = '#F5A800'
+const VIOLET = '#2A1B54'    // CTA text
+const RED_EDGE = '#B7202E'  // CTA drop edge
 
 export default function SideNav() {
   const [activeId, setActiveId] = useState<string>(SECTIONS[0].id)
@@ -54,24 +55,24 @@ export default function SideNav() {
       </ul>
 
       <style>{`
-        /* game-button pills, same treatment as the gold CTA
-           (gradient fill + hard drop edge), in the nav's sky palette */
+        /* game-button pills with the exact CTA colors (PrototypeDemo button):
+           gold gradient, violet text, crimson drop edge */
         .ma-sidenav-link {
-          background: linear-gradient(180deg, #E4F5FE, #C8EAFB);
-          color: ${TEAL};
-          box-shadow: 0 2px 0 ${TEAL}66;
+          background: linear-gradient(180deg, #FFEDB8, #FFD98A);
+          color: ${VIOLET};
+          box-shadow: 0 2px 0 ${RED_EDGE}59;
         }
         .ma-sidenav-link:hover {
-          background: linear-gradient(180deg, #D2EFFD, #A9DFF9);
-          color: ${TEAL_DEEP};
+          background: linear-gradient(180deg, #FFE49A, #FCC65A);
+          color: ${VIOLET};
         }
         .ma-sidenav-link[aria-current=true] {
-          background: linear-gradient(180deg, #5FC9F5, ${SKY});
-          color: ${TEAL_DEEP};
-          box-shadow: 0 3px 0 ${TEAL};
+          background: linear-gradient(180deg, ${GOLD_TOP}, ${GOLD});
+          color: ${VIOLET};
+          box-shadow: 0 3px 0 ${RED_EDGE};
         }
         .ma-sidenav-link:focus-visible {
-          outline: 1px solid ${TEAL};
+          outline: 1px solid ${RED_EDGE};
           outline-offset: 2px;
         }
       `}</style>
