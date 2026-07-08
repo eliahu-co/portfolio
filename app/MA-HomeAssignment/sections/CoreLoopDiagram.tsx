@@ -10,7 +10,7 @@
 // (LiveOps, Meta) share the gold-outline-on-violet tone so they read as
 // external inputs, distinct from the warm parchment core-loop nodes.
 //
-// Layout is a fixed 560×280 coordinate space: cards are HTML (positioned by the
+// Layout is a fixed 560×300 coordinate space: cards are HTML (positioned by the
 // node's centre as a percentage, keeping the CSS parchment styling) over one
 // SVG layer (blob, meta group, arrows) in the same coordinates.
 
@@ -22,7 +22,7 @@ const LOOP: Node[] = [
   { id: 'rewards', label: 'Rewards', glyph: '★', cx: 170, cy: 60,  kind: 'parchment' },
   { id: 'spin',    label: 'Spin',    glyph: '⟳', cx: 92,  cy: 164, kind: 'engine' },
   { id: 'village', label: 'Village', glyph: '⌂', cx: 250, cy: 164, kind: 'parchment' },
-  { id: 'liveops', label: 'LiveOps', glyph: '✦', cx: 92,  cy: 240, kind: 'feeder' },
+  { id: 'liveops', label: 'LiveOps', glyph: '✦', cx: 92,  cy: 270, kind: 'feeder' },
 ]
 
 const META: Node[] = [
@@ -36,7 +36,7 @@ const ARROWS: string[] = [
   'M116,148 Q100,100 138,82',   // spin → rewards
   'M202,82 Q262,98 244,148',    // rewards → village
   'M198,184 Q166,206 130,184',  // village → spin
-  'M92,222 L92,190',            // liveops → spin
+  'M92,258 L92,218',            // liveops → core-loop bracket edge (y=216)
   'M424,126 Q366,124 305,126',  // meta → loop (points at the core-loop bracket edge, x=302)
 ]
 
@@ -67,7 +67,7 @@ function Label({ text, cx, cy }: { text: string; cx: number; cy: number }) {
   return (
     <span
       className="absolute -translate-x-1/2 -translate-y-1/2 font-sans text-[9px] md:text-[10px] font-bold uppercase tracking-[0.16em] text-cm-gold-bright/90"
-      style={{ left: `${(cx / 560) * 100}%`, top: `${(cy / 280) * 100}%` }}
+      style={{ left: `${(cx / 560) * 100}%`, top: `${(cy / 300) * 100}%` }}
     >
       {text}
     </span>
@@ -79,7 +79,7 @@ function Card({ n }: { n: Node }) {
   return (
     <div
       className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 whitespace-nowrap rounded-lg border ${s.box} ${s.size}`}
-      style={{ left: `${(n.cx / 560) * 100}%`, top: `${(n.cy / 280) * 100}%` }}
+      style={{ left: `${(n.cx / 560) * 100}%`, top: `${(n.cy / 300) * 100}%` }}
     >
       <span className={`leading-none ${s.glyph}`} aria-hidden="true">{n.glyph}</span>
       <span className={`font-sans font-extrabold uppercase tracking-wide leading-none ${s.text}`}>{n.label}</span>
@@ -93,9 +93,9 @@ export default function CoreLoopDiagram() {
       className="m-0"
       aria-label="Coin Master game model: the core loop is spin → rewards → village → spin, with a LiveOps feeder into spin; the meta systems (PvP, building, pet, cards) feed back into the loop."
     >
-      <div className="relative w-full aspect-[2/1]">
+      <div className="relative w-full aspect-[28/15]">
         {/* blob, meta group box, and connector arrows — behind the cards */}
-        <svg viewBox="0 0 560 280" className="absolute inset-0 h-full w-full" fill="none" aria-hidden="true">
+        <svg viewBox="0 0 560 300" className="absolute inset-0 h-full w-full" fill="none" aria-hidden="true">
           <defs>
             <marker id="cl-arrow" viewBox="0 0 10 10" refX="6.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="#FFC93C" />
