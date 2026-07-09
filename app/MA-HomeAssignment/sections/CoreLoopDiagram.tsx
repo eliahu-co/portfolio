@@ -59,14 +59,14 @@ function style(kind: Kind) {
       weight: 'font-extrabold',
     }
   // meta: light pills tuned for the blue meta bracket (navy text, blue frame),
-  // same size as the core pills
+  // same size and weight as the core pills
   if (kind === 'meta')
     return {
       box:    'bg-[#F2FAFE] border-[#0F3D54]/60 shadow-[0_2px_0_rgba(15,61,84,0.45)]',
       text:   'text-[#0d3a5a]',
       glyph:  'text-[#1E7BA8]',
       size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
-      weight: 'font-semibold',
+      weight: 'font-extrabold',
     }
   return {
     box:    'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 shadow-[0_2px_0_rgba(144,57,0,0.3)]',
