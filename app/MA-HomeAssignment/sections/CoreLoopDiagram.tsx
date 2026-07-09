@@ -62,7 +62,7 @@ function style(kind: Kind) {
   // same size as the core pills
   if (kind === 'meta')
     return {
-      box:    'bg-[#F2FAFE] border-[#1E7BA8]/70 shadow-[0_2px_0_rgba(30,123,168,0.4)]',
+      box:    'bg-[#F2FAFE] border-[#0F3D54]/60 shadow-[0_2px_0_rgba(15,61,84,0.45)]',
       text:   'text-[#0d3a5a]',
       glyph:  'text-[#1E7BA8]',
       size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
