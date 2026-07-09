@@ -5,8 +5,8 @@
 // thin wood connector arrows (matching the workflow lanes).
 //
 // Left: the core loop — SPIN → REWARDS → VILLAGE → SPIN, with a LiveOps feeder
-// into SPIN, framed by a wood plaque. Right: the META stack (PVP / Building /
-// Pet / Cards) that feeds back into the loop. On the cream page the loop nodes
+// into SPIN, framed by a wood plaque. Right: the META stack (PvP / Pet / Cards)
+// that feeds back into the loop. On the cream page the loop nodes
 // are warm parchment pills, SPIN is the sky-blue engine, the meta items are
 // smaller/lighter parchment pills, and LiveOps is a gold callout matching the
 // active side-nav button.
@@ -27,10 +27,9 @@ const LOOP: Node[] = [
 ]
 
 const META: Node[] = [
-  { id: 'pvp',      label: 'PvP',      glyph: '⚔', cx: 472, cy: 58,  kind: 'meta' },
-  { id: 'building', label: 'Building', glyph: '⛏', cx: 472, cy: 108, kind: 'meta' },
-  { id: 'pet',      label: 'Pet',      glyph: '❋', cx: 472, cy: 158, kind: 'meta' },
-  { id: 'cards',    label: 'Cards',    glyph: '❐', cx: 472, cy: 208, kind: 'meta' },
+  { id: 'pvp',   label: 'PvP',   glyph: '⚔', cx: 472, cy: 78,  kind: 'meta' },
+  { id: 'pet',   label: 'Pet',   glyph: '❋', cx: 472, cy: 132, kind: 'meta' },
+  { id: 'cards', label: 'Cards', glyph: '❐', cx: 472, cy: 186, kind: 'meta' },
 ]
 
 const ARROWS: string[] = [
@@ -120,7 +119,7 @@ export default function CoreLoopDiagram() {
   return (
     <figure
       className="m-0"
-      aria-label="Coin Master game model: the core loop is spin → rewards → village → spin, with a LiveOps feeder into spin; the meta systems (PvP, building, pet, cards) feed back into the loop."
+      aria-label="Coin Master game model: the core loop is spin → rewards → village → spin, with a LiveOps feeder into spin; the meta systems (PvP, pet, cards) feed back into the loop."
     >
       <div className="relative w-full aspect-[28/15]">
         {/* blob, meta group box, and connector arrows — behind the cards */}
@@ -134,7 +133,7 @@ export default function CoreLoopDiagram() {
 
           {/* Coin Master-style framed plaques (cream frame, bevel, drop shadow) */}
           <Plaque x={44} y={38} w={258} h={178} />
-          <Plaque x={424} y={34} w={98} h={200} />
+          <Plaque x={424} y={52} w={98} h={162} />
 
           {/* thin wood connectors, matching the workflow lanes further down */}
           {ARROWS.map((d) => (
