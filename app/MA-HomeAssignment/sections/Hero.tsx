@@ -27,7 +27,10 @@ export default function Hero() {
           <h1
             className={`${lilita.className} text-[clamp(34px,5.5vw,56px)] leading-[1.02] text-cm-gold-bright mb-6 [text-shadow:0_3px_0_#B7202E,0_5px_12px_rgba(0,0,0,0.35)]`}
           >
-            AI Drawing Analyzer
+            Increasing ARPDAU in Coin Master
+            <span className="block font-sans font-normal text-[clamp(14px,1.8vw,18px)] text-[#EDE6FF] mt-2 [text-shadow:none]">
+              Three feature concepts, one expanded to MVP
+            </span>
           </h1>
 
           <p className="font-sans text-[11px] uppercase tracking-[0.12em] text-[#EDE6FF] border-t-2 border-cm-gold/40 pt-3 max-w-2xl flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
