@@ -39,46 +39,49 @@ const ARROWS: string[] = [
   // by that pill's own width, so each arc spans and is centred in the gap between
   // its two pills, with the arrowhead stopping just clear of the target
   'M106,128 A66,66 0 0 1 131,74',   // spin → rewards
-  'M209,71 A66,66 0 0 1 238,123',   // rewards → village
+  'M218,78 A66,66 0 0 1 238,124',   // rewards → village
   'M202,185 A66,66 0 0 1 137,182',  // village → spin
   'M115,258 L115,218',              // liveops → core-loop bracket edge (y=216)
   'M424,126 Q366,124 305,126',      // meta → loop (points at the core-loop bracket edge, x=302)
 ]
 
+// All pill sizes are in container-query units (cqw = 1% of the diagram width) so
+// they scale with the diagram exactly like the SVG viewBox — the whole thing
+// stays proportional at every screen size and the arrows keep their alignment.
 function style(kind: Kind) {
   // engine: the Coin Master SPIN button — bright red, squarish, raised 3D base
   if (kind === 'engine')
     return {
-      box:    'bg-gradient-to-b from-[#F5533F] to-[#DA2A1C] border-[#8A140C] shadow-[0_3px_0_#9E1810,inset_0_1.5px_0_rgba(255,255,255,0.4)]',
-      text:   'text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]',
+      box:    'bg-gradient-to-b from-[#F5533F] to-[#DA2A1C] border-[#8A140C] shadow-[0_0.45cqw_0_#9E1810,inset_0_0.22cqw_0_rgba(255,255,255,0.4)]',
+      text:   'text-white [text-shadow:0_0.15cqw_0.3cqw_rgba(0,0,0,0.35)]',
       glyph:  'text-white',
-      size:   'px-4 py-2 text-[12px] md:text-[13px]',
+      size:   'px-[2.4cqw] py-[1.2cqw] text-[1.95cqw]',
       weight: 'font-extrabold',
     }
   // liveops: a flat bright-gold pill at the same size/weight as the core pills
   if (kind === 'liveops')
     return {
-      box:    'bg-[#FFD44A] border-cm-wood/50 shadow-[0_2px_0_rgba(144,57,0,0.3)]',
+      box:    'bg-[#FFD44A] border-cm-wood/50 shadow-[0_0.3cqw_0_rgba(144,57,0,0.3)]',
       text:   'text-cm-wood',
       glyph:  'text-cm-wood/70',
-      size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
+      size:   'px-[1.8cqw] py-[0.9cqw] text-[1.8cqw]',
       weight: 'font-extrabold',
     }
   // meta: light pills tuned for the blue meta bracket (navy text, blue frame),
   // same size and weight as the core pills
   if (kind === 'meta')
     return {
-      box:    'bg-[#F2FAFE] border-[#0F3D54]/60 shadow-[0_2px_0_rgba(15,61,84,0.45)]',
+      box:    'bg-[#F2FAFE] border-[#0F3D54]/60 shadow-[0_0.3cqw_0_rgba(15,61,84,0.45)]',
       text:   'text-[#0d3a5a]',
       glyph:  'text-[#1E7BA8]',
-      size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
+      size:   'px-[1.8cqw] py-[0.9cqw] text-[1.8cqw]',
       weight: 'font-extrabold',
     }
   return {
-    box:    'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 shadow-[0_2px_0_rgba(144,57,0,0.3)]',
+    box:    'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 shadow-[0_0.3cqw_0_rgba(144,57,0,0.3)]',
     text:   'text-cm-wood',
     glyph:  'text-cm-wood/70',
-    size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
+    size:   'px-[1.8cqw] py-[0.9cqw] text-[1.8cqw]',
     weight: 'font-extrabold',
   }
 }
@@ -86,7 +89,7 @@ function style(kind: Kind) {
 function Label({ text, cx, cy }: { text: string; cx: number; cy: number }) {
   return (
     <span
-      className="absolute -translate-x-1/2 -translate-y-1/2 font-sans text-[9px] md:text-[10px] font-bold uppercase tracking-[0.16em] text-cm-wood"
+      className="absolute -translate-x-1/2 -translate-y-1/2 font-sans text-[1.5cqw] font-bold uppercase tracking-[0.16em] text-cm-wood"
       style={{ left: `${(cx / 560) * 100}%`, top: `${(cy / 300) * 100}%` }}
     >
       {text}
@@ -98,7 +101,7 @@ function Card({ n }: { n: Node }) {
   const s = style(n.kind)
   return (
     <div
-      className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 whitespace-nowrap border ${n.kind === 'engine' ? 'rounded-md' : 'rounded-lg'} ${s.box} ${s.size}`}
+      className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-[0.9cqw] whitespace-nowrap border ${n.kind === 'engine' ? 'rounded-[0.9cqw]' : 'rounded-[1.2cqw]'} ${s.box} ${s.size}`}
       style={{ left: `${(n.cx / 560) * 100}%`, top: `${(n.cy / 300) * 100}%` }}
     >
       {n.kind !== 'engine' && <span className={`leading-none ${s.glyph}`} aria-hidden="true">{n.glyph}</span>}
@@ -128,7 +131,7 @@ export default function CoreLoopDiagram() {
       className="m-0"
       aria-label="Coin Master game model: the core loop is spin → rewards → village → spin, with a LiveOps feeder into spin; the meta systems (PvP, pet, cards) feed back into the loop."
     >
-      <div className="relative w-full aspect-[28/15]">
+      <div className="relative w-full aspect-[28/15] [container-type:inline-size]">
         {/* blob, meta group box, and connector arrows — behind the cards */}
         <svg viewBox="0 0 560 300" className="absolute inset-0 h-full w-full" fill="none" aria-hidden="true">
           <defs>
