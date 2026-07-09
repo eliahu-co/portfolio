@@ -58,13 +58,14 @@ function style(kind: Kind) {
       size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
       weight: 'font-extrabold',
     }
-  // meta: light pills tuned for the blue meta bracket (navy text, blue frame)
+  // meta: light pills tuned for the blue meta bracket (navy text, blue frame),
+  // same size as the core pills
   if (kind === 'meta')
     return {
-      box:    'bg-[#F2FAFE] border-[#1E7BA8]/70 shadow-[0_1.5px_0_rgba(30,123,168,0.4)]',
+      box:    'bg-[#F2FAFE] border-[#1E7BA8]/70 shadow-[0_2px_0_rgba(30,123,168,0.4)]',
       text:   'text-[#0d3a5a]',
       glyph:  'text-[#1E7BA8]',
-      size:   'px-2 py-1 text-[9px] md:text-[10px]',
+      size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
       weight: 'font-semibold',
     }
   return {
