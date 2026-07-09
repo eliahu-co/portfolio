@@ -453,12 +453,7 @@ function WorkflowComparison({ current, legendAiOnly }: { current: Workflow; lege
         <Lane workflow={current} proposed={false} />
         <Legend current={current} proposed={current} aiOnly={legendAiOnly} />
       </div>
-      <div>
-        <div className="mb-4 pb-2 border-b-2 border-cm-wood/30">
-          <span className="font-sans text-[10px] uppercase tracking-[0.12em] text-cm-wood">Concept</span>
-        </div>
-        <MockupFrame />
-      </div>
+      <MockupFrame />
     </div>
   )
 }
