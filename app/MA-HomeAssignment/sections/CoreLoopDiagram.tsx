@@ -35,12 +35,12 @@ const META: Node[] = [
 ]
 
 const ARROWS: string[] = [
-  // arcs of the loop circle (r=66, through the pill centres, so they stay
-  // referenced on the centres) trimmed with a gap at BOTH ends — the visible arc
-  // floats clear of both pills and each arrowhead stops in the open before target
-  'M107,112 A66,66 0 0 1 128,77',   // spin → rewards
-  'M216,77 A66,66 0 0 1 237,112',   // rewards → village
-  'M192,189 A66,66 0 0 1 152,189',  // village → spin
+  // arcs of the loop circle (r=66, through the pill centres) trimmed at each end
+  // by that pill's own width, so each arc spans and is centred in the gap between
+  // its two pills, with the arrowhead stopping just clear of the target
+  'M106,128 A66,66 0 0 1 131,74',   // spin → rewards
+  'M209,71 A66,66 0 0 1 238,123',   // rewards → village
+  'M202,185 A66,66 0 0 1 137,182',  // village → spin
   'M115,258 L115,218',              // liveops → core-loop bracket edge (y=216)
   'M424,126 Q366,124 305,126',      // meta → loop (points at the core-loop bracket edge, x=302)
 ]
