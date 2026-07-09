@@ -104,13 +104,13 @@ function Card({ n }: { n: Node }) {
 // warm parchment panel wash, a wood-brown frame, and an inner bevel highlight —
 // mirrors the loyalty.coinmaster.com panel styling (rounded, framed, inset
 // bevel, 0 6px drop) but toned for a light background.
-function Plaque({ x, y, w, h, r = 16 }: { x: number; y: number; w: number; h: number; r?: number }) {
+function Plaque({ x, y, w, h, fill, stroke, r = 16 }: { x: number; y: number; w: number; h: number; fill: string; stroke: string; r?: number }) {
   return (
     <g>
-      <rect x={x} y={y + 4} width={w} height={h} rx={r} fill="#7a3b12" opacity="0.18" />
-      <rect x={x} y={y} width={w} height={h} rx={r} fill="#F4E8D0" opacity="0.7" />
-      <rect x={x} y={y} width={w} height={h} rx={r} fill="none" stroke="#903900" strokeOpacity="0.5" strokeWidth="1.5" />
-      <rect x={x + 3} y={y + 3} width={w - 6} height={h - 6} rx={r - 3} fill="none" stroke="#ffffff" strokeOpacity="0.45" strokeWidth="1" />
+      <rect x={x} y={y + 4} width={w} height={h} rx={r} fill="#3a1e08" opacity="0.2" />
+      <rect x={x} y={y} width={w} height={h} rx={r} fill={fill} opacity="0.92" />
+      <rect x={x} y={y} width={w} height={h} rx={r} fill="none" stroke={stroke} strokeWidth="1.5" />
+      <rect x={x + 3} y={y + 3} width={w - 6} height={h - 6} rx={r - 3} fill="none" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="1" />
     </g>
   )
 }
@@ -131,9 +131,9 @@ export default function CoreLoopDiagram() {
             </marker>
           </defs>
 
-          {/* Coin Master-style framed plaques (cream frame, bevel, drop shadow) */}
-          <Plaque x={44} y={38} w={258} h={178} />
-          <Plaque x={424} y={52} w={98} h={162} />
+          {/* Coin Master-style framed plaques — gold core loop, blue meta */}
+          <Plaque x={44} y={38} w={258} h={178} fill="#FFD44A" stroke="#C77F14" />
+          <Plaque x={424} y={52} w={98} h={162} fill="#3DAEE0" stroke="#1E7BA8" />
 
           {/* thin wood connectors, matching the workflow lanes further down */}
           {ARROWS.map((d) => (
