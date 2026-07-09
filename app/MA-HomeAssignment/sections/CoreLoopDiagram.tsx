@@ -49,14 +49,14 @@ function style(kind: Kind) {
       size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
       weight: 'font-extrabold',
     }
-  // liveops: a flat bright-gold pill in the same style as the diagram's others
+  // liveops: a flat bright-gold pill at the same size/weight as the core pills
   if (kind === 'liveops')
     return {
-      box:    'bg-[#FFD44A] border-cm-wood/50 shadow-[0_1.5px_0_rgba(144,57,0,0.3)]',
+      box:    'bg-[#FFD44A] border-cm-wood/50 shadow-[0_2px_0_rgba(144,57,0,0.3)]',
       text:   'text-cm-wood',
       glyph:  'text-cm-wood/70',
-      size:   'px-2 py-1 text-[9px] md:text-[10px]',
-      weight: 'font-bold',
+      size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
+      weight: 'font-extrabold',
     }
   // meta: light pills tuned for the blue meta bracket (navy text, blue frame)
   if (kind === 'meta')
