@@ -19,13 +19,19 @@ type Kind = 'engine' | 'parchment' | 'meta' | 'liveops'
 
 type Node = { id: string; label: string; glyph: string; cx: number; cy: number; kind: Kind }
 
-// The three loop nodes sit on one circle (centre 172,126, radius 66) 120° apart,
-// so the connectors can be equal-radius arcs that read as circular motion.
+// The three loop nodes sit on one circle centred in the bracket, 120° apart, so
+// the connectors are arcs of that circle for a clean circular flow. These shared
+// constants also drive the computed arrow geometry below.
+const O = { x: 172, y: 143 }   // loop-circle centre (≈ bracket centre)
+const R = 66                    // loop-circle radius
+const HW = 33.6, HH = 9         // loop pill half-width / half-height (viewBox units)
+const GAP = 8                   // gap between an arrow end and a pill edge
+
 const LOOP: Node[] = [
-  { id: 'rewards', label: 'Rewards', glyph: '★', cx: 172, cy: 60,  kind: 'parchment' },
-  { id: 'spin',    label: 'Spin',    glyph: '⟳', cx: 115, cy: 159, kind: 'engine' },
-  { id: 'village', label: 'Village', glyph: '⌂', cx: 229, cy: 159, kind: 'parchment' },
-  { id: 'liveops', label: 'LiveOps', glyph: '✦', cx: 115, cy: 270, kind: 'liveops' },
+  { id: 'rewards', label: 'Rewards', glyph: '★', cx: 172, cy: 77,  kind: 'parchment' },
+  { id: 'spin',    label: 'Spin',    glyph: '⟳', cx: 115, cy: 176, kind: 'engine' },
+  { id: 'village', label: 'Village', glyph: '⌂', cx: 229, cy: 176, kind: 'parchment' },
+  { id: 'liveops', label: 'LiveOps', glyph: '✦', cx: 115, cy: 256, kind: 'liveops' },
 ]
 
 const META: Node[] = [
@@ -34,15 +40,43 @@ const META: Node[] = [
   { id: 'cards', label: 'Cards', glyph: '❐', cx: 472, cy: 186, kind: 'meta' },
 ]
 
+// Arrow geometry is computed (not hand-tuned) so the loop connectors stay
+// self-consistent: each is an arc of the loop circle, trimmed at both ends so
+// the endpoint sits GAP outside that pill's edge — consistent gap and equal
+// curvature all around. The trim angle is solved by damped fixed-point iteration.
+function pillExtent(ux: number, uy: number) {
+  return 1 / Math.max(Math.abs(ux) / HW, Math.abs(uy) / HH)
+}
+function onCircle(a: number) {
+  return { x: O.x + R * Math.cos(a), y: O.y + R * Math.sin(a) }
+}
+function trim(node: Node, sign: number) {
+  const na = Math.atan2(node.cy - O.y, node.cx - O.x)
+  let d = 0.35
+  for (let i = 0; i < 8; i++) {
+    const e = onCircle(na + sign * d)
+    const dx = e.x - node.cx, dy = e.y - node.cy, L = Math.hypot(dx, dy) || 1
+    const target = pillExtent(dx / L, dy / L) + GAP
+    const next = 2 * Math.asin(Math.max(0.05, Math.min(0.98, target / (2 * R))))
+    d = 0.5 * d + 0.5 * next
+  }
+  return d
+}
+function loopArc(a: Node, b: Node) {
+  const aa = Math.atan2(a.cy - O.y, a.cx - O.x)
+  const bb = Math.atan2(b.cy - O.y, b.cx - O.x)
+  const s = onCircle(aa + trim(a, +1))
+  const e = onCircle(bb - trim(b, -1))
+  return `M${s.x.toFixed(1)},${s.y.toFixed(1)} A${R},${R} 0 0 1 ${e.x.toFixed(1)},${e.y.toFixed(1)}`
+}
+
+const [REWARDS, SPIN, VILLAGE] = LOOP
 const ARROWS: string[] = [
-  // each arrow's two ends sit the same ~7 units off their pills' edges (rather
-  // than a fixed angle off the pill centres), so the gap from arrow to pill is
-  // consistent at both ends of every arrow and the same all around
-  'M123,145 Q122,97 164,74',    // spin → rewards
-  'M180,74 Q226,98 224,145',    // rewards → village
-  'M188,159 Q172,180 156,159',  // village → spin
-  'M115,258 L115,218',              // liveops → core-loop bracket edge (y=216)
-  'M424,126 Q366,124 305,126',      // meta → loop (points at the core-loop bracket edge, x=302)
+  loopArc(SPIN, REWARDS),      // spin → rewards
+  loopArc(REWARDS, VILLAGE),   // rewards → village
+  loopArc(VILLAGE, SPIN),      // village → spin
+  'M115,245 L115,219',         // liveops → core-loop bracket edge (y=216)
+  'M424,127 Q366,125 305,127', // meta → loop (points at the bracket right edge)
 ]
 
 // All pill sizes are in container-query units (cqw = 1% of the diagram width) so
