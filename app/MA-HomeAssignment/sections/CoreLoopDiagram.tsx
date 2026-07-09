@@ -41,13 +41,13 @@ const ARROWS: string[] = [
 ]
 
 function style(kind: Kind) {
-  // engine: the Coin Master SPIN button — red, squarish, 3D edge, white text
+  // engine: the Coin Master SPIN button — bright red, squarish, raised 3D base
   if (kind === 'engine')
     return {
-      box:    'bg-gradient-to-b from-[#F5503F] to-[#C8102E] border-[#7E0A1A] shadow-[0_2px_0_#6E0A17,inset_0_1.5px_0_rgba(255,255,255,0.45)]',
-      text:   'text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.4)]',
+      box:    'bg-gradient-to-b from-[#F5533F] to-[#DA2A1C] border-[#8A140C] shadow-[0_3px_0_#9E1810,inset_0_1.5px_0_rgba(255,255,255,0.4)]',
+      text:   'text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]',
       glyph:  'text-white',
-      size:   'px-4 py-1.5 text-[11px] md:text-[12px]',
+      size:   'px-4 py-2 text-[12px] md:text-[13px]',
       weight: 'font-extrabold',
     }
   // liveops: a flat bright-gold pill at the same size/weight as the core pills
@@ -96,7 +96,7 @@ function Card({ n }: { n: Node }) {
       className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 whitespace-nowrap border ${n.kind === 'engine' ? 'rounded-md' : 'rounded-lg'} ${s.box} ${s.size}`}
       style={{ left: `${(n.cx / 560) * 100}%`, top: `${(n.cy / 300) * 100}%` }}
     >
-      <span className={`leading-none ${s.glyph}`} aria-hidden="true">{n.glyph}</span>
+      {n.kind !== 'engine' && <span className={`leading-none ${s.glyph}`} aria-hidden="true">{n.glyph}</span>}
       <span className={`font-sans ${s.weight} uppercase tracking-wide leading-none ${s.text}`}>{n.label}</span>
     </div>
   )
