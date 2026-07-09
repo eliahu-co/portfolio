@@ -22,8 +22,8 @@ it('renders every side-nav section anchor', () => {
 it('renders the Coin Master hero banner', () => {
   render(<MAHomeAssignmentPage />)
   const band = document.getElementById('top')!
-  // Coin Master deep-blue header band (masthead)
-  expect(band.className).toContain('from-[#040b55]')
+  // Coin Master sky/clouds header band (masthead)
+  expect(band.className).toContain('coinmaster-sky')
   // chunky display font applied to the title
   const h1 = band.querySelector('h1')!
   expect(h1.className).toContain('text-cm-gold-bright')
