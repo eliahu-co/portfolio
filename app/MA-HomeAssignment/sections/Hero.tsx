@@ -30,7 +30,7 @@ export default function Hero() {
             src="/coinmaster/coinmaster-logo.webp"
             alt="Coin Master"
             className="pointer-events-none hidden md:block drop-shadow-lg"
-            style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', height: 'clamp(84px, 11vw, 150px)', width: 'auto' }}
+            style={{ position: 'absolute', right: 60, top: 6, height: 'clamp(80px, 10vw, 112px)', width: 'auto' }}
           />
           <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-[#0F3D54] mb-4">
             Product Manager · Home Assignment
