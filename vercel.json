@@ -4,6 +4,30 @@
   "outputDirectory": ".next",
   "headers": [
     {
+      "source": "/MA-HomeAssignment/:path*",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }
+      ]
+    },
+    {
+      "source": "/MA-HomeAssignment",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }
+      ]
+    },
+    {
+      "source": "/HA-DrawingAnalyzer/:path*",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }
+      ]
+    },
+    {
+      "source": "/HA-DrawingAnalyzer",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }
+      ]
+    },
+    {
       "source": "/panel.glb",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },

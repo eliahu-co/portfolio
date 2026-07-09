@@ -32,7 +32,13 @@ const OG_IMAGE = 'https://eliahu.co/drawinganalyzer/ha-drawing-analyzer-poster.j
 export const metadata: Metadata = {
   title: 'AI Drawing Analyzer — Product Strategy · Eliahu Cohen',
   description: 'Four product opportunities for AI Drawing Analyzer, from concept to interactive prototype.',
-  robots: { index: false, follow: false }, // assignment deliverable — keep out of search
+  // assignment deliverable — keep out of search engines and AI crawlers
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: { index: false, follow: false, noimageindex: true },
+  },
   openGraph: {
     title: 'AI Drawing Analyzer — Product Strategy',
     description: 'Four product opportunities for AI Drawing Analyzer, from concept to interactive prototype.',
