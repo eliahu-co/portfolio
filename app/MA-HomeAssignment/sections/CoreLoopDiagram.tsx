@@ -58,12 +58,12 @@ function style(kind: Kind) {
       size:   'px-2 py-1 text-[9px] md:text-[10px]',
       weight: 'font-bold',
     }
-  // meta: same parchment pill as the core-loop nodes, but smaller and lighter
+  // meta: light pills tuned for the blue meta bracket (navy text, blue frame)
   if (kind === 'meta')
     return {
-      box:    'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 shadow-[0_1.5px_0_rgba(144,57,0,0.3)]',
-      text:   'text-cm-wood',
-      glyph:  'text-cm-wood/70',
+      box:    'bg-[#F2FAFE] border-[#1E7BA8]/70 shadow-[0_1.5px_0_rgba(30,123,168,0.4)]',
+      text:   'text-[#0d3a5a]',
+      glyph:  'text-[#1E7BA8]',
       size:   'px-2 py-1 text-[9px] md:text-[10px]',
       weight: 'font-semibold',
     }
@@ -132,7 +132,8 @@ export default function CoreLoopDiagram() {
           </defs>
 
           {/* Coin Master-style framed plaques — gold core loop, blue meta */}
-          <Plaque x={44} y={38} w={258} h={178} fill="#FFD44A" stroke="#C77F14" />
+          {/* loop fill = the hero title's cm-gold-bright (#FFC93C) */}
+          <Plaque x={44} y={38} w={258} h={178} fill="#FFC93C" stroke="#C77F14" />
           <Plaque x={424} y={52} w={98} h={162} fill="#3DAEE0" stroke="#1E7BA8" />
 
           {/* thin wood connectors, matching the workflow lanes further down */}
