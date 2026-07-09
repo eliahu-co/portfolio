@@ -36,11 +36,11 @@ const META: Node[] = [
 
 const ARROWS: string[] = [
   // three identical arcs of the loop circle (r=66, through the pill centres),
-  // each spanning the same 46° centred between its two nodes — so they are exact
-  // 120° rotations of each other: equal length and an equal gap to the pills
-  'M107,118 A66,66 0 0 1 132,73',   // spin → rewards
-  'M212,73 A66,66 0 0 1 238,118',   // rewards → village
-  'M198,187 A66,66 0 0 1 146,187',  // village → spin
+  // each spanning the same 50° centred between its two nodes — exact 120°
+  // rotations of each other: with the equal-width pills, equal length and gap
+  'M106,120 A66,66 0 0 1 134,72',   // spin → rewards
+  'M210,72 A66,66 0 0 1 238,120',   // rewards → village
+  'M200,186 A66,66 0 0 1 144,186',  // village → spin
   'M115,258 L115,218',              // liveops → core-loop bracket edge (y=216)
   'M424,126 Q366,124 305,126',      // meta → loop (points at the core-loop bracket edge, x=302)
 ]
@@ -55,7 +55,7 @@ function style(kind: Kind) {
       box:    'bg-gradient-to-b from-[#F5533F] to-[#DA2A1C] border-[#8A140C] shadow-[0_0.45cqw_0_#9E1810,inset_0_0.22cqw_0_rgba(255,255,255,0.4)]',
       text:   'text-white [text-shadow:0_0.15cqw_0.3cqw_rgba(0,0,0,0.35)]',
       glyph:  'text-white',
-      size:   'px-[2.4cqw] py-[1.2cqw] text-[1.95cqw]',
+      size:   'w-[12cqw] justify-center py-[0.7cqw] text-[1.5cqw]',
       weight: 'font-extrabold',
     }
   // liveops: a flat bright-gold pill at the same size/weight as the core pills
@@ -64,7 +64,7 @@ function style(kind: Kind) {
       box:    'bg-[#FFD44A] border-cm-wood/50 shadow-[0_0.3cqw_0_rgba(144,57,0,0.3)]',
       text:   'text-cm-wood',
       glyph:  'text-cm-wood/70',
-      size:   'px-[1.8cqw] py-[0.9cqw] text-[1.8cqw]',
+      size:   'px-[1.5cqw] py-[0.7cqw] text-[1.5cqw]',
       weight: 'font-extrabold',
     }
   // meta: light pills tuned for the blue meta bracket (navy text, blue frame),
@@ -74,14 +74,14 @@ function style(kind: Kind) {
       box:    'bg-[#F2FAFE] border-[#0F3D54]/60 shadow-[0_0.3cqw_0_rgba(15,61,84,0.45)]',
       text:   'text-[#0d3a5a]',
       glyph:  'text-[#1E7BA8]',
-      size:   'px-[1.8cqw] py-[0.9cqw] text-[1.8cqw]',
+      size:   'px-[1.5cqw] py-[0.7cqw] text-[1.5cqw]',
       weight: 'font-extrabold',
     }
   return {
     box:    'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 shadow-[0_0.3cqw_0_rgba(144,57,0,0.3)]',
     text:   'text-cm-wood',
     glyph:  'text-cm-wood/70',
-    size:   'px-[1.8cqw] py-[0.9cqw] text-[1.8cqw]',
+    size:   'w-[12cqw] justify-center py-[0.7cqw] text-[1.5cqw]',
     weight: 'font-extrabold',
   }
 }
