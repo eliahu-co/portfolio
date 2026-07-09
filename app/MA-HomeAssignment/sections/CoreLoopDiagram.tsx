@@ -22,16 +22,16 @@ type Node = { id: string; label: string; glyph: string; cx: number; cy: number; 
 // The three loop nodes sit on one circle centred in the bracket, 120° apart, so
 // the connectors are arcs of that circle for a clean circular flow. These shared
 // constants also drive the computed arrow geometry below.
-const O = { x: 172, y: 143 }   // loop-circle centre (≈ bracket centre)
-const R = 66                    // loop-circle radius
-const HW = 33.6, HH = 9         // loop pill half-width / half-height (viewBox units)
+const O = { x: 172, y: 132 }   // loop-circle centre (centres pills + arrows in the bracket)
+const R = 74                    // loop-circle radius
+const HW = 39.2, HH = 10.8      // loop pill half-width / half-height (viewBox units)
 const GAP = 8                   // gap between an arrow end and a pill edge
 
 const LOOP: Node[] = [
-  { id: 'rewards', label: 'Rewards', glyph: '★', cx: 172, cy: 77,  kind: 'parchment' },
-  { id: 'spin',    label: 'Spin',    glyph: '⟳', cx: 115, cy: 176, kind: 'engine' },
-  { id: 'village', label: 'Village', glyph: '⌂', cx: 229, cy: 176, kind: 'parchment' },
-  { id: 'liveops', label: 'LiveOps', glyph: '✦', cx: 115, cy: 256, kind: 'liveops' },
+  { id: 'rewards', label: 'Rewards', glyph: '★', cx: 172, cy: 58,  kind: 'parchment' },
+  { id: 'spin',    label: 'Spin',    glyph: '⟳', cx: 108, cy: 169, kind: 'engine' },
+  { id: 'village', label: 'Village', glyph: '⌂', cx: 236, cy: 169, kind: 'parchment' },
+  { id: 'liveops', label: 'LiveOps', glyph: '✦', cx: 108, cy: 249, kind: 'liveops' },
 ]
 
 const META: Node[] = [
@@ -75,7 +75,7 @@ const ARROWS: string[] = [
   loopArc(SPIN, REWARDS),      // spin → rewards
   loopArc(REWARDS, VILLAGE),   // rewards → village
   loopArc(VILLAGE, SPIN),      // village → spin
-  'M115,245 L115,219',         // liveops → core-loop bracket edge (y=216)
+  'M108,238 L108,216',         // liveops → core-loop bracket edge (y=216)
   'M424,127 Q366,125 305,127', // meta → loop (points at the bracket right edge)
 ]
 
@@ -89,7 +89,7 @@ function style(kind: Kind) {
       box:    'bg-gradient-to-b from-[#F5533F] to-[#DA2A1C] border-[#8A140C] shadow-[0_0.45cqw_0_#9E1810,inset_0_0.22cqw_0_rgba(255,255,255,0.4)]',
       text:   'text-white [text-shadow:0_0.15cqw_0.3cqw_rgba(0,0,0,0.35)]',
       glyph:  'text-white',
-      size:   'w-[12cqw] justify-center py-[0.7cqw] text-[1.5cqw]',
+      size:   'w-[14cqw] justify-center py-[0.9cqw] text-[1.8cqw]',
       weight: 'font-extrabold',
     }
   // liveops: a flat bright-gold pill at the same size/weight as the core pills
@@ -98,7 +98,7 @@ function style(kind: Kind) {
       box:    'bg-[#FFD44A] border-cm-wood/50 shadow-[0_0.3cqw_0_rgba(144,57,0,0.3)]',
       text:   'text-cm-wood',
       glyph:  'text-cm-wood/70',
-      size:   'px-[1.5cqw] py-[0.7cqw] text-[1.5cqw]',
+      size:   'px-[1.8cqw] py-[0.9cqw] text-[1.8cqw]',
       weight: 'font-extrabold',
     }
   // meta: light pills tuned for the blue meta bracket (navy text, blue frame),
@@ -108,14 +108,14 @@ function style(kind: Kind) {
       box:    'bg-[#F2FAFE] border-[#0F3D54]/60 shadow-[0_0.3cqw_0_rgba(15,61,84,0.45)]',
       text:   'text-[#0d3a5a]',
       glyph:  'text-[#1E7BA8]',
-      size:   'px-[1.5cqw] py-[0.7cqw] text-[1.5cqw]',
+      size:   'px-[1.8cqw] py-[0.9cqw] text-[1.8cqw]',
       weight: 'font-extrabold',
     }
   return {
     box:    'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 shadow-[0_0.3cqw_0_rgba(144,57,0,0.3)]',
     text:   'text-cm-wood',
     glyph:  'text-cm-wood/70',
-    size:   'w-[12cqw] justify-center py-[0.7cqw] text-[1.5cqw]',
+    size:   'w-[14cqw] justify-center py-[0.9cqw] text-[1.8cqw]',
     weight: 'font-extrabold',
   }
 }
