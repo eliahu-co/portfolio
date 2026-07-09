@@ -20,16 +20,18 @@ export default function Hero() {
       {/* The sky image fades to transparent toward the bottom, so the cream page
           colour behind it shows through and the clouds dissolve into the warm white. */}
       {/* mirrors the body's sidebar grid so the title lines up with the content below */}
-      <div className="relative max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-9 md:grid md:grid-cols-[180px_1fr] md:gap-16">
-        {/* Coin Master logo art at the right edge of the content, vertically centred */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/coinmaster/coinmaster-logo.webp"
-          alt="Coin Master"
-          className="pointer-events-none absolute right-6 md:right-12 lg:right-20 top-1/2 -translate-y-1/2 h-[clamp(64px,12vw,150px)] w-auto [filter:drop-shadow(0_3px_6px_rgba(0,0,0,0.22))]"
-        />
+      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-9 md:grid md:grid-cols-[180px_1fr] md:gap-16">
         <div className="hidden md:block" aria-hidden="true" />
-        <div className="min-w-0">
+        <div className="relative min-w-0">
+          {/* Coin Master logo at the right edge of the content column — desktop
+              only, so it never overlaps the header text on mobile */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/coinmaster/coinmaster-logo.webp"
+            alt="Coin Master"
+            className="pointer-events-none hidden md:block drop-shadow-lg"
+            style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', height: 'clamp(84px, 11vw, 150px)', width: 'auto' }}
+          />
           <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-[#0F3D54] mb-4">
             Product Manager · Home Assignment
           </p>
