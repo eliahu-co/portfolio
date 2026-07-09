@@ -29,8 +29,9 @@ it('renders the Coin Master hero banner', () => {
   expect(h1.className).toContain('text-cm-gold-bright')
 })
 
-it('renders workflow lanes inside the parchment panel', () => {
+it('renders the current workflow and the concept mockup in each use case', () => {
   render(<MAHomeAssignmentPage />)
   const useCase1 = document.getElementById('use-case-1')!
-  expect(useCase1.querySelector('.border-cm-wood')).not.toBeNull()
+  // concept mockup image sits beside the current workflow
+  expect(useCase1.querySelector('img[src="/coinmaster/placeholder.jpg"]')).not.toBeNull()
 })

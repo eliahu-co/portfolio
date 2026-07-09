@@ -136,10 +136,16 @@ function OpportunityText({ opp }: { opp: UseCaseData['opportunity'] }) {
   )
 }
 
-function OpportunityImage({ src, bordered = true }: { src: string; bordered?: boolean }) {
+// Framed concept mockup shown beside the "current" workflow, in place of the
+// proposed lane. Rounded frame with a wood stroke and a hard drop edge — the
+// same treatment as the pills.
+const MOCKUP_SRC = '/coinmaster/placeholder.jpg'
+function MockupFrame() {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={src} alt="" className={`w-full h-auto rounded-lg ${bordered ? 'border-2 border-cm-wood/50' : ''}`} />
+    <div className="mx-auto max-w-[240px] overflow-hidden rounded-2xl border-2 border-cm-wood/50 shadow-[0_3px_0_rgba(144,57,0,0.28)]">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={MOCKUP_SRC} alt="Coin Master concept mockup" className="block w-full h-auto" />
+    </div>
   )
 }
 
@@ -435,20 +441,24 @@ function Lane({ workflow, proposed }: { workflow: Workflow; proposed: boolean })
   )
 }
 
-function WorkflowComparison({ current, proposed, legendAiOnly }: { current: Workflow; proposed: Workflow; legendAiOnly?: boolean }) {
+// One workflow per use case: the "current" lane on the left, and the concept
+// mockup image on the right (in place of the old "proposed" lane).
+function WorkflowComparison({ current, legendAiOnly }: { current: Workflow; legendAiOnly?: boolean }) {
   return (
-    <div>
-      <div className="grid grid-cols-2 gap-x-4 md:gap-x-6 mb-4">
-        <LaneHeader proposed={false} title="Current" stat={current.stat} />
-        <LaneHeader proposed title="Proposed" stat={proposed.stat} />
-      </div>
-
-      <div className="grid grid-cols-2 gap-x-4 md:gap-x-6 items-start">
+    <div className="grid grid-cols-2 gap-x-4 md:gap-x-6 items-start">
+      <div>
+        <div className="mb-4">
+          <LaneHeader proposed={false} title="Current" stat={current.stat} />
+        </div>
         <Lane workflow={current} proposed={false} />
-        <Lane workflow={proposed} proposed />
+        <Legend current={current} proposed={current} aiOnly={legendAiOnly} />
       </div>
-
-      <Legend current={current} proposed={proposed} aiOnly={legendAiOnly} />
+      <div>
+        <div className="mb-4 pb-2 border-b-2 border-cm-wood/30">
+          <span className="font-sans text-[10px] uppercase tracking-[0.12em] text-cm-wood">Concept</span>
+        </div>
+        <MockupFrame />
+      </div>
     </div>
   )
 }
@@ -457,7 +467,6 @@ function WorkflowComparison({ current, proposed, legendAiOnly }: { current: Work
 
 export default function UseCase({ data }: { data: UseCaseData }) {
   const opp = data.opportunity
-  const asideImage = Boolean(opp.image && opp.imageAside)
 
   const problemSection = (
     <Block label="Problem">
@@ -516,31 +525,13 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         </div>
       </Block>
 
-      {asideImage ? (
-        // portrait image sits in a right column spanning Problem + Opportunity
-        <div className="grid md:grid-cols-[1fr_280px] gap-6 md:gap-10 items-start mb-6">
-          <div>
-            {problemSection}
-            <div>{opportunityHead}</div>
-          </div>
-          <OpportunityImage src={opp.image!} bordered={false} />
-        </div>
-      ) : (
-        <>
-          {problemSection}
-          <div className="mb-6">
-            {opportunityHead}
-            {opp.image && (
-              <div className="mt-5">
-                <OpportunityImage src={opp.image} />
-              </div>
-            )}
-          </div>
-        </>
-      )}
+      {problemSection}
+      <div className="mb-6">
+        {opportunityHead}
+      </div>
 
       <Block label="Workflow">
-        <WorkflowComparison current={data.currentWorkflow} proposed={data.proposedWorkflow} legendAiOnly={data.legendAiOnly} />
+        <WorkflowComparison current={data.currentWorkflow} legendAiOnly={data.legendAiOnly} />
       </Block>
 
       <Block label="Value delivered">
