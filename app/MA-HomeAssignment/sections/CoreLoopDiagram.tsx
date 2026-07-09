@@ -6,10 +6,10 @@
 //
 // Left: the core loop — SPIN → REWARDS → VILLAGE → SPIN, with a LiveOps feeder
 // into SPIN, framed by a wood plaque. Right: the META stack (PvP / Pet / Cards)
-// that feeds back into the loop. On the cream page the loop nodes
-// are warm parchment pills, SPIN is the sky-blue engine, the meta items are
-// smaller/lighter parchment pills, and LiveOps is a gold callout matching the
-// active side-nav button.
+// that feeds back into the loop. On the cream page the loop nodes are warm
+// parchment pills, SPIN is the sky-blue engine, the meta items are light pills
+// tuned for the blue meta bracket, and LiveOps is a flat bright-gold pill in
+// the same style as the rest of the diagram.
 //
 // Layout is a fixed 560×300 coordinate space: cards are HTML (positioned by the
 // node's centre as a percentage, keeping the CSS parchment styling) over one
@@ -49,12 +49,12 @@ function style(kind: Kind) {
       size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
       weight: 'font-extrabold',
     }
-  // liveops: its own gold callout, matching the active side-nav / CTA button
+  // liveops: a flat bright-gold pill in the same style as the diagram's others
   if (kind === 'liveops')
     return {
-      box:    'bg-gradient-to-b from-[#FFD95C] to-cm-gold border-transparent shadow-[0_2px_0_#B7202E]',
-      text:   'text-cm-violet-deep',
-      glyph:  'text-cm-violet-deep/80',
+      box:    'bg-[#FFD44A] border-cm-wood/50 shadow-[0_1.5px_0_rgba(144,57,0,0.3)]',
+      text:   'text-cm-wood',
+      glyph:  'text-cm-wood/70',
       size:   'px-2 py-1 text-[9px] md:text-[10px]',
       weight: 'font-bold',
     }
