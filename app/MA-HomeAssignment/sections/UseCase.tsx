@@ -302,15 +302,6 @@ function Connector({ proposed }: { proposed: boolean }) {
   )
 }
 
-function LaneHeader({ proposed, title, stat }: { proposed: boolean; title: string; stat: string }) {
-  const accent = proposed ? 'text-cm-wood' : 'text-[#8a6a3f]'
-  return (
-    <div className={`pb-2 border-b-2 ${proposed ? 'border-cm-wood' : 'border-cm-wood/30'}`}>
-      <span className={`font-sans text-[10px] uppercase tracking-[0.12em] ${accent}`}>{title}</span>
-      <span className={`block mt-1 font-serif text-[15px] ${accent}`}>{stat}</span>
-    </div>
-  )
-}
 
 function StepCell({
   step,
@@ -447,9 +438,6 @@ function WorkflowComparison({ current, legendAiOnly }: { current: Workflow; lege
   return (
     <div className="grid grid-cols-2 gap-x-4 md:gap-x-6 items-start">
       <div>
-        <div className="mb-4">
-          <LaneHeader proposed={false} title="Current" stat={current.stat} />
-        </div>
         <Lane workflow={current} proposed={false} />
         <Legend current={current} proposed={current} aiOnly={legendAiOnly} />
       </div>
