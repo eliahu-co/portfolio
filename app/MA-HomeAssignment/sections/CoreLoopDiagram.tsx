@@ -43,7 +43,7 @@ const ARROWS: string[] = [
 function style(kind: Kind) {
   if (kind === 'engine')
     return {
-      box:    'bg-gradient-to-b from-[#5FC9F5] to-cm-sky border-[#1D5E7E] shadow-[0_0_14px_rgba(79,191,239,0.75)]',
+      box:    'bg-gradient-to-b from-[#5FC9F5] to-cm-sky border-[#1D5E7E] shadow-[0_2px_0_rgba(15,61,84,0.5),0_0_12px_rgba(79,191,239,0.65)]',
       text:   'text-[#0F3D54]',
       glyph:  'text-[#0F3D54]',
       size:   'px-3 py-1.5 text-[11px] md:text-[12px]',
