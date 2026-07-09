@@ -20,14 +20,7 @@ export default function Hero() {
       {/* The sky image fades to transparent toward the bottom, so the cream page
           colour behind it shows through and the clouds dissolve into the warm white. */}
       {/* mirrors the body's sidebar grid so the title lines up with the content below */}
-      <div className="relative max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-9 md:grid md:grid-cols-[180px_1fr] md:gap-16">
-        {/* Coin Master logo art, top-right of the header (transparent background) */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/coinmaster/coinmaster-logo.webp"
-          alt="Coin Master"
-          className="pointer-events-none absolute right-4 top-3 w-[120px] sm:w-[160px] md:right-8 md:top-1/2 md:-translate-y-1/2 md:w-[230px] lg:right-14 lg:w-[290px] h-auto [filter:drop-shadow(0_4px_8px_rgba(0,0,0,0.22))]"
-        />
+      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-9 md:grid md:grid-cols-[180px_1fr] md:gap-16">
         <div className="hidden md:block" aria-hidden="true" />
         <div className="min-w-0">
           <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-[#0F3D54] mb-4">
@@ -37,7 +30,15 @@ export default function Hero() {
           <h1
             className={`${lilita.className} text-[clamp(20px,4.2vw,42px)] whitespace-nowrap leading-[1.02] text-cm-gold-bright mb-6 [text-shadow:0_3px_0_#B7202E,0_5px_12px_rgba(0,0,0,0.35)]`}
           >
-            Increasing ARPDAU
+            <span className="inline-flex items-center gap-2.5 align-middle">
+              Increasing ARPDAU
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/coinmaster/coinmaster-logo.webp"
+                alt="Coin Master"
+                className="inline-block h-[1.5em] w-auto [filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.2))]"
+              />
+            </span>
             <span className="block font-sans font-normal whitespace-normal text-[clamp(14px,1.8vw,18px)] text-[#0F3D54] mt-2 [text-shadow:none]">
               Three feature concepts, one expanded to MVP
             </span>
