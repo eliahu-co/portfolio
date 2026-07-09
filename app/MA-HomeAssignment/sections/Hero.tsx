@@ -15,10 +15,18 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="scroll-mt-8 bg-[#5CC3ED] bg-[url('/coinmaster-sky.webp')] bg-cover bg-bottom bg-no-repeat"
+      className="scroll-mt-8 relative bg-[#5CC3ED] bg-[url('/coinmaster-sky.webp')] bg-cover bg-bottom bg-no-repeat"
     >
+      {/* fade the bottom of the sky into the cream page so the clouds dissolve
+          into the warm-white body instead of ending on a hard blue edge */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{ background: 'linear-gradient(to bottom, rgba(255,249,238,0) 45%, #FFF9EE 100%)' }}
+      />
+
       {/* mirrors the body's sidebar grid so the title lines up with the content below */}
-      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-9 md:grid md:grid-cols-[180px_1fr] md:gap-16">
+      <div className="relative max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-9 md:grid md:grid-cols-[180px_1fr] md:gap-16">
         <div className="hidden md:block" aria-hidden="true" />
         <div className="min-w-0">
           <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-[#0F3D54] mb-4">
