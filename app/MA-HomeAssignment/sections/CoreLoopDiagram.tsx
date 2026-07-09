@@ -19,11 +19,13 @@ type Kind = 'engine' | 'parchment' | 'meta' | 'liveops'
 
 type Node = { id: string; label: string; glyph: string; cx: number; cy: number; kind: Kind }
 
+// The three loop nodes sit on one circle (centre 172,126, radius 66) 120° apart,
+// so the connectors can be equal-radius arcs that read as circular motion.
 const LOOP: Node[] = [
-  { id: 'rewards', label: 'Rewards', glyph: '★', cx: 170, cy: 60,  kind: 'parchment' },
-  { id: 'spin',    label: 'Spin',    glyph: '⟳', cx: 92,  cy: 164, kind: 'engine' },
-  { id: 'village', label: 'Village', glyph: '⌂', cx: 250, cy: 164, kind: 'parchment' },
-  { id: 'liveops', label: 'LiveOps', glyph: '✦', cx: 92,  cy: 270, kind: 'liveops' },
+  { id: 'rewards', label: 'Rewards', glyph: '★', cx: 172, cy: 60,  kind: 'parchment' },
+  { id: 'spin',    label: 'Spin',    glyph: '⟳', cx: 115, cy: 159, kind: 'engine' },
+  { id: 'village', label: 'Village', glyph: '⌂', cx: 229, cy: 159, kind: 'parchment' },
+  { id: 'liveops', label: 'LiveOps', glyph: '✦', cx: 115, cy: 270, kind: 'liveops' },
 ]
 
 const META: Node[] = [
@@ -33,11 +35,13 @@ const META: Node[] = [
 ]
 
 const ARROWS: string[] = [
-  'M116,148 Q100,100 138,82',   // spin → rewards
-  'M202,82 Q262,98 244,148',    // rewards → village
-  'M198,184 Q166,206 130,184',  // village → spin
-  'M92,258 L92,218',            // liveops → core-loop bracket edge (y=216)
-  'M424,126 Q366,124 305,126',  // meta → loop (points at the core-loop bracket edge, x=302)
+  // equal-radius (66) arcs of the loop circle — one continuous circular motion,
+  // each starting at its source pill's centre (hidden under the card)
+  'M115,159 A66,66 0 0 1 143,67',   // spin → rewards
+  'M172,60 A66,66 0 0 1 238,131',   // rewards → village
+  'M229,159 A66,66 0 0 1 135,181',  // village → spin
+  'M115,258 L115,218',              // liveops → core-loop bracket edge (y=216)
+  'M424,126 Q366,124 305,126',      // meta → loop (points at the core-loop bracket edge, x=302)
 ]
 
 function style(kind: Kind) {
