@@ -35,12 +35,12 @@ const META: Node[] = [
 ]
 
 const ARROWS: string[] = [
-  // three identical arcs of the loop circle (r=66, through the pill centres),
-  // each spanning the same 50° centred between its two nodes — exact 120°
-  // rotations of each other: with the equal-width pills, equal length and gap
-  'M106,120 A66,66 0 0 1 134,72',   // spin → rewards
-  'M210,72 A66,66 0 0 1 238,120',   // rewards → village
-  'M200,186 A66,66 0 0 1 144,186',  // village → spin
+  // each arrow's two ends sit the same ~7 units off their pills' edges (rather
+  // than a fixed angle off the pill centres), so the gap from arrow to pill is
+  // consistent at both ends of every arrow and the same all around
+  'M123,145 Q122,97 164,74',    // spin → rewards
+  'M180,74 Q226,98 224,145',    // rewards → village
+  'M188,159 Q172,180 156,159',  // village → spin
   'M115,258 L115,218',              // liveops → core-loop bracket edge (y=216)
   'M424,126 Q366,124 305,126',      // meta → loop (points at the core-loop bracket edge, x=302)
 ]
