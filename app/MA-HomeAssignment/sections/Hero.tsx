@@ -25,10 +25,10 @@ export default function Hero() {
           </p>
 
           <h1
-            className={`${lilita.className} text-[clamp(34px,5.5vw,56px)] leading-[1.02] text-cm-gold-bright mb-6 [text-shadow:0_3px_0_#B7202E,0_5px_12px_rgba(0,0,0,0.35)]`}
+            className={`${lilita.className} text-[clamp(20px,4.2vw,42px)] whitespace-nowrap leading-[1.02] text-cm-gold-bright mb-6 [text-shadow:0_3px_0_#B7202E,0_5px_12px_rgba(0,0,0,0.35)]`}
           >
             Increasing ARPDAU in Coin Master
-            <span className="block font-sans font-normal text-[clamp(14px,1.8vw,18px)] text-[#EDE6FF] mt-2 [text-shadow:none]">
+            <span className="block font-sans font-normal whitespace-normal text-[clamp(14px,1.8vw,18px)] text-[#EDE6FF] mt-2 [text-shadow:none]">
               Three feature concepts, one expanded to MVP
             </span>
           </h1>
