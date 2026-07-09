@@ -20,7 +20,14 @@ export default function Hero() {
       {/* The sky image fades to transparent toward the bottom, so the cream page
           colour behind it shows through and the clouds dissolve into the warm white. */}
       {/* mirrors the body's sidebar grid so the title lines up with the content below */}
-      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-9 md:grid md:grid-cols-[180px_1fr] md:gap-16">
+      <div className="relative max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-9 md:grid md:grid-cols-[180px_1fr] md:gap-16">
+        {/* Coin Master logo art at the right edge of the content, vertically centred */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/coinmaster/coinmaster-logo.webp"
+          alt="Coin Master"
+          className="pointer-events-none absolute right-6 md:right-12 lg:right-20 top-1/2 -translate-y-1/2 h-[clamp(64px,12vw,150px)] w-auto [filter:drop-shadow(0_3px_6px_rgba(0,0,0,0.22))]"
+        />
         <div className="hidden md:block" aria-hidden="true" />
         <div className="min-w-0">
           <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-[#0F3D54] mb-4">
@@ -30,15 +37,7 @@ export default function Hero() {
           <h1
             className={`${lilita.className} text-[clamp(20px,4.2vw,42px)] whitespace-nowrap leading-[1.02] text-cm-gold-bright mb-6 [text-shadow:0_3px_0_#B7202E,0_5px_12px_rgba(0,0,0,0.35)]`}
           >
-            <span className="inline-flex items-center gap-2.5 align-middle">
-              Increasing ARPDAU
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/coinmaster/coinmaster-logo.webp"
-                alt="Coin Master"
-                className="inline-block h-[1.5em] w-auto [filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.2))]"
-              />
-            </span>
+            Increasing ARPDAU
             <span className="block font-sans font-normal whitespace-normal text-[clamp(14px,1.8vw,18px)] text-[#0F3D54] mt-2 [text-shadow:none]">
               Three feature concepts, one expanded to MVP
             </span>
