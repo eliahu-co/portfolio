@@ -41,10 +41,10 @@ const ARROWS: string[] = [
 ]
 
 function style(kind: Kind) {
-  // engine: the Coin Master SPIN button — glossy green, 3D bottom edge, white text
+  // engine: the Coin Master SPIN button — red, squarish, 3D edge, white text
   if (kind === 'engine')
     return {
-      box:    'bg-gradient-to-b from-[#8FD23A] to-[#4F8F1B] border-[#356813] shadow-[0_2px_0_#2C570F,inset_0_1.5px_0_rgba(255,255,255,0.5)]',
+      box:    'bg-gradient-to-b from-[#F5503F] to-[#C8102E] border-[#7E0A1A] shadow-[0_2px_0_#6E0A17,inset_0_1.5px_0_rgba(255,255,255,0.45)]',
       text:   'text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.4)]',
       glyph:  'text-white',
       size:   'px-4 py-1.5 text-[11px] md:text-[12px]',
@@ -93,7 +93,7 @@ function Card({ n }: { n: Node }) {
   const s = style(n.kind)
   return (
     <div
-      className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 whitespace-nowrap border ${n.kind === 'engine' ? 'rounded-full' : 'rounded-lg'} ${s.box} ${s.size}`}
+      className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 whitespace-nowrap border ${n.kind === 'engine' ? 'rounded-md' : 'rounded-lg'} ${s.box} ${s.size}`}
       style={{ left: `${(n.cx / 560) * 100}%`, top: `${(n.cy / 300) * 100}%` }}
     >
       <span className={`leading-none ${s.glyph}`} aria-hidden="true">{n.glyph}</span>
