@@ -130,12 +130,30 @@ export default function CoreLoopDiagram() {
             <marker id="cl-arrow" viewBox="0 0 12 12" refX="8" refY="6" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
               <path d="M3.5,2.5 L8,6 L3.5,9.5" fill="none" stroke="#903900" strokeOpacity="0.75" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </marker>
+            {/* soft white streak + clip for the core-loop bracket shine sweep */}
+            <linearGradient id="cl-shine-grad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stopColor="#ffffff" stopOpacity="0" />
+              <stop offset="0.5" stopColor="#ffffff" stopOpacity="0.5" />
+              <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
+            </linearGradient>
+            <clipPath id="cl-loop-clip">
+              <rect x="44" y="38" width="258" height="178" rx="16" />
+            </clipPath>
+            <style>{`@media (prefers-reduced-motion: reduce){ .cl-shine{ display:none } }`}</style>
           </defs>
 
           {/* Coin Master-style framed plaques — gold core loop, blue meta */}
           {/* loop fill = the hero title's cm-gold-bright (#FFC93C) */}
           <Plaque x={44} y={38} w={258} h={178} fill="#FFC93C" stroke="#C77F14" />
           <Plaque x={424} y={52} w={98} h={162} fill="#3DAEE0" stroke="#1E7BA8" />
+
+          {/* animated shine sweeping across the core-loop bracket */}
+          <g className="cl-shine" clipPath="url(#cl-loop-clip)">
+            <g>
+              <animateTransform attributeName="transform" type="translate" values="-30 0; 380 0; 380 0" keyTimes="0; 0.32; 1" dur="4.5s" repeatCount="indefinite" />
+              <rect x="-15" y="28" width="30" height="198" fill="url(#cl-shine-grad)" transform="skewX(-12)" />
+            </g>
+          </g>
 
           {/* thin wood connectors, matching the workflow lanes further down */}
           {ARROWS.map((d) => (
