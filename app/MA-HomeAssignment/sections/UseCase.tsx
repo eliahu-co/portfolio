@@ -201,7 +201,7 @@ function Role({ data }: { data: NamedRole }) {
 }
 
 // Compact card grid for the Value / Risks sections. Each item is a left
-// accent-bar card (blue for value, amber for risks) with the body styled like
+// accent-bar card (gold for value, amber for risks) with the body styled like
 // the workflow step notes (small + italic). A `primary` value item renders
 // full-width with a thicker bar, a star, and a "Primary" pill.
 export type CardVariant = 'value' | 'risk' | 'neutral'
@@ -218,20 +218,20 @@ function Card({
   const edge = variant === 'neutral'
     ? 'border-charcoal/30 border-l-charcoal border-l-4'
     : variant === 'value'
-      ? `border-cm-sky/40 border-l-cm-sky ${item.primary ? 'border-l-[5px]' : 'border-l-4'}`
+      ? `border-cm-gold/45 border-l-cm-gold ${item.primary ? 'border-l-[5px]' : 'border-l-4'}`
       : `border-cm-crimson/35 border-l-cm-crimson ${item.primary ? 'border-l-[5px]' : 'border-l-4'}`
   // card surface — tinted per variant so cards sit warm on the cream page
   // (plain white reads cold against bg-cm-cream)
   const surface = variant === 'neutral'
     ? 'bg-gradient-to-b from-[#FBF7F0] to-[#F3ECDF]'
     : variant === 'value'
-      ? 'bg-gradient-to-b from-[#F4FBFF] to-[#E6F5FE]'
+      ? 'bg-gradient-to-b from-[#FFF8E3] to-[#FFEDC2]'
       : 'bg-gradient-to-b from-[#FFF4F1] to-[#FBE9E7]'
   const span = item.primary || fullWidth ? 'sm:col-span-2' : ''
   return (
     <div className={`rounded-[10px] border px-3 py-2.5 shadow-[0_2px_6px_rgba(42,27,84,0.08)] ${surface} ${edge} ${span}`}>
       <p className="font-serif text-[14px] text-cm-violet-deep mb-0.5 flex items-center gap-1.5">
-        {item.primary && variant === 'value' && <span className="shrink-0 text-[13px] leading-none text-cm-sky" aria-hidden="true">★</span>}
+        {item.primary && variant === 'value' && <span className="shrink-0 text-[13px] leading-none text-cm-gold" aria-hidden="true">★</span>}
         {item.primary && variant === 'risk' && <WarningBadge />}
         <span className="min-w-0">{item.title}</span>
       </p>
@@ -291,7 +291,7 @@ function markerGlyph(kind: StepKind): string {
 // (display:block, no padding/margin) so the shaft starts at the box above and
 // the arrowhead tip ends at the box below — no glyph line-box gap to fight.
 function Connector({ proposed }: { proposed: boolean }) {
-  const color = proposed ? 'rgba(144,57,0,0.75)' : 'rgba(144,57,0,0.35)'
+  const color = proposed ? 'rgba(30,123,168,0.75)' : 'rgba(30,123,168,0.45)'
   return (
     <div className="flex justify-center">
       <svg width="14" height="15" viewBox="0 0 14 15" fill="none" aria-hidden="true" style={{ display: 'block' }}>
@@ -321,40 +321,35 @@ function StepCell({
   // light — its shine carries the emphasis instead.
   const isEmphasis = step.emphasis ?? (kind === 'catch' || kind === 'reject' || kind === 'approve' || kind === 'repeat')
 
-  // box background + border — each step is its own small parchment card with a
-  // wood drop edge (the proposed lane's parchment is warmer than the current's)
-  const parchment      = 'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3]'
-  const parchmentLight = 'bg-gradient-to-b from-[#FFF6E5] to-[#FFEBC9]'
-  const woodEdge       = 'shadow-[0_2px_0_rgba(144,57,0,0.25)]'
-  const woodEdgeLight  = 'shadow-[0_2px_0_rgba(144,57,0,0.15)]'
+  // box background + border — each step is its own small card with a blue panel
+  // wash and a matching drop edge (the proposed lane's blue is deeper than the
+  // current's paler tint)
+  const panel      = 'bg-gradient-to-b from-[#DCF1FC] to-[#BFE6FA]'
+  const panelLight = 'bg-gradient-to-b from-[#F0FAFE] to-[#DBF1FC]'
+  const blueEdge      = 'shadow-[0_2px_0_rgba(30,123,168,0.28)]'
+  const blueEdgeLight = 'shadow-[0_2px_0_rgba(30,123,168,0.16)]'
   let box = proposed
-    ? `${parchment} border-cm-wood/50 ${woodEdge}`
-    : `${parchmentLight} border-cm-wood/30 ${woodEdgeLight}`
-  if (kind === 'ai') box = 'bg-gradient-to-b from-[#5FC9F5] to-cm-sky border-[#1D5E7E] shadow-[0_0_12px_rgba(79,191,239,0.7)]'
-  else if (kind === 'approve') box = `${parchment} border-[#4C9B3C] shadow-[0_2px_0_rgba(76,155,60,0.35)]`
-  else if (kind === 'catch') box = isEmphasis
-    ? (proposed ? `${parchment} border-cm-wood/70 ${woodEdge}` : `${parchmentLight} border-cm-wood/60 ${woodEdgeLight}`)
-    : (proposed ? `${parchment} border-cm-wood/50 ${woodEdge}` : `${parchmentLight} border-cm-wood/30 ${woodEdgeLight}`)
-  else if (kind === 'reject') box = `${parchmentLight} border-cm-crimson shadow-[0_2px_0_rgba(200,16,46,0.3)]`
-  else if (kind === 'repeat') box = `${parchmentLight} border-cm-wood/45 ${woodEdgeLight}`
-  else if (step.emphasis) box = proposed ? `${parchment} border-cm-wood/70 ${woodEdge}` : `${parchmentLight} border-cm-wood/60 ${woodEdgeLight}`
+    ? `${panel} border-[#1E7BA8]/50 ${blueEdge}`
+    : `${panelLight} border-[#1E7BA8]/30 ${blueEdgeLight}`
+  if (kind === 'catch') box = isEmphasis
+    ? (proposed ? `${panel} border-[#1E7BA8]/70 ${blueEdge}` : `${panelLight} border-[#1E7BA8]/60 ${blueEdgeLight}`)
+    : (proposed ? `${panel} border-[#1E7BA8]/50 ${blueEdge}` : `${panelLight} border-[#1E7BA8]/30 ${blueEdgeLight}`)
+  else if (kind === 'repeat') box = `${panelLight} border-[#1E7BA8]/45 ${blueEdgeLight}`
+  else if (step.emphasis) box = proposed ? `${panel} border-[#1E7BA8]/70 ${blueEdge}` : `${panelLight} border-[#1E7BA8]/60 ${blueEdgeLight}`
 
   // border thickness — matches the connector stroke; thicker for emphasis steps
   const borderW = isEmphasis ? 'border-2' : 'border'
 
   // marker colour
-  let marker = proposed ? 'text-cm-wood/70' : 'text-cm-wood/40'
-  if (kind === 'ai') marker = 'text-[#0F3D54]'
-  else if (kind === 'approve') marker = 'text-[#3C7A2F]'
-  else if (kind === 'reject') marker = 'text-cm-crimson'
-  else if (kind === 'repeat') marker = 'text-cm-wood'
-  else if (kind === 'catch') marker = proposed ? 'text-cm-wood' : 'text-charcoal'
+  let marker = proposed ? 'text-[#1E7BA8]/80' : 'text-[#1E7BA8]/50'
+  if (kind === 'repeat') marker = 'text-[#1E7BA8]'
+  else if (kind === 'catch') marker = proposed ? 'text-[#1E7BA8]' : 'text-charcoal'
 
   const labelColor = kind === 'ai'
     ? 'text-[#0F3D54] font-bold'
     : isEmphasis ? 'text-black font-medium' : 'text-charcoal'
 
-  const noteColor = proposed ? 'text-cm-wood' : 'text-charcoal/60'
+  const noteColor = proposed ? 'text-[#1E7BA8]' : 'text-charcoal/60'
 
   return (
     <div className="flex flex-col">
@@ -405,9 +400,9 @@ function Legend({ current, proposed, aiOnly }: { current: Workflow; proposed: Wo
       {items.map(({ kind, glyph, label }) => {
         const isAi = kind === 'ai'
         return (
-          <span key={label} className={`inline-flex items-center font-sans text-[10px] leading-none ${isAi ? 'text-[#1D5E7E]' : 'text-cm-wood/80'}`}>
+          <span key={label} className={`inline-flex items-center font-sans text-[10px] leading-none ${isAi ? 'text-[#1D5E7E]' : 'text-[#1E7BA8]/80'}`}>
             <span
-              className={`mr-1 leading-none ${isAi ? 'text-[#1D5E7E] font-bold text-[13px]' : 'text-cm-wood'}`}
+              className={`mr-1 leading-none ${isAi ? 'text-[#1D5E7E] font-bold text-[13px]' : 'text-[#1E7BA8]'}`}
               aria-hidden="true"
             >
               {glyph}
