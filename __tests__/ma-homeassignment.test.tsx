@@ -11,7 +11,7 @@ global.IntersectionObserver = jest.fn().mockImplementation(() => ({
 it('renders every side-nav section anchor', () => {
   render(<MAHomeAssignmentPage />)
   const ids = [
-    'hero', 'use-case-1', 'use-case-2', 'use-case-3', 'use-case-4',
+    'hero', 'feature-1', 'feature-2', 'feature-3',
     'prioritization', 'mvp', 'prototype', 'unknowns', 'assumptions', 'approach',
   ]
   for (const id of ids) {
@@ -29,9 +29,9 @@ it('renders the Coin Master hero banner', () => {
   expect(h1.className).toContain('text-cm-gold-bright')
 })
 
-it('renders the current workflow and the concept mockup in each use case', () => {
+it('renders the current workflow and the concept mockup in each feature', () => {
   render(<MAHomeAssignmentPage />)
-  const useCase1 = document.getElementById('use-case-1')!
+  const feature1 = document.getElementById('feature-1')!
   // concept mockup image sits beside the current workflow
-  expect(useCase1.querySelector('img[src="/coinmaster/placeholder.jpg"]')).not.toBeNull()
+  expect(feature1.querySelector('img[src="/coinmaster/placeholder.jpg"]')).not.toBeNull()
 })

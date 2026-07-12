@@ -1,6 +1,6 @@
 // app/MA-HomeAssignment/sections/Prioritization.tsx
-// Section — Prioritization: scoring framework, scores across the four use
-// cases, and the resulting decision.
+// Section — Prioritization: scoring framework, scores across the three
+// features, and the resulting decision.
 
 'use client'
 
@@ -21,7 +21,7 @@ const CRITERIA_DEFS: { title: string; body: string; rubric: [string, string][] }
   },
   {
     title: 'Platform Leverage',
-    body: 'Degree to which the use case depends on the unique capabilities of the AI Drawing Analyzer.',
+    body: 'Degree to which the feature depends on the unique capabilities of the AI Drawing Analyzer.',
     rubric: [
       ['5', 'Impossible without drawing intelligence.'],
       ['3', 'Somewhat benefits from it.'],
@@ -51,10 +51,9 @@ const CRITERIA_DEFS: { title: string; body: string; rubric: [string, string][] }
 type Row = { useCase: string; scores: number[]; total: number; winner?: boolean }
 
 const ROWS: Row[] = [
-  { useCase: 'Change Validation',          scores: [5, 5, 5, 3], total: 18, winner: true },
+  { useCase: 'Hometown',                   scores: [5, 5, 5, 3], total: 18, winner: true },
   { useCase: 'Context Link',               scores: [5, 5, 4, 3], total: 17 },
   { useCase: 'Coordination Lock',          scores: [5, 4, 3, 2], total: 14 },
-  { useCase: 'Program Conformance Review', scores: [4, 5, 2, 2], total: 13 },
 ]
 
 // Medals for the top three totals (computed by rank so it survives reordering)
@@ -74,7 +73,7 @@ export default function Prioritization() {
     <Section id="prioritization" eyebrow="Prioritization" title="Criteria, scoring & decision">
       <div className="max-w-2xl mb-6">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          Each use case is scored from 1–5 across four criteria. Scores are intended to compare
+          Each feature is scored from 1–5 across four criteria. Scores are intended to compare
           strategic opportunities rather than estimate outcomes with precision. All criteria are
           oriented so that higher scores indicate a more attractive investment opportunity.
         </p>
@@ -118,7 +117,7 @@ export default function Prioritization() {
           <thead>
             <tr className="border-b-2 border-cm-wood">
               <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pr-4">
-                Use case
+                Feature
               </th>
               {CRITERIA.map((c) => (
                 <th key={c} className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 px-3 text-center">
@@ -160,7 +159,7 @@ export default function Prioritization() {
         <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-crimson mb-2">Decision</p>
         <div className="flex flex-col gap-3">
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Change Validation scores highest (18) and is recommended as the starting point. It addresses
+            Hometown scores highest (18) and is recommended as the starting point. It addresses
             a high-frequency workflow with clear user value, strong platform leverage, and relatively low
             implementation risk. It also establishes the structured change foundation that can later
             support Change Orders and other downstream opportunities.

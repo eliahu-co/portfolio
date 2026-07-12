@@ -30,12 +30,12 @@ const METRICS: { kind: string; title: string; body: string; signal?: string }[] 
   {
     kind: 'Usage',
     title: 'Pre-Review Revision Rate',
-    body: 'Percentage of initiated reviews where the designer modifies the drawing after Change Validation.',
+    body: 'Percentage of initiated reviews where the designer modifies the drawing after Hometown.',
     signal: 'Positive and sustained, indicating issues are being identified before submission.',
   },
   {
     kind: 'Quality',
-    title: 'Change Validation Satisfaction',
+    title: 'Hometown Satisfaction',
     body: 'Collected through a lightweight thumbs-up/down or periodic survey.',
     signal: 'High and increasing over time.',
   },

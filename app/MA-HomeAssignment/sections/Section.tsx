@@ -18,11 +18,13 @@ export default function Section({
   id,
   eyebrow,
   title,
+  subtitle,
   children,
 }: {
   id: string
   eyebrow: string
   title?: string
+  subtitle?: string
   children: ReactNode
 }) {
   return (
@@ -35,9 +37,14 @@ export default function Section({
       <div className="h-1 rounded-full bg-gradient-to-r from-cm-gold to-cm-crimson mb-5" aria-hidden="true" />
       <Eyebrow>{eyebrow}</Eyebrow>
       {title && (
-        <h2 className="font-serif text-[clamp(22px,3vw,32px)] leading-tight text-cm-violet-deep mb-5 whitespace-pre-line">
+        <h2 className={`font-serif text-[clamp(22px,3vw,32px)] leading-tight text-cm-violet-deep whitespace-pre-line ${subtitle ? 'mb-2' : 'mb-5'}`}>
           {title}
         </h2>
+      )}
+      {subtitle && (
+        <p className="font-sans text-[15px] leading-relaxed text-charcoal/80 max-w-2xl mb-6">
+          {subtitle}
+        </p>
       )}
       {children}
     </section>

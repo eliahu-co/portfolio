@@ -10,10 +10,9 @@ export interface PageSection {
 
 export const SECTIONS: PageSection[] = [
   { id: 'hero',          label: 'Intro' },
-  { id: 'use-case-1',    label: 'Use Case 1' },
-  { id: 'use-case-2',    label: 'Use Case 2' },
-  { id: 'use-case-3',    label: 'Use Case 3' },
-  { id: 'use-case-4',    label: 'Use Case 4' },
+  { id: 'feature-1',     label: 'Feature 1' },
+  { id: 'feature-2',     label: 'Feature 2' },
+  { id: 'feature-3',     label: 'Feature 3' },
   { id: 'prioritization', label: 'Prioritization' },
   { id: 'mvp',           label: 'MVP' },
   { id: 'prototype',     label: 'Prototype' },

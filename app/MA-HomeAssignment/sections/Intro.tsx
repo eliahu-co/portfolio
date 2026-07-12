@@ -1,16 +1,15 @@
 // app/MA-HomeAssignment/sections/Intro.tsx
 // Intro content beneath the hero band, rendered as the first block in <main> so
 // it sits in the content column beside the sticky sidebar: the Coin Master
-// core-loop diagram, the framing paragraph, and the table of selected use cases.
+// core-loop diagram, the framing paragraph, and the table of selected features.
 // Content strings match the HA-DrawingAnalyzer original.
 
 import CoreLoopDiagram from './CoreLoopDiagram'
 
 const CAPABILITIES: { useCase: string; user: string }[] = [
-  { useCase: 'Change Validation',          user: 'Designer' },
+  { useCase: 'Hometown',                   user: 'Designer' },
   { useCase: 'Context Link',               user: 'Field Team' },
   { useCase: 'Coordination Lock',          user: 'BIM/VDC' },
-  { useCase: 'Program Conformance Review', user: 'Owner' },
 ]
 
 export default function Intro() {
@@ -19,7 +18,7 @@ export default function Intro() {
       <CoreLoopDiagram />
 
       <p className="font-sans pt-8 text-[15px] leading-relaxed text-charcoal">
-        The following use cases were selected to represent different points of view across the
+        The following features were selected to represent different points of view across the
         construction lifecycle—from designers and field teams to owners—while spanning multiple
         project phases and workflows. Together they illustrate the breadth of opportunities
         that become possible when construction drawings are transformed from static documents into
@@ -29,7 +28,7 @@ export default function Intro() {
       <table className="w-full border-collapse text-left mt-6">
         <thead>
           <tr className="border-b border-charcoal/15">
-            <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pr-4">Use case</th>
+            <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pr-4">Feature</th>
             <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pl-4">User</th>
           </tr>
         </thead>

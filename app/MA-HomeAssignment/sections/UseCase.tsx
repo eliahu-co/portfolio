@@ -5,6 +5,7 @@
 // to change copy.
 
 import Section from './Section'
+import LoopReturn from './LoopReturn'
 import { type ReactNode } from 'react'
 
 /* ─── data shape ──────────────────────────────────────────────────────────── */
@@ -32,24 +33,29 @@ export interface WorkflowStep {
   kind?:     StepKind             // defaults to 'normal'
   note?:     string               // small annotation under the step (e.g. "Caught late")
   actor?:    'reviewer' | 'designer' | 'owner' // tags the step with the persona performing it
+  tag?:      string               // gold pill shown on the step (e.g. "Core loop")
+  coreLoop?: boolean              // style the step as the gold core-loop plaque (with shine sweep)
   emphasis?: boolean              // force the bold treatment on an otherwise-normal step
 }
 
 export interface Workflow {
   stat:  string // headline metric for the lane (e.g. "2 review cycles")
+  loop?: boolean // draw a loop-back arrow from the last step up to the first
   steps: WorkflowStep[]
 }
 
 export interface UseCaseData {
-  id:      string // anchor id (e.g. 'use-case-1')
-  eyebrow: string // e.g. 'Use Case 1'
+  id:      string // anchor id (e.g. 'feature-1')
+  eyebrow: string // e.g. 'Feature 1'
   title:   string // e.g. 'AI-Assisted Design Revision Validation'
+  conceptAsSubtitle?: boolean // render opportunity.statement as the title subtitle instead of a Concept block
 
   constructionPhase: { name: string; description: string }
   primaryUser:   NamedRole
   secondaryUser: NamedRole | NamedRole[] // one or more secondary-user groups
 
   problem: {
+    heading?:     string   // block label override (defaults to "Opportunity")
     intro:        string
     examples?:    string[]
     body?:        string   // optional paragraph after the examples, before "As a result"
@@ -180,23 +186,6 @@ export function Pill({
     <span className={`font-sans text-[8px] font-bold uppercase tracking-wider rounded px-1 py-px border-2 ${toneClass} ${className}`}>
       {children}
     </span>
-  )
-}
-
-function Role({ data }: { data: NamedRole }) {
-  return (
-    <div>
-      {data.pill && <Pill className="inline-block mb-2">{data.pill}</Pill>}
-      {data.role && <p className="font-serif text-[16px] text-black mb-1">{data.role}</p>}
-      {data.description && (
-        <p className="font-sans text-[13px] leading-relaxed text-charcoal">{data.description}</p>
-      )}
-      {data.list && (
-        <div className="mt-1">
-          <Bullets items={data.list} />
-        </div>
-      )}
-    </div>
   )
 }
 
@@ -337,6 +326,12 @@ function StepCell({
   else if (kind === 'repeat') box = `${panelLight} border-[#1E7BA8]/45 ${blueEdgeLight}`
   else if (step.emphasis) box = proposed ? `${panel} border-[#1E7BA8]/70 ${blueEdge}` : `${panelLight} border-[#1E7BA8]/60 ${blueEdgeLight}`
 
+  // core-loop step: same shape as the other loop steps, wearing the colours of
+  // the "Rewards" (parchment) pill from the hero core-loop diagram (text/marker
+  // stay identical to the other steps).
+  const coreLoop = step.coreLoop ?? false
+  if (coreLoop) box = 'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 shadow-[0_2px_0_rgba(144,57,0,0.3)]'
+
   // border thickness — matches the connector stroke; thicker for emphasis steps
   const borderW = isEmphasis ? 'border-2' : 'border'
 
@@ -344,16 +339,19 @@ function StepCell({
   let marker = proposed ? 'text-[#1E7BA8]/80' : 'text-[#1E7BA8]/50'
   if (kind === 'repeat') marker = 'text-[#1E7BA8]'
   else if (kind === 'catch') marker = proposed ? 'text-[#1E7BA8]' : 'text-charcoal'
+  if (coreLoop) marker = 'text-cm-wood'
 
-  const labelColor = kind === 'ai'
-    ? 'text-[#0F3D54] font-bold'
-    : isEmphasis ? 'text-black font-medium' : 'text-charcoal'
+  const labelColor = coreLoop
+    ? 'text-cm-wood'
+    : kind === 'ai'
+      ? 'text-[#0F3D54] font-bold'
+      : isEmphasis ? 'text-black font-medium' : 'text-charcoal'
 
   const noteColor = proposed ? 'text-[#1E7BA8]' : 'text-charcoal/60'
 
   return (
     <div className="flex flex-col">
-      <div className={`relative overflow-hidden rounded-lg ${borderW} px-2.5 py-1 flex items-center gap-2 ${box}`}>
+      <div data-loop-step className={`relative overflow-hidden rounded-lg ${borderW} px-2.5 py-1 flex items-center gap-2 ${box}`}>
         <span className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] md:text-[17px] font-bold' : 'text-[11px] md:text-[12px]'} ${marker}`} aria-hidden="true">
           {markerGlyph(kind)}
         </span>
@@ -365,9 +363,10 @@ function StepCell({
             <span className={`block mt-px font-sans text-[10px] italic whitespace-pre-line ${noteColor}`}>{step.note}</span>
           )}
         </span>
-        {(kind === 'ai' || step.actor) && (
+        {(kind === 'ai' || step.actor || step.tag) && (
           <span className="relative ml-auto shrink-0 flex items-center gap-1.5">
             {kind === 'ai' && <Pill tone="solid">DA</Pill>}
+            {step.tag && <Pill tone="solid">{step.tag}</Pill>}
             {step.actor && (
               <Pill tone={proposed ? 'blue' : 'charcoal'}>
                 {step.actor.charAt(0).toUpperCase() + step.actor.slice(1)}
@@ -419,10 +418,11 @@ function Legend({ current, proposed, aiOnly }: { current: Workflow; proposed: Wo
 // stretched to match the other lane), and connectors join steps within the lane.
 function Lane({ workflow, proposed }: { workflow: Workflow; proposed: boolean }) {
   return (
-    <div className="flex flex-col">
+    <div className="relative flex flex-col">
       {workflow.steps.map((step, i) => (
         <StepCell key={i} step={step} proposed={proposed} isLast={i === workflow.steps.length - 1} />
       ))}
+      {workflow.loop && <LoopReturn />}
     </div>
   )
 }
@@ -447,7 +447,7 @@ export default function UseCase({ data }: { data: UseCaseData }) {
   const opp = data.opportunity
 
   const problemSection = (
-    <Block label="Problem">
+    <Block label={data.problem.heading ?? 'Opportunity'}>
       <Para>{data.problem.intro}</Para>
       {data.problem.examples && data.problem.examples.length > 0 && (
         <>
@@ -456,59 +456,37 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         </>
       )}
       {data.problem.body && <div className="mt-3"><Para>{data.problem.body}</Para></div>}
-      <MiniLabel>As a result</MiniLabel>
-      <Bullets items={data.problem.consequences} />
+      {data.problem.consequences.length > 0 && (
+        <>
+          <MiniLabel>As a result</MiniLabel>
+          <Bullets items={data.problem.consequences} />
+        </>
+      )}
     </Block>
   )
 
-  const opportunityHead = (
+  const conceptHead = (
     <>
-      <BlockLabel>
-        <span className="inline-flex items-center gap-2 align-middle">
-          The AI Drawing Analyzer Opportunity
-          <Pill tone="solid">DA</Pill>
-        </span>
-      </BlockLabel>
+      <BlockLabel>Concept</BlockLabel>
       <OpportunityText opp={opp} />
     </>
   )
 
   return (
-    <Section id={data.id} eyebrow={data.eyebrow} title={data.title}>
-      <Block label="Phase">
-        <div className="flex flex-wrap gap-2 mb-2">
-          {data.constructionPhase.name.split(/[/→]/).map((p, i) => (
-            <Pill key={i}>{p.trim()}</Pill>
-          ))}
+    <Section
+      id={data.id}
+      eyebrow={data.eyebrow}
+      title={data.title}
+      subtitle={data.conceptAsSubtitle ? opp.statement : undefined}
+    >
+      {!data.conceptAsSubtitle && (
+        <div className="mb-6">
+          {conceptHead}
         </div>
-        <Para>{data.constructionPhase.description}</Para>
-      </Block>
-
-      <Block label="User">
-        <div className="grid md:grid-cols-2 gap-x-10 gap-y-6">
-          <div>
-            <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal -mb-0.5">Primary user</p>
-            <Role data={data.primaryUser} />
-          </div>
-          <div>
-            <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal -mb-0.5">
-              {Array.isArray(data.secondaryUser) && data.secondaryUser.length > 1 ? 'Secondary users' : 'Secondary user'}
-            </p>
-            <div className="flex flex-col gap-2">
-              {(Array.isArray(data.secondaryUser) ? data.secondaryUser : [data.secondaryUser]).map((u, i) => (
-                <Role key={i} data={u} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </Block>
-
+      )}
       {problemSection}
-      <div className="mb-6">
-        {opportunityHead}
-      </div>
 
-      <Block label="Workflow">
+      <Block label="Loop">
         <WorkflowComparison current={data.currentWorkflow} legendAiOnly={data.legendAiOnly} />
       </Block>
 

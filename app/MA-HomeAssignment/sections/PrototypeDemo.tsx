@@ -1,5 +1,5 @@
 // app/MA-HomeAssignment/sections/PrototypeDemo.tsx
-// Section 8 — Prototype demo. Links to the interactive Change Validation
+// Section 8 — Prototype demo. Links to the interactive Hometown
 // prototype (a full-screen route that simulates the flow inside Autodesk Forma).
 
 import Section from './Section'
@@ -7,10 +7,10 @@ import DemoVideo from './DemoVideo'
 
 export default function PrototypeDemo() {
   return (
-    <Section id="prototype" eyebrow="Prototype demo" title="Change Validation, interactive">
+    <Section id="prototype" eyebrow="Prototype demo" title="Hometown, interactive">
       <div className="max-w-2xl flex flex-col gap-4">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          An interactive concept prototype of Change Validation, designed to feel embedded within
+          An interactive concept prototype of Hometown, designed to feel embedded within
           Autodesk Forma. Upload a revised drawing, validate detected object-level changes before
           submission, and submit a higher-quality revision for review.
         </p>

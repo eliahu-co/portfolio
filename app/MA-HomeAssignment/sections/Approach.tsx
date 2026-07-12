@@ -22,9 +22,9 @@ export default function Approach() {
           bidding workflows, where stakeholders often have competing incentives.
         </p>
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          The resulting use cases span design review, construction execution, coordination, and owner
-          governance, allowing evaluation of the AI Drawing Analyzer across different users, project
-          phases, and business outcomes. Each use case was analyzed using a common framework to enable
+          The resulting opportunities span design review, construction execution, and coordination,
+          allowing evaluation of the AI Drawing Analyzer across different users, project
+          phases, and business outcomes. Each opportunity was analyzed using a common framework to enable
           apples-to-apples comparison during prioritization.
         </p>
       </div>

@@ -1,13 +1,13 @@
 // app/MA-HomeAssignment/sections/useCaseData.ts
-// Content for the three use-case blocks. Edit copy here without touching layout.
-// Use Cases 2 & 3 are placeholders (TODO) following the same structure.
+// Content for the three feature blocks. Edit copy here without touching layout.
 
 import type { UseCaseData } from './UseCase'
 
 export const USE_CASE_1: UseCaseData = {
-  id:      'use-case-1',
-  eyebrow: 'Use Case 1',
-  title:   'Change Validation\n("Drawing Pull Requests")',
+  id:      'feature-1',
+  eyebrow: 'Feature 1',
+  title:   'Hometown',
+  conceptAsSubtitle: true,
 
   constructionPhase: {
     name: 'Project Conception, Design & Planning / Building Permits',
@@ -27,26 +27,20 @@ export const USE_CASE_1: UseCaseData = {
   },
 
   problem: {
-    intro: 'Designers frequently introduce unintended changes while modifying complex drawings.',
-    consequences: [
-      'Reviewers spend time identifying changes rather than evaluating design decisions',
-      'Additional review cycles are required when unintended changes are discovered late',
-      'Designers receive feedback after they have already switched context to other work',
-    ],
+    heading: 'Concept',
+    intro: 'Villages show progression, but not ownership: every player builds the same five items, then leaves them behind. Hometown gives that progress a permanent, personal display.',
+    body: 'Using the familiar five-slot Village layout, players can mix items unlocked from completed Villages. The first build in each slot is free; constructing a new item later costs Coins and grants a small, non-stackable discount on the next Village upgrade. Built items remain available for free rearrangement. Players can also customize the setting with backdrops unlocked through Village progression, or purchase. Friends can visit, react, and share the result.',
+    consequences: [],
   },
 
   currentWorkflow: {
-    stat: 'Repeated review cycles',
+    stat: 'Self-reinforcing loop',
+    loop: true,
     steps: [
-      { label: 'Uploads modified drawing' },
-      { label: '(optional) Checks for mistakes manually', note: 'Mistake not caught' },
-      { label: 'Submits for review', emphasis: true },
-      { label: 'Reviewer identifies unintended changes', kind: 'catch', actor: 'reviewer', note: 'Caught late — at human review' },
-      { label: 'Review sent back to initiator', kind: 'reject' },
-      { label: 'Uploads modified drawing' },
-      { label: '(optional) Checks for mistakes manually' },
-      { label: 'Submits for review again', kind: 'repeat', note: 'Second review round' },
-      { label: 'Review approved', kind: 'approve', actor: 'reviewer', note: 'Multiple rounds review' },
+      { label: 'Complete Villages', coreLoop: true },
+      { label: 'Unlock Hometown items' },
+      { label: 'Spend Coins to construct new Hometown items' },
+      { label: 'Receive a discount on the next Village upgrade' },
     ],
   },
   proposedWorkflow: {
@@ -64,57 +58,50 @@ export const USE_CASE_1: UseCaseData = {
   },
 
   opportunity: {
-    image: '/drawinganalyzer/use-case-1.png',
     statement:
-      'Generate reviewable change sets with visual previews and human-readable descriptions by identifying added, removed, and modified objects across revisions rather than relying on sheet-level comparison.',
+      'A permanent, customizable town built from items the player has unlocked across Coin Master’s Villages.',
   },
 
   value: [
     {
+      title: 'Expression and Ownership',
+      body: 'A permanent space that feels personal.',
+    },
+    {
+      title: 'Lasting Progression',
+      body: 'Completed Village items remain useful after the player advances.',
+    },
+    {
+      title: 'Social Value',
+      body: 'Visits, reactions, and shareable snapshots give customization an audience.',
+    },
+    {
       primary: true,
-      title: 'Fewer Review Cycles',
-      body: 'Catch unintended changes before submission, reducing rejected revisions and resubmissions.',
-    },
-    {
-      title: 'Reduced Context Switching',
-      body: 'Reduces rework after attention has shifted to other tasks.',
-    },
-    {
-      title: 'Faster Approvals',
-      body: 'Higher-quality submissions improve first-pass approval rates.',
-    },
-    {
-      title: 'Reduced Reviewer Effort',
-      body: 'Reviewers can focus on evaluating design decisions rather than identifying changes.',
-    },
-    {
-      title: 'Structured Change History',
-      body: 'Creates a consistent record of design changes across revisions.',
+      title: 'Business Value',
+      body: 'A new Coin sink and a new cosmetic spend surface.',
     },
   ],
 
   tradeoffs: [
     {
       primary: true,
-      title: 'False Confidence',
-      body: 'Users may rely on generated change reviews despite incomplete detection.',
+      title: 'Core Cannibalization',
+      body: 'Players may redirect existing Coins from Village progression instead of purchasing more Spins.',
     },
     {
-      title: 'Change Noise',
-      body: 'Excessive low-value changes may make important updates harder to identify.',
+      title: 'Paying Twice',
+      body: 'Players may feel charged again for items they already completed.',
     },
     {
-      title: 'Workflow Friction',
-      body: 'Additional review steps may reduce adoption if the perceived value is low.',
+      title: 'Weak Cosmetic Demand',
+      body: 'Customization has limited value without an audience.',
     },
   ],
-
-  tradeoff: { gain: 'Fewer review cycles', cost: 'Added pre-submission validation step' },
 }
 
 export const USE_CASE_2: UseCaseData = {
-  id:      'use-case-2',
-  eyebrow: 'Use Case 2',
+  id:      'feature-2',
+  eyebrow: 'Feature 2',
   title:   'RFI Context Link',
 
   constructionPhase: {
@@ -228,8 +215,8 @@ export const USE_CASE_2: UseCaseData = {
 }
 
 export const USE_CASE_3: UseCaseData = {
-  id:      'use-case-3',
-  eyebrow: 'Use Case 3',
+  id:      'feature-3',
+  eyebrow: 'Feature 3',
   title:   'Cross-Discipline Coordination Lock',
 
   constructionPhase: {
@@ -335,105 +322,4 @@ export const USE_CASE_3: UseCaseData = {
   ],
 
   tradeoff: { gain: 'Persistent dependency tracking', cost: 'Additional coordination setup effort' },
-}
-
-export const USE_CASE_4: UseCaseData = {
-  id:      'use-case-4',
-  eyebrow: 'Use Case 4',
-  title:   'Program Conformance Review',
-
-  constructionPhase: {
-    name: 'Project Conception, Design & Planning / Pre-Construction',
-    description:
-      'Design proposals are evaluated and refined before construction begins, requiring alignment with owner expectations and project goals.',
-  },
-
-  primaryUser: {
-    pill: 'Owner',
-    role: 'Developer / Standards Lead / Program Manager',
-    description: 'Validates submitted designs against organizational requirements, standards, and project programs.',
-  },
-  secondaryUser: {
-    pill: 'Designer',
-    role: 'Architect',
-    description: 'Designs against program requirements and may perform self-validation before submission.',
-  },
-
-  problem: {
-    intro: 'Validating that submitted designs conform to owner-defined requirements and standards is largely a manual review process. Requirements such as room counts, areas, adjacencies, equipment, accessibility, and design standards often require manual verification.',
-    consequences: [
-      'Reviewers spend time verifying objective criteria rather than evaluating design quality and intent',
-      'Standards are applied inconsistently across reviewers and projects',
-      'Design deviations are often discovered late, increasing review cycles and rework',
-      'Standards teams become bottlenecks as project volume grows',
-    ],
-  },
-
-  opportunity: {
-    image: '/drawinganalyzer/use-case-4.png',
-    statement:
-      'Automatically validate submitted designs against owner-defined program requirements and standards. This creates a reusable foundation for standards enforcement and prototype validation across projects.',
-  },
-
-  legendAiOnly: true,
-
-  currentWorkflow: {
-    stat: 'Review time spent on verification',
-    steps: [
-      { label: 'Defines program requirements' },
-      { label: 'Architect submits design', actor: 'designer' },
-      { label: 'Verifies requirements manually', note: 'Manual validation creates bottlenecks' },
-      { label: 'Reviews design quality and intent' },
-      { label: 'Standards applied inconsistently', kind: 'reject' },
-      { label: 'Review capacity scales with reviewer effort', kind: 'reject' },
-    ],
-  },
-  proposedWorkflow: {
-    stat: 'Review time spent on design quality',
-    steps: [
-      { label: 'Defines structured program criteria' },
-      { label: 'Architect submits design', actor: 'designer' },
-      { label: 'Program Conformance Review generated', kind: 'ai', note: 'Rooms, Areas, Adjacencies, Equipment' },
-      { label: 'Reviews exceptions and deviations', note: 'Focuses on design quality and intent' },
-      { label: 'Consistent standards enforcement at scale', kind: 'approve' },
-    ],
-  },
-
-  value: [
-    {
-      primary: true,
-      title: 'Consistent Standards Enforcement',
-      body: 'Applies the same review criteria across projects and reviewers.',
-    },
-    {
-      title: 'Faster Reviews',
-      body: 'Reduces manual verification of objective requirements.',
-    },
-    {
-      title: 'Earlier Feedback',
-      body: 'Identifies deviations before formal review, reducing downstream rework.',
-    },
-    {
-      title: 'Scalable Review Process',
-      body: 'Enables more projects to be reviewed without proportional growth in review effort.',
-    },
-  ],
-
-  tradeoffs: [
-    {
-      primary: true,
-      title: 'Structured Criteria Adoption',
-      body: 'Creating and maintaining structured review criteria requires upfront organizational investment.',
-    },
-    {
-      title: 'False Confidence',
-      body: 'Reviewers may assume all requirements have been evaluated, even when some remain outside the system’s scope.',
-    },
-    {
-      title: 'Standards Rigidity',
-      body: 'Over-reliance on automated validation may discourage appropriate design variation.',
-    },
-  ],
-
-  tradeoff: { gain: 'Scalable reviews', cost: 'Upfront criteria definition and maintenance' },
 }

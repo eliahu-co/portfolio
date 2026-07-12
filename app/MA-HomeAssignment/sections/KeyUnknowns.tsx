@@ -6,7 +6,7 @@ import Section from './Section'
 
 const VARIABLES = [
   { label: 'Accuracy', body: 'What confidence threshold should be required before a detected change is surfaced to the user?' },
-  { label: 'Latency',  body: 'What response time is required for Change Validation to fit naturally into the review submission workflow?' },
+  { label: 'Latency',  body: 'What response time is required for Hometown to fit naturally into the review submission workflow?' },
   { label: 'Cost',     body: 'Can change validation run on every review initiated while remaining economically viable at project scale?' },
 ]
 

@@ -12,7 +12,7 @@ import SideNav from './SideNav'
 import Hero from './sections/Hero'
 import Intro from './sections/Intro'
 import UseCase from './sections/UseCase'
-import { USE_CASE_1, USE_CASE_2, USE_CASE_3, USE_CASE_4 } from './sections/useCaseData'
+import { USE_CASE_1, USE_CASE_2, USE_CASE_3 } from './sections/useCaseData'
 import Prioritization from './sections/Prioritization'
 import MVP from './sections/MVP'
 import PrototypeDemo from './sections/PrototypeDemo'
@@ -31,7 +31,7 @@ const OG_IMAGE = 'https://eliahu.co/drawinganalyzer/ha-drawing-analyzer-poster.j
 
 export const metadata: Metadata = {
   title: 'AI Drawing Analyzer — Product Strategy · Eliahu Cohen',
-  description: 'Four product opportunities for AI Drawing Analyzer, from concept to interactive prototype.',
+  description: 'Three product features for AI Drawing Analyzer, from concept to interactive prototype.',
   // assignment deliverable — keep out of search engines and AI crawlers
   robots: {
     index: false,
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'AI Drawing Analyzer — Product Strategy',
-    description: 'Four product opportunities for AI Drawing Analyzer, from concept to interactive prototype.',
+    description: 'Three product features for AI Drawing Analyzer, from concept to interactive prototype.',
     url: 'https://eliahu.co/MA-HomeAssignment',
     type: 'article',
     images: [{ url: OG_IMAGE, width: 1212, height: 681, alt: 'AI Drawing Analyzer' }],
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'AI Drawing Analyzer — Product Strategy',
-    description: 'Four product opportunities for AI Drawing Analyzer, from concept to interactive prototype.',
+    description: 'Three product features for AI Drawing Analyzer, from concept to interactive prototype.',
     images: [OG_IMAGE],
   },
 }
@@ -68,7 +68,6 @@ export default function MAHomeAssignmentPage() {
             <UseCase data={USE_CASE_1} />
             <UseCase data={USE_CASE_2} />
             <UseCase data={USE_CASE_3} />
-            <UseCase data={USE_CASE_4} />
             <Prioritization />
             <MVP />
             <PrototypeDemo />
