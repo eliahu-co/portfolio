@@ -33,5 +33,5 @@ it('renders the current workflow and the concept mockup in each feature', () => 
   render(<MAHomeAssignmentPage />)
   const feature1 = document.getElementById('feature-1')!
   // concept mockup image sits beside the current workflow
-  expect(feature1.querySelector('img[src="/coinmaster/placeholder.jpg"]')).not.toBeNull()
+  expect(feature1.querySelector('img[src="/coinmaster/feature1.png"]')).not.toBeNull()
 })

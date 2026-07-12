@@ -8,6 +8,7 @@ export const USE_CASE_1: UseCaseData = {
   eyebrow: 'Feature 1',
   title:   'Hometown',
   conceptAsSubtitle: true,
+  mockup:  '/coinmaster/feature1.png',
 
   constructionPhase: {
     name: 'Project Conception, Design & Planning / Building Permits',

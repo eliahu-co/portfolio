@@ -49,6 +49,7 @@ export interface UseCaseData {
   eyebrow: string // e.g. 'Feature 1'
   title:   string // e.g. 'AI-Assisted Design Revision Validation'
   conceptAsSubtitle?: boolean // render opportunity.statement as the title subtitle instead of a Concept block
+  mockup?: string // concept mockup image beside the loop (defaults to the placeholder)
 
   constructionPhase: { name: string; description: string }
   primaryUser:   NamedRole
@@ -145,22 +146,22 @@ function OpportunityText({ opp }: { opp: UseCaseData['opportunity'] }) {
 // Framed concept mockup shown beside the "current" workflow, in place of the
 // proposed lane. Rounded frame with a wood stroke and a hard drop edge — the
 // same treatment as the pills.
-const MOCKUP_SRC = '/coinmaster/placeholder.jpg'
-function MockupFrame() {
+const DEFAULT_MOCKUP = '/coinmaster/placeholder.jpg'
+function MockupFrame({ src = DEFAULT_MOCKUP }: { src?: string }) {
   return (
     <div className="mx-auto max-w-[240px] overflow-hidden rounded-2xl border-2 border-cm-wood/50 shadow-[0_3px_0_rgba(144,57,0,0.28)]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={MOCKUP_SRC} alt="Coin Master concept mockup" className="block w-full h-auto" />
+      <img src={src} alt="Coin Master concept mockup" className="block w-full h-auto" />
     </div>
   )
 }
 
-// Filled yellow warning triangle with a white exclamation — marks the primary
-// risk card.
+// Filled crimson warning triangle with a white exclamation — marks the primary
+// risk card (matches the risk-card crimson accent).
 function WarningBadge() {
   return (
     <svg viewBox="0 0 16 16" className="inline-block w-3 h-3 align-middle" fill="none" aria-hidden="true">
-      <path d="M8 1.8 L14.7 13.6 Q15 14.2 14.3 14.2 H1.7 Q1 14.2 1.3 13.6 Z" fill="#f4b400" />
+      <path d="M8 1.8 L14.7 13.6 Q15 14.2 14.3 14.2 H1.7 Q1 14.2 1.3 13.6 Z" fill="#C8102E" />
       <rect x="7.3" y="5.8" width="1.4" height="4.2" rx="0.7" fill="#fff" />
       <circle cx="8" cy="11.6" r="0.9" fill="#fff" />
     </svg>
@@ -429,14 +430,14 @@ function Lane({ workflow, proposed }: { workflow: Workflow; proposed: boolean })
 
 // One workflow per use case: the "current" lane on the left, and the concept
 // mockup image on the right (in place of the old "proposed" lane).
-function WorkflowComparison({ current, legendAiOnly }: { current: Workflow; legendAiOnly?: boolean }) {
+function WorkflowComparison({ current, legendAiOnly, mockup }: { current: Workflow; legendAiOnly?: boolean; mockup?: string }) {
   return (
     <div className="grid grid-cols-2 gap-x-4 md:gap-x-6 items-start">
       <div>
         <Lane workflow={current} proposed={false} />
         <Legend current={current} proposed={current} aiOnly={legendAiOnly} />
       </div>
-      <MockupFrame />
+      <MockupFrame src={mockup} />
     </div>
   )
 }
@@ -487,7 +488,7 @@ export default function UseCase({ data }: { data: UseCaseData }) {
       {problemSection}
 
       <Block label="Loop">
-        <WorkflowComparison current={data.currentWorkflow} legendAiOnly={data.legendAiOnly} />
+        <WorkflowComparison current={data.currentWorkflow} legendAiOnly={data.legendAiOnly} mockup={data.mockup} />
       </Block>
 
       <Block label="Value delivered">
