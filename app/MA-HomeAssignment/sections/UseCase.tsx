@@ -432,7 +432,7 @@ function Lane({ workflow, proposed }: { workflow: Workflow; proposed: boolean })
 // mockup image on the right (in place of the old "proposed" lane).
 function WorkflowComparison({ current, legendAiOnly, mockup }: { current: Workflow; legendAiOnly?: boolean; mockup?: string }) {
   return (
-    <div className="grid grid-cols-2 gap-x-4 md:gap-x-6 items-start">
+    <div className="grid grid-cols-2 gap-x-7 md:gap-x-6 items-start">
       <div>
         <Lane workflow={current} proposed={false} />
         <Legend current={current} proposed={current} aiOnly={legendAiOnly} />

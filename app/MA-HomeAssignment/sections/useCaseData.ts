@@ -103,7 +103,9 @@ export const USE_CASE_1: UseCaseData = {
 export const USE_CASE_2: UseCaseData = {
   id:      'feature-2',
   eyebrow: 'Feature 2',
-  title:   'RFI Context Link',
+  title:   'Card Bounty',
+  conceptAsSubtitle: true,
+  mockup:  '/coinmaster/feature2.png',
 
   constructionPhase: {
     name: 'Construction',
@@ -130,26 +132,22 @@ export const USE_CASE_2: UseCaseData = {
   ],
 
   problem: {
-    intro:
-      'Field teams often struggle to provide complete context when creating RFIs. Work is performed at the construction site, often from mobile devices, under time pressure.',
-    consequences: [
-      'RFIs are submitted with incomplete context, leading to clarification requests and longer resolution cycles',
-      'Construction work may be delayed while waiting for answers, particularly when RFIs affect critical-path activities',
-      'Teams spend additional time investigating and re-establishing context that could have been captured during RFI creation',
-    ],
+    heading: 'Concept',
+    intro: 'Card Collections create high intent near completion, but little control: players may keep opening Chests without finding the Card they need. Card Bounty turns that uncertainty into visible progress.',
+    body: 'During the event, players choose any eligible missing Card. Each Chest open increases its drop chance and fills a visible meter; higher-value Chests add more progress, and rarer Cards require more. Completing the meter guarantees the target. If the Card is acquired earlier through a Chest or trade, progress transfers to another target.',
+    consequences: [],
   },
 
   currentWorkflow: {
-    stat: 'Repeated RFI cycles',
+    stat: 'Guaranteed target Card',
+    loop: true,
     steps: [
-      { label: 'Identifies issue onsite' },
-      { label: 'Initiates RFI' },
-      { label: 'Describes issue using text or voice' },
-      { label: '(Optional) Attaches photo and files' },
-      { label: 'Submits RFI', emphasis: true },
-      { label: 'Designer investigates issue', actor: 'designer', emphasis: true, note: 'Attempts to reconstruct context' },
-      { label: 'Designer requests clarification', kind: 'catch', actor: 'designer', note: 'Incomplete context' },
-      { label: 'RFI cycle restarts', kind: 'repeat' },
+      { label: 'Use Spins to earn Coins', coreLoop: true },
+      { label: 'Choose a missing Card' },
+      { label: 'Spend Coins to open Chests' },
+      { label: 'Increase the target’s drop chance and fill the Bounty meter' },
+      { label: 'Claim the target Card and progress the Collection' },
+      { label: 'Complete the Collection to earn Spins' },
     ],
   },
   proposedWorkflow: {
@@ -166,53 +164,41 @@ export const USE_CASE_2: UseCaseData = {
   },
 
   opportunity: {
-    image: '/drawinganalyzer/use-case-2.png',
-    imageAside: true,
     statement:
-      'Automatically connect RFIs to the relevant drawings, objects, schedules, specifications, and locations by identifying the project elements referenced in the issue description and linking them to structured drawing data. This capability can later support punch items, observations, and other issue-management workflows.',
+      'A limited LiveOps event that gives players a visible path to a missing Card.',
   },
 
   value: [
     {
       primary: true,
-      title: 'Improved Field Productivity',
-      body: 'Less time waiting for answers and more time progressing work.',
+      title: 'Business Value',
+      body: 'A high-intent Coin sink that increases demand for Chests, Spins, and related offers.',
     },
     {
-      title: 'Faster Issue Resolution',
-      body: 'Reduces clarification cycles and accelerates responses to field issues.',
+      title: 'Player Agency',
+      body: 'Players choose the Card they value instead of relying only on random drops.',
     },
     {
-      title: 'Higher-Quality RFIs',
-      body: 'Improves the completeness and consistency of submitted RFIs.',
-    },
-    {
-      title: 'Reduced Investigation Effort',
-      body: 'Reduces the effort required to understand and resolve issues.',
+      title: 'Visible Progress',
+      body: 'Every Chest moves the player closer to a guaranteed result.',
     },
   ],
 
   tradeoffs: [
     {
       primary: true,
-      title: 'Incorrect Context Association',
-      body: 'Suggested context may be incorrect, leading to confusion and misdirected investigation.',
+      title: 'System Cannibalization',
+      body: 'Targeted Cards may reduce the value of Joker Cards, trading, and Cards for Chests.',
     },
     {
-      title: 'Natural Language Ambiguity',
-      body: 'Some issue descriptions may not provide enough information to identify a single, reliable match.',
+      title: 'Collection Inflation',
+      body: 'Guaranteed rare Cards may shorten Collection completion and release rewards faster than intended.',
     },
     {
-      title: 'False Confidence',
-      body: 'Users may trust generated context without verification, increasing the risk of inaccurate RFIs.',
-    },
-    {
-      title: 'Workflow Noise',
-      body: 'Excessive low-confidence suggestions may reduce trust and adoption over time.',
+      title: 'Spend Shifting',
+      body: 'Players may save Coins and Chest openings for Bounty windows instead of increasing total spend.',
     },
   ],
-
-  tradeoff: { gain: 'Faster issue resolution', cost: 'Occasional incorrect context associations' },
 }
 
 export const USE_CASE_3: UseCaseData = {

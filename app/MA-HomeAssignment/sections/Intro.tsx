@@ -6,10 +6,10 @@
 
 import CoreLoopDiagram from './CoreLoopDiagram'
 
-const CAPABILITIES: { useCase: string; user: string }[] = [
-  { useCase: 'Hometown',                   user: 'Designer' },
-  { useCase: 'Context Link',               user: 'Field Team' },
-  { useCase: 'Coordination Lock',          user: 'BIM/VDC' },
+const FEATURES: { feature: string; motive: string }[] = [
+  { feature: 'Hometown',                           motive: 'Customization mechanic' },
+  { feature: 'Card Bounty',                        motive: 'Collection' },
+  { feature: 'Cross-Discipline Coordination Lock', motive: '—' },
 ]
 
 export default function Intro() {
@@ -29,16 +29,16 @@ export default function Intro() {
         <thead>
           <tr className="border-b border-charcoal/15">
             <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pr-4">Feature</th>
-            <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pl-4">User</th>
+            <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pl-4">Monetization motive</th>
           </tr>
         </thead>
         <tbody>
-          {CAPABILITIES.map(({ useCase, user }, i) => (
-            <tr key={useCase} className="border-b border-charcoal/15">
+          {FEATURES.map(({ feature, motive }, i) => (
+            <tr key={feature} className="border-b border-charcoal/15">
               <td className="font-sans text-[13px] text-charcoal py-2.5 pr-4">
-                <span className="mr-1.5">{i + 1}.</span>{useCase}
+                <span className="mr-1.5">{i + 1}.</span>{feature}
               </td>
-              <td className="font-sans text-[13px] text-charcoal py-2.5 pl-4">{user}</td>
+              <td className="font-sans text-[13px] text-charcoal py-2.5 pl-4">{motive}</td>
             </tr>
           ))}
         </tbody>
