@@ -143,11 +143,12 @@ export const USE_CASE_2: UseCaseData = {
     loop: true,
     steps: [
       { label: 'Use Spins to earn Coins', coreLoop: true },
-      { label: 'Choose a missing Card' },
+      { label: 'Identify a Card Collection to complete for Spin rewards' },
+      { label: 'Choose a missing Card from that Collection' },
       { label: 'Spend Coins to open Chests' },
-      { label: 'Increase the target’s drop chance and fill the Bounty meter' },
-      { label: 'Claim the target Card and progress the Collection' },
-      { label: 'Complete the Collection to earn Spins' },
+      { label: 'Increase the Card’s drop chance and fill the Bounty meter' },
+      { label: 'Claim the Card and progress the Collection' },
+      { label: 'Complete the Collection and receive Spins' },
     ],
   },
   proposedWorkflow: {
