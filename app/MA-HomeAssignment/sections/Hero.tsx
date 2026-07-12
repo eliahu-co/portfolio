@@ -22,7 +22,7 @@ export default function Hero() {
       {/* mirrors the body's sidebar grid so the title lines up with the content below */}
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-9 md:grid md:grid-cols-[180px_1fr] md:gap-16">
         <div className="hidden md:block" aria-hidden="true" />
-        <div className="relative min-w-0">
+        <div className="relative min-w-0 text-center md:text-left">
           {/* Coin Master logo at the right edge of the content column — desktop
               only, so it never overlaps the header text on mobile */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -35,9 +35,23 @@ export default function Hero() {
           <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-[#0F3D54] mb-4">
             Product Manager · Home Assignment
           </p>
+          {/* Coin Master logo — mobile only: below the eyebrow, above the title */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/coinmaster/coinmaster-logo.webp"
+            alt="Coin Master"
+            className="pointer-events-none block md:hidden drop-shadow-lg mb-4 mx-auto"
+            style={{ height: 120, width: 'auto' }}
+          />
 
           <h1
-            className={`${lilita.className} text-[clamp(20px,4.2vw,42px)] whitespace-nowrap leading-[1.02] text-cm-gold-bright mb-6 [text-shadow:0_3px_0_#B7202E,0_5px_12px_rgba(0,0,0,0.35)]`}
+            className={`${lilita.className} text-[clamp(22px,4.2vw,42px)] whitespace-nowrap leading-[1.02] text-cm-gold-bright mb-6`}
+            style={{
+              // dark-crimson outline ring (readability on the light sky) + red 3D
+              // drop + soft shadow — mirrors the Coin Master gold wordmark
+              textShadow:
+                '-1px -1px 0 #7A1810, 0 -1px 0 #7A1810, 1px -1px 0 #7A1810, 1px 0 0 #7A1810, 1px 1px 0 #7A1810, 0 1px 0 #7A1810, -1px 1px 0 #7A1810, -1px 0 0 #7A1810, 0 3px 0 #B7202E, 0 6px 14px rgba(0,0,0,0.4)',
+            }}
           >
             Increasing ARPDAU
             <span className="block font-sans font-normal whitespace-normal text-[clamp(14px,1.8vw,18px)] text-[#0F3D54] mt-2 [text-shadow:none]">
@@ -45,7 +59,7 @@ export default function Hero() {
             </span>
           </h1>
 
-          <p className="font-sans text-[11px] uppercase tracking-[0.12em] text-[#0F3D54] border-t-2 border-[#0F3D54]/25 pt-3 max-w-2xl flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+          <p className="font-sans text-[11px] uppercase tracking-[0.12em] text-[#0F3D54] border-t-2 border-[#0F3D54]/25 pt-3 max-w-2xl flex flex-wrap items-baseline justify-center md:justify-between gap-x-6 gap-y-1">
             <span>Eliahu Cohen</span>
             <a href="tel:+972528901495" className="no-underline text-[#1E7BA8] hover:text-cm-crimson transition-colors">+972 52 8901495</a>
             <a href="mailto:hi@eliahu.co" className="no-underline text-[#1E7BA8] hover:text-cm-crimson transition-colors">hi@eliahu.co</a>
