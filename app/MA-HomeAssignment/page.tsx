@@ -25,7 +25,7 @@ import AssumptionsSources from './sections/AssumptionsSources'
 const nunito = Nunito({ subsets: ['latin'], variable: '--font-cm-display', display: 'swap' })
 const nunitoSans = Nunito_Sans({ subsets: ['latin'], variable: '--font-cm-body', display: 'swap' })
 
-const OG_IMAGE = 'https://eliahu.co/drawinganalyzer/ha-drawing-analyzer-poster.jpg'
+const OG_IMAGE = 'https://eliahu.co/coinmaster/OGMiniature.jpg'
 
 export const metadata: Metadata = {
   title: 'Increasing ARPDAU - PM Home Assignment by Eliahu Cohen',
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     description: 'Three feature concepts, one expanded to MVP',
     url: 'https://eliahu.co/MA-HomeAssignment',
     type: 'article',
-    images: [{ url: OG_IMAGE, width: 1212, height: 681, alt: 'AI Drawing Analyzer' }],
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: 'Increasing ARPDAU — PM Home Assignment' }],
   },
   twitter: {
     card: 'summary_large_image',
