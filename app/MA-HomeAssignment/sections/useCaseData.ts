@@ -9,6 +9,8 @@ export const USE_CASE_1: UseCaseData = {
   title:   'Hometown',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature1.png',
+  arpdauMechanism:
+    'Creates an additional Coin sink and premium spend surfaces through backdrops and animated or special variants. Social visibility increases the value of owning them. New cosmetic spend surface.',
 
   constructionPhase: {
     name: 'Project Conception, Design & Planning / Building Permits',
@@ -77,16 +79,10 @@ export const USE_CASE_1: UseCaseData = {
       title: 'Social Value',
       body: 'Visits, reactions, and shareable snapshots give customization an audience.',
     },
-    {
-      primary: true,
-      title: 'Business Value',
-      body: 'A new Coin sink and a new cosmetic spend surface.',
-    },
   ],
 
   tradeoffs: [
     {
-      primary: true,
       title: 'Core Cannibalization',
       body: 'Players may redirect existing Coins from Village progression instead of purchasing more Spins.',
     },
@@ -107,6 +103,8 @@ export const USE_CASE_2: UseCaseData = {
   title:   'Card Bounty',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature2.png',
+  arpdauMechanism:
+    'Creates high Chest demand. Converts near-completion intent into more Coin-purchased Chest openings, increasing Coin consumption and demand for existing Spin and Coin offers.',
 
   constructionPhase: {
     name: 'Construction',
@@ -172,11 +170,6 @@ export const USE_CASE_2: UseCaseData = {
 
   value: [
     {
-      primary: true,
-      title: 'Business Value',
-      body: 'A high-intent Coin sink that increases demand for Chests, Spins, and related offers.',
-    },
-    {
       title: 'Player Agency',
       body: 'Players choose the Card they value instead of relying only on random drops.',
     },
@@ -188,7 +181,6 @@ export const USE_CASE_2: UseCaseData = {
 
   tradeoffs: [
     {
-      primary: true,
       title: 'System Cannibalization',
       body: 'Targeted Cards may reduce the value of Joker Cards, trading, and Cards for Chests.',
     },
@@ -209,6 +201,8 @@ export const USE_CASE_3: UseCaseData = {
   title:   'Hot Trail',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature3.png',
+  arpdauMechanism:
+    'Higher Spin consumption. Reaching the Counter-Raid requires returning to the Spinner and landing a Raid, increasing session depth and exposure to existing offers.',
 
   constructionPhase: {
     name: 'Design Coordination / Pre-Construction',
@@ -265,13 +259,8 @@ export const USE_CASE_3: UseCaseData = {
 
   value: [
     {
-      primary: true,
       title: 'Urgent Return Trigger',
       body: 'Turns a completed Raid into a time-limited reason to reopen the game.',
-    },
-    {
-      title: 'More Spin Consumption',
-      body: 'Reaching the Counter-Raid requires returning to the Spinner and landing a Raid, increasing session depth and exposure to existing offers.',
     },
     {
       title: 'Agency After Loss',
@@ -281,7 +270,6 @@ export const USE_CASE_3: UseCaseData = {
 
   tradeoffs: [
     {
-      primary: true,
       title: 'Retaliation Loops',
       body: 'Counter-Raids could generate repeated retaliation between the same players.',
     },
