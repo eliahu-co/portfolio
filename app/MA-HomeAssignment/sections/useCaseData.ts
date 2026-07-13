@@ -29,8 +29,9 @@ export const USE_CASE_1: UseCaseData = {
 
   problem: {
     heading: 'Concept',
-    intro: 'Villages show progression, but not ownership: every player builds the same five items, then leaves them behind. Hometown gives that progress a permanent, personal display.',
-    body: 'Using the familiar five-slot Village layout, players can mix items unlocked from completed Villages. The first build in each slot is free; constructing a new item later costs Coins and grants a small, non-stackable discount on the next Village upgrade. Built items remain available for free rearrangement. Players can also customize the setting with backdrops unlocked through Village progression, or purchase. Friends can visit, react, and share the result.',
+    intro: 'Villages show progression, but not ownership: every player builds the same five items and leaves them behind. Hometown turns completed Village items into a permanent, personal display and gives friend visits a purpose.',
+    body: 'Players use the familiar five-slot layout to mix items unlocked from completed Villages. The first item in each slot is free. Constructing another item costs Coins, but once built it remains available for free rearrangement. Each paid construction grants a small, time-limited, non-stackable discount on the next Village upgrade. Backdrops and animated variants are unlocked through progression, LiveOps or purchase.',
+    body2: 'Friends can visit, see the player’s Stars, current Village and Team, send the existing daily Gift, and leave a reaction. Visitors can also inspect displayed items to see where they were unlocked or access an available premium variant.',
     consequences: [],
   },
 

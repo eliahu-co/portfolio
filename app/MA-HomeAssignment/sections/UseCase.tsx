@@ -60,6 +60,7 @@ export interface UseCaseData {
     intro:        string
     examples?:    string[]
     body?:        string   // optional paragraph after the examples, before "As a result"
+    body2?:       string   // optional third concept paragraph
     consequences: string[]
   }
 
@@ -457,6 +458,7 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         </>
       )}
       {data.problem.body && <div className="mt-3"><Para>{data.problem.body}</Para></div>}
+      {data.problem.body2 && <div className="mt-3"><Para>{data.problem.body2}</Para></div>}
       {data.problem.consequences.length > 0 && (
         <>
           <MiniLabel>As a result</MiniLabel>
