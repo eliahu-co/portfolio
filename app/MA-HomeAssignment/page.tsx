@@ -28,8 +28,8 @@ const nunitoSans = Nunito_Sans({ subsets: ['latin'], variable: '--font-cm-body',
 const OG_IMAGE = 'https://eliahu.co/drawinganalyzer/ha-drawing-analyzer-poster.jpg'
 
 export const metadata: Metadata = {
-  title: 'AI Drawing Analyzer — Product Strategy · Eliahu Cohen',
-  description: 'Three product features for AI Drawing Analyzer, from concept to interactive prototype.',
+  title: 'Increasing ARPDAU - PM Home Assignment by Eliahu Cohen',
+  description: 'Three feature concepts, one expanded to MVP',
   // assignment deliverable — keep out of search engines and AI crawlers
   robots: {
     index: false,
@@ -38,16 +38,16 @@ export const metadata: Metadata = {
     googleBot: { index: false, follow: false, noimageindex: true },
   },
   openGraph: {
-    title: 'AI Drawing Analyzer — Product Strategy',
-    description: 'Three product features for AI Drawing Analyzer, from concept to interactive prototype.',
+    title: 'Increasing ARPDAU - PM Home Assignment by Eliahu Cohen',
+    description: 'Three feature concepts, one expanded to MVP',
     url: 'https://eliahu.co/MA-HomeAssignment',
     type: 'article',
     images: [{ url: OG_IMAGE, width: 1212, height: 681, alt: 'AI Drawing Analyzer' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Drawing Analyzer — Product Strategy',
-    description: 'Three product features for AI Drawing Analyzer, from concept to interactive prototype.',
+    title: 'Increasing ARPDAU - PM Home Assignment by Eliahu Cohen',
+    description: 'Three feature concepts, one expanded to MVP',
     images: [OG_IMAGE],
   },
 }
