@@ -135,7 +135,7 @@ export const USE_CASE_2: UseCaseData = {
   problem: {
     heading: 'Concept',
     intro: 'Card Collections create high intent near completion, but little control: players may keep opening Chests without finding the Card they need. Card Bounty turns that uncertainty into visible progress.',
-    body: 'During the event, players choose any eligible missing Card. Each Chest open increases its drop chance and fills a visible meter; higher-value Chests add more progress, and rarer Cards require more. Completing the meter guarantees the target. If the Card is acquired earlier through a Chest or trade, progress transfers to another target.',
+    body: 'During the event, players choose any eligible missing Card. Each Chest open increases its drop chance and fills a visible meter; higher-value Chests add more progress, and rarer Cards require more. Completing the meter guarantees the target. If the target drops from a Chest, the Bounty completes immediately.',
     consequences: [],
   },
 

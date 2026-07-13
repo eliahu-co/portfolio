@@ -22,18 +22,40 @@ export default function Intro() {
       <p className="font-sans pt-3 text-[15px] leading-relaxed text-charcoal">
         With these loops mapped, I looked for opportunities that could increase ARPDAU through greater
         resource demand, payer conversion or a new spend surface. I played Coin Master with a product
-        lens and reviewed official support material, advanced gameplay, player communities and industry
-        analysis. I compared it with Monopoly GO! and Dice Dreams, then looked at Royal Match and
-        Whiteout Survival for cross-genre approaches to collections, guarantees, customization, social
-        status, PvP and LiveOps. I set aside concepts that introduced a separate game mode without a
-        clear path back to the core loop.
+        lens, reviewed player communities and industry analysis, and used advanced gameplay and the
+        official support pages to cover systems I had not yet reached. I compared it with Monopoly GO!
+        and Dice Dreams, then looked at Royal Match and Whiteout Survival for cross-genre approaches to
+        collections, guarantees, customization, social status, PvP and LiveOps.
+      </p>
+      <p className="font-sans mt-4 text-[15px] leading-relaxed text-charcoal">
+        I considered a daily Card memory challenge, but set it aside because it would add a separate
+        game mode to an already dense{' '}
+        <a
+          href="https://support.coinmastergame.com/hc/en-us/articles/32009776420626-How-can-I-best-strategize-my-daily-routine-in-Coin-Master"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#1E7BA8] underline underline-offset-2 hover:text-cm-crimson transition-colors"
+        >
+          daily routine
+        </a>
+        , without a direct path back to the core loop or ARPDAU. I also considered a Pet equipment system, but removed it after discovering that a
+        similar mechanic already exists through{' '}
+        <a
+          href="https://support.coinmastergame.com/hc/en-us/articles/16428340470546-What-are-Pet-Outfits"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#1E7BA8] underline underline-offset-2 hover:text-cm-crimson transition-colors"
+        >
+          Pet Outfits
+        </a>
+        .
       </p>
       <p className="font-sans mt-4 text-[15px] leading-relaxed text-charcoal">
         I developed three concepts across different parts of the game. Hometown connects Village
         progression with customization and social visibility. Card Bounty uses collection intent to
         increase Chest demand and Coin consumption. Hot Trail uses loss aversion and urgency to drive
-        return sessions and Spin consumption. I then compared them using ARPDAU impact,
-        core-loop fit, confidence and effort before expanding the strongest opportunity.
+        return sessions and Spin consumption. I then compared them using ARPDAU impact, core-loop fit,
+        confidence and effort before expanding the strongest opportunity.
       </p>
     </div>
   )

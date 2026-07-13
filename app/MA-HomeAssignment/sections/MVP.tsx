@@ -5,71 +5,72 @@ import Section from './Section'
 import { Pill } from './UseCase'
 
 const SCOPE_IN = [
-  'A short, time-limited Card Bounty event within the Cards Center.',
+  'Card Bounty entry point within the Cards Center, with a visible event countdown.',
   'Selection of any eligible missing Card from an unlocked Card Collection.',
-  'The target becomes locked after the first qualifying Chest is opened.',
-  'Coin-purchased Wooden, Golden and Magical Chests advance the meter by +1, +2 and +3, respectively.',
-  'Every qualifying Chest increases the target Card’s drop chance while retaining its normal contents.',
-  'The selected Card is guaranteed when the meter is completed if it has not dropped earlier.',
-  'If the target drops naturally, the Bounty completes immediately.',
-  'If the target is obtained from another source, the player can select another eligible missing Card without losing progress.',
-  'One completed Bounty per player during the event.',
-  'Existing Card Collection rewards remain unchanged.',
+  'One active target at a time.',
+  'Required meter progress scales with Card rarity.',
+  'The target locks when the first Chest contributes to the meter.',
+  'Coin-purchased Chests advance the meter, with higher-value Chests contributing more progress.',
+  'If the targeted Card is obtained from any source before the meter is filled, the player can select another eligible target and the meter resets.',
+  'Filling the meter awards the targeted Card and ends Card Bounty for that player.',
+  'Uncompleted meter progress expires when the event ends.',
 ]
 const SCOPE_OUT = [
-  'Gold, Diamond and Seasonal Cards.',
-  'Chests received from events, Raids, trades or duplicate-Card exchanges contributing to the meter.',
-  'Changing the target after progress begins, unless the target is obtained elsewhere.',
-  'Multiple concurrent Bounties or another target after completion.',
+  'Targeting Gold, Diamond and Seasonal Cards.',
+  'New Chest types or changes to existing Chest prices, contents or Card drop rates.',
   'Purchasing meter progress or the guaranteed Card directly.',
-  'New Chest types, prices or contents.',
   'Event-specific purchase bundles.',
-  'Personalized meter thresholds.',
-  'Team contributions, Card trading or other social mechanics.',
-  'Additional gameplay.',
+  'New team, trading or social mechanics.',
+  'Additional gameplay outside the existing Chest-opening flow.',
 ]
 const METRICS: { kind: string; title: string; body: string; signal?: string }[] = [
   {
     kind: 'Primary outcome',
     title: 'Incremental ARPDAU',
-    body: 'Average daily revenue per eligible active user in the treatment group compared with the control group.',
-    signal: 'Positive and statistically significant lift versus the control group.',
+    body: 'Average daily revenue per active player during the event.',
+    signal: 'Positive lift.',
   },
   {
     kind: 'Economy',
-    title: 'Incremental Chest Coin Spend per Eligible DAU',
-    body: 'Average daily Coins spent on Chests by players eligible for Card Bounty, compared with the control group.',
-    signal: 'Higher than the control group.',
+    title: 'Incremental Chest Coin Spend per DAU',
+    body: 'Average daily Coins spent on Chests per active player during the event.',
+    signal: 'Positive lift.',
   },
   {
     kind: 'Economy',
-    title: 'Total Coin Consumption per Eligible DAU',
-    body: 'Average daily Coins spent across Chests and Village construction.',
-    signal: 'Higher than the control group.',
+    title: 'Total Coin Consumption per DAU',
+    body: 'Average daily Coins spent across all Coin sinks per active player during the event.',
+    signal: 'Positive lift.',
   },
   {
     kind: 'Adoption',
     title: 'Bounty Activation Rate',
-    body: 'Percentage of eligible active players who open at least one Chest through Card Bounty after selecting a target.',
-    signal: 'Meets the activation target established from comparable Chest events.',
+    body: 'Percentage of active treatment players who select a target and open at least one Coin-purchased Chest.',
+    signal: 'Meets or exceeds the predefined activation target.',
   },
   {
     kind: 'Guardrail',
-    title: 'Post-Event Revenue',
-    body: 'Revenue per eligible user during a defined period after the event.',
-    signal: 'Stable in comparison to the control group.',
+    title: 'Post-Event Revenue per Player',
+    body: 'Average revenue per player during the post-event period.',
+    signal: 'Stable or higher.',
   },
   {
     kind: 'Guardrail',
-    title: 'Post-Event Chest Demand',
-    body: 'Chest purchase frequency and Coin spend on Chests during a defined time after the event.',
-    signal: 'Stable or higher than the control group.',
+    title: 'Post-Event Chest Coin Spend per Player',
+    body: 'Average Coins spent on Chests per player during the post-event period.',
+    signal: 'Stable or higher.',
   },
   {
     kind: 'Guardrail',
-    title: 'Village Progression Rate',
-    body: 'Average daily Village upgrades completed by players eligible for Card Bounty during the event and a defined period after it, compared with the control group.',
-    signal: 'Stable across the full measurement period in comparison to the control group.',
+    title: 'Card Collections Completed per Player',
+    body: 'Average number of Card Collections completed per player across the event and post-event period.',
+    signal: 'Increase remains within the predefined tolerance range.',
+  },
+  {
+    kind: 'Guardrail',
+    title: 'Village Upgrades per Player',
+    body: 'Average number of Village upgrades completed per player across the event and post-event period.',
+    signal: 'Stable or higher.',
   },
 ]
 function List({
@@ -104,9 +105,11 @@ export default function MVP() {
   return (
     <Section id="mvp" eyebrow="MVP" title="Scope & metrics">
       <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-6 max-w-2xl">
-        The MVP tests whether choosing a missing Card and receiving increasing certainty drives
-        incremental Coin spend on Chests and ARPDAU without weakening future Chest demand or
-        accelerating Card Collection completion beyond economy targets.
+        The MVP tests whether allowing players to target a missing Card and make visible progress
+        toward a guarantee increases Coin spend on Chests and ARPDAU. For the initial release, Card
+        Bounty runs as a time-limited LiveOps event within the Cards Center, creating urgency while
+        limiting economy exposure. The event duration and balancing parameters would be defined using
+        internal player and economy data.
       </p>
       <div className="grid md:grid-cols-2 gap-x-10 gap-y-8 mb-10 max-w-3xl">
         <List title="In scope" items={SCOPE_IN} marker="✓" markerClass="text-cm-gold" />
@@ -114,7 +117,13 @@ export default function MVP() {
       </div>
 
       <div className="mb-10 max-w-3xl">
-        <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal mb-4">Success metrics</p>
+        <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal mb-3">Success metrics</p>
+        <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-5 max-w-2xl">
+          Eligible players have access to the Cards Center and at least one targetable missing Card at
+          event launch. Event metrics use eligible players active on each day; post-event guardrails
+          use the full eligible group, including players who do not return. Unless stated otherwise,
+          results compare treatment with control. Targets and tolerance ranges are defined in advance.
+        </p>
         <div className="flex flex-col gap-5">
           {METRICS.map(({ kind, title, body, signal }) => (
             <div key={title} className="rounded-[10px] border border-cm-gold/40 border-l-4 border-l-cm-gold bg-gradient-to-b from-[#FFFBF2] to-[#FFF3DC] px-3 py-2.5 shadow-[0_2px_6px_rgba(42,27,84,0.08)]">

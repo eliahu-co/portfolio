@@ -158,7 +158,7 @@ export default function Prioritization() {
                   <td key={i} className="font-sans text-[13px] text-charcoal/70 py-3 px-3 text-center">{s}</td>
                 ))}
                 <td className={`font-sans text-[14px] py-3 pl-3 text-center font-medium ${row.winner ? 'text-cm-crimson' : 'text-black'}`}>
-                  {row.total.toFixed(1)}
+                  {Math.round(row.total)}
                 </td>
               </tr>
               )
@@ -171,18 +171,18 @@ export default function Prioritization() {
         <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-crimson mb-2">Decision</p>
         <div className="flex flex-col gap-3">
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Card Bounty scores highest (33.3) and is the strongest near-term validation candidate. It
+            Card Bounty scores highest (33) and is the strongest near-term validation candidate. It
             extends existing Chest and Card Collection behavior, creates a direct Coin sink, and can be
             tested as a bounded LiveOps event. Its main risk is economy cannibalization: if the
             guarantee is too attainable, it may reduce long-term Chest demand or devalue rare Cards.
           </p>
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Hot Trail ranks second (20.0). It reuses the existing Raid flow and turns a loss into an
+            Hot Trail ranks second (20). It reuses the existing Raid flow and turns a loss into an
             urgent return session and additional Spin consumption. Confidence is lower because
             retaliation may motivate competitive players while frustrating others.
           </p>
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Hometown ranks third (9.0). It connects to Village progression through unlocked items, Coin
+            Hometown ranks third (9). It connects to Village progression through unlocked items, Coin
             spending, and upgrade discounts, but introduces a new customization loop beside the core
             Spin–Coin–Village loop. Its ARPDAU impact depends on social visibility giving customization
             enough value to generate premium purchases. That audience and status loop would take time
