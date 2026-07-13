@@ -7,53 +7,54 @@
 import { useState } from 'react'
 import Section from './Section'
 
-const CRITERIA = ['Impact', 'Platform Leverage', 'Confidence', 'Feasibility']
+const CRITERIA = ['ARPDAU Impact', 'Core-Loop Fit', 'Confidence', 'Effort']
 
 const CRITERIA_DEFS: { title: string; body: string; rubric: [string, string][] }[] = [
   {
-    title: 'Impact',
-    body: 'Magnitude of value delivered if successful.',
+    title: 'ARPDAU Impact',
+    body: 'Potential to increase average daily revenue per active user if successful.',
     rubric: [
-      ['5', 'Significant user and business impact.'],
-      ['3', 'Meaningful but limited impact.'],
-      ['1', 'Nice-to-have improvement.'],
+      ['5', 'Multiple direct monetization levers with significant upside.'],
+      ['3', 'Meaningful but bounded or indirect revenue impact.'],
+      ['1', 'Weak or speculative path to ARPDAU.'],
     ],
   },
   {
-    title: 'Platform Leverage',
-    body: 'Degree to which the feature depends on the unique capabilities of the AI Drawing Analyzer.',
+    title: 'Core-Loop Fit',
+    body: 'Degree to which the feature builds on existing Coin Master mechanics and player behavior.',
     rubric: [
-      ['5', 'Impossible without drawing intelligence.'],
-      ['3', 'Somewhat benefits from it.'],
-      ['1', 'Mostly unrelated.'],
+      ['5', 'Directly reinforces the existing core or meta loop.'],
+      ['3', 'Connects to existing systems but introduces meaningful new behavior.'],
+      ['1', 'Sits largely outside the current loop.'],
     ],
   },
   {
     title: 'Confidence',
-    body: 'Confidence that users will understand, adopt, and realize value from the workflow.',
+    body: 'Strength of the evidence that players will adopt the feature and produce the intended economy and monetization behavior.',
     rubric: [
-      ['5', 'Clear pain point and obvious value.'],
-      ['3', 'Some adoption or behavior-change risk.'],
-      ['1', 'Significant uncertainty around adoption or value.'],
+      ['5', 'Supported by clear player behavior and proven category mechanics.'],
+      ['3', 'Credible hypothesis with adoption or economy risk.'],
+      ['1', 'Limited evidence and significant uncertainty.'],
     ],
   },
   {
-    title: 'Feasibility',
-    body: 'Estimated effort required to deliver a valuable MVP.',
+    title: 'Effort',
+    body: 'Relative product, design, engineering and balancing effort required to deliver a valuable MVP.',
     rubric: [
-      ['5', 'Low effort and limited dependencies.'],
-      ['3', 'Moderate effort or coordination required.'],
-      ['1', 'Significant effort or complexity required.'],
+      ['5', 'Major new systems, economy work or cross-feature dependencies.'],
+      ['3', 'Moderate implementation and balancing effort.'],
+      ['1', 'Bounded extension of an existing mechanic.'],
     ],
   },
 ]
 
 type Row = { useCase: string; scores: number[]; total: number; winner?: boolean }
 
+// Total is a modified RICE score: (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort
 const ROWS: Row[] = [
-  { useCase: 'Hometown',                   scores: [5, 5, 5, 3], total: 18, winner: true },
-  { useCase: 'Context Link',               scores: [5, 5, 4, 3], total: 17 },
-  { useCase: 'Coordination Lock',          scores: [5, 4, 3, 2], total: 14 },
+  { useCase: 'Card Bounty', scores: [5, 5, 4, 3], total: 33.3, winner: true },
+  { useCase: 'Hot Trail',   scores: [4, 5, 3, 3], total: 20.0 },
+  { useCase: 'Hometown',    scores: [5, 4, 3, 4], total: 15.0 },
 ]
 
 // Medals for the top three totals (computed by rank so it survives reordering)
@@ -71,11 +72,22 @@ export default function Prioritization() {
     })
   return (
     <Section id="prioritization" eyebrow="Prioritization" title="Criteria, scoring & decision">
-      <div className="max-w-2xl mb-6">
+      <div className="max-w-2xl mb-6 flex flex-col gap-3">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          Each feature is scored from 1–5 across four criteria. Scores are intended to compare
-          strategic opportunities rather than estimate outcomes with precision. All criteria are
-          oriented so that higher scores indicate a more attractive investment opportunity.
+          Each feature is scored from 1–5 across four criteria. The scores compare opportunities; they
+          are not revenue forecasts. For ARPDAU Impact, Core-Loop Fit and Confidence, higher is better.
+          For Effort, a higher score means greater delivery and balancing cost.
+        </p>
+        <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+          Without internal player-segment and exposure data, Reach cannot be estimated reliably. I
+          therefore replace it with Core-Loop Fit and use a modified RICE-style calculation:
+        </p>
+        <p className="font-sans font-bold text-[13px] leading-relaxed text-cm-violet-deep border-l-4 border-cm-gold pl-3">
+          Opportunity Score = (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort
+        </p>
+        <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+          The calculation favors opportunities that combine monetization potential, natural integration
+          and confidence with a manageable investment.
         </p>
       </div>
 
@@ -146,7 +158,7 @@ export default function Prioritization() {
                   <td key={i} className="font-sans text-[13px] text-charcoal/70 py-3 px-3 text-center">{s}</td>
                 ))}
                 <td className={`font-sans text-[14px] py-3 pl-3 text-center font-medium ${row.winner ? 'text-cm-crimson' : 'text-black'}`}>
-                  {row.total}
+                  {row.total.toFixed(1)}
                 </td>
               </tr>
               )
@@ -159,13 +171,25 @@ export default function Prioritization() {
         <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-crimson mb-2">Decision</p>
         <div className="flex flex-col gap-3">
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Hometown scores highest (18) and is recommended as the starting point. It addresses
-            a high-frequency workflow with clear user value, strong platform leverage, and relatively low
-            implementation risk. It also establishes the structured change foundation that can later
-            support Change Orders and other downstream opportunities.
+            Card Bounty scores highest (33.3) and is the strongest near-term validation candidate. It
+            extends existing Chest and Card Collection behavior, creates a direct Coin sink and can be
+            tested as a bounded LiveOps event. Its main risk is economy cannibalization: if the
+            guarantee is too attainable, it may reduce long-term Chest demand or devalue rare Cards.
           </p>
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Context Link (17) is the next strongest candidate and a natural follow-on investment, leveraging the same ability to identify and relate objects within drawings. Its lower confidence score reflects greater adoption risk: field teams operate under time pressure in dynamic construction environments, making additional verification steps a harder sell unless the generated context is highly accurate and immediately useful.
+            Hot Trail ranks second (20.0). It reuses the existing Raid flow and turns a loss into an
+            urgent return session and additional Spin consumption. Confidence is lower because
+            retaliation may motivate competitive players while frustrating others.
+          </p>
+          <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+            Hometown ranks third (15.0) because it requires a new persistent surface, economy rules and
+            customization workflows. It is also the broadest strategic opportunity: a permanent
+            monetization layer connecting Village progression, self-expression and social visibility.
+          </p>
+          <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+            If prioritizing the production roadmap on current evidence, I would test Card Bounty first.
+            I expand Hometown in this brief because it requires the most product definition and has the
+            greatest potential to establish a new long-term system.
           </p>
         </div>
       </div>
