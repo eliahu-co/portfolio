@@ -1,18 +1,17 @@
 // app/MA-HomeAssignment/sections/PrototypeDemo.tsx
-// Section 8 — Prototype demo. Links to the interactive Hometown
-// prototype (a full-screen route that simulates the flow inside Autodesk Forma).
+// Section 8 — Prototype demo. Links to the interactive Card Bounty prototype.
 
 import Section from './Section'
 import DemoVideo from './DemoVideo'
 
 export default function PrototypeDemo() {
   return (
-    <Section id="prototype" eyebrow="Prototype demo" title="Hometown, interactive">
+    <Section id="prototype" eyebrow="Prototype demo" title="Card Bounty, interactive">
       <div className="max-w-2xl flex flex-col gap-4">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          An interactive concept prototype of Hometown, designed to feel embedded within
-          Autodesk Forma. Upload a revised drawing, validate detected object-level changes before
-          submission, and submit a higher-quality revision for review.
+          An interactive concept prototype of Card Bounty, designed to fit within Coin Master’s Cards
+          Center. Choose an eligible missing Card, open Chests to increase its drop chance and fill the
+          Bounty meter. If the Card does not drop earlier, completing the meter guarantees it.
         </p>
         <DemoVideo />
         <a
