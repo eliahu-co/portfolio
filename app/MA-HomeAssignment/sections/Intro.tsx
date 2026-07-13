@@ -9,21 +9,31 @@ export default function Intro() {
   return (
     <div id="hero" className="scroll-mt-8 max-w-2xl mb-14">
       <p className="font-sans text-[15px] leading-relaxed text-charcoal mb-8">
-        Coin Master’s economy follows a reinforcing loop: players use Spins to earn Coins and use
-        Coins to progress through Villages. Meta and LiveOps features add goals and return Spins and
-        other resources to the loop, while Gems provide premium acceleration. Progression, collection,
-        status, social competition, and time-limited urgency create repeated reasons to return and spend.
+        Coin Master’s core loop starts with Spins: players use them to generate Coins and other
+        outcomes, then spend Coins to build Villages and advance. Attacks and Raids are also triggered
+        through Spins and extend the loop into PvP. Chests feed Card Collections, and completed
+        Collections return Spins. Pets modify rewards, while social systems and LiveOps add goals,
+        competition, urgency and additional rewards to existing actions. Gems provide premium
+        acceleration.
       </p>
 
       <CoreLoopDiagram />
 
       <p className="font-sans pt-3 text-[15px] leading-relaxed text-charcoal">
-        The three concepts create new spending opportunities by applying these motivations to
-        different parts of the game. Hometown connects customization and status to Village
-        progression; Card Bounty builds on collection completion to increase Chest demand and Coin
-        consumption; and Hot Trail uses loss-aversion and urgency to drive additional sessions and
-        Spin consumption. Together, they target
-        distinct ARPDAU opportunities across the core loop, meta, and LiveOps.
+        With these loops mapped, I looked for opportunities that could increase ARPDAU through greater
+        resource demand, payer conversion or a new spend surface. I played Coin Master with a product
+        lens and reviewed official support material, advanced gameplay, player communities and industry
+        analysis. I compared it with Monopoly GO! and Dice Dreams, then looked at Royal Match and
+        Whiteout Survival for cross-genre approaches to collections, guarantees, customization, social
+        status, PvP and LiveOps. I set aside concepts that introduced a separate game mode without a
+        clear path back to the core loop.
+      </p>
+      <p className="font-sans mt-4 text-[15px] leading-relaxed text-charcoal">
+        I developed three concepts across different parts of the game. Hometown connects Village
+        progression with customization and social visibility. Card Bounty uses collection intent to
+        increase Chest demand and Coin consumption. Hot Trail uses loss aversion and urgency to drive
+        return sessions and Spin consumption. I then compared them using ARPDAU impact,
+        core-loop fit, confidence and effort before expanding the strongest opportunity.
       </p>
     </div>
   )

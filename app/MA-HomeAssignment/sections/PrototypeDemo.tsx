@@ -22,7 +22,6 @@ export default function PrototypeDemo() {
         >
           Open interactive prototype ↗
         </a>
-        <p className="font-sans text-[11px] uppercase tracking-[0.08em] text-charcoal/70">Only available on desktop</p>
       </div>
     </Section>
   )

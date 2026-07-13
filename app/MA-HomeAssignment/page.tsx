@@ -17,7 +17,6 @@ import Prioritization from './sections/Prioritization'
 import MVP from './sections/MVP'
 import PrototypeDemo from './sections/PrototypeDemo'
 import AssumptionsSources from './sections/AssumptionsSources'
-import Approach from './sections/Approach'
 
 // Page-scoped Moon Active-style type: their site runs Filson Pro/Soft (Adobe
 // Fonts) — Nunito (headings) + Nunito Sans (body) are the closest free
@@ -71,7 +70,6 @@ export default function MAHomeAssignmentPage() {
             <MVP />
             <PrototypeDemo />
             <AssumptionsSources />
-            <Approach />
 
             <div className="mt-4">
               <a

@@ -12,7 +12,7 @@ it('renders every side-nav section anchor', () => {
   render(<MAHomeAssignmentPage />)
   const ids = [
     'hero', 'feature-1', 'feature-2', 'feature-3',
-    'prioritization', 'mvp', 'prototype', 'assumptions', 'approach',
+    'prioritization', 'mvp', 'prototype', 'assumptions',
   ]
   for (const id of ids) {
     expect(document.getElementById(id)).toBeInTheDocument()

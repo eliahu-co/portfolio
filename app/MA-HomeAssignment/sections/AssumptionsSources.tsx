@@ -4,13 +4,12 @@
 import Section from './Section'
 
 const ASSUMPTIONS = [
-  'Incremental ARPDAU is the target outcome. Engagement, DAU and virtual-currency spend are supporting measures, not outcomes on their own.',
-  'Higher Coin or Spin consumption can increase ARPDAU by creating demand for existing offers, but only if total revenue increases.',
+  'Incremental ARPDAU is the target outcome. Engagement, DAU and Coin or Spin consumption are supporting signals and are only valuable here if they contribute to incremental revenue.',
   'New features should extend familiar mechanics and player behavior rather than replace the core loop.',
   'Existing systems can support new LiveOps and persistent features, player segmentation and controlled testing.',
-  'Feature availability and player experience may vary by Village, cohort, region and active experiment. The analysis reflects the version I accessed and publicly available information.',
-  'I did not have access to Moon Active’s internal economy, segmentation, roadmap or development estimates. Prioritization scores, benchmarks and balance decisions are therefore directional.',
+  'I did not have access to Moon Active’s internal product and economy data, player segmentation, roadmap or development estimates. Prioritization scores and balance assumptions are therefore directional; test benchmarks would be set using comparable historical events.',
   'An ARPDAU lift should not come at the expense of long-term demand, Village progression, player trust or the wider game economy.',
+  'Considering that feature availability may vary by Village, cohort, region and active experiment, this analysis reflects the version I accessed and publicly available information.',
 ]
 
 export default function AssumptionsSources() {

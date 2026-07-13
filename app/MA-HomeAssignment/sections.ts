@@ -17,5 +17,4 @@ export const SECTIONS: PageSection[] = [
   { id: 'mvp',           label: 'MVP' },
   { id: 'prototype',     label: 'Prototype' },
   { id: 'assumptions',   label: 'Assumptions' },
-  { id: 'approach',      label: 'Approach' },
 ]
