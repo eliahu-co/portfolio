@@ -7,11 +7,11 @@
 import { useState } from 'react'
 import Section from './Section'
 
-const CRITERIA = ['ARPDAU Impact', 'Core-Loop Fit', 'Confidence', 'Effort']
+const CRITERIA = ['Near-Term ARPDAU Impact', 'Core-Loop Fit', 'Confidence', 'Effort']
 
 const CRITERIA_DEFS: { title: string; body: string; rubric: [string, string][] }[] = [
   {
-    title: 'ARPDAU Impact',
+    title: 'Near-Term ARPDAU Impact',
     body: 'Potential to increase average daily revenue per active user if successful.',
     rubric: [
       ['5', 'Multiple direct monetization levers with significant upside.'],
@@ -50,11 +50,11 @@ const CRITERIA_DEFS: { title: string; body: string; rubric: [string, string][] }
 
 type Row = { useCase: string; scores: number[]; total: number; winner?: boolean }
 
-// Total is a modified RICE score: (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort
+// Total is a modified RICE score: (Near-Term ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort
 const ROWS: Row[] = [
   { useCase: 'Card Bounty', scores: [5, 5, 4, 3], total: 33.3, winner: true },
   { useCase: 'Hot Trail',   scores: [4, 5, 3, 3], total: 20.0 },
-  { useCase: 'Hometown',    scores: [5, 4, 3, 4], total: 15.0 },
+  { useCase: 'Hometown',    scores: [3, 3, 3, 4], total: 6.8 },
 ]
 
 // Medals for the top three totals (computed by rank so it survives reordering)
@@ -75,7 +75,7 @@ export default function Prioritization() {
       <div className="max-w-2xl mb-6 flex flex-col gap-3">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
           Each feature is scored from 1–5 across four criteria. The scores compare opportunities; they
-          are not revenue forecasts. For ARPDAU Impact, Core-Loop Fit and Confidence, higher is better.
+          are not revenue forecasts. For Near-Term ARPDAU Impact, Core-Loop Fit and Confidence, higher is better.
           For Effort, a higher score means greater delivery and balancing cost.
         </p>
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
@@ -83,7 +83,7 @@ export default function Prioritization() {
           therefore replace it with Core-Loop Fit and use a modified RICE-style calculation:
         </p>
         <p className="font-sans font-bold text-[13px] leading-relaxed text-cm-violet-deep border-l-4 border-cm-gold pl-3">
-          Opportunity Score = (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort
+          Opportunity Score = (Near-Term ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort
         </p>
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
           The calculation favors opportunities that combine monetization potential, natural integration
@@ -172,7 +172,7 @@ export default function Prioritization() {
         <div className="flex flex-col gap-3">
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
             Card Bounty scores highest (33.3) and is the strongest near-term validation candidate. It
-            extends existing Chest and Card Collection behavior, creates a direct Coin sink and can be
+            extends existing Chest and Card Collection behavior, creates a direct Coin sink, and can be
             tested as a bounded LiveOps event. Its main risk is economy cannibalization: if the
             guarantee is too attainable, it may reduce long-term Chest demand or devalue rare Cards.
           </p>
@@ -182,14 +182,17 @@ export default function Prioritization() {
             retaliation may motivate competitive players while frustrating others.
           </p>
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Hometown ranks third (15.0) because it requires a new persistent surface, economy rules and
-            customization workflows. It is also the broadest strategic opportunity: a permanent
-            monetization layer connecting Village progression, self-expression and social visibility.
+            Hometown ranks third (6.8). It connects to Village progression through unlocked items, Coin
+            spending, and upgrade discounts, but introduces a new customization loop beside the core
+            Spin–Coin–Village loop. Its ARPDAU impact depends on social visibility giving customization
+            enough value to generate premium purchases. That audience and status loop would take time
+            to establish, making Hometown a longer-term monetization opportunity rather than the
+            strongest near-term test.
           </p>
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            If prioritizing the production roadmap on current evidence, I would test Card Bounty first.
-            I expand Hometown in this brief because it requires the most product definition and has the
-            greatest potential to establish a new long-term system.
+            I would therefore test Card Bounty first and expand it in this brief. It offers the clearest
+            path to measurable ARPDAU lift, the strongest integration with existing player behavior, and
+            a contained MVP.
           </p>
         </div>
       </div>

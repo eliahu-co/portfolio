@@ -83,7 +83,7 @@ export default function MAHomeAssignmentPage() {
             </div>
 
             <p className="mt-8 font-sans text-[10px] leading-relaxed text-charcoal/40">
-              This page was created specifically for the Autodesk interview process and is not publicly discoverable.
+              This page was created specifically for the Moon Active interview process and is not publicly discoverable.
             </p>
           </main>
         </div>

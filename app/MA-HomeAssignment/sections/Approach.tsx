@@ -8,24 +8,30 @@ export default function Approach() {
     <Section id="approach" eyebrow="Approach">
       <div className="max-w-2xl flex flex-col gap-3">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          I first mapped the major phases of the construction lifecycle and the workflows that exist
-          within and between them. From there, I identified workflow bottlenecks that could potentially
-          benefit from transforming drawings into structured, queryable project data.
+          I first mapped Coin Master’s core loop: players use Spins to earn Coins and trigger Attacks
+          and Raids, then spend Coins to build Villages and advance. I then mapped the surrounding meta
+          systems. Chests feed Card Collections, which return Spins; Pets modify core rewards; social
+          systems and LiveOps add goals, competition and reasons to return.
         </p>
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          I explored a broad set of opportunities and then narrowed the scope to workflows where
-          understanding objects, relationships, and changes within drawings could create unique value.
-          I also reviewed adjacent offerings such as Procore, Bluebeam, Spacial.io, Higharc, Swapp, and Bananaz to
-          better understand emerging applications of drawing intelligence across design and construction
-          workflows. I intentionally excluded areas such as code compliance, which require a higher level
-          of accuracy and regulatory confidence than I could reasonably assume for an MVP, as well as
-          bidding workflows, where stakeholders often have competing incentives.
+          I played Coin Master with a product lens and reviewed official support material, advanced
+          gameplay, player communities and industry analysis. I compared it with Monopoly GO! and Dice
+          Dreams, then looked at games including Royal Match and Whiteout Survival for cross-genre
+          approaches to collections, guarantees, customization, social status, PvP and LiveOps.
         </p>
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          The resulting opportunities span design review, construction execution, and coordination,
-          allowing evaluation of the AI Drawing Analyzer across different users, project
-          phases, and business outcomes. Each opportunity was analyzed using a common framework to enable
-          apples-to-apples comparison during prioritization.
+          I developed concepts across different parts of the game rather than three variations of the
+          same mechanic. Card Bounty extends Chests and Card Collections, Hot Trail adds urgency to
+          Raids and Spin consumption, and Hometown connects Village progression with customization and
+          social visibility. I set aside concepts that introduced a separate game mode without a clear
+          path back to the core loop.
+        </p>
+        <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+          I compared the three opportunities using near-term ARPDAU impact, core-loop fit, confidence
+          and effort. Card Bounty ranked highest because it builds on established behavior, creates
+          measurable Coin demand and can be tested as a bounded LiveOps event. I then expanded it
+          through its player flow, monetization logic, connected mechanics, long-term risks, MVP scope
+          and measurement plan.
         </p>
       </div>
     </Section>

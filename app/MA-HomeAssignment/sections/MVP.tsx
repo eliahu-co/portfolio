@@ -5,70 +5,71 @@ import Section from './Section'
 import { Pill } from './UseCase'
 
 const SCOPE_IN = [
-  'Familiar five-slot Hometown layout.',
-  'Items unlocked through completed Villages.',
-  'First item placed in each slot for free.',
-  'Coin cost for constructing an additional item for the first time.',
-  'Time-limited discount on the next Village upgrade.',
-  'One standard backdrop and a limited selection of premium backdrops or variants.',
-  'Friend visits from existing social surfaces.',
-  'Name, avatar, Stars, current Village level and Team in the Hometown header.',
-  'One-tap reactions and access to the existing daily Gift action.',
-  'Item inspection showing its source or available premium offer.',
+  'A short, time-limited Card Bounty event within the Cards Center.',
+  'Selection of any eligible missing Card from an unlocked Card Collection.',
+  'The target becomes locked after the first qualifying Chest is opened.',
+  'Coin-purchased Wooden, Golden and Magical Chests advance the meter by +1, +2 and +3, respectively.',
+  'Every qualifying Chest increases the target Card’s drop chance while retaining its normal contents.',
+  'The selected Card is guaranteed when the meter is completed if it has not dropped earlier.',
+  'If the target drops naturally, the Bounty completes immediately.',
+  'If the target is obtained from another source, the player can select another eligible missing Card without losing progress.',
+  'One completed Bounty per player during the event.',
+  'Existing Card Collection rewards remain unchanged.',
 ]
 const SCOPE_OUT = [
-  'Hometown levels or a separate progression ladder.',
-  'Exact last-seen information or current resource balances.',
-  'Public partner ratings or historical event contribution scores.',
-  'Coins, Spins or other rewards for receiving reactions.',
-  'Comments, direct messaging or Card trading.',
-  'Popularity leaderboards or design contests.',
-  'Premium social gifts.',
-  'Multiple saved layouts.',
-  'Attacks, Raids, Coin storage or defensive benefits.',
+  'Gold, Diamond and Seasonal Cards.',
+  'Chests received from events, Raids, trades or duplicate-Card exchanges contributing to the meter.',
+  'Changing the target after progress begins, unless the target is obtained elsewhere.',
+  'Multiple concurrent Bounties or another target after completion.',
+  'Purchasing meter progress or the guaranteed Card directly.',
+  'New Chest types, prices or contents.',
+  'Event-specific purchase bundles.',
+  'Personalized meter thresholds.',
+  'Team contributions, Card trading or other social mechanics.',
+  'Additional gameplay.',
 ]
 const METRICS: { kind: string; title: string; body: string; signal?: string }[] = [
   {
-    kind: 'Business outcome',
+    kind: 'Primary outcome',
     title: 'Incremental ARPDAU',
     body: 'Average daily revenue per eligible active user in the treatment group compared with the control group.',
-    signal: 'Positive and sustained lift after the initial novelty period.',
-  },
-  {
-    kind: 'Monetization',
-    title: 'Premium Customization Conversion',
-    body: 'Percentage of eligible players who purchase a premium backdrop or item variant.',
-    signal: 'Positive conversion with repeat purchases across more than one offer cycle.',
+    signal: 'Positive and statistically significant lift versus the control group.',
   },
   {
     kind: 'Economy',
-    title: 'Net Coin Consumption per DAU',
-    body: 'Total Coins spent on Hometown construction and Village progression, including the effect of the upgrade discount.',
-    signal: 'Higher than the control group, confirming that Hometown creates an incremental sink rather than moving existing spend.',
+    title: 'Incremental Chest Coin Spend per Eligible DAU',
+    body: 'Average daily Coins spent on Chests by players eligible for Card Bounty, compared with the control group.',
+    signal: 'Higher than the control group.',
   },
   {
-    kind: 'Usage',
-    title: 'Repeat Customization Rate',
-    body: 'Percentage of activated players who construct another item or update their layout after the initial setup.',
-    signal: 'Positive and sustained after the first free placements.',
+    kind: 'Economy',
+    title: 'Total Coin Consumption per Eligible DAU',
+    body: 'Average daily Coins spent across Chests and Village construction.',
+    signal: 'Higher than the control group.',
   },
   {
-    kind: 'Social utility',
-    title: 'Social Action Rate',
-    body: 'Percentage of Hometown visits that result in a reaction, Gift or item inspection.',
-    signal: 'Strong enough to generate repeat visits and correlated with higher customization conversion.',
+    kind: 'Adoption',
+    title: 'Bounty Activation Rate',
+    body: 'Percentage of eligible active players who open at least one Chest through Card Bounty after selecting a target.',
+    signal: 'Meets the activation target established from comparable Chest events.',
+  },
+  {
+    kind: 'Guardrail',
+    title: 'Post-Event Revenue',
+    body: 'Revenue per eligible user during a defined period after the event.',
+    signal: 'Stable in comparison to the control group.',
+  },
+  {
+    kind: 'Guardrail',
+    title: 'Post-Event Chest Demand',
+    body: 'Chest purchase frequency and Coin spend on Chests during a defined time after the event.',
+    signal: 'Stable or higher than the control group.',
   },
   {
     kind: 'Guardrail',
     title: 'Village Progression Rate',
-    body: 'Village upgrades completed per eligible active user and median time to complete the next Village.',
-    signal: 'Stable relative to the control group.',
-  },
-  {
-    kind: 'Guardrail',
-    title: 'Existing Revenue per DAU',
-    body: 'Revenue from existing offers and systems, excluding Hometown purchases.',
-    signal: 'No decline large enough to offset Hometown revenue.',
+    body: 'Average daily Village upgrades completed by players eligible for Card Bounty during the event and a defined period after it, compared with the control group.',
+    signal: 'Stable across the full measurement period in comparison to the control group.',
   },
 ]
 function List({
@@ -103,8 +104,9 @@ export default function MVP() {
   return (
     <Section id="mvp" eyebrow="MVP" title="Scope & metrics">
       <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-6 max-w-2xl">
-        The MVP tests whether permanent customization with a visible audience creates incremental Coin
-        consumption and premium purchases without slowing Village progression.
+        The MVP tests whether choosing a missing Card and receiving increasing certainty drives
+        incremental Coin spend on Chests and ARPDAU without weakening future Chest demand or
+        accelerating Card Collection completion beyond economy targets.
       </p>
       <div className="grid md:grid-cols-2 gap-x-10 gap-y-8 mb-10 max-w-3xl">
         <List title="In scope" items={SCOPE_IN} marker="✓" markerClass="text-cm-gold" />

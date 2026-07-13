@@ -263,7 +263,35 @@ export const USE_CASE_3: UseCaseData = {
       'A time-limited counter-Raid that turns a loss into an urgent reason to return and Spin.',
   },
 
-  value: [],
+  value: [
+    {
+      primary: true,
+      title: 'Urgent Return Trigger',
+      body: 'Turns a completed Raid into a time-limited reason to reopen the game.',
+    },
+    {
+      title: 'More Spin Consumption',
+      body: 'Reaching the Counter-Raid requires returning to the Spinner and landing a Raid, increasing session depth and exposure to existing offers.',
+    },
+    {
+      title: 'Agency After Loss',
+      body: 'Gives the raided player a direct response instead of leaving the loss as a passive notification.',
+    },
+  ],
 
-  tradeoffs: [],
+  tradeoffs: [
+    {
+      primary: true,
+      title: 'Retaliation Loops',
+      body: 'Counter-Raids could generate repeated retaliation between the same players.',
+    },
+    {
+      title: 'Failed Urgency',
+      body: 'Players may return and spend Spins without landing a Raid before the timer expires.',
+    },
+    {
+      title: 'Economy Distortion',
+      body: 'Recovered Coins could create inflation or reduce the need to earn more through the core loop.',
+    },
+  ],
 }
