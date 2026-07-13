@@ -1,15 +1,12 @@
 // app/MA-HomeAssignment/sections/Hero.tsx
 // Section 1 — Hero header band. A full-bleed band using Coin Master's sky/clouds
-// image (public/coinmaster-sky.webp) with the gold Lilita One title, subtitle,
+// image (public/coinmaster-sky.webp) with the gold display title (Nunito, the
+// same face as the section headings), subtitle,
 // and the contact line (dark text for readability). The band ends under the
 // contact line; the intro content (core-loop diagram, framing paragraph, and
 // use-case table) lives in Intro.tsx in the main column, so the sidebar nav can
 // sit directly beneath this band. Content strings match the HA-DrawingAnalyzer
 // original.
-
-import { Lilita_One } from 'next/font/google'
-
-const lilita = Lilita_One({ subsets: ['latin'], weight: '400', display: 'swap' })
 
 export default function Hero() {
   return (
@@ -45,12 +42,11 @@ export default function Hero() {
           />
 
           <h1
-            className={`${lilita.className} text-[clamp(22px,4.2vw,42px)] whitespace-nowrap leading-[1.02] text-cm-gold-bright mb-6`}
+            className={`text-[clamp(24px,4.6vw,46px)] whitespace-nowrap leading-[1.02] tracking-[-0.01em] text-cm-violet-deep mb-6`}
             style={{
-              // dark-crimson outline ring (readability on the light sky) + red 3D
-              // drop + soft shadow — mirrors the Coin Master gold wordmark
-              textShadow:
-                '-1px -1px 0 #7A1810, 0 -1px 0 #7A1810, 1px -1px 0 #7A1810, 1px 0 0 #7A1810, 1px 1px 0 #7A1810, 0 1px 0 #7A1810, -1px 1px 0 #7A1810, -1px 0 0 #7A1810, 0 3px 0 #B7202E, 0 6px 14px rgba(0,0,0,0.4)',
+              // same display face + colour as the concept/section headings
+              fontFamily: 'var(--font-cm-display), "Nunito", ui-rounded, sans-serif',
+              fontWeight: 900,
             }}
           >
             Increasing ARPDAU

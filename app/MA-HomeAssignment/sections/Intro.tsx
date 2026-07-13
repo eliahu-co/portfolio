@@ -21,7 +21,8 @@ export default function Intro() {
         The three concepts create new spending opportunities by applying these motivations to
         different parts of the game. Hometown connects customization and status to Village
         progression; Card Bounty builds on collection completion to increase Chest demand and Coin
-        consumption; and [Feature 3] uses [motivation] to [economic effect]. Together, they target
+        consumption; and Hot Trail uses loss-aversion and urgency to drive additional sessions and
+        Spin consumption. Together, they target
         distinct ARPDAU opportunities across the core loop, meta, and LiveOps.
       </p>
     </div>

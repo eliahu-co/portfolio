@@ -205,7 +205,9 @@ export const USE_CASE_2: UseCaseData = {
 export const USE_CASE_3: UseCaseData = {
   id:      'feature-3',
   eyebrow: 'Feature 3',
-  title:   'Cross-Discipline Coordination Lock',
+  title:   'Hot Trail',
+  conceptAsSubtitle: true,
+  mockup:  '/coinmaster/feature3.png',
 
   constructionPhase: {
     name: 'Design Coordination / Pre-Construction',
@@ -225,29 +227,21 @@ export const USE_CASE_3: UseCaseData = {
   },
 
   problem: {
-    intro:
-      'Related design decisions across architectural, structural, and MEP drawings are not formally connected. Once coordination issues are resolved, those relationships are rarely maintained as persistent project knowledge.',
-    consequences: [
-      'Resolved coordination issues can reappear later',
-      'Teams rely on memory and manual follow-up',
-      'Changes in one discipline may not trigger review in another',
-      'Conflicts may reach the field, where they are significantly more expensive to fix',
-    ],
+    heading: 'Concept',
+    intro: 'When a player is Raided, Hot Trail gives them one hour to return and track the raider. Activating the trail locks that player as the target of their next Raid for six hours. The Raid is triggered through normal Spins and uses the existing digging flow.',
+    body: 'Success grants the standard Raid reward plus a capped recovery bonus based on the original loss. Only one trail can be active, and counter-Raids cannot trigger another trail. This creates an additional session and Spin consumption without adding a new game mode.',
+    consequences: [],
   },
 
-  legendAiOnly: true,
-
   currentWorkflow: {
-    stat: 'Dependencies forgotten',
+    stat: 'Loss-to-return loop',
+    loop: true,
     steps: [
-      { label: 'Reviews discipline drawings' },
-      { label: 'Identifies relationships between objects' },
-      { label: 'Relies on memory to track relationships' },
-      { label: 'MEP drawing is updated', actor: 'designer' },
-      { label: 'Checks for coordination impacts manually' },
-      { label: 'Misses dependency impact', note: 'Forgets relationship' },
-      { label: 'Issue is discovered in the field', kind: 'catch' },
-      { label: 'High-cost rework', kind: 'reject' },
+      { label: 'Use Coins to progress the Village', coreLoop: true },
+      { label: 'Get Raided and lose Coins' },
+      { label: 'Return within one hour to activate Hot Trail' },
+      { label: 'Use Spins within six hours to trigger a Raid' },
+      { label: 'Counter-Raid the raider and recover part of the loss' },
     ],
   },
   proposedWorkflow: {
@@ -264,50 +258,11 @@ export const USE_CASE_3: UseCaseData = {
   },
 
   opportunity: {
-    image: '/drawinganalyzer/use-case-3.png',
     statement:
-      'Transform temporary coordination decisions into persistent, traceable dependencies that can be monitored as drawings evolve across disciplines.',
+      'A time-limited counter-Raid that turns a loss into an urgent reason to return and Spin.',
   },
 
-  value: [
-    {
-      primary: true,
-      title: 'Earlier Conflict Detection',
-      body: 'Potential coordination issues are surfaced before they reach the field.',
-    },
-    {
-      title: 'Persistent Coordination History',
-      body: 'Coordination decisions remain accessible as project knowledge over time.',
-    },
-    {
-      title: 'Better Change Impact Awareness',
-      body: 'Improves visibility into how changes affect previously coordinated work.',
-    },
-    {
-      title: 'Reduced Coordination Effort',
-      body: 'Less time spent manually reviewing and revalidating coordination decisions.',
-    },
-  ],
+  value: [],
 
-  tradeoffs: [
-    {
-      primary: true,
-      title: 'Relationship Ambiguity',
-      body: 'Some dependencies may be difficult to identify reliably, reducing trust in the results.',
-    },
-    {
-      title: 'Over-Constraining Future Changes',
-      body: 'Outdated dependencies may continue triggering reviews after they are no longer relevant.',
-    },
-    {
-      title: 'Coordination Noise',
-      body: 'Excessive coordination alerts may reduce attention to important issues.',
-    },
-    {
-      title: 'Process Overhead',
-      body: 'Maintaining coordination dependencies may require additional effort from project teams.',
-    },
-  ],
-
-  tradeoff: { gain: 'Persistent dependency tracking', cost: 'Additional coordination setup effort' },
+  tradeoffs: [],
 }

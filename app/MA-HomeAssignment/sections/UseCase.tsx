@@ -491,21 +491,25 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         <WorkflowComparison current={data.currentWorkflow} legendAiOnly={data.legendAiOnly} mockup={data.mockup} />
       </Block>
 
-      <Block label="Value delivered">
-        <CardList items={data.value} variant="value" />
-      </Block>
+      {data.value.length > 0 && (
+        <Block label="Value delivered">
+          <CardList items={data.value} variant="value" />
+        </Block>
+      )}
 
-      <Block label="Risks">
-        <CardList items={data.tradeoffs} variant="risk" />
-        {data.tradeoff && (
-          <p className="mt-8 font-sans text-[10px] font-medium uppercase tracking-[0.14em] text-cm-wood">
-            <span className="mr-2 font-extrabold text-cm-crimson">Tradeoff</span>
-            {data.tradeoff.gain}
-            <span className="mx-1" aria-hidden="true">⇄</span>
-            {data.tradeoff.cost}
-          </p>
-        )}
-      </Block>
+      {data.tradeoffs.length > 0 && (
+        <Block label="Risks">
+          <CardList items={data.tradeoffs} variant="risk" />
+          {data.tradeoff && (
+            <p className="mt-8 font-sans text-[10px] font-medium uppercase tracking-[0.14em] text-cm-wood">
+              <span className="mr-2 font-extrabold text-cm-crimson">Tradeoff</span>
+              {data.tradeoff.gain}
+              <span className="mx-1" aria-hidden="true">⇄</span>
+              {data.tradeoff.cost}
+            </p>
+          )}
+        </Block>
+      )}
     </Section>
   )
 }
