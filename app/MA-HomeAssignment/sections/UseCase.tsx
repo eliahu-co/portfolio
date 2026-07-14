@@ -255,8 +255,13 @@ export function CardList({
       </div>
     )
   }
+  // fewer cards spread across fewer columns so a 2-item row fills the width
+  const cols =
+    items.length <= 1 ? 'grid-cols-1'
+    : items.length === 2 ? 'grid-cols-1 sm:grid-cols-2'
+    : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3'
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+    <div className={`grid ${cols} gap-3`}>
       {items.map((it, i) => (
         <Card key={i} item={it} variant={variant} />
       ))}
