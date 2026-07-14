@@ -49,8 +49,9 @@ function ArrowRight({ color = ARROW, width = 1 }: { color?: string; width?: numb
 function StretchArrow() {
   return (
     <div className="flex w-full flex-1 flex-col items-center justify-end pt-1" aria-hidden="true">
+      {/* line overlaps the arrowhead so its end lands on the chevron vertex */}
       <span className="w-px flex-1" style={{ background: ARROW, minHeight: 16 }} />
-      <svg width="14" height="6" viewBox="0 0 14 6" fill="none" style={{ display: 'block', marginTop: '-1px' }}>
+      <svg width="14" height="6" viewBox="0 0 14 6" fill="none" style={{ display: 'block', marginTop: '-5px' }}>
         <path d="M2 1 L7 5 L12 1" stroke={ARROW} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </div>
@@ -85,25 +86,25 @@ function Plaque({ children }: { children: ReactNode }) {
 
 /* ─── pills ───────────────────────────────────────────────────────────────── */
 
-// screen = the diagram's "meta" pill (no glyph); outcome = gold Rewards pill.
+// screen = light "meta"/loop pill; highlight = bolder blue (e.g. the guaranteed
+// reward), same stroke; outcome = gold Rewards pill.
 function Pill({
   title,
   action,
   tone = 'screen',
-  accent = false,
 }: {
   title: string
   action?: string
-  tone?: 'screen' | 'outcome'
-  accent?: boolean
+  tone?: 'screen' | 'highlight' | 'outcome'
 }) {
   const skin =
     tone === 'outcome'
       ? 'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 text-cm-wood shadow-[0_2px_0_rgba(144,57,0,0.3)]'
-      : 'bg-gradient-to-b from-[#F0FAFE] to-[#DBF1FC] border-[#1E7BA8]/30 text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.16)]'
-  const accentSkin = accent ? 'border-cm-crimson/60 ring-1 ring-cm-crimson/25' : ''
+      : tone === 'highlight'
+        ? 'bg-gradient-to-b from-[#7FCFF0] to-cm-sky border-[#1E7BA8]/30 text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.16)]'
+        : 'bg-gradient-to-b from-[#F0FAFE] to-[#DBF1FC] border-[#1E7BA8]/30 text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.16)]'
   return (
-    <div className={`w-full rounded-lg border px-2.5 py-1 text-center ${skin} ${accentSkin}`}>
+    <div className={`w-full rounded-lg border px-2.5 py-1 text-center ${skin}`}>
       <p className="font-sans text-[11px] font-extrabold leading-tight">{title}</p>
       {action && <p className="font-sans text-[9px] font-normal leading-snug opacity-70 mt-0.5">{action}</p>}
     </div>
@@ -189,7 +190,7 @@ export default function PlayerFlow() {
                 <div className="flex h-full flex-col items-center">
                   <BranchLabel>Yes</BranchLabel>
                   <ArrowDown />
-                  <Pill title="Guaranteed Card" accent />
+                  <Pill title="Guaranteed Card" tone="highlight" />
                   {/* stretches down to Collection Updated (same gap as Card acquired) */}
                   <StretchArrow />
                 </div>
