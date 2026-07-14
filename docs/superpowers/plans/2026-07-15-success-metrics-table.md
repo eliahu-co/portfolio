@@ -207,3 +207,90 @@ Open `http://localhost:3000/MA-HomeAssignment?finetuning=7#mvp`. Confirm the Web
 git add __tests__/ma-homeassignment.test.tsx app/MA-HomeAssignment/sections/PrototypePreview.tsx app/MA-HomeAssignment/sections/MVP.tsx docs/superpowers/plans/2026-07-15-mvp-prototype-placement.md docs/superpowers/plans/2026-07-15-success-metrics-table.md public/coinmaster/prototype.png public/coinmaster/prototype.webp
 git commit -m "feat(ma-homeassignment): add success metrics table"
 ```
+
+### Task 3: Refine role pills and metrics introduction
+
+**Files:**
+- Modify: `__tests__/ma-homeassignment.test.tsx`
+- Modify: `app/MA-HomeAssignment/sections/MVP.tsx`
+
+**Interfaces:**
+- Consumes: the semantic metrics table and `ROLE_CLASSES` mapping from Task 2.
+- Produces: one-pixel role-pill borders, a visually blank Role header with an accessible label, and the approved introduction copy.
+
+- [ ] **Step 1: Update the regression test first**
+
+In the existing metrics table test, add:
+
+```ts
+const introduction = Array.from(metrics.querySelectorAll('p')).find((node) =>
+  node.textContent?.startsWith('Eligible players')
+)!
+const roleHeader = table.querySelectorAll('th')[1]
+const rolePills = Array.from(table.querySelectorAll('tbody td:nth-child(2) span'))
+
+expect(introduction.textContent).toBe(
+  'Eligible players have the Cards Center unlocked and at least one targetable missing Card. Event metrics use eligible players active each day; post event guardrails use the full eligible group. All results compare treatment with control.'
+)
+expect(roleHeader.querySelector('.sr-only')?.textContent).toBe('Role')
+expect(roleHeader.childNodes).toHaveLength(1)
+expect(rolePills).toHaveLength(8)
+for (const pill of rolePills) expect(pill.className).toContain('border')
+expect(rolePills[0].className).toContain('border-cm-wood/50')
+expect(rolePills[1].className).toContain('border-cm-violet-deep/30')
+expect(rolePills[3].className).toContain('border-cm-violet-deep/30')
+expect(rolePills[4].className).toContain('border-cm-crimson/30')
+```
+
+- [ ] **Step 2: Run the focused test and verify RED**
+
+Run:
+
+```powershell
+npm.cmd test -- __tests__\ma-homeassignment.test.tsx --runInBand
+```
+
+Expected: FAIL because the old introduction, visible Role header, and borderless pills remain.
+
+- [ ] **Step 3: Apply the minimal refinements**
+
+Change the role mapping to:
+
+```ts
+const ROLE_CLASSES: Record<MetricRole, string> = {
+  Primary: 'border-cm-wood/50 bg-cm-gold/15 text-cm-wood',
+  Economy: 'border-cm-violet-deep/30 bg-cm-violet-deep/10 text-cm-violet-deep',
+  Adoption: 'border-cm-violet-deep/30 bg-cm-violet-deep/10 text-cm-violet-deep',
+  Guardrail: 'border-cm-crimson/30 bg-cm-crimson/10 text-cm-crimson',
+}
+```
+
+Add `border` to the shared role-pill classes. Replace the Role header content with:
+
+```tsx
+<span className="sr-only">Role</span>
+```
+
+Replace the introductory paragraph text with:
+
+```tsx
+Eligible players have the Cards Center unlocked and at least one targetable missing Card. Event
+metrics use eligible players active each day; post event guardrails use the full eligible group. All
+results compare treatment with control.
+```
+
+- [ ] **Step 4: Run focused/full tests, verify localhost, and commit**
+
+Run:
+
+```powershell
+npm.cmd test -- __tests__\ma-homeassignment.test.tsx --runInBand
+npm.cmd test -- --runInBand
+```
+
+Open `http://localhost:3000/MA-HomeAssignment?finetuning=9#mvp`. Confirm the Role header is visually absent, each pill has its coherent one-pixel stroke, the paragraph wraps responsively, and the console is clean.
+
+```powershell
+git add __tests__/ma-homeassignment.test.tsx app/MA-HomeAssignment/sections/MVP.tsx docs/superpowers/plans/2026-07-15-success-metrics-table.md
+git commit -m "style(ma-homeassignment): refine success metrics table"
+```

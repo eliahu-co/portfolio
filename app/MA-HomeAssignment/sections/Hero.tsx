@@ -19,15 +19,6 @@ export default function Hero() {
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-12 pb-9 md:grid md:grid-cols-[180px_1fr] md:gap-16">
         <div className="hidden md:block" aria-hidden="true" />
         <div className="relative min-w-0 text-center md:text-left">
-          {/* Coin Master logo at the right edge of the content column — desktop
-              only, so it never overlaps the header text on mobile */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/coinmaster/coinmaster-logo.webp"
-            alt="Coin Master"
-            className="pointer-events-none hidden md:block drop-shadow-lg"
-            style={{ position: 'absolute', right: 60, top: 6, height: 'clamp(80px, 10vw, 112px)', width: 'auto' }}
-          />
           <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-[#0F3D54] mb-4">
             Product Manager · Home Assignment
           </p>
@@ -36,20 +27,31 @@ export default function Hero() {
           <img
             src="/coinmaster/coinmaster-logo.webp"
             alt="Coin Master"
+            data-hero-logo="mobile"
             className="pointer-events-none block md:hidden drop-shadow-lg mb-4 mx-auto"
             style={{ height: 120, width: 'auto' }}
           />
 
-          <h1
-            className={`text-[clamp(24px,4.6vw,46px)] whitespace-nowrap leading-[1.02] tracking-[-0.01em] text-cm-violet-deep mb-6`}
-            style={{
-              // same display face + colour as the concept/section headings
-              fontFamily: 'var(--font-cm-display), "Nunito", ui-rounded, sans-serif',
-              fontWeight: 900,
-            }}
-          >
-            Increasing ARPDAU
-          </h1>
+          <div className="relative mb-6" data-hero-title-row="true">
+            <h1
+              className="text-[clamp(24px,4.6vw,46px)] whitespace-nowrap leading-[1.02] tracking-[-0.01em] text-cm-violet-deep"
+              style={{
+                // same display face + colour as the concept/section headings
+                fontFamily: 'var(--font-cm-display), "Nunito", ui-rounded, sans-serif',
+                fontWeight: 900,
+              }}
+            >
+              Increasing ARPDAU
+            </h1>
+            {/* Coin Master logo at the right edge of the title row — desktop only. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/coinmaster/coinmaster-logo.webp"
+              alt="Coin Master"
+              data-hero-logo="desktop"
+              className="pointer-events-none absolute right-[60px] top-[calc(50%_-_6px)] hidden h-[clamp(80px,10vw,112px)] w-auto -translate-y-1/2 drop-shadow-lg md:block"
+            />
+          </div>
 
           <p className="font-sans text-[11px] uppercase tracking-[0.12em] text-[#0F3D54] border-t-2 border-[#0F3D54]/25 pt-3 max-w-2xl flex flex-wrap items-baseline justify-center md:justify-between gap-x-6 gap-y-1">
             <span>Eliahu Cohen</span>

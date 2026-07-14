@@ -8,7 +8,7 @@ import CoreLoopDiagram from './CoreLoopDiagram'
 export default function Intro() {
   return (
     <div id="hero" className="scroll-mt-8 max-w-2xl mb-14">
-      <p className="font-sans text-[15px] leading-relaxed text-charcoal mb-8">
+      <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-8">
         Coin Master’s core loop starts with Spins, which generate Coins and trigger rewards, Attacks
         and Raids. Coins advance Villages; Chests feed Card Collections, whose rewards return Spins.
         Pets modify rewards, social systems and LiveOps add goals, competition and urgency.

@@ -45,10 +45,10 @@ const METRICS: { metric: string; role: MetricRole; target: string }[] = [
 ]
 
 const ROLE_CLASSES: Record<MetricRole, string> = {
-  Primary: 'bg-cm-gold/15 text-cm-wood',
-  Economy: 'bg-cm-violet-deep/10 text-cm-violet-deep',
-  Adoption: 'bg-cm-violet-deep/10 text-cm-violet-deep',
-  Guardrail: 'bg-cm-crimson/10 text-cm-crimson',
+  Primary: 'border-cm-wood/50 bg-cm-gold/15 text-cm-wood',
+  Economy: 'border-cm-violet-deep/30 bg-cm-violet-deep/10 text-cm-violet-deep',
+  Adoption: 'border-cm-violet-deep/30 bg-cm-violet-deep/10 text-cm-violet-deep',
+  Guardrail: 'border-cm-crimson/30 bg-cm-crimson/10 text-cm-crimson',
 }
 function List({
   title,
@@ -105,17 +105,16 @@ export default function MVP() {
       <div className="mb-10 max-w-3xl">
         <SubHeading>Success metrics</SubHeading>
         <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-5 max-w-2xl">
-          Eligible players have access to the Cards Center and at least one targetable missing Card at
-          event launch. Event metrics use eligible players active on each day; post-event guardrails
-          use the full eligible group, including players who do not return. Unless stated otherwise,
-          results compare treatment with control. Targets and tolerance ranges are defined in advance.
+          Eligible players have the Cards Center unlocked and at least one targetable missing Card. Event
+          metrics use eligible players active each day; post event guardrails use the full eligible group. All
+          results compare treatment with control.
         </p>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[720px] border-collapse text-left">
             <thead>
               <tr className="border-b-2 border-cm-wood">
                 <th className="w-[30%] py-2 pr-4 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">Metric</th>
-                <th className="w-[16%] px-3 py-2 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">Role</th>
+                <th className="w-[16%] px-3 py-2 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70"><span className="sr-only">Role</span></th>
                 <th className="py-2 pl-3 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">Proposed target</th>
               </tr>
             </thead>
@@ -124,7 +123,7 @@ export default function MVP() {
                 <tr key={metric} className="border-b border-charcoal/15">
                   <td className="py-3 pr-4 align-top font-sans text-[13px] font-medium leading-relaxed text-cm-violet-deep">{metric}</td>
                   <td className="px-3 py-3 align-top">
-                    <span className={`inline-flex rounded-full px-2 py-1 font-sans text-[9px] font-bold uppercase tracking-[0.08em] ${ROLE_CLASSES[role]}`}>{role}</span>
+                    <span className={`inline-flex w-20 justify-center rounded-full border px-2 py-1 font-sans text-[9px] font-bold uppercase tracking-[0.08em] ${ROLE_CLASSES[role]}`}>{role}</span>
                   </td>
                   <td className="py-3 pl-3 align-top font-sans text-[13px] leading-relaxed text-charcoal">{target}</td>
                 </tr>

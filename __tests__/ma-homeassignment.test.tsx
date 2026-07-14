@@ -29,6 +29,28 @@ it('renders the Coin Master hero banner', () => {
   // chunky display font applied to the title
   const h1 = band.querySelector('h1')!
   expect(h1.className).toContain('text-cm-violet-deep')
+  const desktopLogo = band.querySelector('img[data-hero-logo="desktop"]')!
+  const mobileLogo = band.querySelector('img[data-hero-logo="mobile"]')!
+  const titleRow = h1.parentElement!
+  expect(titleRow.dataset.heroTitleRow).toBe('true')
+  expect(titleRow).toContainElement(desktopLogo)
+  expect(desktopLogo.className).toContain('top-[calc(50%_-_6px)]')
+  expect(desktopLogo.className).toContain('-translate-y-1/2')
+  expect(mobileLogo.className).toContain('md:hidden')
+})
+
+it('matches the intro body size to the Concept copy', () => {
+  render(<MAHomeAssignmentPage />)
+  const intro = Array.from(document.querySelectorAll('#hero p')).find((node) =>
+    node.textContent?.startsWith('Coin Master’s core')
+  )!
+  const concept = Array.from(document.querySelectorAll('#feature-1 p')).find((node) =>
+    node.textContent?.startsWith('Villages show progression')
+  )!
+
+  expect(concept.className).toContain('text-[14px]')
+  expect(intro.className).toContain('text-[14px]')
+  expect(intro.className).not.toContain('text-[15px]')
 })
 
 it('renders the current workflow and the concept mockup in each feature', () => {
@@ -36,6 +58,20 @@ it('renders the current workflow and the concept mockup in each feature', () => 
   const feature1 = document.getElementById('feature-1')!
   // concept mockup image sits beside the current workflow
   expect(feature1.querySelector('img[src="/coinmaster/feature1.png"]')).not.toBeNull()
+})
+
+it('renders risk cards without a background fill', () => {
+  render(<MAHomeAssignmentPage />)
+  const riskTitle = Array.from(document.querySelectorAll('#feature-1 p')).find((node) =>
+    node.textContent === 'Core Cannibalization'
+  )!
+  const riskCard = riskTitle.parentElement!
+
+  expect(riskCard.className).toContain('border-cm-crimson/35')
+  expect(riskCard.className).toContain('shadow-[')
+  expect(riskCard.className).not.toContain('bg-')
+  expect(riskCard.className).not.toContain('from-[')
+  expect(riskCard.className).not.toContain('to-[')
 })
 
 it('uses distinct Card Bounty artwork for the feature and prototype previews', () => {
@@ -214,13 +250,47 @@ it('renders the approved editorial success metrics table', () => {
   const rows = Array.from(table.querySelectorAll('tbody tr')).map((row) =>
     Array.from(row.querySelectorAll('td')).map((cell) => cell.textContent?.trim())
   )
+  const introduction = Array.from(metrics.querySelectorAll('p')).find((node) =>
+    node.textContent?.startsWith('Eligible players')
+  )!
+  const roleHeader = table.querySelectorAll('th')[1]
+  const rolePills = Array.from(table.querySelectorAll('tbody td:nth-child(2) span'))
 
   expect(headers).toEqual(['Metric', 'Role', 'Proposed target'])
   expect(rows).toEqual(expectedRows)
+  expect(introduction.textContent).toBe(
+    'Eligible players have the Cards Center unlocked and at least one targetable missing Card. Event metrics use eligible players active each day; post event guardrails use the full eligible group. All results compare treatment with control.'
+  )
+  expect(roleHeader.querySelector('.sr-only')?.textContent).toBe('Role')
+  expect(roleHeader.childNodes).toHaveLength(1)
+  expect(rolePills).toHaveLength(8)
+  for (const pill of rolePills) {
+    expect(pill.className).toContain('border')
+    expect(pill.className).toContain('w-20')
+    expect(pill.className).toContain('justify-center')
+  }
+  expect(rolePills[0].className).toContain('border-cm-wood/50')
+  expect(rolePills[1].className).toContain('border-cm-violet-deep/30')
+  expect(rolePills[3].className).toContain('border-cm-violet-deep/30')
+  expect(rolePills[4].className).toContain('border-cm-crimson/30')
   expect(table.className).toContain('min-w-[720px]')
   expect(table.parentElement?.className).toContain('overflow-x-auto')
   expect(table.querySelector('thead tr')?.className).toContain('border-cm-wood')
   expect(table.querySelector('tbody tr')?.className).toContain('border-charcoal/15')
   expect(metrics.textContent).not.toContain('Success signal')
   expect(metrics.querySelectorAll('div.border-l-4')).toHaveLength(0)
+})
+
+it('renders Assumptions without decorative dash markers', () => {
+  render(<MAHomeAssignmentPage />)
+  const assumptions = document.getElementById('assumptions')!
+  const items = Array.from(assumptions.querySelectorAll('li'))
+
+  expect(items).toHaveLength(6)
+  for (const item of items) {
+    expect(item.querySelector('[aria-hidden="true"]')).toBeNull()
+    expect(item.textContent?.trim().startsWith('—')).toBe(false)
+    expect(item.className).not.toContain('flex')
+    expect(item.className).not.toContain('gap-2')
+  }
 })
