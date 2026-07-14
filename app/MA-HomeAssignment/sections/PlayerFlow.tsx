@@ -154,13 +154,6 @@ function Phase({ label, children }: { label: string; children: ReactNode }) {
   )
 }
 
-const SECONDARY_RULES = [
-  'Returning player: Cards Center opens the active Bounty directly, skipping introduction and selection.',
-  'Target obtained elsewhere: return to Card Selection and reset the meter.',
-  'Event expires: unclaimed progress is lost.',
-  'Target locks: after the first qualifying Chest is opened.',
-]
-
 export default function PlayerFlow() {
   return (
     <div id="player-flow" className="scroll-mt-8">
@@ -241,19 +234,6 @@ export default function PlayerFlow() {
           </div>
         </div>
       </Phase>
-
-      {/* Secondary rules — small notes beside the flow, not branches */}
-      <div className="mt-6 max-w-xl">
-        <p className="font-sans text-[9px] font-bold uppercase tracking-[0.14em] text-charcoal/50 mb-2">Secondary rules</p>
-        <ul className="flex flex-col gap-1.5">
-          {SECONDARY_RULES.map((rule) => (
-            <li key={rule} className="font-sans text-[11px] leading-relaxed text-charcoal/70 flex gap-2">
-              <span className="text-[#1E7BA8] mt-px shrink-0" aria-hidden="true">•</span>
-              <span>{rule}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   )
 }

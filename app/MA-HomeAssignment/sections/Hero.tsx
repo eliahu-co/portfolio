@@ -5,8 +5,7 @@
 // and the contact line (dark text for readability). The band ends under the
 // contact line; the intro content (core-loop diagram, framing paragraph, and
 // use-case table) lives in Intro.tsx in the main column, so the sidebar nav can
-// sit directly beneath this band. Content strings match the HA-DrawingAnalyzer
-// original.
+// sit directly beneath this band. Content is specific to this assignment.
 
 export default function Hero() {
   return (

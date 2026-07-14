@@ -7,21 +7,19 @@ jest.mock('@/lib/gsap', () => ({
   ScrollTrigger: {},
 }))
 
-it('renders section heading', () => {
+it('renders all four card titles', () => {
   render(<WhatIDo />)
-  expect(screen.getByText('What I do')).toBeInTheDocument()
+  expect(screen.getByText('Product & Dev')).toBeInTheDocument()
+  expect(screen.getByText('Architecture')).toBeInTheDocument()
+  expect(screen.getByText('Research & Dev')).toBeInTheDocument()
+  expect(screen.getByText('Research & Development')).toBeInTheDocument()
+  expect(screen.getByText('Design')).toBeInTheDocument()
 })
 
-it('renders all three card titles', () => {
+it('renders all four category tags', () => {
   render(<WhatIDo />)
-  expect(screen.getByText('Development')).toBeInTheDocument()
-  expect(screen.getByText('Product & R&D')).toBeInTheDocument()
-  expect(screen.getByText('Architecture & Design')).toBeInTheDocument()
-})
-
-it('renders all three category tags', () => {
-  render(<WhatIDo />)
-  expect(screen.getByText('Coding · Full-Stack')).toBeInTheDocument()
-  expect(screen.getByText('Research · Strategy')).toBeInTheDocument()
-  expect(screen.getByText('Architecture · BIM')).toBeInTheDocument()
+  expect(screen.getByText('Strategy · Full-Stack')).toBeInTheDocument()
+  expect(screen.getByText('Construction · BIM')).toBeInTheDocument()
+  expect(screen.getByText('Innovation · Problem-Solving')).toBeInTheDocument()
+  expect(screen.getByText('Product · Furniture')).toBeInTheDocument()
 })

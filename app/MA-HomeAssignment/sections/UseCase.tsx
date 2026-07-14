@@ -69,7 +69,7 @@ export interface UseCaseData {
 
   currentWorkflow:  Workflow
   proposedWorkflow: Workflow
-  legendAiOnly?:    boolean // show only the AI Drawing Analyzer entry in the workflow legend
+  legendAiOnly?:    boolean // show only the assisted-step entry in the workflow legend
 
   opportunity: {
     statement: string   // headline opportunity statement
@@ -417,7 +417,7 @@ function Legend({ current, proposed, aiOnly }: { current: Workflow; proposed: Wo
   for (const s of [...current.steps, ...proposed.steps]) used.add(s.kind ?? 'normal')
 
   const items = ([
-    { kind: 'ai',      glyph: '⚡︎', label: 'Powered by AI Drawing Analyzer' },
+    { kind: 'ai',      glyph: '⚡︎', label: 'Assisted step' },
     { kind: 'catch',   glyph: '⚑', label: 'Issue caught' },
     { kind: 'reject',  glyph: '✕', label: 'Rejected' },
     { kind: 'approve', glyph: '✓', label: 'Approved' },

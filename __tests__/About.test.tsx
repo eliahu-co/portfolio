@@ -7,11 +7,9 @@ jest.mock('@/lib/gsap', () => ({
   ScrollTrigger: {},
 }))
 
-it('renders section heading', () => {
+it('renders the profile photo', () => {
   render(<About />)
-  expect(
-    screen.getByText(/the intersection of design thinking/i)
-  ).toBeInTheDocument()
+  expect(screen.getByRole('img', { name: 'Eliahu Cohen' })).toBeInTheDocument()
 })
 
 it('renders bio paragraph', () => {
@@ -21,7 +19,7 @@ it('renders bio paragraph', () => {
 
 it('renders all skill tags', () => {
   render(<About />)
-  const tags = ['Product', 'BIM', 'ConTech', 'React · Node.js', 'Digital Twin', 'CAD-to-CAM']
+  const tags = ['Architecture', 'Product Manager', 'Full Stack', 'BIM', 'ConTech']
   tags.forEach((tag) => {
     expect(screen.getByText(tag)).toBeInTheDocument()
   })

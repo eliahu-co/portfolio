@@ -17,3 +17,17 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
     }),
   })
 }
+
+if (typeof window !== 'undefined' && !window.ResizeObserver) {
+  class ResizeObserverMock {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+
+  Object.defineProperty(window, 'ResizeObserver', {
+    writable: true,
+    value: ResizeObserverMock,
+  })
+  global.ResizeObserver = ResizeObserverMock
+}

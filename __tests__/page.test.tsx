@@ -16,10 +16,10 @@ jest.mock('@/lib/gsap', () => ({
   },
 }))
 
-it('renders all four sections', () => {
+it('renders the current portfolio sections', () => {
   render(<Home />)
   expect(document.getElementById('hero')).toBeInTheDocument()
   expect(document.getElementById('about')).toBeInTheDocument()
   expect(document.getElementById('what-i-do')).toBeInTheDocument()
-  expect(document.getElementById('contact')).toBeInTheDocument()
+  expect(document.getElementById('work-strip')).toBeInTheDocument()
 })

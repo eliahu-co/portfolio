@@ -22,6 +22,8 @@ export const DirectionalLight = jest.fn().mockImplementation(() => ({
 }))
 export const MeshStandardMaterial = jest.fn().mockImplementation(() => ({}))
 export const Color = jest.fn()
+export const ColorManagement = { enabled: false }
+export const SRGBColorSpace = 'srgb'
 export const Box3 = jest.fn().mockImplementation(() => ({
   setFromObject: jest.fn().mockReturnThis(),
   getSize: jest.fn().mockImplementation((target: { x: number; y: number; z: number }) => {
@@ -32,12 +34,17 @@ export const Box3 = jest.fn().mockImplementation(() => ({
   }),
 }))
 export const Vector3 = jest.fn().mockImplementation(() => ({ x: 0, y: 0, z: 0 }))
+export const Vector2 = jest.fn().mockImplementation((x = 0, y = 0) => ({ x, y }))
+export const Raycaster = jest.fn().mockImplementation(() => ({
+  setFromCamera: jest.fn(),
+  intersectObjects: jest.fn(() => []),
+}))
 export const Group = jest.fn().mockImplementation(() => ({
   position: { x: 0, y: 0, z: 0, set: jest.fn() },
   rotation: { x: 0, y: 0, z: 0 },
   add: jest.fn(),
   remove: jest.fn(),
-  scale: { set: jest.fn(), x: 1, y: 1, z: 1 },
+  scale: { set: jest.fn(), setScalar: jest.fn(), x: 1, y: 1, z: 1 },
   children: [],
 }))
 export const Mesh = jest.fn().mockImplementation(() => ({

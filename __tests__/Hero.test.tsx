@@ -3,18 +3,13 @@ import { render, screen } from '@testing-library/react'
 import Hero from '@/components/Hero'
 
 jest.mock('next/dynamic', () => () => () => null)
+jest.mock('@/components/Tooltip', () => ({
+  showTooltip: jest.fn(),
+  hideTooltip: jest.fn(),
+}))
 
-it('renders name', () => {
-  render(<Hero />)
-  expect(screen.getByText('Eliahu Cohen')).toBeInTheDocument()
-})
-
-it('renders tagline', () => {
-  render(<Hero />)
-  expect(screen.getByText(/architect\. developer\. builder\./i)).toBeInTheDocument()
-})
-
-it('renders scroll CTA', () => {
-  render(<Hero />)
-  expect(screen.getByText(/scroll to explore/i)).toBeInTheDocument()
+it('renders the hero section', () => {
+  const { container } = render(<Hero />)
+  expect(container.querySelector('#hero')).toBeInTheDocument()
+  expect(container.querySelector('.animate-bounce-y')).toBeInTheDocument()
 })
