@@ -229,6 +229,14 @@ describe('Card Bounty demo reducer', () => {
     expect(state.eventSecondsRemaining).toBe(0)
   })
 
+  it('does not create new state after the countdown becomes terminal', () => {
+    const expired = { ...initialDemoState, eventSecondsRemaining: 0 }
+    const completed = { ...initialDemoState, eventCompleted: true }
+
+    expect(demoReducer(expired, { type: 'TICK' })).toBe(expired)
+    expect(demoReducer(completed, { type: 'TICK' })).toBe(completed)
+  })
+
   it('expires incomplete progress and prevents reopening when the event ends', () => {
     const active = { ...openChest('golden', 2), overlay: 'bounty' as const, eventSecondsRemaining: 1 }
     const expired = demoReducer(active, { type: 'TICK' })
@@ -242,6 +250,35 @@ describe('Card Bounty demo reducer', () => {
       overlay: null,
     })
     expect(reopened).toBe(expired)
+  })
+
+  it('preserves an earned guarantee when time expires during its reward sequence', () => {
+    const purchased = {
+      ...openChest('magical', 100),
+      eventSecondsRemaining: 1,
+    }
+    const expiredDuringOpening = demoReducer(purchased, { type: 'TICK' })
+    const guarantee = demoReducer(expiredDuringOpening, { type: 'COMPLETE_CHEST_OPENING' })
+    const expiredDuringGuarantee = demoReducer(guarantee, { type: 'TICK' })
+
+    expect(expiredDuringOpening).toMatchObject({
+      eventSecondsRemaining: 0,
+      selectedTargetId: 'whale-boat',
+      meterProgress: 300,
+      targetLocked: true,
+      overlay: 'chest-opening',
+    })
+    expect(expiredDuringGuarantee).toMatchObject({
+      eventSecondsRemaining: 0,
+      selectedTargetId: 'whale-boat',
+      meterProgress: 300,
+      targetLocked: true,
+      overlay: 'guarantee',
+    })
+    expect(demoReducer(expiredDuringGuarantee, { type: 'CLAIM_GUARANTEE' })).toMatchObject({
+      overlay: 'collection-complete',
+      eventCompleted: true,
+    })
   })
 
   it('collects the Collection reward only once and keeps the event terminal', () => {

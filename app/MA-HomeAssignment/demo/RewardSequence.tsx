@@ -12,7 +12,7 @@ export function ChestOpening({ state, onContinue }: { state: DemoState; onContin
   const revealedCards = DUPLICATE_REVEALS.slice(0, totalCards)
   const chestImage = chest.id === 'magical'
     ? '/coinmaster/card-bounty/generated/magical-chest-open.webp'
-    : `/coinmaster/card-bounty/${chest.id}-chest.png`
+    : chest.image
 
   return (
     <section className={`${styles.rewardScreen} ${styles.chestOpeningScreen}`} role="dialog" aria-modal="true" aria-labelledby="chest-opening-title">

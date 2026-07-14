@@ -38,6 +38,9 @@ describe('Card Bounty prototype happy path', () => {
     expect(screen.getByRole('button', { name: 'Buy Wooden Chest, 5.2M Coins, 2 Cards per Chest, +1 Bounty progress' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Buy Golden Chest, 16M Coins, 4 Cards per Chest, +2 Bounty progress' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Buy Magical Chest, 29M Coins, 8 Cards per Chest, +3 Bounty progress' })).toBeInTheDocument()
+    expect(bountyDialog.querySelector('img[src="/coinmaster/card-bounty/wooden-chest.webp"]')).toBeInTheDocument()
+    expect(bountyDialog.querySelector('img[src="/coinmaster/card-bounty/golden-chest.webp"]')).toBeInTheDocument()
+    expect(bountyDialog.querySelector('img[src="/coinmaster/card-bounty/magical-chest.webp"]')).toBeInTheDocument()
 
     for (let batch = 1; batch <= 10; batch += 1) {
       fireEvent.click(screen.getByRole('button', { name: 'Buy Magical Chest, 29M Coins, 8 Cards per Chest, +3 Bounty progress' }))

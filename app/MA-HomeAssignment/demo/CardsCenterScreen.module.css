@@ -3,7 +3,7 @@
   inset: 0;
   isolation: isolate;
   display: grid;
-  grid-template-rows: 118px minmax(0, 1fr) 86px;
+  grid-template-rows: calc(118px + env(safe-area-inset-top)) minmax(0, 1fr) calc(86px + env(safe-area-inset-bottom));
   overflow: hidden;
   color: #fff;
   background: #078e8d;
@@ -14,7 +14,7 @@
   content: "";
   position: absolute;
   z-index: -1;
-  inset: 118px 0 86px;
+  inset: calc(118px + env(safe-area-inset-top)) 0 calc(86px + env(safe-area-inset-bottom));
   pointer-events: none;
   background:
     radial-gradient(circle at 17% 12%, rgba(116, 255, 236, .25) 0 2px, transparent 3px),
@@ -31,7 +31,7 @@
   grid-template-columns: 52px minmax(0, 1fr) 52px;
   align-items: center;
   gap: 8px;
-  padding: 15px 17px 12px;
+  padding: calc(15px + env(safe-area-inset-top)) 17px 12px;
   border-bottom: 4px solid #f6bd43;
   background:
     radial-gradient(circle at 50% -30%, rgba(112, 234, 255, .8), transparent 58%),
@@ -350,6 +350,7 @@
   z-index: 3;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  padding-bottom: env(safe-area-inset-bottom);
   border-top: 3px solid #9b6d3c;
   background:
     linear-gradient(90deg, transparent 49.7%, rgba(116, 76, 35, .34) 50%, transparent 50.3%),

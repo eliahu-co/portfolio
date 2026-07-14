@@ -1,3 +1,5 @@
+import { CHESTS, DUPLICATE_REVEALS, TARGETS } from './demoData'
+
 export type DemoCollection = {
   id: string
   name: string
@@ -44,6 +46,9 @@ export const REEL_GRID = [
 ] as const
 
 export const REQUIRED_VISUAL_ASSETS = [
+  ...TARGETS.map((item) => item.image.slice(1)),
+  ...DUPLICATE_REVEALS.map((item) => item.image.slice(1)),
+  ...CHESTS.map((item) => item.image.slice(1)),
   ...DEMO_COLLECTIONS.map((item) => item.image.slice(1)),
   'coinmaster/card-bounty/generated/card-bounty-badge.webp',
   'coinmaster/card-bounty/generated/magical-chest-open.webp',

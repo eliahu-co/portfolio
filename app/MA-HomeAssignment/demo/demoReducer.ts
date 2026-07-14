@@ -282,8 +282,15 @@ export function demoReducer(state: DemoState, action: DemoAction): DemoState {
       }
 
     case 'TICK': {
+      if (state.eventCompleted || state.eventSecondsRemaining <= 0) return state
       const eventSecondsRemaining = Math.max(0, state.eventSecondsRemaining - (action.seconds ?? 1))
       if (eventSecondsRemaining === 0 && !state.eventCompleted) {
+        const guaranteeEarned = (
+          state.meterProgress >= state.meterThreshold
+          && (state.overlay === 'chest-opening' || state.overlay === 'guarantee')
+        )
+        if (guaranteeEarned) return { ...state, eventSecondsRemaining }
+
         return {
           ...state,
           eventSecondsRemaining,

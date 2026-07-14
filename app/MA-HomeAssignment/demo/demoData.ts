@@ -19,6 +19,7 @@ export type DemoTarget = {
 export type DemoChest = {
   id: ChestId
   name: string
+  image: string
   price: number
   cardsPerChest: number
   bountyProgress: number
@@ -69,6 +70,7 @@ export const CHESTS: DemoChest[] = [
   {
     id: 'wooden',
     name: 'Wooden Chest',
+    image: '/coinmaster/card-bounty/wooden-chest.webp',
     price: 5_200_000,
     cardsPerChest: 2,
     bountyProgress: 1,
@@ -78,6 +80,7 @@ export const CHESTS: DemoChest[] = [
   {
     id: 'golden',
     name: 'Golden Chest',
+    image: '/coinmaster/card-bounty/golden-chest.webp',
     price: 16_000_000,
     cardsPerChest: 4,
     bountyProgress: 2,
@@ -87,6 +90,7 @@ export const CHESTS: DemoChest[] = [
   {
     id: 'magical',
     name: 'Magical Chest',
+    image: '/coinmaster/card-bounty/magical-chest.webp',
     price: 29_000_000,
     cardsPerChest: 8,
     bountyProgress: 3,

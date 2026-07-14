@@ -243,8 +243,7 @@
 .primaryButton:disabled { filter: grayscale(.4); opacity: .48; }
 .secondaryButton { min-height: 44px; margin-top: 9px; border-color: #aa7122; background: linear-gradient(180deg, #ffe89a, #e1a53b); box-shadow: inset 0 2px rgba(255, 255, 255, .5), 0 3px 0 #a06b22; color: #633114; text-shadow: 0 1px #fff1bd; }
 .primaryButton:focus-visible,
-.secondaryButton:focus-visible,
-.spinButton:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.secondaryButton:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 
 .panelTitle { margin: 3px 0 8px; color: #6b2d12; font-size: clamp(25px, 8cqw, 35px); font-weight: 1000; letter-spacing: -.04em; line-height: .96; text-shadow: 0 2px #fff4ca; text-transform: uppercase; }
 .kicker { margin: 0; color: #ffd354; font-size: 8px; font-weight: 1000; letter-spacing: .14em; line-height: 1.1; text-transform: uppercase; }
@@ -314,63 +313,12 @@
 .spinReward strong { align-self: start; color: #ffe26b; font-size: 18px; text-transform: uppercase; }
 .collectionResultNote { max-width: 300px; margin: 18px 0 auto; padding: 13px 15px; border: 1px solid rgba(143, 222, 247, .34); border-radius: 14px; background: rgba(2, 31, 49, .5); color: #d8f3ff; font-size: 11px; line-height: 1.45; }
 
-/* Full-screen return reward state */
-.spinScreen { position: absolute; inset: 0; overflow: hidden; display: flex; flex-direction: column; padding: 10px 12px 0; background: linear-gradient(180deg, #4bc7f0 0%, #b6eff8 42%, #64be78 43%, #278d4b 100%); }
-.spinScreen::before { position: absolute; inset: 0 0 43%; background: url('/coinmaster-sky.webp') center bottom / auto 100% no-repeat; content: ""; opacity: .75; pointer-events: none; }
-.gameHud { position: relative; z-index: 2; min-height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.currencyPill { min-width: 0; min-height: 32px; display: flex; align-items: center; gap: 5px; padding: 4px 9px 4px 4px; border: 1px solid rgba(255, 225, 146, .6); border-radius: 999px; background: linear-gradient(180deg, #8b4c20, #532911); box-shadow: inset 0 1px rgba(255, 255, 255, .28), 0 3px 8px rgba(0, 0, 0, .22); color: #fff8de; font-size: clamp(9px, 2.8cqw, 12px); }
-.currencyPill strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.spinPill { background: linear-gradient(180deg, #83519e, #482766); }
-.spinPill > svg { width: 23px; height: 23px; fill: #ffd84f; stroke: #a3610a; stroke-width: 1.3; filter: drop-shadow(0 1px 0 #fff2a6); }
-.rewardToast { position: relative; z-index: 4; width: min(100%, 330px); min-height: 55px; display: flex; align-items: center; align-self: center; gap: 9px; margin-top: 7px; padding: 7px 11px; border: 2px solid rgba(255, 255, 255, .8); border-radius: 14px; background: rgba(255, 255, 255, .88); box-shadow: 0 5px 18px rgba(16, 87, 111, .24); color: #17384a; animation: toastArrive .5s ease-out both; }
-.toastCheck { width: 33px; height: 33px; display: grid; flex: 0 0 auto; place-items: center; border-radius: 50%; background: #49b825; box-shadow: 0 2px 0 #2d7b15; color: #fff; }
-.toastCheck svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 3; }
-.rewardToast strong { font-size: 11px; text-transform: uppercase; }
-.rewardToast p { margin: 2px 0 0; color: #4e7181; font-size: 9px; }
-.villageScene { position: absolute; z-index: 1; inset: 20% 0 23%; overflow: hidden; }
-.sunDisk { position: absolute; top: 4px; right: -20px; width: 130px; height: 130px; border-radius: 50%; background: radial-gradient(circle, #fff5a3, #ffd442 58%, rgba(255, 212, 66, .2) 60%, transparent 72%); }
-.mountainBack,
-.mountainFront { position: absolute; right: -20%; bottom: 32%; left: -20%; height: 46%; clip-path: polygon(0 100%, 12% 55%, 23% 77%, 39% 22%, 53% 75%, 69% 42%, 82% 70%, 100% 36%, 100% 100%); }
-.mountainBack { background: #5c97a2; opacity: .7; }
-.mountainFront { bottom: 21%; background: #3b7c67; transform: scaleX(-1); }
-.villageTower { position: absolute; bottom: 12%; left: 50%; width: 96px; height: 150px; border: 5px solid #8b4c1f; border-radius: 44px 44px 10px 10px; background: linear-gradient(90deg, #d29245, #f0c06c 45%, #b8752f); box-shadow: 0 9px 0 rgba(65, 45, 23, .22); transform: translateX(-50%); }
-.villageTower::before { position: absolute; top: -61px; left: 50%; width: 105px; height: 75px; border-bottom: 6px solid #7a331e; background: linear-gradient(90deg, #db5530, #8e281d); clip-path: polygon(50% 0, 100% 80%, 85% 100%, 15% 100%, 0 80%); content: ""; transform: translateX(-50%); }
-.villageTower i { position: absolute; top: 32px; left: 50%; width: 28px; height: 46px; border: 4px solid #78401f; border-radius: 15px 15px 4px 4px; background: #3b88a1; transform: translateX(-50%); }
-.villageTower span { position: absolute; bottom: 0; left: 50%; width: 42px; height: 55px; border-radius: 22px 22px 0 0; background: #6e371c; transform: translateX(-50%); }
-.villageTower b { position: absolute; top: -82px; left: 50%; width: 6px; height: 40px; background: #7a421f; }
-.villageTower b::after { position: absolute; top: 1px; left: 6px; width: 38px; height: 23px; background: #e54631; clip-path: polygon(0 0, 100% 15%, 76% 100%, 0 80%); content: ""; }
-.villageHouse { position: absolute; bottom: 11%; width: 76px; height: 71px; border: 4px solid #74401e; border-radius: 8px; background: #e3a34f; }
-.villageHouse::before { position: absolute; top: -37px; right: -9px; left: -9px; height: 43px; background: #b94728; clip-path: polygon(50% 0, 100% 88%, 92% 100%, 8% 100%, 0 88%); content: ""; }
-.villageHouse span { position: absolute; bottom: 0; left: 50%; width: 24px; height: 38px; border-radius: 12px 12px 0 0; background: #6f381c; transform: translateX(-50%); }
-.houseOne { left: 8%; transform: scale(.86); }
-.houseTwo { right: 7%; transform: scale(.92); }
-.houseThree { bottom: 4%; left: 22%; transform: scale(.62); }
-.coinTrail { position: absolute; bottom: 13%; left: 58%; width: 95px; height: 110px; }
-.coinTrail i { position: absolute; width: 19px; height: 19px; border: 2px solid #b46d06; border-radius: 50%; background: #ffd53b; box-shadow: inset 0 0 0 2px #ffeb80, 0 3px 5px rgba(0, 0, 0, .2); }
-.coinTrail i:nth-child(1) { bottom: 2px; left: 2px; }
-.coinTrail i:nth-child(2) { bottom: 41px; left: 38px; }
-.coinTrail i:nth-child(3) { top: 4px; right: 2px; }
-.villagePlaque { position: relative; z-index: 3; align-self: center; margin-top: 12px; padding: 8px 22px; border: 2px solid #f5c65b; border-radius: 13px; background: linear-gradient(180deg, #875023, #51280f); box-shadow: 0 3px 0 #351a0a; color: #fff3cf; text-align: center; }
-.villagePlaque small { display: block; color: #f3c56a; font-size: 7px; font-weight: 900; text-transform: uppercase; }
-.villagePlaque strong { display: block; font-size: 16px; text-transform: uppercase; }
-.spinActionArea { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; margin-top: auto; padding-bottom: 72px; }
-.spinActionArea > p { max-width: 270px; margin: 0 0 9px; color: #eafaff; font-size: 9px; text-shadow: 0 1px 3px #135f3b; }
-.spinButton { width: min(100%, 260px); min-height: 95px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 4px solid #a45b08; border-radius: 44% 44% 28% 28%; background: linear-gradient(180deg, #fff07c 0%, #ffc72f 54%, #f08b0d 100%); box-shadow: inset 0 5px rgba(255, 255, 255, .55), 0 8px 0 #8c3f08, 0 14px 25px rgba(57, 38, 7, .36), 0 0 0 8px rgba(255, 222, 74, .18); color: #7d280d; transform-origin: center; animation: spinPulse 1.65s ease-in-out infinite; }
-.spinButton span { font-size: clamp(32px, 10cqw, 43px); font-weight: 1000; line-height: .9; text-shadow: 0 2px #fff1a2; text-transform: uppercase; }
-.spinButton small { margin-top: 5px; color: #9a4c0c; font-size: 7px; font-weight: 900; text-transform: uppercase; }
-.spinBottomNav { position: absolute; z-index: 5; right: 0; bottom: 0; left: 0; min-height: 58px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(255, 255, 255, .25); background: linear-gradient(180deg, rgba(6, 48, 56, .94), rgba(3, 29, 38, .98)); }
-.spinBottomNav span { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #8cc5cf; font-size: 7px; font-weight: 900; text-transform: uppercase; }
-.spinBottomNav svg { width: 27px; height: 27px; fill: rgba(255, 255, 255, .08); stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
-.spinBottomNav .spinNavActive { border-top: 3px solid #ffdc57; background: rgba(255, 220, 88, .08); color: #ffdf62; }
-
 @keyframes guidePulse { 0%, 100% { opacity: .65; transform: scale(.85); } 50% { opacity: 1; transform: scale(1.18); } }
 @keyframes slowSpin { to { transform: translateX(-50%) rotate(360deg); } }
 @keyframes chestArrive { from { opacity: 0; transform: translateY(-24px) scale(.72); } to { opacity: 1; transform: none; } }
 @keyframes cardReveal { from { opacity: 0; transform: translateY(35px) rotate(0) scale(.75); } }
 @keyframes guaranteeArrive { from { opacity: 0; transform: scale(.52) rotate(-6deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
 @keyframes finalCard { from { opacity: 0; transform: translateY(-45px) rotate(8deg) scale(.7); } }
-@keyframes toastArrive { from { opacity: 0; transform: translateY(-18px); } }
-@keyframes spinPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.035); } }
 
 @media (max-width: 960px) and (min-width: 768px) {
   .demoRoot { grid-template-columns: 205px auto; gap: 22px; padding-inline: 16px; }
@@ -391,9 +339,6 @@
   .prototypeControlsFinal .guidance { display: none; }
   .prototypeControlsFinal .homeLink,
   .prototypeControlsFinal .restartButton { min-height: 44px; justify-content: center; margin: 0; padding: 7px 9px; font-size: 10px; }
-  .spinScreen { padding-bottom: calc(59px + env(safe-area-inset-bottom)); }
-  .spinBottomNav { bottom: calc(58px + env(safe-area-inset-bottom)); }
-  .spinActionArea { padding-bottom: 128px; }
   .rewardScreen { padding-top: max(34px, env(safe-area-inset-top)); padding-bottom: max(20px, env(safe-area-inset-bottom)); }
 }
 

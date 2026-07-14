@@ -6,7 +6,7 @@
 // edited without touching layout.
 
 import type { Metadata } from 'next'
-import { Nunito, Nunito_Sans } from 'next/font/google'
+import localFont from 'next/font/local'
 import SideNav from './SideNav'
 
 import Hero from './sections/Hero'
@@ -22,8 +22,20 @@ import AssumptionsSources from './sections/AssumptionsSources'
 // Fonts) — Nunito (headings) + Nunito Sans (body) are the closest free
 // counterparts. Scoped via CSS vars + the .ma-page overrides below so the
 // rest of the portfolio keeps its own fonts.
-const nunito = Nunito({ subsets: ['latin'], variable: '--font-cm-display', display: 'swap' })
-const nunitoSans = Nunito_Sans({ subsets: ['latin'], variable: '--font-cm-body', display: 'swap' })
+const nunito = localFont({
+  src: '../fonts/nunito-latin-variable.woff2',
+  weight: '200 1000',
+  style: 'normal',
+  variable: '--font-cm-display',
+  display: 'swap',
+})
+const nunitoSans = localFont({
+  src: '../fonts/nunito-sans-latin-variable.woff2',
+  weight: '200 1000',
+  style: 'normal',
+  variable: '--font-cm-body',
+  display: 'swap',
+})
 
 const OG_IMAGE = 'https://eliahu.co/coinmaster/card-bounty-preview.jpg'
 

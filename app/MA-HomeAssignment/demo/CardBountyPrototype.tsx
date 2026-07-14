@@ -60,11 +60,13 @@ export default function CardBountyPrototype() {
   const flowOpenerRef = useRef<HTMLElement | null>(null)
   const target = getTarget(state.selectedTargetId)
   const purchasePreview = getPurchasePreview(state)
+  const countdownActive = !state.eventCompleted && state.eventSecondsRemaining > 0
 
   useEffect(() => {
+    if (!countdownActive) return
     const timer = window.setInterval(() => dispatch({ type: 'TICK' }), 1000)
     return () => window.clearInterval(timer)
-  }, [])
+  }, [countdownActive])
 
   useEffect(() => {
     if (state.overlay === null) return
@@ -171,7 +173,7 @@ export default function CardBountyPrototype() {
               <img
                 src={purchasePreview.chest.id === 'magical'
                   ? '/coinmaster/card-bounty/generated/magical-chest-open.webp'
-                  : `/coinmaster/card-bounty/${purchasePreview.chest.id}-chest.png`}
+                  : purchasePreview.chest.image}
                 alt=""
               />
             }

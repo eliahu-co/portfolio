@@ -148,7 +148,7 @@ export function ActiveBountyPanel({
           >
             <span className={styles.chestProgressBadge}><b>+{chest.bountyProgress}</b><small>Bounty<br />progress</small></span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`/coinmaster/card-bounty/${chest.id}-chest.png`} alt="" />
+            <img src={chest.image} alt="" />
             <strong>{chest.name}</strong>
             <span className={styles.cardsPerChest}>{chest.cardsPerChest} Cards / Chest</span>
             <span className={styles.chestPrice}><CoinIcon small />{formatCompactCoins(chest.price)}</span>

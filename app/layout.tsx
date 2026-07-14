@@ -1,25 +1,79 @@
 // app/layout.tsx
 import type { Metadata } from 'next'
-import { Cormorant_Garamond, DM_Sans, Nabla } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import MobileGate from '@/components/MobileGate'
 
-const cormorant = Cormorant_Garamond({
-  subsets:  ['latin'],
-  weight:   ['300', '400', '500', '600', '700'],
-  style:    ['normal', 'italic'],
+const cormorant = localFont({
+  src: [
+    {
+      path: './fonts/cormorant-garamond-latin-variable.woff2',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: './fonts/cormorant-garamond-latin-variable.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/cormorant-garamond-latin-variable.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: './fonts/cormorant-garamond-latin-variable.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: './fonts/cormorant-garamond-latin-variable.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: './fonts/cormorant-garamond-latin-variable-italic.woff2',
+      weight: '300',
+      style: 'italic',
+    },
+    {
+      path: './fonts/cormorant-garamond-latin-variable-italic.woff2',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: './fonts/cormorant-garamond-latin-variable-italic.woff2',
+      weight: '500',
+      style: 'italic',
+    },
+    {
+      path: './fonts/cormorant-garamond-latin-variable-italic.woff2',
+      weight: '600',
+      style: 'italic',
+    },
+    {
+      path: './fonts/cormorant-garamond-latin-variable-italic.woff2',
+      weight: '700',
+      style: 'italic',
+    },
+  ],
   variable: '--font-playfair',   // keeps existing font-serif class wiring
   display:  'swap',
+  adjustFontFallback: 'Times New Roman',
 })
 
-const nabla = Nabla({
-  subsets:  ['latin'],
+const nabla = localFont({
+  src: './fonts/nabla-latin.woff2',
+  weight: '400',
+  style: 'normal',
   variable: '--font-nabla',
   display:  'swap',
 })
 
-const dmSans = DM_Sans({
-  subsets:  ['latin'],
+const dmSans = localFont({
+  src: './fonts/dm-sans-latin-variable.woff2',
+  weight: '100 1000',
+  style: 'normal',
   variable: '--font-inter',      // keeps existing font-sans class wiring
   display:  'swap',
 })

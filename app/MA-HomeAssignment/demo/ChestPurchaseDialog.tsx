@@ -97,6 +97,18 @@ export default function ChestPurchaseDialog({
       </div>
 
       <p className={styles.affordability}>Up to {preview.maxAffordable} Chests affordable</p>
+      <output
+        aria-atomic="true"
+        aria-label="Purchase quote update"
+        aria-live="polite"
+        className={styles.srOnly}
+        role="status"
+      >
+        {preview.quantity} {preview.chest.name}{preview.quantity === 1 ? '' : 's'}.{' '}
+        {preview.totalCards} total Cards.{' '}
+        {formattedTotalCost} Coins. Projected Bounty progress {preview.progressAfter} of{' '}
+        {preview.meterThreshold}.
+      </output>
       {purchaseError ? <p className={styles.error} role="alert">{purchaseError}</p> : null}
       <span className={styles.srOnly} id={TOTAL_COST_DESCRIPTION_ID}>
         Total Coin cost: {formattedTotalCost} Coins
