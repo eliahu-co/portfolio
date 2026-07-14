@@ -9,12 +9,9 @@ export default function Intro() {
   return (
     <div id="hero" className="scroll-mt-8 max-w-2xl mb-14">
       <p className="font-sans text-[15px] leading-relaxed text-charcoal mb-8">
-        Coin Master’s core loop starts with Spins: players use them to generate Coins and other
-        outcomes, then spend Coins to build Villages and advance. Attacks and Raids are also triggered
-        through Spins and extend the loop into PvP. Chests feed Card Collections, and completed
-        Collections return Spins. Pets modify rewards, while social systems and LiveOps add goals,
-        competition, urgency and additional rewards to existing actions. Gems provide premium
-        acceleration.
+        Coin Master’s core loop starts with Spins, which generate Coins and trigger rewards, Attacks
+        and Raids. Coins advance Villages; Chests feed Card Collections, whose rewards return Spins.
+        Pets modify rewards, social systems and LiveOps add goals, competition and urgency.
       </p>
 
       <CoreLoopDiagram />
@@ -51,11 +48,8 @@ export default function Intro() {
         .
       </p>
       <p className="font-sans mt-4 text-[15px] leading-relaxed text-charcoal">
-        I developed three concepts across different parts of the game. Hometown connects Village
-        progression with customization and social visibility. Card Bounty uses collection intent to
-        increase Chest demand and Coin consumption. Hot Trail uses loss aversion and urgency to drive
-        return sessions and Spin consumption. I then compared them using ARPDAU impact, core-loop fit,
-        confidence and effort before expanding the strongest opportunity.
+        I developed three concepts and compared them by ARPDAU impact, core-loop fit, confidence and
+        effort before expanding the strongest.
       </p>
     </div>
   )
