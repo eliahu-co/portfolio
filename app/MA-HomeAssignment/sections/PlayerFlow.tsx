@@ -1,12 +1,15 @@
 // app/MA-HomeAssignment/sections/PlayerFlow.tsx
 // Card Bounty player-flow diagram, shown before the MVP "Scope & metrics"
-// section. Reuses the page's visual language:
-//   • screen pills use the blue workflow-lane ("loop") pill style
-//   • core-game outcomes (e.g. Receive Spins) use the gold Rewards-pill style
-//   • decision nodes are diamonds (flowchart standard)
-//   • each phase (Entry / Target / Progress / Resolution) is a framed plaque
-//     container — same treatment as the blue "Meta" rectangle in the hero
-//     core-loop diagram — with its pills inside.
+// section. Reuses the hero core-loop diagram's visual language:
+//   • each phase (Entry / Target / Progress / Resolution) is a framed plaque —
+//     an HTML replica of that diagram's blue "Meta" rectangle (fill #3DAEE0 @
+//     0.92, 1.5px #1E7BA8 stroke, inset white bevel, hard drop shadow). The SVG
+//     `Plaque` there lives in the diagram's coordinate space, so it can't be
+//     reused directly in this flex layout — the styling below matches it exactly.
+//   • screen pills use the diagram's "meta" pill style (bg #F2FAFE, navy border
+//     and text), without the glyphs.
+//   • core-game outcomes (Receive Spins) use the gold Rewards-pill style.
+//   • decision nodes are diamonds (flowchart standard).
 // Solid navy arrows are the main path; dashed navy arrows are return paths; a
 // small crimson accent marks the guaranteed reward. Entry → Target → Progress
 // run as columns on desktop and stack on mobile; the decision branches stay
@@ -14,7 +17,7 @@
 
 import { type ReactNode } from 'react'
 
-const ARROW = '#0F3D54' // navy — reads on both the cream page and the blue plaques
+const ARROW = '#0F3D54' // navy
 
 /* ─── arrows ──────────────────────────────────────────────────────────────── */
 
@@ -22,8 +25,8 @@ function ArrowDown({ dashed = false }: { dashed?: boolean }) {
   return (
     <div className="flex justify-center py-1" aria-hidden="true">
       <svg width="14" height="18" viewBox="0 0 14 18" fill="none">
-        <path d="M7 1 V13" stroke={ARROW} strokeWidth="1.3" strokeLinecap="round" strokeDasharray={dashed ? '3 2.5' : undefined} />
-        <path d="M2.5 9 L7 13.5 L11.5 9" stroke={ARROW} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        <path d="M7 1 V13" stroke={ARROW} strokeWidth="1.4" strokeLinecap="round" strokeDasharray={dashed ? '3 2.5' : undefined} />
+        <path d="M2.5 9 L7 13.5 L11.5 9" stroke={ARROW} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
       </svg>
     </div>
   )
@@ -32,13 +35,13 @@ function ArrowDown({ dashed = false }: { dashed?: boolean }) {
 function ArrowRight() {
   return (
     <svg width="22" height="14" viewBox="0 0 22 14" fill="none" aria-hidden="true">
-      <path d="M1 7 H16" stroke={ARROW} strokeWidth="1.3" strokeLinecap="round" />
-      <path d="M12 2.5 L16.5 7 L12 11.5" stroke={ARROW} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d="M1 7 H16" stroke={ARROW} strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M12 2.5 L16.5 7 L12 11.5" stroke={ARROW} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
     </svg>
   )
 }
 
-// Between phase plaques: right arrow on desktop, down arrow on mobile.
+// Between phases: right arrow on desktop, down arrow on mobile.
 function PhaseArrow() {
   return (
     <div className="flex items-center justify-center md:self-center md:px-1">
@@ -52,8 +55,24 @@ function PhaseArrow() {
   )
 }
 
-/* ─── pills (screen nodes) ────────────────────────────────────────────────── */
+/* ─── plaque (HTML replica of the hero diagram's Meta rectangle) ──────────── */
 
+function Plaque({ children }: { children: ReactNode }) {
+  return (
+    <div
+      className="relative rounded-2xl"
+      style={{ background: 'rgba(61,174,224,0.92)', border: '1.5px solid #1E7BA8', boxShadow: '0 4px 0 rgba(58,30,8,0.2)' }}
+    >
+      <div className="px-3 py-3">{children}</div>
+      {/* inner bevel — inset 3px white line, matching the SVG Plaque */}
+      <span aria-hidden="true" className="pointer-events-none absolute" style={{ inset: '3px', borderRadius: '13px', border: '1px solid rgba(255,255,255,0.5)' }} />
+    </div>
+  )
+}
+
+/* ─── pills ───────────────────────────────────────────────────────────────── */
+
+// screen = the diagram's "meta" pill (no glyph); outcome = gold Rewards pill.
 function Pill({
   title,
   action,
@@ -65,17 +84,15 @@ function Pill({
   tone?: 'screen' | 'outcome'
   accent?: boolean
 }) {
-  // screen = blue loop pill; outcome = gold Rewards pill
   const skin =
     tone === 'outcome'
-      ? 'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 shadow-[0_2px_0_rgba(144,57,0,0.3)]'
-      : 'bg-gradient-to-b from-[#F0FAFE] to-[#DBF1FC] border-[#1E7BA8]/30 shadow-[0_2px_0_rgba(30,123,168,0.16)]'
+      ? 'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 text-cm-wood shadow-[0_2px_0_rgba(144,57,0,0.3)]'
+      : 'bg-[#F2FAFE] border-[#0F3D54]/60 text-[#0d3a5a] shadow-[0_2px_0_rgba(15,61,84,0.45)]'
   const accentSkin = accent ? 'border-cm-crimson/60 ring-1 ring-cm-crimson/25' : ''
-  const titleColor = tone === 'outcome' ? 'text-cm-wood' : 'text-cm-violet-deep'
   return (
-    <div className={`w-full rounded-lg border px-2.5 py-1.5 text-center ${skin} ${accentSkin}`}>
-      <p className={`font-sans text-[12px] font-bold leading-tight ${titleColor}`}>{title}</p>
-      {action && <p className="font-sans text-[10px] leading-snug text-charcoal/55 mt-0.5">{action}</p>}
+    <div className={`w-full rounded-md border px-2.5 py-1 text-center ${skin} ${accentSkin}`}>
+      <p className="font-sans text-[11px] font-extrabold leading-tight">{title}</p>
+      {action && <p className="font-sans text-[9px] font-normal leading-snug opacity-70 mt-0.5">{action}</p>}
     </div>
   )
 }
@@ -89,8 +106,8 @@ function Diamond({ children }: { children: ReactNode }) {
         <polygon
           points="50,1.5 98.5,50 50,98.5 1.5,50"
           fill="#FFFFFF"
-          stroke="#1E7BA8"
-          strokeOpacity="0.55"
+          stroke="#0F3D54"
+          strokeOpacity="0.6"
           strokeWidth="1.5"
           vectorEffect="non-scaling-stroke"
         />
@@ -103,22 +120,20 @@ function Diamond({ children }: { children: ReactNode }) {
 }
 
 function BranchLabel({ children }: { children: ReactNode }) {
-  return <p className="text-center font-sans text-[9px] font-bold uppercase tracking-[0.14em] text-[#1E7BA8]">{children}</p>
+  return <p className="text-center font-sans text-[9px] font-extrabold uppercase tracking-[0.14em] text-white/90">{children}</p>
 }
 
 function ReturnNote({ children }: { children: ReactNode }) {
-  return <p className="text-center font-sans text-[10px] italic leading-snug text-charcoal/55">{children}</p>
+  return <p className="text-center font-sans text-[10px] italic leading-snug text-white/85">{children}</p>
 }
 
-/* ─── phase plaque (framed container, like the hero "Meta" rectangle) ─────── */
+/* ─── phase (label above a plaque) ────────────────────────────────────────── */
 
-function Phase({ label, children, className = '' }: { label: string; children: ReactNode; className?: string }) {
+function Phase({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div
-      className={`flex-1 min-w-0 rounded-2xl border border-[#1E7BA8]/50 bg-[#A9DCF6] ring-1 ring-inset ring-white/50 shadow-[0_4px_0_rgba(30,123,168,0.25)] px-3 pt-2.5 pb-3 ${className}`}
-    >
-      <p className="text-center font-sans text-[9px] font-extrabold uppercase tracking-[0.16em] text-[#0F3D54] mb-2.5">{label}</p>
-      {children}
+    <div className="flex-1 min-w-0">
+      <p className="text-center font-sans text-[9px] font-extrabold uppercase tracking-[0.16em] text-cm-wood mb-1.5">{label}</p>
+      <Plaque>{children}</Plaque>
     </div>
   )
 }
@@ -135,7 +150,7 @@ export default function PlayerFlow() {
     <div id="player-flow" className="scroll-mt-8 mb-14">
       <p className="font-sans text-[10px] font-bold uppercase tracking-[0.18em] text-cm-crimson mb-5">Player Flow</p>
 
-      {/* Entry → Target → Progress (plaque columns on desktop, stacked on mobile) */}
+      {/* Entry → Target → Progress (columns on desktop, stacked on mobile) */}
       <div className="flex flex-col md:flex-row md:items-stretch">
         <Phase label="Entry">
           <Pill title="Cards Center" action="Tap Card Bounty" />
