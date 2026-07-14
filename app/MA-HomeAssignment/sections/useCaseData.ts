@@ -12,7 +12,7 @@ export const USE_CASE_1: UseCaseData = {
   kpi: {
     primary: 'ARPDAU',
     supporting: [
-      'Coin spend on Hometown construction per DAU',
+      'Coin spend on Hometown per DAU',
       'Repeat Customization Rate',
       'Return sessions per Hometown user',
     ],
