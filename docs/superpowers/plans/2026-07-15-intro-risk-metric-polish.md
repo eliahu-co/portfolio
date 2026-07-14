@@ -14,7 +14,7 @@
 - Risk cards must have no background fill or gradient; their borders, accent bars, spacing, typography, warning markers, layout, and shadows remain unchanged.
 - Success metrics role pills must use a fixed `80px` width with horizontally centered labels.
 - Existing role-specific fills, strokes, text colors, height, type styling, and table-cell alignment remain unchanged.
-- The desktop Coin Master logo must be anchored to and vertically centered against the title row; the mobile logo remains unchanged.
+- The desktop Coin Master logo must be anchored to and vertically centered against the title row with a `6px` upward optical correction; the mobile logo remains unchanged.
 - Assumptions must retain semantic list markup and existing copy while removing decorative em-dash markers and their horizontal gap.
 - Do not modify or stage unrelated prototype/demo files already present in the worktree.
 
@@ -241,7 +241,7 @@ const mobileLogo = band.querySelector('img[data-hero-logo="mobile"]')!
 const titleRow = h1.parentElement!
 expect(titleRow.dataset.heroTitleRow).toBe('true')
 expect(titleRow).toContainElement(desktopLogo)
-expect(desktopLogo.className).toContain('top-1/2')
+expect(desktopLogo.className).toContain('top-[calc(50%_-_6px)]')
 expect(desktopLogo.className).toContain('-translate-y-1/2')
 expect(mobileLogo.className).toContain('md:hidden')
 ```
@@ -263,7 +263,7 @@ Keep the eyebrow and mobile logo in their existing positions. Wrap the `<h1>` in
 Move the desktop image into that wrapper after the `<h1>`, add `data-hero-logo="desktop"`, and use:
 
 ```tsx
-className="pointer-events-none absolute right-[60px] top-1/2 hidden h-[clamp(80px,10vw,112px)] w-auto -translate-y-1/2 drop-shadow-lg md:block"
+className="pointer-events-none absolute right-[60px] top-[calc(50%_-_6px)] hidden h-[clamp(80px,10vw,112px)] w-auto -translate-y-1/2 drop-shadow-lg md:block"
 ```
 
 Remove its old inline positioning style. Add `data-hero-logo="mobile"` to the mobile image without changing its classes or style.
