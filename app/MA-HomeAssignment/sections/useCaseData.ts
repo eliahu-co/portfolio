@@ -103,8 +103,9 @@ export const USE_CASE_2: UseCaseData = {
   title:   'Card Bounty',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature2.png',
+  mechanismLabel: 'KPI',
   arpdauMechanism:
-    'Creates high Chest demand. Converts near-completion intent into more Coin-purchased Chest openings, increasing Coin consumption and demand for existing Spin and Coin offers.',
+    'Primary: ARPDAU.\nSupporting: Bounty activation rate and Coin spend on Chests per DAU.',
 
   constructionPhase: {
     name: 'Construction',
@@ -132,8 +133,8 @@ export const USE_CASE_2: UseCaseData = {
 
   problem: {
     heading: 'Concept',
-    intro: 'Card Collections create high intent near completion, but little control: players may keep opening Chests without finding the Card they need. Card Bounty turns that uncertainty into visible progress.',
-    body: 'During the event, players choose any eligible missing Card. Each Chest open increases its drop chance and fills a visible meter; higher-value Chests add more progress, and rarer Cards require more. Completing the meter guarantees the target. If the target drops from a Chest, the Bounty completes immediately.',
+    intro: 'Card Collections create strong intent near completion, but players cannot influence which Card a Chest contains. Card Bounty turns repeated Chest opening into progress toward a guarantee.',
+    body: 'During the event, players select a missing Card from a Collection. Coin-purchased Chests advance the Bounty meter; higher-value Chests add more progress and rarer Cards require more. Filling the meter grants the target.',
     consequences: [],
   },
 
@@ -145,7 +146,7 @@ export const USE_CASE_2: UseCaseData = {
       { label: 'Identify a Card Collection to complete for Spin rewards' },
       { label: 'Choose a missing Card from that Collection' },
       { label: 'Spend Coins to open Chests' },
-      { label: 'Increase the Card’s drop chance and fill the Bounty meter' },
+      { label: 'Fill the Bounty meter with Coin-purchased Chests' },
       { label: 'Claim the Card and progress the Collection' },
       { label: 'Complete the Collection and receive Spins' },
     ],
