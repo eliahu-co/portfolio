@@ -172,11 +172,11 @@ export const USE_CASE_2: UseCaseData = {
   value: [
     {
       title: 'Player Agency',
-      body: 'Players choose the Card they value instead of relying only on random drops.',
+      body: 'Players choose the Card they value.',
     },
     {
       title: 'Visible Progress',
-      body: 'Every Chest moves the player closer to a guaranteed result.',
+      body: 'Every Chest moves them closer to a guarantee.',
     },
   ],
 
