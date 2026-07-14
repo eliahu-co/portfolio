@@ -30,8 +30,8 @@ const config: Config = {
         'cm-cream':       '#FFF9EE',
       },
       fontFamily: {
-        serif: ['var(--font-playfair)', 'Georgia', 'serif'],
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-playfair, Georgia)', 'serif'],
+        sans: ['var(--font-inter, system-ui)', 'sans-serif'],
       },
       keyframes: {
         // moving gradient — used for the champion row in the prioritization table

@@ -16,3 +16,10 @@ it('defines the Coin Master palette without touching existing tokens', () => {
   expect(colors['autodesk-blue']).toBe('#0696d7')
   expect(colors['charcoal']).toBe('#666666')
 })
+
+it('keeps typography readable when Next font variables are temporarily unavailable', () => {
+  const fontFamily = (config.theme?.extend?.fontFamily ?? {}) as Record<string, string[]>
+
+  expect(fontFamily.sans).toEqual(['var(--font-inter, system-ui)', 'sans-serif'])
+  expect(fontFamily.serif).toEqual(['var(--font-playfair, Georgia)', 'serif'])
+})
