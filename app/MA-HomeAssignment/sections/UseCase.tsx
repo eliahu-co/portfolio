@@ -219,7 +219,7 @@ function Card({
   const surface = variant === 'neutral'
     ? 'bg-gradient-to-b from-[#FBF7F0] to-[#F3ECDF]'
     : variant === 'value'
-      ? 'bg-gradient-to-b from-[#FFF8E3] to-[#FFEDC2]'
+      ? ''
       : 'bg-gradient-to-b from-[#FFF4F1] to-[#FBE9E7]'
   const span = item.primary || fullWidth ? 'sm:col-span-2' : ''
   return (
@@ -270,14 +270,14 @@ export function CardList({
 function KpiCards({ kpi }: { kpi: { primary: string; supporting: string[] } }) {
   return (
     <div>
-      <div className="rounded-lg border border-cm-gold/45 border-l-4 border-l-cm-gold bg-gradient-to-b from-[#FFF8E3] to-[#FFEDC2] px-2.5 py-1 shadow-[0_2px_6px_rgba(42,27,84,0.08)] flex items-center gap-2">
+      <div className="rounded-lg border border-cm-gold/45 border-l-4 border-l-cm-gold px-2.5 py-1 shadow-[0_2px_6px_rgba(42,27,84,0.08)] flex items-center gap-2">
         <span className="shrink-0 text-[13px] leading-none text-cm-wood/70" aria-hidden="true">★</span>
         <span className="font-sans text-[11px] md:text-[12px] leading-snug text-cm-wood">{kpi.primary}</span>
       </div>
       <div className="mt-2 mb-2 border-t border-charcoal/10" />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
         {kpi.supporting.map((s, i) => (
-          <div key={i} className="rounded-lg border border-charcoal/25 border-l-4 border-l-charcoal/45 bg-gradient-to-b from-[#FBF7F0] to-[#F3ECDF] px-2.5 py-1 flex items-center shadow-[0_2px_6px_rgba(42,27,84,0.08)]">
+          <div key={i} className="rounded-lg border border-charcoal/25 border-l-4 border-l-charcoal/45 px-2.5 py-1 flex items-center shadow-[0_2px_6px_rgba(42,27,84,0.08)]">
             <span className="font-sans text-[11px] md:text-[12px] leading-snug text-charcoal">{s}</span>
           </div>
         ))}
