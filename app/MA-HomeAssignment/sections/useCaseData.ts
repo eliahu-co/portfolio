@@ -73,11 +73,11 @@ export const USE_CASE_1: UseCaseData = {
     },
     {
       title: 'Lasting Progression',
-      body: 'Completed Village items remain useful after the player advances.',
+      body: 'Built Village items remain useful.',
     },
     {
-      title: 'Social Value',
-      body: 'Visits, reactions, and shareable snapshots give customization an audience.',
+      title: 'Social Visibility',
+      body: 'Visits, reactions, and shareable snapshots.',
     },
   ],
 
