@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import CardBountyPrototype from '../CardBountyPrototype'
 
 describe('Card Bounty prototype happy path', () => {
@@ -42,26 +42,34 @@ describe('Card Bounty prototype happy path', () => {
     for (let batch = 1; batch <= 10; batch += 1) {
       fireEvent.click(screen.getByRole('button', { name: 'Buy Magical Chest, 29M Coins, 8 Cards per Chest, +3 Bounty progress' }))
 
-      if (batch === 1) {
-        expect(screen.getAllByRole('dialog')).toHaveLength(1)
-        const purchaseDialog = screen.getByRole('dialog', { name: 'Magical Chest' })
-        expect(purchaseDialog).toHaveAttribute('data-size', 'purchase')
-        expect(purchaseDialog.querySelector('img[alt=""]')).toHaveAttribute(
-          'src',
-          '/coinmaster/card-bounty/generated/magical-chest-open.webp',
-        )
-        expect(screen.getByLabelText('Chest quantity')).toHaveTextContent('10')
-        expect(screen.getByText('80 total Cards')).toBeInTheDocument()
-        expect(screen.getByText('290,000,000')).toBeInTheDocument()
-        expect(screen.getByText('+30')).toBeInTheDocument()
-        expect(screen.getByRole('progressbar', { name: 'Current Bounty progress' })).toHaveAttribute('aria-valuenow', '0')
-        expect(screen.getByRole('progressbar', { name: 'Projected Bounty progress' })).toHaveAttribute('aria-valuenow', '30')
-        const underlay = screen.getByTestId('active-bounty-underlay')
-        expect(underlay).toHaveAttribute('aria-hidden', 'true')
-        expect(underlay).toHaveAttribute('inert')
-      }
+      expect(screen.getAllByRole('dialog')).toHaveLength(1)
+      const purchaseDialog = screen.getByRole('dialog', { name: 'Magical Chest' })
+      expect(purchaseDialog).toHaveAttribute('data-size', 'purchase')
+      expect(purchaseDialog.querySelector('img[alt=""]')).toHaveAttribute(
+        'src',
+        '/coinmaster/card-bounty/generated/magical-chest-open.webp',
+      )
+      expect(screen.getByLabelText('Chest quantity')).toHaveTextContent('10')
+      expect(screen.getByText('80 total Cards')).toBeInTheDocument()
+      expect(screen.getByText('290,000,000')).toBeInTheDocument()
+      expect(screen.getByText('+30')).toBeInTheDocument()
+      expect(screen.getByRole('progressbar', { name: 'Current Bounty progress' })).toHaveAttribute(
+        'aria-valuenow',
+        String((batch - 1) * 30),
+      )
+      expect(screen.getByRole('progressbar', { name: 'Projected Bounty progress' })).toHaveAttribute(
+        'aria-valuenow',
+        String(batch * 30),
+      )
+      const underlay = screen.getByTestId('active-bounty-underlay')
+      expect(underlay).toHaveAttribute('aria-hidden', 'true')
+      expect(underlay).toHaveAttribute('inert')
 
       fireEvent.click(screen.getByRole('button', { name: 'Confirm Chest purchase' }))
+      const chestOpening = screen.getByRole('dialog', { name: 'Duplicate Cards' })
+      expect(chestOpening.querySelector('img[src="/coinmaster/card-bounty/generated/magical-chest-open.webp"]')).toBeInTheDocument()
+      expect(screen.getByText('10 Chests · 80 Cards · 3 shown')).toBeInTheDocument()
+      expect(screen.getAllByText('Duplicate')).toHaveLength(3)
       expect(screen.getByText('+30 Bounty progress')).toBeInTheDocument()
       fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
 
@@ -76,10 +84,17 @@ describe('Card Bounty prototype happy path', () => {
     expect(screen.getByRole('heading', { name: 'Sinbad — Collection Completed' })).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Collect 2,500 Spins' }))
 
-    expect(screen.getByRole('button', { name: 'Spin' })).toBeInTheDocument()
+    const reels = screen.getByRole('region', { name: 'Slot machine reels' })
+    expect(within(reels).getAllByRole('img')).toHaveLength(9)
+    expect(screen.getByRole('group', { name: 'Coin balance: 300,000,000' })).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: 'Spin balance: 4,350' })).toBeInTheDocument()
+    const spin = screen.getByRole('button', { name: 'Spin' })
+    expect(spin).toHaveFocus()
+    expect(spin).toHaveAttribute('aria-pressed', 'false')
     expect(screen.getByText('Collection reward: +2,500 Spins')).toBeInTheDocument()
     expect(screen.getByText('300,000,000')).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Spin' }))
+    fireEvent.click(spin)
+    expect(spin).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByText('Core loop ready')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Restart demo' }))
 
@@ -128,8 +143,14 @@ describe('Card Bounty prototype happy path', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Confirm Chest purchase' }))
     const chestOpening = screen.getByRole('dialog', { name: 'Duplicate Cards' })
     expect(chestOpening).toContainElement(document.activeElement as HTMLElement)
+    const continueButton = screen.getByRole('button', { name: 'Continue' })
+    continueButton.focus()
+    expect(fireEvent.keyDown(chestOpening, { key: 'Tab' })).toBe(false)
+    expect(continueButton).toHaveFocus()
+    expect(fireEvent.keyDown(chestOpening, { key: 'Tab', shiftKey: true })).toBe(false)
+    expect(continueButton).toHaveFocus()
 
-    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    fireEvent.click(continueButton)
     const returnedBounty = screen.getByRole('dialog', { name: 'Card Bounty' })
     expect(returnedBounty).toContainElement(document.activeElement as HTMLElement)
 
@@ -156,6 +177,9 @@ describe('Card Bounty prototype happy path', () => {
     expect(screen.getByRole('heading', { name: 'Space Travel — Card Added' })).toBeInTheDocument()
     expect(screen.queryByText('+10,000 Spins')).not.toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Return to Spin screen' }))
+    expect(screen.getByRole('button', { name: 'Spin' })).toHaveFocus()
+    expect(screen.getByRole('group', { name: 'Spin balance: 1,850' })).toBeInTheDocument()
+    expect(screen.queryByText(/Collection reward:/)).not.toBeInTheDocument()
     expect(screen.getByText('Bounty Card added')).toBeInTheDocument()
     expect(screen.getByText('300,000,000')).toBeInTheDocument()
   })

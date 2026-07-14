@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useReducer, useRef } from 'react'
+import { type KeyboardEvent as ReactKeyboardEvent, useEffect, useReducer, useRef } from 'react'
 import { ActiveBountyPanel, IntroPanel, TargetConfirmation } from './CardBountyPanel'
 import CardsCenterScreen from './CardsCenterScreen'
 import ChestPurchaseDialog from './ChestPurchaseDialog'
@@ -15,6 +15,22 @@ import styles from './CardBountyPrototype.module.css'
 
 // React 18 types inert as boolean but only forwards the standards-compliant empty attribute.
 const inertAttribute = '' as unknown as boolean
+
+const FOCUSABLE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[contenteditable="true"]',
+  '[tabindex]:not([tabindex="-1"])',
+].join(',')
+
+function getFocusableElements(container: HTMLElement) {
+  return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+    (element) => element.getAttribute('aria-hidden') !== 'true',
+  )
+}
 
 function guidanceFor(
   overlay: typeof initialDemoState.overlay,
@@ -39,6 +55,7 @@ function guidanceFor(
 
 export default function CardBountyPrototype() {
   const [state, dispatch] = useReducer(demoReducer, initialDemoState)
+  const baseLayerRef = useRef<HTMLDivElement>(null)
   const overlayHostRef = useRef<HTMLDivElement>(null)
   const flowOpenerRef = useRef<HTMLElement | null>(null)
   const target = getTarget(state.selectedTargetId)
@@ -72,6 +89,37 @@ export default function CardBountyPrototype() {
     flowOpenerRef.current = null
     if (opener?.isConnected) opener.focus()
   }, [state.baseScreen, state.overlay])
+
+  useEffect(() => {
+    if (state.overlay !== null || state.baseScreen !== 'spin-return') return
+    baseLayerRef.current?.querySelector<HTMLButtonElement>('button[aria-label="Spin"]')?.focus()
+  }, [state.baseScreen, state.overlay])
+
+  function handleOverlayKeyDown(event: ReactKeyboardEvent<HTMLDivElement>) {
+    if (event.defaultPrevented || event.key !== 'Tab') return
+
+    const dialog = overlayHostRef.current?.querySelector<HTMLElement>('[role="dialog"]')
+    if (!dialog) return
+
+    const focusableElements = getFocusableElements(dialog)
+    if (focusableElements.length === 0) {
+      event.preventDefault()
+      dialog.focus()
+      return
+    }
+
+    const firstElement = focusableElements[0]
+    const lastElement = focusableElements[focusableElements.length - 1]
+    const activeElement = document.activeElement
+
+    if (event.shiftKey && (activeElement === firstElement || !dialog.contains(activeElement))) {
+      event.preventDefault()
+      lastElement.focus()
+    } else if (!event.shiftKey && (activeElement === lastElement || !dialog.contains(activeElement))) {
+      event.preventDefault()
+      firstElement.focus()
+    }
+  }
 
   const openChest = (chestId: ChestId) => dispatch({ type: 'OPEN_CHEST_DIALOG', chestId })
 
@@ -163,6 +211,7 @@ export default function CardBountyPrototype() {
         className={styles.baseLayer}
         aria-hidden={Boolean(state.overlay)}
         inert={state.overlay ? inertAttribute : undefined}
+        ref={baseLayerRef}
       >
         {state.baseScreen === 'cards-center' ? (
           <CardsCenterScreen
@@ -183,7 +232,7 @@ export default function CardBountyPrototype() {
           />
         )}
       </div>
-      <div className={styles.overlayHost} ref={overlayHostRef}>
+      <div className={styles.overlayHost} onKeyDown={handleOverlayKeyDown} ref={overlayHostRef}>
         {state.overlay === 'chest-quantity' && target ? (
           <div
             className={styles.purchaseUnderlay}
