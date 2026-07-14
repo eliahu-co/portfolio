@@ -114,20 +114,19 @@ function List({
 export default function MVP() {
   return (
     <Section id="mvp" eyebrow="Card Bounty — Expanded">
-      <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-10 max-w-2xl">
+      <SubHeading>Player Flow</SubHeading>
+      <div className="mb-10">
+        <PlayerFlow />
+      </div>
+
+      <SubHeading>MVP Scope</SubHeading>
+      <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-6 max-w-2xl">
         The MVP tests whether allowing players to target a missing Card and make visible progress
         toward a guarantee increases Coin spend on Chests and ARPDAU. For the initial release, Card
         Bounty runs as a time-limited LiveOps event within the Cards Center, creating urgency while
         limiting economy exposure. The event duration and balancing parameters would be defined using
         internal player and economy data.
       </p>
-
-      <SubHeading>Player Flow</SubHeading>
-      <div className="mb-10">
-        <PlayerFlow />
-      </div>
-
-      <SubHeading>Scope</SubHeading>
       <div className="grid md:grid-cols-2 gap-x-10 gap-y-8 mb-10 max-w-3xl">
         <List title="In scope" items={SCOPE_IN} marker="✓" markerClass="text-cm-gold" />
         <List title="Out of scope" items={SCOPE_OUT} marker="✕" markerClass="text-charcoal/40" textClass="text-charcoal/60" />
