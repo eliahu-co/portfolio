@@ -48,7 +48,7 @@ it('renders the interactive prototype inside MVP without the old introduction', 
   expect(mvp.contains(prototype)).toBe(true)
   expect(prototype.contains(heading)).toBe(true)
   expect(prototype.querySelectorAll('a[href="/MA-HomeAssignment/demo"]')).toHaveLength(1)
-  expect(prototype.querySelector('img[src="/coinmaster/prototype.png"]')).not.toBeNull()
+  expect(prototype.querySelector('img[src="/coinmaster/prototype.webp"]')).not.toBeNull()
   expect(prototype.compareDocumentPosition(successMetrics) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   expect(document.body.textContent).not.toContain('Prototype demo')
   expect(document.body.textContent).not.toContain('Card Bounty, interactive')

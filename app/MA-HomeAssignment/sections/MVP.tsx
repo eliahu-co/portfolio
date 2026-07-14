@@ -3,7 +3,6 @@
 
 import { type ReactNode } from 'react'
 import Section from './Section'
-import { Pill } from './UseCase'
 import PlayerFlow from './PlayerFlow'
 import PrototypePreview from './PrototypePreview'
 
@@ -32,56 +31,25 @@ const SCOPE_OUT = [
   'Event-specific purchase bundles.',
   'Gameplay outside the existing Chest-opening flow.',
 ]
-const METRICS: { kind: string; title: string; body: string; signal?: string }[] = [
-  {
-    kind: 'Primary outcome',
-    title: 'Incremental ARPDAU',
-    body: 'Average daily revenue per active player during the event.',
-    signal: 'Positive lift.',
-  },
-  {
-    kind: 'Economy',
-    title: 'Incremental Chest Coin Spend per DAU',
-    body: 'Average daily Coins spent on Chests per active player during the event.',
-    signal: 'Positive lift.',
-  },
-  {
-    kind: 'Economy',
-    title: 'Total Coin Consumption per DAU',
-    body: 'Average daily Coins spent across all Coin sinks per active player during the event.',
-    signal: 'Positive lift.',
-  },
-  {
-    kind: 'Adoption',
-    title: 'Bounty Activation Rate',
-    body: 'Percentage of active treatment players who select a target and open at least one Coin-purchased Chest.',
-    signal: 'Meets or exceeds the predefined activation target.',
-  },
-  {
-    kind: 'Guardrail',
-    title: 'Post-Event Revenue per Player',
-    body: 'Average revenue per player during the post-event period.',
-    signal: 'Stable or higher.',
-  },
-  {
-    kind: 'Guardrail',
-    title: 'Post-Event Chest Coin Spend per Player',
-    body: 'Average Coins spent on Chests per player during the post-event period.',
-    signal: 'Stable or higher.',
-  },
-  {
-    kind: 'Guardrail',
-    title: 'Card Collections Completed per Player',
-    body: 'Average number of Card Collections completed per player across the event and post-event period.',
-    signal: 'Increase remains within the predefined tolerance range.',
-  },
-  {
-    kind: 'Guardrail',
-    title: 'Village Upgrades per Player',
-    body: 'Average number of Village upgrades completed per player across the event and post-event period.',
-    signal: 'Stable or higher.',
-  },
+type MetricRole = 'Primary' | 'Economy' | 'Adoption' | 'Guardrail'
+
+const METRICS: { metric: string; role: MetricRole; target: string }[] = [
+  { metric: 'ARPDAU', role: 'Primary', target: '+5% or more during the event' },
+  { metric: 'Chest Coin Spend per DAU', role: 'Economy', target: '+10% or more' },
+  { metric: 'Total Coin Consumption per DAU', role: 'Economy', target: '+5% or more, confirming incremental Coin demand' },
+  { metric: 'Bounty Activation Rate', role: 'Adoption', target: '20% or more of eligible daily active players select a target and open at least one Coin-purchased Chest' },
+  { metric: 'Post-Event Revenue per Player', role: 'Guardrail', target: 'Stable or higher: at least 98% of control during the following seven days' },
+  { metric: 'Post-Event Chest Coin Spend per Player', role: 'Guardrail', target: 'Stable or higher: at least 95% of control during the following seven days' },
+  { metric: 'Card Collections Completed per Player', role: 'Guardrail', target: 'No more than 15% above control across the event and following seven days' },
+  { metric: 'Village Upgrades per Player', role: 'Guardrail', target: 'Stable or higher: at least 95% of control across the event and following seven days' },
 ]
+
+const ROLE_CLASSES: Record<MetricRole, string> = {
+  Primary: 'bg-cm-gold/15 text-cm-wood',
+  Economy: 'bg-cm-violet-deep/10 text-cm-violet-deep',
+  Adoption: 'bg-cm-violet-deep/10 text-cm-violet-deep',
+  Guardrail: 'bg-cm-crimson/10 text-cm-crimson',
+}
 function List({
   title,
   items,
@@ -142,21 +110,27 @@ export default function MVP() {
           use the full eligible group, including players who do not return. Unless stated otherwise,
           results compare treatment with control. Targets and tolerance ranges are defined in advance.
         </p>
-        <div className="flex flex-col gap-5">
-          {METRICS.map(({ kind, title, body, signal }) => (
-            <div key={title} className="rounded-[10px] border border-cm-gold/40 border-l-4 border-l-cm-gold bg-gradient-to-b from-[#FFFBF2] to-[#FFF3DC] px-3 py-2.5 shadow-[0_2px_6px_rgba(42,27,84,0.08)]">
-              <p className="font-serif text-[14px] text-cm-violet-deep mb-0.5 flex items-center gap-3">
-                <span className="min-w-0">{title}</span>
-                <Pill tone="blue" className="shrink-0">{kind}</Pill>
-              </p>
-              <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80 whitespace-pre-line">{body}</p>
-              {signal && (
-                <p className="mt-2 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal">
-                  <span className="font-bold mr-2">Success signal</span>{signal}
-                </p>
-              )}
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[720px] border-collapse text-left">
+            <thead>
+              <tr className="border-b-2 border-cm-wood">
+                <th className="w-[30%] py-2 pr-4 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">Metric</th>
+                <th className="w-[16%] px-3 py-2 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">Role</th>
+                <th className="py-2 pl-3 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">Proposed target</th>
+              </tr>
+            </thead>
+            <tbody>
+              {METRICS.map(({ metric, role, target }) => (
+                <tr key={metric} className="border-b border-charcoal/15">
+                  <td className="py-3 pr-4 align-top font-sans text-[13px] font-medium leading-relaxed text-cm-violet-deep">{metric}</td>
+                  <td className="px-3 py-3 align-top">
+                    <span className={`inline-flex rounded-full px-2 py-1 font-sans text-[9px] font-bold uppercase tracking-[0.08em] ${ROLE_CLASSES[role]}`}>{role}</span>
+                  </td>
+                  <td className="py-3 pl-3 align-top font-sans text-[13px] leading-relaxed text-charcoal">{target}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </Section>

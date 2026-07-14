@@ -43,8 +43,8 @@ it('uses distinct Card Bounty artwork for the feature and prototype previews', (
 
   expect(USE_CASE_2.mockup).toBe('/coinmaster/feature2.png')
   expect(document.querySelector('#feature-2 img[src="/coinmaster/feature2.png"]')).not.toBeNull()
-  expect(document.querySelector('#prototype img[src="/coinmaster/prototype.png"]')).not.toBeNull()
-  expect(USE_CASE_2.mockup).not.toBe('/coinmaster/prototype.png')
+  expect(document.querySelector('#prototype img[src="/coinmaster/prototype.webp"]')).not.toBeNull()
+  expect(USE_CASE_2.mockup).not.toBe('/coinmaster/prototype.webp')
 })
 
 it('publishes the Card Bounty poster in the assignment social metadata', () => {
@@ -91,11 +91,16 @@ it('renders the interactive prototype inside MVP without the old introduction', 
   const successMetrics = Array.from(mvp.querySelectorAll('h2')).find(
     (node) => node.textContent === 'Success metrics'
   )!
+  const previewLink = prototype.querySelector('a[href="/MA-HomeAssignment/demo"]')!
+  const buttonLabel = previewLink.querySelector('span')!
 
   expect(mvp.contains(prototype)).toBe(true)
   expect(prototype.contains(heading)).toBe(true)
   expect(prototype.querySelectorAll('a[href="/MA-HomeAssignment/demo"]')).toHaveLength(1)
-  expect(prototype.querySelector('img[src="/coinmaster/prototype.png"]')).not.toBeNull()
+  expect(prototype.querySelector('img[src="/coinmaster/prototype.webp"]')).not.toBeNull()
+  expect(buttonLabel.textContent?.trim()).toBe('Open')
+  expect(buttonLabel.querySelector('svg')).not.toBeNull()
+  expect(previewLink.getAttribute('aria-label')).toBe('Open the Card Bounty interactive prototype')
   expect(prototype.compareDocumentPosition(successMetrics) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   expect(document.body.textContent).not.toContain('Prototype demo')
   expect(document.body.textContent).not.toContain('Card Bounty, interactive')
@@ -180,4 +185,42 @@ it('renders the approved MVP intro and scope copy', () => {
   expect(scopeContainer.className).toContain('max-w-3xl')
   expect(scopeContainer.className).toContain('gap-y-8')
   expect(section.textContent).not.toContain('Purchasing meter progress or the guaranteed Card directly.')
+})
+
+it('renders the approved editorial success metrics table', () => {
+  const expectedRows = [
+    ['ARPDAU', 'Primary', '+5% or more during the event'],
+    ['Chest Coin Spend per DAU', 'Economy', '+10% or more'],
+    ['Total Coin Consumption per DAU', 'Economy', '+5% or more, confirming incremental Coin demand'],
+    ['Bounty Activation Rate', 'Adoption', '20% or more of eligible daily active players select a target and open at least one Coin-purchased Chest'],
+    ['Post-Event Revenue per Player', 'Guardrail', 'Stable or higher: at least 98% of control during the following seven days'],
+    ['Post-Event Chest Coin Spend per Player', 'Guardrail', 'Stable or higher: at least 95% of control during the following seven days'],
+    ['Card Collections Completed per Player', 'Guardrail', 'No more than 15% above control across the event and following seven days'],
+    ['Village Upgrades per Player', 'Guardrail', 'Stable or higher: at least 95% of control across the event and following seven days'],
+  ]
+
+  render(<MAHomeAssignmentPage />)
+  const mvp = document.getElementById('mvp')!
+  const heading = Array.from(mvp.querySelectorAll('h2')).find(
+    (node) => node.textContent === 'Success metrics'
+  )!
+  const metrics = heading.parentElement!
+  const table = metrics.querySelector('table')
+
+  expect(table).not.toBeNull()
+  if (!table) return
+
+  const headers = Array.from(table.querySelectorAll('th')).map((cell) => cell.textContent?.trim())
+  const rows = Array.from(table.querySelectorAll('tbody tr')).map((row) =>
+    Array.from(row.querySelectorAll('td')).map((cell) => cell.textContent?.trim())
+  )
+
+  expect(headers).toEqual(['Metric', 'Role', 'Proposed target'])
+  expect(rows).toEqual(expectedRows)
+  expect(table.className).toContain('min-w-[720px]')
+  expect(table.parentElement?.className).toContain('overflow-x-auto')
+  expect(table.querySelector('thead tr')?.className).toContain('border-cm-wood')
+  expect(table.querySelector('tbody tr')?.className).toContain('border-charcoal/15')
+  expect(metrics.textContent).not.toContain('Success signal')
+  expect(metrics.querySelectorAll('div.border-l-4')).toHaveLength(0)
 })
