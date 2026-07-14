@@ -74,7 +74,6 @@ export default function Prioritization() {
     <Section id="prioritization" eyebrow="Prioritization" title="Decision, scoring and criteria">
       {/* Decision */}
       <div className="max-w-2xl mb-8">
-        <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-crimson mb-2">Decision</p>
         <div className="flex flex-col gap-3">
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
             Card Bounty ranks first (33): it builds on existing Chest and Collection behavior, drives
