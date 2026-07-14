@@ -501,8 +501,9 @@ export default function UseCase({ data }: { data: UseCaseData }) {
       )}
       {problemSection}
 
-      {/* KPI + Loop stacked in the left column, the concept mockup beside them */}
-      <div className="grid grid-cols-2 gap-x-7 md:gap-x-6 items-start">
+      {/* KPI + Loop stacked in the left column, the concept mockup beside them.
+          The mockup column is capped so the loop fills the rest of the width. */}
+      <div className="grid grid-cols-[1fr_44%] md:grid-cols-[1fr_240px] gap-x-4 md:gap-x-6 items-start">
         <div>
           {data.kpi ? (
             <Block label={data.mechanismLabel ?? 'KPI'}>
