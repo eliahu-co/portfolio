@@ -183,15 +183,15 @@ export const USE_CASE_2: UseCaseData = {
   tradeoffs: [
     {
       title: 'System Cannibalization',
-      body: 'Targeted Cards may reduce the value of Joker Cards, trading, and Cards for Chests.',
+      body: 'Reduced value of Jokers, trading and Cards for Chests.',
     },
     {
-      title: 'Collection Inflation',
-      body: 'Guaranteed rare Cards may shorten Collection completion and release rewards faster than intended.',
+      title: 'Collection Acceleration',
+      body: 'Collection rewards released faster than intended.',
     },
     {
       title: 'Spend Shifting',
-      body: 'Players may save Coins and Chest openings for Bounty windows instead of increasing total spend.',
+      body: 'Chest spending shifts to the event without increasing total spend.',
     },
   ],
 }
