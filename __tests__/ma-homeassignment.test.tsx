@@ -91,3 +91,40 @@ it('integrates the Card Bounty prototype without the previous demo placeholder',
   expect(prototype.textContent).not.toMatch(/Drawing Analyzer|drop chance/i)
   expect(prototype.querySelector('video')).toBeNull()
 })
+
+it('uses body typography and feature-section bottom spacing for prioritization criteria', () => {
+  render(<MAHomeAssignmentPage />)
+  const section = document.getElementById('prioritization')!
+  const formula = Array.from(section.querySelectorAll('p')).find((node) =>
+    node.textContent?.startsWith('Opportunity Score =')
+  )!
+  const calculationSummary = Array.from(section.querySelectorAll('p')).find((node) =>
+    node.textContent?.startsWith('The calculation favors opportunities')
+  )!
+  const scoringMethod = calculationSummary.parentElement!
+  const criteriaButtons = Array.from(section.querySelectorAll('button[aria-expanded]'))
+  const criteriaWrapper = criteriaButtons[0].parentElement?.parentElement
+
+  expect(formula.className).toContain('font-sans')
+  expect(formula.className).toContain('text-[14px]')
+  expect(formula.className).toContain('font-normal')
+  expect(formula.className).toContain('text-charcoal')
+  expect(formula.className).toContain('border-cm-gold')
+  expect(scoringMethod.className).toContain('gap-3')
+  expect(scoringMethod.className).toContain('mb-3')
+  expect(scoringMethod.className).not.toContain('mb-8')
+
+  expect(criteriaButtons).toHaveLength(4)
+  for (const button of criteriaButtons) {
+    const arrow = button.querySelector('span[aria-hidden="true"]')!
+    const label = button.querySelector('span:not([aria-hidden])')!
+    expect(label.className).toContain('font-sans')
+    expect(label.className).toContain('text-[14px]')
+    expect(label.className).toContain('font-normal')
+    expect(label.className).toContain('text-charcoal')
+    expect(arrow.className).toContain('text-cm-wood/60')
+    expect(button.className).toContain('border-cm-wood')
+  }
+
+  expect(criteriaWrapper?.className).toContain('mb-6')
+})

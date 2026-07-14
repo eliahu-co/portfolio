@@ -134,13 +134,13 @@ export default function Prioritization() {
       </div>
 
       {/* Scoring method */}
-      <div className="max-w-2xl mb-8 flex flex-col gap-3">
+      <div className="max-w-2xl mb-3 flex flex-col gap-3">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
           The scores compare opportunities; without internal player-segment and exposure data, Reach
           cannot be estimated reliably. I
           therefore replace it with Core-Loop Fit and use a modified RICE-style calculation:
         </p>
-        <p className="font-sans font-bold text-[13px] leading-relaxed text-cm-violet-deep border-l-4 border-cm-gold pl-3">
+        <p className="font-sans text-[14px] font-normal leading-relaxed text-charcoal border-l-4 border-cm-gold pl-3">
           Opportunity Score = (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort
         </p>
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
@@ -151,7 +151,7 @@ export default function Prioritization() {
 
       {/* Criteria — a row of four title tabs; the clicked one opens its
           definition + rubric full-width below the row (stacks on mobile). */}
-      <div>
+      <div className="mb-6">
         <div className="max-w-2xl md:max-w-none flex flex-col gap-2.5 md:grid md:grid-cols-4 md:gap-x-5 md:gap-y-0 md:items-start">
           {CRITERIA_DEFS.map(({ title }) => {
             const isOpen = open === title
@@ -164,7 +164,7 @@ export default function Prioritization() {
                 className="flex items-center gap-2 text-left pl-3 border-l-4 border-cm-wood"
               >
                 <span className={`text-cm-wood/60 text-[9px] transition-transform duration-150 ${isOpen ? 'rotate-90' : ''}`} aria-hidden="true">▶</span>
-                <span className="font-serif text-[14px] text-cm-violet-deep">{title}</span>
+                <span className="font-sans text-[14px] font-normal text-charcoal">{title}</span>
               </button>
             )
           })}
