@@ -31,7 +31,7 @@ export default function Section({
     <section
       id={id}
       // scroll-mt keeps the section heading clear of the top edge when jumped to
-      className="scroll-mt-8 pt-0 pb-16"
+      className="scroll-mt-8 pt-0 pb-9"
     >
       {/* gold→crimson gradient rule replaces the flat brand border */}
       <div className="h-1 rounded-full bg-gradient-to-r from-cm-gold to-cm-crimson mb-5" aria-hidden="true" />
