@@ -128,3 +128,41 @@ it('uses body typography and feature-section bottom spacing for prioritization c
 
   expect(criteriaWrapper?.className).toContain('mb-6')
 })
+
+it('renders the approved MVP intro and scope copy', () => {
+  const expectedInScope = [
+    'Entry point within the Cards Center, with an event countdown.',
+    'Target one missing Card at a time.',
+    'Meter goal scales with Card rarity.',
+    'Target locks after the first Chest contributes to the meter.',
+    'Buying Chests advances the meter; higher-value Chests contribute more.',
+    'If the target is obtained before the meter is filled, the player can select a new target and the meter resets.',
+    'Reaching the meter goal awards the target, and ends the event for that player.',
+    'Uncompleted progress expires when the event ends.',
+  ]
+  const expectedOutOfScope = [
+    'Targeting Gold, Diamond or Seasonal Cards.',
+    'Milestone rewards before the target Card.',
+    'New Chest types or changes to existing Chest prices, contents or drop rates.',
+    'Event-specific purchase bundles.',
+    'Gameplay outside the existing Chest-opening flow.',
+  ]
+
+  render(<MAHomeAssignmentPage />)
+  const section = document.getElementById('mvp')!
+  const intro = Array.from(section.querySelectorAll('p')).find((node) =>
+    node.textContent?.startsWith('The MVP answers one question:')
+  )
+  const labels = Array.from(section.querySelectorAll('p'))
+  const inScope = labels.find((node) => node.textContent === 'In scope')!.parentElement!
+  const outOfScope = labels.find((node) => node.textContent === 'Out of scope')!.parentElement!
+  const listText = (container: Element) =>
+    Array.from(container.querySelectorAll('li')).map((item) => item.textContent?.slice(1))
+
+  expect(intro?.textContent).toBe(
+    'The MVP answers one question: does a visible, guaranteed path to a chosen Card increase Coin spend on Chests, and does that lift ARPDAU? It ships as a time limited LiveOps event inside the Cards Center. Duration and balancing parameters come from internal player and economy data.'
+  )
+  expect(listText(inScope)).toEqual(expectedInScope)
+  expect(listText(outOfScope)).toEqual(expectedOutOfScope)
+  expect(section.textContent).not.toContain('Purchasing meter progress or the guaranteed Card directly.')
+})

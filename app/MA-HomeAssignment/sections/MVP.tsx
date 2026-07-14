@@ -15,23 +15,21 @@ function SubHeading({ children }: { children: ReactNode }) {
 }
 
 const SCOPE_IN = [
-  'Card Bounty entry point within the Cards Center, with a visible event countdown.',
-  'Selection of any eligible missing Card from an unlocked Card Collection.',
-  'One active target at a time.',
-  'Required meter progress scales with Card rarity.',
-  'The target locks when the first Chest contributes to the meter.',
-  'Coin-purchased Chests advance the meter, with higher-value Chests contributing more progress.',
-  'If the targeted Card is obtained from any source before the meter is filled, the player can select another eligible target and the meter resets.',
-  'Filling the meter awards the targeted Card and ends Card Bounty for that player.',
-  'Uncompleted meter progress expires when the event ends.',
+  'Entry point within the Cards Center, with an event countdown.',
+  'Target one missing Card at a time.',
+  'Meter goal scales with Card rarity.',
+  'Target locks after the first Chest contributes to the meter.',
+  'Buying Chests advances the meter; higher-value Chests contribute more.',
+  'If the target is obtained before the meter is filled, the player can select a new target and the meter resets.',
+  'Reaching the meter goal awards the target, and ends the event for that player.',
+  'Uncompleted progress expires when the event ends.',
 ]
 const SCOPE_OUT = [
-  'Targeting Gold, Diamond and Seasonal Cards.',
-  'New Chest types or changes to existing Chest prices, contents or Card drop rates.',
-  'Purchasing meter progress or the guaranteed Card directly.',
+  'Targeting Gold, Diamond or Seasonal Cards.',
+  'Milestone rewards before the target Card.',
+  'New Chest types or changes to existing Chest prices, contents or drop rates.',
   'Event-specific purchase bundles.',
-  'New team, trading or social mechanics.',
-  'Additional gameplay outside the existing Chest-opening flow.',
+  'Gameplay outside the existing Chest-opening flow.',
 ]
 const METRICS: { kind: string; title: string; body: string; signal?: string }[] = [
   {
@@ -121,11 +119,9 @@ export default function MVP() {
 
       <SubHeading>MVP Scope</SubHeading>
       <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-6 max-w-2xl">
-        The MVP tests whether allowing players to target a missing Card and make visible progress
-        toward a guarantee increases Coin spend on Chests and ARPDAU. For the initial release, Card
-        Bounty runs as a time-limited LiveOps event within the Cards Center, creating urgency while
-        limiting economy exposure. The event duration and balancing parameters would be defined using
-        internal player and economy data.
+        The MVP answers one question: does a visible, guaranteed path to a chosen Card increase Coin
+        spend on Chests, and does that lift ARPDAU? It ships as a time limited LiveOps event inside the
+        Cards Center. Duration and balancing parameters come from internal player and economy data.
       </p>
       <div className="grid md:grid-cols-2 gap-x-10 gap-y-8 mb-10 max-w-3xl">
         <List title="In scope" items={SCOPE_IN} marker="✓" markerClass="text-cm-gold" />
