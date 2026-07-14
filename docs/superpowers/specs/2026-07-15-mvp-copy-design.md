@@ -15,6 +15,17 @@ Update the MVP section of the MA Home Assignment page with the user-provided int
 
 Change only the copy constants in `app/MA-HomeAssignment/sections/MVP.tsx`. Add a focused page-rendering regression test that verifies the new intro and list copy and confirms superseded scope items are absent.
 
+The approved `In scope` order is:
+
+1. Entry point within the Cards Center, with an event countdown.
+2. Target one missing Card at a time.
+3. Meter goal scales with Card rarity.
+4. Buying Chests advances the meter; higher-value Chests contribute more.
+5. Changing the target resets the meter.
+6. If the target is obtained before the meter is filled, the player can change target.
+7. Reaching the meter goal awards the target, and ends the event for that player.
+8. Uncompleted progress expires when the event ends.
+
 ## Acceptance Criteria
 
 - The rendered MVP intro matches the approved paragraph exactly.
