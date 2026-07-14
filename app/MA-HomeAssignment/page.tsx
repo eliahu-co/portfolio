@@ -58,7 +58,7 @@ export default function MAHomeAssignmentPage() {
       <div className={`ma-page ${nunito.variable} ${nunitoSans.variable} min-h-screen bg-cm-cream text-charcoal`}>
         <Hero />
 
-        <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 py-10 md:py-16 grid md:grid-cols-[180px_1fr] gap-10 md:gap-16">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-20 pt-5 md:pt-8 pb-10 md:pb-16 grid md:grid-cols-[180px_1fr] gap-10 md:gap-16">
           <SideNav />
 
           <main className="min-w-0">
