@@ -153,7 +153,7 @@ function OpportunityText({ opp }: { opp: UseCaseData['opportunity'] }) {
 const DEFAULT_MOCKUP = '/coinmaster/placeholder.jpg'
 function MockupFrame({ src = DEFAULT_MOCKUP }: { src?: string }) {
   return (
-    <div className="mx-auto max-w-[240px] overflow-hidden rounded-2xl border-2 border-cm-wood/50 shadow-[0_3px_0_rgba(144,57,0,0.28)]">
+    <div className="ml-auto max-w-[240px] overflow-hidden rounded-2xl border-2 border-cm-wood/50 shadow-[0_3px_0_rgba(144,57,0,0.28)]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt="Coin Master concept mockup" className="block w-full h-auto" />
     </div>
