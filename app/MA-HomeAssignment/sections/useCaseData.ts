@@ -31,9 +31,8 @@ export const USE_CASE_1: UseCaseData = {
 
   problem: {
     heading: 'Concept',
-    intro: 'Villages show progression, but not ownership: every player builds the same five items and leaves them behind. Hometown turns completed Village items into a permanent, personal display and gives friend visits a purpose.',
-    body: 'Players use the familiar five-slot layout to mix items unlocked from completed Villages. The first item in each slot is free. Constructing another item costs Coins, but once built it remains available for free rearrangement. Each paid construction grants a small, time-limited, non-stackable discount on the next Village upgrade. Backdrops and animated variants are unlocked through progression, LiveOps or purchase.',
-    body2: 'Friends can visit, see the player’s Stars, current Village and Team, send the existing daily Gift, and leave a reaction. Visitors can also inspect displayed items to see where they were unlocked or access an available premium variant.',
+    intro: 'Villages show progression, not ownership: completed items disappear once the player advances. Hometown gives them lasting utility through a familiar five-slot space that they can customize and gives friend visits a purpose. Building items costs Coins and rewards with a discount on the next Village build. Backdrops and item variants are unlocked through progression, LiveOps or purchase.',
+    body: 'Visitors can see the player’s Stars, Village level and Team, send the daily Gift and leave a reaction.',
     consequences: [],
   },
 
@@ -63,7 +62,7 @@ export const USE_CASE_1: UseCaseData = {
 
   opportunity: {
     statement:
-      'A permanent, customizable town built from items the player has unlocked across Coin Master’s Villages.',
+      'A customizable town built from items the player has unlocked across Villages.',
   },
 
   value: [
