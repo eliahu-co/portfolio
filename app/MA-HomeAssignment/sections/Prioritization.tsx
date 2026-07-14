@@ -167,7 +167,7 @@ export default function Prioritization() {
         <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-crimson mb-2">Decision</p>
         <div className="flex flex-col gap-3">
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Test Card Bounty first. It scores highest (33), builds on existing Chest and Collection
+            Card Bounty ranks first. It scores highest (33), builds on existing Chest and Collection
             behavior, drives additional Coin spend and can be validated through a contained LiveOps
             event. Its main risk is making the guarantee too attainable, which could accelerate
             Collection completion and weaken future Chest demand.
