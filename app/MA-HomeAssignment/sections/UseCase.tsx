@@ -267,22 +267,22 @@ export function CardList({
 // KPI block — a gold "primary" card (with a star) for the headline metric, a
 // divider, then grey "supporting" cards in the same 3-column grid as the
 // value/risk cards.
-function KpiCards({ kpi }: { kpi: { primary: string; supporting: string[] } }) {
+// KPI as a simple list: a gold star marks the primary metric, a smaller gold
+// diamond marks each supporting metric. Concept-text styling.
+function KpiList({ kpi }: { kpi: { primary: string; supporting: string[] } }) {
   return (
-    <div>
-      <div className="rounded-lg border border-cm-gold/45 border-l-4 border-l-cm-gold px-2.5 py-1 shadow-[0_2px_6px_rgba(42,27,84,0.08)] flex items-center gap-2">
-        <span className="shrink-0 text-[13px] leading-none text-cm-wood/70" aria-hidden="true">★</span>
-        <span className="font-sans text-[11px] md:text-[12px] leading-snug text-cm-wood">{kpi.primary}</span>
-      </div>
-      <div className="mt-2 mb-2 border-t border-charcoal/10" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-        {kpi.supporting.map((s, i) => (
-          <div key={i} className="rounded-lg border border-charcoal/25 border-l-4 border-l-charcoal/45 px-2.5 py-1 flex items-center shadow-[0_2px_6px_rgba(42,27,84,0.08)]">
-            <span className="font-sans text-[11px] md:text-[12px] leading-snug text-charcoal">{s}</span>
-          </div>
-        ))}
-      </div>
-    </div>
+    <ul className="flex flex-col gap-1.5">
+      <li className="font-sans text-[14px] leading-relaxed text-charcoal flex gap-2">
+        <span className="shrink-0 mt-px text-cm-gold" aria-hidden="true">★</span>
+        <span>{kpi.primary}</span>
+      </li>
+      {kpi.supporting.map((s, i) => (
+        <li key={i} className="font-sans text-[14px] leading-relaxed text-charcoal flex gap-2">
+          <span className="shrink-0 mt-[3px] text-[8px] text-cm-gold/70" aria-hidden="true">◆</span>
+          <span>{s}</span>
+        </li>
+      ))}
+    </ul>
   )
 }
 
@@ -504,7 +504,7 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         <div>
           {data.kpi ? (
             <Block label={data.mechanismLabel ?? 'KPI'}>
-              <KpiCards kpi={data.kpi} />
+              <KpiList kpi={data.kpi} />
             </Block>
           ) : data.arpdauMechanism ? (
             <Block label={data.mechanismLabel ?? 'ARPDAU Mechanism'}>
