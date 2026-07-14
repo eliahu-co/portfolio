@@ -272,7 +272,7 @@ function KpiCards({ kpi }: { kpi: { primary: string; supporting: string[] } }) {
     <div>
       <div className="rounded-lg border border-cm-gold/45 border-l-4 border-l-cm-gold bg-gradient-to-b from-[#FFF8E3] to-[#FFEDC2] px-2.5 py-2 shadow-[0_2px_6px_rgba(42,27,84,0.08)] flex items-center gap-2">
         <span className="shrink-0 text-[13px] leading-none text-cm-wood/70" aria-hidden="true">★</span>
-        <span className="font-sans text-[13px] font-extrabold uppercase tracking-wide leading-none text-cm-wood">{kpi.primary}</span>
+        <span className="font-sans text-[11px] md:text-[12px] leading-snug text-cm-wood">{kpi.primary}</span>
       </div>
       <div className="mt-3 mb-3 border-t border-charcoal/10" />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
