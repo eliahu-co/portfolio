@@ -16,7 +16,7 @@ export default function Intro() {
 
       <CoreLoopDiagram />
 
-      <p className="font-sans pt-3 text-[15px] leading-relaxed text-charcoal">
+      <p className="font-sans pt-3 text-[14px] leading-relaxed text-charcoal">
         Using this map, I looked for ARPDAU opportunities through greater resource demand, payer
         conversion or new spend surfaces. I played Coin Master with a product lens and used official
         support pages, advanced gameplay, player communities and industry analysis to cover systems
@@ -24,7 +24,7 @@ export default function Intro() {
         reviewed Royal Match and Whiteout Survival for transferable collection, guarantee,
         customization, social, PvP and LiveOps mechanics.
       </p>
-      <p className="font-sans mt-4 text-[15px] leading-relaxed text-charcoal">
+      <p className="font-sans mt-4 text-[14px] leading-relaxed text-charcoal">
         I set aside a Daily Card Memory challenge idea because it added another mode to an already
         dense{' '}
         <a
@@ -47,7 +47,7 @@ export default function Intro() {
         </a>
         {' '}already cover similar ground.
       </p>
-      <p className="font-sans mt-4 text-[15px] leading-relaxed text-charcoal">
+      <p className="font-sans mt-4 text-[14px] leading-relaxed text-charcoal">
         I developed three concepts and compared them by ARPDAU impact, core-loop fit, confidence and
         effort before expanding the strongest.
       </p>
