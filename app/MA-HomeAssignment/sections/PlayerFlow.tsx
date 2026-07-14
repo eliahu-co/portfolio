@@ -43,6 +43,20 @@ function ArrowRight({ color = ARROW, width = 1 }: { color?: string; width?: numb
   )
 }
 
+// A thin arrow that stretches to fill the remaining column height, so success
+// terminals at different depths (Card acquired, Guaranteed Card) bottom out on
+// the same line and leave an equal gap above Collection Updated.
+function StretchArrow() {
+  return (
+    <div className="flex w-full flex-1 flex-col items-center justify-end pt-1" aria-hidden="true">
+      <span className="w-px flex-1" style={{ background: ARROW, minHeight: 16 }} />
+      <svg width="14" height="6" viewBox="0 0 14 6" fill="none" style={{ display: 'block', marginTop: '-1px' }}>
+        <path d="M2 1 L7 5 L12 1" stroke={ARROW} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
+  )
+}
+
 // Between phases: right arrow on desktop, down arrow on mobile — bolder/darker.
 function PhaseArrow() {
   return (
@@ -159,24 +173,25 @@ export default function PlayerFlow() {
       <Phase label="Resolution">
         <div className="mx-auto max-w-md">
           <Question>Is the target obtained?</Question>
-          <div className="grid grid-cols-2 gap-3 items-start">
-            <div className="flex flex-col items-center">
+          <div className="grid grid-cols-2 gap-3 items-stretch">
+            <div className="flex h-full flex-col items-center">
               <BranchLabel>Yes</BranchLabel>
               <ArrowDown />
               <Pill title="Card acquired" />
-              {/* long thin arrow reaching down to Collection Updated */}
-              <ArrowDown len={104} />
+              {/* stretches down to Collection Updated */}
+              <StretchArrow />
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex h-full flex-col items-center">
               <BranchLabel>No</BranchLabel>
               <ArrowDown />
               <Question>Is the meter full?</Question>
-              <div className="grid grid-cols-2 gap-2 w-full items-start">
-                <div className="flex flex-col items-center">
+              <div className="grid grid-cols-2 gap-2 w-full flex-1 items-stretch">
+                <div className="flex h-full flex-col items-center">
                   <BranchLabel>Yes</BranchLabel>
                   <ArrowDown />
                   <Pill title="Guaranteed Card" accent />
-                  <ArrowDown />
+                  {/* stretches down to Collection Updated (same gap as Card acquired) */}
+                  <StretchArrow />
                 </div>
                 <div className="flex flex-col items-center">
                   <BranchLabel>No</BranchLabel>
