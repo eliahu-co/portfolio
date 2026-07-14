@@ -25,8 +25,8 @@ export default function Intro() {
         customization, social, PvP and LiveOps mechanics.
       </p>
       <p className="font-sans mt-4 text-[15px] leading-relaxed text-charcoal">
-        I considered a daily Card memory challenge, but set it aside because it would add a separate
-        game mode to an already dense{' '}
+        I set aside a Daily Card Memory challenge idea because it added another mode to an already
+        dense{' '}
         <a
           href="https://support.coinmastergame.com/hc/en-us/articles/32009776420626-How-can-I-best-strategize-my-daily-routine-in-Coin-Master"
           target="_blank"
@@ -35,8 +35,8 @@ export default function Intro() {
         >
           daily routine
         </a>
-        , without a direct path back to the core loop or ARPDAU. I also considered a Pet equipment system, but removed it after discovering that a
-        similar mechanic already exists through{' '}
+        , without a clear path to the core loop or ARPDAU. I dropped a Pet equipment concept after
+        finding that{' '}
         <a
           href="https://support.coinmastergame.com/hc/en-us/articles/16428340470546-What-are-Pet-Outfits"
           target="_blank"
@@ -45,7 +45,7 @@ export default function Intro() {
         >
           Pet Outfits
         </a>
-        .
+        {' '}already cover similar ground.
       </p>
       <p className="font-sans mt-4 text-[15px] leading-relaxed text-charcoal">
         I developed three concepts and compared them by ARPDAU impact, core-loop fit, confidence and
