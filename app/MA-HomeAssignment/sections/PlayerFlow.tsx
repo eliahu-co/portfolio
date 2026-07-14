@@ -72,6 +72,23 @@ function PhaseArrow() {
   )
 }
 
+// Desktop-only elbow from the Progress plaque (right column, ~84% across) down,
+// left to the diagram centre, then down into the middle of Resolution.
+function ElbowToResolution() {
+  return (
+    <div className="relative hidden md:block" style={{ height: 30 }} aria-hidden="true">
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 30" preserveAspectRatio="none" fill="none">
+        <path d="M84 0 V13 H50 V30" stroke={ARROW_BOLD} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      </svg>
+      <div className="absolute left-1/2 bottom-0 -translate-x-1/2">
+        <svg width="12" height="7" viewBox="0 0 12 7" fill="none">
+          <path d="M1.5 1 L6 5.5 L10.5 1" stroke={ARROW_BOLD} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
 /* ─── plaque (HTML replica of the hero diagram's Meta rectangle) ──────────── */
 
 // Soft card framing its pills — a thin sky-blue stroke only, no background fill
@@ -168,21 +185,12 @@ export default function PlayerFlow() {
         </Phase>
       </div>
 
-      {/* connector to Resolution — centered on mobile (Progress is last in the
-          stack); aligned under the Progress column on desktop by mirroring the
-          phase row's flex layout (invisible spacers for Entry/Target + arrows) */}
+      {/* connector to Resolution — centered down arrow on mobile (Progress is
+          last in the stack); an elbow from the Progress column on desktop */}
       <div className="md:hidden">
         <ArrowDown color={ARROW_BOLD} width={1.3} />
       </div>
-      <div className="hidden md:flex md:items-start" aria-hidden="true">
-        <div className="flex-1 min-w-0" />
-        <div className="invisible"><PhaseArrow /></div>
-        <div className="flex-1 min-w-0" />
-        <div className="invisible"><PhaseArrow /></div>
-        <div className="flex-1 min-w-0 flex justify-center">
-          <ArrowDown color={ARROW_BOLD} width={1.3} />
-        </div>
-      </div>
+      <ElbowToResolution />
 
       {/* Resolution — full-width plaque containing the decision branches */}
       <Phase label="Resolution">
