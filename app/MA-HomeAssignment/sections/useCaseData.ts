@@ -224,8 +224,8 @@ export const USE_CASE_3: UseCaseData = {
 
   problem: {
     heading: 'Concept',
-    intro: 'When a player is Raided, Hot Trail gives them one hour to return and track the raider. Activating the trail locks that player as the target of their next Raid for six hours. The Raid is triggered through normal Spins and uses the existing digging flow.',
-    body: 'Success grants the standard Raid reward plus a capped recovery bonus based on the original loss. Only one trail can be active, and counter-Raids cannot trigger another trail. This creates an additional session and Spin consumption without adding a new game mode.',
+    intro: 'After being Raided, players have one hour to activate Hot Trail. The raider then becomes their next Raid target for six hours. The Counter-Raid is triggered through regular Spins and uses the existing digging flow.',
+    body: 'Completing it grants the standard Raid reward plus a capped recovery based on the original loss. Only one trail can be active, and Counter-Raids cannot trigger another trail.',
     consequences: [],
   },
 
