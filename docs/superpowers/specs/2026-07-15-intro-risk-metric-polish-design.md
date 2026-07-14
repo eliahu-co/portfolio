@@ -20,7 +20,7 @@ Every role pill in the Success metrics table will use a fixed `80px` width. The 
 
 ### Hero logo alignment
 
-On desktop, the Coin Master logo will be anchored to the title row and vertically centered against the `<h1>` instead of positioned relative to the entire hero content block. Its right-edge placement, dimensions, artwork, shadow, and desktop-only visibility will remain unchanged. The separate mobile logo will remain unchanged.
+On desktop, the Coin Master logo will be anchored to the title row and vertically centered against the `<h1>` instead of positioned relative to the entire hero content block. A `6px` upward optical correction will place the artwork's visual center against the title. Its right-edge placement, dimensions, artwork, shadow, and desktop-only visibility will remain unchanged. The separate mobile logo will remain unchanged.
 
 ### Assumptions list markers
 
@@ -33,7 +33,7 @@ Focused regression tests will verify:
 - the opening paragraph uses the Concept paragraph’s `14px` size;
 - risk cards do not receive a background or gradient class;
 - every Success metrics role pill uses the shared width and centered alignment;
-- the desktop logo is nested in the title row and uses vertical-centering utilities;
+- the desktop logo is nested in the title row and uses vertical-centering utilities with the approved `6px` upward offset;
 - Assumptions items contain no decorative marker elements or em-dash text.
 
 The MA Home Assignment focused test suite will be run after implementation. Unrelated prototype/demo work already present in the worktree will not be modified or staged.
