@@ -17,12 +17,12 @@ export default function Intro() {
       <CoreLoopDiagram />
 
       <p className="font-sans pt-3 text-[15px] leading-relaxed text-charcoal">
-        With these loops mapped, I looked for opportunities that could increase ARPDAU through greater
-        resource demand, payer conversion or a new spend surface. I played Coin Master with a product
-        lens, reviewed player communities and industry analysis, and used advanced gameplay and the
-        official support pages to cover systems I had not yet reached. I compared it with Monopoly GO!
-        and Dice Dreams, then looked at Royal Match and Whiteout Survival for cross-genre approaches to
-        collections, guarantees, customization, social status, PvP and LiveOps.
+        Using this map, I looked for ARPDAU opportunities through greater resource demand, payer
+        conversion or new spend surfaces. I played Coin Master with a product lens and used official
+        support pages, advanced gameplay, player communities and industry analysis to cover systems
+        that I had not reached yet. I compared Coin Master with Monopoly GO! and Dice Dreams, then
+        reviewed Royal Match and Whiteout Survival for transferable collection, guarantee,
+        customization, social, PvP and LiveOps mechanics.
       </p>
       <p className="font-sans mt-4 text-[15px] leading-relaxed text-charcoal">
         I considered a daily Card memory challenge, but set it aside because it would add a separate
