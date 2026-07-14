@@ -261,7 +261,7 @@ export const USE_CASE_3: UseCaseData = {
   value: [
     {
       title: 'Urgent Return Trigger',
-      body: 'Turns being Raided into a time-limited reason to return.',
+      body: 'Turns being Raided into a reason to return.',
     },
     {
       title: 'Agency After Loss',
