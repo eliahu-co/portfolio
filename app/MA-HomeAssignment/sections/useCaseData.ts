@@ -102,7 +102,7 @@ export const USE_CASE_2: UseCaseData = {
   eyebrow: 'Feature 2',
   title:   'Card Bounty',
   conceptAsSubtitle: true,
-  mockup:  '/coinmaster/feature2.png',
+  mockup:  '/coinmaster/card-bounty-preview.webp',
   mechanismLabel: 'KPI',
   arpdauMechanism:
     'Primary: ARPDAU.\nSupporting: Bounty activation rate and Coin spend on Chests per DAU.',
