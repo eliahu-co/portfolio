@@ -60,12 +60,12 @@ function PhaseArrow() {
 function Plaque({ children }: { children: ReactNode }) {
   return (
     <div
-      className="relative rounded-2xl"
-      style={{ background: 'rgba(61,174,224,0.92)', border: '1.5px solid #1E7BA8', boxShadow: '0 4px 0 rgba(58,30,8,0.2)' }}
+      className="relative"
+      style={{ background: 'rgba(61,174,224,0.92)', borderRadius: '19px', border: '1.8px solid #1E7BA8', boxShadow: '0 5px 0 rgba(58,30,8,0.2)' }}
     >
       <div className="px-3 py-3">{children}</div>
-      {/* inner bevel — inset 3px white line, matching the SVG Plaque */}
-      <span aria-hidden="true" className="pointer-events-none absolute" style={{ inset: '3px', borderRadius: '13px', border: '1px solid rgba(255,255,255,0.5)' }} />
+      {/* inner bevel — inset white line, matching the SVG Plaque at its rendered size */}
+      <span aria-hidden="true" className="pointer-events-none absolute" style={{ inset: '3.5px', borderRadius: '15px', border: '1.2px solid rgba(255,255,255,0.5)' }} />
     </div>
   )
 }
@@ -90,7 +90,7 @@ function Pill({
       : 'bg-[#F2FAFE] border-[#0F3D54]/60 text-[#0d3a5a] shadow-[0_2px_0_rgba(15,61,84,0.45)]'
   const accentSkin = accent ? 'border-cm-crimson/60 ring-1 ring-cm-crimson/25' : ''
   return (
-    <div className={`w-full rounded-md border px-2.5 py-1 text-center ${skin} ${accentSkin}`}>
+    <div className={`w-full rounded-lg border px-2.5 py-1 text-center ${skin} ${accentSkin}`}>
       <p className="font-sans text-[11px] font-extrabold leading-tight">{title}</p>
       {action && <p className="font-sans text-[9px] font-normal leading-snug opacity-70 mt-0.5">{action}</p>}
     </div>
