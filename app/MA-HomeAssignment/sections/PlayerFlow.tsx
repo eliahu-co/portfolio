@@ -168,7 +168,21 @@ export default function PlayerFlow() {
         </Phase>
       </div>
 
-      <ArrowDown color={ARROW_BOLD} width={1.3} />
+      {/* connector to Resolution — centered on mobile (Progress is last in the
+          stack); aligned under the Progress column on desktop by mirroring the
+          phase row's flex layout (invisible spacers for Entry/Target + arrows) */}
+      <div className="md:hidden">
+        <ArrowDown color={ARROW_BOLD} width={1.3} />
+      </div>
+      <div className="hidden md:flex md:items-start" aria-hidden="true">
+        <div className="flex-1 min-w-0" />
+        <div className="invisible"><PhaseArrow /></div>
+        <div className="flex-1 min-w-0" />
+        <div className="invisible"><PhaseArrow /></div>
+        <div className="flex-1 min-w-0 flex justify-center">
+          <ArrowDown color={ARROW_BOLD} width={1.3} />
+        </div>
+      </div>
 
       {/* Resolution — full-width plaque containing the decision branches */}
       <Phase label="Resolution">
