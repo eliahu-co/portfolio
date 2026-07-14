@@ -52,6 +52,7 @@ export interface UseCaseData {
   mockup?: string // concept mockup image beside the loop (defaults to the placeholder)
   arpdauMechanism?: string // text shown in the block between Concept and Loop
   mechanismLabel?: string  // label for that block (defaults to "ARPDAU Mechanism")
+  kpi?: { primary: string; supporting: string[] } // KPI block: one primary + supporting metrics as cards
 
   constructionPhase: { name: string; description: string }
   primaryUser:   NamedRole
@@ -259,6 +260,31 @@ export function CardList({
       {items.map((it, i) => (
         <Card key={i} item={it} variant={variant} />
       ))}
+    </div>
+  )
+}
+
+// KPI block — a gold "primary" card (with a star) for the headline metric, a
+// divider, then grey "supporting" cards in the same 3-column grid as the
+// value/risk cards.
+function KpiCards({ kpi }: { kpi: { primary: string; supporting: string[] } }) {
+  return (
+    <div>
+      <div className="rounded-lg border border-cm-gold/45 border-l-4 border-l-cm-gold bg-gradient-to-b from-[#FFF8E3] to-[#FFEDC2] px-2.5 py-2 shadow-[0_2px_6px_rgba(42,27,84,0.08)] flex items-center gap-2">
+        <span className="shrink-0 text-[13px] leading-none text-cm-gold" aria-hidden="true">★</span>
+        <span className="font-sans text-[9px] font-bold uppercase tracking-[0.14em] text-cm-wood/70">Primary</span>
+        <span className="font-serif text-[13px] font-semibold text-cm-violet-deep">{kpi.primary}</span>
+      </div>
+      <div className="mt-3 mb-1.5 border-t border-charcoal/10 pt-3">
+        <p className="font-sans text-[9px] font-bold uppercase tracking-[0.14em] text-charcoal/50">Supporting</p>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+        {kpi.supporting.map((s, i) => (
+          <div key={i} className="rounded-lg border border-charcoal/25 border-l-4 border-l-charcoal/45 bg-gradient-to-b from-[#FBF7F0] to-[#F3ECDF] px-2.5 py-1.5 shadow-[0_2px_6px_rgba(42,27,84,0.08)]">
+            <span className="font-sans text-[10px] leading-snug text-charcoal/80">{s}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -487,11 +513,15 @@ export default function UseCase({ data }: { data: UseCaseData }) {
       )}
       {problemSection}
 
-      {data.arpdauMechanism && (
+      {data.kpi ? (
+        <Block label={data.mechanismLabel ?? 'KPI'}>
+          <KpiCards kpi={data.kpi} />
+        </Block>
+      ) : data.arpdauMechanism ? (
         <Block label={data.mechanismLabel ?? 'ARPDAU Mechanism'}>
           <p className="font-sans text-[14px] leading-relaxed text-charcoal whitespace-pre-line">{data.arpdauMechanism}</p>
         </Block>
-      )}
+      ) : null}
 
       <Block label="Loop">
         <WorkflowComparison current={data.currentWorkflow} legendAiOnly={data.legendAiOnly} mockup={data.mockup} />
