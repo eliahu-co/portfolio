@@ -174,10 +174,12 @@ export default function Prioritization() {
             <p className="font-sans text-[12px] italic leading-relaxed text-charcoal/80 mb-2">{openDef.body}</p>
             <div className="flex flex-col gap-1 sm:grid sm:grid-cols-3 sm:gap-x-6">
               {openDef.rubric.map(([score, desc]) => (
-                <p key={score} className="font-sans text-[11px] leading-relaxed text-charcoal/70">
-                  <span className="font-bold text-charcoal">{score}</span>
-                  <span className="text-charcoal/40"> — </span>
-                  {desc}
+                <p key={score} className="flex gap-1.5 font-sans text-[11px] leading-relaxed text-charcoal/70">
+                  <span className="shrink-0">
+                    <span className="font-bold text-charcoal">{score}</span>
+                    <span className="text-charcoal/40"> —</span>
+                  </span>
+                  <span className="min-w-0">{desc}</span>
                 </p>
               ))}
             </div>
