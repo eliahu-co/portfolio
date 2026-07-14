@@ -1,11 +1,9 @@
 // app/MA-HomeAssignment/sections/PlayerFlow.tsx
 // Card Bounty player-flow diagram, shown before the MVP "Scope & metrics"
 // section. Reuses the hero core-loop diagram's visual language:
-//   • each phase (Entry / Target / Progress / Resolution) is a framed plaque —
-//     an HTML replica of that diagram's blue "Meta" rectangle (fill #3DAEE0 @
-//     0.92, 1.5px #1E7BA8 stroke, inset white bevel, hard drop shadow). The SVG
-//     `Plaque` there lives in the diagram's coordinate space, so it can't be
-//     reused directly in this flex layout — the styling below matches it exactly.
+//   • each phase (Entry / Target / Progress / Resolution) is a soft card framing
+//     its pills — the "Value delivered" card treatment (light-blue gradient,
+//     thin sky-blue stroke, soft drop shadow), without the bold left accent bar.
 //   • screen pills use the diagram's "meta" pill style (bg #F2FAFE, navy border
 //     and text), without the glyphs.
 //   • core-game outcomes (Receive Spins) use the gold Rewards-pill style.
@@ -57,15 +55,12 @@ function PhaseArrow() {
 
 /* ─── plaque (HTML replica of the hero diagram's Meta rectangle) ──────────── */
 
+// Soft card framing its pills — the "Value delivered" card treatment (light-blue
+// gradient, thin sky-blue stroke, soft drop shadow), without the left accent bar.
 function Plaque({ children }: { children: ReactNode }) {
   return (
-    <div
-      className="relative"
-      style={{ background: 'rgba(61,174,224,0.92)', borderRadius: '19px', border: '1.8px solid #1E7BA8', boxShadow: '0 5px 0 rgba(58,30,8,0.2)' }}
-    >
-      <div className="px-3 py-3">{children}</div>
-      {/* inner bevel — inset white line, matching the SVG Plaque at its rendered size */}
-      <span aria-hidden="true" className="pointer-events-none absolute" style={{ inset: '3.5px', borderRadius: '15px', border: '1.2px solid rgba(255,255,255,0.5)' }} />
+    <div className="rounded-[10px] border border-cm-sky/40 bg-gradient-to-b from-[#F4FBFF] to-[#E6F5FE] px-3 py-3 shadow-[0_2px_6px_rgba(42,27,84,0.08)]">
+      {children}
     </div>
   )
 }
@@ -120,11 +115,11 @@ function Diamond({ children }: { children: ReactNode }) {
 }
 
 function BranchLabel({ children }: { children: ReactNode }) {
-  return <p className="text-center font-sans text-[9px] font-extrabold uppercase tracking-[0.14em] text-white/90">{children}</p>
+  return <p className="text-center font-sans text-[9px] font-extrabold uppercase tracking-[0.14em] text-[#1E7BA8]">{children}</p>
 }
 
 function ReturnNote({ children }: { children: ReactNode }) {
-  return <p className="text-center font-sans text-[10px] italic leading-snug text-white/85">{children}</p>
+  return <p className="text-center font-sans text-[10px] italic leading-snug text-charcoal/55">{children}</p>
 }
 
 /* ─── phase (label above a plaque) ────────────────────────────────────────── */
@@ -132,7 +127,7 @@ function ReturnNote({ children }: { children: ReactNode }) {
 function Phase({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex-1 min-w-0">
-      <p className="text-center font-sans text-[9px] font-extrabold uppercase tracking-[0.16em] text-cm-wood mb-1.5">{label}</p>
+      <p className="text-center font-sans text-[9px] font-extrabold uppercase tracking-[0.16em] text-[#0F3D54] mb-1.5">{label}</p>
       <Plaque>{children}</Plaque>
     </div>
   )
