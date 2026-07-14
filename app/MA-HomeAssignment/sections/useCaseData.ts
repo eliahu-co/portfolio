@@ -9,9 +9,14 @@ export const USE_CASE_1: UseCaseData = {
   title:   'Hometown',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature1.png',
-  mechanismLabel: 'KPI',
-  arpdauMechanism:
-    'Primary: ARPDAU.\nSupporting: Coin spend on Hometown construction per DAU, Repeat Customization Rate and Hometown-driven return sessions per activated player.',
+  kpi: {
+    primary: 'ARPDAU',
+    supporting: [
+      'Coin spend on Hometown construction per DAU',
+      'Repeat Customization Rate',
+      'Hometown-driven return sessions per activated player',
+    ],
+  },
 
   constructionPhase: {
     name: 'Project Conception, Design & Planning / Building Permits',
@@ -103,9 +108,13 @@ export const USE_CASE_2: UseCaseData = {
   title:   'Card Bounty',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature2.png',
-  mechanismLabel: 'KPI',
-  arpdauMechanism:
-    'Primary: ARPDAU.\nSupporting: Bounty activation rate and Coin spend on Chests per DAU.',
+  kpi: {
+    primary: 'ARPDAU',
+    supporting: [
+      'Bounty activation rate',
+      'Coin spend on Chests per DAU',
+    ],
+  },
 
   constructionPhase: {
     name: 'Construction',
@@ -202,9 +211,13 @@ export const USE_CASE_3: UseCaseData = {
   title:   'Hot Trail',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature3.png',
-  mechanismLabel: 'KPI',
-  arpdauMechanism:
-    'Primary: ARPDAU.\nSupporting: Hot Trail activation rate and Spin consumption per activated player.',
+  kpi: {
+    primary: 'ARPDAU',
+    supporting: [
+      'Hot Trail activation rate',
+      'Spin consumption per activated player',
+    ],
+  },
 
   constructionPhase: {
     name: 'Design Coordination / Pre-Construction',
