@@ -152,8 +152,9 @@ export default function Prioritization() {
         </p>
       </div>
 
-      {/* Criterion definitions + scoring rubric (accordion) */}
-      <div className="max-w-2xl flex flex-col gap-2.5">
+      {/* Criterion definitions + scoring rubric (accordion) — a vertical list on
+          mobile, a row of four expand-in-place columns on desktop */}
+      <div className="max-w-2xl md:max-w-none flex flex-col gap-2.5 md:grid md:grid-cols-4 md:gap-x-5 md:gap-y-0 md:items-start">
         {CRITERIA_DEFS.map(({ title, body, rubric }) => {
           const isOpen = open.has(title)
           return (
