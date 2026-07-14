@@ -38,12 +38,13 @@ it('renders the current workflow and the concept mockup in each feature', () => 
   expect(feature1.querySelector('img[src="/coinmaster/feature1.png"]')).not.toBeNull()
 })
 
-it('uses the Card Bounty poster across the feature and prototype previews', () => {
+it('uses distinct Card Bounty artwork for the feature and prototype previews', () => {
   render(<MAHomeAssignmentPage />)
 
-  expect(USE_CASE_2.mockup).toBe('/coinmaster/card-bounty-preview.webp')
-  expect(document.querySelector('#feature-2 img[src="/coinmaster/card-bounty-preview.webp"]')).not.toBeNull()
-  expect(document.querySelector('#prototype img[src="/coinmaster/card-bounty-preview.webp"]')).not.toBeNull()
+  expect(USE_CASE_2.mockup).toBe('/coinmaster/feature2.png')
+  expect(document.querySelector('#feature-2 img[src="/coinmaster/feature2.png"]')).not.toBeNull()
+  expect(document.querySelector('#prototype img[src="/coinmaster/prototype.png"]')).not.toBeNull()
+  expect(USE_CASE_2.mockup).not.toBe('/coinmaster/prototype.png')
 })
 
 it('publishes the Card Bounty poster in the assignment social metadata', () => {
@@ -85,7 +86,7 @@ it('integrates the Card Bounty prototype without the previous demo placeholder',
   const prototype = document.getElementById('prototype')!
 
   expect(prototype.querySelectorAll('a[href="/MA-HomeAssignment/demo"]')).toHaveLength(1)
-  expect(prototype.querySelector('img[src="/coinmaster/card-bounty-preview.webp"]')).not.toBeNull()
+  expect(prototype.querySelector('img[src="/coinmaster/prototype.png"]')).not.toBeNull()
   expect(prototype.textContent).toContain('Coin-purchased Chests to fill the Bounty meter')
   expect(prototype.textContent).not.toMatch(/Drawing Analyzer|drop chance/i)
   expect(prototype.querySelector('video')).toBeNull()

@@ -15,7 +15,7 @@ export default function PrototypePreview() {
       />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(255,255,255,0.2),transparent_46%),linear-gradient(90deg,rgba(31,20,75,0.3),transparent_35%,transparent_65%,rgba(31,20,75,0.3))]" />
       <img
-        src="/coinmaster/card-bounty-preview.webp"
+        src="/coinmaster/prototype.png"
         alt="Card Bounty prototype showing the selected Card, Bounty meter, and Coin-purchased Chests"
         className="absolute inset-y-[4%] left-1/2 h-[92%] w-auto -translate-x-1/2 rounded-[10px] object-contain shadow-[0_12px_30px_rgba(21,12,54,0.42)] transition-transform duration-300 group-hover:-translate-x-1/2 group-hover:scale-[1.025]"
       />
