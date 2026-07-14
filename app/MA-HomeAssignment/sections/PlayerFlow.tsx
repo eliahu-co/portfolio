@@ -15,16 +15,17 @@
 
 import { type ReactNode } from 'react'
 
-const ARROW = '#0F3D54' // navy
+// Arrows match the workflow-lane ("loop") connectors: thin blue line + chevron.
+const ARROW = 'rgba(30,123,168,0.45)'
 
 /* ─── arrows ──────────────────────────────────────────────────────────────── */
 
 function ArrowDown({ dashed = false }: { dashed?: boolean }) {
   return (
-    <div className="flex justify-center py-1" aria-hidden="true">
-      <svg width="14" height="18" viewBox="0 0 14 18" fill="none">
-        <path d="M7 1 V13" stroke={ARROW} strokeWidth="1.4" strokeLinecap="round" strokeDasharray={dashed ? '3 2.5' : undefined} />
-        <path d="M2.5 9 L7 13.5 L11.5 9" stroke={ARROW} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    <div className="flex justify-center py-0.5" aria-hidden="true">
+      <svg width="14" height="15" viewBox="0 0 14 15" fill="none" style={{ display: 'block' }}>
+        <path d="M7 0 V14" stroke={ARROW} strokeWidth="1" strokeLinecap="round" strokeDasharray={dashed ? '2.5 2' : undefined} />
+        <path d="M2 10 L7 14 L12 10" stroke={ARROW} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </div>
   )
@@ -32,9 +33,9 @@ function ArrowDown({ dashed = false }: { dashed?: boolean }) {
 
 function ArrowRight() {
   return (
-    <svg width="22" height="14" viewBox="0 0 22 14" fill="none" aria-hidden="true">
-      <path d="M1 7 H16" stroke={ARROW} strokeWidth="1.4" strokeLinecap="round" />
-      <path d="M12 2.5 L16.5 7 L12 11.5" stroke={ARROW} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    <svg width="15" height="14" viewBox="0 0 15 14" fill="none" aria-hidden="true" style={{ display: 'block' }}>
+      <path d="M0 7 H14" stroke={ARROW} strokeWidth="1" strokeLinecap="round" />
+      <path d="M10 2 L14 7 L10 12" stroke={ARROW} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
