@@ -35,7 +35,7 @@ export default function Intro() {
         >
           daily routine
         </a>
-        , without a clear path to increasing ARPDAU. I dropped a Pet equipment concept after
+        , without meaningful impact. I dropped a Pet equipment concept after
         finding that{' '}
         <a
           href="https://support.coinmastergame.com/hc/en-us/articles/16428340470546-What-are-Pet-Outfits"
