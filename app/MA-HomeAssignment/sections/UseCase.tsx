@@ -487,6 +487,16 @@ export default function UseCase({ data }: { data: UseCaseData }) {
     </>
   )
 
+  const kpiBlock = data.kpi ? (
+    <Block label={data.mechanismLabel ?? 'KPI'}>
+      <KpiList kpi={data.kpi} />
+    </Block>
+  ) : data.arpdauMechanism ? (
+    <Block label={data.mechanismLabel ?? 'ARPDAU Mechanism'}>
+      <p className="font-sans text-[14px] leading-relaxed text-charcoal whitespace-pre-line">{data.arpdauMechanism}</p>
+    </Block>
+  ) : null
+
   return (
     <Section
       id={data.id}
@@ -501,18 +511,13 @@ export default function UseCase({ data }: { data: UseCaseData }) {
       )}
       {problemSection}
 
-      {/* KPI + Loop stacked in the left column, the concept mockup beside them */}
+      {/* KPI is full-width above on mobile; on desktop it moves into the left
+          column above the loop, with the mockup beside them */}
+      {kpiBlock && <div className="md:hidden">{kpiBlock}</div>}
+
       <div className="grid grid-cols-2 gap-x-7 md:gap-x-6 items-start">
         <div>
-          {data.kpi ? (
-            <Block label={data.mechanismLabel ?? 'KPI'}>
-              <KpiList kpi={data.kpi} />
-            </Block>
-          ) : data.arpdauMechanism ? (
-            <Block label={data.mechanismLabel ?? 'ARPDAU Mechanism'}>
-              <p className="font-sans text-[14px] leading-relaxed text-charcoal whitespace-pre-line">{data.arpdauMechanism}</p>
-            </Block>
-          ) : null}
+          {kpiBlock && <div className="hidden md:block">{kpiBlock}</div>}
 
           <Block label="Loop">
             <Lane workflow={data.currentWorkflow} proposed={false} />
