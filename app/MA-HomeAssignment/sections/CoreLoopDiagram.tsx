@@ -138,7 +138,23 @@ function Card({ n }: { n: Node }) {
       className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-[0.9cqw] whitespace-nowrap border ${n.kind === 'engine' ? 'rounded-[0.9cqw]' : 'rounded-[1.2cqw]'} ${s.box} ${s.size}`}
       style={{ left: `${(n.cx / 560) * 100}%`, top: `${(n.cy / 300) * 100}%` }}
     >
-      {n.kind !== 'engine' && <span className={`leading-none ${s.glyph}`} aria-hidden="true">{n.glyph}</span>}
+      {n.kind !== 'engine' && (
+        <span className={`leading-none ${s.glyph}`} aria-hidden="true">
+          {n.glyph === '🐾' ? (
+            // paw rendered as an SVG so it inherits the (blue) glyph colour,
+            // unlike the multicolour emoji
+            <svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" className="inline-block align-middle">
+              <ellipse cx="12" cy="16" rx="5" ry="4.2" />
+              <ellipse cx="5.5" cy="9.5" rx="2" ry="2.6" />
+              <ellipse cx="9.7" cy="6.6" rx="2" ry="2.6" />
+              <ellipse cx="14.3" cy="6.6" rx="2" ry="2.6" />
+              <ellipse cx="18.5" cy="9.5" rx="2" ry="2.6" />
+            </svg>
+          ) : (
+            n.glyph
+          )}
+        </span>
+      )}
       <span className={`font-sans ${s.weight} uppercase tracking-wide leading-none ${s.text}`}>{n.label}</span>
     </div>
   )
