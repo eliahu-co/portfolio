@@ -50,7 +50,8 @@ export interface UseCaseData {
   title:   string // e.g. 'AI-Assisted Design Revision Validation'
   conceptAsSubtitle?: boolean // render opportunity.statement as the title subtitle instead of a Concept block
   mockup?: string // concept mockup image beside the loop (defaults to the placeholder)
-  arpdauMechanism?: string // one paragraph shown between Concept and Loop
+  arpdauMechanism?: string // text shown in the block between Concept and Loop
+  mechanismLabel?: string  // label for that block (defaults to "ARPDAU Mechanism")
 
   constructionPhase: { name: string; description: string }
   primaryUser:   NamedRole
@@ -491,8 +492,8 @@ export default function UseCase({ data }: { data: UseCaseData }) {
       {problemSection}
 
       {data.arpdauMechanism && (
-        <Block label="ARPDAU Mechanism">
-          <Para>{data.arpdauMechanism}</Para>
+        <Block label={data.mechanismLabel ?? 'ARPDAU Mechanism'}>
+          <p className="font-sans text-[14px] leading-relaxed text-charcoal whitespace-pre-line">{data.arpdauMechanism}</p>
         </Block>
       )}
 
