@@ -36,7 +36,7 @@ const LOOP: Node[] = [
 
 const META: Node[] = [
   { id: 'pvp',   label: 'PvP',   glyph: '⚔', cx: 472, cy: 78,  kind: 'meta' },
-  { id: 'pet',   label: 'Pet',   glyph: '❋', cx: 472, cy: 132, kind: 'meta' },
+  { id: 'pet',   label: 'Pet',   glyph: '🐾', cx: 472, cy: 132, kind: 'meta' },
   { id: 'cards', label: 'Cards', glyph: '❐', cx: 472, cy: 186, kind: 'meta' },
 ]
 
