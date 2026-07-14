@@ -7,7 +7,7 @@
 //   • screen pills use the workflow-lane "loop" pill style (blue gradient, thin
 //     #1E7BA8 stroke, soft drop edge).
 //   • core-game outcomes (Receive Spins) use the gold Rewards-pill style.
-//   • decision nodes are diamonds (flowchart standard).
+//   • decision points are plain, loose questions with Yes/No branches.
 // Solid navy arrows are the main path; dashed navy arrows are return paths; a
 // small crimson accent marks the guaranteed reward. Entry → Target → Progress
 // run as columns on desktop and stack on mobile; the decision branches stay
@@ -15,40 +15,42 @@
 
 import { type ReactNode } from 'react'
 
-// Arrows match the workflow-lane ("loop") connectors: thin blue line + chevron.
+// In-plaque arrows match the workflow-lane ("loop") connectors: thin faint blue
+// line + chevron. Between-phase connectors use a bolder, darker navy variant.
 const ARROW = 'rgba(30,123,168,0.45)'
+const ARROW_BOLD = '#0F3D54'
 
 /* ─── arrows ──────────────────────────────────────────────────────────────── */
 
-function ArrowDown({ dashed = false }: { dashed?: boolean }) {
+function ArrowDown({ dashed = false, color = ARROW, width = 1 }: { dashed?: boolean; color?: string; width?: number }) {
   return (
     <div className="flex justify-center py-0.5" aria-hidden="true">
       <svg width="14" height="15" viewBox="0 0 14 15" fill="none" style={{ display: 'block' }}>
-        <path d="M7 0 V14" stroke={ARROW} strokeWidth="1" strokeLinecap="round" strokeDasharray={dashed ? '2.5 2' : undefined} />
-        <path d="M2 10 L7 14 L12 10" stroke={ARROW} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M7 0 V14" stroke={color} strokeWidth={width} strokeLinecap="round" strokeDasharray={dashed ? '2.5 2' : undefined} />
+        <path d="M2 10 L7 14 L12 10" stroke={color} strokeWidth={width} strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </div>
   )
 }
 
-function ArrowRight() {
+function ArrowRight({ color = ARROW, width = 1 }: { color?: string; width?: number }) {
   return (
     <svg width="15" height="14" viewBox="0 0 15 14" fill="none" aria-hidden="true" style={{ display: 'block' }}>
-      <path d="M0 7 H14" stroke={ARROW} strokeWidth="1" strokeLinecap="round" />
-      <path d="M10 2 L14 7 L10 12" stroke={ARROW} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M0 7 H14" stroke={color} strokeWidth={width} strokeLinecap="round" />
+      <path d="M10 2 L14 7 L10 12" stroke={color} strokeWidth={width} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
 
-// Between phases: right arrow on desktop, down arrow on mobile.
+// Between phases: right arrow on desktop, down arrow on mobile — bolder/darker.
 function PhaseArrow() {
   return (
     <div className="flex items-center justify-center md:self-center md:px-1">
       <div className="md:hidden">
-        <ArrowDown />
+        <ArrowDown color={ARROW_BOLD} width={1.3} />
       </div>
       <div className="hidden md:block">
-        <ArrowRight />
+        <ArrowRight color={ARROW_BOLD} width={1.3} />
       </div>
     </div>
   )
@@ -95,24 +97,9 @@ function Pill({
 
 /* ─── decision diamond + branch labels ────────────────────────────────────── */
 
-function Diamond({ children }: { children: ReactNode }) {
-  return (
-    <div className="relative mx-auto my-1 flex max-w-[10rem] items-center justify-center">
-      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        <polygon
-          points="50,1.5 98.5,50 50,98.5 1.5,50"
-          fill="#FFFFFF"
-          stroke="#0F3D54"
-          strokeOpacity="0.6"
-          strokeWidth="1.5"
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
-      <span className="relative block px-7 py-5 text-center font-sans text-[9.5px] font-semibold leading-tight text-[#0F3D54]">
-        {children}
-      </span>
-    </div>
-  )
+// Decision point — a plain, loose question above its Yes/No branches.
+function Question({ children }: { children: ReactNode }) {
+  return <p className="text-center font-sans text-[11px] italic leading-snug text-charcoal/70 py-1">{children}</p>
 }
 
 function BranchLabel({ children }: { children: ReactNode }) {
@@ -172,7 +159,7 @@ export default function PlayerFlow() {
       {/* Resolution — full-width plaque containing the decision branches */}
       <Phase label="Resolution">
         <div className="mx-auto max-w-md">
-          <Diamond>Is the target obtained?</Diamond>
+          <Question>Is the target obtained?</Question>
           <div className="grid grid-cols-2 gap-3 items-start">
             <div className="flex flex-col items-center">
               <BranchLabel>Yes</BranchLabel>
@@ -182,7 +169,7 @@ export default function PlayerFlow() {
             <div className="flex flex-col items-center">
               <BranchLabel>No</BranchLabel>
               <ArrowDown />
-              <Diamond>Is the meter full?</Diamond>
+              <Question>Is the meter full?</Question>
               <div className="grid grid-cols-2 gap-2 w-full items-start">
                 <div className="flex flex-col items-center">
                   <BranchLabel>Yes</BranchLabel>
@@ -200,7 +187,7 @@ export default function PlayerFlow() {
 
           <ArrowDown />
           <Pill title="Collection Updated" />
-          <Diamond>Collection completed?</Diamond>
+          <Question>Collection completed?</Question>
           <div className="grid grid-cols-2 gap-3 items-start">
             <div className="flex flex-col items-center">
               <BranchLabel>Yes</BranchLabel>
