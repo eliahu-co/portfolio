@@ -167,28 +167,18 @@ export default function Prioritization() {
         <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-crimson mb-2">Decision</p>
         <div className="flex flex-col gap-3">
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Card Bounty scores highest (33) and is the strongest near-term validation candidate. It
-            extends existing Chest and Card Collection behavior, creates a direct Coin sink, and can be
-            tested as a bounded LiveOps event. Its main risk is economy cannibalization: if the
-            guarantee is too attainable, it may reduce long-term Chest demand or devalue rare Cards.
+            Test Card Bounty first. It scores highest (33), builds on existing Chest and Collection
+            behavior, drives additional Coin spend and can be validated through a contained LiveOps
+            event. Its main risk is making the guarantee too attainable, which could accelerate
+            Collection completion and weaken future Chest demand.
           </p>
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Hot Trail ranks second (20). It reuses the existing Raid flow and turns a loss into an
-            urgent return session and additional Spin consumption. Confidence is lower because
-            retaliation may motivate competitive players while frustrating others.
+            Hot Trail ranks second (20): it fits the existing Raid loop but may motivate competitive
+            players while frustrating others. Hometown ranks third (9): it has longer-term potential but
+            requires establishing new customization and social-status behavior.
           </p>
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Hometown ranks third (9). It connects to Village progression through unlocked items, Coin
-            spending, and upgrade discounts, but introduces a new customization loop beside the core
-            Spin–Coin–Village loop. Its ARPDAU impact depends on social visibility giving customization
-            enough value to generate premium purchases. That audience and status loop would take time
-            to establish, making Hometown a longer-term monetization opportunity rather than the
-            strongest near-term test.
-          </p>
-          <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            I would therefore test Card Bounty first and expand it in this brief. It offers the clearest
-            path to measurable ARPDAU lift, the strongest integration with existing player behavior, and
-            a contained MVP.
+            This brief therefore expands Card Bounty.
           </p>
         </div>
       </div>
