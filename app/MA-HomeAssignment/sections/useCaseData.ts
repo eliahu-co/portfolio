@@ -14,7 +14,7 @@ export const USE_CASE_1: UseCaseData = {
     supporting: [
       'Coin spend on Hometown construction per DAU',
       'Repeat Customization Rate',
-      'Hometown-driven return sessions per activated player',
+      'Return sessions per Hometown user',
     ],
   },
 
