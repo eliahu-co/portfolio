@@ -9,8 +9,9 @@ export const USE_CASE_1: UseCaseData = {
   title:   'Hometown',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature1.png',
+  mechanismLabel: 'KPIs',
   arpdauMechanism:
-    'Creates an additional Coin sink and premium spend surfaces through backdrops and animated or special variants. Social visibility increases the value of owning them. New cosmetic spend surface.',
+    'Primary: ARPDAU.\nSupporting: Premium customization conversion, Coin consumption and Hometown-driven return sessions.',
 
   constructionPhase: {
     name: 'Project Conception, Design & Planning / Building Permits',
