@@ -84,15 +84,15 @@ export const USE_CASE_1: UseCaseData = {
   tradeoffs: [
     {
       title: 'Core Cannibalization',
-      body: 'Players may redirect existing Coins from Village progression instead of purchasing more Spins.',
+      body: 'May slow Village progression.',
     },
     {
       title: 'Paying Twice',
-      body: 'Players may feel charged again for items they already completed.',
+      body: 'Charging for previously built items may feel unfair.',
     },
     {
-      title: 'Weak Cosmetic Demand',
-      body: 'Customization has limited value without an audience.',
+      title: 'Weak Customization Demand',
+      body: 'Customization value depends on audience.',
     },
   ],
 }
