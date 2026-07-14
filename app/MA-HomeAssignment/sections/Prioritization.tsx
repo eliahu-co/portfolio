@@ -71,52 +71,26 @@ export default function Prioritization() {
       return next
     })
   return (
-    <Section id="prioritization" eyebrow="Prioritization" title="Criteria, scoring & decision">
-      <div className="max-w-2xl mb-6 flex flex-col gap-3">
-        <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          The scores compare opportunities; without internal player-segment and exposure data, Reach
-          cannot be estimated reliably. I
-          therefore replace it with Core-Loop Fit and use a modified RICE-style calculation:
-        </p>
-        <p className="font-sans font-bold text-[13px] leading-relaxed text-cm-violet-deep border-l-4 border-cm-gold pl-3">
-          Opportunity Score = (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort
-        </p>
-        <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          The calculation favors opportunities that combine monetization potential, natural integration
-          and confidence with a manageable investment.
-        </p>
-      </div>
-
-      {/* Criterion definitions + scoring rubric (accordion) */}
-      <div className="max-w-2xl mb-8 flex flex-col gap-2.5">
-        {CRITERIA_DEFS.map(({ title, body, rubric }) => {
-          const isOpen = open.has(title)
-          return (
-            <div key={title} className="pl-3 border-l-4 border-cm-wood">
-              <button
-                type="button"
-                onClick={() => toggle(title)}
-                aria-expanded={isOpen}
-                className="flex items-center gap-2 text-left"
-              >
-                <span className={`text-cm-wood/60 text-[9px] transition-transform duration-150 ${isOpen ? 'rotate-90' : ''}`} aria-hidden="true">▶</span>
-                <span className="font-serif text-[14px] text-cm-violet-deep">{title}</span>
-              </button>
-              {isOpen && (
-                <div className="mt-1.5 ml-[18px] flex flex-col gap-0.5">
-                  <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80 mb-1">{body}</p>
-                  {rubric.map(([score, desc]) => (
-                    <p key={score} className="font-sans text-[11px] leading-relaxed text-charcoal/70">
-                      <span className="font-bold text-charcoal">{score}</span>
-                      <span className="text-charcoal/40"> — </span>
-                      {desc}
-                    </p>
-                  ))}
-                </div>
-              )}
-            </div>
-          )
-        })}
+    <Section id="prioritization" eyebrow="Prioritization" title="Decision, scoring and criteria">
+      {/* Decision */}
+      <div className="max-w-2xl mb-8">
+        <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-crimson mb-2">Decision</p>
+        <div className="flex flex-col gap-3">
+          <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+            Card Bounty ranks first (33): it builds on existing Chest and Collection behavior, drives
+            additional Coin spend and can be validated through a contained LiveOps event. Its main risk
+            is making the guarantee too attainable, which could accelerate Collection completion and
+            weaken future Chest demand.
+          </p>
+          <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+            Hot Trail ranks second (20): it fits the existing Raid loop but may motivate competitive
+            players while frustrating others. Hometown ranks third (9): it has longer-term potential but
+            requires establishing new customization and social-status behavior.
+          </p>
+          <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+            This brief therefore expands Card Bounty.
+          </p>
+        </div>
       </div>
 
       {/* Scoring table */}
@@ -163,24 +137,52 @@ export default function Prioritization() {
         </table>
       </div>
 
-      <div className="max-w-2xl">
-        <p className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-cm-crimson mb-2">Decision</p>
-        <div className="flex flex-col gap-3">
-          <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Card Bounty ranks first (33): it builds on existing Chest and Collection behavior, drives
-            additional Coin spend and can be validated through a contained LiveOps event. Its main risk
-            is making the guarantee too attainable, which could accelerate Collection completion and
-            weaken future Chest demand.
-          </p>
-          <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            Hot Trail ranks second (20): it fits the existing Raid loop but may motivate competitive
-            players while frustrating others. Hometown ranks third (9): it has longer-term potential but
-            requires establishing new customization and social-status behavior.
-          </p>
-          <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-            This brief therefore expands Card Bounty.
-          </p>
-        </div>
+      {/* Scoring method */}
+      <div className="max-w-2xl mb-8 flex flex-col gap-3">
+        <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+          The scores compare opportunities; without internal player-segment and exposure data, Reach
+          cannot be estimated reliably. I
+          therefore replace it with Core-Loop Fit and use a modified RICE-style calculation:
+        </p>
+        <p className="font-sans font-bold text-[13px] leading-relaxed text-cm-violet-deep border-l-4 border-cm-gold pl-3">
+          Opportunity Score = (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort
+        </p>
+        <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+          The calculation favors opportunities that combine monetization potential, natural integration
+          and confidence with a manageable investment.
+        </p>
+      </div>
+
+      {/* Criterion definitions + scoring rubric (accordion) */}
+      <div className="max-w-2xl flex flex-col gap-2.5">
+        {CRITERIA_DEFS.map(({ title, body, rubric }) => {
+          const isOpen = open.has(title)
+          return (
+            <div key={title} className="pl-3 border-l-4 border-cm-wood">
+              <button
+                type="button"
+                onClick={() => toggle(title)}
+                aria-expanded={isOpen}
+                className="flex items-center gap-2 text-left"
+              >
+                <span className={`text-cm-wood/60 text-[9px] transition-transform duration-150 ${isOpen ? 'rotate-90' : ''}`} aria-hidden="true">▶</span>
+                <span className="font-serif text-[14px] text-cm-violet-deep">{title}</span>
+              </button>
+              {isOpen && (
+                <div className="mt-1.5 ml-[18px] flex flex-col gap-0.5">
+                  <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80 mb-1">{body}</p>
+                  {rubric.map(([score, desc]) => (
+                    <p key={score} className="font-sans text-[11px] leading-relaxed text-charcoal/70">
+                      <span className="font-bold text-charcoal">{score}</span>
+                      <span className="text-charcoal/40"> — </span>
+                      {desc}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
+          )
+        })}
       </div>
     </Section>
   )
