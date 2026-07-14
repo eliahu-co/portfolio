@@ -278,7 +278,7 @@ function KpiCards({ kpi }: { kpi: { primary: string; supporting: string[] } }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
         {kpi.supporting.map((s, i) => (
           <div key={i} className="rounded-lg border border-charcoal/25 border-l-4 border-l-charcoal/45 bg-gradient-to-b from-[#FBF7F0] to-[#F3ECDF] px-2.5 py-1.5 shadow-[0_2px_6px_rgba(42,27,84,0.08)]">
-            <span className="font-sans text-[10px] leading-snug text-charcoal/80">{s}</span>
+            <span className="font-sans text-[11px] md:text-[12px] leading-snug text-charcoal">{s}</span>
           </div>
         ))}
       </div>
