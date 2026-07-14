@@ -5,6 +5,7 @@ import { type ReactNode } from 'react'
 import Section from './Section'
 import { Pill } from './UseCase'
 import PlayerFlow from './PlayerFlow'
+import PrototypePreview from './PrototypePreview'
 
 // Sub-heading styled like a section title (h2 so the .ma-page 800-weight rule
 // applies), used for the peer blocks in this section.
@@ -126,6 +127,11 @@ export default function MVP() {
       <div className="grid gap-y-8 mb-10 max-w-3xl">
         <List title="In scope" items={SCOPE_IN} marker="✓" markerClass="text-cm-gold" />
         <List title="Out of scope" items={SCOPE_OUT} marker="✕" markerClass="text-charcoal/40" textClass="text-charcoal/60" />
+      </div>
+
+      <div id="prototype" className="mb-10 max-w-2xl scroll-mt-6">
+        <SubHeading>Interactive prototype</SubHeading>
+        <PrototypePreview />
       </div>
 
       <div className="mb-10 max-w-3xl">

@@ -15,7 +15,6 @@ import UseCase from './sections/UseCase'
 import { USE_CASE_1, USE_CASE_2, USE_CASE_3 } from './sections/useCaseData'
 import Prioritization from './sections/Prioritization'
 import MVP from './sections/MVP'
-import PrototypeDemo from './sections/PrototypeDemo'
 import AssumptionsSources from './sections/AssumptionsSources'
 
 // Page-scoped Moon Active-style type: their site runs Filson Pro/Soft (Adobe
@@ -80,7 +79,6 @@ export default function MAHomeAssignmentPage() {
             <UseCase data={USE_CASE_3} />
             <Prioritization />
             <MVP />
-            <PrototypeDemo />
             <AssumptionsSources />
 
             <div className="mt-4">

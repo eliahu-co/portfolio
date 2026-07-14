@@ -81,15 +81,25 @@ it('publishes the Card Bounty poster in the prototype social metadata', () => {
   }))
 })
 
-it('integrates the Card Bounty prototype without the previous demo placeholder', () => {
+it('renders the interactive prototype inside MVP without the old introduction', () => {
   render(<MAHomeAssignmentPage />)
+  const mvp = document.getElementById('mvp')!
   const prototype = document.getElementById('prototype')!
+  const heading = Array.from(mvp.querySelectorAll('h2')).find(
+    (node) => node.textContent === 'Interactive prototype'
+  )!
+  const successMetrics = Array.from(mvp.querySelectorAll('h2')).find(
+    (node) => node.textContent === 'Success metrics'
+  )!
 
+  expect(mvp.contains(prototype)).toBe(true)
+  expect(prototype.contains(heading)).toBe(true)
   expect(prototype.querySelectorAll('a[href="/MA-HomeAssignment/demo"]')).toHaveLength(1)
   expect(prototype.querySelector('img[src="/coinmaster/prototype.png"]')).not.toBeNull()
-  expect(prototype.textContent).toContain('Coin-purchased Chests to fill the Bounty meter')
-  expect(prototype.textContent).not.toMatch(/Drawing Analyzer|drop chance/i)
-  expect(prototype.querySelector('video')).toBeNull()
+  expect(prototype.compareDocumentPosition(successMetrics) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  expect(document.body.textContent).not.toContain('Prototype demo')
+  expect(document.body.textContent).not.toContain('Card Bounty, interactive')
+  expect(document.body.textContent).not.toContain('An interactive concept prototype of Card Bounty')
 })
 
 it('uses body typography and feature-section bottom spacing for prioritization criteria', () => {
