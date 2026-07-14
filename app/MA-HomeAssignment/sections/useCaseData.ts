@@ -261,26 +261,26 @@ export const USE_CASE_3: UseCaseData = {
   value: [
     {
       title: 'Urgent Return Trigger',
-      body: 'Turns a completed Raid into a time-limited reason to reopen the game.',
+      body: 'Turns being Raided into a time-limited reason to return.',
     },
     {
       title: 'Agency After Loss',
-      body: 'Gives the raided player a direct response instead of leaving the loss as a passive notification.',
+      body: 'Gives the raided player a direct response.',
     },
   ],
 
   tradeoffs: [
     {
       title: 'Retaliation Loops',
-      body: 'Counter-Raids could generate repeated retaliation between the same players.',
+      body: 'Repeated Counter-Raids between the same players.',
     },
     {
       title: 'Failed Urgency',
-      body: 'Players may return and spend Spins without landing a Raid before the timer expires.',
+      body: 'Spins consumed without landing a Raid before the timer expires.',
     },
     {
       title: 'Economy Distortion',
-      body: 'Recovered Coins could create inflation or reduce the need to earn more through the core loop.',
+      body: 'Recovered Coins inflate the economy or weaken core-loop demand.',
     },
   ],
 }
