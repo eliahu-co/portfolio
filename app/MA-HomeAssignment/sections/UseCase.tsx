@@ -222,13 +222,13 @@ function Card({
       : 'bg-gradient-to-b from-[#FFF4F1] to-[#FBE9E7]'
   const span = item.primary || fullWidth ? 'sm:col-span-2' : ''
   return (
-    <div className={`rounded-[10px] border px-3 py-2.5 shadow-[0_2px_6px_rgba(42,27,84,0.08)] ${surface} ${edge} ${span}`}>
-      <p className="font-serif text-[14px] text-cm-violet-deep mb-0.5 flex items-center gap-1.5">
-        {item.primary && variant === 'value' && <span className="shrink-0 text-[13px] leading-none text-cm-gold" aria-hidden="true">★</span>}
+    <div className={`rounded-lg border px-2.5 py-2 shadow-[0_2px_6px_rgba(42,27,84,0.08)] ${surface} ${edge} ${span}`}>
+      <p className="font-serif text-[12px] font-semibold leading-tight text-cm-violet-deep mb-1 flex items-center gap-1.5">
+        {item.primary && variant === 'value' && <span className="shrink-0 text-[11px] leading-none text-cm-gold" aria-hidden="true">★</span>}
         {item.primary && variant === 'risk' && <WarningBadge />}
         <span className="min-w-0">{item.title}</span>
       </p>
-      <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80">{item.body}</p>
+      <p className="font-sans text-[10px] italic leading-snug text-charcoal/80">{item.body}</p>
       {item.bullets && (
         <div className="mt-1.5">
           <Bullets items={item.bullets} />
@@ -254,14 +254,10 @@ export function CardList({
       </div>
     )
   }
-  const primary = items.find(it => it.primary)
-  const rest = items.filter(it => it !== primary)
   return (
-    <div className="grid sm:grid-cols-2 gap-x-3.5 gap-y-4">
-      {primary && <Card item={primary} variant={variant} />}
-      {rest.map((it, i) => (
-        // avoid a lonely half-width card on the last row
-        <Card key={i} item={it} variant={variant} fullWidth={i === rest.length - 1 && rest.length % 2 === 1} />
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+      {items.map((it, i) => (
+        <Card key={i} item={it} variant={variant} />
       ))}
     </div>
   )
