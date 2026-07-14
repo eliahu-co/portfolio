@@ -9,7 +9,7 @@ export const USE_CASE_1: UseCaseData = {
   title:   'Hometown',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature1.png',
-  mechanismLabel: 'KPIs',
+  mechanismLabel: 'KPI',
   arpdauMechanism:
     'Primary: ARPDAU.\nSupporting: Premium customization conversion, Coin consumption and Hometown-driven return sessions.',
 
