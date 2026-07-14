@@ -150,9 +150,7 @@ const SECONDARY_RULES = [
 
 export default function PlayerFlow() {
   return (
-    <div id="player-flow" className="scroll-mt-8 mb-14">
-      <p className="font-sans text-[10px] font-bold uppercase tracking-[0.18em] text-cm-crimson mb-5">Player Flow</p>
-
+    <div id="player-flow" className="scroll-mt-8">
       {/* Entry → Target → Progress (columns on desktop, stacked on mobile) */}
       <div className="flex flex-col md:flex-row md:items-stretch">
         <Phase label="Entry">

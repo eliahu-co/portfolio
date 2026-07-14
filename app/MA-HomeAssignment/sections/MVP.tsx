@@ -1,8 +1,18 @@
 // app/MA-HomeAssignment/sections/MVP.tsx
-// Section 7 — MVP: scope and success metrics.
+// Section 7 — Card Bounty, Expanded: player flow, scope, and success metrics.
 
+import { type ReactNode } from 'react'
 import Section from './Section'
 import { Pill } from './UseCase'
+import PlayerFlow from './PlayerFlow'
+
+// Sub-heading styled like a section title (h2 so the .ma-page 800-weight rule
+// applies), used for the peer blocks in this section.
+function SubHeading({ children }: { children: ReactNode }) {
+  return (
+    <h2 className="font-serif text-[clamp(22px,3vw,32px)] leading-tight text-cm-violet-deep mb-5">{children}</h2>
+  )
+}
 
 const SCOPE_IN = [
   'Card Bounty entry point within the Cards Center, with a visible event countdown.',
@@ -103,21 +113,28 @@ function List({
 
 export default function MVP() {
   return (
-    <Section id="mvp" eyebrow="MVP" title="Scope & metrics">
-      <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-6 max-w-2xl">
+    <Section id="mvp" eyebrow="Card Bounty — Expanded">
+      <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-10 max-w-2xl">
         The MVP tests whether allowing players to target a missing Card and make visible progress
         toward a guarantee increases Coin spend on Chests and ARPDAU. For the initial release, Card
         Bounty runs as a time-limited LiveOps event within the Cards Center, creating urgency while
         limiting economy exposure. The event duration and balancing parameters would be defined using
         internal player and economy data.
       </p>
+
+      <SubHeading>Player Flow</SubHeading>
+      <div className="mb-10">
+        <PlayerFlow />
+      </div>
+
+      <SubHeading>Scope</SubHeading>
       <div className="grid md:grid-cols-2 gap-x-10 gap-y-8 mb-10 max-w-3xl">
         <List title="In scope" items={SCOPE_IN} marker="✓" markerClass="text-cm-gold" />
         <List title="Out of scope" items={SCOPE_OUT} marker="✕" markerClass="text-charcoal/40" textClass="text-charcoal/60" />
       </div>
 
       <div className="mb-10 max-w-3xl">
-        <p className="font-sans text-[10px] uppercase tracking-[0.12em] text-charcoal mb-3">Success metrics</p>
+        <SubHeading>Success metrics</SubHeading>
         <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-5 max-w-2xl">
           Eligible players have access to the Cards Center and at least one targetable missing Card at
           event launch. Event metrics use eligible players active on each day; post-event guardrails
