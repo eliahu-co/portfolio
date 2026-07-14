@@ -88,7 +88,7 @@ export const USE_CASE_1: UseCaseData = {
     },
     {
       title: 'Paying Twice',
-      body: 'Charging for previously built items may feel unfair.',
+      body: 'Charge for Village built items may feel unfair.',
     },
     {
       title: 'Weak Customization Demand',
