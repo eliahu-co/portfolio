@@ -202,8 +202,9 @@ export const USE_CASE_3: UseCaseData = {
   title:   'Hot Trail',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature3.png',
+  mechanismLabel: 'KPI',
   arpdauMechanism:
-    'Higher Spin consumption. Reaching the Counter-Raid requires returning to the Spinner and landing a Raid, increasing session depth and exposure to existing offers.',
+    'Primary: ARPDAU.\nSupporting: Hot Trail activation rate and Spin consumption per activated player.',
 
   constructionPhase: {
     name: 'Design Coordination / Pre-Construction',
