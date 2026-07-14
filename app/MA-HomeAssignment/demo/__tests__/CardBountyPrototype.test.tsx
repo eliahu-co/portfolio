@@ -44,7 +44,18 @@ describe('Card Bounty prototype happy path', () => {
 
       if (batch === 1) {
         expect(screen.getAllByRole('dialog')).toHaveLength(1)
-        expect(screen.getByRole('dialog', { name: 'Magical Chest' })).toHaveAttribute('data-size', 'purchase')
+        const purchaseDialog = screen.getByRole('dialog', { name: 'Magical Chest' })
+        expect(purchaseDialog).toHaveAttribute('data-size', 'purchase')
+        expect(purchaseDialog.querySelector('img[alt=""]')).toHaveAttribute(
+          'src',
+          '/coinmaster/card-bounty/generated/magical-chest-open.webp',
+        )
+        expect(screen.getByLabelText('Chest quantity')).toHaveTextContent('10')
+        expect(screen.getByText('80 total Cards')).toBeInTheDocument()
+        expect(screen.getByText('290,000,000')).toBeInTheDocument()
+        expect(screen.getByText('+30')).toBeInTheDocument()
+        expect(screen.getByRole('progressbar', { name: 'Current Bounty progress' })).toHaveAttribute('aria-valuenow', '0')
+        expect(screen.getByRole('progressbar', { name: 'Projected Bounty progress' })).toHaveAttribute('aria-valuenow', '30')
         const underlay = screen.getByTestId('active-bounty-underlay')
         expect(underlay).toHaveAttribute('aria-hidden', 'true')
         expect(underlay).toHaveAttribute('inert')

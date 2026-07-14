@@ -1,0 +1,395 @@
+.content {
+  container-name: purchase-dialog;
+  container-type: inline-size;
+  display: grid;
+  min-height: 0;
+  gap: .55rem;
+  padding: .05rem .45rem .2rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.chanceCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  overflow: hidden;
+  border: 2px solid #b36c28;
+  border-radius: .8rem;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, .82), transparent 42%),
+    linear-gradient(180deg, #fff8d8, #f6dfaa);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, .82),
+    0 3px 0 rgba(118, 57, 17, .24);
+}
+
+.chanceCopy {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .42rem .55rem;
+}
+
+.chanceCopy > span {
+  color: #7d4928;
+  font-size: .65rem;
+  font-weight: 1000;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.rarityIcons {
+  display: flex;
+  align-items: center;
+  gap: .22rem;
+}
+
+.rarityIcon {
+  width: 1.55rem;
+  height: 1.55rem;
+  display: grid;
+  place-items: center;
+  border: 2px solid #713913;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, .62),
+    0 2px 0 rgba(90, 42, 10, .35);
+}
+
+.rarityIcon svg {
+  width: .92rem;
+  height: .92rem;
+  overflow: visible;
+  fill: #fff7cf;
+  stroke: rgba(79, 35, 12, .72);
+  stroke-width: 1.25;
+  filter: drop-shadow(0 1px 0 rgba(70, 26, 6, .5));
+}
+
+.common {
+  background: linear-gradient(180deg, #6ad8eb, #168cae);
+}
+
+.rare {
+  background: linear-gradient(180deg, #d778ed, #8137a5);
+}
+
+.legendary {
+  background: linear-gradient(180deg, #ffe55f, #e68a16);
+}
+
+.cardCount {
+  min-width: 6.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: .35rem .55rem;
+  border-left: 2px solid rgba(157, 87, 28, .28);
+  background: rgba(255, 255, 255, .34);
+  text-align: center;
+}
+
+.cardCount strong {
+  color: #5b2a13;
+  font-size: .76rem;
+  font-weight: 1000;
+  text-transform: uppercase;
+}
+
+.cardCount span {
+  margin-top: .12rem;
+  color: #9a3e25;
+  font-size: .62rem;
+  font-weight: 1000;
+  white-space: nowrap;
+}
+
+.purchaseTray {
+  display: grid;
+  grid-template-columns: 4.15rem minmax(0, 1fr);
+  gap: .5rem;
+  padding: .45rem;
+  border: 2px solid rgba(123, 65, 20, .36);
+  border-radius: .9rem;
+  background: rgba(255, 249, 219, .44);
+  box-shadow: inset 0 2px 4px rgba(116, 62, 18, .1);
+}
+
+.quantityControl {
+  min-height: 9.4rem;
+  display: grid;
+  grid-template-rows: 2.75rem minmax(3.2rem, 1fr) 2.75rem;
+  place-items: center;
+  padding: .25rem .2rem;
+  border: 2px solid #5d8514;
+  border-radius: .75rem;
+  background: linear-gradient(180deg, #dcf4a7, #a8cf52);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, .58),
+    0 3px 0 #59751c;
+}
+
+.quantityButton {
+  width: 2.75rem;
+  min-width: 44px;
+  height: 2.75rem;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: .55rem;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.quantityTriangle {
+  width: 2.8rem;
+  height: 1.75rem;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, #6fe435, #238f11);
+  color: #fff;
+  filter: drop-shadow(0 3px 0 #176608);
+  pointer-events: none;
+}
+
+.increase {
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  padding-top: .35rem;
+}
+
+.decrease {
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  padding-bottom: .35rem;
+}
+
+.quantityTriangle svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3.25;
+}
+
+.quantityButton:disabled {
+  cursor: not-allowed;
+  opacity: .42;
+}
+
+.quantityButton:disabled .quantityTriangle {
+  filter: grayscale(.65) drop-shadow(0 2px 0 #65714c);
+}
+
+.quantityButton:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.quantityValue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantityValue small {
+  color: #4e6918;
+  font-size: .6rem;
+  font-weight: 1000;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.quantityValue strong {
+  color: #3c210d;
+  font-size: clamp(1.8rem, 8cqw, 2.45rem);
+  font-variant-numeric: tabular-nums;
+  line-height: .95;
+  text-shadow: 0 2px 0 rgba(255, 255, 220, .75);
+}
+
+.projection {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.meters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .4rem;
+}
+
+.meterCard {
+  min-width: 0;
+  padding: .35rem .38rem .28rem;
+  border: 1px solid rgba(116, 63, 25, .25);
+  border-radius: .65rem;
+  background: rgba(255, 255, 255, .34);
+}
+
+.projectedMeter {
+  border-color: rgba(61, 131, 21, .42);
+  background: rgba(217, 246, 171, .52);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .5);
+}
+
+.quoteSummary {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .4rem;
+  margin: .42rem 0 0;
+}
+
+.quoteSummary > div {
+  min-width: 0;
+  min-height: 2.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .3rem;
+  padding: .28rem .42rem;
+  border: 1px solid rgba(123, 68, 26, .26);
+  border-radius: .58rem;
+  background: rgba(255, 255, 255, .38);
+}
+
+.quoteSummary dt {
+  color: #80502e;
+  font-size: .6rem;
+  font-weight: 1000;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.quoteSummary dd {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  color: #57240e;
+  font-size: clamp(.62rem, 2.7cqw, .82rem);
+  font-weight: 1000;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.quoteSummary .progressGain {
+  color: #2f8d19;
+  font-size: 1rem;
+}
+
+.affordability,
+.error {
+  margin: -.1rem 0;
+  text-align: center;
+}
+
+.affordability {
+  color: #825437;
+  font-size: .6rem;
+  font-weight: 800;
+}
+
+.error {
+  padding: .3rem .5rem;
+  border: 1px solid #c53b2e;
+  border-radius: .5rem;
+  background: rgba(255, 224, 204, .76);
+  color: #9e201b;
+  font-size: .62rem;
+  font-weight: 1000;
+}
+
+.confirmButton {
+  width: min(100%, 18rem);
+  min-height: 3.15rem;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .45rem .55rem .45rem .85rem;
+}
+
+.confirmPrice {
+  min-height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .2rem;
+  padding: .22rem .48rem .22rem .18rem;
+  border: 1px solid rgba(24, 84, 10, .7);
+  border-radius: .58rem;
+  background: rgba(23, 92, 12, .42);
+  box-shadow: inset 0 1px rgba(255, 255, 255, .2);
+  font-size: .68rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  margin: -1px;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@container purchase-dialog (max-width: 360px) {
+  .chanceCopy {
+    gap: .3rem;
+    padding-inline: .38rem;
+  }
+
+  .chanceCopy > span {
+    font-size: .6rem;
+  }
+
+  .rarityIcon {
+    width: 1.32rem;
+    height: 1.32rem;
+  }
+
+  .cardCount {
+    min-width: 5.65rem;
+    padding-inline: .35rem;
+  }
+
+  .purchaseTray {
+    grid-template-columns: 3.75rem minmax(0, 1fr);
+    gap: .35rem;
+    padding: .35rem;
+  }
+
+  .meters {
+    gap: .25rem;
+  }
+
+  .meterCard {
+    padding-inline: .25rem;
+  }
+
+  .quoteSummary {
+    grid-template-columns: 1fr;
+    gap: .25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quantityButton,
+  .confirmButton {
+    transition: none;
+  }
+}

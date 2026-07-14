@@ -3,15 +3,14 @@
 import { useEffect, useReducer, useRef } from 'react'
 import { ActiveBountyPanel, IntroPanel, TargetConfirmation } from './CardBountyPanel'
 import CardsCenterScreen from './CardsCenterScreen'
+import ChestPurchaseDialog from './ChestPurchaseDialog'
 import DemoShell from './DemoShell'
-import { formatCompactCoins, formatNumber, getChest, getTarget, type ChestId } from './demoData'
-import { demoReducer, initialDemoState, type DemoState } from './demoReducer'
-import { ChevronGlyph, CoinIcon, PrimaryButton } from './GamePrimitives'
+import { getTarget, type ChestId } from './demoData'
+import { demoReducer, getPurchasePreview, initialDemoState } from './demoReducer'
 import { ChestOpening, CollectionComplete, GuaranteeReveal } from './RewardSequence'
 import { RibbonDialog, RibbonFrame } from './RibbonDialog'
 import SpinReturnScreen from './SpinReturnScreen'
 import TargetPicker from './TargetPicker'
-import panelStyles from './BountyPanels.module.css'
 import styles from './CardBountyPrototype.module.css'
 
 // React 18 types inert as boolean but only forwards the standards-compliant empty attribute.
@@ -38,69 +37,12 @@ function guidanceFor(
   }
 }
 
-function ChestPurchaseContent({
-  state,
-  onQuantity,
-  onConfirm,
-}: {
-  state: DemoState
-  onQuantity: (quantity: number) => void
-  onConfirm: () => void
-}) {
-  const pending = state.pendingPurchase
-  const chest = getChest(pending?.chestId ?? null)
-  if (!pending || !chest) return null
-
-  const quantity = pending.quantity
-  const maxAffordable = Math.floor(state.coins / chest.price)
-  const totalCost = chest.price * quantity
-  const availableProgress = Math.max(0, state.meterThreshold - state.meterProgress)
-  const totalProgress = Math.min(availableProgress, chest.bountyProgress * quantity)
-  const isAffordable = maxAffordable >= quantity
-
-  function increment() {
-    if (maxAffordable < 1) return
-    onQuantity(quantity >= maxAffordable ? 1 : quantity + 1)
-  }
-
-  function decrement() {
-    if (maxAffordable < 1) return
-    onQuantity(quantity <= 1 ? maxAffordable : quantity - 1)
-  }
-
-  return (
-    <div className={panelStyles.purchaseContent}>
-      <p className={panelStyles.purchaseKicker}>Multiple-Chest purchase</p>
-      <p className={panelStyles.purchaseCards}>{chest.cardsPerChest} Cards per Chest</p>
-
-      <div className={panelStyles.quantityControl}>
-        <button type="button" onClick={increment} aria-label="Increase quantity" disabled={maxAffordable < 1}>
-          <ChevronGlyph direction="up" />
-        </button>
-        <div><small>Quantity</small><strong>{quantity}</strong></div>
-        <button type="button" onClick={decrement} aria-label="Decrease quantity" disabled={maxAffordable < 1}>
-          <ChevronGlyph direction="down" />
-        </button>
-      </div>
-
-      <dl className={panelStyles.purchaseSummary}>
-        <div><dt>Total Coin cost</dt><dd><CoinIcon small />{formatNumber(totalCost)}</dd></div>
-        <div><dt>Total Bounty progress</dt><dd>+{totalProgress}</dd></div>
-      </dl>
-      <p className={panelStyles.affordability}>{maxAffordable > 0 ? `Up to ${maxAffordable} affordable \u00B7 ${formatCompactCoins(chest.price)} each` : 'Not enough Coins for this Chest'}</p>
-      {state.purchaseError && <p className={panelStyles.purchaseError} role="alert">{state.purchaseError}</p>}
-      <PrimaryButton type="button" onClick={onConfirm} disabled={!isAffordable || maxAffordable < 1} aria-label="Confirm Chest purchase">
-        <CoinIcon small /> Confirm purchase
-      </PrimaryButton>
-    </div>
-  )
-}
-
 export default function CardBountyPrototype() {
   const [state, dispatch] = useReducer(demoReducer, initialDemoState)
   const overlayHostRef = useRef<HTMLDivElement>(null)
   const flowOpenerRef = useRef<HTMLElement | null>(null)
   const target = getTarget(state.selectedTargetId)
+  const purchasePreview = getPurchasePreview(state)
 
   useEffect(() => {
     const timer = window.setInterval(() => dispatch({ type: 'TICK' }), 1000)
@@ -169,27 +111,31 @@ export default function CardBountyPrototype() {
             />
           </RibbonDialog>
         ) : null
-      case 'chest-quantity': {
-        const chest = getChest(state.pendingPurchase?.chestId ?? null)
-        return target && chest ? (
+      case 'chest-quantity':
+        return target && purchasePreview ? (
           <RibbonDialog
             key="card-bounty-overlay"
-            title={chest.name}
+            title={purchasePreview.chest.name}
             size="purchase"
             onClose={() => dispatch({ type: 'CANCEL_PURCHASE' })}
             hero={
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={`/coinmaster/card-bounty/${chest.id}-chest.png`} alt="" />
+              <img
+                src={purchasePreview.chest.id === 'magical'
+                  ? '/coinmaster/card-bounty/generated/magical-chest-open.webp'
+                  : `/coinmaster/card-bounty/${purchasePreview.chest.id}-chest.png`}
+                alt=""
+              />
             }
           >
-            <ChestPurchaseContent
-              state={state}
+            <ChestPurchaseDialog
+              preview={purchasePreview}
+              purchaseError={state.purchaseError}
               onQuantity={(quantity) => dispatch({ type: 'SET_QUANTITY', quantity })}
               onConfirm={() => dispatch({ type: 'CONFIRM_PURCHASE' })}
             />
           </RibbonDialog>
         ) : null
-      }
       case 'chest-opening':
         return <ChestOpening state={state} onContinue={() => dispatch({ type: 'COMPLETE_CHEST_OPENING' })} />
       case 'guarantee':
