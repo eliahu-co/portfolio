@@ -152,7 +152,7 @@ export const USE_CASE_2: UseCaseData = {
     loop: true,
     steps: [
       { label: 'Use Spins to earn Coins', coreLoop: true },
-      { label: 'Choose a missing Card from an incomplete Collection' },
+      { label: 'Choose a missing Card from a Collection' },
       { label: 'Spend Coins on Chests to fill the Bounty meter' },
       { label: 'Receive the target Card and progress the Collection' },
       { label: 'Complete the Collection to earn Spins' },
