@@ -128,6 +128,8 @@ describe('ChestPurchaseDialog', () => {
 
     expect(css).toMatch(/container-name:\s*purchase-dialog/)
     expect(css).toMatch(/@container purchase-dialog \(max-width: 360px\)/)
+    expect(css).toMatch(/@container purchase-dialog \(max-width: 300px\)/)
+    expect(css).toMatch(/\.chanceCopy > span\s*{[^}]*white-space:\s*normal/)
     expect(css).not.toMatch(/font-size:\s*\.(?:4\d|5[0-4])rem/)
   })
 

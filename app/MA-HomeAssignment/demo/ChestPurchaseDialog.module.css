@@ -387,6 +387,18 @@
   }
 }
 
+@container purchase-dialog (max-width: 300px) {
+  .chanceCopy {
+    justify-content: center;
+  }
+
+  .chanceCopy > span {
+    max-width: 4.6rem;
+    line-height: 1;
+    white-space: normal;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .quantityButton,
   .confirmButton {

@@ -95,6 +95,17 @@ describe('RibbonDialog', () => {
     expect(css).toMatch(/\.ribbon\s*{[^}]*z-index:\s*2/)
     expect(css).toMatch(/\.purchase \.hero\s*{[^}]*z-index:\s*1/)
   })
+
+  it('sizes ribbon titles against the dialog frame instead of the outer viewport', () => {
+    const css = readFileSync(
+      resolve(process.cwd(), 'app/MA-HomeAssignment/demo/RibbonDialog.module.css'),
+      'utf8',
+    )
+
+    expect(css).toMatch(/\.frame\s*{[^}]*container-type:\s*inline-size/)
+    expect(css).toMatch(/\.title\s*{[^}]*font-size:[^;}]*cqw/)
+    expect(css).toMatch(/\.title\s*{[^}]*white-space:\s*nowrap/)
+  })
 })
 
 describe('RibbonFrame', () => {

@@ -21,6 +21,7 @@
 .frame {
   position: relative;
   display: flex;
+  container-type: inline-size;
   min-height: 0;
   max-width: 34rem;
   flex-direction: column;
@@ -66,7 +67,7 @@
   display: grid;
   min-height: 3.6rem;
   place-items: center;
-  padding: .35rem 2.75rem;
+  padding: .35rem clamp(1.75rem, 10cqw, 2.75rem);
   border: 3px solid #741718;
   border-radius: .7rem .7rem .45rem .45rem;
   background: linear-gradient(180deg, #f34b4c 0%, #cf2029 58%, #a9141d 100%);
@@ -102,7 +103,7 @@
   margin: 0;
   color: #fffaf0;
   font-family: Impact, Haettenschweiler, 'Arial Black', sans-serif;
-  font-size: clamp(1.35rem, 5.7vw, 2.15rem);
+  font-size: clamp(1.15rem, 7.5cqw, 2rem);
   font-weight: 900;
   letter-spacing: .035em;
   line-height: 1;
@@ -113,6 +114,7 @@
     -2px 0 0 #712517,
     0 -2px 0 #712517;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .closeControl {
