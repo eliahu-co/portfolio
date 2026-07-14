@@ -139,16 +139,16 @@ function Card({ n }: { n: Node }) {
       style={{ left: `${(n.cx / 560) * 100}%`, top: `${(n.cy / 300) * 100}%` }}
     >
       {n.kind !== 'engine' && (
-        <span className={`leading-none ${s.glyph}`} aria-hidden="true">
+        <span className={`inline-flex items-center leading-none ${s.glyph}`} aria-hidden="true">
           {n.glyph === '🐾' ? (
             // paw rendered as an SVG so it inherits the (blue) glyph colour,
             // unlike the multicolour emoji
-            <svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" className="inline-block align-middle">
-              <ellipse cx="12" cy="16" rx="5" ry="4.2" />
-              <ellipse cx="5.5" cy="9.5" rx="2" ry="2.6" />
-              <ellipse cx="9.7" cy="6.6" rx="2" ry="2.6" />
-              <ellipse cx="14.3" cy="6.6" rx="2" ry="2.6" />
-              <ellipse cx="18.5" cy="9.5" rx="2" ry="2.6" />
+            <svg viewBox="0 0 24 22" width="1.15em" height="1.15em" fill="currentColor" className="block">
+              <ellipse cx="12" cy="15" rx="5" ry="4.2" />
+              <ellipse cx="5.5" cy="8.5" rx="2" ry="2.6" />
+              <ellipse cx="9.7" cy="5.6" rx="2" ry="2.6" />
+              <ellipse cx="14.3" cy="5.6" rx="2" ry="2.6" />
+              <ellipse cx="18.5" cy="8.5" rx="2" ry="2.6" />
             </svg>
           ) : (
             n.glyph
