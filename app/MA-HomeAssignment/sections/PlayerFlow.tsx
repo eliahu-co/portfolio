@@ -4,8 +4,8 @@
 //   • each phase (Entry / Target / Progress / Resolution) is a soft card framing
 //     its pills — the "Value delivered" card treatment (light-blue gradient,
 //     thin sky-blue stroke, soft drop shadow), without the bold left accent bar.
-//   • screen pills use the diagram's "meta" pill style (bg #F2FAFE, navy border
-//     and text), without the glyphs.
+//   • screen pills use the workflow-lane "loop" pill style (blue gradient, thin
+//     #1E7BA8 stroke, soft drop edge).
 //   • core-game outcomes (Receive Spins) use the gold Rewards-pill style.
 //   • decision nodes are diamonds (flowchart standard).
 // Solid navy arrows are the main path; dashed navy arrows are return paths; a
@@ -82,7 +82,7 @@ function Pill({
   const skin =
     tone === 'outcome'
       ? 'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 text-cm-wood shadow-[0_2px_0_rgba(144,57,0,0.3)]'
-      : 'bg-[#F2FAFE] border-[#0F3D54]/60 text-[#0d3a5a] shadow-[0_2px_0_rgba(15,61,84,0.45)]'
+      : 'bg-gradient-to-b from-[#F0FAFE] to-[#DBF1FC] border-[#1E7BA8]/30 text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.16)]'
   const accentSkin = accent ? 'border-cm-crimson/60 ring-1 ring-cm-crimson/25' : ''
   return (
     <div className={`w-full rounded-lg border px-2.5 py-1 text-center ${skin} ${accentSkin}`}>
