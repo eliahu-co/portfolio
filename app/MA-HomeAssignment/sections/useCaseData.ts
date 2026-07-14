@@ -11,7 +11,7 @@ export const USE_CASE_1: UseCaseData = {
   mockup:  '/coinmaster/feature1.png',
   mechanismLabel: 'KPI',
   arpdauMechanism:
-    'Primary: ARPDAU.\nSupporting: Premium customization conversion, Coin consumption and Hometown-driven return sessions.',
+    'Primary: ARPDAU.\nSupporting: Coin spend on Hometown construction per DAU, Repeat Customization Rate and Hometown-driven return sessions per activated player.',
 
   constructionPhase: {
     name: 'Project Conception, Design & Planning / Building Permits',
