@@ -19,6 +19,10 @@ Use the approved **Editorial ruled table** treatment. It should feel like a refi
 
 ## Content
 
+The introductory paragraph is:
+
+> Eligible players have the Cards Center unlocked and at least one targetable missing Card. Event metrics use eligible players active each day; post event guardrails use the full eligible group. All results compare treatment with control.
+
 | Metric | Role | Proposed target |
 |---|---|---|
 | ARPDAU | Primary | +5% or more during the event |
@@ -36,7 +40,7 @@ Use the approved **Editorial ruled table** treatment. It should feel like a refi
 - Render one semantic `<table>` inside an `overflow-x-auto` wrapper.
 - Use three columns sized for scanning: Metric approximately 30%, Role approximately 16%, and Proposed target the remaining width.
 - Leave the Role column header visually blank while retaining an `sr-only` `Role` label for assistive technology.
-- Keep the current Success metrics introductory paragraph unchanged.
+- Replace the Success metrics introductory paragraph with the approved wording above, rendered as one responsive paragraph without forced line breaks.
 - Preserve the current `max-w-3xl` section width.
 - Give the table a readable minimum width on narrow screens so the existing horizontal-scroll behavior handles long targets without crushing the columns.
 
@@ -45,6 +49,7 @@ Use the approved **Editorial ruled table** treatment. It should feel like a refi
 Update the MA Home Assignment page regression test to verify:
 
 - The Success metrics block contains one table with the exact three headers.
+- The introductory paragraph matches the approved replacement copy exactly.
 - The table contains the eight approved rows in order with exact metric, role, and target copy.
 - The old warm metric cards and `Success signal` labels no longer render.
 - The table retains the editorial header rule, row-divider, bordered role-pill, width, and overflow classes.
