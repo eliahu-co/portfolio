@@ -1,8 +1,8 @@
 // app/MA-HomeAssignment/page.tsx
-// Presentation page for the AI Drawing Analyzer PM home assignment.
+// Presentation page for the Moon Active PM home assignment.
 // Scrollable "slides" with a sticky left-sidebar anchor nav. Reuses the site's
-// existing layout (app/layout.tsx fonts + globals.css tokens) and the custom
-// Cursor. Each section is its own component under ./sections so content can be
+// existing layout (app/layout.tsx fonts + globals.css tokens) and the native
+// cursor. Each section is its own component under ./sections so content can be
 // edited without touching layout.
 
 import type { Metadata } from 'next'
@@ -14,6 +14,7 @@ import Intro from './sections/Intro'
 import UseCase from './sections/UseCase'
 import { USE_CASE_1, USE_CASE_2, USE_CASE_3 } from './sections/useCaseData'
 import Prioritization from './sections/Prioritization'
+import PlayerFlow from './sections/PlayerFlow'
 import MVP from './sections/MVP'
 import PrototypeDemo from './sections/PrototypeDemo'
 import AssumptionsSources from './sections/AssumptionsSources'
@@ -67,6 +68,7 @@ export default function MAHomeAssignmentPage() {
             <UseCase data={USE_CASE_2} />
             <UseCase data={USE_CASE_3} />
             <Prioritization />
+            <PlayerFlow />
             <MVP />
             <PrototypeDemo />
             <AssumptionsSources />
