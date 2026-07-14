@@ -42,6 +42,26 @@ function ArrowRight({ color = ARROW, width = 1 }: { color?: string; width?: numb
   )
 }
 
+// Converging connector: two shoulders (left at ~25%, right at ~62.5% — the
+// centres of the "Card acquired" and "Guaranteed Card" columns) join and point
+// down into "Collection Updated", so both success terminals feed it clearly.
+function MergeArrow() {
+  return (
+    <div className="relative" style={{ height: 26 }} aria-hidden="true">
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 26" preserveAspectRatio="none" fill="none">
+        <path d="M25 0 V13 H50" stroke={ARROW_BOLD} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+        <path d="M62.5 0 V13 H50" stroke={ARROW_BOLD} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+        <path d="M50 13 V26" stroke={ARROW_BOLD} strokeWidth="1.3" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+      </svg>
+      <div className="absolute left-1/2 bottom-0 -translate-x-1/2">
+        <svg width="12" height="7" viewBox="0 0 12 7" fill="none">
+          <path d="M1.5 1 L6 5.5 L10.5 1" stroke={ARROW_BOLD} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
 // Between phases: right arrow on desktop, down arrow on mobile — bolder/darker.
 function PhaseArrow() {
   return (
@@ -58,11 +78,11 @@ function PhaseArrow() {
 
 /* ─── plaque (HTML replica of the hero diagram's Meta rectangle) ──────────── */
 
-// Soft card framing its pills — the "Value delivered" card treatment (light-blue
-// gradient, thin sky-blue stroke, soft drop shadow), without the left accent bar.
+// Soft card framing its pills — a thin sky-blue stroke only, no background fill
+// or shadow (keeps the phase visually grouped without competing with the pills).
 function Plaque({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-[10px] border border-cm-sky/40 bg-gradient-to-b from-[#F4FBFF] to-[#E6F5FE] px-3 py-3 shadow-[0_2px_6px_rgba(42,27,84,0.08)]">
+    <div className="rounded-[10px] border border-cm-sky/40 px-3 py-3">
       {children}
     </div>
   )
@@ -154,7 +174,7 @@ export default function PlayerFlow() {
         </Phase>
       </div>
 
-      <ArrowDown />
+      <ArrowDown color={ARROW_BOLD} width={1.3} />
 
       {/* Resolution — full-width plaque containing the decision branches */}
       <Phase label="Resolution">
@@ -165,6 +185,7 @@ export default function PlayerFlow() {
               <BranchLabel>Yes</BranchLabel>
               <ArrowDown />
               <Pill title="Card acquired" />
+              <ArrowDown color={ARROW_BOLD} width={1.3} />
             </div>
             <div className="flex flex-col items-center">
               <BranchLabel>No</BranchLabel>
@@ -175,6 +196,7 @@ export default function PlayerFlow() {
                   <BranchLabel>Yes</BranchLabel>
                   <ArrowDown />
                   <Pill title="Guaranteed Card" accent />
+                  <ArrowDown color={ARROW_BOLD} width={1.3} />
                 </div>
                 <div className="flex flex-col items-center">
                   <BranchLabel>No</BranchLabel>
@@ -185,7 +207,7 @@ export default function PlayerFlow() {
             </div>
           </div>
 
-          <ArrowDown />
+          <MergeArrow />
           <Pill title="Collection Updated" />
           <Question>Collection completed?</Question>
           <div className="grid grid-cols-2 gap-3 items-start">
