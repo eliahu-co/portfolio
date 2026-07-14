@@ -233,11 +233,11 @@ export const USE_CASE_3: UseCaseData = {
     stat: 'Loss-to-return loop',
     loop: true,
     steps: [
-      { label: 'Use Coins to progress the Village', coreLoop: true },
+      { label: 'Spend Coins to progress the Village', coreLoop: true },
       { label: 'Get Raided and lose Coins' },
-      { label: 'Return within one hour to activate Hot Trail' },
-      { label: 'Use Spins within six hours to trigger a Raid' },
-      { label: 'Counter-Raid the raider and recover part of the loss' },
+      { label: 'Activate Hot Trail' },
+      { label: 'Use Spins to trigger a Raid' },
+      { label: 'Counter-Raid and recover part of the loss' },
     ],
   },
   proposedWorkflow: {
