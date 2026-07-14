@@ -14,6 +14,8 @@
 - Risk cards must have no background fill or gradient; their borders, accent bars, spacing, typography, warning markers, layout, and shadows remain unchanged.
 - Success metrics role pills must use a fixed `80px` width with horizontally centered labels.
 - Existing role-specific fills, strokes, text colors, height, type styling, and table-cell alignment remain unchanged.
+- The desktop Coin Master logo must be anchored to and vertically centered against the title row; the mobile logo remains unchanged.
+- Assumptions must retain semantic list markup and existing copy while removing decorative em-dash markers and their horizontal gap.
 - Do not modify or stage unrelated prototype/demo files already present in the worktree.
 
 ## File structure
@@ -22,6 +24,8 @@
 - Modify `app/MA-HomeAssignment/sections/Intro.tsx`: align the opening paragraph's font-size utility with Concept copy.
 - Modify `app/MA-HomeAssignment/sections/UseCase.tsx`: remove only the risk variant's background-gradient utilities.
 - Modify `app/MA-HomeAssignment/sections/MVP.tsx`: give role pills the shared width and centered alignment.
+- Modify `app/MA-HomeAssignment/sections/Hero.tsx`: anchor the desktop logo to a title-row wrapper.
+- Modify `app/MA-HomeAssignment/sections/AssumptionsSources.tsx`: remove decorative marker spans and marker-only layout utilities.
 
 ---
 
@@ -216,3 +220,113 @@ git commit -m "style: refine assignment typography and metrics"
 ```
 
 Expected: the commit succeeds without staging any files under `app/MA-HomeAssignment/demo/` or the unrelated Card Bounty final-polish documents.
+
+### Task 4: Center the desktop logo against the title
+
+**Files:**
+- Test: `__tests__/ma-homeassignment.test.tsx`
+- Modify: `app/MA-HomeAssignment/sections/Hero.tsx:22-51`
+
+**Interfaces:**
+- Consumes: the existing desktop-only and mobile-only Coin Master logo elements.
+- Produces: a desktop title-row wrapper with the desktop logo vertically centered against the `<h1>`; the mobile logo remains unchanged.
+
+- [ ] **Step 1: Write the failing test**
+
+Extend the hero-banner test with:
+
+```tsx
+const desktopLogo = band.querySelector('img[data-hero-logo="desktop"]')!
+const mobileLogo = band.querySelector('img[data-hero-logo="mobile"]')!
+const titleRow = h1.parentElement!
+expect(titleRow.dataset.heroTitleRow).toBe('true')
+expect(titleRow).toContainElement(desktopLogo)
+expect(desktopLogo.className).toContain('top-1/2')
+expect(desktopLogo.className).toContain('-translate-y-1/2')
+expect(mobileLogo.className).toContain('md:hidden')
+```
+
+- [ ] **Step 2: Run the focused test to verify it fails**
+
+Run `npm.cmd test -- __tests__\ma-homeassignment.test.tsx --runInBand`.
+
+Expected: FAIL because the logo elements have no data attributes and the desktop logo is outside the title row.
+
+- [ ] **Step 3: Write the minimal implementation**
+
+Keep the eyebrow and mobile logo in their existing positions. Wrap the `<h1>` in:
+
+```tsx
+<div className="relative" data-hero-title-row="true">
+```
+
+Move the desktop image into that wrapper after the `<h1>`, add `data-hero-logo="desktop"`, and use:
+
+```tsx
+className="pointer-events-none absolute right-[60px] top-1/2 hidden h-[clamp(80px,10vw,112px)] w-auto -translate-y-1/2 drop-shadow-lg md:block"
+```
+
+Remove its old inline positioning style. Add `data-hero-logo="mobile"` to the mobile image without changing its classes or style.
+
+- [ ] **Step 4: Run the focused test to verify it passes**
+
+Run `npm.cmd test -- __tests__\ma-homeassignment.test.tsx --runInBand`.
+
+Expected: all focused tests PASS.
+
+### Task 5: Remove Assumptions markers
+
+**Files:**
+- Test: `__tests__/ma-homeassignment.test.tsx`
+- Modify: `app/MA-HomeAssignment/sections/AssumptionsSources.tsx:19-24`
+
+**Interfaces:**
+- Consumes: the existing `ASSUMPTIONS` array and semantic `<ul>/<li>` structure.
+- Produces: unchanged assumption copy rendered without decorative marker elements or em-dash text.
+
+- [ ] **Step 1: Write the failing test**
+
+Add:
+
+```tsx
+it('renders Assumptions without decorative dash markers', () => {
+  render(<MAHomeAssignmentPage />)
+  const assumptions = document.getElementById('assumptions')!
+  const items = Array.from(assumptions.querySelectorAll('li'))
+
+  expect(items).toHaveLength(6)
+  for (const item of items) {
+    expect(item.querySelector('[aria-hidden="true"]')).toBeNull()
+    expect(item.textContent?.trim().startsWith('—')).toBe(false)
+    expect(item.className).not.toContain('flex')
+    expect(item.className).not.toContain('gap-2')
+  }
+})
+```
+
+- [ ] **Step 2: Run the focused test to verify it fails**
+
+Run `npm.cmd test -- __tests__\ma-homeassignment.test.tsx --runInBand`.
+
+Expected: FAIL because every item still contains the em-dash marker and flex gap.
+
+- [ ] **Step 3: Write the minimal implementation**
+
+Render each item directly:
+
+```tsx
+<li key={i} className="font-sans text-[14px] leading-relaxed text-charcoal">
+  {a}
+</li>
+```
+
+- [ ] **Step 4: Run final focused verification and inspect the diff**
+
+Run:
+
+```powershell
+npm.cmd test -- __tests__\ma-homeassignment.test.tsx --runInBand
+git diff --check -- __tests__/ma-homeassignment.test.tsx app/MA-HomeAssignment/sections/Intro.tsx app/MA-HomeAssignment/sections/UseCase.tsx app/MA-HomeAssignment/sections/MVP.tsx app/MA-HomeAssignment/sections/Hero.tsx app/MA-HomeAssignment/sections/AssumptionsSources.tsx
+```
+
+Expected: all focused tests PASS and no whitespace errors are reported.
