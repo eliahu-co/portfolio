@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { RibbonDialog, RibbonFrame } from '../RibbonDialog'
 
@@ -82,6 +84,16 @@ describe('RibbonDialog', () => {
       'data-size',
       'tall',
     )
+  })
+
+  it('layers the purchase hero behind the readable title ribbon', () => {
+    const css = readFileSync(
+      resolve(process.cwd(), 'app/MA-HomeAssignment/demo/RibbonDialog.module.css'),
+      'utf8',
+    )
+
+    expect(css).toMatch(/\.ribbon\s*{[^}]*z-index:\s*2/)
+    expect(css).toMatch(/\.purchase \.hero\s*{[^}]*z-index:\s*1/)
   })
 })
 

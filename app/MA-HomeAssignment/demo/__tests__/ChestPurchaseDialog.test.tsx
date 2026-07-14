@@ -73,7 +73,7 @@ describe('ChestPurchaseDialog', () => {
     expect(screen.getByText('80 total Cards')).toBeInTheDocument()
     expect(screen.getByText('290,000,000')).toBeInTheDocument()
     expect(screen.getByText('+30')).toBeInTheDocument()
-    expect(screen.getByRole('progressbar', { name: 'Current Bounty progress' })).toHaveAttribute('aria-valuenow', '0')
+    expect(screen.queryByRole('progressbar', { name: 'Current Bounty progress' })).not.toBeInTheDocument()
     expect(screen.getByRole('progressbar', { name: 'Projected Bounty progress' })).toHaveAttribute('aria-valuenow', '30')
 
     fireEvent.click(screen.getByRole('button', { name: 'Increase quantity' }))

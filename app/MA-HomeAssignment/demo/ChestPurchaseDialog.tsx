@@ -77,14 +77,6 @@ export default function ChestPurchaseDialog({
 
         <section aria-label="Purchase projection" className={styles.projection}>
           <div className={styles.meters}>
-            <div className={styles.meterCard}>
-              <BountyMeter
-                label="Current Bounty progress"
-                progress={preview.progressBefore}
-                threshold={preview.meterThreshold}
-                variant="compact"
-              />
-            </div>
             <div className={`${styles.meterCard} ${styles.projectedMeter}`}>
               <BountyMeter
                 label="Projected Bounty progress"
