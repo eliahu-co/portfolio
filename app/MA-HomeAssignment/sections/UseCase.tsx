@@ -452,17 +452,6 @@ function Lane({ workflow, proposed }: { workflow: Workflow; proposed: boolean })
 
 // One workflow per use case: the "current" lane on the left, and the concept
 // mockup image on the right (in place of the old "proposed" lane).
-function WorkflowComparison({ current, legendAiOnly, mockup }: { current: Workflow; legendAiOnly?: boolean; mockup?: string }) {
-  return (
-    <div className="grid grid-cols-2 gap-x-7 md:gap-x-6 items-start">
-      <div>
-        <Lane workflow={current} proposed={false} />
-        <Legend current={current} proposed={current} aiOnly={legendAiOnly} />
-      </div>
-      <MockupFrame src={mockup} />
-    </div>
-  )
-}
 
 /* ─── the use case ────────────────────────────────────────────────────────── */
 
@@ -510,19 +499,26 @@ export default function UseCase({ data }: { data: UseCaseData }) {
       )}
       {problemSection}
 
-      {data.kpi ? (
-        <Block label={data.mechanismLabel ?? 'KPI'}>
-          <KpiCards kpi={data.kpi} />
-        </Block>
-      ) : data.arpdauMechanism ? (
-        <Block label={data.mechanismLabel ?? 'ARPDAU Mechanism'}>
-          <p className="font-sans text-[14px] leading-relaxed text-charcoal whitespace-pre-line">{data.arpdauMechanism}</p>
-        </Block>
-      ) : null}
+      {/* KPI + Loop stacked in the left column, the concept mockup beside them */}
+      <div className="grid grid-cols-2 gap-x-7 md:gap-x-6 items-start">
+        <div>
+          {data.kpi ? (
+            <Block label={data.mechanismLabel ?? 'KPI'}>
+              <KpiCards kpi={data.kpi} />
+            </Block>
+          ) : data.arpdauMechanism ? (
+            <Block label={data.mechanismLabel ?? 'ARPDAU Mechanism'}>
+              <p className="font-sans text-[14px] leading-relaxed text-charcoal whitespace-pre-line">{data.arpdauMechanism}</p>
+            </Block>
+          ) : null}
 
-      <Block label="Loop">
-        <WorkflowComparison current={data.currentWorkflow} legendAiOnly={data.legendAiOnly} mockup={data.mockup} />
-      </Block>
+          <Block label="Loop">
+            <Lane workflow={data.currentWorkflow} proposed={false} />
+            <Legend current={data.currentWorkflow} proposed={data.currentWorkflow} aiOnly={data.legendAiOnly} />
+          </Block>
+        </div>
+        <MockupFrame src={data.mockup} />
+      </div>
 
       {data.value.length > 0 && (
         <Block label="Value delivered">
