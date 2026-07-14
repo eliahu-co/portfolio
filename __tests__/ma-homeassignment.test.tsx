@@ -134,9 +134,9 @@ it('renders the approved MVP intro and scope copy', () => {
     'Entry point within the Cards Center, with an event countdown.',
     'Target one missing Card at a time.',
     'Meter goal scales with Card rarity.',
-    'Target locks after the first Chest contributes to the meter.',
     'Buying Chests advances the meter; higher-value Chests contribute more.',
-    'If the target is obtained before the meter is filled, the player can select a new target and the meter resets.',
+    'Changing the target resets the meter.',
+    'If the target is obtained before the meter is filled, the player can change target.',
     'Reaching the meter goal awards the target, and ends the event for that player.',
     'Uncompleted progress expires when the event ends.',
   ]
@@ -156,6 +156,7 @@ it('renders the approved MVP intro and scope copy', () => {
   const labels = Array.from(section.querySelectorAll('p'))
   const inScope = labels.find((node) => node.textContent === 'In scope')!.parentElement!
   const outOfScope = labels.find((node) => node.textContent === 'Out of scope')!.parentElement!
+  const scopeContainer = inScope.parentElement!
   const listText = (container: Element) =>
     Array.from(container.querySelectorAll('li')).map((item) => item.textContent?.slice(1))
 
@@ -164,5 +165,9 @@ it('renders the approved MVP intro and scope copy', () => {
   )
   expect(listText(inScope)).toEqual(expectedInScope)
   expect(listText(outOfScope)).toEqual(expectedOutOfScope)
+  expect(scopeContainer).toBe(outOfScope.parentElement)
+  expect(scopeContainer.className).not.toContain('md:grid-cols-2')
+  expect(scopeContainer.className).toContain('max-w-3xl')
+  expect(scopeContainer.className).toContain('gap-y-8')
   expect(section.textContent).not.toContain('Purchasing meter progress or the guaranteed Card directly.')
 })

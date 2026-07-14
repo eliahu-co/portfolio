@@ -18,9 +18,9 @@ const SCOPE_IN = [
   'Entry point within the Cards Center, with an event countdown.',
   'Target one missing Card at a time.',
   'Meter goal scales with Card rarity.',
-  'Target locks after the first Chest contributes to the meter.',
   'Buying Chests advances the meter; higher-value Chests contribute more.',
-  'If the target is obtained before the meter is filled, the player can select a new target and the meter resets.',
+  'Changing the target resets the meter.',
+  'If the target is obtained before the meter is filled, the player can change target.',
   'Reaching the meter goal awards the target, and ends the event for that player.',
   'Uncompleted progress expires when the event ends.',
 ]
@@ -123,7 +123,7 @@ export default function MVP() {
         spend on Chests, and does that lift ARPDAU? It ships as a time limited LiveOps event inside the
         Cards Center. Duration and balancing parameters come from internal player and economy data.
       </p>
-      <div className="grid md:grid-cols-2 gap-x-10 gap-y-8 mb-10 max-w-3xl">
+      <div className="grid gap-y-8 mb-10 max-w-3xl">
         <List title="In scope" items={SCOPE_IN} marker="✓" markerClass="text-cm-gold" />
         <List title="Out of scope" items={SCOPE_OUT} marker="✕" markerClass="text-charcoal/40" textClass="text-charcoal/60" />
       </div>
