@@ -22,12 +22,13 @@ const ARROW_BOLD = '#0F3D54'
 
 /* ─── arrows ──────────────────────────────────────────────────────────────── */
 
-function ArrowDown({ dashed = false, color = ARROW, width = 1 }: { dashed?: boolean; color?: string; width?: number }) {
+function ArrowDown({ dashed = false, color = ARROW, width = 1, len = 14 }: { dashed?: boolean; color?: string; width?: number; len?: number }) {
+  const h = len + 1
   return (
     <div className="flex justify-center py-0.5" aria-hidden="true">
-      <svg width="14" height="15" viewBox="0 0 14 15" fill="none" style={{ display: 'block' }}>
-        <path d="M7 0 V14" stroke={color} strokeWidth={width} strokeLinecap="round" strokeDasharray={dashed ? '2.5 2' : undefined} />
-        <path d="M2 10 L7 14 L12 10" stroke={color} strokeWidth={width} strokeLinecap="round" strokeLinejoin="round" />
+      <svg width="14" height={h} viewBox={`0 0 14 ${h}`} fill="none" style={{ display: 'block' }}>
+        <path d={`M7 0 V${len}`} stroke={color} strokeWidth={width} strokeLinecap="round" strokeDasharray={dashed ? '2.5 2' : undefined} />
+        <path d={`M2 ${len - 4} L7 ${len} L12 ${len - 4}`} stroke={color} strokeWidth={width} strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </div>
   )
@@ -39,26 +40,6 @@ function ArrowRight({ color = ARROW, width = 1 }: { color?: string; width?: numb
       <path d="M0 7 H14" stroke={color} strokeWidth={width} strokeLinecap="round" />
       <path d="M10 2 L14 7 L10 12" stroke={color} strokeWidth={width} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
-  )
-}
-
-// Converging connector: two shoulders (left at ~25%, right at ~62.5% — the
-// centres of the "Card acquired" and "Guaranteed Card" columns) join and point
-// down into "Collection Updated", so both success terminals feed it clearly.
-function MergeArrow() {
-  return (
-    <div className="relative" style={{ height: 26 }} aria-hidden="true">
-      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 26" preserveAspectRatio="none" fill="none">
-        <path d="M25 0 V13 H50" stroke={ARROW_BOLD} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
-        <path d="M62.5 0 V13 H50" stroke={ARROW_BOLD} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
-        <path d="M50 13 V26" stroke={ARROW_BOLD} strokeWidth="1.3" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-      </svg>
-      <div className="absolute left-1/2 bottom-0 -translate-x-1/2">
-        <svg width="12" height="7" viewBox="0 0 12 7" fill="none">
-          <path d="M1.5 1 L6 5.5 L10.5 1" stroke={ARROW_BOLD} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
-    </div>
   )
 }
 
@@ -183,7 +164,8 @@ export default function PlayerFlow() {
               <BranchLabel>Yes</BranchLabel>
               <ArrowDown />
               <Pill title="Card acquired" />
-              <ArrowDown color={ARROW_BOLD} width={1.3} />
+              {/* long thin arrow reaching down to Collection Updated */}
+              <ArrowDown len={104} />
             </div>
             <div className="flex flex-col items-center">
               <BranchLabel>No</BranchLabel>
@@ -194,7 +176,7 @@ export default function PlayerFlow() {
                   <BranchLabel>Yes</BranchLabel>
                   <ArrowDown />
                   <Pill title="Guaranteed Card" accent />
-                  <ArrowDown color={ARROW_BOLD} width={1.3} />
+                  <ArrowDown />
                 </div>
                 <div className="flex flex-col items-center">
                   <BranchLabel>No</BranchLabel>
@@ -205,7 +187,6 @@ export default function PlayerFlow() {
             </div>
           </div>
 
-          <MergeArrow />
           <Pill title="Collection Updated" />
           <Question>Collection completed?</Question>
           <div className="grid grid-cols-2 gap-3 items-start">
