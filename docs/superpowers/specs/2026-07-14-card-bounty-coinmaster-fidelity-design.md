@@ -1,7 +1,7 @@
 # Card Bounty Coin Master Fidelity Redesign
 
 **Date:** 2026-07-14
-**Status:** Design approved; written review pending
+**Status:** Approved
 **Scope:** `app/MA-HomeAssignment/demo` and the assignment-page prototype preview
 
 ## Context
