@@ -520,22 +520,21 @@ export default function UseCase({ data }: { data: UseCaseData }) {
         <MockupFrame src={data.mockup} />
       </div>
 
-      {data.value.length > 0 && (
-        <Block label="Value delivered">
-          <CardList items={data.value} variant="value" />
-        </Block>
-      )}
-
-      {data.tradeoffs.length > 0 && (
-        <Block label="Risks">
-          <CardList items={data.tradeoffs} variant="risk" />
-          {data.tradeoff && (
-            <p className="mt-8 font-sans text-[10px] font-medium uppercase tracking-[0.14em] text-cm-wood">
-              <span className="mr-2 font-extrabold text-cm-crimson">Tradeoff</span>
-              {data.tradeoff.gain}
-              <span className="mx-1" aria-hidden="true">⇄</span>
-              {data.tradeoff.cost}
-            </p>
+      {(data.value.length > 0 || data.tradeoffs.length > 0) && (
+        <Block label="Value delivered & risks">
+          {data.value.length > 0 && <CardList items={data.value} variant="value" />}
+          {data.tradeoffs.length > 0 && (
+            <div className={data.value.length > 0 ? 'mt-3' : ''}>
+              <CardList items={data.tradeoffs} variant="risk" />
+              {data.tradeoff && (
+                <p className="mt-8 font-sans text-[10px] font-medium uppercase tracking-[0.14em] text-cm-wood">
+                  <span className="mr-2 font-extrabold text-cm-crimson">Tradeoff</span>
+                  {data.tradeoff.gain}
+                  <span className="mx-1" aria-hidden="true">⇄</span>
+                  {data.tradeoff.cost}
+                </p>
+              )}
+            </div>
           )}
         </Block>
       )}
