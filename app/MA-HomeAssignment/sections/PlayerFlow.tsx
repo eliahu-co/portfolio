@@ -101,7 +101,7 @@ function Pill({
     tone === 'outcome'
       ? 'bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] border-cm-wood/50 text-cm-wood shadow-[0_2px_0_rgba(144,57,0,0.3)]'
       : tone === 'highlight'
-        ? 'bg-gradient-to-b from-[#7FCFF0] to-cm-sky border-[#1E7BA8]/30 text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.16)]'
+        ? 'bg-gradient-to-b from-[#7FCFF0] to-cm-sky border-[#1E7BA8]/30 text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.3)]'
         : 'bg-gradient-to-b from-[#F0FAFE] to-[#DBF1FC] border-[#1E7BA8]/30 text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.16)]'
   return (
     <div className={`w-full rounded-lg border px-2.5 py-1 text-center ${skin}`}>
