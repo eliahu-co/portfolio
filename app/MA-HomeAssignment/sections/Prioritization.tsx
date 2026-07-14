@@ -74,11 +74,6 @@ export default function Prioritization() {
     <Section id="prioritization" eyebrow="Prioritization" title="Criteria, scoring & decision">
       <div className="max-w-2xl mb-6 flex flex-col gap-3">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          Each feature is scored from 1–5 across four criteria. The scores compare opportunities; they
-          are not revenue forecasts. For ARPDAU Impact, Core-Loop Fit and Confidence, higher is better.
-          For Effort, a higher score means greater delivery and balancing cost.
-        </p>
-        <p className="font-sans text-[14px] leading-relaxed text-charcoal">
           Without internal player-segment and exposure data, Reach cannot be estimated reliably. I
           therefore replace it with Core-Loop Fit and use a modified RICE-style calculation:
         </p>
