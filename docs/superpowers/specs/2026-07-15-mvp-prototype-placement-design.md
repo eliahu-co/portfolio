@@ -9,6 +9,7 @@ Move the existing Card Bounty prototype preview into the MVP section and remove 
 - Place an `Interactive prototype` subheading after the In/Out scope lists and before `Success metrics`.
 - Render the existing `PrototypePreview` directly below that subheading.
 - Keep the preview constrained to its existing `max-w-2xl` width and preserve its current visual styling and behavior.
+- Change the visible preview button label from `Open interactive prototype` to `Open`, preserving the play icon and accessible link label.
 - Preserve the `prototype` anchor on the embedded prototype block so the sidebar and demo return links continue to work.
 
 ## Removal
@@ -34,5 +35,6 @@ Update the MA Home Assignment page test to verify that:
 
 - The preview appears inside MVP after the scope lists and before success metrics.
 - Existing prototype interactions and `#prototype` navigation remain functional.
+- The preview button shows only the play icon and `Open` as its visible content.
 - No duplicate prototype preview or standalone prototype section remains.
 - The focused and full test suites pass.
