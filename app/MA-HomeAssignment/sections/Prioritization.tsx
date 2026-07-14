@@ -74,7 +74,8 @@ export default function Prioritization() {
     <Section id="prioritization" eyebrow="Prioritization" title="Criteria, scoring & decision">
       <div className="max-w-2xl mb-6 flex flex-col gap-3">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-          Without internal player-segment and exposure data, Reach cannot be estimated reliably. I
+          The scores compare opportunities; without internal player-segment and exposure data, Reach
+          cannot be estimated reliably. I
           therefore replace it with Core-Loop Fit and use a modified RICE-style calculation:
         </p>
         <p className="font-sans font-bold text-[13px] leading-relaxed text-cm-violet-deep border-l-4 border-cm-gold pl-3">
