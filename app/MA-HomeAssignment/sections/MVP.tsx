@@ -113,8 +113,8 @@ function List({
 
 export default function MVP() {
   return (
-    <Section id="mvp" eyebrow="Card Bounty — Expanded">
-      <SubHeading>Player Flow</SubHeading>
+    <Section id="mvp" eyebrow="Expanded feature">
+      <SubHeading>Card Bounty</SubHeading>
       <div className="mb-10">
         <PlayerFlow />
       </div>
