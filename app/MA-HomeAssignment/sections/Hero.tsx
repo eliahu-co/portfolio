@@ -50,9 +50,6 @@ export default function Hero() {
             }}
           >
             Increasing ARPDAU
-            <span className="block font-sans font-normal whitespace-normal text-[clamp(14px,1.8vw,18px)] text-[#0F3D54] mt-2 [text-shadow:none]">
-              Three feature concepts, one expanded to MVP
-            </span>
           </h1>
 
           <p className="font-sans text-[11px] uppercase tracking-[0.12em] text-[#0F3D54] border-t-2 border-[#0F3D54]/25 pt-3 max-w-2xl flex flex-wrap items-baseline justify-center md:justify-between gap-x-6 gap-y-1">
