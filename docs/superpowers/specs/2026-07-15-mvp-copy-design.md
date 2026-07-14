@@ -9,11 +9,12 @@ Update the MVP section of the MA Home Assignment page with the user-provided int
 - Replace the introductory paragraph before the scope lists with the exact approved wording.
 - Replace the `In scope` list with the eight approved items, preserving their order and punctuation.
 - Replace the `Out of scope` list with the five approved items, preserving their order and punctuation.
-- Preserve the existing headings, check/cross markers, colors, typography, spacing, grid, and MVP metrics.
+- Stack `In scope` above `Out of scope` at every viewport size within the existing `max-w-3xl` container.
+- Preserve the existing headings, check/cross markers, colors, typography, vertical spacing, and MVP metrics.
 
 ## Implementation
 
-Change only the copy constants in `app/MA-HomeAssignment/sections/MVP.tsx`. Add a focused page-rendering regression test that verifies the new intro and list copy and confirms superseded scope items are absent.
+Change the copy constants and scope-list container classes in `app/MA-HomeAssignment/sections/MVP.tsx`. Add a focused page-rendering regression test that verifies the new intro, list copy, ordering, and stacked layout, and confirms superseded scope items are absent.
 
 The approved `In scope` order is:
 
@@ -30,5 +31,6 @@ The approved `In scope` order is:
 
 - The rendered MVP intro matches the approved paragraph exactly.
 - The rendered `In scope` and `Out of scope` lists contain only the approved items in the approved order.
-- No visual styling or layout changes are introduced.
+- `In scope` renders above `Out of scope` at all viewport sizes.
+- The scope container retains its existing width and vertical spacing; no other visual styling changes are introduced.
 - The focused MA Home Assignment tests and full test suite pass.
