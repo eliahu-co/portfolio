@@ -295,7 +295,7 @@ function markerGlyph(kind: StepKind): string {
     case 'reject':  return '✕'
     case 'approve': return '✓'
     case 'repeat':  return '⟲'
-    default:        return '●'
+    default:        return ''
   }
 }
 
@@ -375,9 +375,11 @@ function StepCell({
   return (
     <div className="flex flex-col">
       <div data-loop-step className={`relative overflow-hidden rounded-lg ${borderW} px-2.5 py-1 flex items-center gap-2 ${box}`}>
-        <span className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] md:text-[17px] font-bold' : 'text-[11px] md:text-[12px]'} ${marker}`} aria-hidden="true">
-          {markerGlyph(kind)}
-        </span>
+        {markerGlyph(kind) && (
+          <span className={`relative shrink-0 leading-none ${kind === 'ai' ? 'text-[16px] md:text-[17px] font-bold' : 'text-[11px] md:text-[12px]'} ${marker}`} aria-hidden="true">
+            {markerGlyph(kind)}
+          </span>
+        )}
         <span className="relative min-w-0 text-[11px] md:text-[12px] leading-snug">
           <span className={`font-sans ${labelColor}`}>
             {step.label}
