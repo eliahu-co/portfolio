@@ -277,8 +277,8 @@ export function CardList({
 function KpiList({ kpi }: { kpi: { primary: string; supporting: string[] } }) {
   return (
     <ul className="flex flex-col gap-1.5">
-      <li className="font-sans text-[14px] leading-relaxed text-charcoal flex gap-2">
-        <span className="shrink-0 mt-px text-cm-gold" aria-hidden="true">★</span>
+      <li className="font-sans text-[14px] leading-relaxed text-charcoal flex items-center gap-2">
+        <span className="shrink-0 leading-none text-cm-gold" aria-hidden="true">★</span>
         <span>{kpi.primary}</span>
       </li>
       {kpi.supporting.map((s, i) => (
