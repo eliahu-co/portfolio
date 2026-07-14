@@ -62,14 +62,11 @@ const MEDALS = ['🥇', '🥈', '🥉']
 const RANKED_TOTALS = [...ROWS].map((r) => r.total).sort((a, b) => b - a)
 
 export default function Prioritization() {
-  const [open, setOpen] = useState<Set<string>>(new Set())
-  const toggle = (title: string) =>
-    setOpen((prev) => {
-      const next = new Set(prev)
-      if (next.has(title)) next.delete(title)
-      else next.add(title)
-      return next
-    })
+  // single-open: clicking a criterion opens its panel below the row; clicking it
+  // again (or another) closes/switches
+  const [open, setOpen] = useState<string | null>(null)
+  const toggle = (title: string) => setOpen((prev) => (prev === title ? null : title))
+  const openDef = CRITERIA_DEFS.find((d) => d.title === open)
   return (
     <Section id="prioritization" eyebrow="Prioritization" title="Decision, scoring and criteria">
       {/* Decision */}
@@ -152,37 +149,40 @@ export default function Prioritization() {
         </p>
       </div>
 
-      {/* Criterion definitions + scoring rubric (accordion) — a vertical list on
-          mobile, a row of four expand-in-place columns on desktop */}
-      <div className="max-w-2xl md:max-w-none flex flex-col gap-2.5 md:grid md:grid-cols-4 md:gap-x-5 md:gap-y-0 md:items-start">
-        {CRITERIA_DEFS.map(({ title, body, rubric }) => {
-          const isOpen = open.has(title)
-          return (
-            <div key={title} className="pl-3 border-l-4 border-cm-wood">
+      {/* Criteria — a row of four title tabs; the clicked one opens its
+          definition + rubric full-width below the row (stacks on mobile). */}
+      <div>
+        <div className="max-w-2xl md:max-w-none flex flex-col gap-2.5 md:grid md:grid-cols-4 md:gap-x-5 md:gap-y-0 md:items-start">
+          {CRITERIA_DEFS.map(({ title }) => {
+            const isOpen = open === title
+            return (
               <button
+                key={title}
                 type="button"
                 onClick={() => toggle(title)}
                 aria-expanded={isOpen}
-                className="flex items-center gap-2 text-left"
+                className="flex items-center gap-2 text-left pl-3 border-l-4 border-cm-wood"
               >
                 <span className={`text-cm-wood/60 text-[9px] transition-transform duration-150 ${isOpen ? 'rotate-90' : ''}`} aria-hidden="true">▶</span>
                 <span className="font-serif text-[14px] text-cm-violet-deep">{title}</span>
               </button>
-              {isOpen && (
-                <div className="mt-1.5 ml-[18px] flex flex-col gap-0.5">
-                  <p className="font-sans text-[11px] italic leading-relaxed text-charcoal/80 mb-1">{body}</p>
-                  {rubric.map(([score, desc]) => (
-                    <p key={score} className="font-sans text-[11px] leading-relaxed text-charcoal/70">
-                      <span className="font-bold text-charcoal">{score}</span>
-                      <span className="text-charcoal/40"> — </span>
-                      {desc}
-                    </p>
-                  ))}
-                </div>
-              )}
+            )
+          })}
+        </div>
+        {openDef && (
+          <div className="mt-4 pl-3 border-l-4 border-cm-wood">
+            <p className="font-sans text-[12px] italic leading-relaxed text-charcoal/80 mb-2">{openDef.body}</p>
+            <div className="flex flex-col gap-1 sm:grid sm:grid-cols-3 sm:gap-x-6">
+              {openDef.rubric.map(([score, desc]) => (
+                <p key={score} className="font-sans text-[11px] leading-relaxed text-charcoal/70">
+                  <span className="font-bold text-charcoal">{score}</span>
+                  <span className="text-charcoal/40"> — </span>
+                  {desc}
+                </p>
+              ))}
             </div>
-          )
-        })}
+          </div>
+        )}
       </div>
     </Section>
   )
