@@ -1,0 +1,548 @@
+.spinScreen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    linear-gradient(180deg, rgba(10, 113, 178, .05) 0 53%, rgba(4, 45, 79, .2) 100%),
+    url('/coinmaster/card-bounty/generated/spin/snowy-background.webp') center / cover no-repeat;
+  color: #fff;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+.spinScreen::before,
+.spinScreen::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.spinScreen::before {
+  background: linear-gradient(90deg, rgba(3, 65, 117, .22), transparent 17% 83%, rgba(3, 65, 117, .22));
+}
+
+.spinScreen::after {
+  top: 58%;
+  background: linear-gradient(180deg, transparent, rgba(7, 42, 75, .48));
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.resourceBar {
+  position: absolute;
+  z-index: 10;
+  top: max(8px, env(safe-area-inset-top));
+  right: 2.4%;
+  left: 2.4%;
+  height: clamp(34px, 4.5%, 42px);
+  display: grid;
+  grid-template-columns: minmax(98px, 1.45fr) minmax(54px, .7fr) minmax(72px, 1fr) 36px;
+  align-items: center;
+  gap: 4px;
+}
+
+.resourceCapsule {
+  min-width: 0;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 7px 3px 3px;
+  border: 1px solid rgba(255, 224, 142, .8);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(125, 68, 28, .96), rgba(66, 31, 14, .97));
+  box-shadow: inset 0 1px rgba(255, 255, 255, .3), 0 3px 7px rgba(5, 46, 74, .28);
+  color: #fff9e9;
+  font-size: clamp(8px, 2.65cqw, 11px);
+  font-weight: 1000;
+}
+
+.resourceCapsule strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 1px #251006;
+  white-space: nowrap;
+}
+
+.resourceIcon {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.resourceIcon svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.coinCapsule .resourceIcon {
+  color: #ffd43b;
+}
+
+.coinCapsule svg {
+  fill: currentColor;
+  stroke: #a75c09;
+  stroke-linejoin: round;
+  stroke-width: 1.45;
+  filter: drop-shadow(0 1px #fff2a0);
+}
+
+.gemCapsule {
+  background: linear-gradient(180deg, rgba(39, 104, 157, .97), rgba(17, 55, 103, .98));
+}
+
+.gemCapsule .resourceIcon {
+  color: #64e7ff;
+}
+
+.gemCapsule svg {
+  fill: currentColor;
+  stroke: #d9fbff;
+  stroke-linejoin: round;
+  stroke-width: 1.1;
+  filter: drop-shadow(0 1px #086996);
+}
+
+.energyCapsule {
+  background: linear-gradient(180deg, rgba(112, 61, 154, .97), rgba(57, 30, 98, .98));
+}
+
+.energyCapsule .resourceIcon,
+.spinBalance svg {
+  fill: #61e9ff;
+  stroke: #fff9b9;
+  stroke-linejoin: round;
+  stroke-width: .9;
+  filter: drop-shadow(0 1px #174d93);
+}
+
+.menuButton {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  padding: 0;
+  border: 2px solid rgba(255, 230, 160, .9);
+  border-radius: 11px;
+  place-items: center;
+  background: linear-gradient(180deg, #8f5528, #4e2813);
+  box-shadow: inset 0 1px rgba(255, 255, 255, .25), 0 3px 0 #31180c;
+  color: #fff5d6;
+}
+
+.menuButton svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 2.5;
+}
+
+.menuButton:focus-visible,
+.spinButton:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.playerPlaque {
+  position: absolute;
+  z-index: 7;
+  top: 5.8%;
+  left: 50%;
+  min-width: 154px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 13px 4px 5px;
+  border: 2px solid #f3c550;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(54, 101, 139, .95), rgba(17, 58, 96, .98));
+  box-shadow: inset 0 1px rgba(255, 255, 255, .3), 0 4px 0 rgba(4, 38, 67, .55);
+  transform: translateX(-50%);
+}
+
+.playerAvatar {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  overflow: hidden;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 2px solid #fff1a4;
+  border-radius: 50%;
+  background: #8de4fb;
+}
+
+.playerAvatar img {
+  width: 115%;
+  height: 115%;
+  object-fit: contain;
+  transform: translateY(8%);
+}
+
+.playerPlaque small,
+.playerPlaque strong {
+  display: block;
+  line-height: 1.03;
+  text-transform: uppercase;
+}
+
+.playerPlaque small {
+  color: #a9dbf0;
+  font-size: 7px;
+  font-weight: 900;
+}
+
+.playerPlaque strong {
+  margin-top: 2px;
+  color: #fff6d1;
+  font-size: 12px;
+  text-shadow: 0 2px #082b49;
+}
+
+.eventBadge {
+  position: absolute;
+  z-index: 6;
+  top: 12.5%;
+  width: clamp(48px, 13cqw, 58px);
+  min-height: 57px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 4px 3px;
+  border: 2px solid rgba(255, 225, 127, .9);
+  border-radius: 15px;
+  background: linear-gradient(180deg, rgba(83, 46, 128, .96), rgba(32, 30, 82, .98));
+  box-shadow: inset 0 1px rgba(255, 255, 255, .24), 0 4px 0 rgba(17, 25, 63, .58);
+  color: #fff4b1;
+}
+
+.eventBadge img {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 1px rgba(0, 0, 0, .3));
+}
+
+.eventBadge span {
+  margin-top: -2px;
+  font-size: 7px;
+  font-weight: 1000;
+  line-height: 1;
+  text-shadow: 0 1px #2a174b;
+  text-transform: uppercase;
+}
+
+.raidEvent {
+  left: 2.4%;
+}
+
+.tournamentEvent {
+  right: 2.4%;
+}
+
+.boardStage {
+  position: absolute;
+  z-index: 3;
+  top: 9.2%;
+  left: 50%;
+  width: auto;
+  height: 61%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+}
+
+.spinControls {
+  position: absolute;
+  z-index: 7;
+  top: 65.7%;
+  right: 3.5%;
+  left: 3.5%;
+  min-height: 66px;
+  display: grid;
+  grid-template-columns: .94fr 1.45fr 1.08fr;
+  align-items: center;
+  gap: 7px;
+  padding: 7px;
+  border: 2px solid rgba(238, 195, 85, .9);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(30, 79, 119, .95), rgba(10, 46, 79, .97));
+  box-shadow: inset 0 1px rgba(255, 255, 255, .22), 0 5px 0 rgba(4, 33, 62, .55), 0 8px 15px rgba(4, 38, 67, .26);
+}
+
+.boosterStrip,
+.energyMeter,
+.spinBalance {
+  min-width: 0;
+}
+
+.boosterStrip > small,
+.energyMeter small,
+.spinBalance small {
+  display: block;
+  margin-bottom: 3px;
+  color: #9ccde1;
+  font-size: clamp(6px, 1.8cqw, 8px);
+  font-weight: 1000;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.boosterStrip > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.boosterStrip span {
+  min-width: 0;
+  display: grid;
+  min-height: 25px;
+  border: 1px solid rgba(160, 201, 220, .36);
+  border-radius: 6px;
+  place-items: center;
+  background: rgba(4, 32, 61, .68);
+  color: #8aaec2;
+  font-size: clamp(7px, 2cqw, 9px);
+  font-weight: 1000;
+}
+
+.boosterStrip .activeBooster {
+  border-color: #ffe674;
+  background: linear-gradient(180deg, #ffdc4d, #e7960f);
+  box-shadow: inset 0 1px #fff5a6;
+  color: #66310a;
+}
+
+.energyMeter > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.energyMeter strong {
+  color: #fff4be;
+  font-size: clamp(8px, 2.35cqw, 10px);
+  line-height: 1;
+}
+
+.energyTrack {
+  height: 16px;
+  overflow: hidden;
+  padding: 2px;
+  border: 2px solid #092e50;
+  border-radius: 999px;
+  background: #061f38;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, .5);
+}
+
+.energyTrack > span {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #20c2dc, #63f2ff);
+  box-shadow: inset 0 2px rgba(255, 255, 255, .45), 0 0 7px rgba(65, 226, 255, .42);
+}
+
+.spinBalance {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.spinBalance svg {
+  width: 28px;
+  height: 34px;
+  flex: 0 0 auto;
+}
+
+.spinBalance strong {
+  display: block;
+  overflow: hidden;
+  color: #fff4be;
+  font-size: clamp(8px, 2.35cqw, 10px);
+  line-height: 1;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px #061f38;
+  white-space: nowrap;
+}
+
+.spinButton {
+  position: absolute;
+  z-index: 8;
+  right: 17%;
+  bottom: 13.4%;
+  left: 17%;
+  min-height: clamp(84px, 10.8%, 101px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px 3px;
+  border: 0;
+  clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, #ffe06b, #e59a13 67%, #a55209);
+  filter: drop-shadow(0 8px 0 #76280d) drop-shadow(0 13px 13px rgba(37, 21, 8, .35));
+  color: #fff;
+  text-transform: uppercase;
+  transform-origin: center;
+  animation: spinPulse 1.55s ease-in-out infinite;
+}
+
+.spinButton::before {
+  position: absolute;
+  inset: 5px 7px 7px;
+  z-index: -1;
+  clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, #ff6753 0%, #dc2e25 56%, #9c1717 100%);
+  box-shadow: inset 0 5px rgba(255, 255, 255, .25);
+  content: "";
+}
+
+.spinButton span {
+  font-size: clamp(32px, 10.6cqw, 45px);
+  font-weight: 1000;
+  line-height: .82;
+  letter-spacing: .02em;
+  text-shadow: 0 3px #711516, 0 -1px #ffb49f;
+}
+
+.spinButton small {
+  margin-top: 8px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: rgba(84, 11, 17, .38);
+  color: #ffe88b;
+  font-size: 8px;
+  font-weight: 1000;
+  letter-spacing: .08em;
+}
+
+.spinButton[aria-pressed="true"] {
+  filter: drop-shadow(0 6px 0 #76280d) drop-shadow(0 11px 10px rgba(37, 21, 8, .32));
+}
+
+.rewardStatus {
+  position: absolute;
+  z-index: 8;
+  right: 10%;
+  bottom: 7.4%;
+  left: 10%;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, .72);
+  border-radius: 999px;
+  background: rgba(14, 66, 102, .84);
+  box-shadow: 0 4px 12px rgba(3, 38, 67, .25);
+  backdrop-filter: blur(5px);
+  color: #fff;
+  text-align: left;
+}
+
+.statusCheck {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  flex: 0 0 auto;
+  border: 2px solid #eaffc7;
+  border-radius: 50%;
+  place-items: center;
+  background: linear-gradient(180deg, #65d83a, #2c9819);
+  box-shadow: 0 2px 0 #1c6b13;
+}
+
+.statusCheck svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
+.rewardStatus strong,
+.rewardStatus small {
+  display: block;
+}
+
+.rewardStatus strong {
+  color: #fff1a5;
+  font-size: clamp(8px, 2.45cqw, 10px);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.rewardStatus small {
+  max-width: 245px;
+  margin-top: 2px;
+  overflow: hidden;
+  color: #c7e8f4;
+  font-size: clamp(6px, 1.85cqw, 8px);
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes spinPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+@media (max-width: 767px) {
+  .spinButton {
+    bottom: max(14.8%, calc(126px + env(safe-area-inset-bottom)));
+  }
+
+  .rewardStatus {
+    bottom: max(8.2%, calc(74px + env(safe-area-inset-bottom)));
+  }
+}
+
+@media (max-height: 760px) and (orientation: portrait) {
+  .boardStage {
+    top: 9.8%;
+  }
+
+  .spinControls {
+    top: 64.7%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinButton {
+    animation: none;
+    transform: none;
+  }
+}
