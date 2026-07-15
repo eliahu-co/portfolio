@@ -176,22 +176,6 @@
   filter: drop-shadow(0 7px 7px rgba(81, 39, 6, .28));
 }
 
-.eligibilityTag {
-  position: absolute;
-  right: -.35rem;
-  bottom: .65rem;
-  padding: .25rem .45rem;
-  border: 2px solid #fff2a7;
-  border-radius: 999px;
-  background: #168084;
-  box-shadow: 0 2px 0 #0d5052;
-  color: #fff;
-  font-size: .48rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
 .confirmationCopy h3,
 .confirmationCopy p,
 .confirmationCopy small {
