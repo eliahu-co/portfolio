@@ -22,7 +22,7 @@ export default function Section({
   children,
 }: {
   id: string
-  eyebrow: string
+  eyebrow: ReactNode
   title?: string
   subtitle?: string
   children: ReactNode

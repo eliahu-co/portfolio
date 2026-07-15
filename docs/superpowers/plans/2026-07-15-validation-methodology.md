@@ -11,9 +11,10 @@
 ## Global Constraints
 
 - The heading is exactly `Card Bounty — Feature Validation`.
-- Numeric threshold fragments use `text-charcoal/60` and display without parentheses.
+- Numeric threshold fragments use `text-charcoal/45` and display without parentheses.
 - All tooltip buttons support hover, focus, and click and render their content through `document.body`.
 - The Additional Tests list uses a yellow magnifying-glass SVG and remains stacked on all viewport widths.
+- Metric-name information buttons align in a shared 14px-wide column, and all Additional Tests copy uses 14px regular-weight type.
 
 ---
 
@@ -28,7 +29,7 @@
 
 - [ ] **Step 1: Write failing tests**
 
-Assert the exact heading, three information button labels and tooltip notes, `text-charcoal/60` on every muted threshold, absence of parentheses, and the three Additional Tests entries with SVG glyphs.
+Assert the exact heading, methodology and metric information button labels and tooltip notes, `text-charcoal/45` on every muted threshold, absence of parentheses, and the three Additional Tests entries with SVG glyphs.
 
 - [ ] **Step 2: Run the focused tests to verify RED**
 

@@ -29,8 +29,8 @@ it('renders the Coin Master hero banner', () => {
   // chunky display font applied to the title
   const h1 = band.querySelector('h1')!
   expect(h1.className).toContain('text-cm-violet-deep')
-  const desktopLogo = band.querySelector('img[data-hero-logo="desktop"]')!
-  const mobileLogo = band.querySelector('img[data-hero-logo="mobile"]')!
+  const desktopLogo = band.querySelector<HTMLImageElement>('img[data-hero-logo="desktop"]')!
+  const mobileLogo = band.querySelector<HTMLImageElement>('img[data-hero-logo="mobile"]')!
   const titleRow = h1.parentElement!
   expect(titleRow.dataset.heroTitleRow).toBe('true')
   expect(titleRow).toContainElement(desktopLogo)
@@ -450,8 +450,8 @@ it('renders the standalone Feature Validation experiment after the prototype', (
     ['Hypothesis', 'A visible meter that advances with each Chest purchased and guarantees a chosen missing Card will increase Coin consumption, driving demand for existing Spin and Coin offers and lifting ARPDAU.'],
   ]
 
-  expect(validation.querySelector('p')?.textContent).toBe('A/B Test')
-  expect(validation.querySelector('h2')?.textContent).toBe('Feature Validation')
+  expect(validation.querySelector('p')?.textContent).toContain('A/B Test')
+  expect(validation.querySelector('h2')?.textContent).toBe('Card Bounty — Feature Validation')
   expect(document.querySelector('a[href="#validation"]')?.textContent).toBe('Validation')
 
   expectedProtocol.forEach(([label, body]) => {
@@ -620,14 +620,14 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   const expectedGroups = [
     {
       title: 'Primary metric',
-      rows: [['ARPDAU', '', '≥5% lift']],
+      rows: [['ARPDAU', '', 'lift ≥5%']],
     },
     {
       title: 'Supporting metrics',
       rows: [
-        ['ARPPU by payer tier', 'Monetization', '≥5% lift overall and ≥8% among the high-spender cohort'],
-        ['Coin spend on Chests per DAU', 'Economy', '≥10% lift'],
-        ['Total Coin Consumption per DAU', 'Economy', '≥5% lift'],
+        ['ARPPU by payer tier', 'Monetization', 'lift ≥5% overall and ≥8% at high-spender cohort'],
+        ['Coin spend on Chests per DAU', 'Economy', 'lift ≥10%'],
+        ['Total Coin Consumption per DAU', 'Economy', 'lift ≥5%'],
         ['Target Selection Rate', 'Feature funnel', '≥30% of eligible DAU'],
         ['First-Chest Conversion', 'Feature funnel', '≥65% of players who select a target'],
         ['Bounty Completion Rate', 'Feature funnel', '10–20% of activated players'],
@@ -636,10 +636,10 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
     {
       title: 'Guardrails',
       rows: [
-        ['Card Collections Completed per Player', '', '≤115%'],
-        ['Village Upgrades per Player', '', '≥95%'],
-        ['Post-Event Coin Spend on Chests per Player', '', '≥95%'],
-        ['Post-Event Revenue per Player', '', '≥98%'],
+        ['Card Collections Completed per Player', '', 'stable or small lift ≤115%'],
+        ['Village Upgrades per Player', '', 'stable ≥95%'],
+        ['Post-Event Coin Spend on Chests per Player', '', 'stable ≥95%'],
+        ['Post-Event Revenue per Player', '', 'stable ≥98%'],
       ],
     },
   ]
@@ -649,25 +649,29 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   const tables = Array.from(metrics.querySelectorAll('table'))
   const table = tables[0]
   const groups = Array.from(metrics.querySelectorAll('tbody[data-metric-group]'))
-  const tooltip = document.getElementById('feature-funnel-tooltip')!
-  const infoButtons = Array.from(metrics.querySelectorAll('button[aria-describedby]'))
+  const tooltips = Array.from(document.querySelectorAll(
+    '#test-methodology-tooltip, #target-methodology-tooltip, #feature-funnel-tooltip'
+  ))
+  const infoButtons = [
+    metrics.querySelector('button[aria-label="About A/B Test methodology"]')!,
+    metrics.querySelector('button[aria-label="About proposed targets"]')!,
+    metrics.querySelector('button[aria-label="About Feature funnel"]')!,
+  ]
   const rolePills = Array.from(metrics.querySelectorAll('[data-metric-role]'))
 
   expect(tables).toHaveLength(1)
   expect(table.querySelectorAll('thead')).toHaveLength(0)
   expect(groups).toHaveLength(3)
   const primaryHeadings = Array.from(groups[0].querySelectorAll('tr:first-child th'))
-  expect(primaryHeadings.map((cell) => cell.textContent?.trim())).toEqual([
-    'Primary metric',
-    'Proposed target',
-  ])
+  expect(primaryHeadings[0].textContent?.trim()).toBe('Primary metric')
+  expect(primaryHeadings[1].querySelector('span > span')?.textContent).toBe('Proposed target')
   expect(primaryHeadings[0].getAttribute('colspan')).toBe('2')
   expect(primaryHeadings[1].className).toContain('pl-7')
   expect(primaryHeadings[1].className).toContain('text-left')
   expectedGroups.forEach(({ title, rows }, index) => {
     const group = groups[index]
     const renderedRows = Array.from(group.querySelectorAll('tr[data-metric-row]')).map((row) => [
-      row.querySelector('[data-metric-name]')?.textContent?.trim(),
+      row.querySelector('[data-metric-label]')?.textContent?.trim(),
       row.querySelector('[data-metric-role]')?.textContent?.trim() ?? '',
       row.querySelector('[data-metric-target]')?.textContent?.trim(),
     ])
@@ -680,6 +684,19 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   Array.from(table.querySelectorAll('[data-metric-target]')).forEach((target) => {
     expect(target.className).toContain('pl-7')
   })
+  const mutedTargets = Array.from(table.querySelectorAll('[data-muted-target]'))
+  expect(mutedTargets.map((target) => target.textContent)).toEqual([
+    '≥5%',
+    '≥5% overall and ≥8% at high-spender cohort',
+    '≥10%',
+    '≥5%',
+    '≤115%',
+    '≥95%',
+    '≥95%',
+    '≥98%',
+  ])
+  mutedTargets.forEach((target) => expect(target.className).toContain('text-charcoal/45'))
+  expect(table.textContent).not.toMatch(/\([^)]*[≥≤][^)]*\)/)
   expect(table.className).toContain('min-w-[720px]')
   expect(table.parentElement?.className).toContain('overflow-x-auto')
   expect(rolePills).toHaveLength(6)
@@ -723,17 +740,99 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   )
   expect(northStarTarget.className).toContain('text-charcoal')
   expect(northStarTarget.className).not.toContain('text-cm-crimson')
-  expect(infoButtons).toHaveLength(1)
-  expect(infoButtons[0].getAttribute('aria-label')).toBe('About Feature funnel')
-  expect(infoButtons[0].getAttribute('aria-describedby')).toBe(tooltip.id)
-  expect(tooltip.textContent).toBe(
-    'The funnel is coherent: 30% × 65% ≈ 20% activation. The completion range ensures the guarantee provides value without becoming too easy.'
-  )
-  expect(tooltip.className).toContain('fixed')
-  expect(table.parentElement?.contains(tooltip)).toBe(false)
-  expect(infoButtons[0].previousElementSibling?.textContent).toBe('Feature funnel')
+  expect(infoButtons.map((button) => button.getAttribute('aria-label'))).toEqual([
+    'About A/B Test methodology',
+    'About proposed targets',
+    'About Feature funnel',
+  ])
+  expect(tooltips.map((tooltip) => tooltip.textContent)).toEqual([
+    'Event duration and measurement windows would be finalized using internal baselines, eligible population and comparable LiveOps performance.',
+    'Directional benchmarks. Final targets would be set using internal baselines and comparable LiveOps performance.',
+    'Ensures the guarantee provides value without becoming too easy.',
+  ])
+  tooltips.forEach((tooltip) => {
+    expect(tooltip.className).toContain('fixed')
+    expect(table.parentElement?.contains(tooltip)).toBe(false)
+  })
+  infoButtons.forEach((button, index) => {
+    expect(button.getAttribute('aria-describedby')).toBe(tooltips[index].id)
+  })
+  expect(infoButtons[2].closest('[data-metric-help]')?.querySelector('[data-metric-label]')?.textContent).toBe('Bounty Completion Rate')
+  expect(table.querySelector('col')?.className).toContain('w-[33%]')
+  const collectionLabel = Array.from(table.querySelectorAll('[data-metric-label]')).find(
+    (label) => label.textContent === 'Card Collections Completed per Player'
+  )!
+  expect(collectionLabel.className).toContain('whitespace-nowrap')
   expect(metrics.textContent).not.toContain('Decision threshold')
   expect(metrics.textContent).not.toContain('Segmentation')
+})
+
+it('renders Additional Tests as a magnifying-glass list below the validation table', () => {
+  render(<MAHomeAssignmentPage />)
+  const validation = document.getElementById('validation')!
+  const additionalTests = validation.querySelector('[data-additional-tests]')!
+  const items = Array.from(additionalTests.querySelectorAll('li'))
+
+  expect(additionalTests.querySelector('p')?.textContent).toBe('Additional Tests')
+  expect(items).toHaveLength(3)
+  expect(items.map((item) => item.querySelector('h3')?.textContent)).toEqual([
+    'Meter Goal Calibration',
+    'Paid Progress Carryover',
+    'Chest Tier Weighting',
+  ])
+  expect(items.map((item) => Array.from(item.querySelectorAll('p')).map((node) => node.textContent))).toEqual([
+    [
+      'Compare the baseline meter requirement with a lower requirement.',
+      'Tests whether a more attainable goal increases Chest spend without accelerating Collection completion too far.',
+    ],
+    [
+      'Players who obtain their target before filling the meter can select another target. Control resets the meter; treatment also allows players to spend Gems to carry existing progress to the new target.',
+      'Tests whether preserving earned progress creates incremental Gem spend without reducing continued participation or accelerating Collection completion too far.',
+    ],
+    [
+      'Keep all Chest contributions unchanged except the Magical Chest contribution.',
+      'Tests whether greater progress from the highest-value Chest shifts Coin spend toward it.',
+    ],
+  ])
+  items.forEach((item) => {
+    const icon = item.querySelector('svg')!
+    const title = item.querySelector('h3')!
+    const copy = Array.from(item.querySelectorAll('h3, p'))
+    expect(icon).not.toBeNull()
+    expect(icon.className.baseVal).toContain('text-cm-gold')
+    copy.forEach((node) => expect(node.className).toContain('text-[14px]'))
+    expect(title.className).toContain('font-normal')
+    expect(title.className).not.toContain('font-bold')
+  })
+})
+
+it('adds explanatory tooltips to supporting and guardrail metrics', () => {
+  render(<MAHomeAssignmentPage />)
+  const validation = document.getElementById('validation')!
+  const expected = [
+    ['About ARPPU by payer tier', 'Shows whether revenue lift comes from deeper payer spend and which tiers drive it.'],
+    ['About Card Collections Completed per Player', 'Detects excessive acceleration of Collection completion and reward release.'],
+    ['About Village Upgrades per Player', 'Detects whether additional Chest spending cannibalizes core Village progression.'],
+    ['About Post-Event Coin Spend on Chests per Player', 'Detects whether the event shifts Chest spend rather than lifting it.'],
+    ['About Post-Event Revenue per Player', 'Confirms that event revenue is not offset by lower revenue afterward.'],
+  ]
+
+  expected.forEach(([label, copy]) => {
+    const button = validation.querySelector(`button[aria-label="${label}"]`)!
+    const tooltip = document.getElementById(button.getAttribute('aria-describedby')!)!
+
+    expect(button).not.toBeNull()
+    expect(tooltip.textContent).toBe(copy)
+    expect(tooltip.className).toContain('fixed')
+    expect(validation.querySelector('table')?.contains(tooltip)).toBe(false)
+  })
+
+  const alignedHelp = Array.from(validation.querySelectorAll('[data-metric-help]'))
+  expect(alignedHelp).toHaveLength(6)
+  alignedHelp.forEach((wrapper) => {
+    expect(wrapper.className).toContain('grid-cols-[minmax(0,1fr)_14px]')
+    expect(wrapper.className).toContain('w-full')
+  })
 })
 
 it('renders Assumptions without decorative dash markers', () => {
