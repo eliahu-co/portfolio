@@ -9,6 +9,23 @@ import {
   type DemoState,
 } from '../demoReducer'
 
+const readCssBlock = (source: string, rule: string) => {
+  const ruleStart = source.indexOf(rule)
+  const openingBrace = source.indexOf('{', ruleStart)
+  if (ruleStart < 0 || openingBrace < 0) return ''
+
+  let depth = 0
+  for (let index = openingBrace; index < source.length; index += 1) {
+    if (source[index] === '{') depth += 1
+    if (source[index] !== '}') continue
+
+    depth -= 1
+    if (depth === 0) return source.slice(openingBrace + 1, index)
+  }
+
+  return ''
+}
+
 function purchaseState({
   quantity,
   coins = initialDemoState.coins,
@@ -131,10 +148,14 @@ describe('ChestPurchaseDialog', () => {
       resolve(process.cwd(), 'app/MA-HomeAssignment/demo/ChestPurchaseDialog.module.css'),
       'utf8',
     )
+    const compactCss = readCssBlock(css, '@container purchase-dialog (max-width: 360px)')
 
     expect(css).toMatch(/container-name:\s*purchase-dialog/)
     expect(css).toMatch(/@container purchase-dialog \(max-width: 360px\)/)
     expect(css).toMatch(/@container purchase-dialog \(max-width: 300px\)/)
+    expect(compactCss).toMatch(
+      /\.quantityValue small\s*\{[^}]*font-size:\s*\.55rem;[^}]*letter-spacing:\s*\.02em;/,
+    )
     expect(css).toMatch(/\.chanceCopy > span\s*{[^}]*white-space:\s*normal/)
     expect(css).not.toMatch(/font-size:\s*\.(?:4\d|5[0-4])rem/)
   })

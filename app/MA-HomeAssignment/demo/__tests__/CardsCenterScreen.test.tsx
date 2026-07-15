@@ -52,8 +52,9 @@ describe('CardsCenterScreen', () => {
       'utf8',
     )
 
-    expect(css).toMatch(/--medallion-size:\s*min\(34cqw,\s*146px\)/)
-    expect(css).toMatch(/grid-template-columns:\s*repeat\(2,\s*var\(--medallion-size\)\)/)
+    expect(css).toMatch(
+      /\.collectionList\s*{[^}]*--medallion-size:\s*min\(30cqw,\s*128px\);[^}]*grid-template-columns:\s*repeat\(2,\s*var\(--medallion-size\)\)/,
+    )
     expect(css).not.toMatch(/\.activeTab b\s*\{/)
     expect(css).toMatch(/\.activeTab \.tabCard\s*\{/)
   })

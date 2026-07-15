@@ -24,7 +24,7 @@
   gap: clamp(24px, 4vw, 58px);
   padding: 18px 24px;
   isolation: isolate;
-  background: var(--color-canvas);
+  background: #FFF9EE;
   color: #fff;
   font-family: "Trebuchet MS", Arial, sans-serif;
 }
@@ -43,10 +43,10 @@
 .prototypeControls {
   width: min(100%, 280px);
   padding: 20px;
-  border: var(--border);
-  border-radius: 2px;
+  border: 2px solid rgba(144, 57, 0, .5);
+  border-radius: 16px;
   background: var(--color-gray-ui);
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 3px 0 rgba(144, 57, 0, .28);
   color: var(--color-ink);
 }
 
@@ -69,7 +69,7 @@
   gap: 9px;
   padding: 10px 13px;
   border: 1px solid rgba(26, 26, 26, .38);
-  border-radius: 2px;
+  border-radius: 12px;
   background: var(--color-canvas);
   color: var(--color-ink);
   font: 800 12px/1.15 var(--font-inter, system-ui), sans-serif;
@@ -110,10 +110,10 @@
   width: min(430px, calc((100dvh - 36px) * .46137), calc(100vw - 360px));
   overflow: hidden;
   aspect-ratio: 430 / 932;
-  border: 2px solid rgba(255, 255, 255, .84);
-  border-radius: 26px;
+  border: 2px solid rgba(144, 57, 0, .5);
+  border-radius: 16px;
   background: var(--navy);
-  box-shadow: 0 30px 80px rgba(4, 53, 79, .32), 0 3px 0 rgba(4, 53, 79, .18);
+  box-shadow: 0 3px 0 rgba(144, 57, 0, .28);
   container-type: inline-size;
 }
 

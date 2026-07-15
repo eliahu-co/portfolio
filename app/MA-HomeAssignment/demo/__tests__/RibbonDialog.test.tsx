@@ -94,6 +94,9 @@ describe('RibbonDialog', () => {
 
     expect(css).toMatch(/\.ribbon\s*{[^}]*z-index:\s*2/)
     expect(css).toMatch(/\.purchase \.hero\s*{[^}]*z-index:\s*1/)
+    expect(css).toMatch(
+      /\.purchase \.hero\s*{[^}]*top:\s*auto;[^}]*bottom:\s*calc\(100% - 2rem\);/,
+    )
   })
 
   it('sizes ribbon titles against the dialog frame instead of the outer viewport', () => {

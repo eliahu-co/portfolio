@@ -6,25 +6,47 @@ const readDemoSource = (file: string) => readFileSync(
   'utf8',
 )
 
+const readCssBlock = (source: string, rule: string) => {
+  const ruleStart = source.indexOf(rule)
+  const openingBrace = source.indexOf('{', ruleStart)
+  if (ruleStart < 0 || openingBrace < 0) return ''
+
+  let depth = 0
+  for (let index = openingBrace; index < source.length; index += 1) {
+    if (source[index] === '{') depth += 1
+    if (source[index] !== '}') continue
+
+    depth -= 1
+    if (depth === 0) return source.slice(openingBrace + 1, index)
+  }
+
+  return ''
+}
+
 describe('DemoShell presentation contract', () => {
-  it('uses the portfolio canvas and plaque tokens without sky decoration', () => {
+  it('uses the polished desktop shell geometry without sky decoration', () => {
     const shell = readDemoSource('DemoShell.tsx')
     const css = readDemoSource('CardBountyPrototype.module.css')
 
-    expect(css).toMatch(/\.demoRoot\s*{[\s\S]*?background:\s*var\(--color-canvas\)/)
+    expect(css).toMatch(/\.demoRoot\s*{[^}]*background:\s*#FFF9EE;/)
     expect(css).toMatch(/\.prototypeControls\s*{[\s\S]*?background:\s*var\(--color-gray-ui\)/)
-    expect(css).toMatch(/\.prototypeControls\s*{[\s\S]*?border:\s*var\(--border\)/)
-    expect(css).toMatch(/\.prototypeControls\s*{[\s\S]*?border-radius:\s*2px/)
-    expect(css).toMatch(/\.prototypeControls\s*{[\s\S]*?box-shadow:\s*var\(--shadow-card\)/)
+    expect(css).toMatch(/\.prototypeControls\s*{[^}]*border:\s*2px solid rgba\(144, 57, 0, \.5\);/)
+    expect(css).toMatch(/\.prototypeControls\s*{[^}]*border-radius:\s*16px;/)
+    expect(css).toMatch(/\.prototypeControls\s*{[^}]*box-shadow:\s*0 3px 0 rgba\(144, 57, 0, \.28\);/)
+    expect(css).toMatch(/\.gameViewport\s*{[^}]*border:\s*2px solid rgba\(144, 57, 0, \.5\);/)
+    expect(css).toMatch(/\.gameViewport\s*{[^}]*border-radius:\s*16px;/)
+    expect(css).toMatch(/\.gameViewport\s*{[^}]*box-shadow:\s*0 3px 0 rgba\(144, 57, 0, \.28\);/)
+    expect(css).toMatch(/\.homeLink,\s*\.restartButton\s*{[^}]*border-radius:\s*12px;/)
     expect(css).not.toContain('/coinmaster-sky.webp')
     expect(shell).not.toMatch(/skyGlow|floatingCoin/)
   })
 
   it('keeps the mobile game stage edge to edge', () => {
     const css = readDemoSource('CardBountyPrototype.module.css')
+    const mobileCss = readCssBlock(css, '@media (max-width: 767px)')
 
-    expect(css).toMatch(
-      /@media \(max-width: 767px\)[\s\S]*\.gameViewport\s*{[^}]*width:\s*100vw;[^}]*height:\s*100dvh;[^}]*border:\s*0;[^}]*border-radius:\s*0;/,
+    expect(mobileCss).toMatch(
+      /\.gameViewport\s*{[^}]*width:\s*100vw;[^}]*height:\s*100dvh;[^}]*border:\s*0;[^}]*border-radius:\s*0;[^}]*box-shadow:\s*none;/,
     )
   })
 })

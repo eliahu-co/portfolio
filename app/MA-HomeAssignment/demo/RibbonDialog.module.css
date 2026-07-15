@@ -176,7 +176,8 @@
 
 .purchase .hero {
   position: absolute;
-  top: -8.75rem;
+  top: auto;
+  bottom: calc(100% - 2rem);
   left: 50%;
   z-index: 1;
   width: min(58%, 15rem);

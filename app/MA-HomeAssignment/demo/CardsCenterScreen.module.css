@@ -214,7 +214,7 @@
 }
 
 .collectionList {
-  --medallion-size: min(34cqw, 146px);
+  --medallion-size: min(30cqw, 128px);
 
   display: grid;
   grid-template-columns: repeat(2, var(--medallion-size));
