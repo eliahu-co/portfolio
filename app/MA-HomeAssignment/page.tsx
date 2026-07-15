@@ -36,7 +36,7 @@ const nunitoSans = localFont({
   display: 'swap',
 })
 
-const OG_IMAGE = 'https://eliahu.co/coinmaster/card-bounty-preview.jpg'
+const OG_IMAGE = 'https://eliahu.co/coinmaster/OGMiniature.jpg'
 
 export const metadata: Metadata = {
   title: 'Increasing ARPDAU - PM Home Assignment by Eliahu Cohen',
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     description: 'Three feature concepts, one expanded to MVP',
     url: 'https://eliahu.co/MA-HomeAssignment',
     type: 'article',
-    images: [{ url: OG_IMAGE, width: 860, height: 1864, alt: 'Card Bounty interactive prototype' }],
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: 'Increasing ARPDAU — PM Home Assignment' }],
   },
   twitter: {
     card: 'summary_large_image',
