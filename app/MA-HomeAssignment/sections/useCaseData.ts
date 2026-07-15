@@ -9,11 +9,15 @@ export const USE_CASE_1: UseCaseData = {
   title:   'Hometown',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature1.png',
-  kpi: {
+  monetizationStrategy: {
+    lead: 'Conversion and purchase frequency.',
+    body: 'Targets high-progression, socially engaged players with a persistent Coin sink and new customization offers.',
+  },
+  metrics: {
     primary: 'ARPDAU',
     supporting: [
       'Coin spend on Hometown per DAU',
-      'Repeat Customization Rate',
+      'Repeat customization',
       'Return sessions per Hometown user',
     ],
   },
@@ -108,11 +112,16 @@ export const USE_CASE_2: UseCaseData = {
   title:   'Card Bounty',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature2.png',
-  kpi: {
+  monetizationStrategy: {
+    lead: 'Spend depth.',
+    body: 'Weighted toward high-intent collectors and high spenders. Repeated Chest openings consume Coins and increase demand for existing Spin and Coin offers.',
+  },
+  metrics: {
     primary: 'ARPDAU',
     supporting: [
-      'Bounty activation rate',
-      'Coin spend on Chests per DAU',
+      'ARPPU by payer tier',
+      'Coin Spend on Chests per DAU',
+      'Bounty activation',
     ],
   },
 
@@ -209,11 +218,16 @@ export const USE_CASE_3: UseCaseData = {
   title:   'Hot Trail',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature3.png',
-  kpi: {
+  monetizationStrategy: {
+    lead: 'Purchase frequency through re-engagement.',
+    body: 'Targets recently Raided players with an urgent return session that consumes Spins and creates another opportunity to purchase.',
+  },
+  metrics: {
     primary: 'ARPDAU',
     supporting: [
-      'Hot Trail activation rate',
-      'Spin consumption per activated player',
+      'Hot Trail activation',
+      'Return rate',
+      'Spin consumption per exposed DAU',
     ],
   },
 
