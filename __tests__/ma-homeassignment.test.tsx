@@ -67,6 +67,20 @@ it('matches the intro body size to the Concept copy', () => {
   expect(intro.className).not.toContain('text-[15px]')
 })
 
+it('renders the approved intro research copy', () => {
+  render(<MAHomeAssignmentPage />)
+  const intro = document.getElementById('hero')!
+  const research = Array.from(intro.querySelectorAll('p')).find((node) =>
+    node.textContent?.startsWith('I used official support pages')
+  )
+
+  expect(research?.textContent).toBe(
+    'I used official support pages, advanced gameplay, player communities and industry analysis to cover systems that I had not reached yet. I compared Coin Master with Monopoly GO! and Dice Dreams, then reviewed Royal Match and Whiteout Survival for transferable collection, guarantee, customization, social, PvP and LiveOps mechanics.'
+  )
+  expect(intro.textContent).not.toContain('Using this map, I looked for ARPDAU opportunities')
+  expect(intro.textContent).not.toContain('I played Coin Master with a product lens')
+})
+
 it('renders the approved intro framing copy at the full content width', () => {
   render(<MAHomeAssignmentPage />)
   const intro = document.getElementById('hero')!
