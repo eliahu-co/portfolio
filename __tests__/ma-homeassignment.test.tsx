@@ -39,6 +39,20 @@ it('renders the Coin Master hero banner', () => {
   expect(mobileLogo.className).toContain('md:hidden')
 })
 
+it('aligns hero content to the full column without resizing the logo', () => {
+  render(<MAHomeAssignmentPage />)
+  const hero = document.getElementById('top')!
+  const logo = hero.querySelector('img[data-hero-logo="desktop"]')!
+  const contactRow = Array.from(hero.querySelectorAll('p')).find((node) =>
+    node.querySelector('a[href^="tel:"]')
+  )!
+
+  expect(logo.className).toContain('right-0')
+  expect(logo.className).not.toContain('right-[60px]')
+  expect(logo.className).toContain('h-[clamp(80px,10vw,112px)]')
+  expect(contactRow.className).not.toContain('max-w-2xl')
+})
+
 it('matches the intro body size to the Concept copy', () => {
   render(<MAHomeAssignmentPage />)
   const intro = Array.from(document.querySelectorAll('#hero p')).find((node) =>
