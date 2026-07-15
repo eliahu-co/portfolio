@@ -35,7 +35,7 @@ type MetricRole = 'Primary' | 'Economy' | 'Adoption' | 'Guardrail'
 
 const METRICS: { metric: string; role: MetricRole; target: string }[] = [
   { metric: 'ARPDAU', role: 'Primary', target: '+5% or more' },
-  { metric: 'Chest Coin Spend per DAU', role: 'Economy', target: '+10% or more' },
+  { metric: 'Coin spend on Chests per DAU', role: 'Economy', target: '+10% or more' },
   { metric: 'Total Coin Consumption per DAU', role: 'Economy', target: '+5% or more' },
   { metric: 'Bounty Activation Rate', role: 'Adoption', target: '20% or more of eligible daily active players select a target and open at least one Coin-purchased Chest' },
   { metric: 'Post-Event Revenue per Player', role: 'Guardrail', target: 'Stable or higher: at least 98% of control during the following seven days' },
