@@ -1,6 +1,7 @@
 import { TARGETS, formatCountdown, type TargetId } from './demoData'
 import { ChevronGlyph, StarRow } from './GamePrimitives'
 import styles from './BountyPanels.module.css'
+import guided from './GuidedAction.module.css'
 
 export default function TargetPicker({
   countdown,
@@ -29,7 +30,7 @@ export default function TargetPicker({
               type="button"
               onClick={() => onSelect(target.id)}
               aria-label={`Select ${target.name}, ${target.collection} ${target.collectionProgress} of 9 Cards, ${target.stars} Stars, regular tradable`}
-              className={`${styles.targetChoice} ${target.id === 'whale-boat' ? styles.targetChoiceRecommended : ''}`}
+              className={`${styles.targetChoice} ${target.id === 'whale-boat' ? `${styles.targetChoiceRecommended} ${guided.attention}` : ''}`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={target.image} alt="" />

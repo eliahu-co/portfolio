@@ -106,6 +106,15 @@ describe('RibbonDialog', () => {
     expect(css).toMatch(/\.title\s*{[^}]*font-size:[^;}]*cqw/)
     expect(css).toMatch(/\.title\s*{[^}]*white-space:\s*nowrap/)
   })
+
+  it('does not animate the close control beside the guided action', () => {
+    const css = readFileSync(
+      resolve(process.cwd(), 'app/MA-HomeAssignment/demo/RibbonDialog.module.css'),
+      'utf8',
+    )
+
+    expect(css).not.toMatch(/closePulse/)
+  })
 })
 
 describe('RibbonFrame', () => {

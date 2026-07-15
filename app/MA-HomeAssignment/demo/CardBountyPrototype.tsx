@@ -1,7 +1,7 @@
 'use client'
 
 import { type KeyboardEvent as ReactKeyboardEvent, useEffect, useReducer, useRef } from 'react'
-import { ActiveBountyPanel, IntroPanel, TargetConfirmation } from './CardBountyPanel'
+import { ActiveBountyPanel, IntroPanel, TargetChangeWarning, TargetConfirmation } from './CardBountyPanel'
 import CardsCenterScreen from './CardsCenterScreen'
 import ChestPurchaseDialog from './ChestPurchaseDialog'
 import DemoShell from './DemoShell'
@@ -35,16 +35,19 @@ function getFocusableElements(container: HTMLElement) {
 function guidanceFor(
   overlay: typeof initialDemoState.overlay,
   baseScreen: typeof initialDemoState.baseScreen,
+  eventCompleted: boolean,
   completesCollection: boolean,
   targetId?: string,
   threshold?: number,
 ) {
   if (baseScreen === 'spin-return') return 'The loop closes back at Spin'
+  if (eventCompleted) return 'Collection updated — restart to replay'
   switch (overlay) {
     case null: return 'Tap the highlighted Card Bounty event'
     case 'intro': return 'Choose a Card to begin'
     case 'target-picker': return 'Whale Boat is the guided target'
     case 'target-confirmation': return 'Confirm the selected target'
+    case 'target-change-warning': return 'Confirm whether to reset Bounty progress'
     case 'bounty': return targetId === 'whale-boat' ? 'Buy 10 Magical Chests per batch' : `Choose Chests to reach ${threshold ?? 'the target'}`
     case 'chest-quantity': return 'Adjust quantity and confirm'
     case 'chest-opening': return 'Review deterministic duplicates'
@@ -89,8 +92,14 @@ export default function CardBountyPrototype() {
 
     const opener = flowOpenerRef.current
     flowOpenerRef.current = null
-    if (opener?.isConnected) opener.focus()
-  }, [state.baseScreen, state.overlay])
+    if (opener?.isConnected) {
+      opener.focus()
+    } else if (state.eventCompleted) {
+      baseLayerRef.current
+        ?.querySelector<HTMLElement>('[data-cards-center-heading]')
+        ?.focus()
+    }
+  }, [state.baseScreen, state.eventCompleted, state.overlay])
 
   useEffect(() => {
     if (state.overlay !== null || state.baseScreen !== 'spin-return') return
@@ -144,6 +153,7 @@ export default function CardBountyPrototype() {
           <RibbonDialog key="card-bounty-overlay" title="Confirm Target" size="compact" onClose={() => dispatch({ type: 'CLOSE_BOUNTY' })}>
             <TargetConfirmation
               target={target}
+              threshold={state.meterThreshold}
               countdown={state.eventSecondsRemaining}
               onBack={() => dispatch({ type: 'OPEN_TARGET_PICKER' })}
               onSelect={() => dispatch({ type: 'CONFIRM_TARGET' })}
@@ -156,8 +166,23 @@ export default function CardBountyPrototype() {
             <ActiveBountyPanel
               state={state}
               target={target}
-              onChange={() => dispatch({ type: 'OPEN_TARGET_PICKER' })}
+              onChange={() => dispatch({ type: 'REQUEST_TARGET_CHANGE' })}
               onChest={openChest}
+            />
+          </RibbonDialog>
+        ) : null
+      case 'target-change-warning':
+        return target ? (
+          <RibbonDialog
+            key="card-bounty-overlay"
+            title="Change Target?"
+            size="compact"
+            onClose={() => dispatch({ type: 'CANCEL_TARGET_CHANGE' })}
+          >
+            <TargetChangeWarning
+              progress={state.meterProgress}
+              onCancel={() => dispatch({ type: 'CANCEL_TARGET_CHANGE' })}
+              onConfirm={() => dispatch({ type: 'CONFIRM_TARGET_CHANGE' })}
             />
           </RibbonDialog>
         ) : null
@@ -205,8 +230,8 @@ export default function CardBountyPrototype() {
   return (
     <DemoShell
       onRestart={() => dispatch({ type: 'RESTART' })}
-      guidance={guidanceFor(state.overlay, state.baseScreen, target?.collectionProgress === 8, target?.id, state.meterThreshold)}
-      finalState={state.baseScreen === 'spin-return'}
+      guidance={guidanceFor(state.overlay, state.baseScreen, state.eventCompleted, target?.collectionProgress === 8, target?.id, state.meterThreshold)}
+      finalState={state.eventCompleted && state.overlay === null}
       modalActive={Boolean(state.overlay)}
     >
       <div
@@ -218,6 +243,8 @@ export default function CardBountyPrototype() {
         {state.baseScreen === 'cards-center' ? (
           <CardsCenterScreen
             countdown={state.eventSecondsRemaining}
+            eventCompleted={state.eventCompleted}
+            completedCollection={target?.collection}
             onOpenBounty={() => {
               flowOpenerRef.current = document.activeElement instanceof HTMLElement
                 ? document.activeElement
@@ -231,6 +258,7 @@ export default function CardBountyPrototype() {
             spins={state.spins}
             reward={state.collectionReward}
             targetName={target?.name ?? 'Bounty Card'}
+            onCardsCenter={() => dispatch({ type: 'RETURN_TO_CARDS_CENTER' })}
           />
         )}
       </div>
@@ -246,7 +274,7 @@ export default function CardBountyPrototype() {
               <ActiveBountyPanel
                 state={state}
                 target={target}
-                onChange={() => dispatch({ type: 'OPEN_TARGET_PICKER' })}
+                onChange={() => dispatch({ type: 'REQUEST_TARGET_CHANGE' })}
                 onChest={(chestId) => dispatch({ type: 'OPEN_CHEST_DIALOG', chestId })}
               />
             </RibbonFrame>

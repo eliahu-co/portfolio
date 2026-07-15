@@ -58,11 +58,12 @@
   min-width: 0;
   margin: 0;
   color: #fff;
-  font-size: clamp(34px, 10.2cqw, 45px);
+  font-size: clamp(28px, 8.2cqw, 36px);
   font-weight: 1000;
   letter-spacing: -.055em;
   line-height: .86;
   text-transform: uppercase;
+  white-space: nowrap;
   text-shadow:
     0 2px 0 #0c5a75,
     0 5px 0 #06334e,
@@ -142,6 +143,8 @@
   border: 0;
   background: transparent;
   filter: drop-shadow(0 5px 4px rgba(0, 46, 48, .42));
+  transform-origin: 50% 44%;
+  animation: bountyNudge 2.4s ease-in-out infinite;
   cursor: pointer;
 }
 
@@ -155,6 +158,8 @@
   height: 74px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 227, 77, .48), rgba(243, 132, 22, .16) 56%, transparent 72%);
+  transform-origin: center;
+  animation: bountyGlow 1.8s ease-in-out infinite;
 }
 
 .bountyButton img {
@@ -167,6 +172,28 @@
 
 .bountyButton:hover img {
   transform: translateY(-2px) scale(1.035);
+}
+
+.bountyButtonCompleted,
+.bountyButtonCompleted::before {
+  animation: none;
+}
+
+.bountyButtonCompleted {
+  cursor: default !important;
+  filter: drop-shadow(0 5px 4px rgba(0, 46, 48, .42));
+}
+
+.bountyButtonCompleted::before {
+  opacity: .2;
+}
+
+.bountyButtonCompleted:hover img {
+  transform: none;
+}
+
+.bountyButtonCompleted time {
+  background: linear-gradient(180deg, #3d8a39, #1c602c);
 }
 
 .bountyButton time {
@@ -187,10 +214,12 @@
 }
 
 .collectionList {
+  --medallion-size: min(34cqw, 146px);
+
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, min(42cqw, calc((100% - 16px) / 2))));
+  grid-template-columns: repeat(2, var(--medallion-size));
   justify-content: center;
-  gap: 18px 16px;
+  gap: 18px clamp(22px, 7cqw, 30px);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -377,7 +406,10 @@
   border-left: 2px solid rgba(126, 78, 34, .28);
 }
 
-.tabs b {
+.tabLabel {
+  position: static;
+  margin-top: 2px;
+  padding: 0;
   font-size: 12px;
   font-weight: 1000;
   letter-spacing: .06em;
@@ -390,34 +422,62 @@
 
 .activeTab {
   color: #70342b !important;
+  background: linear-gradient(180deg, rgba(255, 227, 116, .42), rgba(255, 246, 210, .08));
+  box-shadow: inset 0 4px 0 #d59831;
 }
 
-.activeTab b {
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  min-width: 102px;
-  padding: 6px 15px 5px;
-  color: #fff8d5;
-  border: 2px solid #ffd96d;
-  background: linear-gradient(180deg, #aa312b, #7d2028);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .35),
-    0 3px 0 #721f24,
-    0 5px 8px rgba(78, 45, 17, .3);
-  clip-path: polygon(0 0, 12% 0, 12% 10%, 88% 10%, 88% 0, 100% 0, 94% 50%, 100% 100%, 0 100%, 6% 50%);
-  text-align: center;
-  text-shadow: 0 2px 0 #7b2228;
-  transform: translateX(-50%);
+.activeTab .tabCard {
+  filter: drop-shadow(0 0 5px rgba(255, 203, 43, .92)) drop-shadow(0 2px 2px rgba(0, 0, 0, .28));
+  transform: translateY(-1px) scale(1.08);
+}
+
+.activeTab .tabLabel {
+  color: #8b2a22;
+  text-shadow: 0 1px 0 #fff0bd;
+}
+
+@keyframes bountyNudge {
+  0%, 58%, 76%, 100% {
+    transform: translateY(0) rotate(0);
+  }
+
+  62%, 70% {
+    transform: translateY(-2px) rotate(-3deg);
+  }
+
+  66%, 74% {
+    transform: translateY(-2px) rotate(3deg);
+  }
+}
+
+@keyframes bountyGlow {
+  0%, 100% {
+    opacity: .58;
+    transform: scale(.94);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
 }
 
 @media (max-width: 560px) {
   .header h1 {
-    font-size: clamp(30px, 10cqw, 43px);
+    font-size: clamp(28px, 8.2cqw, 36px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .bountyButton,
+  .bountyButton::before {
+    animation: none;
+  }
+
+  .bountyButton {
+    filter: drop-shadow(0 5px 4px rgba(0, 46, 48, .42)) drop-shadow(0 0 8px rgba(255, 220, 70, .72));
+  }
+
   .bountyButton img {
     transition: none;
   }

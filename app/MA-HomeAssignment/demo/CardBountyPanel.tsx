@@ -4,11 +4,11 @@ import type { DemoState } from './demoReducer'
 import {
   CardBack,
   CoinIcon,
-  LockGlyph,
   PrimaryButton,
   SecondaryButton,
 } from './GamePrimitives'
 import styles from './BountyPanels.module.css'
+import guided from './GuidedAction.module.css'
 
 export function IntroPanel({
   countdown,
@@ -31,21 +31,22 @@ export function IntroPanel({
       <p>Choose a missing Card. Coin-purchased Chests fill the Bounty meter. Fill it to guarantee your target.</p>
       <div className={styles.ruleChips} aria-label="Card Bounty rules">
         <span>1 target</span>
-        <span>Coin Chests only</span>
-        <span>Guaranteed when full</span>
+        <span>Guaranteed when meter is complete!</span>
       </div>
-      <PrimaryButton type="button" onClick={onChoose}>Choose a Card</PrimaryButton>
+      <PrimaryButton className={guided.attention} type="button" onClick={onChoose}>Choose a Card</PrimaryButton>
     </div>
   )
 }
 
 export function TargetConfirmation({
   target,
+  threshold,
   countdown,
   onBack,
   onSelect,
 }: {
   target: DemoTarget
+  threshold: number
   countdown: number
   onBack: () => void
   onSelect: () => void
@@ -68,11 +69,11 @@ export function TargetConfirmation({
       </div>
       <div className={styles.requiredProgress}>
         <span>Required Bounty progress</span>
-        <strong>{target.bountyThreshold}</strong>
+        <strong>{threshold}</strong>
       </div>
       <div className={styles.confirmationActions}>
         <SecondaryButton type="button" onClick={onBack}>Back</SecondaryButton>
-        <PrimaryButton type="button" onClick={onSelect} aria-label="Select target">Select</PrimaryButton>
+        <PrimaryButton className={guided.attention} type="button" onClick={onSelect} aria-label="Select target">Select</PrimaryButton>
       </div>
     </div>
   )
@@ -110,17 +111,17 @@ export function ActiveBountyPanel({
         </div>
         <button
           type="button"
-          className={`${styles.changeButton} ${state.targetLocked ? styles.changeButtonLocked : ''}`}
+          className={styles.changeButton}
+          aria-label="Change target"
           onClick={onChange}
-          disabled={state.targetLocked}
         >
-          {state.targetLocked ? <><LockGlyph /><span>Target locked</span></> : 'Change'}
+          Change
         </button>
       </section>
 
       <div className={styles.meterSection}>
         <div className={styles.meterCaption}>
-          <span>300-point target</span>
+          <span>{state.meterThreshold}-point target</span>
           <strong aria-hidden="true">{state.meterProgress}/{state.meterThreshold}</strong>
         </div>
         <BountyMeter
@@ -144,7 +145,7 @@ export function ActiveBountyPanel({
             key={chest.id}
             aria-label={`Buy ${chest.name}, ${formatCompactCoins(chest.price)} Coins, ${chest.cardsPerChest} Cards per Chest, +${chest.bountyProgress} Bounty progress`}
             onClick={() => onChest(chest.id)}
-            className={`${styles.chestOption} ${styles[`chest_${chest.accent}`]} ${chest.id === 'magical' && state.meterProgress === 0 ? styles.nextAction : ''}`}
+            className={`${styles.chestOption} ${styles[`chest_${chest.accent}`]} ${chest.id === 'magical' && state.meterProgress < state.meterThreshold ? guided.attention : ''}`}
           >
             <span className={styles.chestProgressBadge}><b>+{chest.bountyProgress}</b><small>Bounty<br />progress</small></span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -156,6 +157,41 @@ export function ActiveBountyPanel({
         ))}
       </div>
       <p className={styles.balanceDisclaimer}>Illustrative prototype balance &middot; Existing contents and drop rates stay unchanged.</p>
+    </div>
+  )
+}
+
+export function TargetChangeWarning({
+  progress,
+  onCancel,
+  onConfirm,
+}: {
+  progress: number
+  onCancel: () => void
+  onConfirm: () => void
+}) {
+  return (
+    <div className={styles.changeWarningPanel}>
+      <span className={styles.warningIcon} aria-hidden="true">!</span>
+      <h3>Lose your Bounty progress?</h3>
+      <p>
+        Changing your target now means <strong>all Bounty progress will be lost</strong>.
+        Coins already spent will not be refunded.
+      </p>
+      <div className={styles.progressAtRisk}>
+        <span>Progress at risk</span>
+        <strong>{progress}</strong>
+      </div>
+      <div className={styles.changeWarningActions}>
+        <SecondaryButton type="button" onClick={onCancel}>Keep current target</SecondaryButton>
+        <PrimaryButton
+          type="button"
+          onClick={onConfirm}
+          aria-label="Lose progress and change target"
+        >
+          Change target
+        </PrimaryButton>
+      </div>
     </div>
   )
 }

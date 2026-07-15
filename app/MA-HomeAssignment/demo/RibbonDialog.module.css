@@ -144,7 +144,6 @@
   font-weight: 900;
   line-height: 1;
   text-shadow: 0 2px 0 #771b18;
-  animation: closePulse 2.8s ease-in-out 700ms infinite;
 }
 
 .closeButton:focus-visible {
@@ -209,12 +208,6 @@
 @keyframes heroArrival {
   from { opacity: 0; scale: .84; }
   to { opacity: 1; scale: 1; }
-}
-
-@keyframes closePulse {
-  0%, 76%, 100% { scale: 1; }
-  84% { scale: 1.08; }
-  92% { scale: .98; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -15,6 +15,7 @@ export type DemoOverlay =
   | 'intro'
   | 'target-picker'
   | 'target-confirmation'
+  | 'target-change-warning'
   | 'bounty'
   | 'chest-quantity'
   | 'chest-opening'
@@ -65,6 +66,9 @@ export type DemoAction =
   | { type: 'OPEN_TARGET_PICKER' }
   | { type: 'SELECT_TARGET'; targetId: TargetId }
   | { type: 'CONFIRM_TARGET' }
+  | { type: 'REQUEST_TARGET_CHANGE' }
+  | { type: 'CANCEL_TARGET_CHANGE' }
+  | { type: 'CONFIRM_TARGET_CHANGE' }
   | { type: 'OPEN_CHEST_DIALOG'; chestId: ChestId }
   | { type: 'SET_QUANTITY'; quantity: number }
   | { type: 'CONFIRM_PURCHASE' }
@@ -73,6 +77,7 @@ export type DemoAction =
   | { type: 'CLAIM_GUARANTEE' }
   | { type: 'COLLECT_REWARD' }
   | { type: 'RETURN_TO_SPIN' }
+  | { type: 'RETURN_TO_CARDS_CENTER' }
   | { type: 'TARGET_OBTAINED_EARLY' }
   | { type: 'TICK'; seconds?: number }
   | { type: 'RESTART' }
@@ -144,11 +149,11 @@ export function demoReducer(state: DemoState, action: DemoAction): DemoState {
       return { ...state, overlay: null, pendingPurchase: null, purchaseError: null }
 
     case 'OPEN_TARGET_PICKER':
-      if (state.targetLocked || state.eventCompleted || state.eventSecondsRemaining <= 0) return state
+      if ((state.meterProgress > 0 && state.targetConfirmed) || state.eventCompleted || state.eventSecondsRemaining <= 0) return state
       return { ...state, overlay: 'target-picker', purchaseError: null }
 
     case 'SELECT_TARGET': {
-      if (state.targetLocked || state.eventCompleted || state.eventSecondsRemaining <= 0) return state
+      if ((state.meterProgress > 0 && state.targetConfirmed) || state.eventCompleted || state.eventSecondsRemaining <= 0) return state
       const target = getTarget(action.targetId)
       if (!target) return state
       return {
@@ -167,6 +172,44 @@ export function demoReducer(state: DemoState, action: DemoAction): DemoState {
     case 'CONFIRM_TARGET':
       if (!state.selectedTargetId || state.eventCompleted || state.eventSecondsRemaining <= 0) return state
       return { ...state, targetConfirmed: true, overlay: 'bounty', purchaseError: null }
+
+    case 'REQUEST_TARGET_CHANGE':
+      if (
+        !state.selectedTargetId
+        || !state.targetConfirmed
+        || state.eventCompleted
+        || state.eventSecondsRemaining <= 0
+        || state.meterProgress >= state.meterThreshold
+      ) return state
+      if (state.meterProgress === 0) {
+        return { ...state, overlay: 'target-picker', purchaseError: null }
+      }
+      return {
+        ...state,
+        overlay: 'target-change-warning',
+        pendingPurchase: null,
+        purchaseError: null,
+      }
+
+    case 'CANCEL_TARGET_CHANGE':
+      if (state.overlay !== 'target-change-warning') return state
+      return { ...state, overlay: 'bounty', purchaseError: null }
+
+    case 'CONFIRM_TARGET_CHANGE':
+      if (state.overlay !== 'target-change-warning') return state
+      return {
+        ...state,
+        selectedTargetId: null,
+        meterProgress: 0,
+        meterThreshold: BOUNTY_THRESHOLD,
+        targetConfirmed: false,
+        targetLocked: false,
+        pendingPurchase: null,
+        purchaseError: null,
+        lastProgressEarned: 0,
+        lastCoinCost: 0,
+        overlay: 'target-picker',
+      }
 
     case 'OPEN_CHEST_DIALOG': {
       if (!state.selectedTargetId || !state.targetConfirmed || state.eventCompleted || state.eventSecondsRemaining <= 0) return state
@@ -217,7 +260,7 @@ export function demoReducer(state: DemoState, action: DemoAction): DemoState {
         ...state,
         coins: state.coins - preview.totalCost,
         meterProgress: preview.progressAfter,
-        targetLocked: true,
+        targetLocked: false,
         overlay: 'chest-opening',
         purchaseError: null,
         lastProgressEarned: preview.progressGain,
@@ -262,6 +305,16 @@ export function demoReducer(state: DemoState, action: DemoAction): DemoState {
         collectionReward: 0,
       }
     }
+
+    case 'RETURN_TO_CARDS_CENTER':
+      if (state.baseScreen !== 'spin-return') return state
+      return {
+        ...state,
+        baseScreen: 'cards-center',
+        overlay: null,
+        pendingPurchase: null,
+        purchaseError: null,
+      }
 
     case 'TARGET_OBTAINED_EARLY':
       if (

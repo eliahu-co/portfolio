@@ -140,28 +140,38 @@
 .confirmationPanel {
   display: grid;
   min-height: 0;
-  grid-template-columns: minmax(7.5rem, .8fr) minmax(9rem, 1.2fr);
-  grid-template-rows: auto 1fr auto auto;
+  grid-template-areas:
+    "meta meta"
+    "card copy"
+    "card requirement"
+    "actions actions";
+  grid-template-columns: minmax(6.75rem, .72fr) minmax(9rem, 1.28fr);
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
   align-items: center;
-  gap: .3rem .75rem;
-  padding: .15rem .45rem .35rem;
+  gap: .45rem .8rem;
+  padding: .15rem .45rem .45rem;
 }
 
 .confirmationPanel .eventMeta {
-  grid-column: 1 / -1;
+  grid-area: meta;
 }
 
 .confirmationCardWrap {
   position: relative;
-  height: min(33cqw, 9.6rem);
+  height: 7.5rem;
+  height: min(31cqw, 7.5rem);
   display: grid;
-  grid-row: 2 / 4;
+  grid-area: card;
+  align-self: center;
   place-items: center;
+  margin: 0 0 .4rem;
 }
 
 .confirmationCard {
   width: auto;
-  height: 100%;
+  max-width: 100%;
+  height: 7.5rem;
+  height: min(30cqw, 7.25rem);
   object-fit: contain;
   filter: drop-shadow(0 7px 7px rgba(81, 39, 6, .28));
 }
@@ -186,6 +196,11 @@
 .confirmationCopy p,
 .confirmationCopy small {
   margin: 0;
+}
+
+.confirmationCopy {
+  grid-area: copy;
+  align-self: end;
 }
 
 .confirmationCopy h3 {
@@ -213,6 +228,7 @@
 }
 
 .requiredProgress {
+  grid-area: requirement;
   min-height: 2.65rem;
   display: flex;
   align-items: center;
@@ -243,11 +259,11 @@
 }
 
 .confirmationActions {
-  grid-column: 1 / -1;
+  grid-area: actions;
   display: flex;
   justify-content: center;
   gap: .65rem;
-  margin-top: .35rem;
+  margin-top: .55rem;
 }
 
 .confirmationActions > button {
@@ -262,10 +278,11 @@
 
 .activeTopline {
   min-height: 2rem;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: .55rem;
+  margin-bottom: .45rem;
 }
 
 .activeTopline > time {
@@ -277,6 +294,7 @@
 }
 
 .balanceStrip {
+  max-width: 12.5rem;
   min-height: 1.8rem;
   display: flex;
   align-items: center;
@@ -360,30 +378,6 @@
   color: #fff;
   font: 1000 .56rem/1 "Trebuchet MS", sans-serif;
   text-transform: uppercase;
-}
-
-.changeButtonLocked {
-  min-width: 4.6rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: .1rem;
-  border-color: #a98a62;
-  background: linear-gradient(180deg, #e5d7bc, #c1a782);
-  box-shadow: inset 0 1px rgba(255, 255, 255, .5), 0 3px 0 #8b704e;
-  color: #704932;
-}
-
-.changeButtonLocked svg {
-  width: .95rem;
-  height: .95rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-}
-
-.changeButtonLocked span {
-  font-size: .43rem;
 }
 
 .meterSection {
@@ -568,10 +562,6 @@
 
 .chest_wood {
   background: linear-gradient(180deg, #ffe8b8, #d99d54);
-}
-
-.nextAction {
-  animation: chestPulse 1.8s ease-in-out infinite;
 }
 
 .balanceDisclaimer {
@@ -907,20 +897,20 @@
   outline-offset: 3px;
 }
 
-@keyframes chestPulse {
-  0%, 100% {
-    transform: translateY(0);
-    box-shadow: inset 0 2px rgba(255, 255, 255, .62), 0 3px 0 #603267, 0 0 0 0 rgba(255, 221, 86, 0);
-  }
-  50% {
-    transform: translateY(-3px);
-    box-shadow: inset 0 2px rgba(255, 255, 255, .62), 0 4px 0 #603267, 0 0 0 5px rgba(255, 221, 86, .35), 0 0 20px rgba(255, 221, 86, .32);
-  }
-}
-
 @media (max-width: 360px) {
   .confirmationPanel {
-    grid-template-columns: 7rem minmax(0, 1fr);
+    grid-template-columns: 6.4rem minmax(0, 1fr);
+    gap-inline: .55rem;
+  }
+
+  .confirmationCardWrap {
+    height: 6.8rem;
+    height: min(26cqw, 6.8rem);
+  }
+
+  .confirmationCard {
+    height: 6.8rem;
+    height: min(24cqw, 6.8rem);
   }
 
   .chestGrid {
@@ -934,8 +924,89 @@
 
 @media (prefers-reduced-motion: reduce) {
   .chestOption,
-  .nextAction {
+  .targetChoice {
     animation: none;
     transition: none;
   }
+}
+
+.changeWarningPanel {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: .2rem .65rem .35rem;
+  color: #67301a;
+  text-align: center;
+}
+
+.warningIcon {
+  width: 3.25rem;
+  height: 3.25rem;
+  display: grid;
+  place-items: center;
+  border: 3px solid #ffe790;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ee563b, #b52620);
+  box-shadow: 0 4px 0 #771914, 0 0 16px rgba(229, 61, 42, .25);
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 1000;
+}
+
+.changeWarningPanel h3 {
+  margin: .65rem 0 .3rem;
+  color: #632b14;
+  font-size: clamp(1.15rem, 5.6cqw, 1.55rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.changeWarningPanel > p {
+  max-width: 19rem;
+  margin: 0;
+  color: #75442c;
+  font-size: .72rem;
+  line-height: 1.45;
+}
+
+.progressAtRisk {
+  width: min(100%, 16rem);
+  min-height: 2.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: .7rem;
+  padding: .4rem .6rem;
+  border: 2px solid rgba(137, 67, 26, .32);
+  border-radius: .7rem;
+  background: rgba(255, 255, 255, .4);
+  text-align: left;
+}
+
+.progressAtRisk span {
+  font-size: .58rem;
+  font-weight: 1000;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.progressAtRisk strong {
+  color: #a62f23;
+  font-size: 1.05rem;
+}
+
+.changeWarningActions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: .6rem;
+  margin-top: .8rem;
+}
+
+.changeWarningActions > button {
+  min-width: min(9.5rem, 48%);
+  margin-top: 0;
+  padding-inline: .7rem;
+  font-size: clamp(.62rem, 3.2cqw, .82rem);
 }

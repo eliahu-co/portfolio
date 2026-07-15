@@ -3,6 +3,7 @@ import { DUPLICATE_REVEALS, formatNumber, getChest, type DemoTarget } from './de
 import type { DemoState } from './demoReducer'
 import { CoinIcon, PrimaryButton, StarRow } from './GamePrimitives'
 import styles from './CardBountyPrototype.module.css'
+import guided from './GuidedAction.module.css'
 
 export function ChestOpening({ state, onContinue }: { state: DemoState; onContinue: () => void }) {
   const chest = getChest(state.pendingPurchase?.chestId ?? null)
@@ -40,7 +41,7 @@ export function ChestOpening({ state, onContinue }: { state: DemoState; onContin
         <strong>+{state.lastProgressEarned} Bounty progress</strong>
       </div>
       <p className={styles.deterministicNote}>Representative predetermined reveal · No drop-odds simulation</p>
-      <PrimaryButton type="button" onClick={onContinue} autoFocus>Continue</PrimaryButton>
+      <PrimaryButton className={guided.attention} type="button" onClick={onContinue} autoFocus>Continue</PrimaryButton>
     </section>
   )
 }
@@ -60,7 +61,7 @@ export function GuaranteeReveal({ target, threshold, onClaim }: { target: DemoTa
       <h3>{target.name}</h3>
       <p>Earned from the filled Bounty meter, separately from normal Chest contents.</p>
       <div className={styles.completeMeter}><span /><strong>{threshold}/{threshold}</strong></div>
-      <PrimaryButton type="button" onClick={onClaim} autoFocus>Add to Collection</PrimaryButton>
+      <PrimaryButton className={guided.attention} type="button" onClick={onClaim} autoFocus>Add to Collection</PrimaryButton>
     </section>
   )
 }
@@ -102,6 +103,7 @@ export function CollectionComplete({ target, onCollect }: { target: DemoTarget; 
         </p>
       )}
       <PrimaryButton
+        className={guided.attention}
         type="button"
         onClick={onCollect}
         aria-label={completesCollection ? `Collect ${formatNumber(target.collectionRewardSpins)} Spins` : 'Return to Spin screen'}

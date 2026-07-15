@@ -4,7 +4,15 @@ import { fireEvent, render, screen, within } from '@testing-library/react'
 import SpinReturnScreen from '../SpinReturnScreen'
 
 it('keeps the deterministic reel order when Spin starts the core loop', () => {
-  render(<SpinReturnScreen coins={300_000_000} spins={4_350} reward={2_500} targetName="Whale Boat" />)
+  render(
+    <SpinReturnScreen
+      coins={300_000_000}
+      spins={4_350}
+      reward={2_500}
+      targetName="Whale Boat"
+      onCardsCenter={jest.fn()}
+    />,
+  )
 
   const reels = screen.getByRole('region', { name: 'Slot machine reels' })
   const before = within(reels).getAllByRole('img').map((node) => node.getAttribute('alt'))
@@ -32,6 +40,33 @@ it('keeps the deterministic reel order when Spin starts the core loop', () => {
   expect(within(reels).getAllByRole('img').map((node) => node.getAttribute('alt'))).toEqual(before)
 })
 
+it('offers Shop and Cards Center without Raid, Booster, or multiplier controls', () => {
+  const onCardsCenter = jest.fn()
+  render(
+    <SpinReturnScreen
+      coins={1_750_000_000}
+      spins={4_350}
+      reward={2_500}
+      targetName="Whale Boat"
+      onCardsCenter={onCardsCenter}
+    />,
+  )
+
+  const shop = screen.getByRole('button', { name: 'Shop' })
+  expect(shop.querySelector('img')).toHaveAttribute(
+    'src',
+    '/coinmaster/card-bounty/wooden-chest.webp',
+  )
+  expect(screen.getByRole('region', { name: 'Energy and Spins' })).toBeInTheDocument()
+  expect(screen.queryByText('Raid')).not.toBeInTheDocument()
+  expect(screen.queryByText('Booster')).not.toBeInTheDocument()
+  expect(screen.queryByLabelText('Spin multiplier')).not.toBeInTheDocument()
+  expect(screen.queryByText('x1')).not.toBeInTheDocument()
+
+  fireEvent.click(screen.getByRole('button', { name: 'Cards Center' }))
+  expect(onCardsCenter).toHaveBeenCalledTimes(1)
+})
+
 it('keeps the visible cabinet dominant and reserves space above mobile prototype controls', () => {
   const css = readFileSync(
     resolve(process.cwd(), 'app/MA-HomeAssignment/demo/SpinReturnScreen.module.css'),
@@ -40,4 +75,10 @@ it('keeps the visible cabinet dominant and reserves space above mobile prototype
 
   expect(css).toMatch(/\.boardStage\s*{[^}]*height:\s*61%/)
   expect(css).toMatch(/\.rewardStatus\s*{[^}]*bottom:\s*max\(8\.2%,\s*calc\(74px \+ env\(safe-area-inset-bottom\)\)\)/)
+  expect(css).toMatch(/\.cardsCenterButton\s*{[^}]*position:\s*absolute/)
+  expect(css).toMatch(/\.cardsCenterButton:focus-visible/)
+  expect(css).toMatch(/\.cardsCenterButton\s*{[^}]*calc\([^)]*env\(safe-area-inset-bottom\)/)
+  expect(css).toMatch(
+    /@media \(prefers-reduced-motion: reduce\)\s*\{[\s\S]*?\.spinButton\s*\{[^}]*outline:\s*3px solid #ffe56a/,
+  )
 })

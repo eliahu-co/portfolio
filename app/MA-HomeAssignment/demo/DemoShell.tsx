@@ -18,11 +18,6 @@ export default function DemoShell({
 }) {
   return (
     <main className={`${styles.demoRoot} card-bounty-demo-root`}>
-      <div className={styles.skyGlow} aria-hidden="true" />
-      <div className={`${styles.floatingCoin} ${styles.coinOne}`} aria-hidden="true"><span>M</span></div>
-      <div className={`${styles.floatingCoin} ${styles.coinTwo}`} aria-hidden="true"><span>M</span></div>
-      <div className={`${styles.floatingCoin} ${styles.coinThree}`} aria-hidden="true"><span>M</span></div>
-
       <aside
         className={`${styles.prototypeControls} ${finalState ? styles.prototypeControlsFinal : ''}`}
         aria-label="Prototype controls"

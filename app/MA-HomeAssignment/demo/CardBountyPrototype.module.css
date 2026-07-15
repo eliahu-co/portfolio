@@ -24,9 +24,7 @@
   gap: clamp(24px, 4vw, 58px);
   padding: 18px 24px;
   isolation: isolate;
-  background:
-    radial-gradient(circle at 50% 40%, rgba(73, 221, 255, .28), transparent 38%),
-    linear-gradient(180deg, #20bfe9 0%, #78def3 46%, #eaf9fb 100%);
+  background: var(--color-canvas);
   color: #fff;
   font-family: "Trebuchet MS", Arial, sans-serif;
 }
@@ -42,77 +40,19 @@
   cursor: pointer !important;
 }
 
-.demoRoot::before,
-.demoRoot::after {
-  position: absolute;
-  z-index: -3;
-  background: url('/coinmaster-sky.webp') center bottom / cover no-repeat;
-  content: "";
-  pointer-events: none;
-}
-
-.demoRoot::before {
-  inset: 0;
-  opacity: .88;
-}
-
-.demoRoot::after {
-  right: -6%;
-  bottom: -8%;
-  left: -6%;
-  height: 46%;
-  opacity: .72;
-  transform: scaleX(-1);
-}
-
-.skyGlow {
-  position: absolute;
-  z-index: -2;
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 48%, rgba(255, 255, 255, .9), transparent 31%),
-    linear-gradient(90deg, rgba(255, 255, 255, .25), transparent 28% 72%, rgba(255, 255, 255, .25));
-  pointer-events: none;
-}
-
-.floatingCoin {
-  position: absolute;
-  z-index: -1;
-  display: grid;
-  place-items: center;
-  border: 5px solid #ffc928;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 28%, #fff8aa 0 8%, #ffd02f 25%, #e89100 70%);
-  box-shadow: inset 0 0 0 3px #b86b00, 0 10px 24px rgba(89, 73, 10, .22);
-  color: #a25c00;
-  font-weight: 900;
-  opacity: .78;
-  pointer-events: none;
-}
-
-.floatingCoin span {
-  text-shadow: 0 2px #ffe97c;
-  transform: rotate(-8deg);
-}
-
-.coinOne { top: 10vh; left: 6vw; width: 78px; height: 78px; font-size: 26px; transform: rotate(-17deg); }
-.coinTwo { top: 22vh; right: 7vw; width: 52px; height: 52px; font-size: 18px; transform: rotate(22deg); }
-.coinThree { right: 11vw; bottom: 9vh; width: 68px; height: 68px; font-size: 22px; transform: rotate(-28deg); }
-
 .prototypeControls {
   width: min(100%, 280px);
   padding: 20px;
-  border: 1px solid rgba(255, 255, 255, .74);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, .72);
-  box-shadow: 0 20px 60px rgba(10, 71, 95, .16);
-  color: #14394d;
-  backdrop-filter: blur(14px);
+  border: var(--border);
+  border-radius: 2px;
+  background: var(--color-gray-ui);
+  box-shadow: var(--shadow-card);
+  color: var(--color-ink);
 }
 
 .prototypeLabel {
   margin: 0 0 14px;
-  color: #4c768a;
+  color: var(--color-ink);
   font-size: 10px;
   font-weight: 900;
   letter-spacing: .16em;
@@ -128,20 +68,20 @@
   align-items: center;
   gap: 9px;
   padding: 10px 13px;
-  border: 1px solid rgba(13, 111, 163, .18);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, .78);
-  color: #11394d;
-  font: 800 12px/1.15 "Trebuchet MS", Arial, sans-serif;
+  border: 1px solid rgba(26, 26, 26, .38);
+  border-radius: 2px;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font: 800 12px/1.15 var(--font-inter, system-ui), sans-serif;
   text-decoration: none;
   transition: transform .16s ease, background .16s ease;
 }
 
 .restartButton { margin-top: 8px; }
 .homeLink:hover,
-.restartButton:hover { background: #fff; transform: translateY(-1px); }
+.restartButton:hover { background: var(--color-subtle); transform: translateY(-1px); }
 .homeLink:focus-visible,
-.restartButton:focus-visible { outline: 3px solid #173f91; outline-offset: 2px; }
+.restartButton:focus-visible { outline: 3px solid var(--color-ink); outline-offset: 2px; }
 .homeLink svg,
 .restartButton svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
 
@@ -150,7 +90,7 @@
   align-items: center;
   gap: 8px;
   margin: 18px 2px 0;
-  color: #3b687d;
+  color: var(--color-ink);
   font-size: 11px;
   line-height: 1.4;
 }
@@ -328,17 +268,13 @@
 
 @media (max-width: 767px) {
   .demoRoot { display: block; min-height: 100dvh; padding: 0; background: #062a42; }
-  .demoRoot::before,
-  .demoRoot::after,
-  .skyGlow,
-  .floatingCoin { display: none; }
   .gameViewport { width: 100vw; height: 100dvh; border: 0; border-radius: 0; aspect-ratio: auto; box-shadow: none; }
-  .prototypeControls { position: fixed; z-index: 100; right: max(10px, env(safe-area-inset-right)); bottom: max(9px, env(safe-area-inset-bottom)); left: max(10px, env(safe-area-inset-left)); width: auto; display: none; grid-template-columns: 1fr 1fr; gap: 6px; padding: 6px; border-radius: 13px; background: rgba(255, 255, 255, .9); }
+  .prototypeControls { position: fixed; z-index: 100; right: max(10px, env(safe-area-inset-right)); bottom: max(9px, env(safe-area-inset-bottom)); left: max(10px, env(safe-area-inset-left)); width: auto; display: none; grid-template-columns: 1fr 1fr; gap: 6px; padding: 6px; border: 1px solid rgba(255, 255, 255, .74); border-radius: 13px; background: rgba(255, 255, 255, .9); box-shadow: 0 20px 60px rgba(10, 71, 95, .16); backdrop-filter: blur(14px); }
   .prototypeControlsFinal { display: grid; }
   .prototypeControlsFinal .prototypeLabel,
   .prototypeControlsFinal .guidance { display: none; }
   .prototypeControlsFinal .homeLink,
-  .prototypeControlsFinal .restartButton { min-height: 44px; justify-content: center; margin: 0; padding: 7px 9px; font-size: 10px; }
+  .prototypeControlsFinal .restartButton { min-height: 44px; justify-content: center; margin: 0; padding: 7px 9px; border: 1px solid rgba(13, 111, 163, .18); border-radius: 12px; background: rgba(255, 255, 255, .78); color: #11394d; font-size: 10px; }
   .rewardScreen { padding-top: max(34px, env(safe-area-inset-top)); padding-bottom: max(20px, env(safe-area-inset-bottom)); }
 }
 

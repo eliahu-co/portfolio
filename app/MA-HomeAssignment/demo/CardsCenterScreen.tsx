@@ -6,16 +6,30 @@ import styles from './CardsCenterScreen.module.css'
 
 export default function CardsCenterScreen({
   countdown,
+  eventCompleted = false,
+  completedCollection,
   onOpenBounty,
 }: {
   countdown: number
+  eventCompleted?: boolean
+  completedCollection?: string
   onOpenBounty: () => void
 }) {
+  const collections = DEMO_COLLECTIONS.map((collection) => {
+    if (!eventCompleted || collection.name !== completedCollection) return collection
+    const progress = Math.min(9, collection.progress + 1)
+    return {
+      ...collection,
+      progress,
+      rewardLabel: progress === 9 ? 'Complete' : collection.rewardLabel,
+    }
+  })
+
   return (
     <div className={styles.screen}>
       <header className={styles.header}>
         <span className={styles.info} aria-hidden="true">i</span>
-        <h1>Cards Center</h1>
+        <h1 data-cards-center-heading tabIndex={-1}>Cards Center</h1>
         <a href="/MA-HomeAssignment#prototype" aria-label="Close Cards Center">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" /></svg>
         </a>
@@ -24,17 +38,18 @@ export default function CardsCenterScreen({
       <div className={styles.scrollBody}>
         <button
           type="button"
-          className={styles.bountyButton}
-          aria-label="Open Card Bounty"
+          className={`${styles.bountyButton} ${eventCompleted ? styles.bountyButtonCompleted : ''}`}
+          aria-label={eventCompleted ? 'Card Bounty completed' : 'Open Card Bounty'}
+          disabled={eventCompleted}
           onClick={onOpenBounty}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/coinmaster/card-bounty/generated/card-bounty-badge.webp" alt="" />
-          <time>{formatCountdown(countdown)}</time>
+          <time>{eventCompleted ? 'Complete' : formatCountdown(countdown)}</time>
         </button>
 
         <ul className={styles.collectionList} aria-label="Card collections">
-          {DEMO_COLLECTIONS.map((collection) => (
+          {collections.map((collection) => (
             <CollectionMedallion key={collection.id} collection={collection} />
           ))}
         </ul>
@@ -43,11 +58,11 @@ export default function CardsCenterScreen({
       <nav className={styles.tabs} aria-label="Cards Center views">
         <span className={styles.activeTab} aria-current="page">
           <CardBack className={styles.tabCard} />
-          <b>Sets</b>
+          <b className={styles.tabLabel}>Sets</b>
         </span>
         <span>
           <CardBack className={styles.tabCard} />
-          <b>Albums</b>
+          <b className={styles.tabLabel}>Albums</b>
         </span>
       </nav>
     </div>

@@ -23,7 +23,7 @@ describe('Card Bounty demo reducer', () => {
       coins: 3_200_000_000,
       spins: 1_850,
       meterProgress: 0,
-      meterThreshold: 300,
+      meterThreshold: 150,
       targetConfirmed: false,
       targetLocked: false,
       eventCompleted: false,
@@ -38,7 +38,7 @@ describe('Card Bounty demo reducer', () => {
 
     expect(state.selectedTargetId).toBe('whale-boat')
     expect(state.meterProgress).toBe(0)
-    expect(state.meterThreshold).toBe(300)
+    expect(state.meterThreshold).toBe(150)
     expect(state.targetConfirmed).toBe(false)
     expect(state.overlay).toBe('target-confirmation')
   })
@@ -47,8 +47,8 @@ describe('Card Bounty demo reducer', () => {
     const fiveStar = demoReducer(initialDemoState, { type: 'SELECT_TARGET', targetId: 'bionica' })
     const fourStar = demoReducer(fiveStar, { type: 'SELECT_TARGET', targetId: 'whale-boat' })
 
-    expect(fiveStar.meterThreshold).toBe(300)
-    expect(fourStar.meterThreshold).toBe(300)
+    expect(fiveStar.meterThreshold).toBe(150)
+    expect(fourStar.meterThreshold).toBe(150)
   })
 
   it('does not activate an unconfirmed target after closing and reopening', () => {
@@ -63,23 +63,57 @@ describe('Card Bounty demo reducer', () => {
   })
 
   it('allows changing the target before the first contributing purchase', () => {
-    const selected = demoReducer(initialDemoState, { type: 'SELECT_TARGET', targetId: 'bionica' })
-    const picker = demoReducer(selected, { type: 'OPEN_TARGET_PICKER' })
+    let selected = demoReducer(initialDemoState, { type: 'SELECT_TARGET', targetId: 'bionica' })
+    selected = demoReducer(selected, { type: 'CONFIRM_TARGET' })
+    const picker = demoReducer(selected, { type: 'REQUEST_TARGET_CHANGE' })
     const changed = demoReducer(picker, { type: 'SELECT_TARGET', targetId: 'nautilus' })
 
+    expect(picker.overlay).toBe('target-picker')
     expect(changed.selectedTargetId).toBe('nautilus')
     expect(changed.targetLocked).toBe(false)
     expect(changed.meterProgress).toBe(0)
   })
 
-  it('locks the target after the first confirmed purchase', () => {
+  it('warns before changing a target after progress starts', () => {
     const purchased = openChest('wooden')
-    const pickerAttempt = demoReducer(purchased, { type: 'OPEN_TARGET_PICKER' })
-    const selectionAttempt = demoReducer(pickerAttempt, { type: 'SELECT_TARGET', targetId: 'bionica' })
+    const warning = demoReducer(purchased, { type: 'REQUEST_TARGET_CHANGE' })
+    const cancelled = demoReducer(warning, { type: 'CANCEL_TARGET_CHANGE' })
 
-    expect(purchased.targetLocked).toBe(true)
-    expect(pickerAttempt).toBe(purchased)
-    expect(selectionAttempt.selectedTargetId).toBe('whale-boat')
+    expect(warning).toMatchObject({
+      overlay: 'target-change-warning',
+      selectedTargetId: 'whale-boat',
+      meterProgress: 1,
+      coins: 3_194_800_000,
+    })
+    expect(cancelled).toMatchObject({
+      overlay: 'bounty',
+      selectedTargetId: 'whale-boat',
+      meterProgress: 1,
+      coins: 3_194_800_000,
+    })
+  })
+
+  it('resets progress only after a target change is confirmed', () => {
+    const purchased = openChest('magical')
+    const warning = demoReducer(purchased, { type: 'REQUEST_TARGET_CHANGE' })
+    const reset = demoReducer(warning, { type: 'CONFIRM_TARGET_CHANGE' })
+    const changed = demoReducer(reset, { type: 'SELECT_TARGET', targetId: 'bionica' })
+
+    expect(reset).toMatchObject({
+      overlay: 'target-picker',
+      selectedTargetId: null,
+      meterProgress: 0,
+      meterThreshold: 150,
+      targetConfirmed: false,
+      targetLocked: false,
+      coins: 2_910_000_000,
+    })
+    expect(changed).toMatchObject({
+      overlay: 'target-confirmation',
+      selectedTargetId: 'bionica',
+      meterProgress: 0,
+      meterThreshold: 150,
+    })
   })
 
   it('opens Magical at ten and quotes the exact batch', () => {
@@ -95,7 +129,7 @@ describe('Card Bounty demo reducer', () => {
       progressBefore: 0,
       progressGain: 30,
       progressAfter: 30,
-      meterThreshold: 300,
+      meterThreshold: 150,
       isAffordable: true,
     })
   })
@@ -114,16 +148,16 @@ describe('Card Bounty demo reducer', () => {
     expect(repeated).toBe(purchased)
   })
 
-  it('reaches 300 in ten default Magical batches', () => {
+  it('reaches 150 in five default Magical batches', () => {
     let state = demoReducer(chooseWhaleBoat(), { type: 'CONFIRM_TARGET' })
-    for (let batch = 1; batch <= 10; batch += 1) {
+    for (let batch = 1; batch <= 5; batch += 1) {
       state = demoReducer(state, { type: 'OPEN_CHEST_DIALOG', chestId: 'magical' })
       state = demoReducer(state, { type: 'CONFIRM_PURCHASE' })
       expect(state.meterProgress).toBe(batch * 30)
       state = demoReducer(state, { type: 'COMPLETE_CHEST_OPENING' })
-      expect(state.overlay).toBe(batch === 10 ? 'guarantee' : 'bounty')
+      expect(state.overlay).toBe(batch === 5 ? 'guarantee' : 'bounty')
     }
-    expect(state.coins).toBe(300_000_000)
+    expect(state.coins).toBe(1_750_000_000)
   })
 
   it.each([
@@ -161,13 +195,13 @@ describe('Card Bounty demo reducer', () => {
   })
 
   it('caps progress at the Bounty threshold', () => {
-    let state = { ...chooseWhaleBoat(), meterProgress: 299 }
+    let state = { ...chooseWhaleBoat(), meterProgress: 149 }
     state = demoReducer(state, { type: 'CONFIRM_TARGET' })
     state = demoReducer(state, { type: 'OPEN_CHEST_DIALOG', chestId: 'magical' })
     state = demoReducer(state, { type: 'SET_QUANTITY', quantity: 2 })
     state = demoReducer(state, { type: 'CONFIRM_PURCHASE' })
 
-    expect(state.meterProgress).toBe(300)
+    expect(state.meterProgress).toBe(150)
     expect(state.lastProgressEarned).toBe(1)
   })
 
@@ -180,7 +214,7 @@ describe('Card Bounty demo reducer', () => {
   })
 
   it('claims the Card, adds the Collection reward, and returns to Spins', () => {
-    const threshold = { ...chooseWhaleBoat(), meterProgress: 300, targetConfirmed: true, targetLocked: true, overlay: 'guarantee' as const }
+    const threshold = { ...chooseWhaleBoat(), meterProgress: 150, targetConfirmed: true, overlay: 'guarantee' as const }
     const claimed = demoReducer(threshold, { type: 'CLAIM_GUARANTEE' })
     const collected = demoReducer(claimed, { type: 'COLLECT_REWARD' })
 
@@ -195,7 +229,7 @@ describe('Card Bounty demo reducer', () => {
 
   it('adds an alternative target without falsely completing its Collection', () => {
     let threshold = demoReducer(initialDemoState, { type: 'SELECT_TARGET', targetId: 'bionica' })
-    threshold = { ...threshold, meterProgress: 300, targetConfirmed: true, targetLocked: true, overlay: 'guarantee' }
+    threshold = { ...threshold, meterProgress: 150, targetConfirmed: true, overlay: 'guarantee' }
     const claimed = demoReducer(threshold, { type: 'CLAIM_GUARANTEE' })
     const rewardAttempt = demoReducer(claimed, { type: 'COLLECT_REWARD' })
     const returned = demoReducer(claimed, { type: 'RETURN_TO_SPIN' })
@@ -264,15 +298,13 @@ describe('Card Bounty demo reducer', () => {
     expect(expiredDuringOpening).toMatchObject({
       eventSecondsRemaining: 0,
       selectedTargetId: 'whale-boat',
-      meterProgress: 300,
-      targetLocked: true,
+      meterProgress: 150,
       overlay: 'chest-opening',
     })
     expect(expiredDuringGuarantee).toMatchObject({
       eventSecondsRemaining: 0,
       selectedTargetId: 'whale-boat',
-      meterProgress: 300,
-      targetLocked: true,
+      meterProgress: 150,
       overlay: 'guarantee',
     })
     expect(demoReducer(expiredDuringGuarantee, { type: 'CLAIM_GUARANTEE' })).toMatchObject({
@@ -282,7 +314,7 @@ describe('Card Bounty demo reducer', () => {
   })
 
   it('collects the Collection reward only once and keeps the event terminal', () => {
-    const threshold = { ...chooseWhaleBoat(), meterProgress: 300, targetConfirmed: true, targetLocked: true, overlay: 'guarantee' as const }
+    const threshold = { ...chooseWhaleBoat(), meterProgress: 150, targetConfirmed: true, overlay: 'guarantee' as const }
     const claimed = demoReducer(threshold, { type: 'CLAIM_GUARANTEE' })
     const collected = demoReducer(claimed, { type: 'COLLECT_REWARD' })
     const collectedAgain = demoReducer(collected, { type: 'COLLECT_REWARD' })
@@ -295,7 +327,7 @@ describe('Card Bounty demo reducer', () => {
   it('resets for an early target acquisition only before the threshold', () => {
     const active = { ...chooseWhaleBoat(), meterProgress: 6, targetConfirmed: true, targetLocked: true, overlay: 'bounty' as const }
     const obtainedEarly = demoReducer(active, { type: 'TARGET_OBTAINED_EARLY' })
-    const threshold = { ...active, meterProgress: 300, overlay: 'guarantee' as const }
+    const threshold = { ...active, meterProgress: 150, overlay: 'guarantee' as const }
 
     expect(obtainedEarly).toMatchObject({
       selectedTargetId: null,
@@ -319,5 +351,26 @@ describe('Card Bounty demo reducer', () => {
   it('restarts to the exact initial state', () => {
     const changed = openChest('golden', 2)
     expect(demoReducer(changed, { type: 'RESTART' })).toEqual(initialDemoState)
+  })
+
+  it('returns to the Cards Center without resetting completed resources', () => {
+    const completed = {
+      ...initialDemoState,
+      baseScreen: 'spin-return' as const,
+      eventCompleted: true,
+      spins: 4_350,
+      coins: 1_750_000_000,
+      collectionReward: 2_500,
+    }
+    const returned = demoReducer(completed, { type: 'RETURN_TO_CARDS_CENTER' })
+
+    expect(returned).toMatchObject({
+      baseScreen: 'cards-center',
+      overlay: null,
+      eventCompleted: true,
+      spins: 4_350,
+      coins: 1_750_000_000,
+      collectionReward: 2_500,
+    })
   })
 })

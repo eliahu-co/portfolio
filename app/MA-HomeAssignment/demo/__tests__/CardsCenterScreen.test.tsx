@@ -14,7 +14,64 @@ describe('CardsCenterScreen', () => {
     expect(within(list).getAllByRole('listitem')).toHaveLength(8)
     expect(screen.getAllByRole('button', { name: 'Open Card Bounty' })).toHaveLength(1)
     expect(screen.queryByLabelText(/Coins/i)).not.toBeInTheDocument()
-    expect(screen.getByRole('navigation', { name: 'Cards Center views' })).toBeInTheDocument()
+    const navigation = screen.getByRole('navigation', { name: 'Cards Center views' })
+    expect(navigation).toBeInTheDocument()
+
+    for (const label of ['Sets', 'Albums']) {
+      const tabLabel = within(navigation).getByText(label)
+      expect(tabLabel).toHaveClass('tabLabel')
+      expect(tabLabel.previousElementSibling).toHaveAttribute('aria-hidden', 'true')
+    }
+  })
+
+  it('renders a completed, non-interactive Bounty state and updates the earned collection', () => {
+    const onOpenBounty = jest.fn()
+
+    render(
+      <CardsCenterScreen
+        countdown={0}
+        eventCompleted
+        completedCollection="Sinbad"
+        onOpenBounty={onOpenBounty}
+      />,
+    )
+
+    const heading = screen.getByRole('heading', { name: 'Cards Center' })
+    expect(heading).toHaveAttribute('tabindex', '-1')
+    const completedBounty = screen.getByRole('button', { name: 'Card Bounty completed' })
+    expect(completedBounty).toBeDisabled()
+    expect(within(completedBounty).getByText('Complete')).toBeInTheDocument()
+    expect(
+      screen.getByRole('listitem', { name: 'Sinbad, 9 of 9 Cards, reward Complete' }),
+    ).toBeInTheDocument()
+  })
+
+  it('caps collection scale and keeps the active treatment off the tab label', () => {
+    const css = readFileSync(
+      resolve(process.cwd(), 'app/MA-HomeAssignment/demo/CardsCenterScreen.module.css'),
+      'utf8',
+    )
+
+    expect(css).toMatch(/--medallion-size:\s*min\(34cqw,\s*146px\)/)
+    expect(css).toMatch(/grid-template-columns:\s*repeat\(2,\s*var\(--medallion-size\)\)/)
+    expect(css).not.toMatch(/\.activeTab b\s*\{/)
+    expect(css).toMatch(/\.activeTab \.tabCard\s*\{/)
+  })
+
+  it('gives the bounty entry a reduced-motion-safe attention cue', () => {
+    const css = readFileSync(
+      resolve(process.cwd(), 'app/MA-HomeAssignment/demo/CardsCenterScreen.module.css'),
+      'utf8',
+    )
+
+    expect(css).toMatch(/\.bountyButton\s*\{[\s\S]*?animation:\s*bountyNudge/)
+    expect(css).toMatch(/\.bountyButton::before\s*\{[\s\S]*?animation:\s*bountyGlow/)
+    expect(css).toMatch(/@keyframes bountyNudge/)
+    expect(css).toMatch(/@keyframes bountyGlow/)
+    expect(css).toMatch(
+      /@media \(prefers-reduced-motion: reduce\)\s*\{[\s\S]*?\.bountyButton,\s*\.bountyButton::before\s*\{[^}]*animation:\s*none/,
+    )
+    expect(css).toMatch(/\.bountyButtonCompleted,\s*\.bountyButtonCompleted::before\s*\{[^}]*animation:\s*none/)
   })
 
   it('reserves safe-area space without changing the zero-inset layout dimensions', () => {

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { formatNumber } from './demoData'
 import { REEL_GRID } from './demoVisualData'
+import { CardBack } from './GamePrimitives'
 import { SlotMachineBoard } from './SlotMachineBoard'
 import styles from './SpinReturnScreen.module.css'
 
@@ -9,11 +10,13 @@ export default function SpinReturnScreen({
   spins,
   reward,
   targetName,
+  onCardsCenter,
 }: {
   coins: number
   spins: number
   reward: number
   targetName: string
+  onCardsCenter: () => void
 }) {
   const [spinReady, setSpinReady] = useState(false)
   const [spinCycle, setSpinCycle] = useState(0)
@@ -75,10 +78,10 @@ export default function SpinReturnScreen({
         </span>
       </div>
 
-      <aside className={`${styles.eventBadge} ${styles.raidEvent}`} aria-label="Raid event">
-        <img src="/coinmaster/card-bounty/generated/spin/event-raid.webp" alt="" aria-hidden="true" />
-        <span>Raid</span>
-      </aside>
+      <button className={`${styles.eventBadge} ${styles.shopButton}`} type="button" aria-label="Shop">
+        <img src="/coinmaster/card-bounty/wooden-chest.webp" alt="" aria-hidden="true" />
+        <span>Shop</span>
+      </button>
       <aside className={`${styles.eventBadge} ${styles.tournamentEvent}`} aria-label="Tournament event">
         <img src="/coinmaster/card-bounty/generated/spin/event-tournament.webp" alt="" aria-hidden="true" />
         <span>12m</span>
@@ -88,15 +91,7 @@ export default function SpinReturnScreen({
         <SlotMachineBoard symbols={REEL_GRID} spinCycle={spinCycle} />
       </div>
 
-      <section className={styles.spinControls} aria-label="Spin controls">
-        <div className={styles.boosterStrip}>
-          <small>Booster</small>
-          <div aria-label="Spin multiplier">
-            <span className={styles.activeBooster}>x1</span>
-            <span>x2</span>
-            <span>x3</span>
-          </div>
-        </div>
+      <section className={styles.spinControls} aria-label="Energy and Spins">
         <div className={styles.energyMeter}>
           <span><small>Energy</small><strong>80/80</strong></span>
           <div
@@ -124,7 +119,16 @@ export default function SpinReturnScreen({
         onClick={startSpin}
       >
         <span>Spin</span>
-        <small>x1</small>
+      </button>
+
+      <button
+        type="button"
+        className={styles.cardsCenterButton}
+        aria-label="Cards Center"
+        onClick={onCardsCenter}
+      >
+        <CardBack className={styles.cardsCenterIcon} />
+        <span>Cards Center</span>
       </button>
 
       <div className={styles.rewardStatus} role="status" aria-live="polite">

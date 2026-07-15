@@ -3,6 +3,7 @@ import { formatNumber } from './demoData'
 import type { PurchasePreview } from './demoReducer'
 import { ChevronGlyph, CoinIcon, PrimaryButton } from './GamePrimitives'
 import styles from './ChestPurchaseDialog.module.css'
+import guided from './GuidedAction.module.css'
 
 const RARITY_ICONS = ['common', 'rare', 'legendary'] as const
 const TOTAL_COST_DESCRIPTION_ID = 'chest-purchase-total-cost'
@@ -116,7 +117,7 @@ export default function ChestPurchaseDialog({
       <PrimaryButton
         aria-describedby={TOTAL_COST_DESCRIPTION_ID}
         aria-label="Confirm Chest purchase"
-        className={styles.confirmButton}
+        className={`${styles.confirmButton} ${guided.attention}`}
         disabled={!preview.isAffordable}
         onClick={onConfirm}
         type="button"
