@@ -1,5 +1,5 @@
 // __tests__/ma-homeassignment.test.tsx
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import MAHomeAssignmentPage, { metadata } from '@/app/MA-HomeAssignment/page'
 import * as DemoPage from '@/app/MA-HomeAssignment/demo/page'
 import { USE_CASE_2 } from '@/app/MA-HomeAssignment/sections/useCaseData'
@@ -83,16 +83,16 @@ it('uses distinct Card Bounty artwork for the feature and prototype previews', (
   expect(USE_CASE_2.mockup).not.toBe('/coinmaster/prototype.webp')
 })
 
-it('publishes the Card Bounty poster in the assignment social metadata', () => {
+it('publishes the assignment miniature in the assignment social metadata', () => {
   expect(metadata.openGraph).toEqual(expect.objectContaining({
     images: [expect.objectContaining({
-      url: 'https://eliahu.co/coinmaster/card-bounty-preview.jpg',
-      width: 860,
-      height: 1864,
+      url: 'https://eliahu.co/coinmaster/OGMiniature.jpg',
+      width: 1200,
+      height: 630,
     })],
   }))
   expect(metadata.twitter).toEqual(expect.objectContaining({
-    images: ['https://eliahu.co/coinmaster/card-bounty-preview.jpg'],
+    images: ['https://eliahu.co/coinmaster/OGMiniature.jpg'],
   }))
 })
 
@@ -143,7 +143,30 @@ it('renders the interactive prototype inside MVP without the old introduction', 
   expect(document.body.textContent).not.toContain('An interactive concept prototype of Card Bounty')
 })
 
-it('uses body typography and feature-section bottom spacing for prioritization criteria', () => {
+it('exposes scoring definitions through accessible table-header tooltips', () => {
+  const expectedCriteria = [
+    {
+      title: 'ARPDAU Impact',
+      body: 'Potential to increase average daily revenue per active user if successful.',
+      rubric: ['5Multiple direct monetization levers with significant upside.', '3Meaningful but bounded or indirect revenue impact.', '1Weak or speculative path to ARPDAU.'],
+    },
+    {
+      title: 'Core-Loop Fit',
+      body: 'Degree to which the feature builds on existing Coin Master mechanics and player behavior.',
+      rubric: ['5Directly reinforces the existing core or meta loop.', '3Connects to existing systems but introduces meaningful new behavior.', '1Sits largely outside the current loop.'],
+    },
+    {
+      title: 'Confidence',
+      body: 'Strength of the evidence that players will adopt the feature and produce the intended economy and monetization behavior.',
+      rubric: ['5Supported by clear player behavior and proven category mechanics.', '3Credible hypothesis with adoption or economy risk.', '1Limited evidence and significant uncertainty.'],
+    },
+    {
+      title: 'Effort',
+      body: 'Relative product, design, engineering and balancing effort required to deliver a valuable MVP.',
+      rubric: ['5Major new systems, economy work or cross-feature dependencies.', '3Moderate implementation and balancing effort.', '1Bounded extension of an existing mechanic.'],
+    },
+  ]
+
   render(<MAHomeAssignmentPage />)
   const section = document.getElementById('prioritization')!
   const formula = Array.from(section.querySelectorAll('p')).find((node) =>
@@ -153,8 +176,10 @@ it('uses body typography and feature-section bottom spacing for prioritization c
     node.textContent?.startsWith('The calculation favors opportunities')
   )!
   const scoringMethod = calculationSummary.parentElement!
-  const criteriaButtons = Array.from(section.querySelectorAll('button[aria-expanded]'))
-  const criteriaWrapper = criteriaButtons[0].parentElement?.parentElement
+  const headers = Array.from(section.querySelectorAll('[data-criterion-header]'))
+  const infoButtons = Array.from(section.querySelectorAll('button[aria-describedby]'))
+  const tooltips = Array.from(document.body.querySelectorAll('[role="tooltip"]'))
+  const tableScroller = section.querySelector('.overflow-x-auto')!
 
   expect(formula.className).toContain('font-sans')
   expect(formula.className).toContain('text-[14px]')
@@ -162,29 +187,45 @@ it('uses body typography and feature-section bottom spacing for prioritization c
   expect(formula.className).toContain('text-charcoal')
   expect(formula.className).toContain('border-cm-gold')
   expect(scoringMethod.className).toContain('gap-3')
-  expect(scoringMethod.className).toContain('mb-3')
-  expect(scoringMethod.className).not.toContain('mb-8')
+  expect(scoringMethod.className).toContain('mb-6')
 
-  expect(criteriaButtons).toHaveLength(4)
-  for (const button of criteriaButtons) {
-    const arrow = button.querySelector('span[aria-hidden="true"]')!
-    const label = button.querySelector('span:not([aria-hidden])')!
-    expect(label.className).toContain('font-sans')
-    expect(label.className).toContain('text-[14px]')
-    expect(label.className).toContain('font-normal')
-    expect(label.className).toContain('text-charcoal')
-    expect(arrow.className).toContain('text-cm-wood/60')
-    expect(button.className).toContain('border-cm-wood')
-  }
+  expect(headers).toHaveLength(4)
+  expect(infoButtons).toHaveLength(4)
+  expect(tooltips).toHaveLength(4)
 
-  expect(criteriaWrapper?.className).toContain('mb-6')
+  fireEvent.mouseEnter(headers[0])
+  expect(tooltips[0].getAttribute('aria-hidden')).toBe('false')
+  fireEvent.mouseLeave(headers[0])
+  expect(tooltips[0].getAttribute('aria-hidden')).toBe('true')
+
+  expectedCriteria.forEach(({ title, body, rubric }, index) => {
+    const header = headers[index]
+    const button = infoButtons[index]
+    const tooltip = tooltips[index]
+
+    expect(header.getAttribute('data-criterion-header')).toBe(title)
+    expect(header.className).toContain('group')
+    expect(button.getAttribute('aria-label')).toBe(`About ${title}`)
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id)
+    expect(button.className).toContain('h-3.5')
+    expect(button.className).toContain('w-3.5')
+    expect(tooltip.textContent).toContain(body)
+    expect(tooltip.className).toContain('fixed')
+    expect(tableScroller.contains(tooltip)).toBe(false)
+    expect(Array.from(tooltip.querySelectorAll('[data-rubric-item]')).map((item) => item.textContent?.replace(/\s/g, ''))).toEqual(
+      rubric.map((item) => item.replace(/\s/g, ''))
+    )
+  })
+
+  expect(section.querySelectorAll('button[aria-expanded]')).toHaveLength(0)
+  expect(section.textContent).not.toContain('▶')
 })
 
 it('renders the approved MVP intro and scope copy', () => {
   const expectedInScope = [
     'Entry point within the Cards Center, with an event countdown.',
     'Target one missing Card at a time.',
-    'Meter goal scales with Card rarity.',
+    'Meter goal scales with the target Card’s star rating.',
     'Buying Chests advances the meter; higher-value Chests contribute more.',
     'Changing the target resets the meter.',
     'If the target is obtained before the meter is filled, the player can change target.',
@@ -225,9 +266,9 @@ it('renders the approved MVP intro and scope copy', () => {
 
 it('renders the approved editorial success metrics table', () => {
   const expectedRows = [
-    ['ARPDAU', 'Primary', '+5% or more during the event'],
-    ['Chest Coin Spend per DAU', 'Economy', '+10% or more'],
-    ['Total Coin Consumption per DAU', 'Economy', '+5% or more, confirming incremental Coin demand'],
+    ['ARPDAU', 'Primary', '+5% or more'],
+    ['Coin spend on Chests per DAU', 'Economy', '+10% or more'],
+    ['Total Coin Consumption per DAU', 'Economy', '+5% or more'],
     ['Bounty Activation Rate', 'Adoption', '20% or more of eligible daily active players select a target and open at least one Coin-purchased Chest'],
     ['Post-Event Revenue per Player', 'Guardrail', 'Stable or higher: at least 98% of control during the following seven days'],
     ['Post-Event Chest Coin Spend per Player', 'Guardrail', 'Stable or higher: at least 95% of control during the following seven days'],
@@ -270,9 +311,9 @@ it('renders the approved editorial success metrics table', () => {
     expect(pill.className).toContain('justify-center')
   }
   expect(rolePills[0].className).toContain('border-cm-wood/50')
-  expect(rolePills[1].className).toContain('border-cm-violet-deep/30')
-  expect(rolePills[3].className).toContain('border-cm-violet-deep/30')
-  expect(rolePills[4].className).toContain('border-cm-crimson/30')
+  expect(rolePills[1].className).toContain('border-[#0F3D54]/40')
+  expect(rolePills[3].className).toContain('border-[#0F3D54]/40')
+  expect(rolePills[4].className).toContain('border-cm-violet-deep/30')
   expect(table.className).toContain('min-w-[720px]')
   expect(table.parentElement?.className).toContain('overflow-x-auto')
   expect(table.querySelector('thead tr')?.className).toContain('border-cm-wood')

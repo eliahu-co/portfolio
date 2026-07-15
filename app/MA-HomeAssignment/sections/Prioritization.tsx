@@ -1,13 +1,12 @@
+'use client'
+
 // app/MA-HomeAssignment/sections/Prioritization.tsx
 // Section — Prioritization: scoring framework, scores across the three
 // features, and the resulting decision.
 
-'use client'
-
-import { useState } from 'react'
+import { createPortal } from 'react-dom'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Section from './Section'
-
-const CRITERIA = ['ARPDAU Impact', 'Core-Loop Fit', 'Confidence', 'Effort']
 
 const CRITERIA_DEFS: { title: string; body: string; rubric: [string, string][] }[] = [
   {
@@ -60,15 +59,53 @@ const ROWS: Row[] = [
 // Medals for the top three totals (computed by rank so it survives reordering)
 const MEDALS = ['🥇', '🥈', '🥉']
 const RANKED_TOTALS = [...ROWS].map((r) => r.total).sort((a, b) => b - a)
+const TOOLTIP_WIDTH = 240
+const VIEWPORT_GUTTER = 12
 
 export default function Prioritization() {
-  // single-open: clicking a criterion opens its panel below the row; clicking it
-  // again (or another) closes/switches
-  const [open, setOpen] = useState<string | null>(null)
-  const toggle = (title: string) => setOpen((prev) => (prev === title ? null : title))
-  const openDef = CRITERIA_DEFS.find((d) => d.title === open)
+  const [mounted, setMounted] = useState(false)
+  const [activeCriterion, setActiveCriterion] = useState<number | null>(null)
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 })
+  const infoButtonRefs = useRef<(HTMLButtonElement | null)[]>([])
+
+  const positionTooltip = useCallback((index: number) => {
+    const anchor = infoButtonRefs.current[index]
+    if (!anchor) return
+
+    const rect = anchor.getBoundingClientRect()
+    const preferredLeft = index === CRITERIA_DEFS.length - 1
+      ? rect.right - TOOLTIP_WIDTH
+      : rect.left + rect.width / 2 - TOOLTIP_WIDTH / 2
+    const maxLeft = Math.max(VIEWPORT_GUTTER, window.innerWidth - TOOLTIP_WIDTH - VIEWPORT_GUTTER)
+
+    setTooltipPosition({
+      top: rect.bottom + 8,
+      left: Math.min(Math.max(preferredLeft, VIEWPORT_GUTTER), maxLeft),
+    })
+  }, [])
+
+  const showTooltip = useCallback((index: number) => {
+    positionTooltip(index)
+    setActiveCriterion(index)
+  }, [positionTooltip])
+
+  useEffect(() => setMounted(true), [])
+
+  useEffect(() => {
+    if (activeCriterion === null) return
+
+    const reposition = () => positionTooltip(activeCriterion)
+    window.addEventListener('resize', reposition)
+    window.addEventListener('scroll', reposition, true)
+    return () => {
+      window.removeEventListener('resize', reposition)
+      window.removeEventListener('scroll', reposition, true)
+    }
+  }, [activeCriterion, positionTooltip])
+
   return (
-    <Section id="prioritization" eyebrow="Prioritization" title="Decision, scoring and criteria">
+    <>
+      <Section id="prioritization" eyebrow="Prioritization" title="Decision, scoring and criteria">
       {/* Decision */}
       <div className="max-w-2xl mb-8">
         <div className="flex flex-col gap-3">
@@ -97,11 +134,37 @@ export default function Prioritization() {
               <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pr-4">
                 Feature
               </th>
-              {CRITERIA.map((c) => (
-                <th key={c} className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 px-3 text-center">
-                  {c}
-                </th>
-              ))}
+              {CRITERIA_DEFS.map(({ title }, index) => {
+                const tooltipId = `criterion-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-tooltip`
+
+                return (
+                  <th
+                    key={title}
+                    data-criterion-header={title}
+                    onMouseEnter={() => showTooltip(index)}
+                    onMouseLeave={(event) => {
+                      if (!event.currentTarget.contains(document.activeElement)) setActiveCriterion(null)
+                    }}
+                    className="group font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 px-3 text-center"
+                  >
+                    <span className="inline-flex items-center justify-center gap-1 whitespace-nowrap">
+                      <span>{title}</span>
+                      <button
+                        ref={(node) => { infoButtonRefs.current[index] = node }}
+                        type="button"
+                        aria-label={`About ${title}`}
+                        aria-describedby={tooltipId}
+                        onFocus={() => showTooltip(index)}
+                        onBlur={() => setActiveCriterion(null)}
+                        onClick={() => showTooltip(index)}
+                        className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full border border-cm-wood/60 bg-cm-cream font-sans text-[8px] font-bold normal-case tracking-normal text-cm-wood outline-none transition-colors hover:border-cm-crimson hover:text-cm-crimson focus-visible:ring-2 focus-visible:ring-cm-gold focus-visible:ring-offset-1"
+                      >
+                        i
+                      </button>
+                    </span>
+                  </th>
+                )
+              })}
               <th className="font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 py-2 pl-3 text-center">
                 Total
               </th>
@@ -134,7 +197,7 @@ export default function Prioritization() {
       </div>
 
       {/* Scoring method */}
-      <div className="max-w-2xl mb-3 flex flex-col gap-3">
+      <div className="max-w-2xl mb-6 flex flex-col gap-3">
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
           The scores compare opportunities; without internal player-segment and exposure data, Reach
           cannot be estimated reliably. I
@@ -149,43 +212,37 @@ export default function Prioritization() {
         </p>
       </div>
 
-      {/* Criteria — a row of four title tabs; the clicked one opens its
-          definition + rubric full-width below the row (stacks on mobile). */}
-      <div className="mb-6">
-        <div className="max-w-2xl md:max-w-none flex flex-col gap-2.5 md:grid md:grid-cols-4 md:gap-x-5 md:gap-y-0 md:items-start">
-          {CRITERIA_DEFS.map(({ title }) => {
-            const isOpen = open === title
+      </Section>
+      {mounted && createPortal(
+        <>
+          {CRITERIA_DEFS.map(({ title, body, rubric }, index) => {
+            const tooltipId = `criterion-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-tooltip`
+            const isActive = activeCriterion === index
+
             return (
-              <button
+              <div
                 key={title}
-                type="button"
-                onClick={() => toggle(title)}
-                aria-expanded={isOpen}
-                className="flex items-center gap-2 text-left pl-3 border-l-4 border-cm-wood"
+                id={tooltipId}
+                role="tooltip"
+                aria-hidden={!isActive}
+                style={{ top: tooltipPosition.top, left: tooltipPosition.left }}
+                className={`pointer-events-none fixed z-[100] w-60 rounded-lg border border-cm-wood/35 bg-cm-cream p-3 text-left font-sans normal-case tracking-normal shadow-[0_10px_24px_rgba(42,27,84,0.18)] transition-[opacity,visibility] duration-150 ${isActive ? 'visible opacity-100' : 'invisible opacity-0'}`}
               >
-                <span className={`text-cm-wood/60 text-[9px] transition-transform duration-150 ${isOpen ? 'rotate-90' : ''}`} aria-hidden="true">▶</span>
-                <span className="font-sans text-[14px] font-normal text-charcoal">{title}</span>
-              </button>
+                <p className="mb-2 text-[11px] font-normal italic leading-relaxed text-charcoal/80">{body}</p>
+                <div className="flex flex-col gap-1 border-t border-charcoal/15 pt-2">
+                  {rubric.map(([score, description]) => (
+                    <p key={score} data-rubric-item className="flex gap-1.5 text-[10px] font-normal leading-relaxed text-charcoal/70">
+                      <span className="font-bold text-cm-crimson">{score}</span>
+                      <span>{description}</span>
+                    </p>
+                  ))}
+                </div>
+              </div>
             )
           })}
-        </div>
-        {openDef && (
-          <div className="mt-4 pl-3 border-l-4 border-cm-wood">
-            <p className="font-sans text-[12px] italic leading-relaxed text-charcoal/80 mb-2">{openDef.body}</p>
-            <div className="flex flex-col gap-1 sm:grid sm:grid-cols-3 sm:gap-x-6">
-              {openDef.rubric.map(([score, desc]) => (
-                <p key={score} className="flex gap-1.5 font-sans text-[11px] leading-relaxed text-charcoal/70">
-                  <span className="shrink-0">
-                    <span className="font-bold text-charcoal">{score}</span>
-                    <span className="text-charcoal/40"> —</span>
-                  </span>
-                  <span className="min-w-0">{desc}</span>
-                </p>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </Section>
+        </>,
+        document.body
+      )}
+    </>
   )
 }
