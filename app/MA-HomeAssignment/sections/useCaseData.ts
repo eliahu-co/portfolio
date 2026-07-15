@@ -9,7 +9,7 @@ export const USE_CASE_1: UseCaseData = {
   title:   'Hometown',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature1.png',
-  monetizationStrategy: 'New spend surface',
+  monetizationStrategy: 'New spend surface.\nTargets high-progression, socially engaged players.',
   metrics: {
     primary: 'ARPDAU',
     supporting: [

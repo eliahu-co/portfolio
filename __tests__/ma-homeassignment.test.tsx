@@ -144,7 +144,7 @@ it('defines the approved monetization strategy and metrics for every feature', (
   ]).toEqual([
     {
       title: 'Hometown',
-      strategy: 'New spend surface',
+      strategy: 'New spend surface.\nTargets high-progression, socially engaged players.',
       metrics: {
         primary: 'ARPDAU',
         supporting: [
@@ -207,11 +207,15 @@ it('renders monetization strategy before metrics with the existing metric bullet
       expect(strategyParagraph.querySelector('strong')).toBeNull()
       expect(strategyParagraph.textContent).toBe(data.monetizationStrategy)
       const strategyLines = Array.from(strategyParagraph.querySelectorAll('[data-strategy-line]'))
-      if (data.title === 'Hot Trail') {
-        expect(strategyLines.map((line) => line.textContent?.trim())).toEqual([
+      const expectedStrategyLines: Record<string, string[]> = {
+        Hometown: ['New spend surface.', 'Targets high-progression, socially engaged players.'],
+        'Hot Trail': [
           'Purchase frequency through re-engagement.',
           'Additional return sessions increase exposure to existing Spin offers.',
-        ])
+        ],
+      }
+      if (expectedStrategyLines[data.title]) {
+        expect(strategyLines.map((line) => line.textContent?.trim())).toEqual(expectedStrategyLines[data.title])
         strategyLines.forEach((line) => {
           expect(line.className).toContain('block')
           expect(line.className).toContain('md:whitespace-nowrap')
@@ -264,7 +268,7 @@ it('defines the approved player motivations and plain monetization strategies', 
   }))).toEqual([
     {
       title: 'Hometown',
-      strategy: 'New spend surface',
+      strategy: 'New spend surface.\nTargets high-progression, socially engaged players.',
       motivations: [
         { title: 'Expression and Ownership', body: 'A permanent space that feels personal.' },
         { title: 'Progress and Status', body: 'High-level Village items become proof of progress.' },
