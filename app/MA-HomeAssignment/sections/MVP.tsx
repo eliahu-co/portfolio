@@ -46,9 +46,9 @@ const METRICS: { metric: string; role: MetricRole; target: string }[] = [
 
 const ROLE_CLASSES: Record<MetricRole, string> = {
   Primary: 'border-cm-wood/50 bg-cm-gold/15 text-cm-wood',
-  Economy: 'border-cm-violet-deep/30 bg-cm-violet-deep/10 text-cm-violet-deep',
-  Adoption: 'border-cm-violet-deep/30 bg-cm-violet-deep/10 text-cm-violet-deep',
-  Guardrail: 'border-cm-crimson/30 bg-cm-crimson/10 text-cm-crimson',
+  Economy: 'border-[#1E7BA8]/35 bg-[#1E7BA8]/10 text-[#1E7BA8]',
+  Adoption: 'border-[#1E7BA8]/35 bg-[#1E7BA8]/10 text-[#1E7BA8]',
+  Guardrail: 'border-cm-violet-deep/30 bg-cm-violet-deep/10 text-cm-violet-deep',
 }
 function List({
   title,
