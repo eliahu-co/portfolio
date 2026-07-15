@@ -9,7 +9,7 @@
 // Consecutive landscape images (w > h) are grouped into a single paired slot
 // and rendered stacked vertically in WorkBanner. All other images are single slots.
 //
-// Flat dirs (design, product, research): shuffled as before.
+// Flat dirs are shuffled, except product, which follows numeric filename prefixes.
 import { readdirSync, readFileSync, openSync, readSync, closeSync } from 'fs'
 import { join } from 'path'
 import WorkBannerSwitcher from './WorkBannerSwitcher'
@@ -164,17 +164,24 @@ function readImageDir(dirName: string, meta: Record<string, ImageMeta>): ImageSl
           }))
       }
     } else {
-      // Flat dir — shuffle order
-      raw = shuffle(
-        entries
-          .filter(e => e.isFile() && (IMAGE_EXTS.test(e.name) || VIDEO_EXTS.test(e.name)))
-          .map(e => ({
-            filePath: join(dir, e.name),
-            src:      `/${dirName}/${encodeURIComponent(e.name)}`,
-            meta:     meta[e.name] ?? null,
-            ...(VIDEO_EXTS.test(e.name) ? { isVideo: true } : {}),
-          }))
-      )
+      const mediaEntries = entries
+        .filter(e => e.isFile() && (IMAGE_EXTS.test(e.name) || VIDEO_EXTS.test(e.name)))
+
+      if (dirName === 'product') {
+        mediaEntries.sort((a, b) => {
+          const diff = leadingNum(a.name) - leadingNum(b.name)
+          return diff !== 0 ? diff : a.name.localeCompare(b.name)
+        })
+      } else {
+        shuffle(mediaEntries)
+      }
+
+      raw = mediaEntries.map(e => ({
+        filePath: join(dir, e.name),
+        src:      `/${dirName}/${encodeURIComponent(e.name)}`,
+        meta:     meta[e.name] ?? null,
+        ...(VIDEO_EXTS.test(e.name) ? { isVideo: true } : {}),
+      }))
     }
 
     return pairLandscapes(raw)
