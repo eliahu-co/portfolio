@@ -67,13 +67,21 @@ it('matches the intro body size to the Concept copy', () => {
   expect(intro.className).not.toContain('text-[15px]')
 })
 
-it('prepends the current friend-visit limitation to the Hometown concept', () => {
-  const previousIntro =
-    'Villages show progression, not ownership: completed items disappear once the player advances. Hometown gives them lasting utility through a familiar five-slot space that they can customize and gives friend visits a purpose. Building items costs Coins and rewards with a discount on the next Village build. Backdrops and item variants are unlocked through progression, LiveOps or purchase.'
+it('separates the Hometown problem from the proposed concept', () => {
+  const problem = 'Friend visits currently display the friend’s active Village and offer no interaction. Villages show progression, not ownership: completed items disappear once the player advances.'
+  const concept = 'Hometown gives them lasting utility through a familiar five-slot space that they can customize and gives friend visits a purpose. Building items costs Coins and rewards with a discount on the next Village build. Backdrops and item variants are unlocked through progression, LiveOps or purchase. Visitors can see the player’s Stars, Village level and Team, send the daily Gift and leave a reaction.'
 
-  expect(USE_CASE_1.problem.intro).toBe(
-    `Friend visits currently display the friend’s active Village and offer no interaction. ${previousIntro}`
-  )
+  expect(USE_CASE_1.problem.intro).toBe(problem)
+  expect(USE_CASE_1.problem.body).toBe(concept)
+
+  render(<MAHomeAssignmentPage />)
+  const feature = document.getElementById('feature-1')!
+  const conceptLabel = Array.from(feature.querySelectorAll('p')).find((node) => node.textContent === 'Concept')!
+  expect(Array.from(conceptLabel.parentElement!.querySelectorAll('p')).map((node) => node.textContent)).toEqual([
+    'Concept',
+    problem,
+    concept,
+  ])
 })
 
 it('renders the approved intro research copy', () => {
