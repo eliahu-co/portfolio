@@ -214,7 +214,8 @@ it('renders monetization strategy before metrics with the existing metric bullet
       const metricItems = Array.from(metricsBlock.querySelectorAll('li'))
 
       expect(labels).toEqual(['Monetization Strategy', 'Metrics'])
-      const expectedStrongLead = data === USE_CASE_1 ? null : data.monetizationStrategy?.lead
+      const expectedStrongLead =
+        data.monetizationStrategy?.emphasizeLead === false ? null : data.monetizationStrategy?.lead
       expect(strategyParagraph.querySelector('strong')?.textContent ?? null).toBe(expectedStrongLead)
       expect(strategyParagraph.textContent).toBe(
         `${data.monetizationStrategy?.lead} ${data.monetizationStrategy?.body}`

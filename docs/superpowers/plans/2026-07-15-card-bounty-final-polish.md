@@ -26,4 +26,4 @@
 
 - Run focused tests after each change, then the complete test suite and production build.
 - Inspect the full flow at 1440x900, 1366x768, 430x932, and 390x844.
-- Request an independent review, fix any confirmed issues, commit the feature branch, merge the approved result to `main`, push, and verify the production URL.
+- Request an independent review, fix any confirmed issues, and commit the feature branch. Then stop and obtain explicit user confirmation before any merge to `main`; only after that confirmation, merge the approved result, push, and verify the production URL.
