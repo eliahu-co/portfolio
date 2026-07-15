@@ -7,7 +7,7 @@ import CoreLoopDiagram from './CoreLoopDiagram'
 
 export default function Intro() {
   return (
-    <div id="hero" className="scroll-mt-8 max-w-2xl mb-14">
+    <div id="hero" className="scroll-mt-8 mb-14">
       <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-8">
         Coin Master’s core loop starts with Spins, which generate Coins and trigger rewards, Attacks
         and Raids. Coins advance Villages; Chests feed Card Collections, whose rewards return Spins.
@@ -48,8 +48,8 @@ export default function Intro() {
         {' '}already cover similar ground.
       </p>
       <p className="font-sans mt-4 text-[14px] leading-relaxed text-charcoal">
-        I developed three concepts and compared them by ARPDAU impact, core-loop fit, confidence and
-        effort before expanding the strongest.
+        I developed three concepts, each targeting a different path to ARPDAU growth: a new spend
+        surface, deeper spending or more purchase opportunities through re-engagement.
       </p>
     </div>
   )

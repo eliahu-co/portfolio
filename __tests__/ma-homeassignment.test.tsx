@@ -39,6 +39,20 @@ it('renders the Coin Master hero banner', () => {
   expect(mobileLogo.className).toContain('md:hidden')
 })
 
+it('aligns hero content to the full column without resizing the logo', () => {
+  render(<MAHomeAssignmentPage />)
+  const hero = document.getElementById('top')!
+  const logo = hero.querySelector('img[data-hero-logo="desktop"]')!
+  const contactRow = Array.from(hero.querySelectorAll('p')).find((node) =>
+    node.querySelector('a[href^="tel:"]')
+  )!
+
+  expect(logo.className).toContain('right-0')
+  expect(logo.className).not.toContain('right-[60px]')
+  expect(logo.className).toContain('h-[clamp(80px,10vw,112px)]')
+  expect(contactRow.className).not.toContain('max-w-2xl')
+})
+
 it('matches the intro body size to the Concept copy', () => {
   render(<MAHomeAssignmentPage />)
   const intro = Array.from(document.querySelectorAll('#hero p')).find((node) =>
@@ -51,6 +65,19 @@ it('matches the intro body size to the Concept copy', () => {
   expect(concept.className).toContain('text-[14px]')
   expect(intro.className).toContain('text-[14px]')
   expect(intro.className).not.toContain('text-[15px]')
+})
+
+it('renders the approved intro framing copy at the full content width', () => {
+  render(<MAHomeAssignmentPage />)
+  const intro = document.getElementById('hero')!
+  const framing = Array.from(intro.querySelectorAll('p')).find((node) =>
+    node.textContent?.startsWith('I developed three concepts')
+  )!
+
+  expect(framing.textContent).toBe(
+    'I developed three concepts, each targeting a different path to ARPDAU growth: a new spend surface, deeper spending or more purchase opportunities through re-engagement.'
+  )
+  expect(intro.className).not.toContain('max-w-2xl')
 })
 
 it('renders the current workflow and the concept mockup in each feature', () => {
@@ -335,14 +362,26 @@ it('renders success metrics as one grouped table with contextual funnel help', (
   })
   expect(table.className).not.toContain('min-w-')
   expect(table.parentElement?.className).not.toContain('overflow-x-auto')
-  expect(table.querySelector('thead tr')?.className).toContain('border-cm-wood')
-  const northStarTarget = groups[0].querySelector('tr[data-metric-row] td:last-child')!
+  const tableHeaderRow = table.querySelector('thead tr')!
+  const groupHeaderRows = groups.map((group) => group.querySelector('tr')!)
+  const northStarRow = groups[0].querySelector('tr[data-metric-row]')!
+  const northStarTarget = northStarRow.querySelector('td:last-child')!
 
+  expect(tableHeaderRow.className).not.toContain('border-b-2')
+  expect(tableHeaderRow.className).not.toContain('border-cm-wood')
+  expect(groupHeaderRows[0].className).toContain('border-b-2')
+  expect(groupHeaderRows[0].className).toContain('border-cm-wood')
+  groupHeaderRows.slice(1).forEach((row) => {
+    expect(row.className).toContain('border-b-2')
+    expect(row.className).toContain('border-charcoal/25')
+  })
   expect(groups[0].className).not.toContain('border-l-4')
-  expect(groups[0].className).toContain('animate-shimmer')
-  expect(groups[0].className).toContain('motion-reduce:animate-none')
+  expect(groups[0].className).not.toContain('animate-shimmer')
   expect(groups[0].className).not.toContain('border-[#C77F14]')
-  expect(groups[0].getAttribute('style')).toContain(
+  expect(groups[0].getAttribute('style')).toBeNull()
+  expect(northStarRow.className).toContain('animate-shimmer')
+  expect(northStarRow.className).toContain('motion-reduce:animate-none')
+  expect(northStarRow.getAttribute('style')).toContain(
     'linear-gradient(90deg, rgba(245,168,0,0.08) 0%, rgba(245,168,0,0.28) 50%, rgba(245,168,0,0.08) 100%)'
   )
   expect(northStarTarget.className).toContain('text-charcoal')

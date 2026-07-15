@@ -49,11 +49,11 @@ export default function Hero() {
               src="/coinmaster/coinmaster-logo.webp"
               alt="Coin Master"
               data-hero-logo="desktop"
-              className="pointer-events-none absolute right-[60px] top-[calc(50%_-_6px)] hidden h-[clamp(80px,10vw,112px)] w-auto -translate-y-1/2 drop-shadow-lg md:block"
+              className="pointer-events-none absolute right-0 top-[calc(50%_-_6px)] hidden h-[clamp(80px,10vw,112px)] w-auto -translate-y-1/2 drop-shadow-lg md:block"
             />
           </div>
 
-          <p className="font-sans text-[11px] uppercase tracking-[0.12em] text-[#0F3D54] border-t-2 border-[#0F3D54]/25 pt-3 max-w-2xl flex flex-wrap items-baseline justify-center md:justify-between gap-x-6 gap-y-1">
+          <p className="font-sans text-[11px] uppercase tracking-[0.12em] text-[#0F3D54] border-t-2 border-[#0F3D54]/25 pt-3 flex flex-wrap items-baseline justify-center md:justify-between gap-x-6 gap-y-1">
             <span>Eliahu Cohen</span>
             <a href="tel:+972528901495" className="no-underline text-[#1E7BA8] hover:text-cm-crimson transition-colors">+972 52 8901495</a>
             <a href="mailto:hi@eliahu.co" className="no-underline text-[#1E7BA8] hover:text-cm-crimson transition-colors">hi@eliahu.co</a>
