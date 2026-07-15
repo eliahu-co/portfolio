@@ -739,9 +739,17 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
 it('renders Assumptions without decorative dash markers', () => {
   render(<MAHomeAssignmentPage />)
   const assumptions = document.getElementById('assumptions')!
+  const list = assumptions.querySelector('ul')!
   const items = Array.from(assumptions.querySelectorAll('li'))
 
-  expect(items).toHaveLength(6)
+  expect(items.map((item) => item.textContent?.trim())).toEqual([
+    'ARPDAU lift is the target outcome; engagement and consumption signals matter only if they convert to revenue.',
+    'ARPDAU lift should not come at the expense of long-term demand, core-loop health, player trust or the wider game economy.',
+    'New features should extend familiar mechanics rather than replace the core-loop.',
+    'Existing systems support LiveOps, segmentation and controlled testing.',
+    'I had no access to internal data, so scores, balance values and numeric targets are directional, and this analysis reflects the game version I accessed.',
+  ])
+  expect(list.className).toContain('gap-2.5')
   for (const item of items) {
     expect(item.querySelector('[aria-hidden="true"]')).toBeNull()
     expect(item.textContent?.trim().startsWith('—')).toBe(false)
