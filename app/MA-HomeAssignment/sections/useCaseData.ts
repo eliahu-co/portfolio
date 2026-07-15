@@ -37,7 +37,7 @@ export const USE_CASE_1: UseCaseData = {
 
   problem: {
     heading: 'Concept',
-    intro: 'Villages show progression, not ownership: completed items disappear once the player advances. Hometown gives them lasting utility through a familiar five-slot space that they can customize and gives friend visits a purpose. Building items costs Coins and rewards with a discount on the next Village build. Backdrops and item variants are unlocked through progression, LiveOps or purchase.',
+    intro: 'Friend visits currently display the friend’s active Village and offer no interaction. Villages show progression, not ownership: completed items disappear once the player advances. Hometown gives them lasting utility through a familiar five-slot space that they can customize and gives friend visits a purpose. Building items costs Coins and rewards with a discount on the next Village build. Backdrops and item variants are unlocked through progression, LiveOps or purchase.',
     body: 'Visitors can see the player’s Stars, Village level and Team, send the daily Gift and leave a reaction.',
     consequences: [],
   },

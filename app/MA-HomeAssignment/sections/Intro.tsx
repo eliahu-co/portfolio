@@ -17,7 +17,7 @@ export default function Intro() {
       <CoreLoopDiagram />
 
       <p className="font-sans pt-3 text-[14px] leading-relaxed text-charcoal">
-        I used official support pages, advanced gameplay, player communities and industry analysis to
+        I played the game and used official support pages, advanced gameplay, player communities and industry analysis to
         cover systems that I had not reached yet. I compared Coin Master with Monopoly GO! and Dice
         Dreams, then reviewed Royal Match and Whiteout Survival for transferable collection, guarantee,
         customization, social, PvP and LiveOps mechanics.

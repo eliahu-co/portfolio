@@ -2,7 +2,7 @@
 import { fireEvent, render } from '@testing-library/react'
 import MAHomeAssignmentPage, { metadata } from '@/app/MA-HomeAssignment/page'
 import * as DemoPage from '@/app/MA-HomeAssignment/demo/page'
-import { USE_CASE_2 } from '@/app/MA-HomeAssignment/sections/useCaseData'
+import { USE_CASE_1, USE_CASE_2 } from '@/app/MA-HomeAssignment/sections/useCaseData'
 
 global.IntersectionObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
@@ -59,7 +59,7 @@ it('matches the intro body size to the Concept copy', () => {
     node.textContent?.startsWith('Coin Master’s core')
   )!
   const concept = Array.from(document.querySelectorAll('#feature-1 p')).find((node) =>
-    node.textContent?.startsWith('Villages show progression')
+    node.textContent?.startsWith('Friend visits currently display')
   )!
 
   expect(concept.className).toContain('text-[14px]')
@@ -67,15 +67,24 @@ it('matches the intro body size to the Concept copy', () => {
   expect(intro.className).not.toContain('text-[15px]')
 })
 
+it('prepends the current friend-visit limitation to the Hometown concept', () => {
+  const previousIntro =
+    'Villages show progression, not ownership: completed items disappear once the player advances. Hometown gives them lasting utility through a familiar five-slot space that they can customize and gives friend visits a purpose. Building items costs Coins and rewards with a discount on the next Village build. Backdrops and item variants are unlocked through progression, LiveOps or purchase.'
+
+  expect(USE_CASE_1.problem.intro).toBe(
+    `Friend visits currently display the friend’s active Village and offer no interaction. ${previousIntro}`
+  )
+})
+
 it('renders the approved intro research copy', () => {
   render(<MAHomeAssignmentPage />)
   const intro = document.getElementById('hero')!
   const research = Array.from(intro.querySelectorAll('p')).find((node) =>
-    node.textContent?.startsWith('I used official support pages')
+    node.textContent?.startsWith('I played the game and used official support pages')
   )
 
   expect(research?.textContent).toBe(
-    'I used official support pages, advanced gameplay, player communities and industry analysis to cover systems that I had not reached yet. I compared Coin Master with Monopoly GO! and Dice Dreams, then reviewed Royal Match and Whiteout Survival for transferable collection, guarantee, customization, social, PvP and LiveOps mechanics.'
+    'I played the game and used official support pages, advanced gameplay, player communities and industry analysis to cover systems that I had not reached yet. I compared Coin Master with Monopoly GO! and Dice Dreams, then reviewed Royal Match and Whiteout Survival for transferable collection, guarantee, customization, social, PvP and LiveOps mechanics.'
   )
   expect(intro.textContent).not.toContain('Using this map, I looked for ARPDAU opportunities')
   expect(intro.textContent).not.toContain('I played Coin Master with a product lens')
