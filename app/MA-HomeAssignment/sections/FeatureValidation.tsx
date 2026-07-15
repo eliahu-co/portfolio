@@ -82,9 +82,9 @@ const METRIC_GROUPS: ValidationGroup[] = [
 ]
 
 const ROLE_CLASSES: Record<MetricRole, string> = {
-  Monetization: 'border-cm-wood/50 bg-cm-gold/15 text-cm-wood',
-  Economy: 'border-[#0F3D54]/40 bg-cm-sky/20 text-[#0F3D54]',
-  'Feature funnel': 'border-cm-violet-deep/30 bg-cm-violet-deep/10 text-cm-violet-deep',
+  Monetization: 'border-cm-wood/30 bg-cm-gold/10 text-cm-wood/80',
+  Economy: 'border-[#0F3D54]/25 bg-cm-sky/10 text-[#0F3D54]/80',
+  'Feature funnel': 'border-cm-violet-deep/20 bg-cm-violet-deep/5 text-cm-violet-deep/80',
 }
 
 const FUNNEL_NOTE = 'The funnel is coherent: 30% × 65% ≈ 20% activation. The completion range ensures the guarantee provides value without becoming too easy.'
