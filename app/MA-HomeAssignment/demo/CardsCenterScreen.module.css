@@ -73,7 +73,7 @@
 }
 
 .info,
-.header a {
+.closeDisplay {
   width: 42px;
   height: 42px;
   display: grid;
@@ -94,18 +94,17 @@
   text-shadow: 0 2px 0 #07506d;
 }
 
-.header a {
+.closeDisplay {
   color: #fff;
   background: linear-gradient(180deg, #f47a45, #c42e25);
 }
 
-.header a:focus-visible,
 .bountyButton:focus-visible {
   outline: 4px solid #fff;
   outline-offset: 3px;
 }
 
-.header a svg {
+.closeDisplay svg {
   width: 23px;
   height: 23px;
   fill: none;
@@ -144,7 +143,7 @@
   background: transparent;
   filter: drop-shadow(0 5px 4px rgba(0, 46, 48, .42));
   transform-origin: 50% 44%;
-  animation: bountyNudge 2.4s ease-in-out infinite;
+  animation: bountyNudge 1.4s ease-in-out infinite;
   cursor: pointer;
 }
 
@@ -152,12 +151,15 @@
   content: "";
   position: absolute;
   z-index: -1;
-  top: 5px;
-  left: 12px;
-  width: 74px;
-  height: 74px;
+  top: -10px;
+  left: -3px;
+  width: 104px;
+  height: 104px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 227, 77, .48), rgba(243, 132, 22, .16) 56%, transparent 72%);
+  background: radial-gradient(circle, rgba(200, 108, 255, .82), rgba(126, 52, 183, .46) 58%, rgba(200, 108, 255, .24) 72%, transparent 86%);
+  box-shadow:
+    0 0 0 5px rgba(200, 108, 255, .34),
+    0 0 24px 10px rgba(200, 108, 255, .62);
   transform-origin: center;
   animation: bountyGlow 1.8s ease-in-out infinite;
 }
@@ -475,7 +477,7 @@
   }
 
   .bountyButton {
-    filter: drop-shadow(0 5px 4px rgba(0, 46, 48, .42)) drop-shadow(0 0 8px rgba(255, 220, 70, .72));
+    filter: drop-shadow(0 5px 4px rgba(0, 46, 48, .42)) drop-shadow(0 0 8px rgba(200, 108, 255, .72));
   }
 
   .bountyButton img {

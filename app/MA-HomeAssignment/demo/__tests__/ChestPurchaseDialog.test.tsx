@@ -128,6 +128,7 @@ describe('ChestPurchaseDialog', () => {
 
     const increase = screen.getByRole('button', { name: 'Increase quantity' })
     expect(increase).toBeDisabled()
+    expect(increase).not.toHaveClass('secondaryAttention')
     fireEvent.click(increase)
     expect(onQuantity).not.toHaveBeenCalled()
   })
@@ -135,11 +136,16 @@ describe('ChestPurchaseDialog', () => {
   it('keeps triangular visuals inside full quantity-button hit targets', () => {
     render(<ChestPurchaseDialog {...dialogProps(purchaseState({ quantity: 10 }))} />)
 
+    const increase = screen.getByRole('button', { name: 'Increase quantity' })
+    const decrease = screen.getByRole('button', { name: 'Decrease quantity' })
+
+    expect(increase).toHaveClass('secondaryAttention')
+    expect(decrease).not.toHaveClass('secondaryAttention')
     expect(
-      within(screen.getByRole('button', { name: 'Increase quantity' })).getByTestId('quantity-triangle'),
+      within(increase).getByTestId('quantity-triangle'),
     ).toBeInTheDocument()
     expect(
-      within(screen.getByRole('button', { name: 'Decrease quantity' })).getByTestId('quantity-triangle'),
+      within(decrease).getByTestId('quantity-triangle'),
     ).toBeInTheDocument()
   })
 

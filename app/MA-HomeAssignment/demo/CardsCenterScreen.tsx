@@ -30,9 +30,9 @@ export default function CardsCenterScreen({
       <header className={styles.header}>
         <span className={styles.info} aria-hidden="true">i</span>
         <h1 data-cards-center-heading tabIndex={-1}>Cards Center</h1>
-        <a href="/MA-HomeAssignment#prototype" aria-label="Close Cards Center">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" /></svg>
-        </a>
+        <span className={styles.closeDisplay} aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17" /></svg>
+        </span>
       </header>
 
       <div className={styles.scrollBody}>

@@ -24,6 +24,20 @@ const readCssBlock = (source: string, rule: string) => {
 }
 
 describe('DemoShell presentation contract', () => {
+  it('uses a compact purple dot for desktop guidance', () => {
+    const css = readDemoSource('CardBountyPrototype.module.css')
+    const guidanceDot = readCssBlock(css, '.guidance > span')
+
+    expect(guidanceDot).toMatch(/width:\s*8px;/)
+    expect(guidanceDot).toMatch(/height:\s*8px;/)
+    expect(guidanceDot).toMatch(/background:\s*#c86cff;/)
+    expect(guidanceDot).toMatch(
+      /box-shadow:\s*0 0 0 4px rgba\(200, 108, 255, \.18\),\s*0 0 10px rgba\(200, 108, 255, \.62\);/,
+    )
+    expect(guidanceDot).toMatch(/animation:\s*guidePulse 1\.8s ease-in-out infinite;/)
+    expect(guidanceDot).not.toContain('#ef9f00')
+  })
+
   it('uses the polished desktop shell geometry without sky decoration', () => {
     const shell = readDemoSource('DemoShell.tsx')
     const css = readDemoSource('CardBountyPrototype.module.css')

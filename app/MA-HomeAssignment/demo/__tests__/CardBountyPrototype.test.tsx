@@ -32,6 +32,7 @@ describe('Card Bounty prototype happy path', () => {
     const confirmationDialog = screen.getByRole('dialog', { name: 'Confirm Target' })
     expect(confirmationDialog).toHaveAttribute('data-size', 'compact')
     expect(confirmationDialog).toContainElement(document.activeElement as HTMLElement)
+    expect(within(confirmationDialog).queryByText(/Regular\s*·\s*Tradable/i)).not.toBeInTheDocument()
 
     const selectTarget = screen.getByRole('button', { name: 'Select target' })
     expect(selectTarget).toHaveClass('attention')

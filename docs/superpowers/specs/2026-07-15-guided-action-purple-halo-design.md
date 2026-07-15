@@ -1,0 +1,46 @@
+# Guided Action Purple Halo Design
+
+## Goal
+
+Make every next player action in the Card Bounty demo unmistakable without changing the flow, controls, copy, or individual component layouts.
+
+## Current problem
+
+The shared `attention` class currently animates a yellow 7px `drop-shadow`. A drop shadow is composited behind each opaque button or card, is fully transparent at both ends of its 1.75-second cycle, and competes with the prototype's gold borders and warm parchment. The class creates an isolated stacking context but does not raise it above nearby siblings.
+
+## Purple raised halo
+
+Keep the existing shared class on all eight guided actions and change only `GuidedAction.module.css`:
+
+- Raise the guided control with `position: relative` and `z-index: 3`.
+- Keep a small control lift, increased to `translateY(-3px) scale(1.025)` at the pulse peak.
+- Replace the animated yellow filter with a pointer-transparent `::after` halo painted above the control surface.
+- Extend the halo 4px beyond the control with a 4px `#c86cff` purple ring.
+- Add a dark-purple separation ring and a dense purple glow that peaks at a 14px blur with 5px spread. Reserve paint gutters in modal and reward containers so the ring and button lift remain fully visible instead of being clipped by their scrollports.
+- Use a 1.4-second cycle so the cue is persistent without becoming continuous vibration.
+- Preserve each control's native box shadow, hover brightness, and focus-visible outline because the shared effect no longer animates `filter` or the control's own `box-shadow`.
+
+The pseudo-element inherits each control's border radius and has no background, so it highlights green buttons, target cards, and chest options without covering their contents.
+
+## Supporting purple cues
+
+Use the same purple guidance palette for the two supporting cues that sit outside the shared next-action class:
+
+- Replace the Card Bounty LiveOps badge's yellow/orange radial glow with a purple radial glow while preserving its existing 1.4-second shake cadence.
+- Replace the desktop instruction dot's orange fill and ring with a purple dot and glow. Because the dot mirrors the current in-prototype action, the treatment applies to every guidance message rather than only the first step.
+
+On the Magical Chest quantity screen, the primary action remains the strongly highlighted **Confirm purchase** button. Add a secondary purple halo to the enabled **Increase quantity** button so the player understands that the batch size can be adjusted before confirming. The secondary cue uses a thinner ring, smaller glow, slower pulse, and no control lift so it remains visibly subordinate to the primary action. Do not highlight the decrease control, and suppress the secondary cue whenever increase is disabled at the affordable maximum.
+
+## Motion accessibility
+
+Under `prefers-reduced-motion: reduce`, disable all guidance animations and transforms. Keep the strong next-action halo, supporting badge glow, purple instruction dot, and secondary quantity cue visible as static treatments so the hierarchy remains clear without motion.
+
+## Verification
+
+- Add a CSS contract test for the raised stacking context, exact purple ring geometry, halo animation, and reduced-motion treatment.
+- Assert the shared stylesheet no longer contains the old yellow attention color or an animated filter.
+- Contract-test the purple LiveOps glow and purple instruction dot so neither can regress to yellow/orange.
+- Assert that the enabled Increase quantity button receives the secondary attention class, while a disabled increase control does not.
+- Retain the happy-path assertions proving the `attention` class moves through all eight guided actions.
+- Run the focused guided-action test, the complete Jest suite, and the production build.
+- Inspect representative guided controls on desktop and mobile: Choose a Card, Whale Boat, Magical Chest, Confirm Purchase, Continue, Add to Collection, and Collect Spins.

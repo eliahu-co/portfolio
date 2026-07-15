@@ -60,7 +60,6 @@ export function TargetConfirmation({
       <div className={styles.confirmationCardWrap}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={target.image} alt={`${target.name} Card`} className={styles.confirmationCard} />
-        <span className={styles.eligibilityTag}>Regular &middot; Tradable</span>
       </div>
       <div className={styles.confirmationCopy}>
         <h3>{target.name}</h3>
