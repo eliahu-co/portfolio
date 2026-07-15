@@ -1,8 +1,26 @@
 {
-  "10-fast-ener.mp4": {
+  "30-fastener.mp4": {
     "title": "FAST-ener",
     "year": "2024",
     "description": "Web-based fastener selection tool for light-gauge steel connections. Based on IBC / AISI S100 · ASTM C955",
     "link": "https://fast-ener.vercel.app/"
+  },
+  "20-drawinganalyzer.mp4": {
+    "title": "Change Validation",
+    "year": "2026",
+    "description": "AI software to facilitate QC by interpreting and categorizing changes.",
+    "link": ""
+  },
+  "10-test44.mp4": {
+    "title": "Test44",
+    "year": "2025",
+    "description": "Engineering-rule validation engine for pre-fab panels.",
+    "link": ""
+  },
+  "40-studio.mp4": {
+    "title": "Key Measurements",
+    "year": "2025",
+    "description": "Real Estate Estimators tool for generating BOMs.",
+    "link": ""
   }
 }
