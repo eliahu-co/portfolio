@@ -121,18 +121,17 @@ function SuccessMetricsTable() {
           <tbody
             key={group.title}
             data-metric-group={group.title}
-            className={isNorthStar ? 'animate-shimmer border-l-4 border-[#C77F14] motion-reduce:animate-none' : ''}
+            className={isNorthStar ? 'animate-shimmer motion-reduce:animate-none' : ''}
             style={isNorthStar ? {
-              backgroundImage: 'linear-gradient(110deg, #FFC93C 0%, #FFC93C 40%, #FFE99A 50%, #FFC93C 60%, #FFC93C 100%)',
+              backgroundImage: 'linear-gradient(90deg, rgba(245,168,0,0.08) 0%, rgba(245,168,0,0.28) 50%, rgba(245,168,0,0.08) 100%)',
               backgroundSize: '200% 100%',
-              borderLeft: '4px solid #C77F14',
             } : undefined}
           >
             <tr>
               <th
                 colSpan={2}
                 scope="rowgroup"
-                className={`text-left ${isNorthStar ? 'px-3 pb-1 pt-3' : 'pb-2 pt-6'}`}
+                className={`text-left ${isNorthStar ? 'pb-1 pt-3' : 'pb-2 pt-6'}`}
               >
                 <h3 className="group relative inline-flex items-center gap-1.5 font-sans text-[11px] font-bold uppercase tracking-[0.1em] text-cm-violet-deep">
                   <span>{group.title}</span>
@@ -160,10 +159,10 @@ function SuccessMetricsTable() {
             </tr>
             {group.metrics.map(({ metric, target }) => (
               <tr key={metric} data-metric-row className="border-b border-charcoal/15 last:border-b-0">
-                <td className={`py-2.5 pr-4 align-top font-sans text-[13px] font-medium leading-relaxed text-cm-violet-deep ${isNorthStar ? 'pl-3' : ''}`}>
+                <td className="py-2.5 pr-4 align-top font-sans text-[13px] font-medium leading-relaxed text-cm-violet-deep">
                   {metric}
                 </td>
-                <td className={`py-2.5 pl-3 align-top font-sans text-[13px] leading-relaxed ${isNorthStar ? 'font-medium text-cm-crimson' : 'text-charcoal'}`}>
+                <td className={`py-2.5 pl-3 align-top font-sans text-[13px] leading-relaxed text-charcoal ${isNorthStar ? 'font-medium' : ''}`}>
                   {target}
                 </td>
               </tr>

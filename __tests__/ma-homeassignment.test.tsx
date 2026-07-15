@@ -336,11 +336,17 @@ it('renders success metrics as one grouped table with contextual funnel help', (
   expect(table.className).not.toContain('min-w-')
   expect(table.parentElement?.className).not.toContain('overflow-x-auto')
   expect(table.querySelector('thead tr')?.className).toContain('border-cm-wood')
-  expect(groups[0].className).toContain('border-l-4')
+  const northStarTarget = groups[0].querySelector('tr[data-metric-row] td:last-child')!
+
+  expect(groups[0].className).not.toContain('border-l-4')
   expect(groups[0].className).toContain('animate-shimmer')
   expect(groups[0].className).toContain('motion-reduce:animate-none')
-  expect(groups[0].className).toContain('border-[#C77F14]')
-  expect(groups[0].getAttribute('style')).toContain('#FFC93C')
+  expect(groups[0].className).not.toContain('border-[#C77F14]')
+  expect(groups[0].getAttribute('style')).toContain(
+    'linear-gradient(90deg, rgba(245,168,0,0.08) 0%, rgba(245,168,0,0.28) 50%, rgba(245,168,0,0.08) 100%)'
+  )
+  expect(northStarTarget.className).toContain('text-charcoal')
+  expect(northStarTarget.className).not.toContain('text-cm-crimson')
   expect(infoButtons).toHaveLength(1)
   expect(infoButtons[0].getAttribute('aria-label')).toBe('About Feature funnel')
   expect(infoButtons[0].getAttribute('aria-describedby')).toBe(tooltip.id)
