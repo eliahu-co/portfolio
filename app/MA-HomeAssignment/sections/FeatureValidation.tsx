@@ -103,7 +103,7 @@ type TooltipKey =
   | 'post-event-revenue'
 
 const TOOLTIP_NOTES: Record<TooltipKey, string> = {
-  'test-methodology': 'Event duration and measurement windows would be finalized using internal baselines, eligible population and comparable LiveOps performance.',
+  'test-methodology': 'Event duration, post-event measurement window and target numbers (currently directional) would be calibrated using internal data and comparable LiveOps events.',
   'feature-funnel': 'Ensures the guarantee provides value without becoming too easy.',
   'arppu-payer-tier': 'Shows whether revenue lift comes from deeper payer spend and which tiers drive it.',
   'collections-completed': 'Detects excessive acceleration of Collection completion and reward release.',
