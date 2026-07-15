@@ -178,7 +178,7 @@ it('exposes scoring definitions through accessible table-header tooltips', () =>
   const scoringMethod = calculationSummary.parentElement!
   const headers = Array.from(section.querySelectorAll('[data-criterion-header]'))
   const infoButtons = Array.from(section.querySelectorAll('button[aria-describedby]'))
-  const tooltips = Array.from(document.body.querySelectorAll('[role="tooltip"]'))
+  const tooltips = Array.from(document.body.querySelectorAll('[id^="criterion-"][role="tooltip"]'))
   const tableScroller = section.querySelector('.overflow-x-auto')!
 
   expect(formula.className).toContain('font-sans')
@@ -264,7 +264,7 @@ it('renders the approved MVP intro and scope copy', () => {
   expect(section.textContent).not.toContain('Purchasing meter progress or the guaranteed Card directly.')
 })
 
-it('renders success metrics as four editorial metric groups', () => {
+it('renders success metrics as one grouped table with contextual funnel help', () => {
   const expectedGroups = [
     {
       title: 'North Star',
@@ -303,42 +303,53 @@ it('renders success metrics as four editorial metric groups', () => {
     (node) => node.textContent === 'Success metrics'
   )!
   const metrics = heading.parentElement!
-  const groups = Array.from(metrics.querySelectorAll('[data-metric-group]'))
+  const tables = Array.from(metrics.querySelectorAll('table'))
+  const table = tables[0]
+  const groups = Array.from(metrics.querySelectorAll('tbody[data-metric-group]'))
   const introduction = Array.from(metrics.querySelectorAll('p')).find((node) =>
     node.textContent?.startsWith('Eligible players')
   )!
-  const funnelNote = Array.from(metrics.querySelectorAll('p')).find((node) =>
-    node.textContent?.startsWith('The funnel is coherent')
-  )!
+  const tooltip = metrics.querySelector('[role="tooltip"]')!
+  const infoButtons = Array.from(metrics.querySelectorAll('button[aria-describedby]'))
 
   expect(introduction.textContent).toBe(
     'Eligible players have the Cards Center unlocked and at least one targetable missing Card. Event metrics use eligible players active each day; post event guardrails use the full eligible group. All results compare treatment with control.'
   )
+  expect(tables).toHaveLength(1)
+  expect(table.querySelectorAll('thead')).toHaveLength(1)
+  expect(Array.from(table.querySelectorAll('thead th')).map((cell) => cell.textContent?.trim())).toEqual([
+    'Metric',
+    'Proposed target',
+  ])
   expect(groups).toHaveLength(4)
   expectedGroups.forEach(({ title, rows }, index) => {
     const group = groups[index]
-    const table = group.querySelector('table')!
-    const headers = Array.from(table.querySelectorAll('th')).map((cell) => cell.textContent?.trim())
-    const renderedRows = Array.from(table.querySelectorAll('tbody tr')).map((row) =>
+    const renderedRows = Array.from(group.querySelectorAll('tr[data-metric-row]')).map((row) =>
       Array.from(row.querySelectorAll('td')).map((cell) => cell.textContent?.trim())
     )
 
     expect(group.getAttribute('data-metric-group')).toBe(title)
-    expect(group.querySelector('h3')?.textContent).toBe(title)
-    expect(headers).toEqual(['Metric', 'Proposed target'])
+    expect(group.querySelector('h3 > span')?.textContent).toBe(title)
     expect(renderedRows).toEqual(rows)
-    expect(table.className).not.toContain('min-w-')
-    expect(table.parentElement?.className).not.toContain('overflow-x-auto')
-    expect(table.querySelector('thead tr')?.className).toContain('border-cm-wood')
-    expect(table.querySelector('tbody tr')?.className).toContain('border-charcoal/15')
+    expect(group.querySelector('tr[data-metric-row]')?.className).toContain('border-charcoal/15')
   })
+  expect(table.className).not.toContain('min-w-')
+  expect(table.parentElement?.className).not.toContain('overflow-x-auto')
+  expect(table.querySelector('thead tr')?.className).toContain('border-cm-wood')
   expect(groups[0].className).toContain('border-l-4')
-  expect(groups[0].className).toContain('bg-cm-gold')
-  expect(funnelNote.textContent).toBe(
+  expect(groups[0].className).toContain('animate-shimmer')
+  expect(groups[0].className).toContain('motion-reduce:animate-none')
+  expect(groups[0].className).toContain('border-[#C77F14]')
+  expect(groups[0].getAttribute('style')).toContain('#FFC93C')
+  expect(infoButtons).toHaveLength(1)
+  expect(infoButtons[0].getAttribute('aria-label')).toBe('About Feature funnel')
+  expect(infoButtons[0].getAttribute('aria-describedby')).toBe(tooltip.id)
+  expect(tooltip.textContent).toBe(
     'The funnel is coherent: 30% × 65% ≈ 20% activation. The completion range ensures the guarantee provides value without becoming too easy.'
   )
-  expect(funnelNote.className).toContain('border-l-4')
-  expect(funnelNote.className).toContain('border-cm-gold')
+  expect(tooltip.className).toContain('group-hover:visible')
+  expect(tooltip.className).toContain('group-focus-within:visible')
+  expect(metrics.querySelectorAll('p.mt-3.border-l-4')).toHaveLength(0)
   expect(metrics.textContent).not.toContain('Role')
   expect(metrics.querySelectorAll('span.rounded-full')).toHaveLength(0)
 })

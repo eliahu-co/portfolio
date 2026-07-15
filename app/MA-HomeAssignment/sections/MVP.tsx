@@ -100,33 +100,67 @@ function List({
   )
 }
 
-function MetricGroupTable({ group }: { group: MetricGroup }) {
-  const isNorthStar = group.emphasis === 'north-star'
-
+function SuccessMetricsTable() {
   return (
-    <div
-      data-metric-group={group.title}
-      className={isNorthStar ? 'rounded-r-lg border-l-4 border-cm-gold bg-cm-gold/10 py-3 pl-4 pr-3' : ''}
-    >
-      <h3 className="mb-2.5 font-sans text-[11px] font-bold uppercase tracking-[0.1em] text-cm-violet-deep">
-        {group.title}
-      </h3>
-      <div>
-        <table className="w-full table-fixed border-collapse text-left">
-          <thead>
-            <tr className="border-b-2 border-cm-wood">
-              <th className="w-[44%] py-2 pr-4 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 sm:w-[42%]">
-                Metric
-              </th>
-              <th className="py-2 pl-3 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">
-                Proposed target
+    <table className="w-full table-fixed border-collapse text-left">
+      <thead>
+        <tr className="border-b-2 border-cm-wood">
+          <th className="w-[44%] py-2 pr-4 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 sm:w-[42%]">
+            Metric
+          </th>
+          <th className="py-2 pl-3 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">
+            Proposed target
+          </th>
+        </tr>
+      </thead>
+      {METRIC_GROUPS.map((group) => {
+        const isNorthStar = group.emphasis === 'north-star'
+        const tooltipId = group.note ? 'feature-funnel-tooltip' : undefined
+
+        return (
+          <tbody
+            key={group.title}
+            data-metric-group={group.title}
+            className={isNorthStar ? 'animate-shimmer border-l-4 border-[#C77F14] motion-reduce:animate-none' : ''}
+            style={isNorthStar ? {
+              backgroundImage: 'linear-gradient(110deg, #FFC93C 0%, #FFC93C 40%, #FFE99A 50%, #FFC93C 60%, #FFC93C 100%)',
+              backgroundSize: '200% 100%',
+              borderLeft: '4px solid #C77F14',
+            } : undefined}
+          >
+            <tr>
+              <th
+                colSpan={2}
+                scope="rowgroup"
+                className={`text-left ${isNorthStar ? 'px-3 pb-1 pt-3' : 'pb-2 pt-6'}`}
+              >
+                <h3 className="group relative inline-flex items-center gap-1.5 font-sans text-[11px] font-bold uppercase tracking-[0.1em] text-cm-violet-deep">
+                  <span>{group.title}</span>
+                  {group.note && tooltipId && (
+                    <>
+                      <button
+                        type="button"
+                        aria-label={`About ${group.title}`}
+                        aria-describedby={tooltipId}
+                        className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full border border-cm-wood/60 bg-cm-cream font-sans text-[8px] font-bold normal-case tracking-normal text-cm-wood outline-none transition-colors hover:border-cm-crimson hover:text-cm-crimson focus-visible:ring-2 focus-visible:ring-cm-gold focus-visible:ring-offset-1"
+                      >
+                        i
+                      </button>
+                      <span
+                        id={tooltipId}
+                        role="tooltip"
+                        className="pointer-events-none invisible absolute left-0 top-full z-30 mt-2 w-[min(18rem,calc(100vw-2rem))] rounded-lg border border-cm-wood/35 bg-cm-cream p-3 text-left font-sans text-[11px] font-normal normal-case leading-relaxed tracking-normal text-charcoal/80 opacity-0 shadow-[0_10px_24px_rgba(42,27,84,0.18)] transition-[opacity,visibility] duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
+                      >
+                        {group.note}
+                      </span>
+                    </>
+                  )}
+                </h3>
               </th>
             </tr>
-          </thead>
-          <tbody>
             {group.metrics.map(({ metric, target }) => (
-              <tr key={metric} className="border-b border-charcoal/15 last:border-b-0">
-                <td className="py-2.5 pr-4 align-top font-sans text-[13px] font-medium leading-relaxed text-cm-violet-deep">
+              <tr key={metric} data-metric-row className="border-b border-charcoal/15 last:border-b-0">
+                <td className={`py-2.5 pr-4 align-top font-sans text-[13px] font-medium leading-relaxed text-cm-violet-deep ${isNorthStar ? 'pl-3' : ''}`}>
                   {metric}
                 </td>
                 <td className={`py-2.5 pl-3 align-top font-sans text-[13px] leading-relaxed ${isNorthStar ? 'font-medium text-cm-crimson' : 'text-charcoal'}`}>
@@ -135,14 +169,9 @@ function MetricGroupTable({ group }: { group: MetricGroup }) {
               </tr>
             ))}
           </tbody>
-        </table>
-      </div>
-      {group.note && (
-        <p className="mt-3 max-w-2xl border-l-4 border-cm-gold pl-3 font-sans text-[12px] leading-relaxed text-charcoal/75">
-          {group.note}
-        </p>
-      )}
-    </div>
+        )
+      })}
+    </table>
   )
 }
 
@@ -177,10 +206,8 @@ export default function MVP() {
           metrics use eligible players active each day; post event guardrails use the full eligible group. All
           results compare treatment with control.
         </p>
-        <div className="grid gap-6">
-          {METRIC_GROUPS.map((group) => (
-            <MetricGroupTable key={group.title} group={group} />
-          ))}
+        <div>
+          <SuccessMetricsTable />
         </div>
       </div>
     </Section>
