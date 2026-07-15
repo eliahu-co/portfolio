@@ -362,14 +362,26 @@ it('renders success metrics as one grouped table with contextual funnel help', (
   })
   expect(table.className).not.toContain('min-w-')
   expect(table.parentElement?.className).not.toContain('overflow-x-auto')
-  expect(table.querySelector('thead tr')?.className).toContain('border-cm-wood')
-  const northStarTarget = groups[0].querySelector('tr[data-metric-row] td:last-child')!
+  const tableHeaderRow = table.querySelector('thead tr')!
+  const groupHeaderRows = groups.map((group) => group.querySelector('tr')!)
+  const northStarRow = groups[0].querySelector('tr[data-metric-row]')!
+  const northStarTarget = northStarRow.querySelector('td:last-child')!
 
+  expect(tableHeaderRow.className).not.toContain('border-b-2')
+  expect(tableHeaderRow.className).not.toContain('border-cm-wood')
+  expect(groupHeaderRows[0].className).toContain('border-b-2')
+  expect(groupHeaderRows[0].className).toContain('border-cm-wood')
+  groupHeaderRows.slice(1).forEach((row) => {
+    expect(row.className).toContain('border-b-2')
+    expect(row.className).toContain('border-charcoal/25')
+  })
   expect(groups[0].className).not.toContain('border-l-4')
-  expect(groups[0].className).toContain('animate-shimmer')
-  expect(groups[0].className).toContain('motion-reduce:animate-none')
+  expect(groups[0].className).not.toContain('animate-shimmer')
   expect(groups[0].className).not.toContain('border-[#C77F14]')
-  expect(groups[0].getAttribute('style')).toContain(
+  expect(groups[0].getAttribute('style')).toBeNull()
+  expect(northStarRow.className).toContain('animate-shimmer')
+  expect(northStarRow.className).toContain('motion-reduce:animate-none')
+  expect(northStarRow.getAttribute('style')).toContain(
     'linear-gradient(90deg, rgba(245,168,0,0.08) 0%, rgba(245,168,0,0.28) 50%, rgba(245,168,0,0.08) 100%)'
   )
   expect(northStarTarget.className).toContain('text-charcoal')
