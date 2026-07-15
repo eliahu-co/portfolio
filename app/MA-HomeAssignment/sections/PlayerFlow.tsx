@@ -108,10 +108,12 @@ function Plaque({ children }: { children: ReactNode }) {
 function Pill({
   title,
   action,
+  actionItalic = false,
   tone = 'screen',
 }: {
   title: string
   action?: string
+  actionItalic?: boolean
   tone?: 'screen' | 'highlight' | 'outcome'
 }) {
   const skin =
@@ -123,7 +125,7 @@ function Pill({
   return (
     <div className={`w-full rounded-lg border px-2.5 py-1 text-center ${skin}`}>
       <p className="font-sans text-[11px] font-extrabold leading-tight">{title}</p>
-      {action && <p className="font-sans text-[9px] font-normal leading-snug opacity-70 mt-0.5">{action}</p>}
+      {action && <p className={`font-sans text-[9px] font-normal leading-snug opacity-70 mt-0.5 ${actionItalic ? 'italic' : ''}`}>{action}</p>}
     </div>
   )
 }
@@ -172,7 +174,7 @@ export default function PlayerFlow() {
         </Phase>
         <PhaseArrow />
         <Phase label="Progress">
-          <Pill title="Active Card Bounty" action="Open a Coin-purchased Chest" />
+          <Pill title="Bounty Progress" action="Buy a Chest with Coins" actionItalic tone="highlight" />
           <ArrowDown />
           <Pill title="Chest Results" action="Reveal contents and update meter" />
         </Phase>
@@ -212,7 +214,7 @@ export default function PlayerFlow() {
                 <div className="flex flex-col items-center">
                   <BranchLabel>No</BranchLabel>
                   <ArrowDown dashed />
-                  <ReturnNote>Return to Active Bounty</ReturnNote>
+                  <ReturnNote>Return to Bounty Progress</ReturnNote>
                 </div>
               </div>
             </div>

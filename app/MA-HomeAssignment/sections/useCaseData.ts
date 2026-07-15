@@ -9,7 +9,7 @@ export const USE_CASE_1: UseCaseData = {
   title:   'Hometown',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature1.png',
-  monetizationStrategy: 'New spend surface',
+  monetizationStrategy: 'New spend surface.\nTargets high-progression, socially engaged players.',
   metrics: {
     primary: 'ARPDAU',
     supporting: [
@@ -38,8 +38,8 @@ export const USE_CASE_1: UseCaseData = {
 
   problem: {
     heading: 'Concept',
-    intro: 'Friend visits currently display the friend’s active Village and offer no interaction. Villages show progression, not ownership: completed items disappear once the player advances. Hometown gives them lasting utility through a familiar five-slot space that they can customize and gives friend visits a purpose. Building items costs Coins and rewards with a discount on the next Village build. Backdrops and item variants are unlocked through progression, LiveOps or purchase.',
-    body: 'Visitors can see the player’s Stars, Village level and Team, send the daily Gift and leave a reaction.',
+    intro: 'Friend visits currently display the friend’s active Village and offer no interaction. Villages show progression, not ownership: completed items disappear once the player advances.',
+    body: 'Hometown gives them lasting utility through a familiar five-slot space that they can customize and gives friend visits a purpose. Building items costs Coins and rewards with a discount on the next Village build. Backdrops and item variants are unlocked through progression, LiveOps or purchase. Visitors can see the player’s Stars, Village level and Team, send the daily Gift and leave a reaction.',
     consequences: [],
   },
 
@@ -212,7 +212,7 @@ export const USE_CASE_3: UseCaseData = {
   title:   'Hot Trail',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature3.png',
-  monetizationStrategy: 'Purchase frequency through re-engagement.',
+  monetizationStrategy: 'Purchase frequency through re-engagement.\nAdditional return sessions increase exposure to existing Spin offers.',
   metrics: {
     primary: 'ARPDAU',
     supporting: [

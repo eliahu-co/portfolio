@@ -111,9 +111,10 @@ export default function Prioritization() {
         <div className="flex flex-col gap-3">
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
             Card Bounty ranks first (33): it builds on existing Chest and Collection behavior, drives
-            additional Coin spend and can be validated through a contained LiveOps event. Its main risk
-            is making the guarantee too attainable, which could accelerate Collection completion and
-            weaken future Chest demand.
+            additional Coin spend and can be validated through a contained LiveOps event. If successful,
+            it becomes a repeatable event framework that can be tuned by Card rarity, player segment and
+            duration. Its main risk is making the guarantee too attainable, which could accelerate
+            Collection completion and weaken future Chest demand.
           </p>
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
             Hot Trail ranks second (20): it fits the existing Raid loop but may motivate competitive
@@ -180,8 +181,10 @@ export default function Prioritization() {
                 style={row.winner ? { backgroundImage: 'linear-gradient(90deg, rgba(245,168,0,0.08) 0%, rgba(245,168,0,0.28) 50%, rgba(245,168,0,0.08) 100%)', backgroundSize: '200% 100%' } : undefined}
               >
                 <td className={`font-sans text-[13px] py-3 pr-4 ${row.winner ? 'text-black font-medium' : 'text-charcoal'}`}>
-                  {medal && <span className="mr-1.5" aria-hidden="true">{medal}</span>}
-                  {row.useCase}
+                  <span data-prioritization-feature className="inline-flex items-center whitespace-nowrap">
+                    {medal && <span className="mr-1.5" aria-hidden="true">{medal}</span>}
+                    {row.useCase}
+                  </span>
                 </td>
                 {row.scores.map((s, i) => (
                   <td key={i} className="font-sans text-[13px] text-charcoal/70 py-3 px-3 text-center">{s}</td>

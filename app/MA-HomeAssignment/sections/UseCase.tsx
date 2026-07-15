@@ -91,18 +91,18 @@ export interface UseCaseData {
 
 /* ─── generic helpers ─────────────────────────────────────────────────────── */
 
-function BlockLabel({ children }: { children: ReactNode }) {
+function BlockLabel({ children, margin = 'mb-3' }: { children: ReactNode; margin?: 'mb-1' | 'mb-3' }) {
   return (
-    <p className="font-sans text-[10px] font-extrabold uppercase tracking-[0.14em] text-black mb-3">
+    <p className={`font-sans text-[10px] font-extrabold uppercase tracking-[0.14em] text-black ${margin}`}>
       {children}
     </p>
   )
 }
 
-function Block({ label, children }: { label: string; children: ReactNode }) {
+function Block({ label, children, labelMargin = 'mb-3' }: { label: string; children: ReactNode; labelMargin?: 'mb-1' | 'mb-3' }) {
   return (
     <div className="mb-6">
-      <BlockLabel>{label}</BlockLabel>
+      <BlockLabel margin={labelMargin}>{label}</BlockLabel>
       {children}
     </div>
   )
@@ -272,9 +272,17 @@ export function CardList({
 
 // Strategy copy uses the same body styling as Concept.
 function MonetizationStrategy({ strategy }: { strategy: string }) {
+  const lines = strategy.split('\n')
+
   return (
     <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-      {strategy}
+      {lines.length > 1
+        ? lines.map((line, index) => (
+            <span key={line} data-strategy-line className="block md:whitespace-nowrap">
+              {line}{index < lines.length - 1 ? '\n' : null}
+            </span>
+          ))
+        : strategy}
     </p>
   )
 }
@@ -473,7 +481,10 @@ export default function UseCase({ data }: { data: UseCaseData }) {
   const opp = data.opportunity
 
   const problemSection = (
-    <Block label={data.problem.heading ?? 'Opportunity'}>
+    <Block
+      label={data.problem.heading ?? 'Opportunity'}
+      labelMargin={data.problem.heading === 'Concept' ? 'mb-1' : 'mb-3'}
+    >
       <Para>{data.problem.intro}</Para>
       {data.problem.examples && data.problem.examples.length > 0 && (
         <>
@@ -494,19 +505,19 @@ export default function UseCase({ data }: { data: UseCaseData }) {
 
   const conceptHead = (
     <>
-      <BlockLabel>Concept</BlockLabel>
+      <BlockLabel margin="mb-1">Concept</BlockLabel>
       <OpportunityText opp={opp} />
     </>
   )
 
   const strategyBlock = data.monetizationStrategy ? (
-    <Block label="Monetization Strategy">
+    <Block label="Monetization Strategy" labelMargin="mb-1">
       <MonetizationStrategy strategy={data.monetizationStrategy} />
     </Block>
   ) : null
 
   const metricsBlock = data.metrics ? (
-    <Block label="Metrics">
+    <Block label="Metrics" labelMargin="mb-1">
       <MetricsList metrics={data.metrics} />
     </Block>
   ) : data.arpdauMechanism ? (

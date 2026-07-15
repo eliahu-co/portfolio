@@ -14,7 +14,7 @@ it('renders every side-nav section anchor', () => {
   render(<MAHomeAssignmentPage />)
   const ids = [
     'hero', 'feature-1', 'feature-2', 'feature-3',
-    'prioritization', 'mvp', 'prototype', 'assumptions',
+    'prioritization', 'mvp', 'prototype', 'validation', 'assumptions',
   ]
   for (const id of ids) {
     expect(document.getElementById(id)).toBeInTheDocument()
@@ -29,8 +29,8 @@ it('renders the Coin Master hero banner', () => {
   // chunky display font applied to the title
   const h1 = band.querySelector('h1')!
   expect(h1.className).toContain('text-cm-violet-deep')
-  const desktopLogo = band.querySelector('img[data-hero-logo="desktop"]')!
-  const mobileLogo = band.querySelector('img[data-hero-logo="mobile"]')!
+  const desktopLogo = band.querySelector<HTMLImageElement>('img[data-hero-logo="desktop"]')!
+  const mobileLogo = band.querySelector<HTMLImageElement>('img[data-hero-logo="mobile"]')!
   const titleRow = h1.parentElement!
   expect(titleRow.dataset.heroTitleRow).toBe('true')
   expect(titleRow).toContainElement(desktopLogo)
@@ -67,13 +67,21 @@ it('matches the intro body size to the Concept copy', () => {
   expect(intro.className).not.toContain('text-[15px]')
 })
 
-it('prepends the current friend-visit limitation to the Hometown concept', () => {
-  const previousIntro =
-    'Villages show progression, not ownership: completed items disappear once the player advances. Hometown gives them lasting utility through a familiar five-slot space that they can customize and gives friend visits a purpose. Building items costs Coins and rewards with a discount on the next Village build. Backdrops and item variants are unlocked through progression, LiveOps or purchase.'
+it('separates the Hometown problem from the proposed concept', () => {
+  const problem = 'Friend visits currently display the friend’s active Village and offer no interaction. Villages show progression, not ownership: completed items disappear once the player advances.'
+  const concept = 'Hometown gives them lasting utility through a familiar five-slot space that they can customize and gives friend visits a purpose. Building items costs Coins and rewards with a discount on the next Village build. Backdrops and item variants are unlocked through progression, LiveOps or purchase. Visitors can see the player’s Stars, Village level and Team, send the daily Gift and leave a reaction.'
 
-  expect(USE_CASE_1.problem.intro).toBe(
-    `Friend visits currently display the friend’s active Village and offer no interaction. ${previousIntro}`
-  )
+  expect(USE_CASE_1.problem.intro).toBe(problem)
+  expect(USE_CASE_1.problem.body).toBe(concept)
+
+  render(<MAHomeAssignmentPage />)
+  const feature = document.getElementById('feature-1')!
+  const conceptLabel = Array.from(feature.querySelectorAll('p')).find((node) => node.textContent === 'Concept')!
+  expect(Array.from(conceptLabel.parentElement!.querySelectorAll('p')).map((node) => node.textContent)).toEqual([
+    'Concept',
+    problem,
+    concept,
+  ])
 })
 
 it('renders the approved intro research copy', () => {
@@ -90,15 +98,25 @@ it('renders the approved intro research copy', () => {
   expect(intro.textContent).not.toContain('I played Coin Master with a product lens')
 })
 
-it('renders the approved intro framing copy at the full content width', () => {
+it('renders the approved linked exploration and framing copy at the full content width', () => {
   render(<MAHomeAssignmentPage />)
   const intro = document.getElementById('hero')!
-  const framing = Array.from(intro.querySelectorAll('p')).find((node) =>
-    node.textContent?.startsWith('I developed three concepts')
+  const exploration = Array.from(intro.querySelectorAll('p')).find((node) =>
+    node.textContent?.startsWith('The exploration led me to a Daily Card Memory challenge')
   )!
+  const framing = Array.from(intro.querySelectorAll('p')).find((node) =>
+    node.textContent?.startsWith('The three selected concepts')
+  )!
+  const dailyRoutineLink = exploration.querySelector('a[href*="daily-routine"]')!
+  const petOutfitsLink = exploration.querySelector('a[href*="Pet-Outfits"]')!
 
+  expect(exploration.textContent).toBe(
+    'The exploration led me to a Daily Card Memory challenge, but it would add another gameplay mode to an already dense daily routine without a clear path to ARPDAU. A Pet equipment concept was also dropped after I found that it overlapped with existing Pet Outfits.'
+  )
+  expect(dailyRoutineLink.textContent).toBe('daily routine')
+  expect(petOutfitsLink.textContent).toBe('Pet Outfits')
   expect(framing.textContent).toBe(
-    'I developed three concepts, each targeting a different path to ARPDAU growth: a new spend surface, deeper spending or more purchase opportunities through re-engagement.'
+    'The three selected concepts target different paths to ARPDAU growth: a new spend surface, increased resource demand and more purchase opportunities through re-engagement.'
   )
   expect(intro.className).not.toContain('max-w-2xl')
 })
@@ -144,7 +162,7 @@ it('defines the approved monetization strategy and metrics for every feature', (
   ]).toEqual([
     {
       title: 'Hometown',
-      strategy: 'New spend surface',
+      strategy: 'New spend surface.\nTargets high-progression, socially engaged players.',
       metrics: {
         primary: 'ARPDAU',
         supporting: [
@@ -168,7 +186,7 @@ it('defines the approved monetization strategy and metrics for every feature', (
     },
     {
       title: 'Hot Trail',
-      strategy: 'Purchase frequency through re-engagement.',
+      strategy: 'Purchase frequency through re-engagement.\nAdditional return sessions increase exposure to existing Spin offers.',
       metrics: {
         primary: 'ARPDAU',
         supporting: [
@@ -206,6 +224,23 @@ it('renders monetization strategy before metrics with the existing metric bullet
       expect(labels).toEqual(['Monetization Strategy', 'Metrics'])
       expect(strategyParagraph.querySelector('strong')).toBeNull()
       expect(strategyParagraph.textContent).toBe(data.monetizationStrategy)
+      const strategyLines = Array.from(strategyParagraph.querySelectorAll('[data-strategy-line]'))
+      const expectedStrategyLines: Record<string, string[]> = {
+        Hometown: ['New spend surface.', 'Targets high-progression, socially engaged players.'],
+        'Hot Trail': [
+          'Purchase frequency through re-engagement.',
+          'Additional return sessions increase exposure to existing Spin offers.',
+        ],
+      }
+      if (expectedStrategyLines[data.title]) {
+        expect(strategyLines.map((line) => line.textContent?.trim())).toEqual(expectedStrategyLines[data.title])
+        strategyLines.forEach((line) => {
+          expect(line.className).toContain('block')
+          expect(line.className).toContain('md:whitespace-nowrap')
+        })
+      } else {
+        expect(strategyLines).toHaveLength(0)
+      }
       expect(metricItems.map((item) => item.querySelector('span:last-child')?.textContent)).toEqual([
         data.metrics?.primary,
         ...data.metrics!.supporting,
@@ -218,6 +253,30 @@ it('renders monetization strategy before metrics with the existing metric bullet
   })
 })
 
+it('uses the requested compact and relaxed subtitle spacing', () => {
+  render(<MAHomeAssignmentPage />)
+
+  const expectSpacing = (scope: HTMLElement, label: string, spacing: 'mb-1' | 'mb-3') => {
+    const headings = Array.from(scope.querySelectorAll('p')).filter((node) => node.textContent === label)
+    expect(headings.length).toBeGreaterThan(0)
+    headings.forEach((heading) => expect(heading.className).toContain(spacing))
+  }
+
+  ;[USE_CASE_1, USE_CASE_2, USE_CASE_3].forEach((data) => {
+    const feature = document.getElementById(data.id)!
+    expectSpacing(feature, 'Concept', 'mb-1')
+    expectSpacing(feature, 'Monetization Strategy', 'mb-1')
+    expectSpacing(feature, 'Metrics', 'mb-1')
+    expectSpacing(feature, 'Loop', 'mb-3')
+    expectSpacing(feature, 'Player motivation & risks', 'mb-3')
+  })
+
+  const validation = document.getElementById('validation')!
+  ;['Population', 'Control', 'Treatment', 'Hypothesis'].forEach((label) => {
+    expectSpacing(validation, label, 'mb-1')
+  })
+})
+
 it('defines the approved player motivations and plain monetization strategies', () => {
   expect([USE_CASE_1, USE_CASE_2, USE_CASE_3].map((data) => ({
     title: data.title,
@@ -227,7 +286,7 @@ it('defines the approved player motivations and plain monetization strategies', 
   }))).toEqual([
     {
       title: 'Hometown',
-      strategy: 'New spend surface',
+      strategy: 'New spend surface.\nTargets high-progression, socially engaged players.',
       motivations: [
         { title: 'Expression and Ownership', body: 'A permanent space that feels personal.' },
         { title: 'Progress and Status', body: 'High-level Village items become proof of progress.' },
@@ -254,7 +313,7 @@ it('defines the approved player motivations and plain monetization strategies', 
     },
     {
       title: 'Hot Trail',
-      strategy: 'Purchase frequency through re-engagement.',
+      strategy: 'Purchase frequency through re-engagement.\nAdditional return sessions increase exposure to existing Spin offers.',
       motivations: [
         { title: 'Urgency', body: 'A limited window creates a reason to return.' },
         { title: 'Recovery and Revenge', body: 'Respond directly to a Raid and recover part of the loss.' },
@@ -343,9 +402,7 @@ it('renders the interactive prototype inside MVP without the old introduction', 
   const heading = Array.from(mvp.querySelectorAll('h2')).find(
     (node) => node.textContent === 'Interactive prototype'
   )!
-  const successMetrics = Array.from(mvp.querySelectorAll('h2')).find(
-    (node) => node.textContent === 'Success metrics'
-  )!
+  const validation = document.getElementById('validation')!
   const previewLink = prototype.querySelector('a[href="/MA-HomeAssignment/demo"]')!
   const buttonLabel = previewLink.querySelector('span')!
   const buttonClasses = buttonLabel.className.split(/\s+/)
@@ -376,10 +433,49 @@ it('renders the interactive prototype inside MVP without the old introduction', 
   expect(previewLink.getAttribute('aria-label')).toBe('Open the Card Bounty interactive prototype')
   expect(previewLink.getAttribute('target')).toBe('_blank')
   expect(previewLink.getAttribute('rel')).toBe('noopener noreferrer')
-  expect(prototype.compareDocumentPosition(successMetrics) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  expect(mvp.contains(validation)).toBe(false)
+  expect(prototype.compareDocumentPosition(validation) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   expect(document.body.textContent).not.toContain('Prototype demo')
   expect(document.body.textContent).not.toContain('Card Bounty, interactive')
   expect(document.body.textContent).not.toContain('An interactive concept prototype of Card Bounty')
+})
+
+it('renders the standalone Feature Validation experiment after the prototype', () => {
+  render(<MAHomeAssignmentPage />)
+  const validation = document.getElementById('validation')!
+  const expectedProtocol = [
+    ['Population', 'Players with the Cards Center unlocked and at least one eligible missing Card.'],
+    ['Control', 'Existing Cards Center.'],
+    ['Treatment', 'Existing Cards Center with Card Bounty as a time-limited LiveOps event.'],
+    ['Hypothesis', 'A visible meter that advances with each Chest purchased and guarantees a chosen missing Card will increase Coin consumption, driving demand for existing Spin and Coin offers and lifting ARPDAU.'],
+  ]
+
+  expect(validation.querySelector('p')?.textContent).toContain('A/B Test')
+  expect(validation.querySelector('h2')?.textContent).toBe('Card Bounty: Feature Validation')
+  expect(document.querySelector('a[href="#validation"]')?.textContent).toBe('Validation')
+
+  expectedProtocol.forEach(([label, body]) => {
+    const labelNode = Array.from(validation.querySelectorAll('p')).find((node) => node.textContent === label)!
+    expect(labelNode.className).toContain('font-extrabold')
+    expect(labelNode.className).toContain('tracking-[0.14em]')
+    expect(labelNode.nextElementSibling?.textContent).toBe(body)
+    expect(labelNode.parentElement?.className).not.toContain('border')
+    expect(labelNode.parentElement?.className).not.toContain('bg-')
+  })
+
+  const comparison = validation.querySelector('[data-protocol-comparison]')!
+  expect(comparison.className).toContain('grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]')
+  expect(comparison.className).toContain('gap-x-4')
+  expect(comparison.className).toContain('md:grid-cols-[160px_minmax(0,1fr)]')
+  expect(comparison.className).toContain('md:gap-x-6')
+  expect(Array.from(comparison.children).map((item) => item.firstElementChild?.textContent)).toEqual([
+    'Control',
+    'Treatment',
+  ])
+
+  expect(validation.textContent).not.toContain('Segmentation')
+  expect(validation.textContent).not.toContain('Decision threshold')
+  expect(document.body.textContent).not.toContain('Success metrics')
 })
 
 it('exposes scoring definitions through accessible table-header tooltips', () => {
@@ -419,6 +515,7 @@ it('exposes scoring definitions through accessible table-header tooltips', () =>
   const infoButtons = Array.from(section.querySelectorAll('button[aria-describedby]'))
   const tooltips = Array.from(document.body.querySelectorAll('[id^="criterion-"][role="tooltip"]'))
   const tableScroller = section.querySelector('.overflow-x-auto')!
+  const featureLabels = Array.from(section.querySelectorAll('[data-prioritization-feature]'))
 
   expect(formula.className).toContain('font-sans')
   expect(formula.className).toContain('text-[14px]')
@@ -427,6 +524,12 @@ it('exposes scoring definitions through accessible table-header tooltips', () =>
   expect(formula.className).toContain('border-cm-gold')
   expect(scoringMethod.className).toContain('gap-3')
   expect(scoringMethod.className).toContain('mb-6')
+  expect(featureLabels.map((label) => label.textContent?.trim())).toEqual([
+    '🥇Card Bounty',
+    '🥈Hot Trail',
+    '🥉Hometown',
+  ])
+  featureLabels.forEach((label) => expect(label.className).toContain('whitespace-nowrap'))
 
   expect(headers).toHaveLength(4)
   expect(infoButtons).toHaveLength(4)
@@ -482,7 +585,7 @@ it('renders the approved MVP intro and scope copy', () => {
   render(<MAHomeAssignmentPage />)
   const section = document.getElementById('mvp')!
   const intro = Array.from(section.querySelectorAll('p')).find((node) =>
-    node.textContent?.startsWith('The MVP answers one question:')
+    node.textContent?.startsWith('The MVP includes only')
   )
   const labels = Array.from(section.querySelectorAll('p'))
   const inScope = labels.find((node) => node.textContent === 'In scope')!.parentElement!
@@ -492,7 +595,7 @@ it('renders the approved MVP intro and scope copy', () => {
     Array.from(container.querySelectorAll('li')).map((item) => item.textContent?.slice(1))
 
   expect(intro?.textContent).toBe(
-    'The MVP answers one question: does a visible, guaranteed path to a chosen Card increase Coin spend on Chests, and does that lift ARPDAU? It ships as a time limited LiveOps event inside the Cards Center. Duration and balancing parameters come from internal player and economy data.'
+    'The MVP includes only the target-selection, Chest-progress and guarantee mechanics required to validate Card Bounty.'
   )
   expect(listText(inScope)).toEqual(expectedInScope)
   expect(listText(outOfScope)).toEqual(expectedOutOfScope)
@@ -503,84 +606,136 @@ it('renders the approved MVP intro and scope copy', () => {
   expect(section.textContent).not.toContain('Purchasing meter progress or the guaranteed Card directly.')
 })
 
-it('renders success metrics as one grouped table with contextual funnel help', () => {
+it('renders Bounty Progress as the highlighted return point in the player flow', () => {
+  render(<MAHomeAssignmentPage />)
+  const flow = document.getElementById('player-flow')!
+  const bountyTitle = Array.from(flow.querySelectorAll('p')).find((node) => node.textContent === 'Bounty Progress')!
+  const guaranteedTitle = Array.from(flow.querySelectorAll('p')).find((node) => node.textContent === 'Guaranteed Card')!
+  const bountyPill = bountyTitle.parentElement!
+  const guaranteedPill = guaranteedTitle.parentElement!
+  const action = bountyTitle.nextElementSibling!
+
+  expect(action.textContent).toBe('Buy a Chest with Coins')
+  expect(action.className).toContain('italic')
+  expect(bountyPill.className).toBe(guaranteedPill.className)
+  expect(flow.textContent).toContain('Return to Bounty Progress')
+  expect(flow.textContent).not.toContain('Active Card Bounty')
+  expect(flow.textContent).not.toContain('Return to Active Bounty')
+})
+
+it('renders Feature Validation as a role-pill experiment table with contextual funnel help', () => {
   const expectedGroups = [
     {
-      title: 'North Star',
-      rows: [['ARPDAU', '≥5% lift']],
+      title: 'Primary metric',
+      rows: [['ARPDAU', '', 'lift ≥5%']],
     },
     {
-      title: 'Monetization and economy drivers',
+      title: 'Supporting metrics',
       rows: [
-        ['ARPPU', '≥5% lift overall and ≥8% among the high-spender cohort'],
-        ['Coin spend on Chests per DAU', '≥10% lift'],
-        ['Total Coin Consumption per DAU', '≥5% lift'],
-      ],
-    },
-    {
-      title: 'Feature funnel',
-      rows: [
-        ['Target Selection Rate', '≥30% of eligible DAU'],
-        ['First-Chest Conversion', '≥65% of players who select a target'],
-        ['Bounty Completion Rate', '10–20% of activated players'],
+        ['ARPPU by payer tier', 'Monetization', 'lift ≥5% overall and ≥8% at high-spender cohort'],
+        ['Coin spend on Chests per DAU', 'Economy', 'lift ≥10%'],
+        ['Total Coin Consumption per DAU', 'Economy', 'lift ≥5%'],
+        ['Target Selection Rate', 'Feature funnel', 'adoption ≥30% of eligible DAU'],
+        ['First-Chest Conversion', 'Feature funnel', 'activation ≥65% of players who adopted'],
+        ['Bounty Completion Rate', 'Feature funnel', 'balanced completion 10–20% of players who activated'],
       ],
     },
     {
       title: 'Guardrails',
       rows: [
-        ['Post-Event Revenue per Player', '≥98%'],
-        ['Post-Event Chest Coin Spend per Player', '≥95%'],
-        ['Card Collections Completed per Player', '≤115%'],
-        ['Village Upgrades per Player', '≥95%'],
+        ['Card Collections Completed per Player', '', 'stable or small lift ≤115%'],
+        ['Village Upgrades per Player', '', 'stable ≥95%'],
+        ['Post-Event Coin Spend on Chests per Player', '', 'stable ≥95%'],
+        ['Post-Event Revenue per Player', '', 'stable ≥98%'],
       ],
     },
   ]
 
   render(<MAHomeAssignmentPage />)
-  const mvp = document.getElementById('mvp')!
-  const heading = Array.from(mvp.querySelectorAll('h2')).find(
-    (node) => node.textContent === 'Success metrics'
-  )!
-  const metrics = heading.parentElement!
+  const metrics = document.getElementById('validation')!
   const tables = Array.from(metrics.querySelectorAll('table'))
   const table = tables[0]
   const groups = Array.from(metrics.querySelectorAll('tbody[data-metric-group]'))
-  const introduction = Array.from(metrics.querySelectorAll('p')).find((node) =>
-    node.textContent?.startsWith('Eligible players')
-  )!
-  const tooltip = metrics.querySelector('[role="tooltip"]')!
-  const infoButtons = Array.from(metrics.querySelectorAll('button[aria-describedby]'))
+  const tooltips = Array.from(document.querySelectorAll(
+    '#test-methodology-tooltip, #feature-funnel-tooltip'
+  ))
+  const infoButtons = [
+    metrics.querySelector('button[aria-label="About A/B Test methodology"]')!,
+    metrics.querySelector('button[aria-label="About Feature funnel"]')!,
+  ]
+  const rolePills = Array.from(metrics.querySelectorAll('[data-metric-role]'))
 
-  expect(introduction.textContent).toBe(
-    'Eligible players have the Cards Center unlocked and at least one targetable missing Card. Event metrics use eligible players active each day; post event guardrails use the full eligible group. All results compare treatment with control.'
-  )
   expect(tables).toHaveLength(1)
-  expect(table.querySelectorAll('thead')).toHaveLength(1)
-  expect(Array.from(table.querySelectorAll('thead th')).map((cell) => cell.textContent?.trim())).toEqual([
-    'Metric',
-    'Proposed target',
-  ])
-  expect(groups).toHaveLength(4)
+  expect(table.querySelectorAll('thead')).toHaveLength(0)
+  expect(groups).toHaveLength(3)
+  const primaryHeadings = Array.from(groups[0].querySelectorAll('tr:first-child th'))
+  expect(primaryHeadings[0].textContent?.trim()).toBe('Primary metric')
+  expect(primaryHeadings[1].querySelector('span > span')?.textContent).toBe('Proposed target')
+  expect(primaryHeadings[0].getAttribute('colspan')).toBe('2')
+  expect(primaryHeadings[1].className).toContain('pl-2')
+  expect(primaryHeadings[1].className).toContain('md:pl-7')
+  expect(primaryHeadings[1].className).toContain('text-left')
   expectedGroups.forEach(({ title, rows }, index) => {
     const group = groups[index]
-    const renderedRows = Array.from(group.querySelectorAll('tr[data-metric-row]')).map((row) =>
-      Array.from(row.querySelectorAll('td')).map((cell) => cell.textContent?.trim())
-    )
+    const renderedRows = Array.from(group.querySelectorAll('tr[data-metric-row]')).map((row) => [
+      row.querySelector('[data-metric-label]')?.textContent?.trim(),
+      row.querySelector('[data-metric-role]')?.textContent?.trim() ?? '',
+      row.querySelector('[data-metric-target]')?.textContent?.trim(),
+    ])
 
     expect(group.getAttribute('data-metric-group')).toBe(title)
     expect(group.querySelector('h3 > span')?.textContent).toBe(title)
     expect(renderedRows).toEqual(rows)
     expect(group.querySelector('tr[data-metric-row]')?.className).toContain('border-charcoal/15')
   })
-  expect(table.className).not.toContain('min-w-')
-  expect(table.parentElement?.className).not.toContain('overflow-x-auto')
-  const tableHeaderRow = table.querySelector('thead tr')!
+  Array.from(table.querySelectorAll('[data-metric-target]')).forEach((target) => {
+    expect(target.className).toContain('pl-2')
+    expect(target.className).toContain('md:pl-7')
+  })
+  const mutedTargets = Array.from(table.querySelectorAll('[data-muted-target]'))
+  expect(mutedTargets.map((target) => target.textContent)).toEqual([
+    '≥5%',
+    '≥5% overall and ≥8% at high-spender cohort',
+    '≥10%',
+    '≥5%',
+    '≥30% of eligible DAU',
+    '≥65% of players who adopted',
+    '10–20% of players who activated',
+    '≤115%',
+    '≥95%',
+    '≥95%',
+    '≥98%',
+  ])
+  mutedTargets.forEach((target) => expect(target.className).toContain('text-charcoal/45'))
+  expect(table.textContent).not.toMatch(/\([^)]*[≥≤][^)]*\)/)
+  expect(table.className).toContain('min-w-[640px]')
+  expect(table.className).toContain('md:min-w-[720px]')
+  expect(table.parentElement?.className).toContain('overflow-x-auto')
+  expect(rolePills).toHaveLength(6)
+  expect(rolePills.map((pill) => pill.textContent)).toEqual([
+    'Monetization', 'Economy', 'Economy', 'Feature funnel', 'Feature funnel', 'Feature funnel',
+  ])
+  rolePills.forEach((pill) => {
+    expect(pill.className).toContain('w-[92px]')
+    expect(pill.className).toContain('md:w-28')
+    expect(pill.className).toContain('justify-center')
+    expect(pill.className).toContain('border')
+  })
+  expect(rolePills[0].className).toContain('bg-cm-gold/10')
+  expect(rolePills[0].className).toContain('border-cm-wood/30')
+  expect(rolePills[0].className).toContain('text-cm-wood/80')
+  expect(rolePills[1].className).toContain('bg-cm-sky/10')
+  expect(rolePills[1].className).toContain('border-[#0F3D54]/25')
+  expect(rolePills[1].className).toContain('text-[#0F3D54]/80')
+  expect(rolePills[3].className).toContain('bg-cm-violet-deep/5')
+  expect(rolePills[3].className).toContain('border-cm-violet-deep/20')
+  expect(rolePills[3].className).toContain('text-cm-violet-deep/80')
+  expect(groups[0].querySelectorAll('[data-metric-role]')).toHaveLength(0)
+  expect(groups[2].querySelectorAll('[data-metric-role]')).toHaveLength(0)
   const groupHeaderRows = groups.map((group) => group.querySelector('tr')!)
   const northStarRow = groups[0].querySelector('tr[data-metric-row]')!
-  const northStarTarget = northStarRow.querySelector('td:last-child')!
+  const northStarTarget = northStarRow.querySelector('[data-metric-target]')!
 
-  expect(tableHeaderRow.className).not.toContain('border-b-2')
-  expect(tableHeaderRow.className).not.toContain('border-cm-wood')
   expect(groupHeaderRows[0].className).toContain('border-b-2')
   expect(groupHeaderRows[0].className).toContain('border-cm-wood')
   groupHeaderRows.slice(1).forEach((row) => {
@@ -598,29 +753,134 @@ it('renders success metrics as one grouped table with contextual funnel help', (
   )
   expect(northStarTarget.className).toContain('text-charcoal')
   expect(northStarTarget.className).not.toContain('text-cm-crimson')
-  expect(infoButtons).toHaveLength(1)
-  expect(infoButtons[0].getAttribute('aria-label')).toBe('About Feature funnel')
-  expect(infoButtons[0].getAttribute('aria-describedby')).toBe(tooltip.id)
-  expect(tooltip.textContent).toBe(
-    'The funnel is coherent: 30% × 65% ≈ 20% activation. The completion range ensures the guarantee provides value without becoming too easy.'
-  )
-  expect(tooltip.className).toContain('group-hover:visible')
-  expect(tooltip.className).toContain('group-focus-within:visible')
-  expect(metrics.querySelectorAll('p.mt-3.border-l-4')).toHaveLength(0)
-  expect(metrics.textContent).not.toContain('Role')
-  expect(metrics.querySelectorAll('span.rounded-full')).toHaveLength(0)
+  expect(infoButtons.map((button) => button.getAttribute('aria-label'))).toEqual([
+    'About A/B Test methodology',
+    'About Feature funnel',
+  ])
+  expect(tooltips.map((tooltip) => tooltip.textContent)).toEqual([
+    'Event duration, post-event measurement window and target numbers (currently directional) would be calibrated using internal data and comparable LiveOps events.',
+    'Ensures the guarantee provides value without becoming too easy.',
+  ])
+  tooltips.forEach((tooltip) => {
+    expect(tooltip.className).toContain('fixed')
+    expect(table.parentElement?.contains(tooltip)).toBe(false)
+  })
+  infoButtons.forEach((button, index) => {
+    expect(button.getAttribute('aria-describedby')).toBe(tooltips[index].id)
+  })
+  expect(infoButtons[1].closest('[data-metric-help]')?.querySelector('[data-metric-label]')?.textContent).toBe('Bounty Completion Rate')
+  expect(metrics.querySelector('button[aria-label="About proposed targets"]')).toBeNull()
+  expect(document.getElementById('target-methodology-tooltip')).toBeNull()
+  const columns = Array.from(table.querySelectorAll('col'))
+  expect(columns[0].className).toContain('w-[28%]')
+  expect(columns[0].className).toContain('md:w-[32%]')
+  expect(columns[1].className).toContain('w-[104px]')
+  expect(columns[1].className).toContain('md:w-[132px]')
+  const collectionLabel = Array.from(table.querySelectorAll('[data-metric-label]')).find(
+    (label) => label.textContent === 'Card Collections Completed per Player'
+  )!
+  expect(collectionLabel.className).not.toContain('whitespace-nowrap')
+  expect(metrics.textContent).not.toContain('Decision threshold')
+  expect(metrics.textContent).not.toContain('Segmentation')
 })
 
-it('renders Assumptions without decorative dash markers', () => {
+it('renders Additional Tests as a magnifying-glass list below the validation table', () => {
+  render(<MAHomeAssignmentPage />)
+  const validation = document.getElementById('validation')!
+  const additionalTests = validation.querySelector('[data-additional-tests]')!
+  const items = Array.from(additionalTests.querySelectorAll('li'))
+
+  expect(additionalTests.querySelector('p')?.textContent).toBe('Additional Tests')
+  expect(items).toHaveLength(3)
+  expect(items.map((item) => item.querySelector('h3')?.textContent)).toEqual([
+    'Meter Goal Calibration',
+    'Paid Progress Carryover',
+    'Chest Tier Weighting',
+  ])
+  expect(items.map((item) => Array.from(item.querySelectorAll('p')).map((node) => node.textContent))).toEqual([
+    [
+      'Compare the baseline meter requirement with a lower requirement.',
+      'Tests whether a more attainable goal increases Chest spend without accelerating Collection completion too far.',
+    ],
+    [
+      'Players who obtain their target before filling the meter can select another target. Control resets the meter; treatment also allows players to spend Gems to carry existing progress to the new target.',
+      'Tests whether preserving earned progress creates incremental Gem spend without reducing continued participation or accelerating Collection completion too far.',
+    ],
+    [
+      'Keep all Chest contributions unchanged except the Magical Chest contribution.',
+      'Tests whether greater progress from the highest-value Chest shifts Coin spend toward it.',
+    ],
+  ])
+  items.forEach((item) => {
+    const icon = item.querySelector('svg')!
+    const title = item.querySelector('h3')!
+    const copy = Array.from(item.querySelectorAll('h3, p'))
+    expect(icon).not.toBeNull()
+    expect(icon.className.baseVal).toContain('text-cm-gold')
+    copy.forEach((node) => expect(node.className).toContain('text-[14px]'))
+    expect(title.className).toContain('font-normal')
+    expect(title.className).not.toContain('font-bold')
+  })
+})
+
+it('adds explanatory tooltips to supporting and guardrail metrics', () => {
+  render(<MAHomeAssignmentPage />)
+  const validation = document.getElementById('validation')!
+  const expected = [
+    ['About ARPPU by payer tier', 'Shows whether revenue lift comes from deeper payer spend and which tiers drive it.'],
+    ['About Card Collections Completed per Player', 'Detects excessive acceleration of Collection completion and reward release.'],
+    ['About Village Upgrades per Player', 'Detects whether additional Chest spending cannibalizes core Village progression.'],
+    ['About Post-Event Coin Spend on Chests per Player', 'Detects whether the event shifts Chest spend rather than lifting it.'],
+    ['About Post-Event Revenue per Player', 'Confirms that event revenue is not offset by lower revenue afterward.'],
+  ]
+
+  expected.forEach(([label, copy]) => {
+    const button = validation.querySelector(`button[aria-label="${label}"]`)!
+    const tooltip = document.getElementById(button.getAttribute('aria-describedby')!)!
+
+    expect(button).not.toBeNull()
+    expect(tooltip.textContent).toBe(copy)
+    expect(tooltip.className).toContain('fixed')
+    expect(validation.querySelector('table')?.contains(tooltip)).toBe(false)
+  })
+
+  const alignedHelp = Array.from(validation.querySelectorAll('[data-metric-help]'))
+  expect(alignedHelp).toHaveLength(6)
+  alignedHelp.forEach((wrapper) => {
+    expect(wrapper.className).toContain('grid-cols-[minmax(0,1fr)_14px]')
+    expect(wrapper.className).toContain('w-full')
+    expect(wrapper.className).toContain('gap-2')
+  })
+})
+
+it('aligns Assumptions with quiet bullet glyphs', () => {
   render(<MAHomeAssignmentPage />)
   const assumptions = document.getElementById('assumptions')!
+  const list = assumptions.querySelector('ul')!
   const items = Array.from(assumptions.querySelectorAll('li'))
 
-  expect(items).toHaveLength(6)
+  expect(items.map((item) => item.querySelector('[data-assumption-text]')?.textContent?.trim())).toEqual([
+    'ARPDAU lift is the target outcome; engagement and consumption signals matter only if they convert to revenue.',
+    'ARPDAU lift should not come at the expense of long-term demand, core-loop health, player trust or the wider game economy.',
+    'New features should extend familiar mechanics rather than replace the core-loop.',
+    'Existing systems support LiveOps, segmentation and controlled testing.',
+    'I had no access to internal data, so scores, balance values and numeric targets are directional, and this analysis reflects the game version I accessed.',
+  ])
+  expect(list.className).toContain('gap-2.5')
   for (const item of items) {
-    expect(item.querySelector('[aria-hidden="true"]')).toBeNull()
-    expect(item.textContent?.trim().startsWith('—')).toBe(false)
-    expect(item.className).not.toContain('flex')
-    expect(item.className).not.toContain('gap-2')
+    const marker = item.querySelector('[aria-hidden="true"]')!
+    expect(marker.textContent).toBe('•')
+    expect(marker.className).toContain('w-4')
+    expect(item.className).toContain('flex')
+    expect(item.className).toContain('gap-3')
   }
+})
+
+it('describes Card Bounty as a repeatable event framework in prioritization', () => {
+  render(<MAHomeAssignmentPage />)
+  const prioritization = document.getElementById('prioritization')!
+
+  expect(prioritization.textContent).toContain(
+    'If successful, it becomes a repeatable event framework that can be tuned by Card rarity, player segment and duration.'
+  )
 })
