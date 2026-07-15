@@ -10,7 +10,8 @@ export const USE_CASE_1: UseCaseData = {
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature1.png',
   monetizationStrategy: {
-    lead: 'Conversion and purchase frequency.',
+    lead: 'New spend surface',
+    emphasizeLead: false,
     body: 'Targets high-progression, socially engaged players with a persistent Coin sink and new customization offers.',
   },
   metrics: {

@@ -1,7 +1,7 @@
 export type TargetId = 'whale-boat' | 'bionica' | 'nautilus'
 export type ChestId = 'wooden' | 'golden' | 'magical'
 
-export const BOUNTY_THRESHOLD = 150
+export const BOUNTY_THRESHOLD = 100
 
 export type DemoTarget = {
   id: TargetId

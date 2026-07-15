@@ -43,7 +43,7 @@ function guidanceFor(
   if (baseScreen === 'spin-return') return 'The loop closes back at Spin'
   if (eventCompleted) return 'Collection updated — restart to replay'
   switch (overlay) {
-    case null: return 'Tap the highlighted Card Bounty event'
+    case null: return 'Tap the shaking Card Bounty event'
     case 'intro': return 'Choose a Card to begin'
     case 'target-picker': return 'Whale Boat is the guided target'
     case 'target-confirmation': return 'Confirm the selected target'
@@ -258,7 +258,6 @@ export default function CardBountyPrototype() {
             spins={state.spins}
             reward={state.collectionReward}
             targetName={target?.name ?? 'Bounty Card'}
-            onCardsCenter={() => dispatch({ type: 'RETURN_TO_CARDS_CENTER' })}
           />
         )}
       </div>

@@ -54,6 +54,7 @@ export interface UseCaseData {
   mechanismLabel?: string  // label for that block (defaults to "ARPDAU Mechanism")
   monetizationStrategy?: {
     lead: string
+    emphasizeLead?: boolean
     body: string
   }
   metrics?: {
@@ -275,10 +276,12 @@ export function CardList({
 
 // Strategy copy uses the same body styling as Concept, with the monetization
 // mechanism emphasized inline.
-function MonetizationStrategy({ strategy }: { strategy: { lead: string; body: string } }) {
+function MonetizationStrategy({ strategy }: { strategy: { lead: string; emphasizeLead?: boolean; body: string } }) {
   return (
     <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-      <strong className="font-bold">{strategy.lead}</strong>{' '}
+      {strategy.emphasizeLead === false
+        ? strategy.lead
+        : <strong className="font-bold">{strategy.lead}</strong>}{' '}
       {strategy.body}
     </p>
   )

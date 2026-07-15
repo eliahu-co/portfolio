@@ -9,6 +9,23 @@ import {
   type DemoState,
 } from '../demoReducer'
 
+const readCssBlock = (source: string, rule: string) => {
+  const ruleStart = source.indexOf(rule)
+  const openingBrace = source.indexOf('{', ruleStart)
+  if (ruleStart < 0 || openingBrace < 0) return ''
+
+  let depth = 0
+  for (let index = openingBrace; index < source.length; index += 1) {
+    if (source[index] === '{') depth += 1
+    if (source[index] !== '}') continue
+
+    depth -= 1
+    if (depth === 0) return source.slice(openingBrace + 1, index)
+  }
+
+  return ''
+}
+
 function purchaseState({
   quantity,
   coins = initialDemoState.coins,
@@ -76,7 +93,7 @@ describe('ChestPurchaseDialog', () => {
     expect(screen.queryByRole('progressbar', { name: 'Current Bounty progress' })).not.toBeInTheDocument()
     expect(screen.getByRole('progressbar', { name: 'Projected Bounty progress' })).toHaveAttribute('aria-valuenow', '30')
     expect(screen.getByRole('status', { name: 'Purchase quote update' })).toHaveTextContent(
-      '10 Magical Chests. 80 total Cards. 290,000,000 Coins. Projected Bounty progress 30 of 150.',
+      '10 Magical Chests. 80 total Cards. 290,000,000 Coins. Projected Bounty progress 30 of 100.',
     )
 
     fireEvent.click(screen.getByRole('button', { name: 'Increase quantity' }))
@@ -88,7 +105,7 @@ describe('ChestPurchaseDialog', () => {
     expect(screen.getByText('+33')).toBeInTheDocument()
     expect(screen.getByRole('progressbar', { name: 'Projected Bounty progress' })).toHaveAttribute('aria-valuenow', '33')
     expect(screen.getByRole('status', { name: 'Purchase quote update' })).toHaveTextContent(
-      '11 Magical Chests. 88 total Cards. 319,000,000 Coins. Projected Bounty progress 33 of 150.',
+      '11 Magical Chests. 88 total Cards. 319,000,000 Coins. Projected Bounty progress 33 of 100.',
     )
     expect(screen.getByRole('button', { name: 'Confirm Chest purchase' })).toHaveAccessibleDescription(
       'Total Coin cost: 319,000,000 Coins',
@@ -131,10 +148,14 @@ describe('ChestPurchaseDialog', () => {
       resolve(process.cwd(), 'app/MA-HomeAssignment/demo/ChestPurchaseDialog.module.css'),
       'utf8',
     )
+    const compactCss = readCssBlock(css, '@container purchase-dialog (max-width: 360px)')
 
     expect(css).toMatch(/container-name:\s*purchase-dialog/)
     expect(css).toMatch(/@container purchase-dialog \(max-width: 360px\)/)
     expect(css).toMatch(/@container purchase-dialog \(max-width: 300px\)/)
+    expect(compactCss).toMatch(
+      /\.quantityValue small\s*\{[^}]*font-size:\s*\.55rem;[^}]*letter-spacing:\s*\.02em;/,
+    )
     expect(css).toMatch(/\.chanceCopy > span\s*{[^}]*white-space:\s*normal/)
     expect(css).not.toMatch(/font-size:\s*\.(?:4\d|5[0-4])rem/)
   })
