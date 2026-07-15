@@ -429,7 +429,7 @@ it('renders the standalone Feature Validation experiment after the prototype', (
     ['Population', 'Players with the Cards Center unlocked and at least one eligible missing Card.'],
     ['Control', 'Existing Cards Center.'],
     ['Treatment', 'Existing Cards Center with Card Bounty as a time-limited LiveOps event.'],
-    ['Hypothesis', 'A visible guarantee for a chosen missing Card increases Coin-purchased Chest openings. Higher Coin consumption increases demand for existing Spin and Coin offers, lifting ARPDAU.'],
+    ['Hypothesis', 'A visible meter that advances with each Chest purchased and guarantees a chosen missing Card will increase Coin consumption, driving demand for existing Spin and Coin offers and lifting ARPDAU.'],
   ]
 
   expect(validation.querySelector('p')?.textContent).toBe('A/B Test')

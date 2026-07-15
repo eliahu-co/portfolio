@@ -19,7 +19,7 @@ const PROTOCOL = [
   },
   {
     label: 'Hypothesis',
-    body: 'A visible guarantee for a chosen missing Card increases Coin-purchased Chest openings. Higher Coin consumption increases demand for existing Spin and Coin offers, lifting ARPDAU.',
+    body: 'A visible meter that advances with each Chest purchased and guarantees a chosen missing Card will increase Coin consumption, driving demand for existing Spin and Coin offers and lifting ARPDAU.',
   },
 ]
 
