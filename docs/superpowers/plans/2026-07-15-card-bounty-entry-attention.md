@@ -185,6 +185,6 @@ At desktop and mobile sizes, confirm the initial Cards Center X does not navigat
 
 Review `main...HEAD` against the design, tests, branch cleanliness, and accessibility intent. Fix each confirmed issue and rerun affected verification.
 
-- [ ] **Step 4: Integrate and deploy under the user's standing authorization**
+- [ ] **Step 4: Integrate and deploy only after explicit user confirmation**
 
-Refresh `origin/main`, merge the reviewed branch into `main`, rerun the full test/build gate on the merged commit, push `main`, and verify the production demo's initial screen at desktop and mobile sizes.
+After the user explicitly confirms the `main` merge and deployment at execution time, refresh `origin/main`, merge the reviewed branch into `main`, rerun the full test/build gate on the merged commit, push `main`, and verify the production demo's initial screen at desktop and mobile sizes.

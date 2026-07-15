@@ -13,10 +13,10 @@ The shared `attention` class currently animates a yellow 7px `drop-shadow`. A dr
 Keep the existing shared class on all eight guided actions and change only `GuidedAction.module.css`:
 
 - Raise the guided control with `position: relative` and `z-index: 3`.
-- Keep a small control lift, increased to `translateY(-3px) scale(1.03)` at the pulse peak.
+- Keep a small control lift, increased to `translateY(-3px) scale(1.025)` at the pulse peak.
 - Replace the animated yellow filter with a pointer-transparent `::after` halo painted above the control surface.
-- Extend the halo 6px beyond the control with a 4px `#c86cff` purple ring.
-- Add a dark-purple separation ring and an outer purple glow that expands to 24px at the pulse peak.
+- Extend the halo 4px beyond the control with a 4px `#c86cff` purple ring.
+- Add a dark-purple separation ring and a dense purple glow that peaks at a 14px blur with 5px spread. Reserve paint gutters in modal and reward containers so the ring and button lift remain fully visible instead of being clipped by their scrollports.
 - Use a 1.4-second cycle so the cue is persistent without becoming continuous vibration.
 - Preserve each control's native box shadow, hover brightness, and focus-visible outline because the shared effect no longer animates `filter` or the control's own `box-shadow`.
 

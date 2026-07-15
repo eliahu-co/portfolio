@@ -48,7 +48,7 @@ describe('GuidedAction attention treatment', () => {
       /\.attention\s*{[^}]*position:\s*relative;[^}]*z-index:\s*3;[^}]*animation:\s*guidedAction 1\.4s ease-in-out infinite;/,
     )
     expect(css).toMatch(
-      /\.attention::after\s*{[^}]*z-index:\s*3;[^}]*inset:\s*-6px;[^}]*border:\s*4px solid #c86cff;[^}]*border-radius:\s*inherit;[^}]*pointer-events:\s*none;[^}]*animation:\s*guidedHalo 1\.4s ease-in-out infinite;/,
+      /\.attention::after\s*{[^}]*z-index:\s*3;[^}]*inset:\s*-4px;[^}]*border:\s*4px solid #c86cff;[^}]*border-radius:\s*inherit;[^}]*pointer-events:\s*none;[^}]*animation:\s*guidedHalo 1\.4s ease-in-out infinite;/,
     )
     expect(css).toMatch(/@keyframes guidedHalo/)
     expect(css).not.toContain('255, 213, 61')
@@ -83,15 +83,15 @@ Replace `GuidedAction.module.css` with:
   content: "";
   position: absolute;
   z-index: 3;
-  inset: -6px;
+  inset: -4px;
   border: 4px solid #c86cff;
   border-radius: inherit;
   box-shadow:
     0 0 0 2px rgba(93, 28, 127, .85),
-    0 0 16px 5px rgba(185, 76, 255, .72);
+    0 0 12px 4px rgba(185, 76, 255, .76);
   opacity: .62;
   pointer-events: none;
-  transform: scale(.98);
+  transform: scale(.99);
   animation: guidedHalo 1.4s ease-in-out infinite;
 }
 
@@ -101,7 +101,7 @@ Replace `GuidedAction.module.css` with:
   }
 
   50% {
-    transform: translateY(-3px) scale(1.03);
+    transform: translateY(-3px) scale(1.025);
   }
 }
 
@@ -109,17 +109,17 @@ Replace `GuidedAction.module.css` with:
   0%, 100% {
     box-shadow:
       0 0 0 2px rgba(93, 28, 127, .85),
-      0 0 16px 5px rgba(185, 76, 255, .72);
+      0 0 12px 4px rgba(185, 76, 255, .76);
     opacity: .62;
-    transform: scale(.98);
+    transform: scale(.99);
   }
 
   50% {
     box-shadow:
       0 0 0 3px rgba(93, 28, 127, .96),
-      0 0 24px 9px rgba(185, 76, 255, .9);
+      0 0 14px 5px rgba(185, 76, 255, .9);
     opacity: 1;
-    transform: scale(1.045);
+    transform: scale(1.02);
   }
 }
 
@@ -136,7 +136,7 @@ Replace `GuidedAction.module.css` with:
   .attention::after {
     box-shadow:
       0 0 0 2px rgba(93, 28, 127, .9),
-      0 0 18px 6px rgba(185, 76, 255, .78);
+      0 0 14px 5px rgba(185, 76, 255, .82);
     opacity: 1;
     transform: none;
   }
@@ -232,4 +232,4 @@ Review the net branch diff against both design documents, test evidence, accessi
 
 - [ ] **Step 4: Integrate, push, and verify production**
 
-Merge into `main` under the user's standing authorization, rerun the full gate on the merge commit, push `main`, and inspect the production demo at desktop and mobile sizes.
+Only after explicit user confirmation at execution time, merge into `main`, rerun the full gate on the merge commit, push `main`, and inspect the production demo at desktop and mobile sizes.

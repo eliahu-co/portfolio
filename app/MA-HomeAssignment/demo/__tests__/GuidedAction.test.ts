@@ -54,7 +54,10 @@ describe('GuidedAction attention treatment', () => {
       /\.attention\s*{[^}]*position:\s*relative;[^}]*z-index:\s*3;[^}]*animation:\s*guidedAction 1\.4s ease-in-out infinite;/,
     )
     expect(css).toMatch(
-      /\.attention::after\s*{[^}]*z-index:\s*3;[^}]*inset:\s*-6px;[^}]*border:\s*4px solid #c86cff;[^}]*border-radius:\s*inherit;[^}]*pointer-events:\s*none;[^}]*animation:\s*guidedHalo 1\.4s ease-in-out infinite;/,
+      /\.attention::after\s*{[^}]*z-index:\s*3;[^}]*inset:\s*-4px;[^}]*border:\s*4px solid #c86cff;[^}]*border-radius:\s*inherit;[^}]*pointer-events:\s*none;[^}]*animation:\s*guidedHalo 1\.4s ease-in-out infinite;/,
+    )
+    expect(css).toMatch(
+      /@keyframes guidedHalo\s*{[\s\S]*?50%\s*{[^}]*box-shadow:\s*0 0 0 3px rgba\(93, 28, 127, \.96\),\s*0 0 14px 5px rgba\(185, 76, 255, \.9\);[^}]*transform:\s*scale\(1\.02\);/,
     )
     expect(css).toMatch(/@keyframes guidedHalo/)
     expect(css).not.toContain('255, 213, 61')
@@ -62,5 +65,26 @@ describe('GuidedAction attention treatment', () => {
     expect(css).toMatch(
       /@media \(prefers-reduced-motion: reduce\)\s*{[\s\S]*?\.attention,\s*\.attention::after\s*{[^}]*animation:\s*none;/,
     )
+    expect(css).toMatch(
+      /\.attention\.attention:hover:not\(:disabled\),\s*\.attention\.attention:active:not\(:disabled\)\s*{[^}]*transform:\s*none;/,
+    )
+  })
+
+  it('reserves paint gutters for guided halos in modal and reward scrollports', () => {
+    const ribbonCss = readFileSync(
+      resolve(process.cwd(), 'app/MA-HomeAssignment/demo/RibbonDialog.module.css'),
+      'utf8',
+    )
+    const prototypeCss = readFileSync(
+      resolve(process.cwd(), 'app/MA-HomeAssignment/demo/CardBountyPrototype.module.css'),
+      'utf8',
+    )
+    const dialogBody = readCssBlock(ribbonCss, '.body')
+    const rewardScreen = readCssBlock(prototypeCss, '.rewardScreen')
+
+    expect(dialogBody).toMatch(/margin-inline:\s*-\.6rem;/)
+    expect(dialogBody).toMatch(/padding:\s*\.25rem \.8rem 2rem;/)
+    expect(dialogBody).toMatch(/overflow-x:\s*hidden;/)
+    expect(rewardScreen).toMatch(/padding:\s*34px 32px 34px;/)
   })
 })

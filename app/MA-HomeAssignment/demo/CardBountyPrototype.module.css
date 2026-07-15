@@ -199,7 +199,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 34px 18px 20px;
+  padding: 34px 32px 34px;
   background: radial-gradient(circle at 50% 30%, #1983a8, #073653 58%, #031d31 100%);
   color: #fff;
   text-align: center;
