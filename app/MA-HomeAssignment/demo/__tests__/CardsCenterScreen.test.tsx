@@ -96,11 +96,25 @@ describe('CardsCenterScreen', () => {
       /\.bountyButton\s*\{[\s\S]*?animation:\s*bountyNudge 1\.4s ease-in-out infinite/,
     )
     expect(css).toMatch(/\.bountyButton::before\s*\{[\s\S]*?animation:\s*bountyGlow/)
+    expect(css).toMatch(
+      /\.bountyButton::before\s*\{[^}]*top:\s*-10px;[^}]*left:\s*-3px;[^}]*width:\s*104px;[^}]*height:\s*104px;/,
+    )
+    expect(css).toMatch(
+      /\.bountyButton::before\s*\{[^}]*background:\s*radial-gradient\(circle, rgba\(200, 108, 255, \.82\), rgba\(126, 52, 183, \.46\) 58%, rgba\(200, 108, 255, \.24\) 72%, transparent 86%\);/,
+    )
+    expect(css).toMatch(
+      /\.bountyButton::before\s*\{[^}]*box-shadow:\s*0 0 0 5px rgba\(200, 108, 255, \.34\),\s*0 0 24px 10px rgba\(200, 108, 255, \.62\);/,
+    )
     expect(css).toMatch(/@keyframes bountyNudge/)
     expect(css).toMatch(/@keyframes bountyGlow/)
     expect(css).toMatch(
       /@media \(prefers-reduced-motion: reduce\)\s*\{[\s\S]*?\.bountyButton,\s*\.bountyButton::before\s*\{[^}]*animation:\s*none/,
     )
+    expect(css).toMatch(
+      /@media \(prefers-reduced-motion: reduce\)\s*\{[\s\S]*?\.bountyButton\s*\{[^}]*filter:[^;]*drop-shadow\(0 0 8px rgba\(200, 108, 255, \.72\)\);/,
+    )
+    expect(css).not.toContain('rgba(255, 227, 77, .48)')
+    expect(css).not.toContain('rgba(255, 220, 70, .72)')
     expect(css).toMatch(/\.bountyButtonCompleted,\s*\.bountyButtonCompleted::before\s*\{[^}]*animation:\s*none/)
   })
 

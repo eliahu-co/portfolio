@@ -1,7 +1,49 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
+const readCssBlock = (source: string, rule: string) => {
+  const ruleStart = source.indexOf(rule)
+  const openingBrace = source.indexOf('{', ruleStart)
+  if (ruleStart < 0 || openingBrace < 0) return ''
+
+  let depth = 0
+  for (let index = openingBrace; index < source.length; index += 1) {
+    if (source[index] === '{') depth += 1
+    if (source[index] !== '}') continue
+
+    depth -= 1
+    if (depth === 0) return source.slice(openingBrace + 1, index)
+  }
+
+  return ''
+}
+
 describe('GuidedAction attention treatment', () => {
+  it('keeps secondary attention thinner, smaller, slower, and motion safe', () => {
+    const css = readFileSync(
+      resolve(process.cwd(), 'app/MA-HomeAssignment/demo/GuidedAction.module.css'),
+      'utf8',
+    )
+    const secondaryControl = readCssBlock(css, '.secondaryAttention')
+    const secondaryHalo = readCssBlock(css, '.secondaryAttention::after')
+    const reducedMotion = readCssBlock(css, '@media (prefers-reduced-motion: reduce)')
+
+    expect(secondaryControl).toMatch(/position:\s*relative;/)
+    expect(secondaryControl).not.toMatch(/transform:/)
+    expect(secondaryControl).not.toMatch(/animation:/)
+    expect(secondaryHalo).toMatch(/inset:\s*-4px;/)
+    expect(secondaryHalo).toMatch(/border:\s*3px solid #c86cff;/)
+    expect(secondaryHalo).toMatch(
+      /box-shadow:\s*0 0 0 1px rgba\(93, 28, 127, \.72\),\s*0 0 10px 3px rgba\(185, 76, 255, \.52\);/,
+    )
+    expect(secondaryHalo).toMatch(/pointer-events:\s*none;/)
+    expect(secondaryHalo).toMatch(/animation:\s*guidedSecondaryHalo 2s ease-in-out infinite;/)
+    expect(css).toMatch(/@keyframes guidedSecondaryHalo/)
+    expect(reducedMotion).toMatch(
+      /\.secondaryAttention::after\s*\{[^}]*animation:\s*none;[^}]*box-shadow:\s*0 0 0 1px rgba\(93, 28, 127, \.72\),\s*0 0 10px 3px rgba\(185, 76, 255, \.52\);[^}]*transform:\s*none;/,
+    )
+  })
+
   it('uses a raised purple halo with a static reduced-motion cue', () => {
     const css = readFileSync(
       resolve(process.cwd(), 'app/MA-HomeAssignment/demo/GuidedAction.module.css'),

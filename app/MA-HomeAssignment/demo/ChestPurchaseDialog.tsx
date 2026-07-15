@@ -20,6 +20,7 @@ export default function ChestPurchaseDialog({
   onConfirm: () => void
 }) {
   const formattedTotalCost = formatNumber(preview.totalCost)
+  const canIncrease = preview.quantity < preview.maxAffordable
 
   return (
     <div className={styles.content}>
@@ -50,8 +51,8 @@ export default function ChestPurchaseDialog({
         <div className={styles.quantityControl}>
           <button
             aria-label="Increase quantity"
-            className={styles.quantityButton}
-            disabled={preview.quantity >= preview.maxAffordable}
+            className={`${styles.quantityButton}${canIncrease ? ` ${guided.secondaryAttention}` : ''}`}
+            disabled={!canIncrease}
             onClick={() => onQuantity(preview.quantity + 1)}
             type="button"
           >

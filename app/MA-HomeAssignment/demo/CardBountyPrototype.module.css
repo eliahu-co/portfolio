@@ -100,8 +100,10 @@
   height: 8px;
   flex: 0 0 auto;
   border-radius: 50%;
-  background: #ef9f00;
-  box-shadow: 0 0 0 5px rgba(239, 159, 0, .14);
+  background: #c86cff;
+  box-shadow:
+    0 0 0 4px rgba(200, 108, 255, .18),
+    0 0 10px rgba(200, 108, 255, .62);
   animation: guidePulse 1.8s ease-in-out infinite;
 }
 

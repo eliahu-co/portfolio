@@ -22,6 +22,28 @@
   animation: guidedHalo 1.4s ease-in-out infinite;
 }
 
+.secondaryAttention {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+}
+
+.secondaryAttention::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: -4px;
+  border: 3px solid #c86cff;
+  border-radius: inherit;
+  box-shadow:
+    0 0 0 1px rgba(93, 28, 127, .72),
+    0 0 10px 3px rgba(185, 76, 255, .52);
+  opacity: .58;
+  pointer-events: none;
+  transform: scale(.99);
+  animation: guidedSecondaryHalo 2s ease-in-out infinite;
+}
+
 @keyframes guidedAction {
   0%, 100% {
     transform: translateY(0) scale(1);
@@ -50,6 +72,24 @@
   }
 }
 
+@keyframes guidedSecondaryHalo {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(93, 28, 127, .72),
+      0 0 10px 3px rgba(185, 76, 255, .52);
+    opacity: .58;
+    transform: scale(.99);
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 2px rgba(93, 28, 127, .82),
+      0 0 14px 5px rgba(185, 76, 255, .68);
+    opacity: .9;
+    transform: scale(1.025);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .attention,
   .attention::after {
@@ -65,6 +105,15 @@
       0 0 0 2px rgba(93, 28, 127, .9),
       0 0 18px 6px rgba(185, 76, 255, .78);
     opacity: 1;
+    transform: none;
+  }
+
+  .secondaryAttention::after {
+    animation: none;
+    box-shadow:
+      0 0 0 1px rgba(93, 28, 127, .72),
+      0 0 10px 3px rgba(185, 76, 255, .52);
+    opacity: .82;
     transform: none;
   }
 }
