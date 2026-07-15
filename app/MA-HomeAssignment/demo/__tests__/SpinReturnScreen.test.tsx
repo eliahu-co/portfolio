@@ -30,6 +30,7 @@ it('keeps the deterministic reel order when Spin starts the core loop', () => {
   expect(screen.getByRole('group', { name: 'Coin balance: 300,000,000' })).toBeInTheDocument()
   expect(screen.getByRole('group', { name: 'Spin balance: 4,350' })).toBeInTheDocument()
   expect(screen.getByText('Collection reward: +2,500 Spins')).toBeInTheDocument()
+  expect(screen.getByText('Reward added')).not.toHaveClass('finishedStatus')
 
   const spin = screen.getByRole('button', { name: 'Spin' })
   expect(spin).toHaveAttribute('aria-pressed', 'false')
@@ -37,7 +38,7 @@ it('keeps the deterministic reel order when Spin starts the core loop', () => {
   fireEvent.click(spin)
   expect(spin).toHaveAttribute('aria-pressed', 'true')
   expect(spin).toBeEnabled()
-  expect(screen.getByText('You finished the demo!')).toBeInTheDocument()
+  expect(screen.getByText('You finished the demo!')).toHaveClass('finishedStatus')
   expect(within(reels).getAllByRole('img').map((node) => node.getAttribute('alt'))).toEqual(before)
   const firstReplay = within(reels).getAllByRole('img')[0]
   expect(firstReplay).not.toBe(firstSymbol)
@@ -85,6 +86,9 @@ it('keeps the visible cabinet dominant without obsolete in-game navigation style
   expect(css).not.toMatch(/\.shopButton/)
   expect(css).not.toMatch(/\.cardsCenterButton/)
   expect(css).not.toMatch(/\.cardsCenterIcon/)
+  expect(css).toMatch(
+    /\.rewardStatus strong\.finishedStatus\s*{[^}]*text-transform:\s*none/,
+  )
   expect(css).toMatch(
     /@media \(prefers-reduced-motion: reduce\)\s*\{[\s\S]*?\.spinButton\s*\{[^}]*outline:\s*3px solid #ffe56a/,
   )

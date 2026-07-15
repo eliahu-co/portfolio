@@ -433,6 +433,10 @@
   text-transform: uppercase;
 }
 
+.rewardStatus strong.finishedStatus {
+  text-transform: none;
+}
+
 .rewardStatus small {
   max-width: 245px;
   margin-top: 2px;

@@ -116,7 +116,9 @@ export default function SpinReturnScreen({
           <svg viewBox="0 0 24 24"><path d="m6 12 4 4 8-9" /></svg>
         </span>
         <span>
-          <strong>{spinReady ? 'You finished the demo!' : completedCollection ? 'Reward added' : 'Bounty Card added'}</strong>
+          <strong className={spinReady ? styles.finishedStatus : undefined}>
+            {spinReady ? 'You finished the demo!' : completedCollection ? 'Reward added' : 'Bounty Card added'}
+          </strong>
           <small>
             {spinReady
               ? 'Reels reset with the same outcome'
