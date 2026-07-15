@@ -59,6 +59,25 @@ describe('CardsCenterScreen', () => {
     expect(css).toMatch(/\.activeTab \.tabCard\s*\{/)
   })
 
+  it('keeps collection ribbons within the portrait columns', () => {
+    const css = readFileSync(
+      resolve(process.cwd(), 'app/MA-HomeAssignment/demo/CardsCenterScreen.module.css'),
+      'utf8',
+    )
+
+    expect(css).toMatch(
+      /\.ribbon\s*\{[^}]*width:\s*100%;[^}]*min-height:\s*32px;[^}]*margin-top:\s*-27px;[^}]*padding:\s*5px 9px 6px;/,
+    )
+    expect(css).toMatch(
+      /\.ribbon::before,\s*\.ribbon::after\s*\{[^}]*top:\s*6px;[^}]*width:\s*14px;[^}]*height:\s*20px;/,
+    )
+    expect(css).toMatch(/\.ribbon::before\s*\{[^}]*left:\s*-7px;/)
+    expect(css).toMatch(/\.ribbon::after\s*\{[^}]*right:\s*-7px;/)
+    expect(css).toMatch(
+      /\.ribbon strong\s*\{[^}]*font-size:\s*clamp\(11px,\s*3\.4cqw,\s*15px\);/,
+    )
+  })
+
   it('gives the bounty entry a reduced-motion-safe attention cue', () => {
     const css = readFileSync(
       resolve(process.cwd(), 'app/MA-HomeAssignment/demo/CardsCenterScreen.module.css'),

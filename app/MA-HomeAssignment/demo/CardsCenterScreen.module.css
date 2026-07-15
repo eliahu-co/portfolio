@@ -269,12 +269,12 @@
 .ribbon {
   position: relative;
   z-index: 2;
-  width: calc(100% + 19px);
-  min-height: 36px;
+  width: 100%;
+  min-height: 32px;
   display: grid;
   place-items: center;
-  margin-top: -31px;
-  padding: 6px 15px 7px;
+  margin-top: -27px;
+  padding: 5px 9px 6px;
   border: 2px solid #ffd968;
   border-radius: 5px;
   box-shadow:
@@ -288,20 +288,20 @@
   content: "";
   position: absolute;
   z-index: -1;
-  top: 7px;
-  width: 20px;
-  height: 24px;
+  top: 6px;
+  width: 14px;
+  height: 20px;
   border: 2px solid #ffd968;
   background: inherit;
 }
 
 .ribbon::before {
-  left: -12px;
+  left: -7px;
   clip-path: polygon(0 0, 100% 15%, 100% 85%, 0 100%, 32% 50%);
 }
 
 .ribbon::after {
-  right: -12px;
+  right: -7px;
   clip-path: polygon(0 15%, 100% 0, 68% 50%, 100% 100%, 0 85%);
 }
 
@@ -310,7 +310,7 @@
   z-index: 1;
   overflow: hidden;
   max-width: 100%;
-  font-size: clamp(12px, 4.1cqw, 18px);
+  font-size: clamp(11px, 3.4cqw, 15px);
   font-weight: 1000;
   letter-spacing: -.025em;
   line-height: 1;
