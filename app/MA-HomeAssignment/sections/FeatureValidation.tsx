@@ -59,17 +59,20 @@ const METRIC_GROUPS: ValidationGroup[] = [
       {
         metric: 'Target Selection Rate',
         role: 'Feature funnel',
-        target: '≥30% of eligible DAU',
+        target: 'adoption',
+        mutedTarget: '≥30% of eligible DAU',
       },
       {
         metric: 'First-Chest Conversion',
         role: 'Feature funnel',
-        target: '≥65% of players who select a target',
+        target: 'activation',
+        mutedTarget: '≥65% of players who adopted',
       },
       {
         metric: 'Bounty Completion Rate',
         role: 'Feature funnel',
-        target: '10–20% of activated players',
+        target: 'balanced completion',
+        mutedTarget: '10–20% of players who activated',
         metricHelp: 'feature-funnel',
       },
     ],
@@ -93,7 +96,6 @@ const ROLE_CLASSES: Record<MetricRole, string> = {
 
 type TooltipKey =
   | 'test-methodology'
-  | 'target-methodology'
   | 'feature-funnel'
   | 'arppu-payer-tier'
   | 'collections-completed'
@@ -103,7 +105,6 @@ type TooltipKey =
 
 const TOOLTIP_NOTES: Record<TooltipKey, string> = {
   'test-methodology': 'Event duration and measurement windows would be finalized using internal baselines, eligible population and comparable LiveOps performance.',
-  'target-methodology': 'Directional benchmarks. Final targets would be set using internal baselines and comparable LiveOps performance.',
   'feature-funnel': 'Ensures the guarantee provides value without becoming too easy.',
   'arppu-payer-tier': 'Shows whether revenue lift comes from deeper payer spend and which tiers drive it.',
   'collections-completed': 'Detects excessive acceleration of Collection completion and reward release.',
@@ -114,7 +115,6 @@ const TOOLTIP_NOTES: Record<TooltipKey, string> = {
 
 const TOOLTIP_LABELS: Record<TooltipKey, string> = {
   'test-methodology': 'About A/B Test methodology',
-  'target-methodology': 'About proposed targets',
   'feature-funnel': 'About Feature funnel',
   'arppu-payer-tier': 'About ARPPU by payer tier',
   'collections-completed': 'About Card Collections Completed per Player',
@@ -248,7 +248,7 @@ export default function FeatureValidation() {
         <div className="mb-10 max-w-3xl overflow-x-auto">
           <table className="w-full min-w-[720px] table-fixed border-collapse text-left">
             <colgroup>
-              <col className="w-[33%]" />
+              <col className="w-[35%]" />
               <col className="w-[132px]" />
               <col />
             </colgroup>
@@ -267,7 +267,6 @@ export default function FeatureValidation() {
                       <th scope="col" className="pb-1 pl-7 pt-3 text-left align-bottom font-sans text-[9px] font-normal uppercase tracking-[0.12em] text-charcoal/70">
                         <span className="inline-flex items-center gap-1.5">
                           <span>Proposed target</span>
-                          <InfoButton tooltip="target-methodology" onShow={showTooltip} onHide={hideTooltip} />
                         </span>
                       </th>
                     )}
@@ -289,7 +288,7 @@ export default function FeatureValidation() {
                           <span
                             data-metric-help={metricHelp ? true : undefined}
                             className={metricHelp
-                              ? 'grid w-full grid-cols-[minmax(0,1fr)_14px] items-center gap-1.5'
+                              ? 'grid w-full grid-cols-[minmax(0,1fr)_14px] items-center gap-2'
                               : 'inline-flex items-center gap-1.5'}
                           >
                             <span data-metric-label className={nowrap ? 'whitespace-nowrap' : undefined}>{metric}</span>

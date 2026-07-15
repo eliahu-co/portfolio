@@ -628,9 +628,9 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
         ['ARPPU by payer tier', 'Monetization', 'lift ≥5% overall and ≥8% at high-spender cohort'],
         ['Coin spend on Chests per DAU', 'Economy', 'lift ≥10%'],
         ['Total Coin Consumption per DAU', 'Economy', 'lift ≥5%'],
-        ['Target Selection Rate', 'Feature funnel', '≥30% of eligible DAU'],
-        ['First-Chest Conversion', 'Feature funnel', '≥65% of players who select a target'],
-        ['Bounty Completion Rate', 'Feature funnel', '10–20% of activated players'],
+        ['Target Selection Rate', 'Feature funnel', 'adoption ≥30% of eligible DAU'],
+        ['First-Chest Conversion', 'Feature funnel', 'activation ≥65% of players who adopted'],
+        ['Bounty Completion Rate', 'Feature funnel', 'balanced completion 10–20% of players who activated'],
       ],
     },
     {
@@ -650,11 +650,10 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   const table = tables[0]
   const groups = Array.from(metrics.querySelectorAll('tbody[data-metric-group]'))
   const tooltips = Array.from(document.querySelectorAll(
-    '#test-methodology-tooltip, #target-methodology-tooltip, #feature-funnel-tooltip'
+    '#test-methodology-tooltip, #feature-funnel-tooltip'
   ))
   const infoButtons = [
     metrics.querySelector('button[aria-label="About A/B Test methodology"]')!,
-    metrics.querySelector('button[aria-label="About proposed targets"]')!,
     metrics.querySelector('button[aria-label="About Feature funnel"]')!,
   ]
   const rolePills = Array.from(metrics.querySelectorAll('[data-metric-role]'))
@@ -690,6 +689,9 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
     '≥5% overall and ≥8% at high-spender cohort',
     '≥10%',
     '≥5%',
+    '≥30% of eligible DAU',
+    '≥65% of players who adopted',
+    '10–20% of players who activated',
     '≤115%',
     '≥95%',
     '≥95%',
@@ -742,12 +744,10 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   expect(northStarTarget.className).not.toContain('text-cm-crimson')
   expect(infoButtons.map((button) => button.getAttribute('aria-label'))).toEqual([
     'About A/B Test methodology',
-    'About proposed targets',
     'About Feature funnel',
   ])
   expect(tooltips.map((tooltip) => tooltip.textContent)).toEqual([
     'Event duration and measurement windows would be finalized using internal baselines, eligible population and comparable LiveOps performance.',
-    'Directional benchmarks. Final targets would be set using internal baselines and comparable LiveOps performance.',
     'Ensures the guarantee provides value without becoming too easy.',
   ])
   tooltips.forEach((tooltip) => {
@@ -757,8 +757,10 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   infoButtons.forEach((button, index) => {
     expect(button.getAttribute('aria-describedby')).toBe(tooltips[index].id)
   })
-  expect(infoButtons[2].closest('[data-metric-help]')?.querySelector('[data-metric-label]')?.textContent).toBe('Bounty Completion Rate')
-  expect(table.querySelector('col')?.className).toContain('w-[33%]')
+  expect(infoButtons[1].closest('[data-metric-help]')?.querySelector('[data-metric-label]')?.textContent).toBe('Bounty Completion Rate')
+  expect(metrics.querySelector('button[aria-label="About proposed targets"]')).toBeNull()
+  expect(document.getElementById('target-methodology-tooltip')).toBeNull()
+  expect(table.querySelector('col')?.className).toContain('w-[35%]')
   const collectionLabel = Array.from(table.querySelectorAll('[data-metric-label]')).find(
     (label) => label.textContent === 'Card Collections Completed per Player'
   )!
@@ -832,6 +834,7 @@ it('adds explanatory tooltips to supporting and guardrail metrics', () => {
   alignedHelp.forEach((wrapper) => {
     expect(wrapper.className).toContain('grid-cols-[minmax(0,1fr)_14px]')
     expect(wrapper.className).toContain('w-full')
+    expect(wrapper.className).toContain('gap-2')
   })
 })
 
