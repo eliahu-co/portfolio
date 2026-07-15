@@ -838,13 +838,13 @@ it('adds explanatory tooltips to supporting and guardrail metrics', () => {
   })
 })
 
-it('renders Assumptions without decorative dash markers', () => {
+it('aligns Assumptions with quiet bullet glyphs', () => {
   render(<MAHomeAssignmentPage />)
   const assumptions = document.getElementById('assumptions')!
   const list = assumptions.querySelector('ul')!
   const items = Array.from(assumptions.querySelectorAll('li'))
 
-  expect(items.map((item) => item.textContent?.trim())).toEqual([
+  expect(items.map((item) => item.querySelector('[data-assumption-text]')?.textContent?.trim())).toEqual([
     'ARPDAU lift is the target outcome; engagement and consumption signals matter only if they convert to revenue.',
     'ARPDAU lift should not come at the expense of long-term demand, core-loop health, player trust or the wider game economy.',
     'New features should extend familiar mechanics rather than replace the core-loop.',
@@ -853,10 +853,11 @@ it('renders Assumptions without decorative dash markers', () => {
   ])
   expect(list.className).toContain('gap-2.5')
   for (const item of items) {
-    expect(item.querySelector('[aria-hidden="true"]')).toBeNull()
-    expect(item.textContent?.trim().startsWith('—')).toBe(false)
-    expect(item.className).not.toContain('flex')
-    expect(item.className).not.toContain('gap-2')
+    const marker = item.querySelector('[aria-hidden="true"]')!
+    expect(marker.textContent).toBe('•')
+    expect(marker.className).toContain('w-4')
+    expect(item.className).toContain('flex')
+    expect(item.className).toContain('gap-3')
   }
 })
 
