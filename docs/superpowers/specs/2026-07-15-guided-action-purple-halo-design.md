@@ -22,14 +22,25 @@ Keep the existing shared class on all eight guided actions and change only `Guid
 
 The pseudo-element inherits each control's border radius and has no background, so it highlights green buttons, target cards, and chest options without covering their contents.
 
+## Supporting purple cues
+
+Use the same purple guidance palette for the two supporting cues that sit outside the shared next-action class:
+
+- Replace the Card Bounty LiveOps badge's yellow/orange radial glow with a purple radial glow while preserving its existing 1.4-second shake cadence.
+- Replace the desktop instruction dot's orange fill and ring with a purple dot and glow. Because the dot mirrors the current in-prototype action, the treatment applies to every guidance message rather than only the first step.
+
+On the Magical Chest quantity screen, the primary action remains the strongly highlighted **Confirm purchase** button. Add a secondary purple halo to the enabled **Increase quantity** button so the player understands that the batch size can be adjusted before confirming. The secondary cue uses a thinner ring, smaller glow, slower pulse, and no control lift so it remains visibly subordinate to the primary action. Do not highlight the decrease control, and suppress the secondary cue whenever increase is disabled at the affordable maximum.
+
 ## Motion accessibility
 
-Under `prefers-reduced-motion: reduce`, disable both animations and transforms. Keep the purple ring and a static 18px glow at full opacity so the next action remains clear without motion.
+Under `prefers-reduced-motion: reduce`, disable all guidance animations and transforms. Keep the strong next-action halo, supporting badge glow, purple instruction dot, and secondary quantity cue visible as static treatments so the hierarchy remains clear without motion.
 
 ## Verification
 
 - Add a CSS contract test for the raised stacking context, exact purple ring geometry, halo animation, and reduced-motion treatment.
 - Assert the shared stylesheet no longer contains the old yellow attention color or an animated filter.
+- Contract-test the purple LiveOps glow and purple instruction dot so neither can regress to yellow/orange.
+- Assert that the enabled Increase quantity button receives the secondary attention class, while a disabled increase control does not.
 - Retain the happy-path assertions proving the `attention` class moves through all eight guided actions.
 - Run the focused guided-action test, the complete Jest suite, and the production build.
 - Inspect representative guided controls on desktop and mobile: Choose a Card, Whale Boat, Magical Chest, Confirm Purchase, Continue, Add to Collection, and Collect Spins.

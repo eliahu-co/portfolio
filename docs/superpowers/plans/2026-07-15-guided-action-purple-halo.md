@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Replace the faint yellow next-action shadow with a larger, bolder purple ring and halo across all guided Card Bounty controls.
+**Goal:** Replace the faint yellow next-action shadow with a larger, bolder purple guidance system across all guided Card Bounty controls and supporting cues.
 
-**Architecture:** Keep the existing `guided.attention` class assignments and component flow untouched. Implement the new treatment entirely in the shared CSS Module using a raised control and a pointer-transparent pseudo-element, with a focused CSS contract test to protect palette, geometry, stacking, animation, and reduced-motion behavior.
+**Architecture:** Keep the existing `guided.attention` class assignments and component flow untouched. Implement the primary treatment in the shared CSS Module using a raised control and pointer-transparent pseudo-elements; reuse that module for a subordinate quantity cue, and align the badge and desktop guidance styles to the same purple palette. Focused contracts protect palette, hierarchy, stacking, animation, and reduced-motion behavior.
 
 **Tech Stack:** Next.js 14, React 18, TypeScript, CSS Modules, Jest.
 
@@ -162,7 +162,55 @@ git add app/MA-HomeAssignment/demo/GuidedAction.module.css app/MA-HomeAssignment
 git commit -m "style: strengthen guided actions with purple halo"
 ```
 
-### Task 2: Integrated verification and delivery
+### Task 2: Unify supporting guidance cues and highlight quantity adjustment
+
+**Files:**
+- Modify: `app/MA-HomeAssignment/demo/CardsCenterScreen.module.css`
+- Modify: `app/MA-HomeAssignment/demo/CardBountyPrototype.module.css`
+- Modify: `app/MA-HomeAssignment/demo/GuidedAction.module.css`
+- Modify: `app/MA-HomeAssignment/demo/ChestPurchaseDialog.tsx`
+- Modify: `app/MA-HomeAssignment/demo/__tests__/CardsCenterScreen.test.tsx`
+- Modify: `app/MA-HomeAssignment/demo/__tests__/DemoShell.test.tsx`
+- Modify: `app/MA-HomeAssignment/demo/__tests__/ChestPurchaseDialog.test.tsx`
+
+**Interfaces:**
+- Consumes: the existing Card Bounty badge pseudo-element, desktop guidance dot, and Increase quantity button
+- Produces: purple supporting cues and a subordinate `guided.secondaryAttention` treatment
+
+- [ ] **Step 1: Write failing contracts**
+
+Add source-level assertions that the badge radial glow and reduced-motion shadow use purple rather than yellow, that the guidance dot uses a purple fill and glow rather than `#ef9f00`, and that `secondaryAttention` has a thinner/smaller treatment than the primary halo. Add render assertions that enabled Increase quantity receives the secondary class and disabled Increase quantity does not.
+
+- [ ] **Step 2: Run focused tests and verify RED**
+
+Run:
+
+```powershell
+npm.cmd test -- --runInBand app/MA-HomeAssignment/demo/__tests__/CardsCenterScreen.test.tsx app/MA-HomeAssignment/demo/__tests__/DemoShell.test.tsx app/MA-HomeAssignment/demo/__tests__/ChestPurchaseDialog.test.tsx app/MA-HomeAssignment/demo/__tests__/GuidedAction.test.ts
+```
+
+Expected: FAIL because the two supporting cues are still yellow/orange and no secondary quantity treatment exists.
+
+- [ ] **Step 3: Implement the purple supporting cues**
+
+- Change the badge pseudo-element to a purple radial gradient and its reduced-motion static glow to purple, without changing the reviewed shake cadence.
+- Change the shared desktop guidance dot to `#c86cff` with a compact purple ring/glow, retaining its current animation and dimensions.
+- Add `secondaryAttention` to the shared guidance stylesheet with a 3px purple ring, a smaller outer glow, a slower pulse, no lift, and pointer-transparent pseudo-element.
+- Apply the secondary class only to the enabled Increase quantity button. Leave the decrease button unchanged.
+- Disable secondary animation under reduced motion while retaining its static purple ring/glow.
+
+- [ ] **Step 4: Run focused and full verification**
+
+Run the focused command from Step 2, then `npm.cmd test -- --runInBand`. Expected: all focused contracts and the complete suite pass.
+
+- [ ] **Step 5: Commit**
+
+```powershell
+git add app/MA-HomeAssignment/demo docs/superpowers/specs/2026-07-15-guided-action-purple-halo-design.md docs/superpowers/plans/2026-07-15-guided-action-purple-halo.md
+git commit -m "style: unify Card Bounty guidance cues"
+```
+
+### Task 3: Integrated verification and delivery
 
 **Files:**
 - Verify the complete `main...HEAD` branch diff
