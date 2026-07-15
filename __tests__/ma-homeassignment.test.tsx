@@ -14,7 +14,7 @@ it('renders every side-nav section anchor', () => {
   render(<MAHomeAssignmentPage />)
   const ids = [
     'hero', 'feature-1', 'feature-2', 'feature-3',
-    'prioritization', 'mvp', 'prototype', 'assumptions',
+    'prioritization', 'mvp', 'prototype', 'validation', 'assumptions',
   ]
   for (const id of ids) {
     expect(document.getElementById(id)).toBeInTheDocument()
@@ -218,6 +218,30 @@ it('renders monetization strategy before metrics with the existing metric bullet
   })
 })
 
+it('uses the requested compact and relaxed subtitle spacing', () => {
+  render(<MAHomeAssignmentPage />)
+
+  const expectSpacing = (scope: HTMLElement, label: string, spacing: 'mb-1' | 'mb-3') => {
+    const headings = Array.from(scope.querySelectorAll('p')).filter((node) => node.textContent === label)
+    expect(headings.length).toBeGreaterThan(0)
+    headings.forEach((heading) => expect(heading.className).toContain(spacing))
+  }
+
+  ;[USE_CASE_1, USE_CASE_2, USE_CASE_3].forEach((data) => {
+    const feature = document.getElementById(data.id)!
+    expectSpacing(feature, 'Concept', 'mb-1')
+    expectSpacing(feature, 'Monetization Strategy', 'mb-1')
+    expectSpacing(feature, 'Metrics', 'mb-1')
+    expectSpacing(feature, 'Loop', 'mb-3')
+    expectSpacing(feature, 'Player motivation & risks', 'mb-3')
+  })
+
+  const validation = document.getElementById('validation')!
+  ;['Population', 'Control', 'Treatment', 'Hypothesis'].forEach((label) => {
+    expectSpacing(validation, label, 'mb-1')
+  })
+})
+
 it('defines the approved player motivations and plain monetization strategies', () => {
   expect([USE_CASE_1, USE_CASE_2, USE_CASE_3].map((data) => ({
     title: data.title,
@@ -343,9 +367,7 @@ it('renders the interactive prototype inside MVP without the old introduction', 
   const heading = Array.from(mvp.querySelectorAll('h2')).find(
     (node) => node.textContent === 'Interactive prototype'
   )!
-  const successMetrics = Array.from(mvp.querySelectorAll('h2')).find(
-    (node) => node.textContent === 'Success metrics'
-  )!
+  const validation = document.getElementById('validation')!
   const previewLink = prototype.querySelector('a[href="/MA-HomeAssignment/demo"]')!
   const buttonLabel = previewLink.querySelector('span')!
   const buttonClasses = buttonLabel.className.split(/\s+/)
@@ -376,10 +398,46 @@ it('renders the interactive prototype inside MVP without the old introduction', 
   expect(previewLink.getAttribute('aria-label')).toBe('Open the Card Bounty interactive prototype')
   expect(previewLink.getAttribute('target')).toBe('_blank')
   expect(previewLink.getAttribute('rel')).toBe('noopener noreferrer')
-  expect(prototype.compareDocumentPosition(successMetrics) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  expect(mvp.contains(validation)).toBe(false)
+  expect(prototype.compareDocumentPosition(validation) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   expect(document.body.textContent).not.toContain('Prototype demo')
   expect(document.body.textContent).not.toContain('Card Bounty, interactive')
   expect(document.body.textContent).not.toContain('An interactive concept prototype of Card Bounty')
+})
+
+it('renders the standalone Feature Validation experiment after the prototype', () => {
+  render(<MAHomeAssignmentPage />)
+  const validation = document.getElementById('validation')!
+  const expectedProtocol = [
+    ['Population', 'Players with the Cards Center unlocked and at least one eligible missing Card.'],
+    ['Control', 'Existing Cards Center.'],
+    ['Treatment', 'Existing Cards Center with Card Bounty as a time-limited LiveOps event.'],
+    ['Hypothesis', 'A visible guarantee for a chosen missing Card increases Coin-purchased Chest openings. Higher Coin consumption increases demand for existing Spin and Coin offers, lifting ARPDAU.'],
+  ]
+
+  expect(validation.querySelector('p')?.textContent).toBe('A/B Test')
+  expect(validation.querySelector('h2')?.textContent).toBe('Feature Validation')
+  expect(document.querySelector('a[href="#validation"]')?.textContent).toBe('Validation')
+
+  expectedProtocol.forEach(([label, body]) => {
+    const labelNode = Array.from(validation.querySelectorAll('p')).find((node) => node.textContent === label)!
+    expect(labelNode.className).toContain('font-extrabold')
+    expect(labelNode.className).toContain('tracking-[0.14em]')
+    expect(labelNode.nextElementSibling?.textContent).toBe(body)
+    expect(labelNode.parentElement?.className).not.toContain('border')
+    expect(labelNode.parentElement?.className).not.toContain('bg-')
+  })
+
+  const comparison = validation.querySelector('[data-protocol-comparison]')!
+  expect(comparison.className).toContain('grid-cols-2')
+  expect(Array.from(comparison.children).map((item) => item.firstElementChild?.textContent)).toEqual([
+    'Control',
+    'Treatment',
+  ])
+
+  expect(validation.textContent).not.toContain('Segmentation')
+  expect(validation.textContent).not.toContain('Decision threshold')
+  expect(document.body.textContent).not.toContain('Success metrics')
 })
 
 it('exposes scoring definitions through accessible table-header tooltips', () => {
@@ -503,81 +561,85 @@ it('renders the approved MVP intro and scope copy', () => {
   expect(section.textContent).not.toContain('Purchasing meter progress or the guaranteed Card directly.')
 })
 
-it('renders success metrics as one grouped table with contextual funnel help', () => {
+it('renders Feature Validation as a role-pill experiment table with contextual funnel help', () => {
   const expectedGroups = [
     {
-      title: 'North Star',
-      rows: [['ARPDAU', '≥5% lift']],
+      title: 'Primary metric',
+      rows: [['ARPDAU', '', '≥5% lift']],
     },
     {
-      title: 'Monetization and economy drivers',
+      title: 'Supporting metrics',
       rows: [
-        ['ARPPU', '≥5% lift overall and ≥8% among the high-spender cohort'],
-        ['Coin spend on Chests per DAU', '≥10% lift'],
-        ['Total Coin Consumption per DAU', '≥5% lift'],
-      ],
-    },
-    {
-      title: 'Feature funnel',
-      rows: [
-        ['Target Selection Rate', '≥30% of eligible DAU'],
-        ['First-Chest Conversion', '≥65% of players who select a target'],
-        ['Bounty Completion Rate', '10–20% of activated players'],
+        ['ARPPU by payer tier', 'Monetization', '≥5% lift overall and ≥8% among the high-spender cohort'],
+        ['Coin spend on Chests per DAU', 'Economy', '≥10% lift'],
+        ['Total Coin Consumption per DAU', 'Economy', '≥5% lift'],
+        ['Target Selection Rate', 'Feature funnel', '≥30% of eligible DAU'],
+        ['First-Chest Conversion', 'Feature funnel', '≥65% of players who select a target'],
+        ['Bounty Completion Rate', 'Feature funnel', '10–20% of activated players'],
       ],
     },
     {
       title: 'Guardrails',
       rows: [
-        ['Post-Event Revenue per Player', '≥98%'],
-        ['Post-Event Chest Coin Spend per Player', '≥95%'],
-        ['Card Collections Completed per Player', '≤115%'],
-        ['Village Upgrades per Player', '≥95%'],
+        ['Card Collections Completed per Player', '', '≤115%'],
+        ['Village Upgrades per Player', '', '≥95%'],
+        ['Post-Event Coin Spend on Chests per Player', '', '≥95%'],
+        ['Post-Event Revenue per Player', '', '≥98%'],
       ],
     },
   ]
 
   render(<MAHomeAssignmentPage />)
-  const mvp = document.getElementById('mvp')!
-  const heading = Array.from(mvp.querySelectorAll('h2')).find(
-    (node) => node.textContent === 'Success metrics'
-  )!
-  const metrics = heading.parentElement!
+  const metrics = document.getElementById('validation')!
   const tables = Array.from(metrics.querySelectorAll('table'))
   const table = tables[0]
   const groups = Array.from(metrics.querySelectorAll('tbody[data-metric-group]'))
-  const introduction = Array.from(metrics.querySelectorAll('p')).find((node) =>
-    node.textContent?.startsWith('Eligible players')
-  )!
-  const tooltip = metrics.querySelector('[role="tooltip"]')!
+  const tooltip = document.getElementById('feature-funnel-tooltip')!
   const infoButtons = Array.from(metrics.querySelectorAll('button[aria-describedby]'))
+  const rolePills = Array.from(metrics.querySelectorAll('[data-metric-role]'))
 
-  expect(introduction.textContent).toBe(
-    'Eligible players have the Cards Center unlocked and at least one targetable missing Card. Event metrics use eligible players active each day; post event guardrails use the full eligible group. All results compare treatment with control.'
-  )
   expect(tables).toHaveLength(1)
   expect(table.querySelectorAll('thead')).toHaveLength(1)
   expect(Array.from(table.querySelectorAll('thead th')).map((cell) => cell.textContent?.trim())).toEqual([
     'Metric',
+    'Role',
     'Proposed target',
   ])
-  expect(groups).toHaveLength(4)
+  expect(table.querySelector('thead th:nth-child(2) span')?.className).toContain('sr-only')
+  expect(groups).toHaveLength(3)
   expectedGroups.forEach(({ title, rows }, index) => {
     const group = groups[index]
-    const renderedRows = Array.from(group.querySelectorAll('tr[data-metric-row]')).map((row) =>
-      Array.from(row.querySelectorAll('td')).map((cell) => cell.textContent?.trim())
-    )
+    const renderedRows = Array.from(group.querySelectorAll('tr[data-metric-row]')).map((row) => [
+      row.querySelector('[data-metric-name]')?.textContent?.trim(),
+      row.querySelector('[data-metric-role]')?.textContent?.trim() ?? '',
+      row.querySelector('[data-metric-target]')?.textContent?.trim(),
+    ])
 
     expect(group.getAttribute('data-metric-group')).toBe(title)
     expect(group.querySelector('h3 > span')?.textContent).toBe(title)
     expect(renderedRows).toEqual(rows)
     expect(group.querySelector('tr[data-metric-row]')?.className).toContain('border-charcoal/15')
   })
-  expect(table.className).not.toContain('min-w-')
-  expect(table.parentElement?.className).not.toContain('overflow-x-auto')
+  expect(table.className).toContain('min-w-[720px]')
+  expect(table.parentElement?.className).toContain('overflow-x-auto')
+  expect(rolePills).toHaveLength(6)
+  expect(rolePills.map((pill) => pill.textContent)).toEqual([
+    'Monetization', 'Economy', 'Economy', 'Feature funnel', 'Feature funnel', 'Feature funnel',
+  ])
+  rolePills.forEach((pill) => {
+    expect(pill.className).toContain('w-28')
+    expect(pill.className).toContain('justify-center')
+    expect(pill.className).toContain('border')
+  })
+  expect(rolePills[0].className).toContain('bg-cm-gold/15')
+  expect(rolePills[1].className).toContain('bg-cm-sky/20')
+  expect(rolePills[3].className).toContain('bg-cm-violet-deep/10')
+  expect(groups[0].querySelectorAll('[data-metric-role]')).toHaveLength(0)
+  expect(groups[2].querySelectorAll('[data-metric-role]')).toHaveLength(0)
   const tableHeaderRow = table.querySelector('thead tr')!
   const groupHeaderRows = groups.map((group) => group.querySelector('tr')!)
   const northStarRow = groups[0].querySelector('tr[data-metric-row]')!
-  const northStarTarget = northStarRow.querySelector('td:last-child')!
+  const northStarTarget = northStarRow.querySelector('[data-metric-target]')!
 
   expect(tableHeaderRow.className).not.toContain('border-b-2')
   expect(tableHeaderRow.className).not.toContain('border-cm-wood')
@@ -604,11 +666,11 @@ it('renders success metrics as one grouped table with contextual funnel help', (
   expect(tooltip.textContent).toBe(
     'The funnel is coherent: 30% × 65% ≈ 20% activation. The completion range ensures the guarantee provides value without becoming too easy.'
   )
-  expect(tooltip.className).toContain('group-hover:visible')
-  expect(tooltip.className).toContain('group-focus-within:visible')
-  expect(metrics.querySelectorAll('p.mt-3.border-l-4')).toHaveLength(0)
-  expect(metrics.textContent).not.toContain('Role')
-  expect(metrics.querySelectorAll('span.rounded-full')).toHaveLength(0)
+  expect(tooltip.className).toContain('fixed')
+  expect(table.parentElement?.contains(tooltip)).toBe(false)
+  expect(infoButtons[0].previousElementSibling?.textContent).toBe('Feature funnel')
+  expect(metrics.textContent).not.toContain('Decision threshold')
+  expect(metrics.textContent).not.toContain('Segmentation')
 })
 
 it('renders Assumptions without decorative dash markers', () => {

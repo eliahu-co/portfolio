@@ -31,47 +31,6 @@ const SCOPE_OUT = [
   'Event-specific purchase bundles.',
   'Gameplay outside the existing Chest-opening flow.',
 ]
-type Metric = { metric: string; target: string }
-type MetricGroup = {
-  title: string
-  metrics: Metric[]
-  emphasis?: 'north-star'
-  note?: string
-}
-
-const METRIC_GROUPS: MetricGroup[] = [
-  {
-    title: 'North Star',
-    emphasis: 'north-star',
-    metrics: [{ metric: 'ARPDAU', target: '≥5% lift' }],
-  },
-  {
-    title: 'Monetization and economy drivers',
-    metrics: [
-      { metric: 'ARPPU', target: '≥5% lift overall and ≥8% among the high-spender cohort' },
-      { metric: 'Coin spend on Chests per DAU', target: '≥10% lift' },
-      { metric: 'Total Coin Consumption per DAU', target: '≥5% lift' },
-    ],
-  },
-  {
-    title: 'Feature funnel',
-    metrics: [
-      { metric: 'Target Selection Rate', target: '≥30% of eligible DAU' },
-      { metric: 'First-Chest Conversion', target: '≥65% of players who select a target' },
-      { metric: 'Bounty Completion Rate', target: '10–20% of activated players' },
-    ],
-    note: 'The funnel is coherent: 30% × 65% ≈ 20% activation. The completion range ensures the guarantee provides value without becoming too easy.',
-  },
-  {
-    title: 'Guardrails',
-    metrics: [
-      { metric: 'Post-Event Revenue per Player', target: '≥98%' },
-      { metric: 'Post-Event Chest Coin Spend per Player', target: '≥95%' },
-      { metric: 'Card Collections Completed per Player', target: '≤115%' },
-      { metric: 'Village Upgrades per Player', target: '≥95%' },
-    ],
-  },
-]
 function List({
   title,
   items,
@@ -100,87 +59,6 @@ function List({
   )
 }
 
-function SuccessMetricsTable() {
-  return (
-    <table className="w-full table-fixed border-collapse text-left">
-      <thead>
-        <tr>
-          <th className="w-[44%] py-2 pr-4 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 sm:w-[42%]">
-            Metric
-          </th>
-          <th className="py-2 pl-3 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">
-            Proposed target
-          </th>
-        </tr>
-      </thead>
-      {METRIC_GROUPS.map((group) => {
-        const isNorthStar = group.emphasis === 'north-star'
-        const tooltipId = group.note ? 'feature-funnel-tooltip' : undefined
-
-        return (
-          <tbody
-            key={group.title}
-            data-metric-group={group.title}
-          >
-            <tr className={`border-b-2 ${isNorthStar ? 'border-cm-wood' : 'border-charcoal/25'}`}>
-              <th
-                colSpan={2}
-                scope="rowgroup"
-                className={`text-left ${isNorthStar ? 'pb-1 pt-3' : 'pb-2 pt-6'}`}
-              >
-                <h3 className="group relative inline-flex items-center gap-1.5 font-sans text-[11px] font-bold uppercase tracking-[0.1em] text-cm-violet-deep">
-                  <span>{group.title}</span>
-                  {group.note && tooltipId && (
-                    <>
-                      <button
-                        type="button"
-                        aria-label={`About ${group.title}`}
-                        aria-describedby={tooltipId}
-                        className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full border border-cm-wood/60 bg-cm-cream font-sans text-[8px] font-bold normal-case tracking-normal text-cm-wood outline-none transition-colors hover:border-cm-crimson hover:text-cm-crimson focus-visible:ring-2 focus-visible:ring-cm-gold focus-visible:ring-offset-1"
-                      >
-                        i
-                      </button>
-                      <span
-                        id={tooltipId}
-                        role="tooltip"
-                        className="pointer-events-none invisible absolute left-0 top-full z-30 mt-2 w-[min(18rem,calc(100vw-2rem))] rounded-lg border border-cm-wood/35 bg-cm-cream p-3 text-left font-sans text-[11px] font-normal normal-case leading-relaxed tracking-normal text-charcoal/80 opacity-0 shadow-[0_10px_24px_rgba(42,27,84,0.18)] transition-[opacity,visibility] duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
-                      >
-                        {group.note}
-                      </span>
-                    </>
-                  )}
-                </h3>
-              </th>
-            </tr>
-            {group.metrics.map(({ metric, target }) => {
-              const isNorthStarMetric = isNorthStar && metric === 'ARPDAU'
-
-              return (
-                <tr
-                  key={metric}
-                  data-metric-row
-                  className={`border-b border-charcoal/15 last:border-b-0 ${isNorthStarMetric ? 'animate-shimmer motion-reduce:animate-none' : ''}`}
-                  style={isNorthStarMetric ? {
-                    backgroundImage: 'linear-gradient(90deg, rgba(245,168,0,0.08) 0%, rgba(245,168,0,0.28) 50%, rgba(245,168,0,0.08) 100%)',
-                    backgroundSize: '200% 100%',
-                  } : undefined}
-                >
-                  <td className="py-2.5 pr-4 align-top font-sans text-[13px] font-medium leading-relaxed text-cm-violet-deep">
-                    {metric}
-                  </td>
-                  <td className={`py-2.5 pl-3 align-top font-sans text-[13px] leading-relaxed text-charcoal ${isNorthStar ? 'font-medium' : ''}`}>
-                    {target}
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        )
-      })}
-    </table>
-  )
-}
-
 export default function MVP() {
   return (
     <Section id="mvp" eyebrow="Expanded feature">
@@ -205,17 +83,6 @@ export default function MVP() {
         <PrototypePreview />
       </div>
 
-      <div className="mb-10 max-w-3xl">
-        <SubHeading>Success metrics</SubHeading>
-        <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-5 max-w-2xl">
-          Eligible players have the Cards Center unlocked and at least one targetable missing Card. Event
-          metrics use eligible players active each day; post event guardrails use the full eligible group. All
-          results compare treatment with control.
-        </p>
-        <div>
-          <SuccessMetricsTable />
-        </div>
-      </div>
     </Section>
   )
 }
