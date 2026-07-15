@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 import { DUPLICATE_REVEALS, formatNumber, getChest, type DemoTarget } from './demoData'
 import type { DemoState } from './demoReducer'
-import { CoinIcon, PrimaryButton, StarRow } from './GamePrimitives'
+import { CoinIcon, PrimaryButton, SpinsIcon, StarRow } from './GamePrimitives'
 import styles from './CardBountyPrototype.module.css'
 import guided from './GuidedAction.module.css'
 
@@ -93,7 +93,7 @@ export function CollectionComplete({ target, onCollect }: { target: DemoTarget; 
       </div>
       {completesCollection ? (
         <div className={styles.spinReward}>
-          <svg viewBox="0 0 36 36" aria-hidden="true"><path d="m18 3.5 4 8.1 9 .9-6.5 6.3 1.7 8.8-8.2-4.3-8.2 4.3 1.7-8.8L5 12.5l9-.9 4-8.1Z" /></svg>
+          <SpinsIcon />
           <span>Collection reward</span>
           <strong>+{formatNumber(target.collectionRewardSpins)} Spins</strong>
         </div>

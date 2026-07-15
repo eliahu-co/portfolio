@@ -12,6 +12,14 @@ export function CoinIcon({ small = false }: { small?: boolean }) {
   )
 }
 
+export function SpinsIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="m13.6 2-8 11h5.2L9.7 22l8.7-12h-5.3L13.6 2Z" />
+    </svg>
+  )
+}
+
 export function StarRow({ count, compact = false }: { count: number; compact?: boolean }) {
   return (
     <span className={`${styles.starRow} ${compact ? styles.starRowCompact : ''}`} aria-label={`${count} Stars`}>

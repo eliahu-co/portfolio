@@ -103,6 +103,13 @@ describe('Card Bounty prototype happy path', () => {
     expect(screen.getByRole('button', { name: 'Add to Collection' })).toHaveClass('attention')
     fireEvent.click(screen.getByRole('button', { name: 'Add to Collection' }))
     expect(screen.getByRole('heading', { name: 'Sinbad — Collection Completed' })).toBeInTheDocument()
+    const collectionComplete = screen.getByRole('dialog', { name: 'Sinbad — Collection Completed' })
+    expect(
+      collectionComplete.querySelector('path[d="m13.6 2-8 11h5.2L9.7 22l8.7-12h-5.3L13.6 2Z"]'),
+    ).toBeInTheDocument()
+    expect(
+      collectionComplete.querySelector('path[d="m18 3.5 4 8.1 9 .9-6.5 6.3 1.7 8.8-8.2-4.3-8.2 4.3 1.7-8.8L5 12.5l9-.9 4-8.1Z"]'),
+    ).not.toBeInTheDocument()
     expect(prototypeControls).not.toHaveClass('prototypeControlsFinal')
     expect(screen.getByRole('button', { name: 'Collect 2,500 Spins' })).toHaveClass('attention')
     fireEvent.click(screen.getByRole('button', { name: 'Collect 2,500 Spins' }))

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { formatNumber } from './demoData'
+import { SpinsIcon } from './GamePrimitives'
 import { REEL_GRID } from './demoVisualData'
 import { SlotMachineBoard } from './SlotMachineBoard'
 import styles from './SpinReturnScreen.module.css'
@@ -55,7 +56,7 @@ export default function SpinReturnScreen({
           aria-label={`Spin balance: ${formatNumber(spins)}`}
         >
           <span className={styles.resourceIcon} aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="m13.6 2-8 11h5.2L9.7 22l8.7-12h-5.3L13.6 2Z" /></svg>
+            <SpinsIcon />
           </span>
           <span className={styles.visuallyHidden}>Spins</span>
           <strong>{formatNumber(spins)}</strong>
@@ -96,7 +97,7 @@ export default function SpinReturnScreen({
           </div>
         </div>
         <div className={styles.spinBalance}>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13.6 2-8 11h5.2L9.7 22l8.7-12h-5.3L13.6 2Z" /></svg>
+          <SpinsIcon />
           <span><small>Spins</small><strong>{formatNumber(spins)}</strong></span>
         </div>
       </section>
