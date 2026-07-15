@@ -52,7 +52,14 @@ export interface UseCaseData {
   mockup?: string // concept mockup image beside the loop (defaults to the placeholder)
   arpdauMechanism?: string // text shown in the block between Concept and Loop
   mechanismLabel?: string  // label for that block (defaults to "ARPDAU Mechanism")
-  kpi?: { primary: string; supporting: string[] } // KPI block: one primary + supporting metrics as cards
+  monetizationStrategy?: {
+    lead: string
+    body: string
+  }
+  metrics?: {
+    primary: string
+    supporting: string[]
+  }
 
   constructionPhase: { name: string; description: string }
   primaryUser:   NamedRole
@@ -266,22 +273,30 @@ export function CardList({
   )
 }
 
-// KPI block — a gold "primary" card (with a star) for the headline metric, a
-// divider, then grey "supporting" cards in the same 3-column grid as the
-// value/risk cards.
-// KPI as a simple list: a gold star marks the primary metric, a smaller gold
-// diamond marks each supporting metric. Concept-text styling.
-function KpiList({ kpi }: { kpi: { primary: string; supporting: string[] } }) {
+// Strategy copy uses the same body styling as Concept, with the monetization
+// mechanism emphasized inline.
+function MonetizationStrategy({ strategy }: { strategy: { lead: string; body: string } }) {
+  return (
+    <p className="font-sans text-[14px] leading-relaxed text-charcoal">
+      <strong className="font-bold">{strategy.lead}</strong>{' '}
+      {strategy.body}
+    </p>
+  )
+}
+
+// A gold star marks the North Star metric; smaller gold diamonds mark each
+// supporting metric. Styling matches the Concept body copy.
+function MetricsList({ metrics }: { metrics: { primary: string; supporting: string[] } }) {
   return (
     <ul className="flex flex-col gap-1.5">
       <li className="font-sans text-[14px] leading-relaxed text-charcoal flex items-center gap-2">
         <span className="shrink-0 leading-none text-cm-gold" aria-hidden="true">★</span>
-        <span>{kpi.primary}</span>
+        <span>{metrics.primary}</span>
       </li>
-      {kpi.supporting.map((s, i) => (
-        <li key={i} className="font-sans text-[14px] leading-relaxed text-charcoal flex gap-2">
+      {metrics.supporting.map((metric, index) => (
+        <li key={index} className="font-sans text-[14px] leading-relaxed text-charcoal flex gap-2">
           <span className="shrink-0 mt-[3px] text-[8px] text-cm-gold/70" aria-hidden="true">◆</span>
-          <span>{s}</span>
+          <span>{metric}</span>
         </li>
       ))}
     </ul>
@@ -489,14 +504,27 @@ export default function UseCase({ data }: { data: UseCaseData }) {
     </>
   )
 
-  const kpiBlock = data.kpi ? (
-    <Block label={data.mechanismLabel ?? 'KPI'}>
-      <KpiList kpi={data.kpi} />
+  const strategyBlock = data.monetizationStrategy ? (
+    <Block label="Monetization Strategy">
+      <MonetizationStrategy strategy={data.monetizationStrategy} />
+    </Block>
+  ) : null
+
+  const metricsBlock = data.metrics ? (
+    <Block label="Metrics">
+      <MetricsList metrics={data.metrics} />
     </Block>
   ) : data.arpdauMechanism ? (
     <Block label={data.mechanismLabel ?? 'ARPDAU Mechanism'}>
       <p className="font-sans text-[14px] leading-relaxed text-charcoal whitespace-pre-line">{data.arpdauMechanism}</p>
     </Block>
+  ) : null
+
+  const businessCaseBlocks = strategyBlock || metricsBlock ? (
+    <>
+      {strategyBlock}
+      {metricsBlock}
+    </>
   ) : null
 
   return (
@@ -513,13 +541,21 @@ export default function UseCase({ data }: { data: UseCaseData }) {
       )}
       {problemSection}
 
-      {/* KPI is full-width above on mobile; on desktop it moves into the left
-          column above the loop, with the mockup beside them */}
-      {kpiBlock && <div className="md:hidden">{kpiBlock}</div>}
+      {/* Strategy and metrics are full-width above on mobile; on desktop they
+          move into the left column above the loop, with the mockup beside them. */}
+      {businessCaseBlocks && (
+        <div data-feature-business-case="mobile" className="md:hidden">
+          {businessCaseBlocks}
+        </div>
+      )}
 
       <div className="grid grid-cols-2 gap-x-7 md:gap-x-6 items-start">
         <div>
-          {kpiBlock && <div className="hidden md:block">{kpiBlock}</div>}
+          {businessCaseBlocks && (
+            <div data-feature-business-case="desktop" className="hidden md:block">
+              {businessCaseBlocks}
+            </div>
+          )}
 
           <Block label="Loop">
             <Lane workflow={data.currentWorkflow} proposed={false} />

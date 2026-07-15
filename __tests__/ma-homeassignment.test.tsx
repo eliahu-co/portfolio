@@ -2,7 +2,7 @@
 import { fireEvent, render } from '@testing-library/react'
 import MAHomeAssignmentPage, { metadata } from '@/app/MA-HomeAssignment/page'
 import * as DemoPage from '@/app/MA-HomeAssignment/demo/page'
-import { USE_CASE_1, USE_CASE_2 } from '@/app/MA-HomeAssignment/sections/useCaseData'
+import { USE_CASE_1, USE_CASE_2, USE_CASE_3 } from '@/app/MA-HomeAssignment/sections/useCaseData'
 
 global.IntersectionObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
@@ -122,6 +122,111 @@ it('renders risk cards without a background fill', () => {
   expect(riskCard.className).not.toContain('bg-')
   expect(riskCard.className).not.toContain('from-[')
   expect(riskCard.className).not.toContain('to-[')
+})
+
+it('defines the approved monetization strategy and metrics for every feature', () => {
+  expect([
+    {
+      title: USE_CASE_1.title,
+      strategy: USE_CASE_1.monetizationStrategy,
+      metrics: USE_CASE_1.metrics,
+    },
+    {
+      title: USE_CASE_2.title,
+      strategy: USE_CASE_2.monetizationStrategy,
+      metrics: USE_CASE_2.metrics,
+    },
+    {
+      title: USE_CASE_3.title,
+      strategy: USE_CASE_3.monetizationStrategy,
+      metrics: USE_CASE_3.metrics,
+    },
+  ]).toEqual([
+    {
+      title: 'Hometown',
+      strategy: {
+        lead: 'Conversion and purchase frequency.',
+        body: 'Targets high-progression, socially engaged players with a persistent Coin sink and new customization offers.',
+      },
+      metrics: {
+        primary: 'ARPDAU',
+        supporting: [
+          'Coin spend on Hometown per DAU',
+          'Repeat customization',
+          'Return sessions per Hometown user',
+        ],
+      },
+    },
+    {
+      title: 'Card Bounty',
+      strategy: {
+        lead: 'Spend depth.',
+        body: 'Weighted toward high-intent collectors and high spenders. Repeated Chest openings consume Coins and increase demand for existing Spin and Coin offers.',
+      },
+      metrics: {
+        primary: 'ARPDAU',
+        supporting: [
+          'ARPPU by payer tier',
+          'Coin Spend on Chests per DAU',
+          'Bounty activation',
+        ],
+      },
+    },
+    {
+      title: 'Hot Trail',
+      strategy: {
+        lead: 'Purchase frequency through re-engagement.',
+        body: 'Targets recently Raided players with an urgent return session that consumes Spins and creates another opportunity to purchase.',
+      },
+      metrics: {
+        primary: 'ARPDAU',
+        supporting: [
+          'Hot Trail activation',
+          'Return rate',
+          'Spin consumption per exposed DAU',
+        ],
+      },
+    },
+  ])
+})
+
+it('renders monetization strategy before metrics with the existing metric bullets', () => {
+  render(<MAHomeAssignmentPage />)
+
+  const cases = [USE_CASE_1, USE_CASE_2, USE_CASE_3]
+  cases.forEach((data) => {
+    const feature = document.getElementById(data.id)!
+    const businessCases = Array.from(feature.querySelectorAll('[data-feature-business-case]'))
+
+    expect(businessCases).toHaveLength(2)
+    expect(businessCases.map((node) => node.getAttribute('data-feature-business-case'))).toEqual([
+      'mobile',
+      'desktop',
+    ])
+    expect(feature.textContent).not.toContain('KPI')
+
+    businessCases.forEach((businessCase) => {
+      const labels = Array.from(businessCase.children).map((block) => block.children[0]?.textContent)
+      const strategyBlock = businessCase.children[0]
+      const metricsBlock = businessCase.children[1]
+      const strategyParagraph = strategyBlock.querySelector('p:not(:first-child)')!
+      const metricItems = Array.from(metricsBlock.querySelectorAll('li'))
+
+      expect(labels).toEqual(['Monetization Strategy', 'Metrics'])
+      expect(strategyParagraph.querySelector('strong')?.textContent).toBe(data.monetizationStrategy?.lead)
+      expect(strategyParagraph.textContent).toBe(
+        `${data.monetizationStrategy?.lead} ${data.monetizationStrategy?.body}`
+      )
+      expect(metricItems.map((item) => item.querySelector('span:last-child')?.textContent)).toEqual([
+        data.metrics?.primary,
+        ...data.metrics!.supporting,
+      ])
+      expect(metricItems[0].querySelector('[aria-hidden="true"]')?.textContent).toBe('★')
+      metricItems.slice(1).forEach((item) => {
+        expect(item.querySelector('[aria-hidden="true"]')?.textContent).toBe('◆')
+      })
+    })
+  })
 })
 
 it('uses distinct Card Bounty artwork for the feature and prototype previews', () => {
