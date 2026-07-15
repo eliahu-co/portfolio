@@ -264,16 +264,37 @@ it('renders the approved MVP intro and scope copy', () => {
   expect(section.textContent).not.toContain('Purchasing meter progress or the guaranteed Card directly.')
 })
 
-it('renders the approved editorial success metrics table', () => {
-  const expectedRows = [
-    ['ARPDAU', 'Primary', '+5% or more'],
-    ['Coin spend on Chests per DAU', 'Economy', '+10% or more'],
-    ['Total Coin Consumption per DAU', 'Economy', '+5% or more'],
-    ['Bounty Activation Rate', 'Adoption', '20% or more of eligible daily active players select a target and open at least one Coin-purchased Chest'],
-    ['Post-Event Revenue per Player', 'Guardrail', 'Stable or higher: at least 98% of control during the following seven days'],
-    ['Post-Event Chest Coin Spend per Player', 'Guardrail', 'Stable or higher: at least 95% of control during the following seven days'],
-    ['Card Collections Completed per Player', 'Guardrail', 'No more than 15% above control across the event and following seven days'],
-    ['Village Upgrades per Player', 'Guardrail', 'Stable or higher: at least 95% of control across the event and following seven days'],
+it('renders success metrics as four editorial metric groups', () => {
+  const expectedGroups = [
+    {
+      title: 'North Star',
+      rows: [['ARPDAU', '≥5% lift']],
+    },
+    {
+      title: 'Monetization and economy drivers',
+      rows: [
+        ['ARPPU', '≥5% lift overall and ≥8% among the high-spender cohort'],
+        ['Coin spend on Chests per DAU', '≥10% lift'],
+        ['Total Coin Consumption per DAU', '≥5% lift'],
+      ],
+    },
+    {
+      title: 'Feature funnel',
+      rows: [
+        ['Target Selection Rate', '≥30% of eligible DAU'],
+        ['First-Chest Conversion', '≥65% of players who select a target'],
+        ['Bounty Completion Rate', '10–20% of activated players'],
+      ],
+    },
+    {
+      title: 'Guardrails',
+      rows: [
+        ['Post-Event Revenue per Player', '≥98%'],
+        ['Post-Event Chest Coin Spend per Player', '≥95%'],
+        ['Card Collections Completed per Player', '≤115%'],
+        ['Village Upgrades per Player', '≥95%'],
+      ],
+    },
   ]
 
   render(<MAHomeAssignmentPage />)
@@ -282,44 +303,44 @@ it('renders the approved editorial success metrics table', () => {
     (node) => node.textContent === 'Success metrics'
   )!
   const metrics = heading.parentElement!
-  const table = metrics.querySelector('table')
-
-  expect(table).not.toBeNull()
-  if (!table) return
-
-  const headers = Array.from(table.querySelectorAll('th')).map((cell) => cell.textContent?.trim())
-  const rows = Array.from(table.querySelectorAll('tbody tr')).map((row) =>
-    Array.from(row.querySelectorAll('td')).map((cell) => cell.textContent?.trim())
-  )
+  const groups = Array.from(metrics.querySelectorAll('[data-metric-group]'))
   const introduction = Array.from(metrics.querySelectorAll('p')).find((node) =>
     node.textContent?.startsWith('Eligible players')
   )!
-  const roleHeader = table.querySelectorAll('th')[1]
-  const rolePills = Array.from(table.querySelectorAll('tbody td:nth-child(2) span'))
+  const funnelNote = Array.from(metrics.querySelectorAll('p')).find((node) =>
+    node.textContent?.startsWith('The funnel is coherent')
+  )!
 
-  expect(headers).toEqual(['Metric', 'Role', 'Proposed target'])
-  expect(rows).toEqual(expectedRows)
   expect(introduction.textContent).toBe(
     'Eligible players have the Cards Center unlocked and at least one targetable missing Card. Event metrics use eligible players active each day; post event guardrails use the full eligible group. All results compare treatment with control.'
   )
-  expect(roleHeader.querySelector('.sr-only')?.textContent).toBe('Role')
-  expect(roleHeader.childNodes).toHaveLength(1)
-  expect(rolePills).toHaveLength(8)
-  for (const pill of rolePills) {
-    expect(pill.className).toContain('border')
-    expect(pill.className).toContain('w-20')
-    expect(pill.className).toContain('justify-center')
-  }
-  expect(rolePills[0].className).toContain('border-cm-wood/50')
-  expect(rolePills[1].className).toContain('border-[#0F3D54]/40')
-  expect(rolePills[3].className).toContain('border-[#0F3D54]/40')
-  expect(rolePills[4].className).toContain('border-cm-violet-deep/30')
-  expect(table.className).toContain('min-w-[720px]')
-  expect(table.parentElement?.className).toContain('overflow-x-auto')
-  expect(table.querySelector('thead tr')?.className).toContain('border-cm-wood')
-  expect(table.querySelector('tbody tr')?.className).toContain('border-charcoal/15')
-  expect(metrics.textContent).not.toContain('Success signal')
-  expect(metrics.querySelectorAll('div.border-l-4')).toHaveLength(0)
+  expect(groups).toHaveLength(4)
+  expectedGroups.forEach(({ title, rows }, index) => {
+    const group = groups[index]
+    const table = group.querySelector('table')!
+    const headers = Array.from(table.querySelectorAll('th')).map((cell) => cell.textContent?.trim())
+    const renderedRows = Array.from(table.querySelectorAll('tbody tr')).map((row) =>
+      Array.from(row.querySelectorAll('td')).map((cell) => cell.textContent?.trim())
+    )
+
+    expect(group.getAttribute('data-metric-group')).toBe(title)
+    expect(group.querySelector('h3')?.textContent).toBe(title)
+    expect(headers).toEqual(['Metric', 'Proposed target'])
+    expect(renderedRows).toEqual(rows)
+    expect(table.className).not.toContain('min-w-')
+    expect(table.parentElement?.className).not.toContain('overflow-x-auto')
+    expect(table.querySelector('thead tr')?.className).toContain('border-cm-wood')
+    expect(table.querySelector('tbody tr')?.className).toContain('border-charcoal/15')
+  })
+  expect(groups[0].className).toContain('border-l-4')
+  expect(groups[0].className).toContain('bg-cm-gold')
+  expect(funnelNote.textContent).toBe(
+    'The funnel is coherent: 30% × 65% ≈ 20% activation. The completion range ensures the guarantee provides value without becoming too easy.'
+  )
+  expect(funnelNote.className).toContain('border-l-4')
+  expect(funnelNote.className).toContain('border-cm-gold')
+  expect(metrics.textContent).not.toContain('Role')
+  expect(metrics.querySelectorAll('span.rounded-full')).toHaveLength(0)
 })
 
 it('renders Assumptions without decorative dash markers', () => {

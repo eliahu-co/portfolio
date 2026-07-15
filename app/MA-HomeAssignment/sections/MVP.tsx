@@ -31,25 +31,47 @@ const SCOPE_OUT = [
   'Event-specific purchase bundles.',
   'Gameplay outside the existing Chest-opening flow.',
 ]
-type MetricRole = 'Primary' | 'Economy' | 'Adoption' | 'Guardrail'
-
-const METRICS: { metric: string; role: MetricRole; target: string }[] = [
-  { metric: 'ARPDAU', role: 'Primary', target: '+5% or more' },
-  { metric: 'Coin spend on Chests per DAU', role: 'Economy', target: '+10% or more' },
-  { metric: 'Total Coin Consumption per DAU', role: 'Economy', target: '+5% or more' },
-  { metric: 'Bounty Activation Rate', role: 'Adoption', target: '20% or more of eligible daily active players select a target and open at least one Coin-purchased Chest' },
-  { metric: 'Post-Event Revenue per Player', role: 'Guardrail', target: 'Stable or higher: at least 98% of control during the following seven days' },
-  { metric: 'Post-Event Chest Coin Spend per Player', role: 'Guardrail', target: 'Stable or higher: at least 95% of control during the following seven days' },
-  { metric: 'Card Collections Completed per Player', role: 'Guardrail', target: 'No more than 15% above control across the event and following seven days' },
-  { metric: 'Village Upgrades per Player', role: 'Guardrail', target: 'Stable or higher: at least 95% of control across the event and following seven days' },
-]
-
-const ROLE_CLASSES: Record<MetricRole, string> = {
-  Primary: 'border-cm-wood/50 bg-cm-gold/15 text-cm-wood',
-  Economy: 'border-[#0F3D54]/40 bg-cm-sky/20 text-[#0F3D54]',
-  Adoption: 'border-[#0F3D54]/40 bg-cm-sky/20 text-[#0F3D54]',
-  Guardrail: 'border-cm-violet-deep/30 bg-cm-violet-deep/10 text-cm-violet-deep',
+type Metric = { metric: string; target: string }
+type MetricGroup = {
+  title: string
+  metrics: Metric[]
+  emphasis?: 'north-star'
+  note?: string
 }
+
+const METRIC_GROUPS: MetricGroup[] = [
+  {
+    title: 'North Star',
+    emphasis: 'north-star',
+    metrics: [{ metric: 'ARPDAU', target: '≥5% lift' }],
+  },
+  {
+    title: 'Monetization and economy drivers',
+    metrics: [
+      { metric: 'ARPPU', target: '≥5% lift overall and ≥8% among the high-spender cohort' },
+      { metric: 'Coin spend on Chests per DAU', target: '≥10% lift' },
+      { metric: 'Total Coin Consumption per DAU', target: '≥5% lift' },
+    ],
+  },
+  {
+    title: 'Feature funnel',
+    metrics: [
+      { metric: 'Target Selection Rate', target: '≥30% of eligible DAU' },
+      { metric: 'First-Chest Conversion', target: '≥65% of players who select a target' },
+      { metric: 'Bounty Completion Rate', target: '10–20% of activated players' },
+    ],
+    note: 'The funnel is coherent: 30% × 65% ≈ 20% activation. The completion range ensures the guarantee provides value without becoming too easy.',
+  },
+  {
+    title: 'Guardrails',
+    metrics: [
+      { metric: 'Post-Event Revenue per Player', target: '≥98%' },
+      { metric: 'Post-Event Chest Coin Spend per Player', target: '≥95%' },
+      { metric: 'Card Collections Completed per Player', target: '≤115%' },
+      { metric: 'Village Upgrades per Player', target: '≥95%' },
+    ],
+  },
+]
 function List({
   title,
   items,
@@ -74,6 +96,52 @@ function List({
           </li>
         ))}
       </ul>
+    </div>
+  )
+}
+
+function MetricGroupTable({ group }: { group: MetricGroup }) {
+  const isNorthStar = group.emphasis === 'north-star'
+
+  return (
+    <div
+      data-metric-group={group.title}
+      className={isNorthStar ? 'rounded-r-lg border-l-4 border-cm-gold bg-cm-gold/10 py-3 pl-4 pr-3' : ''}
+    >
+      <h3 className="mb-2.5 font-sans text-[11px] font-bold uppercase tracking-[0.1em] text-cm-violet-deep">
+        {group.title}
+      </h3>
+      <div>
+        <table className="w-full table-fixed border-collapse text-left">
+          <thead>
+            <tr className="border-b-2 border-cm-wood">
+              <th className="w-[44%] py-2 pr-4 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70 sm:w-[42%]">
+                Metric
+              </th>
+              <th className="py-2 pl-3 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">
+                Proposed target
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {group.metrics.map(({ metric, target }) => (
+              <tr key={metric} className="border-b border-charcoal/15 last:border-b-0">
+                <td className="py-2.5 pr-4 align-top font-sans text-[13px] font-medium leading-relaxed text-cm-violet-deep">
+                  {metric}
+                </td>
+                <td className={`py-2.5 pl-3 align-top font-sans text-[13px] leading-relaxed ${isNorthStar ? 'font-medium text-cm-crimson' : 'text-charcoal'}`}>
+                  {target}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {group.note && (
+        <p className="mt-3 max-w-2xl border-l-4 border-cm-gold pl-3 font-sans text-[12px] leading-relaxed text-charcoal/75">
+          {group.note}
+        </p>
+      )}
     </div>
   )
 }
@@ -109,27 +177,10 @@ export default function MVP() {
           metrics use eligible players active each day; post event guardrails use the full eligible group. All
           results compare treatment with control.
         </p>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px] border-collapse text-left">
-            <thead>
-              <tr className="border-b-2 border-cm-wood">
-                <th className="w-[30%] py-2 pr-4 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">Metric</th>
-                <th className="w-[16%] px-3 py-2 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70"><span className="sr-only">Role</span></th>
-                <th className="py-2 pl-3 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">Proposed target</th>
-              </tr>
-            </thead>
-            <tbody>
-              {METRICS.map(({ metric, role, target }) => (
-                <tr key={metric} className="border-b border-charcoal/15">
-                  <td className="py-3 pr-4 align-top font-sans text-[13px] font-medium leading-relaxed text-cm-violet-deep">{metric}</td>
-                  <td className="px-3 py-3 align-top">
-                    <span className={`inline-flex w-20 justify-center rounded-full border px-2 py-1 font-sans text-[9px] font-bold uppercase tracking-[0.08em] ${ROLE_CLASSES[role]}`}>{role}</span>
-                  </td>
-                  <td className="py-3 pl-3 align-top font-sans text-[13px] leading-relaxed text-charcoal">{target}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="grid gap-6">
+          {METRIC_GROUPS.map((group) => (
+            <MetricGroupTable key={group.title} group={group} />
+          ))}
         </div>
       </div>
     </Section>
