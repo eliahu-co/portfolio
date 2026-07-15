@@ -145,7 +145,8 @@ it('defines the approved monetization strategy and metrics for every feature', (
     {
       title: 'Hometown',
       strategy: {
-        lead: 'Conversion and purchase frequency.',
+        lead: 'New spend surface',
+        emphasizeLead: false,
         body: 'Targets high-progression, socially engaged players with a persistent Coin sink and new customization offers.',
       },
       metrics: {
@@ -213,7 +214,8 @@ it('renders monetization strategy before metrics with the existing metric bullet
       const metricItems = Array.from(metricsBlock.querySelectorAll('li'))
 
       expect(labels).toEqual(['Monetization Strategy', 'Metrics'])
-      expect(strategyParagraph.querySelector('strong')?.textContent).toBe(data.monetizationStrategy?.lead)
+      const expectedStrongLead = data === USE_CASE_1 ? null : data.monetizationStrategy?.lead
+      expect(strategyParagraph.querySelector('strong')?.textContent ?? null).toBe(expectedStrongLead)
       expect(strategyParagraph.textContent).toBe(
         `${data.monetizationStrategy?.lead} ${data.monetizationStrategy?.body}`
       )
