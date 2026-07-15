@@ -272,9 +272,17 @@ export function CardList({
 
 // Strategy copy uses the same body styling as Concept.
 function MonetizationStrategy({ strategy }: { strategy: string }) {
+  const lines = strategy.split('\n')
+
   return (
     <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-      {strategy}
+      {lines.length > 1
+        ? lines.map((line, index) => (
+            <span key={line} data-strategy-line className="block md:whitespace-nowrap">
+              {line}{index < lines.length - 1 ? '\n' : null}
+            </span>
+          ))
+        : strategy}
     </p>
   )
 }

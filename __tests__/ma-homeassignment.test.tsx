@@ -168,7 +168,7 @@ it('defines the approved monetization strategy and metrics for every feature', (
     },
     {
       title: 'Hot Trail',
-      strategy: 'Purchase frequency through re-engagement.',
+      strategy: 'Purchase frequency through re-engagement.\nAdditional return sessions increase exposure to existing Spin offers.',
       metrics: {
         primary: 'ARPDAU',
         supporting: [
@@ -206,6 +206,19 @@ it('renders monetization strategy before metrics with the existing metric bullet
       expect(labels).toEqual(['Monetization Strategy', 'Metrics'])
       expect(strategyParagraph.querySelector('strong')).toBeNull()
       expect(strategyParagraph.textContent).toBe(data.monetizationStrategy)
+      const strategyLines = Array.from(strategyParagraph.querySelectorAll('[data-strategy-line]'))
+      if (data.title === 'Hot Trail') {
+        expect(strategyLines.map((line) => line.textContent?.trim())).toEqual([
+          'Purchase frequency through re-engagement.',
+          'Additional return sessions increase exposure to existing Spin offers.',
+        ])
+        strategyLines.forEach((line) => {
+          expect(line.className).toContain('block')
+          expect(line.className).toContain('md:whitespace-nowrap')
+        })
+      } else {
+        expect(strategyLines).toHaveLength(0)
+      }
       expect(metricItems.map((item) => item.querySelector('span:last-child')?.textContent)).toEqual([
         data.metrics?.primary,
         ...data.metrics!.supporting,
@@ -278,7 +291,7 @@ it('defines the approved player motivations and plain monetization strategies', 
     },
     {
       title: 'Hot Trail',
-      strategy: 'Purchase frequency through re-engagement.',
+      strategy: 'Purchase frequency through re-engagement.\nAdditional return sessions increase exposure to existing Spin offers.',
       motivations: [
         { title: 'Urgency', body: 'A limited window creates a reason to return.' },
         { title: 'Recovery and Revenge', body: 'Respond directly to a Raid and recover part of the loss.' },

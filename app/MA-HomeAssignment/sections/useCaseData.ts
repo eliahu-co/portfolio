@@ -212,7 +212,7 @@ export const USE_CASE_3: UseCaseData = {
   title:   'Hot Trail',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature3.png',
-  monetizationStrategy: 'Purchase frequency through re-engagement.',
+  monetizationStrategy: 'Purchase frequency through re-engagement.\nAdditional return sessions increase exposure to existing Spin offers.',
   metrics: {
     primary: 'ARPDAU',
     supporting: [
