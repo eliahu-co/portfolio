@@ -92,6 +92,9 @@ describe('CardsCenterScreen', () => {
     )
 
     expect(css).toMatch(/\.bountyButton\s*\{[\s\S]*?animation:\s*bountyNudge/)
+    expect(css).toMatch(
+      /\.bountyButton\s*\{[\s\S]*?animation:\s*bountyNudge 1\.4s ease-in-out infinite/,
+    )
     expect(css).toMatch(/\.bountyButton::before\s*\{[\s\S]*?animation:\s*bountyGlow/)
     expect(css).toMatch(/@keyframes bountyNudge/)
     expect(css).toMatch(/@keyframes bountyGlow/)
