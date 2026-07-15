@@ -429,7 +429,10 @@ it('renders the standalone Feature Validation experiment after the prototype', (
   })
 
   const comparison = validation.querySelector('[data-protocol-comparison]')!
-  expect(comparison.className).toContain('grid-cols-2')
+  expect(comparison.className).toContain('grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]')
+  expect(comparison.className).toContain('gap-x-4')
+  expect(comparison.className).toContain('md:grid-cols-[160px_minmax(0,1fr)]')
+  expect(comparison.className).toContain('md:gap-x-6')
   expect(Array.from(comparison.children).map((item) => item.firstElementChild?.textContent)).toEqual([
     'Control',
     'Treatment',
@@ -599,14 +602,16 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   const rolePills = Array.from(metrics.querySelectorAll('[data-metric-role]'))
 
   expect(tables).toHaveLength(1)
-  expect(table.querySelectorAll('thead')).toHaveLength(1)
-  expect(Array.from(table.querySelectorAll('thead th')).map((cell) => cell.textContent?.trim())).toEqual([
-    'Metric',
-    'Role',
+  expect(table.querySelectorAll('thead')).toHaveLength(0)
+  expect(groups).toHaveLength(3)
+  const primaryHeadings = Array.from(groups[0].querySelectorAll('tr:first-child th'))
+  expect(primaryHeadings.map((cell) => cell.textContent?.trim())).toEqual([
+    'Primary metric',
     'Proposed target',
   ])
-  expect(table.querySelector('thead th:nth-child(2) span')?.className).toContain('sr-only')
-  expect(groups).toHaveLength(3)
+  expect(primaryHeadings[0].getAttribute('colspan')).toBe('2')
+  expect(primaryHeadings[1].className).toContain('pl-3')
+  expect(primaryHeadings[1].className).toContain('text-left')
   expectedGroups.forEach(({ title, rows }, index) => {
     const group = groups[index]
     const renderedRows = Array.from(group.querySelectorAll('tr[data-metric-row]')).map((row) => [
@@ -636,13 +641,10 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   expect(rolePills[3].className).toContain('bg-cm-violet-deep/10')
   expect(groups[0].querySelectorAll('[data-metric-role]')).toHaveLength(0)
   expect(groups[2].querySelectorAll('[data-metric-role]')).toHaveLength(0)
-  const tableHeaderRow = table.querySelector('thead tr')!
   const groupHeaderRows = groups.map((group) => group.querySelector('tr')!)
   const northStarRow = groups[0].querySelector('tr[data-metric-row]')!
   const northStarTarget = northStarRow.querySelector('[data-metric-target]')!
 
-  expect(tableHeaderRow.className).not.toContain('border-b-2')
-  expect(tableHeaderRow.className).not.toContain('border-cm-wood')
   expect(groupHeaderRows[0].className).toContain('border-b-2')
   expect(groupHeaderRows[0].className).toContain('border-cm-wood')
   groupHeaderRows.slice(1).forEach((row) => {

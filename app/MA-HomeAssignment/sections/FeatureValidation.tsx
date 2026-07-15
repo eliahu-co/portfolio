@@ -142,7 +142,10 @@ export default function FeatureValidation() {
       <Section id="validation" eyebrow="A/B Test" title="Feature Validation">
         <div className="mb-8 max-w-2xl space-y-5">
           <ProtocolItem {...population} />
-          <div data-protocol-comparison className="grid grid-cols-2 gap-x-6 md:gap-x-10">
+          <div
+            data-protocol-comparison
+            className="grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-x-4 md:grid-cols-[160px_minmax(0,1fr)] md:gap-x-6"
+          >
             <ProtocolItem {...control} />
             <ProtocolItem {...treatment} />
           </div>
@@ -151,24 +154,27 @@ export default function FeatureValidation() {
 
         <div className="mb-10 max-w-3xl overflow-x-auto">
           <table className="w-full min-w-[720px] table-fixed border-collapse text-left">
-            <thead>
-              <tr>
-                <th className="w-[30%] py-2 pr-4 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">Metric</th>
-                <th className="w-[132px] px-3 py-2"><span className="sr-only">Role</span></th>
-                <th className="py-2 pl-3 font-sans text-[9px] uppercase tracking-[0.12em] text-charcoal/70">Proposed target</th>
-              </tr>
-            </thead>
+            <colgroup>
+              <col className="w-[30%]" />
+              <col className="w-[132px]" />
+              <col />
+            </colgroup>
             {METRIC_GROUPS.map((group) => {
               const isNorthStar = group.emphasis === 'north-star'
 
               return (
                 <tbody key={group.title} data-metric-group={group.title}>
                   <tr className={`border-b-2 ${isNorthStar ? 'border-cm-wood' : 'border-charcoal/25'}`}>
-                    <th colSpan={3} scope="rowgroup" className={`text-left ${isNorthStar ? 'pb-1 pt-3' : 'pb-2 pt-6'}`}>
+                    <th colSpan={isNorthStar ? 2 : 3} scope="rowgroup" className={`text-left ${isNorthStar ? 'pb-1 pt-3' : 'pb-2 pt-6'}`}>
                       <h3 className="inline-flex items-center font-sans text-[11px] font-bold uppercase tracking-[0.1em] text-cm-violet-deep">
                         <span>{group.title}</span>
                       </h3>
                     </th>
+                    {isNorthStar && (
+                      <th scope="col" className="pb-1 pl-3 pt-3 text-left align-bottom font-sans text-[9px] font-normal uppercase tracking-[0.12em] text-charcoal/70">
+                        Proposed target
+                      </th>
+                    )}
                   </tr>
                   {group.metrics.map(({ metric, role, target, funnelHelp }) => {
                     const isNorthStarMetric = isNorthStar && metric === 'ARPDAU'
