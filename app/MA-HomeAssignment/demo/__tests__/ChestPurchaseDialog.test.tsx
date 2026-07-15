@@ -93,7 +93,7 @@ describe('ChestPurchaseDialog', () => {
     expect(screen.queryByRole('progressbar', { name: 'Current Bounty progress' })).not.toBeInTheDocument()
     expect(screen.getByRole('progressbar', { name: 'Projected Bounty progress' })).toHaveAttribute('aria-valuenow', '30')
     expect(screen.getByRole('status', { name: 'Purchase quote update' })).toHaveTextContent(
-      '10 Magical Chests. 80 total Cards. 290,000,000 Coins. Projected Bounty progress 30 of 150.',
+      '10 Magical Chests. 80 total Cards. 290,000,000 Coins. Projected Bounty progress 30 of 100.',
     )
 
     fireEvent.click(screen.getByRole('button', { name: 'Increase quantity' }))
@@ -105,7 +105,7 @@ describe('ChestPurchaseDialog', () => {
     expect(screen.getByText('+33')).toBeInTheDocument()
     expect(screen.getByRole('progressbar', { name: 'Projected Bounty progress' })).toHaveAttribute('aria-valuenow', '33')
     expect(screen.getByRole('status', { name: 'Purchase quote update' })).toHaveTextContent(
-      '11 Magical Chests. 88 total Cards. 319,000,000 Coins. Projected Bounty progress 33 of 150.',
+      '11 Magical Chests. 88 total Cards. 319,000,000 Coins. Projected Bounty progress 33 of 100.',
     )
     expect(screen.getByRole('button', { name: 'Confirm Chest purchase' })).toHaveAccessibleDescription(
       'Total Coin cost: 319,000,000 Coins',

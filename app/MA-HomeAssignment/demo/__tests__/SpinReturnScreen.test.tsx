@@ -10,7 +10,6 @@ it('keeps the deterministic reel order when Spin starts the core loop', () => {
       spins={4_350}
       reward={2_500}
       targetName="Whale Boat"
-      onCardsCenter={jest.fn()}
     />,
   )
 
@@ -34,40 +33,44 @@ it('keeps the deterministic reel order when Spin starts the core loop', () => {
 
   const spin = screen.getByRole('button', { name: 'Spin' })
   expect(spin).toHaveAttribute('aria-pressed', 'false')
+  const firstSymbol = within(reels).getAllByRole('img')[0]
   fireEvent.click(spin)
   expect(spin).toHaveAttribute('aria-pressed', 'true')
-  expect(screen.getByText('Core loop ready')).toBeInTheDocument()
+  expect(spin).toBeEnabled()
+  expect(screen.getByText('You finished the demo!')).toBeInTheDocument()
+  expect(within(reels).getAllByRole('img').map((node) => node.getAttribute('alt'))).toEqual(before)
+  const firstReplay = within(reels).getAllByRole('img')[0]
+  expect(firstReplay).not.toBe(firstSymbol)
+
+  fireEvent.click(spin)
+  expect(spin).toBeEnabled()
+  expect(within(reels).getAllByRole('img')[0]).not.toBe(firstReplay)
   expect(within(reels).getAllByRole('img').map((node) => node.getAttribute('alt'))).toEqual(before)
 })
 
-it('offers Shop and Cards Center without Raid, Booster, or multiplier controls', () => {
-  const onCardsCenter = jest.fn()
+it('exposes the fake Spin as the only interactive control', () => {
   render(
     <SpinReturnScreen
-      coins={1_750_000_000}
+      coins={2_040_000_000}
       spins={4_350}
       reward={2_500}
       targetName="Whale Boat"
-      onCardsCenter={onCardsCenter}
     />,
   )
 
-  const shop = screen.getByRole('button', { name: 'Shop' })
-  expect(shop.querySelector('img')).toHaveAttribute(
-    'src',
-    '/coinmaster/card-bounty/wooden-chest.webp',
-  )
+  expect(screen.getAllByRole('button')).toEqual([screen.getByRole('button', { name: 'Spin' })])
+  expect(screen.queryByRole('link')).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Open game menu' })).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Shop' })).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Cards Center' })).not.toBeInTheDocument()
   expect(screen.getByRole('region', { name: 'Energy and Spins' })).toBeInTheDocument()
   expect(screen.queryByText('Raid')).not.toBeInTheDocument()
   expect(screen.queryByText('Booster')).not.toBeInTheDocument()
   expect(screen.queryByLabelText('Spin multiplier')).not.toBeInTheDocument()
   expect(screen.queryByText('x1')).not.toBeInTheDocument()
-
-  fireEvent.click(screen.getByRole('button', { name: 'Cards Center' }))
-  expect(onCardsCenter).toHaveBeenCalledTimes(1)
 })
 
-it('keeps the visible cabinet dominant and reserves space above mobile prototype controls', () => {
+it('keeps the visible cabinet dominant without obsolete in-game navigation styles', () => {
   const css = readFileSync(
     resolve(process.cwd(), 'app/MA-HomeAssignment/demo/SpinReturnScreen.module.css'),
     'utf8',
@@ -75,9 +78,13 @@ it('keeps the visible cabinet dominant and reserves space above mobile prototype
 
   expect(css).toMatch(/\.boardStage\s*{[^}]*height:\s*61%/)
   expect(css).toMatch(/\.rewardStatus\s*{[^}]*bottom:\s*max\(8\.2%,\s*calc\(74px \+ env\(safe-area-inset-bottom\)\)\)/)
-  expect(css).toMatch(/\.cardsCenterButton\s*{[^}]*position:\s*absolute/)
-  expect(css).toMatch(/\.cardsCenterButton:focus-visible/)
-  expect(css).toMatch(/\.cardsCenterButton\s*{[^}]*calc\([^)]*env\(safe-area-inset-bottom\)/)
+  expect(css).toMatch(
+    /\.resourceBar\s*{[^}]*grid-template-columns:\s*minmax\(98px, 1\.45fr\) minmax\(54px, \.7fr\) minmax\(72px, 1fr\);/,
+  )
+  expect(css).not.toMatch(/\.menuButton/)
+  expect(css).not.toMatch(/\.shopButton/)
+  expect(css).not.toMatch(/\.cardsCenterButton/)
+  expect(css).not.toMatch(/\.cardsCenterIcon/)
   expect(css).toMatch(
     /@media \(prefers-reduced-motion: reduce\)\s*\{[\s\S]*?\.spinButton\s*\{[^}]*outline:\s*3px solid #ffe56a/,
   )

@@ -77,7 +77,6 @@ export type DemoAction =
   | { type: 'CLAIM_GUARANTEE' }
   | { type: 'COLLECT_REWARD' }
   | { type: 'RETURN_TO_SPIN' }
-  | { type: 'RETURN_TO_CARDS_CENTER' }
   | { type: 'TARGET_OBTAINED_EARLY' }
   | { type: 'TICK'; seconds?: number }
   | { type: 'RESTART' }
@@ -305,16 +304,6 @@ export function demoReducer(state: DemoState, action: DemoAction): DemoState {
         collectionReward: 0,
       }
     }
-
-    case 'RETURN_TO_CARDS_CENTER':
-      if (state.baseScreen !== 'spin-return') return state
-      return {
-        ...state,
-        baseScreen: 'cards-center',
-        overlay: null,
-        pendingPurchase: null,
-        purchaseError: null,
-      }
 
     case 'TARGET_OBTAINED_EARLY':
       if (
