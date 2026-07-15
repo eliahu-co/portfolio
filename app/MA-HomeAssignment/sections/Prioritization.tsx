@@ -111,9 +111,10 @@ export default function Prioritization() {
         <div className="flex flex-col gap-3">
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
             Card Bounty ranks first (33): it builds on existing Chest and Collection behavior, drives
-            additional Coin spend and can be validated through a contained LiveOps event. Its main risk
-            is making the guarantee too attainable, which could accelerate Collection completion and
-            weaken future Chest demand.
+            additional Coin spend and can be validated through a contained LiveOps event. If successful,
+            it becomes a repeatable event framework that can be tuned by Card rarity, player segment and
+            duration. Its main risk is making the guarantee too attainable, which could accelerate
+            Collection completion and weaken future Chest demand.
           </p>
           <p className="font-sans text-[14px] leading-relaxed text-charcoal">
             Hot Trail ranks second (20): it fits the existing Raid loop but may motivate competitive

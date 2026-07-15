@@ -749,3 +749,12 @@ it('renders Assumptions without decorative dash markers', () => {
     expect(item.className).not.toContain('gap-2')
   }
 })
+
+it('describes Card Bounty as a repeatable event framework in prioritization', () => {
+  render(<MAHomeAssignmentPage />)
+  const prioritization = document.getElementById('prioritization')!
+
+  expect(prioritization.textContent).toContain(
+    'If successful, it becomes a repeatable event framework that can be tuned by Card rarity, player segment and duration.'
+  )
+})
