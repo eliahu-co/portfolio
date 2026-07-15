@@ -17,7 +17,7 @@ function SubHeading({ children }: { children: ReactNode }) {
 const SCOPE_IN = [
   'Entry point within the Cards Center, with an event countdown.',
   'Target one missing Card at a time.',
-  'Meter goal scales with Card rarity.',
+  'Meter goal scales with the target Card’s star rating.',
   'Buying Chests advances the meter; higher-value Chests contribute more.',
   'Changing the target resets the meter.',
   'If the target is obtained before the meter is filled, the player can change target.',
