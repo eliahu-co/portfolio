@@ -543,7 +543,7 @@ it('renders the approved MVP intro and scope copy', () => {
   render(<MAHomeAssignmentPage />)
   const section = document.getElementById('mvp')!
   const intro = Array.from(section.querySelectorAll('p')).find((node) =>
-    node.textContent?.startsWith('The MVP answers one question:')
+    node.textContent?.startsWith('The MVP includes only')
   )
   const labels = Array.from(section.querySelectorAll('p'))
   const inScope = labels.find((node) => node.textContent === 'In scope')!.parentElement!
@@ -553,7 +553,7 @@ it('renders the approved MVP intro and scope copy', () => {
     Array.from(container.querySelectorAll('li')).map((item) => item.textContent?.slice(1))
 
   expect(intro?.textContent).toBe(
-    'The MVP answers one question: does a visible, guaranteed path to a chosen Card increase Coin spend on Chests, and does that lift ARPDAU? It ships as a time limited LiveOps event inside the Cards Center. Duration and balancing parameters come from internal player and economy data.'
+    'The MVP includes only the target-selection, Chest-progress and guarantee mechanics required to validate Card Bounty.'
   )
   expect(listText(inScope)).toEqual(expectedInScope)
   expect(listText(outOfScope)).toEqual(expectedOutOfScope)

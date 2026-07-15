@@ -69,9 +69,8 @@ export default function MVP() {
 
       <SubHeading>MVP Scope</SubHeading>
       <p className="font-sans text-[14px] leading-relaxed text-charcoal mb-6 max-w-2xl">
-        The MVP answers one question: does a visible, guaranteed path to a chosen Card increase Coin
-        spend on Chests, and does that lift ARPDAU? It ships as a time limited LiveOps event inside the
-        Cards Center. Duration and balancing parameters come from internal player and economy data.
+        The MVP includes only the target-selection, Chest-progress and guarantee mechanics required to
+        validate Card Bounty.
       </p>
       <div className="grid gap-y-8 mb-10 max-w-3xl">
         <List title="In scope" items={SCOPE_IN} marker="✓" markerClass="text-cm-gold" />
