@@ -6,6 +6,7 @@ import { TARGETS } from '../demoData'
 describe('Card Bounty prototype happy path', () => {
   it('completes the deterministic economy loop and can restart', () => {
     render(<CardBountyPrototype />)
+    const prototypeControls = screen.getByText('Interactive concept').closest('aside') as HTMLElement
 
     expect(screen.getByRole('heading', { name: 'Cards Center' })).toBeInTheDocument()
     expect(screen.getByText('Tap the shaking Card Bounty event')).toBeInTheDocument()
@@ -43,7 +44,7 @@ describe('Card Bounty prototype happy path', () => {
     expect(bountyDialog).toContainElement(document.activeElement as HTMLElement)
     expect(screen.getByRole('progressbar', { name: 'Bounty progress' })).toHaveAttribute('aria-valuemax', '100')
     expect(screen.getByText('0/100')).toBeInTheDocument()
-    expect(screen.getByText('Buy 10 Magical Chests per batch')).toBeInTheDocument()
+    expect(within(prototypeControls).getByText('Buy Chests to progress the meter')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Buy Wooden Chest, 5.2M Coins, 2 Cards per Chest, +1 Bounty progress' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Buy Golden Chest, 16M Coins, 4 Cards per Chest, +2 Bounty progress' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Buy Magical Chest, 29M Coins, 8 Cards per Chest, +3 Bounty progress' })).toBeInTheDocument()
@@ -85,6 +86,7 @@ describe('Card Bounty prototype happy path', () => {
       expect(screen.getByText('10 Chests · 80 Cards · 3 shown')).toBeInTheDocument()
       expect(screen.getAllByText('Duplicate')).toHaveLength(3)
       expect(screen.getByText(`+${expectedGain} Bounty progress`)).toBeInTheDocument()
+      expect(within(prototypeControls).getByText('Continue')).toBeInTheDocument()
       const continueButton = screen.getByRole('button', { name: 'Continue' })
       expect(continueButton).toHaveClass('attention')
       fireEvent.click(continueButton)
@@ -97,10 +99,17 @@ describe('Card Bounty prototype happy path', () => {
     }
 
     expect(screen.getByRole('heading', { name: 'Bounty Complete' })).toBeInTheDocument()
+    expect(within(prototypeControls).getByText('Collect your target Card')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Add to Collection' })).toHaveClass('attention')
     fireEvent.click(screen.getByRole('button', { name: 'Add to Collection' }))
     expect(screen.getByRole('heading', { name: 'Sinbad — Collection Completed' })).toBeInTheDocument()
-    const prototypeControls = screen.getByText('Interactive concept').closest('aside')
+    const collectionComplete = screen.getByRole('dialog', { name: 'Sinbad — Collection Completed' })
+    expect(
+      collectionComplete.querySelector('path[d="m13.6 2-8 11h5.2L9.7 22l8.7-12h-5.3L13.6 2Z"]'),
+    ).toBeInTheDocument()
+    expect(
+      collectionComplete.querySelector('path[d="m18 3.5 4 8.1 9 .9-6.5 6.3 1.7 8.8-8.2-4.3-8.2 4.3 1.7-8.8L5 12.5l9-.9 4-8.1Z"]'),
+    ).not.toBeInTheDocument()
     expect(prototypeControls).not.toHaveClass('prototypeControlsFinal')
     expect(screen.getByRole('button', { name: 'Collect 2,500 Spins' })).toHaveClass('attention')
     fireEvent.click(screen.getByRole('button', { name: 'Collect 2,500 Spins' }))

@@ -48,10 +48,10 @@ function guidanceFor(
     case 'target-picker': return 'Whale Boat is the guided target'
     case 'target-confirmation': return 'Confirm the selected target'
     case 'target-change-warning': return 'Confirm whether to reset Bounty progress'
-    case 'bounty': return targetId === 'whale-boat' ? 'Buy 10 Magical Chests per batch' : `Choose Chests to reach ${threshold ?? 'the target'}`
+    case 'bounty': return 'Buy Chests to progress the meter'
     case 'chest-quantity': return 'Adjust quantity and confirm'
-    case 'chest-opening': return 'Review deterministic duplicates'
-    case 'guarantee': return 'Add the guaranteed Card'
+    case 'chest-opening': return 'Continue'
+    case 'guarantee': return 'Collect your target Card'
     case 'collection-complete': return completesCollection ? 'Collect the Spin reward' : 'Return to the core loop'
   }
 }

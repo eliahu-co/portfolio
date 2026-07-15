@@ -348,6 +348,7 @@ it('renders the interactive prototype inside MVP without the old introduction', 
   )!
   const previewLink = prototype.querySelector('a[href="/MA-HomeAssignment/demo"]')!
   const buttonLabel = previewLink.querySelector('span')!
+  const buttonClasses = buttonLabel.className.split(/\s+/)
 
   expect(mvp.contains(prototype)).toBe(true)
   expect(prototype.contains(heading)).toBe(true)
@@ -355,7 +356,26 @@ it('renders the interactive prototype inside MVP without the old introduction', 
   expect(prototype.querySelector('img[src="/coinmaster/prototype.webp"]')).not.toBeNull()
   expect(buttonLabel.textContent?.trim()).toBe('Open')
   expect(buttonLabel.querySelector('svg')).not.toBeNull()
+  expect(buttonLabel.hasAttribute('data-prototype-cta')).toBe(true)
+  expect(buttonClasses).toEqual(expect.arrayContaining([
+    'left-3',
+    'bottom-3',
+    'md:bottom-auto',
+    'md:left-[20%]',
+    'md:top-[47%]',
+    'md:-translate-x-1/2',
+    'md:-translate-y-1/2',
+    'group-hover:scale-[1.025]',
+    'group-hover:brightness-105',
+  ]))
+  expect(buttonClasses).not.toContain('left-1/2')
+  expect(buttonClasses).not.toContain('bottom-4')
+  expect(buttonClasses).not.toContain('-translate-x-1/2')
+  expect(buttonClasses).not.toContain('-translate-y-1/2')
+  expect(buttonClasses).not.toContain('group-hover:-translate-y-0.5')
   expect(previewLink.getAttribute('aria-label')).toBe('Open the Card Bounty interactive prototype')
+  expect(previewLink.getAttribute('target')).toBe('_blank')
+  expect(previewLink.getAttribute('rel')).toBe('noopener noreferrer')
   expect(prototype.compareDocumentPosition(successMetrics) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   expect(document.body.textContent).not.toContain('Prototype demo')
   expect(document.body.textContent).not.toContain('Card Bounty, interactive')
