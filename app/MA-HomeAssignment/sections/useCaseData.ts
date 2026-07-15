@@ -9,10 +9,7 @@ export const USE_CASE_1: UseCaseData = {
   title:   'Hometown',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature1.png',
-  monetizationStrategy: {
-    lead: 'Conversion and purchase frequency.',
-    body: 'Targets high-progression, socially engaged players with a persistent Coin sink and new customization offers.',
-  },
+  monetizationStrategy: 'New spend surface',
   metrics: {
     primary: 'ARPDAU',
     supporting: [
@@ -81,12 +78,12 @@ export const USE_CASE_1: UseCaseData = {
       body: 'A permanent space that feels personal.',
     },
     {
-      title: 'Lasting Progression',
-      body: 'Built Village items remain useful.',
+      title: 'Progress and Status',
+      body: 'High-level Village items become proof of progress.',
     },
     {
-      title: 'Social Visibility',
-      body: 'Visits, reactions, and shareable snapshots.',
+      title: 'Social Recognition',
+      body: 'Visits, reactions and snapshots create an audience.',
     },
   ],
 
@@ -112,10 +109,7 @@ export const USE_CASE_2: UseCaseData = {
   title:   'Card Bounty',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature2.png',
-  monetizationStrategy: {
-    lead: 'Spend depth.',
-    body: 'Weighted toward high-intent collectors and high spenders. Repeated Chest openings consume Coins and increase demand for existing Spin and Coin offers.',
-  },
+  monetizationStrategy: 'Resource demand. Targets players close to completing a Card Collection increasing Coin consumption and demand for existing offers.',
   metrics: {
     primary: 'ARPDAU',
     supporting: [
@@ -187,12 +181,12 @@ export const USE_CASE_2: UseCaseData = {
 
   value: [
     {
-      title: 'Player Agency',
-      body: 'Players choose the Card they value.',
+      title: 'Agency',
+      body: 'Choose the Card that matters most.',
     },
     {
       title: 'Visible Progress',
-      body: 'Every Chest moves them closer to a guarantee.',
+      body: 'Every Chest advances toward a guaranteed result.',
     },
   ],
 
@@ -218,10 +212,7 @@ export const USE_CASE_3: UseCaseData = {
   title:   'Hot Trail',
   conceptAsSubtitle: true,
   mockup:  '/coinmaster/feature3.png',
-  monetizationStrategy: {
-    lead: 'Purchase frequency through re-engagement.',
-    body: 'Targets recently Raided players with an urgent return session that consumes Spins and creates another opportunity to purchase.',
-  },
+  monetizationStrategy: 'Purchase frequency through re-engagement.',
   metrics: {
     primary: 'ARPDAU',
     supporting: [
@@ -286,12 +277,12 @@ export const USE_CASE_3: UseCaseData = {
 
   value: [
     {
-      title: 'Urgent Return Trigger',
-      body: 'Turns being Raided into a reason to return.',
+      title: 'Urgency',
+      body: 'A limited window creates a reason to return.',
     },
     {
-      title: 'Agency After Loss',
-      body: 'Gives the raided player a direct response.',
+      title: 'Recovery and Revenge',
+      body: 'Respond directly to a Raid and recover part of the loss.',
     },
   ],
 

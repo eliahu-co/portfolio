@@ -52,10 +52,7 @@ export interface UseCaseData {
   mockup?: string // concept mockup image beside the loop (defaults to the placeholder)
   arpdauMechanism?: string // text shown in the block between Concept and Loop
   mechanismLabel?: string  // label for that block (defaults to "ARPDAU Mechanism")
-  monetizationStrategy?: {
-    lead: string
-    body: string
-  }
+  monetizationStrategy?: string
   metrics?: {
     primary: string
     supporting: string[]
@@ -273,13 +270,11 @@ export function CardList({
   )
 }
 
-// Strategy copy uses the same body styling as Concept, with the monetization
-// mechanism emphasized inline.
-function MonetizationStrategy({ strategy }: { strategy: { lead: string; body: string } }) {
+// Strategy copy uses the same body styling as Concept.
+function MonetizationStrategy({ strategy }: { strategy: string }) {
   return (
     <p className="font-sans text-[14px] leading-relaxed text-charcoal">
-      <strong className="font-bold">{strategy.lead}</strong>{' '}
-      {strategy.body}
+      {strategy}
     </p>
   )
 }
@@ -566,7 +561,7 @@ export default function UseCase({ data }: { data: UseCaseData }) {
       </div>
 
       {(data.value.length > 0 || data.tradeoffs.length > 0) && (
-        <Block label="Value delivered & risks">
+        <Block label="Player motivation & risks">
           {data.value.length > 0 && <CardList items={data.value} variant="value" />}
           {data.tradeoffs.length > 0 && (
             <div className={data.value.length > 0 ? 'mt-3' : ''}>

@@ -144,10 +144,7 @@ it('defines the approved monetization strategy and metrics for every feature', (
   ]).toEqual([
     {
       title: 'Hometown',
-      strategy: {
-        lead: 'Conversion and purchase frequency.',
-        body: 'Targets high-progression, socially engaged players with a persistent Coin sink and new customization offers.',
-      },
+      strategy: 'New spend surface',
       metrics: {
         primary: 'ARPDAU',
         supporting: [
@@ -159,10 +156,7 @@ it('defines the approved monetization strategy and metrics for every feature', (
     },
     {
       title: 'Card Bounty',
-      strategy: {
-        lead: 'Spend depth.',
-        body: 'Weighted toward high-intent collectors and high spenders. Repeated Chest openings consume Coins and increase demand for existing Spin and Coin offers.',
-      },
+      strategy: 'Resource demand. Targets players close to completing a Card Collection increasing Coin consumption and demand for existing offers.',
       metrics: {
         primary: 'ARPDAU',
         supporting: [
@@ -174,10 +168,7 @@ it('defines the approved monetization strategy and metrics for every feature', (
     },
     {
       title: 'Hot Trail',
-      strategy: {
-        lead: 'Purchase frequency through re-engagement.',
-        body: 'Targets recently Raided players with an urgent return session that consumes Spins and creates another opportunity to purchase.',
-      },
+      strategy: 'Purchase frequency through re-engagement.',
       metrics: {
         primary: 'ARPDAU',
         supporting: [
@@ -213,10 +204,8 @@ it('renders monetization strategy before metrics with the existing metric bullet
       const metricItems = Array.from(metricsBlock.querySelectorAll('li'))
 
       expect(labels).toEqual(['Monetization Strategy', 'Metrics'])
-      expect(strategyParagraph.querySelector('strong')?.textContent).toBe(data.monetizationStrategy?.lead)
-      expect(strategyParagraph.textContent).toBe(
-        `${data.monetizationStrategy?.lead} ${data.monetizationStrategy?.body}`
-      )
+      expect(strategyParagraph.querySelector('strong')).toBeNull()
+      expect(strategyParagraph.textContent).toBe(data.monetizationStrategy)
       expect(metricItems.map((item) => item.querySelector('span:last-child')?.textContent)).toEqual([
         data.metrics?.primary,
         ...data.metrics!.supporting,
@@ -225,6 +214,81 @@ it('renders monetization strategy before metrics with the existing metric bullet
       metricItems.slice(1).forEach((item) => {
         expect(item.querySelector('[aria-hidden="true"]')?.textContent).toBe('◆')
       })
+    })
+  })
+})
+
+it('defines the approved player motivations and plain monetization strategies', () => {
+  expect([USE_CASE_1, USE_CASE_2, USE_CASE_3].map((data) => ({
+    title: data.title,
+    strategy: data.monetizationStrategy,
+    motivations: data.value,
+    risks: data.tradeoffs,
+  }))).toEqual([
+    {
+      title: 'Hometown',
+      strategy: 'New spend surface',
+      motivations: [
+        { title: 'Expression and Ownership', body: 'A permanent space that feels personal.' },
+        { title: 'Progress and Status', body: 'High-level Village items become proof of progress.' },
+        { title: 'Social Recognition', body: 'Visits, reactions and snapshots create an audience.' },
+      ],
+      risks: [
+        { title: 'Core Cannibalization', body: 'May slow Village progression.' },
+        { title: 'Paying Twice', body: 'Charging for Village built items may feel unfair.' },
+        { title: 'Weak Customization Demand', body: 'Customization value depends on audience.' },
+      ],
+    },
+    {
+      title: 'Card Bounty',
+      strategy: 'Resource demand. Targets players close to completing a Card Collection increasing Coin consumption and demand for existing offers.',
+      motivations: [
+        { title: 'Agency', body: 'Choose the Card that matters most.' },
+        { title: 'Visible Progress', body: 'Every Chest advances toward a guaranteed result.' },
+      ],
+      risks: [
+        { title: 'System Cannibalization', body: 'Reduced value of Jokers, trading and Cards for Chests.' },
+        { title: 'Collection Acceleration', body: 'Collection rewards released faster than intended.' },
+        { title: 'Spend Shifting', body: 'Chest spending shifts to the event without increasing total spend.' },
+      ],
+    },
+    {
+      title: 'Hot Trail',
+      strategy: 'Purchase frequency through re-engagement.',
+      motivations: [
+        { title: 'Urgency', body: 'A limited window creates a reason to return.' },
+        { title: 'Recovery and Revenge', body: 'Respond directly to a Raid and recover part of the loss.' },
+      ],
+      risks: [
+        { title: 'Retaliation Loops', body: 'Repeated Counter-Raids between the same players.' },
+        { title: 'Failed Urgency', body: 'Spins consumed without landing a Raid before the timer expires.' },
+        { title: 'Economy Distortion', body: 'Recovered Coins inflate the economy or weaken core-loop demand.' },
+      ],
+    },
+  ])
+})
+
+it('renders player motivation framing and unbolded monetization strategy copy', () => {
+  render(<MAHomeAssignmentPage />)
+
+  ;[USE_CASE_1, USE_CASE_2, USE_CASE_3].forEach((data) => {
+    const feature = document.getElementById(data.id)!
+    const motivationHeading = Array.from(feature.querySelectorAll('p')).find(
+      (node) => node.textContent === 'Player motivation & risks'
+    )
+    const strategyHeadings = Array.from(feature.querySelectorAll('p')).filter(
+      (node) => node.textContent === 'Monetization Strategy'
+    )
+
+    expect(motivationHeading).toBeDefined()
+    expect(feature.textContent).not.toContain('Value delivered & risks')
+    expect(strategyHeadings).toHaveLength(2)
+    strategyHeadings.forEach((heading) => {
+      const strategyParagraph = heading.parentElement!.querySelector('p:not(:first-child)')!
+      expect(strategyParagraph.textContent).toBe(data.monetizationStrategy)
+      expect(strategyParagraph.querySelector('strong')).toBeNull()
+      expect(strategyParagraph.className).toContain('text-[14px]')
+      expect(strategyParagraph.className).toContain('text-charcoal')
     })
   })
 })
