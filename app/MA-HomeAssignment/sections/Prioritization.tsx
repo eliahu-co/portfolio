@@ -181,8 +181,10 @@ export default function Prioritization() {
                 style={row.winner ? { backgroundImage: 'linear-gradient(90deg, rgba(245,168,0,0.08) 0%, rgba(245,168,0,0.28) 50%, rgba(245,168,0,0.08) 100%)', backgroundSize: '200% 100%' } : undefined}
               >
                 <td className={`font-sans text-[13px] py-3 pr-4 ${row.winner ? 'text-black font-medium' : 'text-charcoal'}`}>
-                  {medal && <span className="mr-1.5" aria-hidden="true">{medal}</span>}
-                  {row.useCase}
+                  <span data-prioritization-feature className="inline-flex items-center whitespace-nowrap">
+                    {medal && <span className="mr-1.5" aria-hidden="true">{medal}</span>}
+                    {row.useCase}
+                  </span>
                 </td>
                 {row.scores.map((s, i) => (
                   <td key={i} className="font-sans text-[13px] text-charcoal/70 py-3 px-3 text-center">{s}</td>

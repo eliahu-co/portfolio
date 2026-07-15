@@ -515,6 +515,7 @@ it('exposes scoring definitions through accessible table-header tooltips', () =>
   const infoButtons = Array.from(section.querySelectorAll('button[aria-describedby]'))
   const tooltips = Array.from(document.body.querySelectorAll('[id^="criterion-"][role="tooltip"]'))
   const tableScroller = section.querySelector('.overflow-x-auto')!
+  const featureLabels = Array.from(section.querySelectorAll('[data-prioritization-feature]'))
 
   expect(formula.className).toContain('font-sans')
   expect(formula.className).toContain('text-[14px]')
@@ -523,6 +524,12 @@ it('exposes scoring definitions through accessible table-header tooltips', () =>
   expect(formula.className).toContain('border-cm-gold')
   expect(scoringMethod.className).toContain('gap-3')
   expect(scoringMethod.className).toContain('mb-6')
+  expect(featureLabels.map((label) => label.textContent?.trim())).toEqual([
+    '🥇Card Bounty',
+    '🥈Hot Trail',
+    '🥉Hometown',
+  ])
+  featureLabels.forEach((label) => expect(label.className).toContain('whitespace-nowrap'))
 
   expect(headers).toHaveLength(4)
   expect(infoButtons).toHaveLength(4)
