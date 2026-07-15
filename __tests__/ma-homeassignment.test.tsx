@@ -610,7 +610,7 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
     'Proposed target',
   ])
   expect(primaryHeadings[0].getAttribute('colspan')).toBe('2')
-  expect(primaryHeadings[1].className).toContain('pl-3')
+  expect(primaryHeadings[1].className).toContain('pl-7')
   expect(primaryHeadings[1].className).toContain('text-left')
   expectedGroups.forEach(({ title, rows }, index) => {
     const group = groups[index]
@@ -624,6 +624,9 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
     expect(group.querySelector('h3 > span')?.textContent).toBe(title)
     expect(renderedRows).toEqual(rows)
     expect(group.querySelector('tr[data-metric-row]')?.className).toContain('border-charcoal/15')
+  })
+  Array.from(table.querySelectorAll('[data-metric-target]')).forEach((target) => {
+    expect(target.className).toContain('pl-7')
   })
   expect(table.className).toContain('min-w-[720px]')
   expect(table.parentElement?.className).toContain('overflow-x-auto')

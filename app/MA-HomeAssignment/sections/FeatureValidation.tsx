@@ -171,7 +171,7 @@ export default function FeatureValidation() {
                       </h3>
                     </th>
                     {isNorthStar && (
-                      <th scope="col" className="pb-1 pl-3 pt-3 text-left align-bottom font-sans text-[9px] font-normal uppercase tracking-[0.12em] text-charcoal/70">
+                      <th scope="col" className="pb-1 pl-7 pt-3 text-left align-bottom font-sans text-[9px] font-normal uppercase tracking-[0.12em] text-charcoal/70">
                         Proposed target
                       </th>
                     )}
@@ -217,7 +217,7 @@ export default function FeatureValidation() {
                             </span>
                           )}
                         </td>
-                        <td data-metric-target className={`py-3 pl-3 align-top font-sans text-[13px] leading-relaxed text-charcoal ${isNorthStar ? 'font-medium' : ''}`}>{target}</td>
+                        <td data-metric-target className={`py-3 pl-7 align-top font-sans text-[13px] leading-relaxed text-charcoal ${isNorthStar ? 'font-medium' : ''}`}>{target}</td>
                       </tr>
                     )
                   })}
