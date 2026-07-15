@@ -53,6 +53,19 @@ it('matches the intro body size to the Concept copy', () => {
   expect(intro.className).not.toContain('text-[15px]')
 })
 
+it('renders the approved intro framing copy at the full content width', () => {
+  render(<MAHomeAssignmentPage />)
+  const intro = document.getElementById('hero')!
+  const framing = Array.from(intro.querySelectorAll('p')).find((node) =>
+    node.textContent?.startsWith('I developed three concepts')
+  )!
+
+  expect(framing.textContent).toBe(
+    'I developed three concepts, each targeting a different path to ARPDAU growth: a new spend surface, deeper spending or more purchase opportunities through re-engagement.'
+  )
+  expect(intro.className).not.toContain('max-w-2xl')
+})
+
 it('renders the current workflow and the concept mockup in each feature', () => {
   render(<MAHomeAssignmentPage />)
   const feature1 = document.getElementById('feature-1')!
