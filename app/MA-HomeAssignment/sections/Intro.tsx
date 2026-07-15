@@ -23,8 +23,8 @@ export default function Intro() {
         customization, social, PvP and LiveOps mechanics.
       </p>
       <p className="font-sans mt-4 text-[14px] leading-relaxed text-charcoal">
-        I set aside a Daily Card Memory challenge idea because it added another mode to an already
-        dense{' '}
+        The exploration led me to a Daily Card Memory challenge, but it would add another gameplay
+        mode to an already dense{' '}
         <a
           href="https://support.coinmastergame.com/hc/en-us/articles/32009776420626-How-can-I-best-strategize-my-daily-routine-in-Coin-Master"
           target="_blank"
@@ -33,8 +33,8 @@ export default function Intro() {
         >
           daily routine
         </a>
-        , without meaningful impact. I dropped a Pet equipment concept after
-        finding that{' '}
+        {' '}without a clear path to ARPDAU. A Pet equipment concept was also dropped after I found
+        that it overlapped with existing{' '}
         <a
           href="https://support.coinmastergame.com/hc/en-us/articles/16428340470546-What-are-Pet-Outfits"
           target="_blank"
@@ -43,11 +43,11 @@ export default function Intro() {
         >
           Pet Outfits
         </a>
-        {' '}already cover similar ground.
+        .
       </p>
       <p className="font-sans mt-4 text-[14px] leading-relaxed text-charcoal">
-        I developed three concepts, each targeting a different path to ARPDAU growth: a new spend
-        surface, deeper spending or more purchase opportunities through re-engagement.
+        The three selected concepts target different paths to ARPDAU growth: a new spend surface,
+        increased resource demand and more purchase opportunities through re-engagement.
       </p>
     </div>
   )

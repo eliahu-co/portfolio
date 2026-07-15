@@ -90,15 +90,25 @@ it('renders the approved intro research copy', () => {
   expect(intro.textContent).not.toContain('I played Coin Master with a product lens')
 })
 
-it('renders the approved intro framing copy at the full content width', () => {
+it('renders the approved linked exploration and framing copy at the full content width', () => {
   render(<MAHomeAssignmentPage />)
   const intro = document.getElementById('hero')!
-  const framing = Array.from(intro.querySelectorAll('p')).find((node) =>
-    node.textContent?.startsWith('I developed three concepts')
+  const exploration = Array.from(intro.querySelectorAll('p')).find((node) =>
+    node.textContent?.startsWith('The exploration led me to a Daily Card Memory challenge')
   )!
+  const framing = Array.from(intro.querySelectorAll('p')).find((node) =>
+    node.textContent?.startsWith('The three selected concepts')
+  )!
+  const dailyRoutineLink = exploration.querySelector('a[href*="daily-routine"]')!
+  const petOutfitsLink = exploration.querySelector('a[href*="Pet-Outfits"]')!
 
+  expect(exploration.textContent).toBe(
+    'The exploration led me to a Daily Card Memory challenge, but it would add another gameplay mode to an already dense daily routine without a clear path to ARPDAU. A Pet equipment concept was also dropped after I found that it overlapped with existing Pet Outfits.'
+  )
+  expect(dailyRoutineLink.textContent).toBe('daily routine')
+  expect(petOutfitsLink.textContent).toBe('Pet Outfits')
   expect(framing.textContent).toBe(
-    'I developed three concepts, each targeting a different path to ARPDAU growth: a new spend surface, deeper spending or more purchase opportunities through re-engagement.'
+    'The three selected concepts target different paths to ARPDAU growth: a new spend surface, increased resource demand and more purchase opportunities through re-engagement.'
   )
   expect(intro.className).not.toContain('max-w-2xl')
 })
