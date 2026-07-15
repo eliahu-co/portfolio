@@ -30,7 +30,6 @@ type ValidationMetric = {
   mutedTarget?: string
   role?: MetricRole
   metricHelp?: TooltipKey
-  nowrap?: boolean
 }
 type ValidationGroup = {
   title: 'Primary metric' | 'Supporting metrics' | 'Guardrails'
@@ -80,7 +79,7 @@ const METRIC_GROUPS: ValidationGroup[] = [
   {
     title: 'Guardrails',
     metrics: [
-      { metric: 'Card Collections Completed per Player', target: 'stable or small lift', mutedTarget: '≤115%', metricHelp: 'collections-completed', nowrap: true },
+      { metric: 'Card Collections Completed per Player', target: 'stable or small lift', mutedTarget: '≤115%', metricHelp: 'collections-completed' },
       { metric: 'Village Upgrades per Player', target: 'stable', mutedTarget: '≥95%', metricHelp: 'village-upgrades' },
       { metric: 'Post-Event Coin Spend on Chests per Player', target: 'stable', mutedTarget: '≥95%', metricHelp: 'post-event-chest-spend' },
       { metric: 'Post-Event Revenue per Player', target: 'stable', mutedTarget: '≥98%', metricHelp: 'post-event-revenue' },
@@ -231,7 +230,7 @@ export default function FeatureValidation() {
             <InfoButton tooltip="test-methodology" onShow={showTooltip} onHide={hideTooltip} />
           </span>
         )}
-        title="Card Bounty — Feature Validation"
+        title="Card Bounty: Feature Validation"
       >
         <div className="mb-8 max-w-2xl space-y-5">
           <ProtocolItem {...population} />
@@ -246,10 +245,10 @@ export default function FeatureValidation() {
         </div>
 
         <div className="mb-10 max-w-3xl overflow-x-auto">
-          <table className="w-full min-w-[720px] table-fixed border-collapse text-left">
+          <table className="w-full min-w-[640px] table-fixed border-collapse text-left md:min-w-[720px]">
             <colgroup>
-              <col className="w-[35%]" />
-              <col className="w-[132px]" />
+              <col className="w-[28%] md:w-[32%]" />
+              <col className="w-[104px] md:w-[132px]" />
               <col />
             </colgroup>
             {METRIC_GROUPS.map((group) => {
@@ -264,14 +263,14 @@ export default function FeatureValidation() {
                       </h3>
                     </th>
                     {isNorthStar && (
-                      <th scope="col" className="pb-1 pl-7 pt-3 text-left align-bottom font-sans text-[9px] font-normal uppercase tracking-[0.12em] text-charcoal/70">
+                      <th scope="col" className="pb-1 pl-2 pt-3 text-left align-bottom font-sans text-[9px] font-normal uppercase tracking-[0.12em] text-charcoal/70 md:pl-7">
                         <span className="inline-flex items-center gap-1.5">
                           <span>Proposed target</span>
                         </span>
                       </th>
                     )}
                   </tr>
-                  {group.metrics.map(({ metric, role, target, mutedTarget, metricHelp, nowrap }) => {
+                  {group.metrics.map(({ metric, role, target, mutedTarget, metricHelp }) => {
                     const isNorthStarMetric = isNorthStar && metric === 'ARPDAU'
 
                     return (
@@ -291,7 +290,7 @@ export default function FeatureValidation() {
                               ? 'grid w-full grid-cols-[minmax(0,1fr)_14px] items-center gap-2'
                               : 'inline-flex items-center gap-1.5'}
                           >
-                            <span data-metric-label className={nowrap ? 'whitespace-nowrap' : undefined}>{metric}</span>
+                            <span data-metric-label>{metric}</span>
                             {metricHelp && (
                               <span className="justify-self-end">
                                 <InfoButton tooltip={metricHelp} onShow={showTooltip} onHide={hideTooltip} />
@@ -299,16 +298,16 @@ export default function FeatureValidation() {
                             )}
                           </span>
                         </td>
-                        <td className="px-3 py-3 align-top">
+                        <td className="px-1.5 py-3 align-top md:px-3">
                           {role && (
                             <span className="inline-flex items-center gap-1.5">
-                              <span data-metric-role className={`inline-flex w-28 justify-center whitespace-nowrap rounded-full border px-2 py-1 font-sans text-[9px] font-bold uppercase tracking-[0.08em] ${ROLE_CLASSES[role]}`}>
+                              <span data-metric-role className={`inline-flex w-[92px] justify-center whitespace-nowrap rounded-full border px-2 py-1 font-sans text-[9px] font-bold uppercase tracking-[0.08em] md:w-28 ${ROLE_CLASSES[role]}`}>
                                 {role}
                               </span>
                             </span>
                           )}
                         </td>
-                        <td data-metric-target className={`py-3 pl-7 align-top font-sans text-[13px] leading-relaxed text-charcoal ${isNorthStar ? 'font-medium' : ''}`}>
+                        <td data-metric-target className={`py-3 pl-2 align-top font-sans text-[13px] leading-relaxed text-charcoal md:pl-7 ${isNorthStar ? 'font-medium' : ''}`}>
                           <span>{target}</span>
                           {mutedTarget && <>{' '}<span data-muted-target className="text-charcoal/45">{mutedTarget}</span></>}
                         </td>

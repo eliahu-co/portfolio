@@ -451,7 +451,7 @@ it('renders the standalone Feature Validation experiment after the prototype', (
   ]
 
   expect(validation.querySelector('p')?.textContent).toContain('A/B Test')
-  expect(validation.querySelector('h2')?.textContent).toBe('Card Bounty — Feature Validation')
+  expect(validation.querySelector('h2')?.textContent).toBe('Card Bounty: Feature Validation')
   expect(document.querySelector('a[href="#validation"]')?.textContent).toBe('Validation')
 
   expectedProtocol.forEach(([label, body]) => {
@@ -665,7 +665,8 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   expect(primaryHeadings[0].textContent?.trim()).toBe('Primary metric')
   expect(primaryHeadings[1].querySelector('span > span')?.textContent).toBe('Proposed target')
   expect(primaryHeadings[0].getAttribute('colspan')).toBe('2')
-  expect(primaryHeadings[1].className).toContain('pl-7')
+  expect(primaryHeadings[1].className).toContain('pl-2')
+  expect(primaryHeadings[1].className).toContain('md:pl-7')
   expect(primaryHeadings[1].className).toContain('text-left')
   expectedGroups.forEach(({ title, rows }, index) => {
     const group = groups[index]
@@ -681,7 +682,8 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
     expect(group.querySelector('tr[data-metric-row]')?.className).toContain('border-charcoal/15')
   })
   Array.from(table.querySelectorAll('[data-metric-target]')).forEach((target) => {
-    expect(target.className).toContain('pl-7')
+    expect(target.className).toContain('pl-2')
+    expect(target.className).toContain('md:pl-7')
   })
   const mutedTargets = Array.from(table.querySelectorAll('[data-muted-target]'))
   expect(mutedTargets.map((target) => target.textContent)).toEqual([
@@ -699,14 +701,16 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   ])
   mutedTargets.forEach((target) => expect(target.className).toContain('text-charcoal/45'))
   expect(table.textContent).not.toMatch(/\([^)]*[≥≤][^)]*\)/)
-  expect(table.className).toContain('min-w-[720px]')
+  expect(table.className).toContain('min-w-[640px]')
+  expect(table.className).toContain('md:min-w-[720px]')
   expect(table.parentElement?.className).toContain('overflow-x-auto')
   expect(rolePills).toHaveLength(6)
   expect(rolePills.map((pill) => pill.textContent)).toEqual([
     'Monetization', 'Economy', 'Economy', 'Feature funnel', 'Feature funnel', 'Feature funnel',
   ])
   rolePills.forEach((pill) => {
-    expect(pill.className).toContain('w-28')
+    expect(pill.className).toContain('w-[92px]')
+    expect(pill.className).toContain('md:w-28')
     expect(pill.className).toContain('justify-center')
     expect(pill.className).toContain('border')
   })
@@ -760,11 +764,15 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   expect(infoButtons[1].closest('[data-metric-help]')?.querySelector('[data-metric-label]')?.textContent).toBe('Bounty Completion Rate')
   expect(metrics.querySelector('button[aria-label="About proposed targets"]')).toBeNull()
   expect(document.getElementById('target-methodology-tooltip')).toBeNull()
-  expect(table.querySelector('col')?.className).toContain('w-[35%]')
+  const columns = Array.from(table.querySelectorAll('col'))
+  expect(columns[0].className).toContain('w-[28%]')
+  expect(columns[0].className).toContain('md:w-[32%]')
+  expect(columns[1].className).toContain('w-[104px]')
+  expect(columns[1].className).toContain('md:w-[132px]')
   const collectionLabel = Array.from(table.querySelectorAll('[data-metric-label]')).find(
     (label) => label.textContent === 'Card Collections Completed per Player'
   )!
-  expect(collectionLabel.className).toContain('whitespace-nowrap')
+  expect(collectionLabel.className).not.toContain('whitespace-nowrap')
   expect(metrics.textContent).not.toContain('Decision threshold')
   expect(metrics.textContent).not.toContain('Segmentation')
 })

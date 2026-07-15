@@ -6,7 +6,7 @@ Make the Card Bounty validation section more explicit about directional targets,
 
 ## Approved hierarchy
 
-- Rename the section heading to `Card Bounty — Feature Validation`.
+- Rename the section heading to `Card Bounty: Feature Validation`.
 - Keep `A/B Test` as the red eyebrow and place a small accessible information button beside it.
 - Keep `Proposed target` unannotated; directional-target context is covered in Assumptions.
 - Move the Feature funnel information button to Bounty Completion Rate and use the concise note `Ensures the guarantee provides value without becoming too easy.`
