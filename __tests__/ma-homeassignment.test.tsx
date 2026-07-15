@@ -599,6 +599,23 @@ it('renders the approved MVP intro and scope copy', () => {
   expect(section.textContent).not.toContain('Purchasing meter progress or the guaranteed Card directly.')
 })
 
+it('renders Bounty Progress as the highlighted return point in the player flow', () => {
+  render(<MAHomeAssignmentPage />)
+  const flow = document.getElementById('player-flow')!
+  const bountyTitle = Array.from(flow.querySelectorAll('p')).find((node) => node.textContent === 'Bounty Progress')!
+  const guaranteedTitle = Array.from(flow.querySelectorAll('p')).find((node) => node.textContent === 'Guaranteed Card')!
+  const bountyPill = bountyTitle.parentElement!
+  const guaranteedPill = guaranteedTitle.parentElement!
+  const action = bountyTitle.nextElementSibling!
+
+  expect(action.textContent).toBe('Buy a Chest with Coins')
+  expect(action.className).toContain('italic')
+  expect(bountyPill.className).toBe(guaranteedPill.className)
+  expect(flow.textContent).toContain('Return to Bounty Progress')
+  expect(flow.textContent).not.toContain('Active Card Bounty')
+  expect(flow.textContent).not.toContain('Return to Active Bounty')
+})
+
 it('renders Feature Validation as a role-pill experiment table with contextual funnel help', () => {
   const expectedGroups = [
     {
