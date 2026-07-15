@@ -7,9 +7,16 @@ describe('CardsCenterScreen', () => {
   it('renders the collection medallions and stage-local controls', () => {
     const onOpenBounty = jest.fn()
 
-    render(<CardsCenterScreen countdown={85_272} onOpenBounty={onOpenBounty} />)
+    const { container } = render(
+      <CardsCenterScreen countdown={85_272} onOpenBounty={onOpenBounty} />,
+    )
 
     expect(screen.getByRole('heading', { name: 'Cards Center' })).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Close Cards Center' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Close Cards Center' })).not.toBeInTheDocument()
+    const closeDisplay = container.querySelector('.closeDisplay')
+    expect(closeDisplay).toHaveAttribute('aria-hidden', 'true')
+    expect(closeDisplay?.querySelector('svg')).toBeInTheDocument()
     const list = screen.getByRole('list', { name: 'Card collections' })
     expect(within(list).getAllByRole('listitem')).toHaveLength(8)
     expect(screen.getAllByRole('button', { name: 'Open Card Bounty' })).toHaveLength(1)

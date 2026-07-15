@@ -73,7 +73,7 @@
 }
 
 .info,
-.header a {
+.closeDisplay {
   width: 42px;
   height: 42px;
   display: grid;
@@ -94,18 +94,17 @@
   text-shadow: 0 2px 0 #07506d;
 }
 
-.header a {
+.closeDisplay {
   color: #fff;
   background: linear-gradient(180deg, #f47a45, #c42e25);
 }
 
-.header a:focus-visible,
 .bountyButton:focus-visible {
   outline: 4px solid #fff;
   outline-offset: 3px;
 }
 
-.header a svg {
+.closeDisplay svg {
   width: 23px;
   height: 23px;
   fill: none;
