@@ -60,6 +60,7 @@ describe('MA presentation primitives', () => {
     render(<StageCounter index={2} total={21} />)
 
     expect(screen.getByRole('status', { name: 'Slide 3 of 21' })).toHaveTextContent('3 / 21')
+    expect(screen.getByRole('status', { name: 'Slide 3 of 21' })).toHaveClass('text-charcoal')
   })
 
   it('uses a real focusable reveal button while keeping its summary visible', () => {

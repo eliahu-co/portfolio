@@ -153,7 +153,7 @@ export function StageCounter({
       role="status"
       aria-label={`Slide ${current} of ${safeTotal}`}
       className={classes(
-        'font-sans text-[12px] font-medium uppercase tabular-nums tracking-[0.14em] text-black',
+        'font-sans text-[12px] font-medium uppercase tabular-nums tracking-[0.14em] text-charcoal',
         className,
       )}
     >
