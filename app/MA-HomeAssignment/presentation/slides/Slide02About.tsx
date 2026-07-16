@@ -61,13 +61,13 @@ export default function Slide02About({ slideKey }: OpeningSlideProps) {
       <div className="mt-8 grid min-h-0 flex-1 grid-cols-[320px_1fr] items-stretch gap-10">
         <figure
           data-ma-photo-frame="true"
-          className="self-start overflow-hidden rounded-2xl border-2 border-cm-wood/50 bg-white p-1 shadow-[0_3px_0_rgba(144,57,0,0.28)]"
+          className="self-start overflow-hidden rounded-2xl border-2 border-cm-wood/50 shadow-[0_3px_0_rgba(144,57,0,0.28)]"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/presentation/family.jpeg"
             alt="Eliahu and family"
-            className="h-[300px] w-full rounded-xl object-cover"
+            className="h-[300px] w-full object-cover"
           />
         </figure>
 
@@ -83,18 +83,19 @@ export default function Slide02About({ slideKey }: OpeningSlideProps) {
                   <button
                     type="button"
                     data-deck-interactive="true"
+                    data-journey-surface="true"
                     aria-expanded={showEduardo}
                     aria-controls="about-name"
                     onMouseEnter={() => setInteraction((current) => ({ ...current, hovered: true }))}
                     onMouseLeave={() => setInteraction((current) => ({ ...current, hovered: false }))}
                     onFocus={() => setInteraction((current) => ({ ...current, focused: true }))}
                     onBlur={() => setInteraction((current) => ({ ...current, focused: false }))}
-                    className="min-h-11 w-full rounded-lg border border-[#1E7BA8]/30 bg-gradient-to-b from-[#F0FAFE] to-[#DBF1FC] px-5 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.16)] focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
+                    className="min-h-11 w-full rounded-lg border border-[#1E7BA8]/30 bg-transparent px-5 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.16)] transition-colors hover:bg-gradient-to-b hover:from-[#F0FAFE] hover:to-[#DBF1FC] focus-visible:bg-gradient-to-b focus-visible:from-[#F0FAFE] focus-visible:to-[#DBF1FC] focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
                   >
                     {place}
                   </button>
                 ) : (
-                  <span className="inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-[#1E7BA8]/30 bg-gradient-to-b from-[#F0FAFE] to-[#DBF1FC] px-5 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.16)]">
+                  <span data-journey-surface="true" className="inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-[#1E7BA8]/30 bg-transparent px-5 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.16)] transition-colors hover:bg-gradient-to-b hover:from-[#F0FAFE] hover:to-[#DBF1FC]">
                     {place}
                   </span>
                 )}
@@ -109,7 +110,7 @@ export default function Slide02About({ slideKey }: OpeningSlideProps) {
             ))}
           </ol>
 
-          <ul aria-label="About Eliahu" className="grid grid-cols-2 gap-x-10 gap-y-5">
+          <ul aria-label="About Eliahu" className="grid grid-cols-1 gap-y-2">
             {BULLETS.map((bullet) => (
               <li
                 key={bullet}

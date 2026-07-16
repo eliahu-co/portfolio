@@ -25,13 +25,14 @@ describe('MA presentation primitives', () => {
       .toHaveClass('text-[64px]', 'leading-[1.04]')
     expect(screen.getByText('Every Chest advances visible progress.')).toBeVisible()
     expect(screen.getByTestId('shell'))
-      .toHaveClass('bg-cm-cream', 'text-[16px]', 'px-20', 'pt-20', 'pb-16')
+      .toHaveClass('bg-cm-cream', 'text-[16px]', 'max-w-7xl', 'px-12', 'lg:px-20', 'pt-16', 'lg:pt-20', 'pb-16')
     expect(screen.getByText('Decision')).toHaveClass(
       'text-[12px]',
-      'mb-1',
+      'mb-4',
       'font-medium',
       'uppercase',
       'tracking-[0.14em]',
+      'leading-[18px]',
       'text-black',
     )
   })

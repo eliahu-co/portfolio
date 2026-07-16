@@ -4,7 +4,6 @@ import {
   useCallback,
   useEffect,
   useState,
-  type CSSProperties,
   type MouseEvent as ReactMouseEvent,
 } from 'react'
 import { useRouter } from 'next/navigation'
@@ -24,25 +23,7 @@ import {
 import styles from './PresentationStage.module.css'
 import { FlowArrow } from './components/FlowArrow'
 
-const STAGE_WIDTH = 1280
-const STAGE_HEIGHT = 720
 const inertAttribute = '' as unknown as boolean
-
-type ViewportSize = {
-  readonly width: number
-  readonly height: number
-}
-
-function currentViewport(): ViewportSize {
-  if (typeof window === 'undefined') {
-    return { width: STAGE_WIDTH, height: STAGE_HEIGHT }
-  }
-
-  return {
-    width: window.visualViewport?.width ?? window.innerWidth,
-    height: window.visualViewport?.height ?? window.innerHeight,
-  }
-}
 
 function joinClasses(...values: Array<string | false | undefined>): string {
   return values.filter(Boolean).join(' ')
@@ -52,9 +33,7 @@ export default function PresentationDeck() {
   const router = useRouter()
   const [current, setCurrent] = useState(0)
   const [hashReady, setHashReady] = useState(false)
-  const [viewport, setViewport] = useState<ViewportSize>({ width: STAGE_WIDTH, height: STAGE_HEIGHT })
   const activeSlide = slideRegistry[current]
-  const scale = Math.min(1, viewport.width / STAGE_WIDTH, viewport.height / STAGE_HEIGHT)
 
   const navigate = useCallback((index: number) => {
     setCurrent(clampIndex(index, slideCount))
@@ -88,21 +67,6 @@ export default function PresentationDeck() {
       window.history.replaceState(window.history.state, '', hash)
     }
   }, [current, hashReady])
-
-  useEffect(() => {
-    const syncViewport = () => setViewport(currentViewport())
-    const resizeObserver = new ResizeObserver(syncViewport)
-
-    syncViewport()
-    resizeObserver.observe(document.documentElement)
-    window.addEventListener('resize', syncViewport)
-    window.visualViewport?.addEventListener('resize', syncViewport)
-    return () => {
-      resizeObserver.disconnect()
-      window.removeEventListener('resize', syncViewport)
-      window.visualViewport?.removeEventListener('resize', syncViewport)
-    }
-  }, [])
 
   useEffect(() => {
     document.body.classList.add('ma-presentation-active')
@@ -152,10 +116,6 @@ export default function PresentationDeck() {
     navigate(index)
   }
 
-  const viewportStyle = {
-    '--deck-scale': scale,
-  } as CSSProperties
-
   return (
     <div
       className={joinClasses(
@@ -163,7 +123,6 @@ export default function PresentationDeck() {
       )}
       data-presentation-viewport="true"
       data-viewport-supported="true"
-      style={viewportStyle}
       onClick={handleDeckClick}
     >
       <div className={styles.stageFrame}>

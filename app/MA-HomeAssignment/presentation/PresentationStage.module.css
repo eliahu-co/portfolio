@@ -1,9 +1,7 @@
 .viewport {
-  --deck-scale: 1;
   position: fixed;
   inset: 0;
   display: grid;
-  place-items: center;
   overflow: hidden;
   background: #fff9ee;
   font-family: var(--font-cm-body), 'Nunito Sans', system-ui, sans-serif;
@@ -29,25 +27,23 @@
 
 .stageFrame {
   position: relative;
-  width: calc(1280px * var(--deck-scale));
-  height: calc(720px * var(--deck-scale));
+  width: 100vw;
+  height: 100vh;
 }
 
 .stage {
   position: relative;
-  width: 1280px;
-  height: 720px;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  transform: scale(var(--deck-scale));
-  transform-origin: top left;
   background: #fff9ee;
 }
 
 .slide {
   position: absolute;
   inset: 0;
-  width: 1280px;
-  height: 720px;
+  width: 100%;
+  height: 100%;
   opacity: 0;
   pointer-events: none;
   transition: opacity 250ms ease;
@@ -68,11 +64,18 @@
 .deckChrome {
   position: absolute;
   z-index: 20;
-  right: 80px;
-  bottom: 48px;
-  left: 80px;
+  right: 0;
+  bottom: 80px;
+  left: 0;
   display: grid;
+  height: 18px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 80px;
+  box-sizing: border-box;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-rows: 18px;
   align-items: center;
   gap: 24px;
   pointer-events: none;
@@ -80,23 +83,38 @@
 
 .deckChrome button {
   display: inline-flex;
-  min-height: 44px;
   align-items: center;
   gap: 8px;
   border: 0;
   background: transparent;
-  padding: 8px 0;
+  padding: 0;
   color: #000;
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.14em;
+  line-height: 1.5;
   pointer-events: auto;
   text-transform: uppercase;
+}
+
+.deckChrome p {
+  line-height: 1.5;
+}
+
+.deckChrome svg {
+  display: block;
 }
 
 .deckChrome button:focus-visible {
   outline: 4px solid #1e7ba8;
   outline-offset: 3px;
+}
+
+.previousControl,
+.nextControl {
+  display: flex;
+  height: 18px;
+  align-items: center;
 }
 
 .previousControl {
@@ -131,6 +149,13 @@
 @media (prefers-reduced-motion: reduce) {
   .slide {
     transition: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .deckChrome {
+    bottom: 64px;
+    padding: 0 48px;
   }
 }
 

@@ -10,11 +10,6 @@ jest.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush }),
 }))
 
-function setViewport(width: number, height: number) {
-  Object.defineProperty(window, 'innerWidth', { configurable: true, value: width })
-  Object.defineProperty(window, 'innerHeight', { configurable: true, value: height })
-}
-
 function setRoute(hash = '') {
   window.history.replaceState({}, '', `/MA-HomeAssignment/presentation/${hash}`)
 }
@@ -29,7 +24,6 @@ function activeSlide(container: HTMLElement): HTMLElement {
 describe('MA presentation deck', () => {
   beforeEach(() => {
     mockPush.mockReset()
-    setViewport(1280, 720)
     setRoute()
     document.body.classList.remove('ma-presentation-active')
   })
@@ -166,17 +160,11 @@ describe('MA presentation deck', () => {
       .toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('shrinks the 1280 by 720 stage when needed without enlarging it', () => {
-    setViewport(1440, 900)
+  it('uses the same full-viewport stage model as the HA presentation', () => {
     const { container } = render(<PresentationDeck />)
     const viewport = container.querySelector<HTMLElement>('[data-presentation-viewport]')!
-    expect(viewport).toHaveStyle('--deck-scale: 1')
     expect(viewport).toHaveAttribute('data-viewport-supported', 'true')
-
-    setViewport(959, 720)
-    fireEvent(window, new Event('resize'))
-    expect(viewport).toHaveStyle(`--deck-scale: ${959 / 1280}`)
-    expect(viewport).toHaveAttribute('data-viewport-supported', 'true')
+    expect(viewport).not.toHaveAttribute('style')
     expect(screen.queryByRole('status', { name: 'Desktop presentation notice' })).not.toBeInTheDocument()
   })
 
@@ -201,12 +189,17 @@ describe('MA presentation deck', () => {
     const globalCss = readFileSync(resolve(process.cwd(), 'app/globals.css'), 'utf8')
 
     expect(stageCss).toMatch(/transition:\s*opacity 250ms ease/)
-    expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*right:\s*80px/)
-    expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*bottom:\s*48px/)
-    expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*left:\s*80px/)
+    expect(stageCss).toMatch(/\.stageFrame\s*{[^}]*width:\s*100vw[^}]*height:\s*100vh/)
+    expect(stageCss).toMatch(/\.stage\s*{[^}]*width:\s*100%[^}]*height:\s*100%/)
+    expect(stageCss).not.toMatch(/transform:\s*scale\(var\(--deck-scale\)\)/)
+    expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*bottom:\s*80px/)
+    expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*height:\s*18px/)
+    expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*max-width:\s*1280px/)
+    expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*padding:\s*0 80px/)
     expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*color:\s*#000/)
     expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*font-weight:\s*500/)
     expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*letter-spacing:\s*0\.14em/)
+    expect(stageCss).not.toMatch(/\.deckChrome button\s*{[^}]*min-height:/)
     expect(stageCss).toMatch(
       /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.slide\s*{[\s\S]*?transition:\s*none/,
     )

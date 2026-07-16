@@ -24,8 +24,8 @@ export function SlideShell({
       {...props}
       data-slide-shell="true"
       className={classes(
-        'mx-auto flex h-full w-full max-w-[1280px] flex-col overflow-hidden bg-cm-cream px-20 pb-16 pt-20 font-sans text-[16px] leading-relaxed text-[#1A1A1A]',
-        align === 'centered' ? 'justify-center' : 'justify-start',
+        'mx-auto flex h-full w-full max-w-7xl flex-col overflow-hidden bg-cm-cream px-12 font-sans text-[16px] leading-relaxed text-[#1A1A1A] lg:px-20',
+        align === 'centered' ? 'justify-center py-16' : 'justify-start pb-16 pt-16 lg:pt-20',
         className,
       )}
     >
@@ -66,7 +66,7 @@ export function Eyebrow({ children, className, ...props }: HTMLAttributes<HTMLPa
     <p
       {...props}
       className={classes(
-        'mb-1 font-sans text-[12px] font-medium uppercase tracking-[0.14em] text-black',
+        'mb-4 font-sans text-[12px] font-medium uppercase leading-[18px] tracking-[0.14em] text-black',
         className,
       )}
     >

@@ -16,12 +16,15 @@ describe('MA presentation opening chapter', () => {
     expect(screen.getByText('Product Manager')).toBeVisible()
     expect(screen.queryByText('Architect, Product Manager')).not.toBeInTheDocument()
     expect(container.querySelectorAll('[data-ma-photo-frame="true"] img[alt="Eliahu and family"]')).toHaveLength(1)
+    expect(container.querySelector('[data-ma-photo-frame="true"]')).not.toHaveClass('bg-white', 'p-1')
     expect(container.querySelectorAll('[data-journey-pill="true"]')).toHaveLength(3)
     expect(container.querySelectorAll('[data-journey-pill="true"].flex-1')).toHaveLength(3)
     expect(container.querySelectorAll('svg[data-journey-connector="true"]')).toHaveLength(2)
     expect(container.querySelectorAll('[data-journey-connector="true"][data-flow-arrow="true"]')).toHaveLength(2)
     const facts = Array.from(container.querySelectorAll('[data-flat-fact="true"]'))
     expect(facts).toHaveLength(6)
+    expect(container.querySelector('ul[aria-label="About Eliahu"]')).toHaveClass('grid-cols-1')
+    expect(container.querySelector('ul[aria-label="About Eliahu"]')).not.toHaveClass('grid-cols-2')
     facts.forEach((fact) => {
       expect(fact.querySelector('[aria-hidden="true"]')).not.toBeInTheDocument()
     })
@@ -29,6 +32,12 @@ describe('MA presentation opening chapter', () => {
       expect(element).toHaveClass('motion-reduce:transition-none')
     })
     const brazil = screen.getByRole('button', { name: 'Brazil' })
+    expect(brazil).toHaveClass('bg-transparent', 'hover:bg-gradient-to-b')
+    expect(brazil).not.toHaveClass('bg-gradient-to-b')
+    container.querySelectorAll('[data-journey-surface="true"]').forEach((surface) => {
+      expect(surface).toHaveClass('bg-transparent', 'hover:bg-gradient-to-b')
+      expect(surface).not.toHaveClass('bg-gradient-to-b')
+    })
 
     fireEvent.mouseEnter(brazil)
     expect(brazil).toHaveAttribute('aria-expanded', 'true')
