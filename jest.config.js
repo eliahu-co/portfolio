@@ -10,5 +10,10 @@ module.exports = createJestConfig({
     '^three$': '<rootDir>/__mocks__/three.ts',
     '^three/examples/jsm/(.*)$': '<rootDir>/__mocks__/three-jsm.ts',
   },
-  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
+  testPathIgnorePatterns: [
+    '<rootDir>/.next/',
+    '<rootDir>/node_modules/',
+    '<rootDir>/.superpowers/worktrees/',
+  ],
+  modulePathIgnorePatterns: ['<rootDir>/.superpowers/worktrees/'],
 })
