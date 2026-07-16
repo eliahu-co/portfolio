@@ -1,14 +1,17 @@
 import { SlideShell, SlideTitle } from '../primitives'
+import {
+  closingMenuTargets,
+  type ClosingMenuTarget,
+} from '../slideRegistry'
 import type { OpeningSlideProps } from './Slide01Cover'
 
-export default function Slide21ThankYou(_props: OpeningSlideProps) {
-  const chapterLinks = [
-    { label: 'Approach', href: '#slide-3' },
-    { label: 'Three bets', href: '#slide-5' },
-    { label: 'Decision', href: '#slide-13' },
-    { label: 'Player flow', href: '#slide-15' },
-    { label: 'Validation', href: '#slide-18' },
-  ] as const
+type ThankYouProps = OpeningSlideProps & {
+  readonly chapterLinks?: readonly ClosingMenuTarget[]
+}
+
+export default function Slide21ThankYou({
+  chapterLinks = closingMenuTargets,
+}: ThankYouProps) {
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-cm-violet-deep">

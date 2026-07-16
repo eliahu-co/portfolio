@@ -101,6 +101,7 @@ body.overlay-active [data-overlay-hide] {
 
 /* Landscape guard — silently covers content on touch devices in landscape */
 .landscape-guard { display: none; }
+body.ma-presentation-active .landscape-guard { display: none !important; }
 @media screen and (orientation: landscape) and (pointer: coarse) {
   .landscape-guard {
     display: block;
