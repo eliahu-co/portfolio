@@ -163,7 +163,7 @@ describe('MA presentation validation chapter', () => {
       metric,
     })))
 
-    expect(rail).toHaveClass('h-[112px]', 'overflow-hidden')
+    expect(rail).toHaveClass('h-[96px]', 'overflow-hidden')
     metrics.forEach(({ group, metric }) => {
       const control = metricControl(board, metric.metric)
       const assertDetail = () => {
@@ -208,6 +208,36 @@ describe('MA presentation validation chapter', () => {
     fireEvent.focus(metricControl(board, 'ARPDAU'))
     rerender(<Slide19Metrics slideKey="metric-b" />)
     expect(within(rail).queryByRole('status')).not.toBeInTheDocument()
+  })
+
+  it('uses a compact stage stack without shrinking visible targets or metric detail', () => {
+    const { container } = render(<Slide19Metrics slideKey="metric-compact-layout" />)
+    const shell = requiredElement(container, '[data-slide-shell="true"]')
+    const board = requiredElement(container, '[data-metric-screen-board="true"]')
+    const primary = requiredElement(board, '[data-metric-group="Primary metric"]')
+    const rail = requiredElement(board, '[data-metric-detail-rail="true"]')
+    const cards = Array.from(
+      board.querySelectorAll<HTMLButtonElement>('button[data-metric-card="true"]'),
+    )
+    const nonPrimaryCards = cards.filter((card) => card.dataset.dominant !== 'true')
+
+    expect(shell).toHaveClass('!py-7')
+    expect(board).toHaveAttribute('data-compact-layout', 'true')
+    expect(board.firstElementChild).toBe(primary)
+    expect(metricControl(primary, 'ARPDAU')).toHaveClass('min-h-[52px]', 'text-[20px]')
+    nonPrimaryCards.forEach((card) => {
+      expect(card).toHaveClass('min-h-11', 'text-[14px]')
+      expect(requiredElement(card, '[data-metric-target="true"]'))
+        .toHaveClass('text-[14px]')
+    })
+    expect(rail).toHaveClass('mt-1', 'h-[96px]')
+    expect(within(rail).getByText(TOOLTIP_NOTES['test-methodology'], { exact: true }))
+      .toHaveClass('text-[14px]')
+
+    fireEvent.focus(metricControl(board, 'ARPPU by payer tier'))
+    const detail = within(rail).getByRole('status', { name: 'Metric detail' })
+    Array.from(detail.querySelectorAll<HTMLElement>('[data-metric-detail-field] > p:last-child'))
+      .forEach((copy) => expect(copy).toHaveClass('text-[14px]'))
   })
 
   it('prints a compact static summary of every metric note and canonical target', () => {

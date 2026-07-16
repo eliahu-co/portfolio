@@ -165,7 +165,9 @@ function MetricCard({
   return (
     <RevealControl
       summary={(
-        <span className={dominant ? 'grid w-full grid-cols-[1fr_auto] items-center gap-5' : 'block w-full'}>
+        <span className={dominant
+          ? 'grid w-full grid-cols-[1fr_auto] items-center gap-4'
+          : 'grid w-full grid-cols-[minmax(0,1fr)_minmax(118px,0.9fr)] items-center gap-2'}>
           <span className="block text-left font-bold leading-tight text-cm-violet-deep">
             {story.metric}
           </span>
@@ -173,7 +175,7 @@ function MetricCard({
             data-metric-target="true"
             className={dominant
               ? 'block text-right font-serif text-[24px] font-black leading-none text-cm-crimson'
-              : 'mt-1 block text-left font-sans text-[12px] font-bold leading-tight text-charcoal'}
+              : 'block text-right font-sans text-[14px] font-bold leading-tight text-charcoal'}
           >
             {story.target}{story.mutedTarget ? ` ${story.mutedTarget}` : ''}
           </span>
@@ -189,8 +191,8 @@ function MetricCard({
       className={[
         'w-full justify-start text-left',
         dominant
-          ? 'min-h-[66px] border-cm-gold/65 bg-cm-gold/15 !px-5 !py-3 text-[20px] shadow-[0_8px_20px_rgba(42,27,84,0.08)]'
-          : 'min-h-[48px] !rounded-xl !px-3 !py-2 text-[14px]',
+          ? 'min-h-[52px] border-cm-gold/65 bg-cm-gold/15 !px-4 !py-2 text-[20px] shadow-[0_8px_20px_rgba(42,27,84,0.08)]'
+          : 'min-h-11 !rounded-xl !px-2.5 !py-1.5 text-[14px]',
         active ? 'border-[#1E7BA8] bg-[#1E7BA8]/15' : '',
       ].join(' ')}
       onMouseEnter={() => onHover(story.metric)}
@@ -212,10 +214,10 @@ function DetailField({
 }) {
   return (
     <div data-metric-detail-field={field}>
-      <p className="font-sans text-[9px] font-extrabold uppercase tracking-[0.1em] text-cm-crimson">
+      <p className="font-sans text-[10px] font-extrabold uppercase tracking-[0.1em] text-cm-crimson">
         {label}
       </p>
-      <p className="mt-0.5 font-sans text-[11px] leading-tight text-[#1A1A1A]">{children}</p>
+      <p className="font-sans text-[14px] leading-tight text-[#1A1A1A]">{children}</p>
     </div>
   )
 }
@@ -256,14 +258,11 @@ export function MetricMatrix({ slideKey }: MetricMatrixProps) {
 
   return (
     <section aria-label="Card Bounty success metrics">
-      <div data-metric-screen-board="true" className={styles.metricScreenBoard}>
-        <p
-          data-methodology-note="true"
-          className="mb-2 font-sans text-[11px] leading-snug text-charcoal"
-        >
-          {TOOLTIP_NOTES['test-methodology']}
-        </p>
-
+      <div
+        data-metric-screen-board="true"
+        data-compact-layout="true"
+        className={styles.metricScreenBoard}
+      >
         <section data-metric-group="Primary metric" aria-labelledby="primary-metric-heading">
           <h3
             id="primary-metric-heading"
@@ -277,29 +276,29 @@ export function MetricMatrix({ slideKey }: MetricMatrixProps) {
         <section
           data-metric-group="Supporting metrics"
           aria-labelledby="supporting-metrics-heading"
-          className="mt-2"
+          className="mt-1"
         >
           <h3
             id="supporting-metrics-heading"
-            className="mb-1 font-sans text-[11px] font-extrabold uppercase tracking-[0.11em] text-cm-violet-deep"
+            className="mb-0.5 font-sans text-[11px] font-extrabold uppercase tracking-[0.11em] text-cm-violet-deep"
           >
             Supporting signals
           </h3>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2">
             {SUPPORTING_ROLES.map((role) => (
               <section
                 key={role}
                 data-supporting-role={role}
                 aria-labelledby={`supporting-${role.toLowerCase().replace(' ', '-')}`}
-                className={`rounded-xl border p-2 ${ROLE_TONES[role]}`}
+                className={`rounded-xl border p-1.5 ${ROLE_TONES[role]}`}
               >
                 <h4
                   id={`supporting-${role.toLowerCase().replace(' ', '-')}`}
-                  className="mb-1 font-sans text-[10px] font-extrabold uppercase tracking-[0.1em] text-cm-violet-deep"
+                  className="mb-0.5 font-sans text-[10px] font-extrabold uppercase tracking-[0.1em] text-cm-violet-deep"
                 >
                   {role}
                 </h4>
-                <div className="grid gap-1">
+                <div className="grid gap-0.5">
                   {supporting.filter((story) => story.role === role).map((story) => (
                     <MetricCard key={story.metric} {...cardProps(story)} />
                   ))}
@@ -313,15 +312,15 @@ export function MetricMatrix({ slideKey }: MetricMatrixProps) {
           data-metric-group="Guardrails"
           data-long-term-guardrails="true"
           aria-labelledby="guardrails-heading"
-          className="mt-2"
+          className="mt-1"
         >
           <h3
             id="guardrails-heading"
-            className="mb-1 font-sans text-[11px] font-extrabold uppercase tracking-[0.11em] text-cm-crimson"
+            className="mb-0.5 font-sans text-[11px] font-extrabold uppercase tracking-[0.11em] text-cm-crimson"
           >
             Long-term guardrails
           </h3>
-          <div className="grid grid-cols-4 gap-2 rounded-xl border border-cm-crimson/30 bg-cm-crimson/5 p-2">
+          <div className="grid grid-cols-4 gap-1.5 rounded-xl border border-cm-crimson/30 bg-cm-crimson/5 p-1.5">
             {guardrails.map((story) => (
               <MetricCard key={story.metric} {...cardProps(story)} />
             ))}
@@ -331,15 +330,15 @@ export function MetricMatrix({ slideKey }: MetricMatrixProps) {
         <div
           id="metric-detail"
           data-metric-detail-rail="true"
-          className="mt-2 h-[112px] overflow-hidden rounded-2xl border-2 border-[#1E7BA8]/35 bg-[#1E7BA8]/10 px-4 py-2"
+          className="mt-1 h-[96px] overflow-hidden rounded-2xl border-2 border-[#1E7BA8]/35 bg-[#1E7BA8]/10 px-3 py-2"
           aria-live="polite"
         >
           {activeStory ? (
             <div role="status" aria-label="Metric detail">
-              <p className="font-serif text-[15px] font-black leading-none text-cm-violet-deep">
+              <p className="font-serif text-[14px] font-black leading-none text-cm-violet-deep">
                 {activeStory.metric}
               </p>
-              <div className="mt-2 grid grid-cols-[1fr_1fr_0.72fr_1.38fr] gap-4">
+              <div className="mt-1 grid grid-cols-[0.95fr_0.9fr_0.65fr_1.5fr] gap-3">
                 <DetailField field="definition" label="Definition">
                   {activeStory.definition}
                 </DetailField>
@@ -355,9 +354,17 @@ export function MetricMatrix({ slideKey }: MetricMatrixProps) {
               </div>
             </div>
           ) : (
-            <p className="font-sans text-[14px] leading-snug text-charcoal">
-              Hover or focus a metric to inspect its definition, denominator, target, and decision role.
-            </p>
+            <div>
+              <p className="font-sans text-[14px] leading-snug text-charcoal">
+                Hover or focus a metric to inspect its definition, denominator, target, and decision role.
+              </p>
+              <p
+                data-methodology-note="true"
+                className="mt-1 font-sans text-[14px] leading-tight text-charcoal"
+              >
+                {TOOLTIP_NOTES['test-methodology']}
+              </p>
+            </div>
           )}
         </div>
       </div>
