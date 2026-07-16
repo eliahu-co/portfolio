@@ -7,10 +7,7 @@ export default function Slide13ComparativeScoring({ slideKey }: OpeningSlideProp
     <SlideShell>
       <Eyebrow>Decision</Eyebrow>
       <SlideTitle className="text-[48px]">Comparative scoring</SlideTitle>
-      <p className="mt-2 max-w-[920px] font-sans text-[16px] leading-relaxed text-charcoal">
-        Compare monetization upside, natural loop fit, confidence, and the effort required to learn.
-      </p>
-      <div className="mt-4 flex-1">
+      <div className="mt-3 flex-1">
         <ScoreMatrix slideKey={slideKey} />
       </div>
     </SlideShell>

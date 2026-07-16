@@ -52,7 +52,12 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
           </tbody>
         ))}
       </table>
-      <div className="mt-1 min-h-[34px] border-l-4 border-cm-gold pl-4 font-sans text-[12px] leading-relaxed text-charcoal">
+      <div
+        role="status"
+        aria-label="Metric detail"
+        data-active={active ? 'true' : 'false'}
+        className={`mt-1 min-h-[44px] border-l-4 border-cm-gold pl-4 font-sans text-[12px] leading-relaxed transition-colors ${active ? 'font-bold text-cm-violet-deep' : 'text-charcoal'}`}
+      >
         {active ? (active.help ? TOOLTIP_NOTES[active.help] : `${active.metric} is used to explain whether the feature creates incremental value without damaging the core economy.`) : TOOLTIP_NOTES['test-methodology']}
       </div>
     </div>

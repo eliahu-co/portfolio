@@ -15,9 +15,16 @@ describe('MA presentation validation chapter', () => {
   it('keeps ARPDAU dominant and reveals metric methodology', () => {
     render(<Slide19Metrics slideKey="slide-16" />)
     expect(screen.getByRole('heading', { name: 'ARPDAU leads the decision' })).toBeVisible()
+    const detail = screen.getByRole('status', { name: 'Metric detail' })
+    expect(detail).toHaveTextContent(/Event duration/i)
     const metric = screen.getByRole('button', { name: /ARPDAU/i })
     fireEvent.focus(metric)
     expect(metric).toHaveAttribute('aria-expanded', 'true')
+    expect(detail).toHaveTextContent(/ARPDAU is used to explain/i)
+    fireEvent.blur(metric)
+    expect(metric).toHaveAttribute('aria-expanded', 'false')
+    expect(screen.getByRole('status', { name: 'Metric detail' })).toBe(detail)
+    expect(detail).toHaveTextContent(/Event duration/i)
   })
 
   it('closes with plain same-deck chapter links', () => {

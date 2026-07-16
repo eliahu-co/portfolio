@@ -7,7 +7,7 @@ export default function Slide19Metrics({ slideKey }: OpeningSlideProps) {
     <SlideShell className="!py-4">
       <Eyebrow className="!mb-1">Success criteria</Eyebrow>
       <SlideTitle className="text-[40px]">ARPDAU leads the decision</SlideTitle>
-      <div className="mt-1 flex-1"><ValidationTable slideKey={slideKey} /></div>
+      <div className="mt-1 min-h-0 flex-1"><ValidationTable slideKey={slideKey} /></div>
     </SlideShell>
   )
 }
