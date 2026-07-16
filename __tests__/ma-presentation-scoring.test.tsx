@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs'
+import { resolve } from 'path'
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import { ASSUMPTION_STORIES, RECOMMENDATION, SCORE_STORIES } from '@/app/MA-HomeAssignment/presentation/deckData'
 import {
@@ -86,8 +88,13 @@ describe('MA presentation decision chapter', () => {
     })
 
     const winner = scoreRow(table, 0)
+    const winnerHeader = within(winner).getByRole('rowheader')
     expect(winner).toHaveAttribute('data-winner', 'true')
     expect(winner).toHaveAttribute('data-winner-band', 'true')
+    const winnerAnnouncement = within(winnerHeader).getByText('Recommended winner:')
+    expect(winnerAnnouncement).toHaveClass('sr-only')
+    expect(winnerAnnouncement).not.toHaveAttribute('aria-hidden')
+    expect(winnerHeader).toHaveAccessibleName(/recommended winner:\s*card bounty/i)
     expect(scoreRow(table, 1)).toHaveAttribute('data-winner', 'false')
     expect(scoreRow(table, 2)).toHaveAttribute('data-winner', 'false')
     expect(screen.getByText(OPPORTUNITY_SCORE_FORMULA)).toBeVisible()
@@ -111,6 +118,22 @@ describe('MA presentation decision chapter', () => {
         expect(rubricItems[index]).toHaveTextContent(description)
       })
     })
+  })
+
+  it('keeps the printed criterion summary in a task-specific four-column grid', () => {
+    const { container } = render(<Slide13ComparativeScoring slideKey="score-print-grid" />)
+    const printSummary = container.querySelector<HTMLElement>('[data-score-print-summary="true"]')
+    const css = readFileSync(resolve(
+      process.cwd(),
+      'app/MA-HomeAssignment/presentation/PresentationStage.module.css',
+    ), 'utf8')
+    const printCss = css.slice(css.indexOf('@media print'))
+
+    expect(printSummary).not.toBeNull()
+    expect(printSummary).toHaveClass('scorePrintGrid')
+    expect(printCss).toMatch(
+      /\.printDetails\.scorePrintGrid\s*{[\s\S]*?display:\s*grid;[\s\S]*?grid-template-columns:\s*repeat\(4,\s*minmax\(0,\s*1fr\)\);[\s\S]*?gap:\s*8px;/,
+    )
   })
 
   it('gives every criterion score pointer and keyboard parity with rationale, definition, rubric, row, and column context', () => {
@@ -159,6 +182,36 @@ describe('MA presentation decision chapter', () => {
         expect(screen.queryByRole('status', { name: 'Score detail' })).not.toBeInTheDocument()
       })
     })
+  })
+
+  it('leaves Escape to the deck while an unpinned focus cell keeps its scoring context', () => {
+    const deckEscape = jest.fn()
+    render(
+      <div onKeyDown={(event) => event.key === 'Escape' && deckEscape()}>
+        <Slide13ComparativeScoring slideKey="score-focus-escape" />
+      </div>,
+    )
+    const table = screen.getByRole('table', { name: 'Comparative opportunity scoring' })
+    const control = screen.getByRole('button', { name: scoreLabel(1, 2) })
+    const row = scoreRow(table, 1)
+    const column = within(table).getByRole('columnheader', {
+      name: CRITERIA_DEFS[2].title,
+    })
+
+    fireEvent.focus(control)
+    expect(control).toHaveAttribute('aria-pressed', 'false')
+    expect(screen.getByRole('status', { name: 'Score detail' })).toHaveTextContent(
+      SCORE_STORIES[1].rationales[2],
+    )
+
+    expect(fireEvent.keyDown(control, { key: 'Escape' })).toBe(true)
+    expect(deckEscape).toHaveBeenCalledTimes(1)
+    expect(screen.getByRole('status', { name: 'Score detail' })).toHaveTextContent(
+      SCORE_STORIES[1].rationales[2],
+    )
+    expect(control).toHaveAttribute('data-active-cell', 'true')
+    expect(row).toHaveAttribute('data-active-row', 'true')
+    expect(column).toHaveAttribute('data-active-column', 'true')
   })
 
   it('pins by click or Enter, lets pinned detail win, and clears by toggle or Escape', () => {

@@ -5,6 +5,7 @@ import {
   CRITERIA_DEFS,
   OPPORTUNITY_SCORE_FORMULA,
 } from '@/app/MA-HomeAssignment/content/prioritization'
+import styles from '../PresentationStage.module.css'
 import { SCORE_STORIES } from '../deckData'
 import { PrintDetails } from '../primitives'
 import { useDeckReset, type DeckSlideKey } from '../useDeckReset'
@@ -105,7 +106,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
           return
         }
 
-        if (event.key !== 'Escape' || active === null) return
+        if (event.key !== 'Escape' || active?.mode !== 'pinned') return
         event.preventDefault()
         event.stopPropagation()
         reset()
@@ -181,6 +182,9 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                     <span className="flex items-center gap-2">
                       {row.winner && (
                         <span aria-hidden="true" className="text-cm-crimson">★</span>
+                      )}
+                      {row.winner && (
+                        <span className="sr-only">Recommended winner: </span>
                       )}
                       {row.useCase}
                     </span>
@@ -304,7 +308,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
 
       <PrintDetails
         data-score-print-summary="true"
-        className="grid grid-cols-4 gap-2"
+        className={classNames(styles.scorePrintGrid, 'grid grid-cols-4 gap-2')}
         style={{ fontSize: 9, lineHeight: 1.15 }}
       >
         {CRITERIA_DEFS.map(({ title, body, rubric }) => (
