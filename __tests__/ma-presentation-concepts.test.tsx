@@ -29,7 +29,9 @@ describe('MA presentation features', () => {
     ]
     regions.forEach((region) => {
       expect(region).toHaveLength(1)
-      expect(region[0]).not.toHaveClass('rounded-2xl', 'border', 'bg-white')
+      expect(region[0]).not.toHaveClass('rounded-2xl')
+      expect(region[0]).not.toHaveClass('border')
+      expect(region[0]).not.toHaveClass('bg-white')
     })
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
 

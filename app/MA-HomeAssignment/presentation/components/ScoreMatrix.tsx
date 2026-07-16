@@ -48,6 +48,22 @@ function DecisionSummary() {
   )
 }
 
+function DefaultScoreDetail() {
+  return (
+    <div data-testid="score-default-detail" className="max-w-[760px] font-sans text-[13px] leading-snug text-[#1A1A1A]">
+      <p className="text-[12px] font-extrabold uppercase tracking-[0.1em] text-cm-crimson">
+        Highest opportunity
+      </p>
+      <h3 className="mt-1 font-serif text-[21px] font-black leading-tight text-cm-violet-deep">
+        Card Bounty
+      </h3>
+      <p className="mt-2">
+        The strongest combination of ARPDAU impact, core-loop fit, and confidence at a bounded learning cost.
+      </p>
+    </div>
+  )
+}
+
 function ExactRationale({ active }: { readonly active: ActiveScore }) {
   const story = SCORE_STORIES[active.row]
 
@@ -83,6 +99,7 @@ function ExactRationale({ active }: { readonly active: ActiveScore }) {
         {criterion.definition.rubric.map(([score, description]) => (
           <p
             key={score}
+            data-testid="score-rubric-item"
             data-score-rubric-item="true"
             data-rubric-score={score}
             className="flex gap-2"
@@ -262,9 +279,12 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
           id="comparative-score-detail"
           role="status"
           aria-label="Score detail"
-          className="h-[144px] overflow-hidden border-l-4 border-cm-gold pl-5 font-sans text-[13px] leading-snug text-[#1A1A1A]"
+          className={classNames(
+            'h-[144px] overflow-hidden border-l-4 pl-5 font-sans text-[13px] leading-snug text-[#1A1A1A] transition-[border-color] duration-300',
+            active ? 'border-cm-gold' : 'border-transparent',
+          )}
         >
-          {active && <ExactRationale active={active} />}
+          {active ? <ExactRationale active={active} /> : <DefaultScoreDetail />}
         </section>
         <div
           data-testid="score-decision-summary"

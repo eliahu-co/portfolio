@@ -80,9 +80,29 @@ describe('MA presentation decision chapter', () => {
     expect(screen.getByRole('status', { name: 'Score detail' })).toBe(detail)
   })
 
+  it('uses the fixed disclosure region purposefully in idle and active states', () => {
+    render(<Slide13ComparativeScoring slideKey="slide-10" />)
+    const detail = screen.getByRole('status', { name: 'Score detail' })
+    const summary = screen.getByTestId('score-decision-summary')
+
+    expect(within(detail).getByTestId('score-default-detail')).toHaveTextContent('Card Bounty')
+    expect(within(detail).getByTestId('score-default-detail')).toHaveTextContent('Highest opportunity')
+    expect(detail).toHaveClass('border-l-4', 'border-transparent', 'pl-5')
+    expect(detail).not.toHaveClass('border-cm-gold')
+    expect(summary).toHaveClass('opacity-100')
+
+    fireEvent.focus(screen.getByRole('button', { name: /Hot Trail: Core-Loop Fit score 5/i }))
+    expect(within(detail).queryByTestId('score-default-detail')).not.toBeInTheDocument()
+    expect(detail).toHaveClass('border-l-4', 'border-cm-gold', 'pl-5')
+    expect(detail).not.toHaveClass('border-transparent')
+    expect(within(detail).getAllByTestId('score-rubric-item')).toHaveLength(3)
+    expect(summary).toHaveClass('opacity-20')
+  })
+
   it('recommends Card Bounty with its feature image and evidence', () => {
     const { container } = render(<Slide14Recommendation slideKey="slide-11" />)
     expect(screen.getByRole('heading', { name: 'Card Bounty' })).toBeVisible()
+    expect(container.querySelectorAll('img')).toHaveLength(1)
     expect(container.querySelectorAll('img[alt="Card Bounty feature mockup"]')).toHaveLength(1)
 
     const evidence = screen.getByRole('list', { name: 'Why Card Bounty wins' })
@@ -90,7 +110,9 @@ describe('MA presentation decision chapter', () => {
     expect(within(evidence).getByRole('heading', { name: 'Familiar behavior' })).toBeVisible()
     expect(within(evidence).getByRole('heading', { name: 'Additional Coin demand' })).toBeVisible()
     expect(within(evidence).getByRole('heading', { name: 'Bounded validation' })).toBeVisible()
-    expect(evidence).not.toHaveClass('rounded-2xl', 'border', 'bg-white')
+    expect(evidence).not.toHaveClass('rounded-2xl')
+    expect(evidence).not.toHaveClass('border')
+    expect(evidence).not.toHaveClass('bg-white')
     expect(screen.getAllByText(/^Primary risk:/)).toHaveLength(1)
   })
 })

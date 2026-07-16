@@ -118,10 +118,9 @@ export default function Slide02About({ slideKey }: OpeningSlideProps) {
               <li
                 key={bullet}
                 data-flat-fact="true"
-                className="flex gap-3 font-sans text-[18px] leading-relaxed text-[#1A1A1A]"
+                className="font-sans text-[18px] leading-relaxed text-[#1A1A1A]"
               >
-                <span aria-hidden="true" className="shrink-0 font-bold text-cm-crimson">—</span>
-                <span>{bullet}</span>
+                {bullet}
               </li>
             ))}
           </ul>

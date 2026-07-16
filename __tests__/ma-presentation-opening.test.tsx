@@ -19,7 +19,11 @@ describe('MA presentation opening chapter', () => {
     expect(container.querySelectorAll('[data-journey-pill="true"]')).toHaveLength(3)
     expect(container.querySelectorAll('[data-journey-pill="true"].flex-1')).toHaveLength(3)
     expect(container.querySelectorAll('svg[data-journey-connector="true"]')).toHaveLength(2)
-    expect(container.querySelectorAll('[data-flat-fact="true"]')).toHaveLength(6)
+    const facts = Array.from(container.querySelectorAll('[data-flat-fact="true"]'))
+    expect(facts).toHaveLength(6)
+    facts.forEach((fact) => {
+      expect(fact.querySelector('[aria-hidden="true"]')).not.toBeInTheDocument()
+    })
     const brazil = screen.getByRole('button', { name: 'Brazil' })
 
     fireEvent.mouseEnter(brazil)
