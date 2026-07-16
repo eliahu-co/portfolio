@@ -28,6 +28,10 @@ The presentation is an additive interview deliverable. It must not merge to `mai
 - Keep the new route unlisted and protected with `noindex`, `nofollow`, and `nocache` metadata consistent with the existing assignment route.
 - Use existing local Coin Master and Card Bounty assets. The presentation must not depend on runtime network requests.
 
+### Scope update — print output
+
+The user clarified on 2026-07-16 that browser Print / Save as PDF and physical-paper output are not relevant to the presentation. Existing lightweight print fallbacks may remain, but print-specific layout polish is not a delivery priority or completion gate. Screen presentation quality, interactions, keyboard control, responsive desktop behavior, and localhost QA govern tradeoffs.
+
 ## Narrative principles
 
 1. **Show the economic system before the ideas.** The audience should understand how Spins, Coins, Villages, Chests, Collections, LiveOps, social systems, and PvP connect before evaluating features.
@@ -124,13 +128,12 @@ Gold and crimson may be paired in short progress rules or comparison accents. Bl
 - Inactive slides are unfocusable through `inert` or by rendering only the active interactive tree.
 - Transient hover/pinned/reveal state resets when the deck changes slide.
 
-## Responsive and print behavior
+## Responsive behavior
 
 - Viewports at least 960 px wide and 540 px tall render the 1280×720 stage, scaled by the smaller width or height ratio so short desktops and capable landscape tablets do not clip dense slides.
 - Viewports below either 960 px wide or 540 px tall show a branded notice that the presentation is designed for desktop, plus a link back to `/MA-HomeAssignment`.
 - The route must not be blanked by the portfolio's coarse-pointer landscape guard when the viewport can display the scaled presentation.
-- Print/PDF renders one 16:9 slide per page in a single static tree. It must not instantiate a second hidden interactive deck.
-- Print expands or statically summarizes all interaction-only supporting content, hides navigation chrome, and avoids dimmed/default reveal states.
+- A lightweight browser-print fallback may remain if it does not complicate the screen experience, but print/PDF output is not optimized or acceptance-tested.
 
 ## Content architecture
 
@@ -190,7 +193,6 @@ Final verification commands:
 - `git diff --check`;
 - browser QA at 1280×720, 1440×900, and a shorter desktop viewport;
 - keyboard-only walkthrough of every interaction;
-- print/PDF preview inspection;
 - regression checks for `/MA-HomeAssignment` and `/MA-HomeAssignment/demo`.
 
 ## Acceptance criteria
@@ -202,7 +204,7 @@ Final verification commands:
 - The comparative table contains the current scores and totals, with per-number hover/focus explanations based on the current criterion tooltips and feature-specific score rationale.
 - Card Bounty's recommendation is visible on its own slide.
 - Existing MA content, prototype, MVP boundaries, validation targets, guardrails, and follow-up tests are represented accurately.
-- Essential information is visible by default; supporting information is accessible by pointer, keyboard, and print.
+- Essential information is visible by default; supporting information is accessible by pointer and keyboard.
 - The presentation uses the MA cream/violet/gold/crimson/blue/wood system and local Nunito/Nunito Sans fonts.
 - The existing MA assignment and demo retain their rendered behavior.
 - Type checking, tests, production build, browser QA, and print inspection pass.

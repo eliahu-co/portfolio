@@ -8,6 +8,8 @@
 
 **Tech Stack:** Next.js 14 App Router, React 18, TypeScript, Tailwind CSS, CSS Modules for stage/print rules, `next/font/local`, Jest 29, React Testing Library, and existing local Coin Master/Card Bounty assets.
 
+**Scope update (2026-07-16):** The user explicitly deprioritized browser Print / Save as PDF and physical-paper output. Existing lightweight print fallbacks may remain, but any print-only work named below is non-blocking and should not displace screen presentation, interaction, keyboard, responsive desktop, or localhost quality.
+
 ## Global Constraints
 
 - Work only on branch `presentation`; never merge to `main` or `master`, never deploy, and never alter hosting without explicit user authorization.
@@ -19,7 +21,7 @@
 - Use only existing local assets and local fonts; no runtime fetches, iframes, trackers, third-party packages, or invented Moon Active data.
 - Use the approved palette exactly: cream `#FFF9EE`, violet `#2A1B54`, gold `#F5A800`, crimson `#C8102E`, blue `#1E7BA8`, wood `#903900`, ink `#1A1A1A`, charcoal `#666666`.
 - Author at 1280x720. At viewports at least 960x540, scale the stage by `min(viewportWidth / 1280, viewportHeight / 720)` and center it without clipping. Below either threshold, show the branded desktop notice and a return link.
-- Essential claims are always visible. Hover/focus/click reveals supporting detail only; print shows a readable static summary of every supporting interaction.
+- Essential claims are always visible. Hover/focus/click reveals supporting detail only.
 - Interactive descendants consume their own Space, Enter, Escape, and arrow input. The deck ignores `defaultPrevented` events and events from buttons, links, inputs, textareas, selects, summaries, and elements inside `[data-deck-interactive]`.
 - Inactive slides must not remain keyboard-focusable. Transient reveal/pin state resets on slide change.
 - Metadata is unlisted and protected with `robots: { index: false, follow: false }`; the prototype link is `/MA-HomeAssignment/demo`, opens a new tab, and includes `noopener noreferrer`.
@@ -212,7 +214,7 @@
 - [ ] Launch the local app and inspect all 21 slides at 1280x720, 1440x900, and a short desktop viewport at least 960x540. Confirm stage centering/scaling, title anchors, projection legibility, image cropping, no overflow, and no accidental ranking on slide 5.
 - [ ] Perform a keyboard-only walkthrough of navigation, About, approach/economy reveals, concept loops, scoring hover/focus/pin parity, player flow, scope, metrics, experiments, prototype CTA, and closing jump links.
 - [ ] Inspect below-threshold desktop notice, reduced-motion mode, browser back/forward, invalid hashes, route Escape behavior, source assignment, and demo.
-- [ ] Inspect print preview/PDF: one 16:9 slide per page, no deck chrome, no dimmed content, full score rubrics and supporting notes, and no duplicate interactive tree.
+- [ ] Perform only a basic browser-print smoke check if the existing fallback remains; print layout polish is not a completion gate.
 - [ ] Record exact commands, pass/fail evidence, viewport findings, and any residual non-blocking limitations in the verification note. Fix all Critical/Important findings and re-run the covering checks.
 - [ ] Commit with message `test: verify MA presentation experience`.
 
