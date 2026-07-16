@@ -4,14 +4,14 @@ import type { OpeningSlideProps } from './Slide01Cover'
 
 export default function Slide15PlayerFlow(_props: OpeningSlideProps) {
   return (
-    <SlideShell className="!py-8">
+    <SlideShell>
       <Eyebrow>Expanded feature</Eyebrow>
-      <SlideTitle className="text-[46px]">Card Bounty player flow</SlideTitle>
+      <SlideTitle>Card Bounty player flow</SlideTitle>
       <div
         data-source-component="player-flow"
-        className="mx-auto mt-4 h-[520px] max-h-[520px] w-full max-w-[1120px] overflow-hidden"
+        className="mx-auto mt-3 h-[360px] max-h-[360px] w-full max-w-[1000px] overflow-hidden"
       >
-        <div className="w-[125%] origin-top-left scale-[0.8]">
+        <div className="w-[154%] origin-top-left scale-[0.65]">
           <PlayerFlow />
         </div>
       </div>

@@ -4,12 +4,12 @@ import type { OpeningSlideProps } from './Slide01Cover'
 
 export default function Slide17Prototype(_props: OpeningSlideProps) {
   return (
-    <SlideShell className="!py-8">
+    <SlideShell>
       <Eyebrow>Prototype</Eyebrow>
-      <SlideTitle className="text-[48px]">Card Bounty, interactive</SlideTitle>
+      <SlideTitle>Card Bounty, interactive</SlideTitle>
       <div
         data-source-component="prototype-preview"
-        className="mx-auto mt-5 aspect-video max-h-[500px] w-full max-w-[888px]"
+        className="mx-auto mt-4 aspect-video max-h-[394px] w-full max-w-[700px]"
       >
         <PrototypePreview />
       </div>

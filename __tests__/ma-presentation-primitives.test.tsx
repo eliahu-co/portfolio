@@ -65,6 +65,7 @@ describe('MA presentation primitives', () => {
     expect(control).toHaveAttribute('aria-expanded', 'false')
     expect(control).toHaveAttribute('data-deck-interactive', 'true')
     expect(control.className).toContain('focus-visible:outline')
+    expect(control).toHaveClass('motion-reduce:transition-none')
 
     control.focus()
     expect(control).toHaveFocus()

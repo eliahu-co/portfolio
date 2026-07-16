@@ -22,6 +22,7 @@ describe('MA presentation features', () => {
     const { container } = render(<Component slideKey="feature" />)
     expect(screen.getByRole('heading', { name: title })).toBeVisible()
     expect(container.querySelectorAll('img')).toHaveLength(1)
+    expect(container.querySelector('img')).toHaveClass('h-[285px]')
     const regions = [
       screen.getAllByRole('region', { name: `${title} loop` }),
       screen.getAllByRole('region', { name: `${title} player motivation` }),

@@ -41,13 +41,13 @@ export default function Slide02About({ slideKey }: OpeningSlideProps) {
           <span aria-hidden="true" className="invisible">Eduardo Cohen</span>
           <span
             aria-hidden={showEduardo}
-            className={`absolute left-0 top-0 transition-opacity duration-300 print:!opacity-100 ${showEduardo ? 'opacity-0' : 'opacity-100'}`}
+            className={`absolute left-0 top-0 transition-opacity duration-300 motion-reduce:transition-none print:!opacity-100 ${showEduardo ? 'opacity-0' : 'opacity-100'}`}
           >
             Eliahu Cohen
           </span>
           <span
             aria-hidden={!showEduardo}
-            className={`absolute left-0 top-0 transition-opacity duration-300 print:!opacity-0 ${showEduardo ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute left-0 top-0 transition-opacity duration-300 motion-reduce:transition-none print:!opacity-0 ${showEduardo ? 'opacity-100' : 'opacity-0'}`}
           >
             Eduardo Cohen
           </span>

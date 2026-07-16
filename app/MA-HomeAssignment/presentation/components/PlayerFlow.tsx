@@ -55,7 +55,7 @@ export function PlayerFlow({ slideKey }: PlayerFlowProps) {
                 aria-controls="card-bounty-flow-detail"
                 aria-current={nodeActive ? 'step' : undefined}
                 className={[
-                  'min-h-[92px] w-full justify-center px-3 text-center text-[14px] leading-snug transition-colors',
+                  'min-h-[92px] w-full justify-center px-3 text-center text-[14px] leading-snug transition-colors motion-reduce:transition-none',
                   nodeActive
                     ? 'border-[#1E7BA8] bg-[#1E7BA8]/15 shadow-[0_0_0_2px_rgba(30,123,168,0.35)]'
                     : pathActive
@@ -79,7 +79,7 @@ export function PlayerFlow({ slideKey }: PlayerFlowProps) {
                   data-flow-connector={index + 1}
                   data-path-active={activeIndex !== null && index < activeIndex ? 'true' : 'false'}
                   className={[
-                    'pointer-events-none absolute -right-[13px] top-[76px] z-10 text-[20px] font-black transition-colors',
+                    'pointer-events-none absolute -right-[13px] top-[76px] z-10 text-[20px] font-black transition-colors motion-reduce:transition-none',
                     activeIndex !== null && index < activeIndex ? 'text-[#1E7BA8]' : 'text-cm-wood/35',
                   ].join(' ')}
                 >

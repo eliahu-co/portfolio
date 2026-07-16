@@ -2,7 +2,7 @@ import { readFileSync } from 'fs'
 import { resolve } from 'path'
 import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import PresentationDeck from '@/app/MA-HomeAssignment/presentation/PresentationDeck'
-import { slideCount } from '@/app/MA-HomeAssignment/presentation/slideRegistry'
+import { slideCount, slideRegistry } from '@/app/MA-HomeAssignment/presentation/slideRegistry'
 
 const mockPush = jest.fn()
 
@@ -211,5 +211,18 @@ describe('MA presentation deck', () => {
     expect(globalCss).toMatch(
       /body\.ma-presentation-active\s+\.landscape-guard\s*{[^}]*display:\s*none\s*!important/,
     )
+  })
+
+  it('keeps every registered non-hero slide on the shared HA shell and title geometry', () => {
+    slideRegistry.slice(1, -1).forEach(({ Component, id }) => {
+      const rendered = render(<Component slideKey={id} />)
+      const shell = rendered.container.querySelector('[data-slide-shell="true"]')!
+      const heading = shell.querySelector('h2')!
+      const titleSizeClasses = heading.className.split(/\s+/).filter((token) => /^text-\[\d+px\]$/.test(token))
+
+      expect(shell.className.split(/\s+/).some((token) => /^!p[trbyxse]?-/i.test(token))).toBe(false)
+      expect(titleSizeClasses).toEqual(['text-[64px]'])
+      rendered.unmount()
+    })
   })
 })

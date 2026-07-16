@@ -39,7 +39,7 @@ export function PrototypeCard() {
           href="/MA-HomeAssignment/demo"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 inline-flex min-h-12 items-center justify-center rounded-xl border-2 border-cm-wood/70 bg-cm-gold px-6 py-3 font-sans text-[16px] font-extrabold text-cm-violet-deep shadow-[0_8px_0_rgba(73,45,20,0.35)] transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
+          className="mt-8 inline-flex min-h-12 items-center justify-center rounded-xl border-2 border-cm-wood/70 bg-cm-gold px-6 py-3 font-sans text-[16px] font-extrabold text-cm-violet-deep shadow-[0_8px_0_rgba(73,45,20,0.35)] transition-transform motion-reduce:transition-none hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
         >
           Open interactive prototype
           <span aria-hidden="true" className="ml-2">↗</span>

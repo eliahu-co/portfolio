@@ -4,11 +4,11 @@ import type { OpeningSlideProps } from './Slide01Cover'
 
 function ProtocolText({ label, body }: { label: string; body: string }) {
   return (
-    <section data-protocol-section={label} className="border-t-2 border-cm-wood/25 pt-4">
+    <section data-protocol-section={label} className="border-t-2 border-cm-wood/25 pt-3">
       <h3 className="font-sans text-[12px] font-extrabold uppercase tracking-[0.12em] text-cm-crimson">
         {label}
       </h3>
-      <p className="mt-2 font-sans text-[18px] leading-relaxed text-[#1A1A1A]">{body}</p>
+      <p className="mt-1 font-sans text-[16px] leading-relaxed text-[#1A1A1A]">{body}</p>
     </section>
   )
 }
@@ -18,10 +18,10 @@ export default function Slide18ExperimentDesign(_props: OpeningSlideProps) {
   return (
     <SlideShell>
       <Eyebrow>A/B test</Eyebrow>
-      <SlideTitle className="text-[48px]">Card Bounty validation</SlideTitle>
-      <div className="mt-8 max-w-[1120px]">
+      <SlideTitle>Card Bounty validation</SlideTitle>
+      <div className="mt-5 max-w-[1120px]">
         <ProtocolText {...population} />
-        <div className="my-7 grid grid-cols-2 gap-12">
+        <div className="my-5 grid grid-cols-2 gap-12">
           <ProtocolText {...control} />
           <ProtocolText {...treatment} />
         </div>

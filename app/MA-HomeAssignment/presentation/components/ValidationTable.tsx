@@ -29,14 +29,14 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
         {METRIC_GROUPS.map((group) => (
           <tbody key={group.title}>
             <tr className="border-b-2 border-cm-wood/55">
-              <th colSpan={3} className="pb-0.5 pt-1 font-sans text-[10px] font-extrabold uppercase tracking-[0.11em] text-cm-violet-deep">{group.title}</th>
+              <th colSpan={3} className="pb-0.5 pt-0.5 font-sans text-[10px] font-extrabold uppercase tracking-[0.11em] text-cm-violet-deep">{group.title}</th>
             </tr>
             {group.metrics.map((metric) => {
               const selected = active?.metric === metric.metric
               const selection = { metric: metric.metric, help: metric.metricHelp }
               return (
                 <tr key={metric.metric} className={`border-b border-charcoal/15 ${group.emphasis ? 'bg-[linear-gradient(90deg,rgba(245,168,0,0.08),rgba(245,168,0,0.24),rgba(245,168,0,0.08))]' : ''}`}>
-                  <td className="py-0.5 pr-4">
+                  <td className="py-0 pr-4">
                     <button
                       type="button"
                       data-deck-interactive="true"
@@ -45,13 +45,13 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
                       onMouseLeave={() => setHovered(null)}
                       onFocus={() => setFocused(selection)}
                       onBlur={() => setFocused(null)}
-                      className={`min-h-7 w-full border-0 bg-transparent text-left font-sans text-[12px] font-medium text-cm-violet-deep ${selected ? 'font-black underline decoration-cm-gold decoration-3 underline-offset-4' : ''}`}
+                      className={`min-h-6 w-full border-0 bg-transparent text-left font-sans text-[11px] font-medium text-cm-violet-deep ${selected ? 'font-black underline decoration-cm-gold decoration-3 underline-offset-4' : ''}`}
                     >
                       {metric.metric}
                     </button>
                   </td>
-                  <td className="px-2 py-0.5">{metric.role && <span className={`inline-flex w-[100px] justify-center rounded-full border px-2 py-0.5 font-sans text-[8px] font-bold uppercase tracking-[0.08em] ${ROLE_CLASSES[metric.role]}`}>{metric.role}</span>}</td>
-                  <td className="py-0.5 pl-4 font-sans text-[12px] text-charcoal"><span className="font-bold">{metric.target}</span>{metric.mutedTarget && <span className="ml-1 text-charcoal/55">{metric.mutedTarget}</span>}</td>
+                  <td className="px-2 py-0">{metric.role && <span className={`inline-flex w-[100px] justify-center rounded-full border px-2 py-0.5 font-sans text-[8px] font-bold uppercase tracking-[0.08em] ${ROLE_CLASSES[metric.role]}`}>{metric.role}</span>}</td>
+                  <td className="py-0 pl-4 font-sans text-[11px] text-charcoal"><span className="font-bold">{metric.target}</span>{metric.mutedTarget && <span className="ml-1 text-charcoal/55">{metric.mutedTarget}</span>}</td>
                 </tr>
               )
             })}
@@ -62,7 +62,7 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
         role="status"
         aria-label="Metric detail"
         data-active={active ? 'true' : 'false'}
-        className={`mt-1 min-h-[44px] border-l-4 border-cm-gold pl-4 font-sans text-[12px] leading-relaxed ${active ? 'font-bold text-cm-violet-deep' : 'text-charcoal'}`}
+        className={`mt-1 min-h-[40px] border-l-4 border-cm-gold pl-4 font-sans text-[11px] leading-relaxed ${active ? 'font-bold text-cm-violet-deep' : 'text-charcoal'}`}
       >
         {active ? (active.help ? TOOLTIP_NOTES[active.help] : `${active.metric} is used to explain whether the feature creates incremental value without damaging the core economy.`) : TOOLTIP_NOTES['test-methodology']}
       </div>

@@ -24,6 +24,9 @@ describe('MA presentation opening chapter', () => {
     facts.forEach((fact) => {
       expect(fact.querySelector('[aria-hidden="true"]')).not.toBeInTheDocument()
     })
+    container.querySelectorAll('.transition-opacity').forEach((element) => {
+      expect(element).toHaveClass('motion-reduce:transition-none')
+    })
     const brazil = screen.getByRole('button', { name: 'Brazil' })
 
     fireEvent.mouseEnter(brazil)

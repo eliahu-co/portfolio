@@ -6,12 +6,15 @@ import { ASSUMPTION_STORIES } from '@/app/MA-HomeAssignment/presentation/deckDat
 
 describe('MA presentation decision chapter', () => {
   it('keeps assumptions as a flat, readable list', () => {
-    render(<Slide12Assumptions slideKey="slide-9" />)
+    const { container } = render(<Slide12Assumptions slideKey="slide-9" />)
     expect(screen.getByRole('heading', { name: 'Assumptions' })).toBeVisible()
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
     fireEvent.mouseEnter(screen.getByText(ASSUMPTION_STORIES[1].assumption))
     const inactive = screen.getByText(ASSUMPTION_STORIES[0].assumption).closest('[data-assumption]')
     expect(inactive).toHaveClass('opacity-20', 'transition-opacity', 'duration-300')
+    container.querySelectorAll('.transition-opacity').forEach((element) => {
+      expect(element).toHaveClass('motion-reduce:transition-none')
+    })
   })
 
   it('keeps assumption disclosure active until both hover and focus end', () => {
@@ -81,7 +84,7 @@ describe('MA presentation decision chapter', () => {
   })
 
   it('uses the fixed disclosure region purposefully in idle and active states', () => {
-    render(<Slide13ComparativeScoring slideKey="slide-10" />)
+    const { container } = render(<Slide13ComparativeScoring slideKey="slide-10" />)
     const detail = screen.getByRole('status', { name: 'Score detail' })
     const summary = screen.getByTestId('score-decision-summary')
 
@@ -97,6 +100,9 @@ describe('MA presentation decision chapter', () => {
     expect(detail).not.toHaveClass('border-transparent')
     expect(within(detail).getAllByTestId('score-rubric-item')).toHaveLength(3)
     expect(summary).toHaveClass('opacity-20')
+    container.querySelectorAll('[class*="transition-"]').forEach((element) => {
+      expect(element).toHaveClass('motion-reduce:transition-none')
+    })
   })
 
   it('recommends Card Bounty with its feature image and evidence', () => {
@@ -104,6 +110,7 @@ describe('MA presentation decision chapter', () => {
     expect(screen.getByRole('heading', { name: 'Card Bounty' })).toBeVisible()
     expect(container.querySelectorAll('img')).toHaveLength(1)
     expect(container.querySelectorAll('img[alt="Card Bounty feature mockup"]')).toHaveLength(1)
+    expect(container.querySelector('img')).toHaveClass('h-[320px]')
 
     const evidence = screen.getByRole('list', { name: 'Why Card Bounty wins' })
     expect(within(evidence).getAllByRole('listitem')).toHaveLength(3)

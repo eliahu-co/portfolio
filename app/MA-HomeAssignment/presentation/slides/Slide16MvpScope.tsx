@@ -22,10 +22,10 @@ function ScopeList({ items, muted = false }: { items: readonly string[]; muted?:
 
 export default function Slide16MvpScope(_props: OpeningSlideProps) {
   return (
-    <SlideShell className="!py-8">
+    <SlideShell>
       <Eyebrow>MVP</Eyebrow>
-      <SlideTitle className="text-[48px]">Scope</SlideTitle>
-      <div className="mt-7 grid flex-1 grid-cols-2 gap-14">
+      <SlideTitle>Scope</SlideTitle>
+      <div className="mt-6 grid flex-1 grid-cols-2 gap-14">
         <section data-scope-column="in">
           <h3 className="mb-4 font-sans text-[12px] font-extrabold uppercase tracking-[0.12em] text-cm-violet-deep">
             In scope

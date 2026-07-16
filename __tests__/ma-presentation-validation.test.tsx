@@ -26,12 +26,17 @@ describe('MA presentation validation chapter', () => {
     expect(screen.getByRole('heading', { name: 'ARPDAU leads the decision' })).toBeVisible()
     const canonicalMetrics = METRIC_GROUPS.flatMap((group) => group.metrics)
     expect(screen.getAllByRole('button')).toHaveLength(canonicalMetrics.length)
+    screen.getAllByRole('button').forEach((button) => {
+      expect(button).toHaveClass('min-h-6', 'text-[11px]')
+      expect(button).not.toHaveClass('min-h-7')
+    })
     canonicalMetrics.forEach(({ metric, target, mutedTarget }) => {
       const row = screen.getByRole('button', { name: metric }).closest('tr')
       expect(row).toHaveTextContent(target)
       if (mutedTarget) expect(row).toHaveTextContent(mutedTarget)
     })
     const detail = screen.getByRole('status', { name: 'Metric detail' })
+    expect(detail).toHaveClass('min-h-[40px]', 'text-[11px]')
     expect(detail).toHaveTextContent(/Event duration/i)
     const metric = screen.getByRole('button', { name: /ARPDAU/i })
     fireEvent.focus(metric)
@@ -65,6 +70,11 @@ describe('MA presentation validation chapter', () => {
       expect(link.className).not.toMatch(/rounded-full|\bbg-|(?:^|\s)border(?:\s|$)/)
       expect(link.className).toMatch(/underline|border-b/)
       expect(link).toHaveClass('transition-colors', 'duration-300')
+      expect(link).toHaveClass(
+        'motion-reduce:transition-none',
+        'focus-visible:text-cm-crimson',
+        'focus-visible:decoration-cm-crimson',
+      )
     })
   })
 })

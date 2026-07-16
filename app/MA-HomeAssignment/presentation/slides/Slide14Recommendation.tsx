@@ -6,11 +6,11 @@ export default function Slide14Recommendation(_props: OpeningSlideProps) {
   return (
     <SlideShell>
       <Eyebrow>Recommendation</Eyebrow>
-      <SlideTitle className="text-[48px]">Card Bounty</SlideTitle>
-      <div className="mt-5 grid flex-1 grid-cols-[0.82fr_1.18fr] items-start gap-12">
+      <SlideTitle>Card Bounty</SlideTitle>
+      <div className="mt-4 grid flex-1 grid-cols-[0.82fr_1.18fr] items-start gap-12">
         <div className="overflow-hidden rounded-2xl border-2 border-cm-wood/50 bg-white shadow-[0_4px_0_rgba(144,57,0,0.28)]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={CONCEPTS[1].mockup} alt="Card Bounty feature mockup" className="h-[390px] w-full object-contain" />
+          <img src={CONCEPTS[1].mockup} alt="Card Bounty feature mockup" className="h-[320px] w-full object-contain" />
         </div>
         <div>
           <p className="border-l-4 border-cm-gold pl-5 font-serif text-[24px] font-black leading-snug text-cm-violet-deep">

@@ -38,9 +38,9 @@ export function FeatureSlide({ concept, loop, title }: FeatureSlideProps) {
       <div>
         <div className="overflow-hidden rounded-2xl border-2 border-cm-wood/50 bg-white shadow-[0_4px_0_rgba(144,57,0,0.28)]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={concept.mockup} alt={`${title} feature mockup`} className="h-[370px] w-full object-contain" />
+          <img src={concept.mockup} alt={`${title} feature mockup`} className="h-[285px] w-full object-contain" />
         </div>
-        <p className="mt-5 border-l-4 border-cm-gold pl-4 font-sans text-[16px] font-bold leading-relaxed text-cm-violet-deep">
+        <p className="mt-3 border-l-4 border-cm-gold pl-4 font-sans text-[15px] font-bold leading-snug text-cm-violet-deep">
           {concept.monetizationSummary}
         </p>
       </div>
@@ -55,7 +55,7 @@ export function FeatureSlide({ concept, loop, title }: FeatureSlideProps) {
           ))}
         </div>
       </section>
-      <div className="space-y-7">
+      <div className="space-y-5">
         <FlatList label={`${title} player motivation`} title="Player motivation" items={concept.values} />
         <FlatList label={`${title} risks`} title="Risks" items={concept.risks} risk />
       </div>

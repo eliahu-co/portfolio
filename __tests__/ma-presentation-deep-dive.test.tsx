@@ -11,7 +11,7 @@ describe('MA presentation Card Bounty deep dive', () => {
     expect(container.querySelector('#player-flow')).toBeInTheDocument()
 
     const sourceFrame = container.querySelector('[data-source-component="player-flow"]')
-    expect(sourceFrame).toHaveClass('max-w-[1120px]', 'max-h-[520px]', 'overflow-hidden')
+    expect(sourceFrame).toHaveClass('max-w-[1000px]', 'h-[360px]', 'max-h-[360px]', 'overflow-hidden')
     expect(sourceFrame).toContainElement(container.querySelector('#player-flow'))
   })
 
@@ -40,7 +40,7 @@ describe('MA presentation Card Bounty deep dive', () => {
 
     const sourceFrame = container.querySelector('[data-source-component="prototype-preview"]')
     const prototype = screen.getByRole('link', { name: 'Open the Card Bounty interactive prototype' })
-    expect(sourceFrame).toHaveClass('aspect-video', 'max-w-[888px]', 'max-h-[500px]')
+    expect(sourceFrame).toHaveClass('aspect-video', 'max-w-[700px]', 'max-h-[394px]')
     expect(sourceFrame).toContainElement(prototype)
     expect(sourceFrame?.firstElementChild).toBe(prototype)
     expect(prototype).toHaveClass('aspect-video', 'w-full')

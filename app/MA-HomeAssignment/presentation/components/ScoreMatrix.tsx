@@ -168,7 +168,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                     data-testid={`score-column-${key}`}
                     data-active={columnIsActive ? 'true' : 'false'}
                     className={classNames(
-                      'w-[16%] px-2 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-[background-color] duration-300',
+                      'w-[16%] px-2 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-[background-color] duration-300 motion-reduce:transition-none',
                       columnIsActive && 'bg-[#1E7BA8]/10',
                     )}
                   >
@@ -181,7 +181,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                 data-testid="score-column-total"
                 data-active={active?.criterion === 'total' ? 'true' : 'false'}
                 className={classNames(
-                  'w-[16%] px-3 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-[background-color] duration-300',
+                  'w-[16%] px-3 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-[background-color] duration-300 motion-reduce:transition-none',
                   active?.criterion === 'total' && 'bg-[#1E7BA8]/10',
                 )}
               >
@@ -201,7 +201,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                   data-winner-band={row.winner ? 'true' : 'false'}
                   data-active-row={rowIsActive ? 'true' : 'false'}
                   className={classNames(
-                    'border-b border-charcoal/15 transition-[background-color] duration-300 last:border-b-0',
+                    'border-b border-charcoal/15 transition-[background-color] duration-300 motion-reduce:transition-none last:border-b-0',
                     row.winner && !active && 'bg-cm-gold/20',
                     rowIsActive && 'shadow-[inset_3px_0_0_#1E7BA8]',
                   )}
@@ -229,7 +229,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                         key={key}
                         data-active={columnIsActive ? 'true' : 'false'}
                         className={classNames(
-                          'px-2 py-2 text-center transition-[background-color] duration-300',
+                          'px-2 py-2 text-center transition-[background-color] duration-300 motion-reduce:transition-none',
                           columnIsActive && 'bg-[#1E7BA8]/10',
                         )}
                       >
@@ -249,7 +249,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                   <td
                     data-active={active?.criterion === 'total' ? 'true' : 'false'}
                     className={classNames(
-                      'px-3 py-2 text-center transition-[background-color] duration-300',
+                      'px-3 py-2 text-center transition-[background-color] duration-300 motion-reduce:transition-none',
                       active?.criterion === 'total' && 'bg-[#1E7BA8]/10',
                     )}
                   >
@@ -280,7 +280,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
           role="status"
           aria-label="Score detail"
           className={classNames(
-            'h-[144px] overflow-hidden border-l-4 pl-5 font-sans text-[13px] leading-snug text-[#1A1A1A] transition-[border-color] duration-300',
+            'h-[144px] overflow-hidden border-l-4 pl-5 font-sans text-[13px] leading-snug text-[#1A1A1A] transition-[border-color] duration-300 motion-reduce:transition-none',
             active ? 'border-cm-gold' : 'border-transparent',
           )}
         >
@@ -289,7 +289,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
         <div
           data-testid="score-decision-summary"
           className={classNames(
-            'h-[56px] overflow-hidden transition-opacity duration-300',
+            'h-[56px] overflow-hidden transition-opacity duration-300 motion-reduce:transition-none',
             active ? 'opacity-20' : 'opacity-100',
           )}
         >

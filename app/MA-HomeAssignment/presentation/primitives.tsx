@@ -183,7 +183,7 @@ export function RevealControl({
       data-deck-interactive="true"
       className={classes(
         styles.focusRing,
-        'inline-flex min-h-11 items-center rounded-xl border-2 border-cm-wood/45 bg-white/75 px-4 py-2 font-sans text-[14px] font-bold text-cm-violet-deep transition-colors hover:border-cm-gold hover:bg-cm-gold/10 focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]',
+        'inline-flex min-h-11 items-center rounded-xl border-2 border-cm-wood/45 bg-white/75 px-4 py-2 font-sans text-[14px] font-bold text-cm-violet-deep transition-colors motion-reduce:transition-none hover:border-cm-gold hover:bg-cm-gold/10 focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]',
         className,
       )}
     >
