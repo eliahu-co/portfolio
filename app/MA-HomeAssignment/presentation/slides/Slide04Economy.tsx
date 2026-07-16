@@ -1,17 +1,16 @@
-import { EconomyMap } from '../components/EconomyMap'
+import CoreLoopDiagram from '@/app/MA-HomeAssignment/sections/CoreLoopDiagram'
 import { Eyebrow, SlideShell, SlideTitle } from '../primitives'
 import type { OpeningSlideProps } from './Slide01Cover'
 
-export default function Slide04Economy({ slideKey }: OpeningSlideProps) {
+export default function Slide04Economy(_props: OpeningSlideProps) {
   return (
     <SlideShell>
-      <Eyebrow>Opportunity space</Eyebrow>
-      <SlideTitle>Coin Master economy</SlideTitle>
-      <p className="mt-3 max-w-[900px] font-sans text-[17px] leading-relaxed text-charcoal">
-        The concepts enter through different systems, but each must connect familiar play to a credible monetization path.
-      </p>
-      <div className="mt-7 flex-1">
-        <EconomyMap slideKey={slideKey} />
+      <Eyebrow>Game model</Eyebrow>
+      <SlideTitle>Core loop and meta</SlideTitle>
+      <div className="mt-6 flex flex-1 items-center justify-center">
+        <div className="w-full max-w-[1020px]">
+          <CoreLoopDiagram />
+        </div>
       </div>
     </SlideShell>
   )

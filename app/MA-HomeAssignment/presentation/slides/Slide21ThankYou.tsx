@@ -23,7 +23,6 @@ export default function Slide21ThankYou({
         className="absolute inset-0 h-full w-full object-cover object-center opacity-40"
       />
       <div className="absolute inset-0 bg-gradient-to-br from-cm-violet-deep/95 via-cm-violet-deep/88 to-cm-crimson/65" />
-      <div className="absolute -bottom-32 -right-24 h-[430px] w-[430px] rounded-full border-[44px] border-cm-gold/30 bg-cm-crimson/15" />
 
       <SlideShell align="centered" className="relative z-10 !bg-transparent text-center">
         <div className="mx-auto max-w-[1040px]">
@@ -48,7 +47,7 @@ export default function Slide21ThankYou({
                   <a
                     href={href}
                     data-deck-interactive="true"
-                    className="inline-flex min-h-11 items-center rounded-full border-2 border-white/55 bg-white/10 px-5 py-2 font-sans text-[14px] font-bold text-white transition-colors hover:border-cm-gold hover:bg-cm-gold/20 focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-cm-gold"
+                    className="inline-flex min-h-11 items-center border-b border-white/55 px-1 py-2 font-sans text-[14px] font-bold text-white transition-colors hover:border-cm-gold hover:text-cm-gold focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-cm-gold"
                   >
                     {label}
                   </a>

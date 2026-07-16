@@ -25,8 +25,6 @@ import styles from './PresentationStage.module.css'
 
 const STAGE_WIDTH = 1280
 const STAGE_HEIGHT = 720
-const MIN_VIEWPORT_WIDTH = 960
-const MIN_VIEWPORT_HEIGHT = 540
 const inertAttribute = '' as unknown as boolean
 
 type ViewportSize = {
@@ -53,13 +51,9 @@ export default function PresentationDeck() {
   const router = useRouter()
   const [current, setCurrent] = useState(0)
   const [hashReady, setHashReady] = useState(false)
-  const [viewport, setViewport] = useState<ViewportSize>(currentViewport)
+  const [viewport, setViewport] = useState<ViewportSize>({ width: STAGE_WIDTH, height: STAGE_HEIGHT })
   const activeSlide = slideRegistry[current]
-  const viewportSupported = viewport.width >= MIN_VIEWPORT_WIDTH
-    && viewport.height >= MIN_VIEWPORT_HEIGHT
-  const scale = viewportSupported
-    ? Math.min(viewport.width / STAGE_WIDTH, viewport.height / STAGE_HEIGHT)
-    : 1
+  const scale = Math.min(1, viewport.width / STAGE_WIDTH, viewport.height / STAGE_HEIGHT)
 
   const navigate = useCallback((index: number) => {
     setCurrent(clampIndex(index, slideCount))
@@ -116,7 +110,14 @@ export default function PresentationDeck() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.defaultPrevented || isDeckInteractiveTarget(event.target)) return
+      if (event.defaultPrevented) return
+
+      if (event.key === 'Escape') {
+        router.push('/MA-HomeAssignment')
+        return
+      }
+
+      if (isDeckInteractiveTarget(event.target)) return
 
       if (event.key === 'ArrowRight' || (event.key === ' ' && !event.shiftKey)) {
         event.preventDefault()
@@ -130,7 +131,6 @@ export default function PresentationDeck() {
         return
       }
 
-      if (event.key === 'Escape') router.push('/MA-HomeAssignment')
     }
 
     window.addEventListener('keydown', onKeyDown)
@@ -159,40 +159,13 @@ export default function PresentationDeck() {
     <div
       className={joinClasses(
         styles.viewport,
-        viewportSupported ? styles.viewportSupported : styles.viewportUnsupported,
       )}
       data-presentation-viewport="true"
-      data-viewport-supported={viewportSupported ? 'true' : 'false'}
+      data-viewport-supported="true"
       style={viewportStyle}
       onClick={handleDeckClick}
     >
-      <div
-        className={styles.desktopNotice}
-        role="status"
-        aria-label="Desktop presentation notice"
-        aria-hidden={viewportSupported ? true : undefined}
-      >
-        <div>
-          <p className="font-serif text-[34px] font-black text-cm-violet-deep">
-            This presentation is designed for desktop
-          </p>
-          <p className="mx-auto mt-3 max-w-lg font-sans text-[16px] leading-relaxed text-charcoal">
-            Use a viewport at least 960 pixels wide and 540 pixels tall to view the full deck.
-          </p>
-          <a
-            href="/MA-HomeAssignment"
-            className="mt-7 inline-flex min-h-11 items-center rounded-full border-2 border-cm-violet-deep px-5 py-2 font-sans text-[14px] font-bold text-cm-violet-deep"
-          >
-            Return to the home assignment
-          </a>
-        </div>
-      </div>
-
-      <div
-        className={styles.stageFrame}
-        aria-hidden={viewportSupported ? undefined : true}
-        inert={viewportSupported ? undefined : inertAttribute}
-      >
+      <div className={styles.stageFrame}>
         <div className={styles.stage} data-slide-registry-tree="true">
           {slideRegistry.map((slide, index) => {
             const isActive = index === current

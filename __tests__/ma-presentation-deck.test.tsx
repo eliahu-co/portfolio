@@ -43,7 +43,7 @@ describe('MA presentation deck', () => {
     const first = render(<PresentationDeck />)
 
     expect(activeSlide(first.container)).toHaveAttribute('id', 'slide-5')
-    expect(screen.getByRole('status', { name: 'Slide 5 of 21' })).toHaveTextContent('5 / 21')
+    expect(screen.getByRole('status', { name: 'Slide 5 of 17' })).toHaveTextContent('5 / 17')
     first.unmount()
 
     setRoute('#slide-999')
@@ -74,11 +74,11 @@ describe('MA presentation deck', () => {
     expect(activeSlide(container)).toHaveAttribute('id', 'slide-2')
 
     act(() => {
-      window.history.replaceState({}, '', '#slide-21')
+      window.history.replaceState({}, '', '#slide-17')
       window.dispatchEvent(new PopStateEvent('popstate'))
     })
     fireEvent.keyDown(window, { key: 'ArrowRight' })
-    expect(activeSlide(container)).toHaveAttribute('id', 'slide-21')
+    expect(activeSlide(container)).toHaveAttribute('id', 'slide-17')
     expect(screen.queryByRole('button', { name: /^Next:/ })).not.toBeInTheDocument()
   })
 
@@ -123,21 +123,15 @@ describe('MA presentation deck', () => {
     expect(activeSlide(container)).toHaveAttribute('id', 'slide-2')
   })
 
-  it('lets a pinned slide interaction consume Escape before routing home', () => {
-    setRoute('#slide-13')
+  it('routes home on Escape even when an interactive element has focus', () => {
+    setRoute('#slide-10')
     const { container } = render(<PresentationDeck />)
     const scoring = activeSlide(container)
     const score = within(scoring).getByRole('button', {
       name: /Card Bounty: Confidence score 4/i,
     })
 
-    fireEvent.click(score)
-    expect(within(scoring).getByRole('status', { name: 'Score detail' })).toBeVisible()
     fireEvent.keyDown(score, { key: 'Escape' })
-    expect(within(scoring).queryByRole('status', { name: 'Score detail' })).not.toBeInTheDocument()
-    expect(mockPush).not.toHaveBeenCalled()
-
-    fireEvent.keyDown(window, { key: 'Escape' })
     expect(mockPush).toHaveBeenCalledWith('/MA-HomeAssignment')
   })
 
@@ -172,21 +166,22 @@ describe('MA presentation deck', () => {
       .toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('scales the 1280 by 720 stage and exposes the below-threshold notice', () => {
+  it('shrinks the 1280 by 720 stage when needed without enlarging it', () => {
     setViewport(1440, 900)
     const { container } = render(<PresentationDeck />)
     const viewport = container.querySelector<HTMLElement>('[data-presentation-viewport]')!
-    expect(viewport).toHaveStyle('--deck-scale: 1.125')
+    expect(viewport).toHaveStyle('--deck-scale: 1')
     expect(viewport).toHaveAttribute('data-viewport-supported', 'true')
 
     setViewport(959, 720)
     fireEvent(window, new Event('resize'))
-    expect(viewport).toHaveAttribute('data-viewport-supported', 'false')
-    expect(screen.getByRole('status', { name: 'Desktop presentation notice' })).toBeVisible()
+    expect(viewport).toHaveStyle(`--deck-scale: ${959 / 1280}`)
+    expect(viewport).toHaveAttribute('data-viewport-supported', 'true')
+    expect(screen.queryByRole('status', { name: 'Desktop presentation notice' })).not.toBeInTheDocument()
   })
 
   it('handles closing-menu anchors in place and scopes the landscape override to mount', () => {
-    setRoute('#slide-21')
+    setRoute('#slide-17')
     const { container, unmount } = render(<PresentationDeck />)
     expect(document.body).toHaveClass('ma-presentation-active')
 
@@ -209,10 +204,7 @@ describe('MA presentation deck', () => {
     expect(stageCss).toMatch(
       /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.slide\s*{[\s\S]*?transition:\s*none/,
     )
-    expect(stageCss).toMatch(
-      /\.desktopNotice\s*{[^}]*position:\s*absolute;[^}]*inset:\s*0;/,
-    )
-    expect(stageCss).not.toMatch(/\.viewportSupported\s+\.desktopNotice/)
+    expect(stageCss).not.toMatch(/\.desktopNotice\s*{/)
     expect(globalCss).toMatch(
       /body\.ma-presentation-active\s+\.landscape-guard\s*{[^}]*display:\s*none\s*!important/,
     )

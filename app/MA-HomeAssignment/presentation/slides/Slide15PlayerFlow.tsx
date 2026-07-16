@@ -1,17 +1,16 @@
-import { PlayerFlow } from '../components/PlayerFlow'
+import PlayerFlow from '@/app/MA-HomeAssignment/sections/PlayerFlow'
 import { Eyebrow, SlideShell, SlideTitle } from '../primitives'
 import type { OpeningSlideProps } from './Slide01Cover'
 
-export default function Slide15PlayerFlow({ slideKey }: OpeningSlideProps) {
+export default function Slide15PlayerFlow(_props: OpeningSlideProps) {
   return (
-    <SlideShell>
-      <Eyebrow>Deep dive · Player journey</Eyebrow>
-      <SlideTitle className="text-[48px]">Card Bounty player flow</SlideTitle>
-      <p className="mt-2 max-w-[980px] font-sans text-[17px] leading-relaxed text-charcoal">
-        The full path stays visible; each stage surfaces the rule or branch that keeps the guarantee understandable.
-      </p>
-      <div className="mt-8 flex-1">
-        <PlayerFlow slideKey={slideKey} />
+    <SlideShell className="!py-8">
+      <Eyebrow>Expanded feature</Eyebrow>
+      <SlideTitle className="text-[46px]">Card Bounty player flow</SlideTitle>
+      <div className="mt-4 h-[530px] overflow-hidden">
+        <div className="w-[125%] origin-top-left scale-[0.8]">
+          <PlayerFlow />
+        </div>
       </div>
     </SlideShell>
   )

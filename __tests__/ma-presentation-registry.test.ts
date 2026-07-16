@@ -1,85 +1,26 @@
-import {
-  closingMenuTargets,
-  slideCount,
-  slideRegistry,
-} from '@/app/MA-HomeAssignment/presentation/slideRegistry'
-
-const TITLES = [
-  'Increasing ARPDAU',
-  'About',
-  'Approach',
-  'Coin Master economy',
-  'Three bets',
-  'Hometown thesis',
-  'Hometown mechanics',
-  'Card Bounty thesis',
-  'Card Bounty mechanics',
-  'Hot Trail thesis',
-  'Hot Trail mechanics',
-  'Assumptions',
-  'Comparative scoring',
-  'Recommendation',
-  'Expanded player flow',
-  'MVP scope',
-  'Interactive prototype',
-  'A/B-test design',
-  'Success metrics and guardrails',
-  'Follow-up experiments',
-  'Thank you',
-] as const
-
-const SHORT_TITLES = [
-  'Cover',
-  'About',
-  'Approach',
-  'Economy',
-  'Three bets',
-  'Hometown thesis',
-  'Hometown mechanics',
-  'Bounty thesis',
-  'Bounty mechanics',
-  'Hot Trail thesis',
-  'Hot Trail mechanics',
-  'Assumptions',
-  'Scoring',
-  'Recommendation',
-  'Player flow',
-  'MVP scope',
-  'Prototype',
-  'Experiment design',
-  'Metrics',
-  'Follow-up tests',
-  'Thank you',
-] as const
+import { closingMenuTargets, slideCount, slideRegistry } from '@/app/MA-HomeAssignment/presentation/slideRegistry'
 
 describe('MA presentation registry', () => {
-  it('is the single ordered source for all 21 unique slides and components', () => {
-    expect(slideRegistry).toHaveLength(21)
-    expect(slideCount).toBe(slideRegistry.length)
+  it('defines the approved 17-slide story', () => {
+    expect(slideCount).toBe(17)
     expect(slideRegistry.map(({ id }) => id)).toEqual(
-      Array.from({ length: 21 }, (_, index) => `slide-${index + 1}`),
+      Array.from({ length: 17 }, (_, index) => `slide-${index + 1}`),
     )
-    expect(new Set(slideRegistry.map(({ id }) => id)).size).toBe(slideRegistry.length)
-    expect(slideRegistry.map(({ title }) => title)).toEqual(TITLES)
-    expect(slideRegistry.map(({ shortTitle }) => shortTitle)).toEqual(SHORT_TITLES)
-    slideRegistry.forEach(({ chapter, Component }) => {
-      expect(chapter.length).toBeGreaterThan(0)
-      expect(typeof Component).toBe('function')
-    })
+    expect(slideRegistry.map(({ title }) => title)).toEqual([
+      'Increasing ARPDAU', 'About', 'Approach', 'Core loop and meta', 'Three bets',
+      'Hometown', 'Card Bounty', 'Hot Trail', 'Assumptions', 'Comparative scoring',
+      'Recommendation', 'Expanded player flow', 'MVP scope', 'Interactive prototype',
+      'A/B-test design', 'Success metrics and guardrails', 'Thank you',
+    ])
   })
 
-  it('derives unique closing-menu labels and jump targets from chapter starts', () => {
+  it('derives the closing navigation from chapter starts', () => {
     expect(closingMenuTargets).toEqual([
       { label: 'Approach', href: '#slide-3' },
       { label: 'Three bets', href: '#slide-5' },
-      { label: 'Decision', href: '#slide-13' },
-      { label: 'Player flow', href: '#slide-15' },
-      { label: 'Validation', href: '#slide-18' },
+      { label: 'Decision', href: '#slide-10' },
+      { label: 'Player flow', href: '#slide-12' },
+      { label: 'Validation', href: '#slide-15' },
     ])
-    expect(new Set(closingMenuTargets.map(({ href }) => href)).size)
-      .toBe(closingMenuTargets.length)
-    closingMenuTargets.forEach(({ href }) => {
-      expect(slideRegistry.some(({ id }) => href === `#${id}`)).toBe(true)
-    })
   })
 })

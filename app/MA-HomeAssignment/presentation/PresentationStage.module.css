@@ -65,26 +65,6 @@
   pointer-events: none;
 }
 
-.desktopNotice {
-  position: absolute;
-  inset: 0;
-  display: none;
-  min-height: 100vh;
-  padding: 32px;
-  place-items: center;
-  background: #fff9ee;
-  color: #2a1b54;
-  text-align: center;
-}
-
-.viewportUnsupported .stageFrame {
-  display: none;
-}
-
-.viewportUnsupported .desktopNotice {
-  display: grid;
-}
-
 .deckChrome {
   position: absolute;
   z-index: 20;
@@ -103,10 +83,9 @@
   min-height: 44px;
   align-items: center;
   gap: 8px;
-  border-radius: 9999px;
-  border: 2px solid rgba(42, 27, 84, 0.28);
-  background: rgba(255, 249, 238, 0.9);
-  padding: 8px 16px;
+  border: 0;
+  background: transparent;
+  padding: 8px 0;
   color: #2a1b54;
   font-size: 13px;
   font-weight: 800;
@@ -145,16 +124,6 @@
 .metricScreenBoard,
 .followUpScreenBoard {
   display: block;
-}
-
-@media screen and (max-width: 959px), screen and (max-height: 539px) {
-  .stageFrame {
-    display: none;
-  }
-
-  .desktopNotice {
-    display: grid;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,17 +1,21 @@
-import { ConceptOverview } from '../components/ConceptOverview'
+import { CONCEPTS } from '../deckData'
 import { Eyebrow, SlideShell, SlideTitle } from '../primitives'
 import type { OpeningSlideProps } from './Slide01Cover'
 
-export default function Slide05ThreeBets({ slideKey }: OpeningSlideProps) {
+export default function Slide05ThreeBets(_props: OpeningSlideProps) {
   return (
     <SlideShell>
-      <Eyebrow>Concept landscape</Eyebrow>
+      <Eyebrow>Features</Eyebrow>
       <SlideTitle>Three bets</SlideTitle>
-      <p className="mt-3 max-w-[820px] font-sans text-[18px] leading-relaxed text-charcoal">
-        One new spend surface, one resource-demand loop, and one re-engagement trigger — considered on equal footing.
-      </p>
-      <div className="mt-7 flex-1">
-        <ConceptOverview slideKey={slideKey} />
+      <div className="mt-12 grid flex-1 grid-cols-3 gap-10">
+        {CONCEPTS.map((feature) => (
+          <section key={feature.id} className="border-t-4 border-cm-gold pt-6">
+            <h3 className="font-serif text-[34px] font-black text-cm-violet-deep">{feature.title}</h3>
+            <p className="mt-5 font-sans text-[19px] font-bold leading-relaxed text-[#1A1A1A]">
+              {feature.monetizationSummary}
+            </p>
+          </section>
+        ))}
       </div>
     </SlideShell>
   )

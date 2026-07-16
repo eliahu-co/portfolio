@@ -116,13 +116,13 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
 
   return (
     <section aria-label="Comparative scoring matrix">
-      <div className="overflow-hidden rounded-2xl border-2 border-cm-wood/30 bg-white/75 shadow-[0_10px_28px_rgba(42,27,84,0.09)]">
+      <div className="overflow-visible">
         <table
           aria-label="Comparative opportunity scoring"
           className="w-full table-fixed border-collapse text-left"
         >
           <thead>
-            <tr className="border-b-2 border-cm-wood/45 bg-cm-violet-deep/[0.04]">
+            <tr className="border-b-2 border-cm-wood">
               <th
                 scope="col"
                 className="w-[20%] px-5 py-3 font-sans text-[12px] font-extrabold uppercase tracking-[0.1em] text-charcoal"
@@ -167,9 +167,8 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                   data-active-row={rowIsActive ? 'true' : 'false'}
                   className={classNames(
                     'border-b border-charcoal/15 transition-[background-color,box-shadow] last:border-b-0',
-                    row.winner && 'bg-cm-gold/20',
-                    rowIsActive && 'shadow-[inset_5px_0_0_#1E7BA8]',
-                    rowIsActive && !row.winner && 'bg-[#1E7BA8]/[0.07]',
+                    row.winner && 'animate-shimmer bg-[linear-gradient(90deg,rgba(245,168,0,0.08),rgba(245,168,0,0.28),rgba(245,168,0,0.08))] bg-[length:200%_100%] motion-reduce:animate-none',
+                    rowIsActive && 'shadow-[inset_4px_0_0_#1E7BA8]',
                   )}
                 >
                   <th
@@ -207,8 +206,8 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                           {...scoreControlProps(row.useCase, id)}
                           aria-label={`${row.useCase}: ${criterion.title} score ${score}`}
                           className={classNames(
-                            'mx-auto grid h-11 w-12 place-items-center rounded-xl border-2 border-cm-wood/25 bg-white font-sans text-[19px] font-black tabular-nums text-cm-violet-deep transition-[color,background-color,border-color,transform] hover:border-[#1E7BA8] focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#1E7BA8]',
-                            cellIsActive && 'scale-110 border-[#1E7BA8] bg-[#1E7BA8] text-white',
+                            'mx-auto grid h-11 w-12 place-items-center border-0 bg-transparent font-sans text-[19px] font-medium tabular-nums text-charcoal transition-colors hover:text-cm-crimson focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-[#1E7BA8]',
+                            cellIsActive && 'font-black text-cm-crimson underline decoration-cm-gold decoration-4 underline-offset-4',
                           )}
                         >
                           {score}
@@ -227,8 +226,8 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                       {...scoreControlProps(row.useCase, TOTAL_ID)}
                       aria-label={`${row.useCase}: total opportunity score ${Math.round(row.total)}`}
                       className={classNames(
-                        'mx-auto grid h-11 min-w-14 place-items-center rounded-xl border-2 border-cm-gold/60 bg-cm-gold/15 px-2 font-sans text-[19px] font-black tabular-nums text-cm-crimson transition-[color,background-color,border-color,transform] hover:border-cm-crimson focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#1E7BA8]',
-                        isSameCell(active, row.useCase, TOTAL_ID) && 'scale-110 border-cm-crimson bg-cm-crimson text-white',
+                        'mx-auto grid h-11 min-w-14 place-items-center border-0 bg-transparent px-2 font-sans text-[20px] font-black tabular-nums text-cm-crimson transition-colors hover:text-cm-violet-deep focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-[#1E7BA8]',
+                        isSameCell(active, row.useCase, TOTAL_ID) && 'underline decoration-cm-gold decoration-4 underline-offset-4',
                       )}
                     >
                       {Math.round(row.total)}
@@ -252,7 +251,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
             id="comparative-score-detail"
             role="status"
             aria-label="Score detail"
-            className="rounded-2xl border border-[#1E7BA8]/45 bg-[#1E7BA8]/[0.08] px-5 py-3 font-sans text-[13px] leading-snug text-[#1A1A1A]"
+            className="border-l-4 border-cm-gold pl-5 pt-1 font-sans text-[13px] leading-snug text-[#1A1A1A]"
           >
             {active.criterionId === TOTAL_ID ? (
               <div className="grid grid-cols-[0.7fr_1.3fr] items-center gap-5">
