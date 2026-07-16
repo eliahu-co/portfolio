@@ -12,7 +12,7 @@ describe('MA presentation opening chapter', () => {
   })
 
   it('keeps About simple and interactive', () => {
-    const { container } = render(<Slide02About slideKey="slide-2" />)
+    const { container, rerender } = render(<Slide02About slideKey="slide-2" />)
     expect(screen.getByText('Product Manager')).toBeVisible()
     expect(screen.queryByText('Architect, Product Manager')).not.toBeInTheDocument()
     expect(container.querySelectorAll('[data-ma-photo-frame="true"] img[alt="Eliahu and family"]')).toHaveLength(1)
@@ -21,8 +21,31 @@ describe('MA presentation opening chapter', () => {
     expect(container.querySelectorAll('svg[data-journey-connector="true"]')).toHaveLength(2)
     expect(container.querySelectorAll('[data-flat-fact="true"]')).toHaveLength(6)
     const brazil = screen.getByRole('button', { name: 'Brazil' })
+
+    fireEvent.mouseEnter(brazil)
+    expect(brazil).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.mouseLeave(brazil)
+    expect(brazil).toHaveAttribute('aria-expanded', 'false')
+
     fireEvent.focus(brazil)
     expect(brazil).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.mouseEnter(brazil)
+    fireEvent.mouseLeave(brazil)
+    expect(brazil).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.blur(brazil)
+    expect(brazil).toHaveAttribute('aria-expanded', 'false')
+
+    fireEvent.mouseEnter(brazil)
+    fireEvent.focus(brazil)
+    fireEvent.blur(brazil)
+    expect(brazil).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.mouseLeave(brazil)
+    expect(brazil).toHaveAttribute('aria-expanded', 'false')
+
+    fireEvent.mouseEnter(brazil)
+    fireEvent.focus(brazil)
+    rerender(<Slide02About slideKey="slide-2-reset" />)
+    expect(screen.getByRole('button', { name: 'Brazil' })).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('uses the flat approach flow and original core-loop diagram', () => {
@@ -37,7 +60,12 @@ describe('MA presentation opening chapter', () => {
 
     const economy = render(<Slide04Economy slideKey="slide-4" />)
     expect(screen.getByRole('heading', { name: 'Core loop and meta' })).toBeVisible()
-    expect(economy.container.querySelector('figure')).toBeInTheDocument()
+    const figure = economy.container.querySelector('figure')
+    expect(figure).toBeInTheDocument()
+    const diagramWrapper = figure?.parentElement
+    expect(diagramWrapper).toHaveClass('max-w-[840px]')
+    expect(diagramWrapper).not.toHaveClass('max-h-[450px]', 'overflow-hidden')
+    expect(diagramWrapper?.parentElement).not.toHaveClass('overflow-hidden')
     expect(screen.queryByText('Game model')).not.toBeInTheDocument()
   })
 
