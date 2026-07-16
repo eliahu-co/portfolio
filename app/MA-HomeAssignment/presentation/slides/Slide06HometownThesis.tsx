@@ -5,5 +5,5 @@ import type { OpeningSlideProps } from './Slide01Cover'
 
 export default function Slide06HometownThesis({ slideKey }: OpeningSlideProps) {
   const concept = CONCEPTS[0]
-  return <SlideShell><Eyebrow>Feature 1</Eyebrow><SlideTitle>{concept.title}</SlideTitle><div className="mt-4 min-h-0 flex-1"><FeatureSlide concept={concept} loop={concept.loop} title={concept.title} slideKey={slideKey} /></div></SlideShell>
+  return <SlideShell><Eyebrow>Feature 1</Eyebrow><SlideTitle>{concept.title}</SlideTitle><div data-feature-body="true" className="mt-8 min-h-0 flex-1"><FeatureSlide concept={concept} loop={concept.loop} title={concept.title} slideKey={slideKey} /></div></SlideShell>
 }

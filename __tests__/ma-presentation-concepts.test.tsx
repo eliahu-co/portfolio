@@ -29,7 +29,9 @@ describe('MA presentation features', () => {
     const image = container.querySelector(`[data-feature-image="${title}"]`)!
     const reveal = container.querySelector(`[data-feature-reveal="${title}"]`)!
     expect(loop.compareDocumentPosition(image) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
-    expect(image).toHaveClass('-mt-[83px]')
+    expect(image).toHaveClass('-mt-[99px]')
+    expect(container.querySelector('[data-feature-body="true"]')).toHaveClass('mt-8')
+    expect(container.querySelector('[data-feature-body="true"]')).not.toHaveClass('mt-4')
     expect(reveal).toHaveClass('opacity-0', 'pointer-events-none')
     expect(container.querySelectorAll('[data-feature-loop-arrow][data-flow-arrow="true"]')).toHaveLength(
       title === 'Hometown' ? 3 : 4,
