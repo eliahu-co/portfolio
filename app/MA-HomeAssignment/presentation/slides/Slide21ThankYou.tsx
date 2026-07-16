@@ -36,7 +36,7 @@ export default function Slide21ThankYou({
                 <a
                   href={href}
                   data-deck-interactive="true"
-                  className="inline-flex min-h-11 items-center px-1 py-2 font-sans text-[14px] font-bold text-cm-violet-deep underline decoration-cm-violet-deep/35 decoration-2 underline-offset-4 transition-colors hover:text-cm-crimson hover:decoration-cm-crimson focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-cm-gold"
+                  className="inline-flex min-h-11 items-center px-1 py-2 font-sans text-[14px] font-bold text-cm-violet-deep underline decoration-cm-violet-deep/35 decoration-2 underline-offset-4 transition-colors duration-300 hover:text-cm-crimson hover:decoration-cm-crimson focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-cm-gold"
                 >
                   {label}
                 </a>

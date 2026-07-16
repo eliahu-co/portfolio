@@ -9,7 +9,7 @@ export default function Slide17Prototype(_props: OpeningSlideProps) {
       <SlideTitle className="text-[48px]">Card Bounty, interactive</SlideTitle>
       <div
         data-source-component="prototype-preview"
-        className="mx-auto mt-5 max-h-[500px] w-full max-w-[900px] overflow-hidden"
+        className="mx-auto mt-5 aspect-video max-h-[500px] w-full max-w-[888px]"
       >
         <PrototypePreview />
       </div>

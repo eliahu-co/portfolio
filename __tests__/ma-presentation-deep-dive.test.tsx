@@ -39,7 +39,11 @@ describe('MA presentation Card Bounty deep dive', () => {
     expect(container.querySelector('[data-prototype-cta="true"]')).toBeInTheDocument()
 
     const sourceFrame = container.querySelector('[data-source-component="prototype-preview"]')
-    expect(sourceFrame).toHaveClass('max-w-[900px]', 'max-h-[500px]', 'overflow-hidden')
-    expect(sourceFrame?.className).not.toMatch(/rounded|shadow|transition|animate|\bbg-|\bborder\b/)
+    const prototype = screen.getByRole('link', { name: 'Open the Card Bounty interactive prototype' })
+    expect(sourceFrame).toHaveClass('aspect-video', 'max-w-[888px]', 'max-h-[500px]')
+    expect(sourceFrame).toContainElement(prototype)
+    expect(sourceFrame?.firstElementChild).toBe(prototype)
+    expect(prototype).toHaveClass('aspect-video', 'w-full')
+    expect(sourceFrame?.className).not.toMatch(/overflow-hidden|rounded|shadow|transition|animate|\bbg-|\bborder\b/)
   })
 })

@@ -64,6 +64,7 @@ describe('MA presentation validation chapter', () => {
     screen.getAllByRole('link').forEach((link) => {
       expect(link.className).not.toMatch(/rounded-full|\bbg-|(?:^|\s)border(?:\s|$)/)
       expect(link.className).toMatch(/underline|border-b/)
+      expect(link).toHaveClass('transition-colors', 'duration-300')
     })
   })
 })
