@@ -13,8 +13,13 @@ const ROLE_CLASSES: Record<MetricRole, string> = {
 type ActiveMetric = { metric: string; help?: keyof typeof TOOLTIP_NOTES } | null
 
 export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
-  const [active, setActive] = useState<ActiveMetric>(null)
-  const reset = useCallback(() => setActive(null), [])
+  const [hovered, setHovered] = useState<ActiveMetric>(null)
+  const [focused, setFocused] = useState<ActiveMetric>(null)
+  const active = focused ?? hovered
+  const reset = useCallback(() => {
+    setHovered(null)
+    setFocused(null)
+  }, [])
   useDeckReset(reset, slideKey)
 
   return (
@@ -28,6 +33,7 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
             </tr>
             {group.metrics.map((metric) => {
               const selected = active?.metric === metric.metric
+              const selection = { metric: metric.metric, help: metric.metricHelp }
               return (
                 <tr key={metric.metric} className={`border-b border-charcoal/15 ${group.emphasis ? 'bg-[linear-gradient(90deg,rgba(245,168,0,0.08),rgba(245,168,0,0.24),rgba(245,168,0,0.08))]' : ''}`}>
                   <td className="py-0.5 pr-4">
@@ -35,10 +41,10 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
                       type="button"
                       data-deck-interactive="true"
                       aria-expanded={selected}
-                      onMouseEnter={() => setActive({ metric: metric.metric, help: metric.metricHelp })}
-                      onMouseLeave={() => setActive(null)}
-                      onFocus={() => setActive({ metric: metric.metric, help: metric.metricHelp })}
-                      onBlur={() => setActive(null)}
+                      onMouseEnter={() => setHovered(selection)}
+                      onMouseLeave={() => setHovered(null)}
+                      onFocus={() => setFocused(selection)}
+                      onBlur={() => setFocused(null)}
                       className={`min-h-7 w-full border-0 bg-transparent text-left font-sans text-[12px] font-medium text-cm-violet-deep ${selected ? 'font-black underline decoration-cm-gold decoration-3 underline-offset-4' : ''}`}
                     >
                       {metric.metric}
@@ -56,7 +62,7 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
         role="status"
         aria-label="Metric detail"
         data-active={active ? 'true' : 'false'}
-        className={`mt-1 min-h-[44px] border-l-4 border-cm-gold pl-4 font-sans text-[12px] leading-relaxed transition-colors ${active ? 'font-bold text-cm-violet-deep' : 'text-charcoal'}`}
+        className={`mt-1 min-h-[44px] border-l-4 border-cm-gold pl-4 font-sans text-[12px] leading-relaxed ${active ? 'font-bold text-cm-violet-deep' : 'text-charcoal'}`}
       >
         {active ? (active.help ? TOOLTIP_NOTES[active.help] : `${active.metric} is used to explain whether the feature creates incremental value without damaging the core economy.`) : TOOLTIP_NOTES['test-methodology']}
       </div>

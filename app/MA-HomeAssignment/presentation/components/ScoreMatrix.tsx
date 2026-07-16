@@ -53,12 +53,7 @@ function ExactRationale({ active }: { readonly active: ActiveScore }) {
 
   if (active.criterion === 'total') {
     return (
-      <section
-        id="comparative-score-detail"
-        role="status"
-        aria-label="Score detail"
-        className="border-l-4 border-cm-gold pl-5 font-sans text-[13px] leading-snug text-[#1A1A1A]"
-      >
+      <div>
         <p className="text-[12px] font-extrabold uppercase tracking-[0.1em] text-cm-crimson">
           {story.row.useCase} · score {Math.round(story.row.total)}
         </p>
@@ -66,19 +61,14 @@ function ExactRationale({ active }: { readonly active: ActiveScore }) {
           Relative opportunity score
         </h3>
         <p className="mt-2">This total compares the opportunities directionally; it is not a precise forecast.</p>
-      </section>
+      </div>
     )
   }
 
   const criterion = CRITERIA.find(({ key }) => key === active.criterion)!
 
   return (
-    <section
-      id="comparative-score-detail"
-      role="status"
-      aria-label="Score detail"
-      className="grid grid-cols-[1.25fr_0.75fr] gap-7 border-l-4 border-cm-gold pl-5 font-sans text-[13px] leading-snug text-[#1A1A1A]"
-    >
+    <div className="grid grid-cols-[1.25fr_0.75fr] gap-7">
       <div>
         <p className="text-[12px] font-extrabold uppercase tracking-[0.1em] text-cm-crimson">
           {story.row.useCase} · score {story.row.scores[criterion.index]}
@@ -102,20 +92,28 @@ function ExactRationale({ active }: { readonly active: ActiveScore }) {
           </p>
         ))}
       </div>
-    </section>
+    </div>
   )
 }
 
 export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
-  const [active, setActive] = useState<ActiveScore | null>(null)
-  const reset = useCallback(() => setActive(null), [])
+  const [hovered, setHovered] = useState<ActiveScore | null>(null)
+  const [focused, setFocused] = useState<ActiveScore | null>(null)
+  const active = focused ?? hovered
+  const reset = useCallback(() => {
+    setHovered(null)
+    setFocused(null)
+  }, [])
 
   useDeckReset(reset, slideKey)
 
   const scoreControlProps = (row: number, criterion: CriterionKey) => {
     const cellIsActive = active?.row === row && active.criterion === criterion
-    const activate = () => setActive({ row, criterion })
-    const clear = () => setActive((current) => (
+    const score = { row, criterion }
+    const clearHovered = () => setHovered((current) => (
+      current?.row === row && current.criterion === criterion ? null : current
+    ))
+    const clearFocused = () => setFocused((current) => (
       current?.row === row && current.criterion === criterion ? null : current
     ))
 
@@ -125,10 +123,10 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
       'data-active-cell': cellIsActive ? 'true' : 'false',
       'aria-controls': 'comparative-score-detail',
       'aria-expanded': cellIsActive,
-      onMouseEnter: activate,
-      onMouseLeave: clear,
-      onFocus: activate,
-      onBlur: clear,
+      onMouseEnter: () => setHovered(score),
+      onMouseLeave: clearHovered,
+      onFocus: () => setFocused(score),
+      onBlur: clearFocused,
     }
   }
 
@@ -153,7 +151,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                     data-testid={`score-column-${key}`}
                     data-active={columnIsActive ? 'true' : 'false'}
                     className={classNames(
-                      'w-[16%] px-2 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-colors',
+                      'w-[16%] px-2 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-[background-color] duration-300',
                       columnIsActive && 'bg-[#1E7BA8]/10',
                     )}
                   >
@@ -166,7 +164,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                 data-testid="score-column-total"
                 data-active={active?.criterion === 'total' ? 'true' : 'false'}
                 className={classNames(
-                  'w-[16%] px-3 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-colors',
+                  'w-[16%] px-3 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-[background-color] duration-300',
                   active?.criterion === 'total' && 'bg-[#1E7BA8]/10',
                 )}
               >
@@ -186,8 +184,8 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                   data-winner-band={row.winner ? 'true' : 'false'}
                   data-active-row={rowIsActive ? 'true' : 'false'}
                   className={classNames(
-                    'border-b border-charcoal/15 transition-[background-color,box-shadow] last:border-b-0',
-                    row.winner && !active && 'animate-shimmer bg-[linear-gradient(90deg,rgba(245,168,0,0.08),rgba(245,168,0,0.28),rgba(245,168,0,0.08))] bg-[length:200%_100%] motion-reduce:animate-none',
+                    'border-b border-charcoal/15 transition-[background-color] duration-300 last:border-b-0',
+                    row.winner && !active && 'bg-cm-gold/20',
                     rowIsActive && 'shadow-[inset_3px_0_0_#1E7BA8]',
                   )}
                 >
@@ -214,7 +212,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                         key={key}
                         data-active={columnIsActive ? 'true' : 'false'}
                         className={classNames(
-                          'px-2 py-2 text-center transition-colors',
+                          'px-2 py-2 text-center transition-[background-color] duration-300',
                           columnIsActive && 'bg-[#1E7BA8]/10',
                         )}
                       >
@@ -222,7 +220,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                           {...scoreControlProps(rowIndex, key)}
                           aria-label={`${row.useCase}: ${definition.title} score ${score}`}
                           className={classNames(
-                            'mx-auto grid h-11 w-12 place-items-center border-0 bg-transparent font-sans text-[19px] font-medium tabular-nums text-charcoal transition-colors hover:text-cm-crimson focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-[#1E7BA8]',
+                            'mx-auto grid h-11 w-12 place-items-center border-0 bg-transparent font-sans text-[19px] font-medium tabular-nums text-charcoal hover:text-cm-crimson focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-[#1E7BA8]',
                             cellIsActive && 'font-black text-cm-crimson underline decoration-cm-gold decoration-4 underline-offset-4',
                           )}
                         >
@@ -234,7 +232,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                   <td
                     data-active={active?.criterion === 'total' ? 'true' : 'false'}
                     className={classNames(
-                      'px-3 py-2 text-center transition-colors',
+                      'px-3 py-2 text-center transition-[background-color] duration-300',
                       active?.criterion === 'total' && 'bg-[#1E7BA8]/10',
                     )}
                   >
@@ -242,7 +240,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                       {...scoreControlProps(rowIndex, 'total')}
                       aria-label={`${row.useCase}: total opportunity score ${Math.round(row.total)}`}
                       className={classNames(
-                        'mx-auto grid h-11 min-w-14 place-items-center border-0 bg-transparent px-2 font-sans text-[20px] font-black tabular-nums text-cm-crimson transition-colors hover:text-cm-violet-deep focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-[#1E7BA8]',
+                        'mx-auto grid h-11 min-w-14 place-items-center border-0 bg-transparent px-2 font-sans text-[20px] font-black tabular-nums text-cm-crimson hover:text-cm-violet-deep focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-[#1E7BA8]',
                         active?.row === rowIndex && active.criterion === 'total' && 'underline decoration-cm-gold decoration-4 underline-offset-4',
                       )}
                     >
@@ -256,9 +254,25 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
         </table>
       </div>
 
-      <div className="mt-8 min-h-[150px]">
-        <div className="min-h-10">{active && <ExactRationale active={active} />}</div>
-        <div className={active ? 'opacity-20' : 'opacity-100'}>
+      <div
+        data-testid="score-disclosure-region"
+        className="mt-8 grid h-[200px] grid-rows-[144px_56px]"
+      >
+        <section
+          id="comparative-score-detail"
+          role="status"
+          aria-label="Score detail"
+          className="h-[144px] overflow-hidden border-l-4 border-cm-gold pl-5 font-sans text-[13px] leading-snug text-[#1A1A1A]"
+        >
+          {active && <ExactRationale active={active} />}
+        </section>
+        <div
+          data-testid="score-decision-summary"
+          className={classNames(
+            'h-[56px] overflow-hidden transition-opacity duration-300',
+            active ? 'opacity-20' : 'opacity-100',
+          )}
+        >
           <DecisionSummary />
         </div>
       </div>
