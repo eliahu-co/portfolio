@@ -13,7 +13,7 @@ export default function Slide03Approach(_props: OpeningSlideProps) {
             <li key={step.label} className="relative min-w-0 flex-1">
               <div
                 data-approach-pill="true"
-                className="flex min-h-[96px] items-center justify-center rounded-lg border border-[#1E7BA8]/30 bg-gradient-to-b from-[#F0FAFE] to-[#DBF1FC] px-4 py-3 text-center font-sans text-[16px] font-extrabold leading-snug text-[#0d3a5a] shadow-[0_3px_0_rgba(30,123,168,0.2)]"
+                className="flex min-h-[96px] items-center justify-center rounded-lg border border-[#1E7BA8]/30 bg-transparent px-4 py-3 text-center font-sans text-[16px] font-extrabold leading-snug text-[#0d3a5a] shadow-[0_3px_0_rgba(30,123,168,0.2)] transition-colors hover:bg-gradient-to-b hover:from-[#F0FAFE] hover:to-[#DBF1FC]"
               >
                 {step.label}
               </div>

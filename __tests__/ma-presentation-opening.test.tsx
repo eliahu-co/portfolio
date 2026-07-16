@@ -70,6 +70,10 @@ describe('MA presentation opening chapter', () => {
     expect(screen.getByRole('heading', { name: 'Approach' })).toBeVisible()
     expect(approach.container.querySelectorAll('li')).toHaveLength(6)
     expect(approach.container.querySelectorAll('[data-approach-pill="true"]')).toHaveLength(6)
+    approach.container.querySelectorAll('[data-approach-pill="true"]').forEach((pill) => {
+      expect(pill).toHaveClass('bg-transparent', 'hover:bg-gradient-to-b')
+      expect(pill).not.toHaveClass('bg-gradient-to-b')
+    })
     expect(approach.container.querySelectorAll('svg[data-approach-connector="true"]')).toHaveLength(5)
     expect(approach.container.querySelectorAll('[data-approach-connector="true"][data-flow-arrow="true"]')).toHaveLength(5)
     expect(approach.container.querySelector('[data-step-number]')).not.toBeInTheDocument()
