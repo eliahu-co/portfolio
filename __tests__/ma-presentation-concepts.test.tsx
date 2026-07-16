@@ -36,7 +36,12 @@ describe('MA presentation features', () => {
     )
     expect(loop.querySelectorAll('[data-blue-surface="true"]').length).toBeGreaterThan(0)
     expect(loop.querySelectorAll('[data-wood-surface="true"]').length).toBeGreaterThan(0)
+    loop.querySelectorAll('[data-blue-surface="true"], [data-wood-surface="true"]').forEach((surface) => {
+      expect(surface).toHaveClass('font-normal')
+      expect(surface).not.toHaveClass('font-bold', 'font-extrabold')
+    })
     expect(loopStack).not.toHaveClass('mx-auto')
+    expect(loopStack).toHaveClass('max-w-[350px]')
     expect(container.querySelector('[data-feature-frame="true"]')).not.toHaveClass('w-full')
     expect(container.querySelector('[data-feature-frame="true"]')).not.toHaveClass('px-4')
     expect(container.querySelectorAll('.border-l-4, .border-l-8')).toHaveLength(0)

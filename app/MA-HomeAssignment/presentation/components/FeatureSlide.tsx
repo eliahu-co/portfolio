@@ -11,8 +11,8 @@ function LoopPill({ label, core }: { label: string; core?: boolean }) {
       data-blue-surface={core ? undefined : 'true'}
       data-wood-surface={core ? 'true' : undefined}
       className={core
-      ? 'rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-extrabold leading-snug text-cm-wood'
-      : 'rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-extrabold leading-snug text-[#0d3a5a]'}>
+      ? 'rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-normal leading-snug text-cm-wood'
+      : 'rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-normal leading-snug text-[#0d3a5a]'}>
       {label}
     </div>
   )
@@ -54,7 +54,7 @@ export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlidePro
           data-feature-loop={title}
           className={`transition-opacity duration-300 motion-reduce:transition-none ${revealed ? 'opacity-20' : 'opacity-100'}`}
         >
-          <div data-feature-loop-stack="true" className="max-w-[410px]">
+          <div data-feature-loop-stack="true" className="max-w-[350px]">
             {loop.steps.map((step, index) => (
               <div key={step.label}>
                 <LoopPill label={step.label} core={step.coreLoop} />
