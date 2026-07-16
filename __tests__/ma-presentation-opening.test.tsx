@@ -118,6 +118,23 @@ describe('MA presentation opening chapter', () => {
     expect(screen.getByRole('button', { name: 'Brazil' })).toHaveAttribute('aria-expanded', 'false')
   })
 
+  it('leaves Escape to the deck while Brazil remains focus-active', () => {
+    const deckEscape = jest.fn()
+    render(
+      <div onKeyDown={(event) => event.key === 'Escape' && deckEscape()}>
+        <Slide02About slideKey="about-escape" />
+      </div>,
+    )
+    const brazil = screen.getByRole('button', { name: 'Brazil' })
+
+    fireEvent.focus(brazil)
+    expect(screen.getByRole('heading', { level: 2, name: 'Eduardo Cohen' })).toBeVisible()
+
+    expect(fireEvent.keyDown(brazil, { key: 'Escape' })).toBe(true)
+    expect(deckEscape).toHaveBeenCalledTimes(1)
+    expect(screen.getByRole('heading', { level: 2, name: 'Eduardo Cohen' })).toBeVisible()
+  })
+
   it('shows the six-step approach ribbon and keeps supporting evidence additive', () => {
     const { rerender } = render(<Slide03Approach slideKey="approach-a" />)
     const ribbon = screen.getByLabelText('Product approach')

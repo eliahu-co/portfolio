@@ -88,12 +88,6 @@ export default function Slide02About({ slideKey }: OpeningSlideProps) {
                     onMouseLeave={() => setInteraction((current) => ({ ...current, hovered: false }))}
                     onFocus={() => setInteraction((current) => ({ ...current, focused: true }))}
                     onBlur={() => setInteraction((current) => ({ ...current, focused: false }))}
-                    onKeyDown={(event) => {
-                      if (event.key !== 'Escape' || !showEduardo) return
-                      event.preventDefault()
-                      event.stopPropagation()
-                      reset()
-                    }}
                     className="min-h-11 rounded-full border-2 border-cm-crimson bg-cm-crimson px-4 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-white transition-colors hover:border-cm-wood hover:bg-cm-gold hover:text-cm-violet-deep focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
                   >
                     {place}

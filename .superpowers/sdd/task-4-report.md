@@ -103,3 +103,55 @@ All six required local images exist: the cover sky/logo, family photo, and the t
 ## Commit
 
 Requested message: `feat: build MA presentation concept chapter`.
+
+## Review finding fix: Escape ownership on the Brazil control
+
+The independent Task 4 review found that the Brazil button consumed Escape and called `reset()` while retaining DOM focus. That produced an inconsistent focused state: the button was still focused, but the heading reverted from Eduardo to Eliahu, and the deck never received Escape despite there being no pinned About state to clear.
+
+### Fix RED
+
+A regression test was added first. It focuses Brazil, sends Escape through the real control, and requires the event to remain uncancelled, reach a parent deck handler, and leave the accessible heading as `Eduardo Cohen`.
+
+Exact command:
+
+```powershell
+npx.cmd jest --runTestsByPath __tests__/ma-presentation-opening.test.tsx --runInBand
+```
+
+Observed expected RED:
+
+```text
+FAIL MA presentation opening chapter › leaves Escape to the deck while Brazil remains focus-active
+Expected: true
+Received: false
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 13 passed, 14 total
+```
+
+The failure proved the existing handler called `preventDefault()` before the deck could own Escape.
+
+### Fix GREEN
+
+The slide-local `onKeyDown` handler was removed. Brazil now derives Eduardo strictly from hover/focus, and Escape bubbles normally to the deck.
+
+Exact focused command and output:
+
+```powershell
+npx.cmd jest --runTestsByPath __tests__/ma-presentation-opening.test.tsx --runInBand
+```
+
+```text
+Test Suites: 1 passed, 1 total
+Tests:       14 passed, 14 total
+Snapshots:   0 total
+```
+
+Exact TypeScript command:
+
+```powershell
+npx.cmd tsc --noEmit --incremental false
+```
+
+Result: exit code 0 with no diagnostics.
+
+The focused Jest run continues to emit only the documented pre-existing duplicate `three` and `three-jsm` manual-mock warnings.
