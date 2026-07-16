@@ -26,7 +26,7 @@
 }
 
 .viewport [data-blue-surface="true"] {
-  border-width: 1.3px;
+  border-width: 1.5px;
   border-color: rgba(30, 123, 168, 0.65);
   background: transparent;
   box-shadow: none;
@@ -42,7 +42,7 @@
 }
 
 .viewport [data-wood-surface="true"] {
-  border-width: 1.3px;
+  border-width: 1.5px;
   border-color: rgba(144, 57, 0, 0.65);
   background: transparent;
   box-shadow: none;

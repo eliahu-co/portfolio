@@ -23,7 +23,7 @@ describe('MA presentation features', () => {
     expect(screen.getByRole('heading', { name: title })).toBeVisible()
     expect(screen.queryByRole('heading', { name: 'Loop' })).not.toBeInTheDocument()
     expect(container.querySelectorAll('img')).toHaveLength(1)
-    expect(container.querySelector('img')).toHaveClass('max-h-[470px]', 'w-auto')
+    expect(container.querySelector('img')).toHaveClass('max-h-[580px]', 'w-auto')
     const loop = container.querySelector(`[data-feature-loop="${title}"]`)!
     const loopStack = loop.querySelector('[data-feature-loop-stack="true"]')!
     const image = container.querySelector(`[data-feature-image="${title}"]`)!
