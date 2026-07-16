@@ -8,7 +8,7 @@ import { useDeckReset } from '../useDeckReset'
 import type { OpeningSlideProps } from './Slide01Cover'
 import { FlowArrow } from '../components/FlowArrow'
 
-const SURFACE_CLASSES = 'flex min-h-[96px] w-full items-center justify-center rounded-lg border border-[#1E7BA8]/30 bg-transparent px-4 py-3 text-center font-sans text-[16px] font-extrabold leading-snug text-[#0d3a5a] shadow-[0_3px_0_rgba(30,123,168,0.2)] transition-colors hover:bg-gradient-to-b hover:from-[#F0FAFE] hover:to-[#DBF1FC]'
+const SURFACE_CLASSES = 'flex min-h-[96px] w-full items-center justify-center rounded-lg border px-4 py-3 text-center font-sans text-[16px] font-extrabold leading-snug text-[#0d3a5a]'
 
 type DiagramInteraction = {
   hovered: boolean
@@ -37,6 +37,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                     type="button"
                     data-deck-interactive="true"
                     data-approach-pill="true"
+                    data-blue-surface="true"
                     aria-expanded={showDiagram}
                     aria-controls="approach-core-loop-diagram"
                     onMouseEnter={() => setInteraction((current) => ({ ...current, hovered: true }))}
@@ -48,7 +49,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                     {step.label}
                   </button>
                 ) : (
-                  <div data-approach-pill="true" className={SURFACE_CLASSES}>
+                  <div data-approach-pill="true" data-blue-surface="true" className={SURFACE_CLASSES}>
                     {step.label}
                   </div>
                 )}

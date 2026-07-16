@@ -25,6 +25,22 @@
   font-family: var(--font-cm-body), 'Nunito Sans', system-ui, sans-serif;
 }
 
+.viewport [data-blue-surface="true"] {
+  border-width: 1.3px;
+  border-color: rgba(30, 123, 168, 0.65);
+  background: transparent;
+  box-shadow: none;
+  transition:
+    background 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.viewport [data-blue-surface="true"]:hover,
+.viewport [data-blue-surface="true"]:focus-visible {
+  background: linear-gradient(to bottom, #f0fafe, #dbf1fc);
+  box-shadow: 0 2px 0 rgba(30, 123, 168, 0.16);
+}
+
 .stageFrame {
   position: relative;
   width: 100vw;
@@ -148,6 +164,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .slide {
+    transition: none;
+  }
+
+  .viewport [data-blue-surface="true"] {
     transition: none;
   }
 }

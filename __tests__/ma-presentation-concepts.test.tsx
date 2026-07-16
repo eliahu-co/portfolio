@@ -31,6 +31,7 @@ describe('MA presentation features', () => {
     expect(container.querySelectorAll('[data-feature-loop-arrow][data-flow-arrow="true"]')).toHaveLength(
       title === 'Hometown' ? 3 : 4,
     )
+    expect(loop.querySelectorAll('[data-blue-surface="true"]').length).toBeGreaterThan(0)
     expect(container.querySelector('[data-feature-frame="true"]')).not.toHaveClass('w-full')
     expect(container.querySelector('[data-feature-frame="true"]')).not.toHaveClass('px-4')
     expect(container.querySelectorAll('.border-l-4, .border-l-8')).toHaveLength(0)

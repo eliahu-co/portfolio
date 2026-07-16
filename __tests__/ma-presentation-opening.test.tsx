@@ -32,11 +32,9 @@ describe('MA presentation opening chapter', () => {
       expect(element).toHaveClass('motion-reduce:transition-none')
     })
     const brazil = screen.getByRole('button', { name: 'Brazil' })
-    expect(brazil).toHaveClass('bg-transparent', 'hover:bg-gradient-to-b')
-    expect(brazil).not.toHaveClass('bg-gradient-to-b')
+    expect(brazil).toHaveAttribute('data-blue-surface', 'true')
     container.querySelectorAll('[data-journey-surface="true"]').forEach((surface) => {
-      expect(surface).toHaveClass('border-[1.3px]', 'border-[rgba(30,123,168,0.65)]', 'bg-transparent', 'shadow-none', 'hover:bg-gradient-to-b', 'hover:shadow-[0_2px_0_rgba(30,123,168,0.16)]')
-      expect(surface).not.toHaveClass('bg-gradient-to-b')
+      expect(surface).toHaveAttribute('data-blue-surface', 'true')
     })
 
     fireEvent.mouseEnter(brazil)
@@ -71,8 +69,7 @@ describe('MA presentation opening chapter', () => {
     expect(approach.container.querySelectorAll('li')).toHaveLength(6)
     expect(approach.container.querySelectorAll('[data-approach-pill="true"]')).toHaveLength(6)
     approach.container.querySelectorAll('[data-approach-pill="true"]').forEach((pill) => {
-      expect(pill).toHaveClass('bg-transparent', 'hover:bg-gradient-to-b')
-      expect(pill).not.toHaveClass('bg-gradient-to-b')
+      expect(pill).toHaveAttribute('data-blue-surface', 'true')
     })
     expect(approach.container.querySelectorAll('svg[data-approach-connector="true"]')).toHaveLength(5)
     expect(approach.container.querySelectorAll('[data-approach-connector="true"][data-flow-arrow="true"]')).toHaveLength(5)

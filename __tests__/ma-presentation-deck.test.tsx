@@ -200,6 +200,12 @@ describe('MA presentation deck', () => {
     expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*font-weight:\s*500/)
     expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*letter-spacing:\s*0\.14em/)
     expect(stageCss).not.toMatch(/\.deckChrome button\s*{[^}]*min-height:/)
+    expect(stageCss).toMatch(/\[data-blue-surface="true"\]\s*{[^}]*border-width:\s*1\.3px/)
+    expect(stageCss).toMatch(/\[data-blue-surface="true"\]\s*{[^}]*border-color:\s*rgba\(30, 123, 168, 0\.65\)/)
+    expect(stageCss).toMatch(/\[data-blue-surface="true"\]\s*{[^}]*background:\s*transparent/)
+    expect(stageCss).toMatch(/\[data-blue-surface="true"\]\s*{[^}]*box-shadow:\s*none/)
+    expect(stageCss).toMatch(/\[data-blue-surface="true"\]:hover[\s\S]*?background:\s*linear-gradient/)
+    expect(stageCss).toMatch(/\[data-blue-surface="true"\]:hover[\s\S]*?box-shadow:\s*0 2px 0 rgba\(30, 123, 168, 0\.16\)/)
     expect(stageCss).toMatch(
       /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.slide\s*{[\s\S]*?transition:\s*none/,
     )
