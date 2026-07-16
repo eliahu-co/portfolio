@@ -22,6 +22,7 @@ import {
   slideRegistry,
 } from './slideRegistry'
 import styles from './PresentationStage.module.css'
+import { FlowArrow } from './components/FlowArrow'
 
 const STAGE_WIDTH = 1280
 const STAGE_HEIGHT = 720
@@ -204,7 +205,7 @@ export default function PresentationDeck() {
                   aria-label={`Previous: ${slideRegistry[current - 1].shortTitle}`}
                   onClick={() => navigate(current - 1)}
                 >
-                  <span aria-hidden="true">←</span>
+                  <FlowArrow direction="left" className="h-[12px] w-[18px]" />
                   {slideRegistry[current - 1].shortTitle}
                 </button>
               )}
@@ -220,7 +221,7 @@ export default function PresentationDeck() {
                   onClick={() => navigate(current + 1)}
                 >
                   {slideRegistry[current + 1].shortTitle}
-                  <span aria-hidden="true">→</span>
+                  <FlowArrow direction="right" className="h-[12px] w-[18px]" />
                 </button>
               )}
             </div>

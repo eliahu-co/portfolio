@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import Slide05ThreeBets from '@/app/MA-HomeAssignment/presentation/slides/Slide05ThreeBets'
 import Slide06Hometown from '@/app/MA-HomeAssignment/presentation/slides/Slide06HometownThesis'
 import Slide08CardBounty from '@/app/MA-HomeAssignment/presentation/slides/Slide08CardBountyThesis'
@@ -22,21 +22,38 @@ describe('MA presentation features', () => {
     const { container } = render(<Component slideKey="feature" />)
     expect(screen.getByRole('heading', { name: title })).toBeVisible()
     expect(container.querySelectorAll('img')).toHaveLength(1)
-    expect(container.querySelector('img')).toHaveClass('h-[285px]')
-    const regions = [
-      screen.getAllByRole('region', { name: `${title} loop` }),
-      screen.getAllByRole('region', { name: `${title} player motivation` }),
-      screen.getAllByRole('region', { name: `${title} risks` }),
-    ]
-    regions.forEach((region) => {
-      expect(region).toHaveLength(1)
-      expect(region[0]).not.toHaveClass('rounded-2xl')
-      expect(region[0]).not.toHaveClass('border')
-      expect(region[0]).not.toHaveClass('bg-white')
-    })
-    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+    expect(container.querySelector('img')).toHaveClass('max-h-[330px]', 'w-auto')
+    const loop = container.querySelector(`[data-feature-loop="${title}"]`)!
+    const image = container.querySelector(`[data-feature-image="${title}"]`)!
+    const reveal = container.querySelector(`[data-feature-reveal="${title}"]`)!
+    expect(loop.compareDocumentPosition(image) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(reveal).toHaveClass('opacity-0', 'pointer-events-none')
+    expect(container.querySelectorAll('[data-feature-loop-arrow][data-flow-arrow="true"]')).toHaveLength(
+      title === 'Hometown' ? 3 : 4,
+    )
+    expect(container.querySelector('[data-feature-frame="true"]')).not.toHaveClass('w-full')
+    expect(container.querySelector('[data-feature-frame="true"]')).not.toHaveClass('px-4')
+    expect(container.querySelectorAll('.border-l-4, .border-l-8')).toHaveLength(0)
+
+    const tradeoff = screen.getByRole('button', { name: 'Trade-off' })
+    expect(tradeoff).toHaveAttribute('aria-expanded', 'false')
+    fireEvent.click(tradeoff)
+    expect(tradeoff).toHaveAttribute('aria-expanded', 'true')
+    expect(reveal).toHaveClass('opacity-100')
+    expect(loop).toHaveClass('opacity-20')
+    expect(image).toHaveClass('opacity-20')
+    fireEvent.click(tradeoff)
+    expect(tradeoff).toHaveAttribute('aria-expanded', 'false')
 
     const layout = container.querySelector(`[data-feature-layout="${title}"]`)
-    expect(layout).toHaveClass('grid-cols-[0.82fr_0.9fr_1fr]')
+    expect(layout).toHaveClass('grid-cols-[1fr_0.78fr]')
+  })
+
+  it('resets a revealed trade-off when the slide key changes', () => {
+    const { rerender } = render(<Slide08CardBounty slideKey="feature-1" />)
+    fireEvent.click(screen.getByRole('button', { name: 'Trade-off' }))
+    expect(screen.getByRole('button', { name: 'Trade-off' })).toHaveAttribute('aria-expanded', 'true')
+    rerender(<Slide08CardBounty slideKey="feature-2" />)
+    expect(screen.getByRole('button', { name: 'Trade-off' })).toHaveAttribute('aria-expanded', 'false')
   })
 })

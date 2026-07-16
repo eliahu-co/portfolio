@@ -32,7 +32,7 @@ export default function Slide12Assumptions({ slideKey }: OpeningSlideProps) {
             onMouseLeave={() => setHovered(null)}
             onFocus={() => setFocused(index)}
             onBlur={() => setFocused(null)}
-            className={`border-cm-violet-deep pl-5 transition-opacity duration-300 motion-reduce:transition-none ${active !== null && active !== index ? 'opacity-20' : 'opacity-100'} ${index === 0 || index === ASSUMPTION_STORIES.length - 1 ? 'border-l-4' : 'border-l-8'}`}
+            className={`py-1 transition-opacity duration-300 motion-reduce:transition-none ${active !== null && active !== index ? 'opacity-20' : 'opacity-100'}`}
           >
             <p className="font-sans text-[18px] leading-relaxed text-[#1A1A1A]">{assumption}</p>
           </div>

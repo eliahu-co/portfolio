@@ -13,7 +13,7 @@ export default function Slide14Recommendation(_props: OpeningSlideProps) {
           <img src={CONCEPTS[1].mockup} alt="Card Bounty feature mockup" className="h-[320px] w-full object-contain" />
         </div>
         <div>
-          <p className="border-l-4 border-cm-gold pl-5 font-serif text-[24px] font-black leading-snug text-cm-violet-deep">
+          <p className="font-serif text-[24px] font-black leading-snug text-cm-violet-deep">
             Card Bounty extends familiar Chest and Collection behavior, creates additional Coin demand, and can be tested as a bounded LiveOps event.
           </p>
           <ol aria-label="Why Card Bounty wins" className="mt-5 space-y-2">

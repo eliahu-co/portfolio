@@ -26,7 +26,14 @@ describe('MA presentation primitives', () => {
     expect(screen.getByText('Every Chest advances visible progress.')).toBeVisible()
     expect(screen.getByTestId('shell'))
       .toHaveClass('bg-cm-cream', 'text-[16px]', 'px-20', 'pt-20', 'pb-16')
-    expect(screen.getByText('Decision')).toHaveClass('text-[12px]', 'mb-4')
+    expect(screen.getByText('Decision')).toHaveClass(
+      'text-[12px]',
+      'mb-1',
+      'font-medium',
+      'uppercase',
+      'tracking-[0.14em]',
+      'text-black',
+    )
   })
 
   it('allows the cover title to use a semantic level-one heading', () => {

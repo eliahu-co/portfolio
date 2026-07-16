@@ -7,7 +7,7 @@ export default function Slide04Economy(_props: OpeningSlideProps) {
     <SlideShell>
       <SlideTitle>Core loop and meta</SlideTitle>
       <div className="mt-6 flex min-h-0 flex-1 items-center justify-center">
-        <div className="w-full max-w-[840px]">
+        <div className="w-full max-w-[720px]">
           <CoreLoopDiagram />
         </div>
       </div>

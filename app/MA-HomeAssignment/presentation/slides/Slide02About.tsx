@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react'
 import { Eyebrow, SlideShell, SlideTitle } from '../primitives'
 import { useDeckReset } from '../useDeckReset'
 import type { OpeningSlideProps } from './Slide01Cover'
+import { FlowArrow } from '../components/FlowArrow'
 
 const TIMELINE = ['Brazil', 'Holland', 'Israel'] as const
 
@@ -98,16 +99,11 @@ export default function Slide02About({ slideKey }: OpeningSlideProps) {
                   </span>
                 )}
                 {index < TIMELINE.length - 1 && (
-                  <svg
+                  <FlowArrow
                     data-journey-connector="true"
                     className="absolute left-full top-1/2 h-[14px] w-5 -translate-y-1/2"
-                    viewBox="0 0 20 14"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <path d="M0 7 H20" stroke="rgba(30,123,168,0.45)" strokeWidth="1" />
-                    <path d="M15 2 L20 7 L15 12" stroke="rgba(30,123,168,0.45)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                    color="rgba(30,123,168,0.65)"
+                  />
                 )}
               </li>
             ))}

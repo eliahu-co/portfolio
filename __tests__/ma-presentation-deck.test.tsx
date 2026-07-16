@@ -204,6 +204,9 @@ describe('MA presentation deck', () => {
     expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*right:\s*80px/)
     expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*bottom:\s*48px/)
     expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*left:\s*80px/)
+    expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*color:\s*#000/)
+    expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*font-weight:\s*500/)
+    expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*letter-spacing:\s*0\.14em/)
     expect(stageCss).toMatch(
       /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.slide\s*{[\s\S]*?transition:\s*none/,
     )

@@ -66,7 +66,7 @@ export function Eyebrow({ children, className, ...props }: HTMLAttributes<HTMLPa
     <p
       {...props}
       className={classes(
-        'mb-4 font-sans text-[12px] font-extrabold uppercase tracking-[0.14em] text-cm-crimson',
+        'mb-1 font-sans text-[12px] font-medium uppercase tracking-[0.14em] text-black',
         className,
       )}
     >
@@ -153,7 +153,7 @@ export function StageCounter({
       role="status"
       aria-label={`Slide ${current} of ${safeTotal}`}
       className={classes(
-        'font-sans text-[12px] font-bold uppercase tabular-nums tracking-[0.12em] text-charcoal',
+        'font-sans text-[12px] font-medium uppercase tabular-nums tracking-[0.14em] text-black',
         className,
       )}
     >

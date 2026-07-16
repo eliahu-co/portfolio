@@ -1,6 +1,7 @@
 import { APPROACH_STEPS } from '../deckData'
 import { SlideShell, SlideTitle } from '../primitives'
 import type { OpeningSlideProps } from './Slide01Cover'
+import { FlowArrow } from '../components/FlowArrow'
 
 export default function Slide03Approach(_props: OpeningSlideProps) {
   return (
@@ -17,16 +18,11 @@ export default function Slide03Approach(_props: OpeningSlideProps) {
                 {step.label}
               </div>
               {index < APPROACH_STEPS.length - 1 && (
-                <svg
+                <FlowArrow
                   data-approach-connector="true"
                   className="absolute left-full top-1/2 h-[14px] w-5 -translate-y-1/2"
-                  viewBox="0 0 20 14"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path d="M0 7 H20" stroke="#1E7BA8" strokeWidth="1.5" />
-                  <path d="M15 2 L20 7 L15 12" stroke="#1E7BA8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                  color="#1E7BA8"
+                />
               )}
             </li>
           ))}

@@ -19,6 +19,7 @@ describe('MA presentation opening chapter', () => {
     expect(container.querySelectorAll('[data-journey-pill="true"]')).toHaveLength(3)
     expect(container.querySelectorAll('[data-journey-pill="true"].flex-1')).toHaveLength(3)
     expect(container.querySelectorAll('svg[data-journey-connector="true"]')).toHaveLength(2)
+    expect(container.querySelectorAll('[data-journey-connector="true"][data-flow-arrow="true"]')).toHaveLength(2)
     const facts = Array.from(container.querySelectorAll('[data-flat-fact="true"]'))
     expect(facts).toHaveLength(6)
     facts.forEach((fact) => {
@@ -61,6 +62,7 @@ describe('MA presentation opening chapter', () => {
     expect(approach.container.querySelectorAll('li')).toHaveLength(6)
     expect(approach.container.querySelectorAll('[data-approach-pill="true"]')).toHaveLength(6)
     expect(approach.container.querySelectorAll('svg[data-approach-connector="true"]')).toHaveLength(5)
+    expect(approach.container.querySelectorAll('[data-approach-connector="true"][data-flow-arrow="true"]')).toHaveLength(5)
     expect(approach.container.querySelector('[data-step-number]')).not.toBeInTheDocument()
     expect(screen.queryByText('Discovery to decision')).not.toBeInTheDocument()
     approach.unmount()
@@ -70,7 +72,7 @@ describe('MA presentation opening chapter', () => {
     const figure = economy.container.querySelector('figure')
     expect(figure).toBeInTheDocument()
     const diagramWrapper = figure?.parentElement
-    expect(diagramWrapper).toHaveClass('max-w-[840px]')
+    expect(diagramWrapper).toHaveClass('max-w-[720px]')
     expect(diagramWrapper).not.toHaveClass('max-h-[450px]', 'overflow-hidden')
     expect(diagramWrapper?.parentElement).not.toHaveClass('overflow-hidden')
     expect(screen.queryByText('Game model')).not.toBeInTheDocument()

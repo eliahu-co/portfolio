@@ -35,7 +35,12 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
               const selected = active?.metric === metric.metric
               const selection = { metric: metric.metric, help: metric.metricHelp }
               return (
-                <tr key={metric.metric} className={`border-b border-charcoal/15 ${group.emphasis ? 'bg-[linear-gradient(90deg,rgba(245,168,0,0.08),rgba(245,168,0,0.24),rgba(245,168,0,0.08))]' : ''}`}>
+                <tr
+                  key={metric.metric}
+                  data-metric-row={metric.metric}
+                  data-active-row={selected ? 'true' : 'false'}
+                  className={`border-b border-charcoal/15 transition-opacity duration-300 motion-reduce:transition-none ${active && !selected ? 'opacity-20' : 'opacity-100'} ${group.emphasis ? 'bg-[linear-gradient(90deg,rgba(245,168,0,0.08),rgba(245,168,0,0.24),rgba(245,168,0,0.08))]' : ''}`}
+                >
                   <td className="py-0 pr-4">
                     <button
                       type="button"
@@ -45,7 +50,7 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
                       onMouseLeave={() => setHovered(null)}
                       onFocus={() => setFocused(selection)}
                       onBlur={() => setFocused(null)}
-                      className={`min-h-6 w-full border-0 bg-transparent text-left font-sans text-[11px] font-medium text-cm-violet-deep ${selected ? 'font-black underline decoration-cm-gold decoration-3 underline-offset-4' : ''}`}
+                      className={`min-h-6 w-full border-0 bg-transparent text-left font-sans text-[11px] font-medium text-cm-violet-deep ${selected ? 'font-extrabold' : ''}`}
                     >
                       {metric.metric}
                     </button>
@@ -62,7 +67,7 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
         role="status"
         aria-label="Metric detail"
         data-active={active ? 'true' : 'false'}
-        className={`mt-1 min-h-[40px] border-l-4 border-cm-gold pl-4 font-sans text-[11px] leading-relaxed ${active ? 'font-bold text-cm-violet-deep' : 'text-charcoal'}`}
+        className={`mt-1 min-h-[40px] font-sans text-[11px] leading-relaxed ${active ? 'font-bold text-cm-violet-deep' : 'text-charcoal'}`}
       >
         {active ? (active.help ? TOOLTIP_NOTES[active.help] : `${active.metric} is used to explain whether the feature creates incremental value without damaging the core economy.`) : TOOLTIP_NOTES['test-methodology']}
       </div>

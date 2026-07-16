@@ -29,7 +29,7 @@ export function ConceptThesis({ concept, slideKey }: ConceptThesisProps) {
         <p className="mt-5 font-sans text-[23px] font-bold leading-snug text-[#1A1A1A]">
           {concept.thesis}
         </p>
-        <p className="mt-4 border-l-4 border-cm-gold pl-4 font-sans text-[16px] leading-relaxed text-charcoal">
+        <p className="mt-4 font-sans text-[16px] leading-relaxed text-charcoal">
           {concept.monetizationSummary}
         </p>
 

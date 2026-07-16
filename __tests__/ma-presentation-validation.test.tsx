@@ -37,10 +37,17 @@ describe('MA presentation validation chapter', () => {
     })
     const detail = screen.getByRole('status', { name: 'Metric detail' })
     expect(detail).toHaveClass('min-h-[40px]', 'text-[11px]')
+    expect(detail.className).not.toMatch(/border-l-/)
     expect(detail).toHaveTextContent(/Event duration/i)
     const metric = screen.getByRole('button', { name: /ARPDAU/i })
     fireEvent.focus(metric)
     expect(metric).toHaveAttribute('aria-expanded', 'true')
+    expect(metric).toHaveClass('font-extrabold')
+    const activeRow = metric.closest('tr')!
+    expect(activeRow).toHaveClass('opacity-100')
+    screen.getAllByRole('button').filter((button) => button !== metric).forEach((button) => {
+      expect(button.closest('tr')).toHaveClass('opacity-20')
+    })
     expect(detail).toHaveTextContent(/ARPDAU is used to explain/i)
     fireEvent.mouseEnter(metric)
     fireEvent.blur(metric)

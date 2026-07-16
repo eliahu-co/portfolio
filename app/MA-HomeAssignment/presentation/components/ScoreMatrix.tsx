@@ -32,6 +32,8 @@ const CRITERIA: ReadonlyArray<{
   { key: 'effort', index: 3, definition: CRITERIA_DEFS[3] },
 ]
 
+const MEDALS = ['🥇', '🥈', '🥉'] as const
+
 function classNames(...values: Array<string | false | null | undefined>): string {
   return values.filter(Boolean).join(' ')
 }
@@ -169,7 +171,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                     data-active={columnIsActive ? 'true' : 'false'}
                     className={classNames(
                       'w-[16%] px-2 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-[background-color] duration-300 motion-reduce:transition-none',
-                      columnIsActive && 'bg-[#1E7BA8]/10',
+                      columnIsActive && 'bg-cm-gold/45',
                     )}
                   >
                     {definition.title}
@@ -182,7 +184,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                 data-active={active?.criterion === 'total' ? 'true' : 'false'}
                 className={classNames(
                   'w-[16%] px-3 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-[background-color] duration-300 motion-reduce:transition-none',
-                  active?.criterion === 'total' && 'bg-[#1E7BA8]/10',
+                  active?.criterion === 'total' && 'bg-cm-gold/45',
                 )}
               >
                 Total
@@ -201,9 +203,9 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                   data-winner-band={row.winner ? 'true' : 'false'}
                   data-active-row={rowIsActive ? 'true' : 'false'}
                   className={classNames(
-                    'border-b border-charcoal/15 transition-[background-color] duration-300 motion-reduce:transition-none last:border-b-0',
+                    'border-b border-charcoal/15 transition-[background-color,opacity] duration-300 motion-reduce:transition-none last:border-b-0',
                     row.winner && !active && 'bg-cm-gold/20',
-                    rowIsActive && 'shadow-[inset_3px_0_0_#1E7BA8]',
+                    active && !rowIsActive ? 'opacity-20' : 'opacity-100',
                   )}
                 >
                   <th
@@ -214,7 +216,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                     )}
                   >
                     <span className="flex items-center gap-2">
-                      {row.winner && <span aria-hidden="true" className="text-cm-crimson">★</span>}
+                      <span data-rank-medal="true" aria-hidden="true">{MEDALS[rowIndex]}</span>
                       {row.winner && <span className="sr-only">Recommended winner: </span>}
                       {row.useCase}
                     </span>
@@ -230,15 +232,15 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                         data-active={columnIsActive ? 'true' : 'false'}
                         className={classNames(
                           'px-2 py-2 text-center transition-[background-color] duration-300 motion-reduce:transition-none',
-                          columnIsActive && 'bg-[#1E7BA8]/10',
+                          columnIsActive && 'bg-cm-gold/45',
                         )}
                       >
                         <button
                           {...scoreControlProps(rowIndex, key)}
                           aria-label={`${row.useCase}: ${definition.title} score ${score}`}
                           className={classNames(
-                            'mx-auto grid h-11 w-12 place-items-center border-0 bg-transparent font-sans text-[19px] font-medium tabular-nums text-charcoal hover:text-cm-crimson focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-[#1E7BA8]',
-                            cellIsActive && 'font-black text-cm-crimson underline decoration-cm-gold decoration-4 underline-offset-4',
+                            'mx-auto grid h-11 w-12 place-items-center border-0 bg-transparent font-sans text-[18px] font-medium tabular-nums text-charcoal transition-[font-size,color] duration-300 motion-reduce:transition-none hover:text-cm-crimson focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-[#1E7BA8]',
+                            cellIsActive && 'text-[20px] font-black text-cm-crimson',
                           )}
                         >
                           {score}
@@ -250,15 +252,15 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                     data-active={active?.criterion === 'total' ? 'true' : 'false'}
                     className={classNames(
                       'px-3 py-2 text-center transition-[background-color] duration-300 motion-reduce:transition-none',
-                      active?.criterion === 'total' && 'bg-[#1E7BA8]/10',
+                      active?.criterion === 'total' && 'bg-cm-gold/45',
                     )}
                   >
                     <button
                       {...scoreControlProps(rowIndex, 'total')}
                       aria-label={`${row.useCase}: total opportunity score ${Math.round(row.total)}`}
                       className={classNames(
-                        'mx-auto grid h-11 min-w-14 place-items-center border-0 bg-transparent px-2 font-sans text-[20px] font-black tabular-nums text-cm-crimson hover:text-cm-violet-deep focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-[#1E7BA8]',
-                        active?.row === rowIndex && active.criterion === 'total' && 'underline decoration-cm-gold decoration-4 underline-offset-4',
+                        'mx-auto grid h-11 w-12 place-items-center border-0 bg-transparent font-sans text-[18px] font-black tabular-nums text-cm-crimson transition-[font-size,color] duration-300 motion-reduce:transition-none hover:text-cm-violet-deep focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-[#1E7BA8]',
+                        active?.row === rowIndex && active.criterion === 'total' && 'text-[20px] font-black',
                       )}
                     >
                       {Math.round(row.total)}
@@ -279,10 +281,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
           id="comparative-score-detail"
           role="status"
           aria-label="Score detail"
-          className={classNames(
-            'h-[144px] overflow-hidden border-l-4 pl-5 font-sans text-[13px] leading-snug text-[#1A1A1A] transition-[border-color] duration-300 motion-reduce:transition-none',
-            active ? 'border-cm-gold' : 'border-transparent',
-          )}
+          className="h-[144px] overflow-hidden font-sans text-[13px] leading-snug text-[#1A1A1A]"
         >
           {active ? <ExactRationale active={active} /> : <DefaultScoreDetail />}
         </section>
