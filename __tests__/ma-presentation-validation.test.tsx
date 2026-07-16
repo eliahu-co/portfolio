@@ -2,19 +2,35 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import Slide18ExperimentDesign from '@/app/MA-HomeAssignment/presentation/slides/Slide18ExperimentDesign'
 import Slide19Metrics from '@/app/MA-HomeAssignment/presentation/slides/Slide19Metrics'
 import Slide21ThankYou from '@/app/MA-HomeAssignment/presentation/slides/Slide21ThankYou'
+import { METRIC_GROUPS, PROTOCOL } from '@/app/MA-HomeAssignment/content/validation'
 
 describe('MA presentation validation chapter', () => {
   it('shows the comparable control, treatment, population, and hypothesis', () => {
-    render(<Slide18ExperimentDesign slideKey="slide-15" />)
+    const { container } = render(<Slide18ExperimentDesign slideKey="slide-15" />)
     expect(screen.getByRole('heading', { name: 'Card Bounty validation' })).toBeVisible()
-    expect(screen.getByText('Control')).toBeVisible()
-    expect(screen.getByText('Treatment')).toBeVisible()
-    expect(screen.getByText(/Hypothesis/i)).toBeVisible()
+    PROTOCOL.forEach(({ label, body }) => {
+      expect(screen.getByRole('heading', { name: label })).toBeVisible()
+      expect(screen.getByText(body)).toBeVisible()
+    })
+
+    const sections = Array.from(container.querySelectorAll('[data-protocol-section]'))
+    expect(sections).toHaveLength(PROTOCOL.length)
+    sections.forEach((section) => {
+      expect(section.className).toMatch(/border-t/)
+      expect(section.className).not.toMatch(/rounded|shadow|\bbg-/)
+    })
   })
 
   it('keeps ARPDAU dominant and reveals metric methodology', () => {
     render(<Slide19Metrics slideKey="slide-16" />)
     expect(screen.getByRole('heading', { name: 'ARPDAU leads the decision' })).toBeVisible()
+    const canonicalMetrics = METRIC_GROUPS.flatMap((group) => group.metrics)
+    expect(screen.getAllByRole('button')).toHaveLength(canonicalMetrics.length)
+    canonicalMetrics.forEach(({ metric, target, mutedTarget }) => {
+      const row = screen.getByRole('button', { name: metric }).closest('tr')
+      expect(row).toHaveTextContent(target)
+      if (mutedTarget) expect(row).toHaveTextContent(mutedTarget)
+    })
     const detail = screen.getByRole('status', { name: 'Metric detail' })
     expect(detail).toHaveTextContent(/Event duration/i)
     const metric = screen.getByRole('button', { name: /ARPDAU/i })
@@ -38,9 +54,16 @@ describe('MA presentation validation chapter', () => {
   })
 
   it('closes with plain same-deck chapter links', () => {
-    render(<Slide21ThankYou slideKey="slide-17" />)
+    const { container } = render(<Slide21ThankYou slideKey="slide-17" />)
     expect(screen.getByRole('heading', { name: 'Thank you' })).toBeVisible()
     expect(screen.getByRole('link', { name: 'Decision' })).toHaveAttribute('href', '#slide-10')
     expect(screen.getByRole('link', { name: 'Validation' })).toHaveAttribute('href', '#slide-15')
+    expect(container.querySelector('img, svg')).not.toBeInTheDocument()
+    expect(container.querySelector('[data-closing-message="true"]')).toHaveTextContent(/recommend Card Bounty/i)
+
+    screen.getAllByRole('link').forEach((link) => {
+      expect(link.className).not.toMatch(/rounded-full|\bbg-|(?:^|\s)border(?:\s|$)/)
+      expect(link.className).toMatch(/underline|border-b/)
+    })
   })
 })

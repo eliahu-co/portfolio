@@ -7,7 +7,10 @@ export default function Slide15PlayerFlow(_props: OpeningSlideProps) {
     <SlideShell className="!py-8">
       <Eyebrow>Expanded feature</Eyebrow>
       <SlideTitle className="text-[46px]">Card Bounty player flow</SlideTitle>
-      <div className="mt-4 h-[530px] overflow-hidden">
+      <div
+        data-source-component="player-flow"
+        className="mx-auto mt-4 h-[520px] max-h-[520px] w-full max-w-[1120px] overflow-hidden"
+      >
         <div className="w-[125%] origin-top-left scale-[0.8]">
           <PlayerFlow />
         </div>

@@ -7,7 +7,12 @@ export default function Slide17Prototype(_props: OpeningSlideProps) {
     <SlideShell className="!py-8">
       <Eyebrow>Prototype</Eyebrow>
       <SlideTitle className="text-[48px]">Card Bounty, interactive</SlideTitle>
-      <div className="mx-auto mt-5 w-full max-w-[900px]"><PrototypePreview /></div>
+      <div
+        data-source-component="prototype-preview"
+        className="mx-auto mt-5 max-h-[500px] w-full max-w-[900px] overflow-hidden"
+      >
+        <PrototypePreview />
+      </div>
     </SlideShell>
   )
 }

@@ -2,19 +2,34 @@ import { render, screen } from '@testing-library/react'
 import Slide15PlayerFlow from '@/app/MA-HomeAssignment/presentation/slides/Slide15PlayerFlow'
 import Slide16MvpScope from '@/app/MA-HomeAssignment/presentation/slides/Slide16MvpScope'
 import Slide17Prototype from '@/app/MA-HomeAssignment/presentation/slides/Slide17Prototype'
+import { SCOPE_IN, SCOPE_OUT } from '@/app/MA-HomeAssignment/content/mvp'
 
 describe('MA presentation Card Bounty deep dive', () => {
   it('reuses the original player flow diagram', () => {
     const { container } = render(<Slide15PlayerFlow slideKey="slide-12" />)
     expect(screen.getByRole('heading', { name: 'Card Bounty player flow' })).toBeVisible()
     expect(container.querySelector('#player-flow')).toBeInTheDocument()
+
+    const sourceFrame = container.querySelector('[data-source-component="player-flow"]')
+    expect(sourceFrame).toHaveClass('max-w-[1120px]', 'max-h-[520px]', 'overflow-hidden')
+    expect(sourceFrame).toContainElement(container.querySelector('#player-flow'))
   })
 
   it('shows a flat MVP in/out scope', () => {
-    render(<Slide16MvpScope slideKey="slide-13" />)
+    const { container } = render(<Slide16MvpScope slideKey="slide-13" />)
     expect(screen.getByRole('heading', { name: 'Scope' })).toBeVisible()
     expect(screen.getByRole('heading', { name: 'In scope' })).toBeVisible()
     expect(screen.getByRole('heading', { name: 'Out of scope' })).toBeVisible()
+
+    const columns = Array.from(container.querySelectorAll('[data-scope-column]'))
+    expect(columns).toHaveLength(2)
+    expect(columns.map((column) => column.querySelectorAll('li').length)).toEqual([
+      SCOPE_IN.length,
+      SCOPE_OUT.length,
+    ])
+    columns.forEach((column) => {
+      expect(column.className).not.toMatch(/rounded|shadow|\bbg-|\bborder\b/)
+    })
   })
 
   it('reuses the original interactive prototype preview', () => {
@@ -22,5 +37,9 @@ describe('MA presentation Card Bounty deep dive', () => {
     expect(screen.getByRole('heading', { name: 'Card Bounty, interactive' })).toBeVisible()
     expect(container.querySelector('img[src="/coinmaster/prototype.webp"]')).toBeInTheDocument()
     expect(container.querySelector('[data-prototype-cta="true"]')).toBeInTheDocument()
+
+    const sourceFrame = container.querySelector('[data-source-component="prototype-preview"]')
+    expect(sourceFrame).toHaveClass('max-w-[900px]', 'max-h-[500px]', 'overflow-hidden')
+    expect(sourceFrame?.className).not.toMatch(/rounded|shadow|transition|animate|\bbg-|\bborder\b/)
   })
 })

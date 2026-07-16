@@ -3,7 +3,14 @@ import { Eyebrow, SlideShell, SlideTitle } from '../primitives'
 import type { OpeningSlideProps } from './Slide01Cover'
 
 function ProtocolText({ label, body }: { label: string; body: string }) {
-  return <div><h3 className="font-sans text-[12px] font-extrabold uppercase tracking-[0.12em] text-cm-crimson">{label}</h3><p className="mt-2 font-sans text-[18px] leading-relaxed text-[#1A1A1A]">{body}</p></div>
+  return (
+    <section data-protocol-section={label} className="border-t-2 border-cm-wood/25 pt-4">
+      <h3 className="font-sans text-[12px] font-extrabold uppercase tracking-[0.12em] text-cm-crimson">
+        {label}
+      </h3>
+      <p className="mt-2 font-sans text-[18px] leading-relaxed text-[#1A1A1A]">{body}</p>
+    </section>
+  )
 }
 
 export default function Slide18ExperimentDesign(_props: OpeningSlideProps) {
@@ -14,7 +21,7 @@ export default function Slide18ExperimentDesign(_props: OpeningSlideProps) {
       <SlideTitle className="text-[48px]">Card Bounty validation</SlideTitle>
       <div className="mt-8 max-w-[1120px]">
         <ProtocolText {...population} />
-        <div className="my-7 grid grid-cols-2 gap-12 border-y-2 border-cm-wood/25 py-7">
+        <div className="my-7 grid grid-cols-2 gap-12">
           <ProtocolText {...control} />
           <ProtocolText {...treatment} />
         </div>
