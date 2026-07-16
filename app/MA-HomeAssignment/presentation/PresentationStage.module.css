@@ -70,7 +70,10 @@
 }
 
 .flowDetailRail,
-.scopeScreenBoard {
+.scopeScreenBoard,
+.experimentScreenBoard,
+.metricScreenBoard,
+.followUpScreenBoard {
   display: block;
 }
 
@@ -156,6 +159,12 @@
     display: none !important;
   }
 
+  .experimentScreenBoard,
+  .metricScreenBoard,
+  .followUpScreenBoard {
+    display: none !important;
+  }
+
   .printDetails.flowPrintSummary {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -165,6 +174,24 @@
   .printDetails.scopePrintGrid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .printDetails.experimentPrintSummary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .printDetails.metricPrintSummary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .printDetails.followUpPrintSummary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
   }
 }
