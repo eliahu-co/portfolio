@@ -16,7 +16,7 @@ describe('MA presentation opening chapter', () => {
     expect(screen.getByText('Product Manager')).toBeVisible()
     expect(screen.queryByText('Architect, Product Manager')).not.toBeInTheDocument()
     expect(container.querySelectorAll('[data-ma-photo-frame="true"] img[alt="Eliahu and family"]')).toHaveLength(1)
-    expect(container.querySelector('[data-ma-photo-frame="true"]')).not.toHaveClass('bg-white', 'p-1')
+    expect(container.querySelector('[data-ma-photo-frame="true"]')).not.toHaveClass('bg-white', 'p-1', 'shadow-[0_3px_0_rgba(144,57,0,0.28)]')
     expect(container.querySelectorAll('[data-journey-pill="true"]')).toHaveLength(3)
     expect(container.querySelectorAll('[data-journey-pill="true"].flex-1')).toHaveLength(3)
     expect(container.querySelectorAll('svg[data-journey-connector="true"]')).toHaveLength(2)
@@ -35,7 +35,7 @@ describe('MA presentation opening chapter', () => {
     expect(brazil).toHaveClass('bg-transparent', 'hover:bg-gradient-to-b')
     expect(brazil).not.toHaveClass('bg-gradient-to-b')
     container.querySelectorAll('[data-journey-surface="true"]').forEach((surface) => {
-      expect(surface).toHaveClass('border-[1px]', 'bg-transparent', 'shadow-none', 'hover:bg-gradient-to-b', 'hover:shadow-[0_2px_0_rgba(30,123,168,0.16)]')
+      expect(surface).toHaveClass('border-[1.3px]', 'bg-transparent', 'shadow-none', 'hover:bg-gradient-to-b', 'hover:shadow-[0_2px_0_rgba(30,123,168,0.16)]')
       expect(surface).not.toHaveClass('bg-gradient-to-b')
     })
 

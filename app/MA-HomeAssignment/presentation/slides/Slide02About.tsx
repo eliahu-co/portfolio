@@ -61,7 +61,7 @@ export default function Slide02About({ slideKey }: OpeningSlideProps) {
       <div className="mt-8 grid min-h-0 flex-1 grid-cols-[320px_1fr] items-stretch gap-10">
         <figure
           data-ma-photo-frame="true"
-          className="self-start overflow-hidden rounded-2xl border-2 border-cm-wood/50 shadow-[0_3px_0_rgba(144,57,0,0.28)]"
+          className="self-start overflow-hidden rounded-2xl border-2 border-cm-wood/50"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -90,12 +90,12 @@ export default function Slide02About({ slideKey }: OpeningSlideProps) {
                     onMouseLeave={() => setInteraction((current) => ({ ...current, hovered: false }))}
                     onFocus={() => setInteraction((current) => ({ ...current, focused: true }))}
                     onBlur={() => setInteraction((current) => ({ ...current, focused: false }))}
-                    className="min-h-11 w-full rounded-lg border-[1px] border-[#1E7BA8]/30 bg-transparent px-5 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a] shadow-none transition-[background-color,box-shadow] hover:bg-gradient-to-b hover:from-[#F0FAFE] hover:to-[#DBF1FC] hover:shadow-[0_2px_0_rgba(30,123,168,0.16)] focus-visible:bg-gradient-to-b focus-visible:from-[#F0FAFE] focus-visible:to-[#DBF1FC] focus-visible:shadow-[0_2px_0_rgba(30,123,168,0.16)] focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
+                    className="min-h-11 w-full rounded-lg border-[1.3px] border-[#1E7BA8]/30 bg-transparent px-5 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a] shadow-none transition-[background-color,box-shadow] hover:bg-gradient-to-b hover:from-[#F0FAFE] hover:to-[#DBF1FC] hover:shadow-[0_2px_0_rgba(30,123,168,0.16)] focus-visible:bg-gradient-to-b focus-visible:from-[#F0FAFE] focus-visible:to-[#DBF1FC] focus-visible:shadow-[0_2px_0_rgba(30,123,168,0.16)] focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
                   >
                     {place}
                   </button>
                 ) : (
-                  <span data-journey-surface="true" className="inline-flex min-h-11 w-full items-center justify-center rounded-lg border-[1px] border-[#1E7BA8]/30 bg-transparent px-5 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a] shadow-none transition-[background-color,box-shadow] hover:bg-gradient-to-b hover:from-[#F0FAFE] hover:to-[#DBF1FC] hover:shadow-[0_2px_0_rgba(30,123,168,0.16)]">
+                  <span data-journey-surface="true" className="inline-flex min-h-11 w-full items-center justify-center rounded-lg border-[1.3px] border-[#1E7BA8]/30 bg-transparent px-5 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a] shadow-none transition-[background-color,box-shadow] hover:bg-gradient-to-b hover:from-[#F0FAFE] hover:to-[#DBF1FC] hover:shadow-[0_2px_0_rgba(30,123,168,0.16)]">
                     {place}
                   </span>
                 )}
