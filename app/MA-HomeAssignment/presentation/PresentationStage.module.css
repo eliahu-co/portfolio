@@ -1,0 +1,300 @@
+.viewport {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  background: #fff9ee;
+  font-family: var(--font-cm-body), 'Nunito Sans', system-ui, sans-serif;
+}
+
+.viewport,
+.viewport * {
+  cursor: auto !important;
+}
+
+.viewport button,
+.viewport a {
+  cursor: pointer !important;
+}
+
+.viewport :global(.font-serif) {
+  font-family: var(--font-cm-display), 'Nunito', ui-rounded, sans-serif;
+}
+
+.viewport :global(.font-sans) {
+  font-family: var(--font-cm-body), 'Nunito Sans', system-ui, sans-serif;
+}
+
+.viewport [data-blue-surface="true"] {
+  border-width: 1.5px;
+  border-color: rgba(30, 123, 168, 0.65);
+  background: transparent;
+  box-shadow: none;
+  transition:
+    background 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.viewport [data-blue-surface="true"]:hover,
+.viewport [data-blue-surface="true"]:focus-visible {
+  background: linear-gradient(to bottom, #f0fafe, #dbf1fc);
+  box-shadow: 0 2px 0 rgba(30, 123, 168, 0.16);
+}
+
+.viewport [data-wood-surface="true"] {
+  border-width: 1.5px;
+  border-color: rgba(144, 57, 0, 0.65);
+  background: transparent;
+  box-shadow: none;
+  transition:
+    background 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.viewport [data-wood-surface="true"]:hover,
+.viewport [data-wood-surface="true"]:focus-visible {
+  background: linear-gradient(to bottom, #ffe9c4, #ffdca3);
+  box-shadow: 0 2px 0 rgba(144, 57, 0, 0.3);
+}
+
+.stageFrame {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff9ee;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease;
+}
+
+.activeSlide {
+  z-index: 2;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.inactiveSlide {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.deckChrome {
+  position: absolute;
+  z-index: 20;
+  right: 0;
+  bottom: 80px;
+  left: 0;
+  display: grid;
+  height: 18px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 80px;
+  box-sizing: border-box;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-rows: 18px;
+  align-items: center;
+  gap: 24px;
+  pointer-events: none;
+}
+
+.deckChrome button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  pointer-events: auto;
+  text-transform: uppercase;
+}
+
+.deckChrome p {
+  line-height: 1.5;
+}
+
+.deckChrome svg {
+  display: block;
+}
+
+.deckChrome button:focus-visible {
+  outline: 4px solid #1e7ba8;
+  outline-offset: 3px;
+}
+
+.previousControl,
+.nextControl {
+  display: flex;
+  height: 18px;
+  align-items: center;
+}
+
+.previousControl {
+  justify-self: start;
+}
+
+.nextControl {
+  justify-self: end;
+}
+
+.focusRing:focus-visible {
+  outline: 4px solid #1e7ba8;
+  outline-offset: 4px;
+}
+
+.printDetails {
+  display: none;
+}
+
+.screenOnly {
+  display: initial;
+}
+
+.flowDetailRail,
+.scopeScreenBoard,
+.experimentScreenBoard,
+.metricScreenBoard,
+.followUpScreenBoard {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide {
+    transition: none;
+  }
+
+  .viewport [data-blue-surface="true"],
+  .viewport [data-wood-surface="true"] {
+    transition: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .deckChrome {
+    bottom: 64px;
+    padding: 0 48px;
+  }
+}
+
+@page {
+  size: 13.333333in 7.5in;
+  margin: 0;
+}
+
+@media print {
+  .viewport {
+    position: static;
+    display: block;
+    overflow: visible;
+    width: auto;
+    height: auto;
+    background: #fff;
+  }
+
+  .stageFrame,
+  .stage {
+    display: block;
+    overflow: visible;
+    width: 1280px;
+    height: auto;
+    transform: none;
+  }
+
+  .slide,
+  .activeSlide,
+  .inactiveSlide {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    display: block;
+    width: 1280px;
+    height: 720px;
+    opacity: 1;
+    pointer-events: auto;
+    break-after: page;
+  }
+
+  .slide:last-child {
+    break-after: auto;
+  }
+
+  .desktopNotice,
+  .screenOnly,
+  .deckChrome {
+    display: none !important;
+  }
+
+  .printDetails {
+    display: block;
+  }
+
+  .printDetails.scorePrintGrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .flowDetailRail {
+    display: none !important;
+  }
+
+  .scopeScreenBoard {
+    display: none !important;
+  }
+
+  .experimentScreenBoard,
+  .metricScreenBoard,
+  .followUpScreenBoard {
+    display: none !important;
+  }
+
+  .printDetails.flowPrintSummary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .printDetails.scopePrintGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .printDetails.experimentPrintSummary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .printDetails.metricPrintSummary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .printDetails.followUpPrintSummary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+}

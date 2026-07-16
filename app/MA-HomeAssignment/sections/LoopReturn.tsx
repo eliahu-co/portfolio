@@ -13,7 +13,13 @@ const STROKE = 'rgba(30,123,168,0.55)' // matches the current-lane connectors
 const W = 18                            // how far the loop bows into the right gutter
 const X = W - 6                         // x of the vertical run
 
-export default function LoopReturn() {
+export default function LoopReturn({
+  color = STROKE,
+  strokeWidth = 1.3,
+}: {
+  color?: string
+  strokeWidth?: number
+} = {}) {
   const svgRef = useRef<SVGSVGElement>(null)
   const [geo, setGeo] = useState<{ h: number; yFirst: number; yLast: number } | null>(null)
 
@@ -42,27 +48,35 @@ export default function LoopReturn() {
   return (
     <svg
       ref={svgRef}
+      data-loop-return="true"
+      data-flow-arrow="true"
       className="pointer-events-none absolute top-0 left-full"
       width={W}
       height={geo?.h ?? 0}
       style={{ overflow: 'visible' }}
       aria-hidden="true"
     >
-      <defs>
-        <marker id="loop-return-arrow" viewBox="0 0 12 12" refX="8" refY="6" markerWidth="9" markerHeight="9" orient="auto">
-          <path d="M3.5,2.5 L8,6 L3.5,9.5" fill="none" stroke={STROKE} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-        </marker>
-      </defs>
       {geo && (
-        <path
-          d={`M0,${geo.yLast} H${X} V${geo.yFirst} H0`}
-          fill="none"
-          stroke={STROKE}
-          strokeWidth="1.3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          markerEnd="url(#loop-return-arrow)"
-        />
+        <>
+          <path
+            data-loop-return-shaft="true"
+            d={`M0,${geo.yLast} H${X} V${geo.yFirst} H0`}
+            fill="none"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            data-loop-return-head="true"
+            d={`M5,${geo.yFirst - 5} L0,${geo.yFirst} L5,${geo.yFirst + 5}`}
+            fill="none"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </>
       )}
     </svg>
   )

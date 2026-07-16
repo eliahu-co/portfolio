@@ -2,90 +2,16 @@
 
 import { createPortal } from 'react-dom'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  ADDITIONAL_TESTS,
+  METRIC_GROUPS,
+  PROTOCOL,
+  TOOLTIP_LABELS,
+  TOOLTIP_NOTES,
+  type MetricRole,
+  type TooltipKey,
+} from '../content/validation'
 import Section, { Eyebrow } from './Section'
-
-const PROTOCOL = [
-  {
-    label: 'Population',
-    body: 'Players with the Cards Center unlocked and at least one eligible missing Card.',
-  },
-  {
-    label: 'Control',
-    body: 'Existing Cards Center.',
-  },
-  {
-    label: 'Treatment',
-    body: 'Existing Cards Center with Card Bounty as a time-limited LiveOps event.',
-  },
-  {
-    label: 'Hypothesis',
-    body: 'A visible meter that advances with each Chest purchased and guarantees a chosen missing Card will increase Coin consumption, driving demand for existing Spin and Coin offers and lifting ARPDAU.',
-  },
-]
-
-type MetricRole = 'Monetization' | 'Economy' | 'Feature funnel'
-type ValidationMetric = {
-  metric: string
-  target: string
-  mutedTarget?: string
-  role?: MetricRole
-  metricHelp?: TooltipKey
-}
-type ValidationGroup = {
-  title: 'Primary metric' | 'Supporting metrics' | 'Guardrails'
-  metrics: ValidationMetric[]
-  emphasis?: 'north-star'
-}
-
-const METRIC_GROUPS: ValidationGroup[] = [
-  {
-    title: 'Primary metric',
-    emphasis: 'north-star',
-    metrics: [{ metric: 'ARPDAU', target: 'lift', mutedTarget: '≥5%' }],
-  },
-  {
-    title: 'Supporting metrics',
-    metrics: [
-      {
-        metric: 'ARPPU by payer tier',
-        role: 'Monetization',
-        target: 'lift',
-        mutedTarget: '≥5% overall and ≥8% at high-spender cohort',
-        metricHelp: 'arppu-payer-tier',
-      },
-      { metric: 'Coin spend on Chests per DAU', role: 'Economy', target: 'lift', mutedTarget: '≥10%' },
-      { metric: 'Total Coin Consumption per DAU', role: 'Economy', target: 'lift', mutedTarget: '≥5%' },
-      {
-        metric: 'Target Selection Rate',
-        role: 'Feature funnel',
-        target: 'adoption',
-        mutedTarget: '≥30% of eligible DAU',
-      },
-      {
-        metric: 'First-Chest Conversion',
-        role: 'Feature funnel',
-        target: 'activation',
-        mutedTarget: '≥65% of players who adopted',
-      },
-      {
-        metric: 'Bounty Completion Rate',
-        role: 'Feature funnel',
-        target: 'balanced completion',
-        mutedTarget: '10–20% of players who activated',
-        metricHelp: 'feature-funnel',
-      },
-    ],
-  },
-  {
-    title: 'Guardrails',
-    metrics: [
-      { metric: 'Card Collections Completed per Player', target: 'stable or small lift', mutedTarget: '≤115%', metricHelp: 'collections-completed' },
-      { metric: 'Village Upgrades per Player', target: 'stable', mutedTarget: '≥95%', metricHelp: 'village-upgrades' },
-      { metric: 'Post-Event Coin Spend on Chests per Player', target: 'stable', mutedTarget: '≥95%', metricHelp: 'post-event-chest-spend' },
-      { metric: 'Post-Event Revenue per Player', target: 'stable', mutedTarget: '≥98%', metricHelp: 'post-event-revenue' },
-    ],
-  },
-]
 
 const ROLE_CLASSES: Record<MetricRole, string> = {
   Monetization: 'border-cm-wood/30 bg-cm-gold/10 text-cm-wood/80',
@@ -93,52 +19,6 @@ const ROLE_CLASSES: Record<MetricRole, string> = {
   'Feature funnel': 'border-cm-violet-deep/20 bg-cm-violet-deep/5 text-cm-violet-deep/80',
 }
 
-type TooltipKey =
-  | 'test-methodology'
-  | 'feature-funnel'
-  | 'arppu-payer-tier'
-  | 'collections-completed'
-  | 'village-upgrades'
-  | 'post-event-chest-spend'
-  | 'post-event-revenue'
-
-const TOOLTIP_NOTES: Record<TooltipKey, string> = {
-  'test-methodology': 'Event duration, post-event measurement window and target numbers (currently directional) would be calibrated using internal data and comparable LiveOps events.',
-  'feature-funnel': 'Ensures the guarantee provides value without becoming too easy.',
-  'arppu-payer-tier': 'Shows whether revenue lift comes from deeper payer spend and which tiers drive it.',
-  'collections-completed': 'Detects excessive acceleration of Collection completion and reward release.',
-  'village-upgrades': 'Detects whether additional Chest spending cannibalizes core Village progression.',
-  'post-event-chest-spend': 'Detects whether the event shifts Chest spend rather than lifting it.',
-  'post-event-revenue': 'Confirms that event revenue is not offset by lower revenue afterward.',
-}
-
-const TOOLTIP_LABELS: Record<TooltipKey, string> = {
-  'test-methodology': 'About A/B Test methodology',
-  'feature-funnel': 'About Feature funnel',
-  'arppu-payer-tier': 'About ARPPU by payer tier',
-  'collections-completed': 'About Card Collections Completed per Player',
-  'village-upgrades': 'About Village Upgrades per Player',
-  'post-event-chest-spend': 'About Post-Event Coin Spend on Chests per Player',
-  'post-event-revenue': 'About Post-Event Revenue per Player',
-}
-
-const ADDITIONAL_TESTS = [
-  {
-    title: 'Meter Goal Calibration',
-    setup: 'Compare the baseline meter requirement with a lower requirement.',
-    outcome: 'Tests whether a more attainable goal increases Chest spend without accelerating Collection completion too far.',
-  },
-  {
-    title: 'Paid Progress Carryover',
-    setup: 'Players who obtain their target before filling the meter can select another target. Control resets the meter; treatment also allows players to spend Gems to carry existing progress to the new target.',
-    outcome: 'Tests whether preserving earned progress creates incremental Gem spend without reducing continued participation or accelerating Collection completion too far.',
-  },
-  {
-    title: 'Chest Tier Weighting',
-    setup: 'Keep all Chest contributions unchanged except the Magical Chest contribution.',
-    outcome: 'Tests whether greater progress from the highest-value Chest shifts Coin spend toward it.',
-  },
-]
 const TOOLTIP_WIDTH = 288
 const VIEWPORT_GUTTER = 16
 

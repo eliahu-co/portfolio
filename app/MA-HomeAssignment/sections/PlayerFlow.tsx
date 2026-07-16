@@ -95,7 +95,7 @@ function ElbowToResolution() {
 // or shadow (keeps the phase visually grouped without competing with the pills).
 function Plaque({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-[10px] border border-cm-sky/40 px-3 py-3">
+    <div data-player-flow-plaque="true" data-blue-surface="true" className="rounded-[10px] border px-3 py-3">
       {children}
     </div>
   )
@@ -123,7 +123,13 @@ function Pill({
         ? 'bg-gradient-to-b from-[#C4E9FA] to-[#9BD7F2] border-[#1E7BA8]/30 text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.3)]'
         : 'bg-gradient-to-b from-[#F0FAFE] to-[#DBF1FC] border-[#1E7BA8]/30 text-[#0d3a5a] shadow-[0_2px_0_rgba(30,123,168,0.16)]'
   return (
-    <div className={`w-full rounded-lg border px-2.5 py-1 text-center ${skin}`}>
+    <div
+      data-player-flow-screen={tone === 'screen' ? 'true' : undefined}
+      data-blue-surface={tone === 'screen' ? 'true' : undefined}
+      data-player-flow-outcome={tone === 'outcome' ? 'true' : undefined}
+      data-wood-surface={tone === 'outcome' ? 'true' : undefined}
+      className={`w-full rounded-lg border px-2.5 py-1 text-center ${skin}`}
+    >
       <p className="font-sans text-[11px] font-extrabold leading-tight">{title}</p>
       {action && <p className={`font-sans text-[9px] font-normal leading-snug opacity-70 mt-0.5 ${actionItalic ? 'italic' : ''}`}>{action}</p>}
     </div>

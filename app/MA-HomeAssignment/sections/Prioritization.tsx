@@ -6,55 +6,12 @@
 
 import { createPortal } from 'react-dom'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  CRITERIA_DEFS,
+  OPPORTUNITY_SCORE_FORMULA,
+  SCORE_ROWS as ROWS,
+} from '../content/prioritization'
 import Section from './Section'
-
-const CRITERIA_DEFS: { title: string; body: string; rubric: [string, string][] }[] = [
-  {
-    title: 'ARPDAU Impact',
-    body: 'Potential to increase average daily revenue per active user if successful.',
-    rubric: [
-      ['5', 'Multiple direct monetization levers with significant upside.'],
-      ['3', 'Meaningful but bounded or indirect revenue impact.'],
-      ['1', 'Weak or speculative path to ARPDAU.'],
-    ],
-  },
-  {
-    title: 'Core-Loop Fit',
-    body: 'Degree to which the feature builds on existing Coin Master mechanics and player behavior.',
-    rubric: [
-      ['5', 'Directly reinforces the existing core or meta loop.'],
-      ['3', 'Connects to existing systems but introduces meaningful new behavior.'],
-      ['1', 'Sits largely outside the current loop.'],
-    ],
-  },
-  {
-    title: 'Confidence',
-    body: 'Strength of the evidence that players will adopt the feature and produce the intended economy and monetization behavior.',
-    rubric: [
-      ['5', 'Supported by clear player behavior and proven category mechanics.'],
-      ['3', 'Credible hypothesis with adoption or economy risk.'],
-      ['1', 'Limited evidence and significant uncertainty.'],
-    ],
-  },
-  {
-    title: 'Effort',
-    body: 'Relative product, design, engineering and balancing effort required to deliver a valuable MVP.',
-    rubric: [
-      ['5', 'Major new systems, economy work or cross-feature dependencies.'],
-      ['3', 'Moderate implementation and balancing effort.'],
-      ['1', 'Bounded extension of an existing mechanic.'],
-    ],
-  },
-]
-
-type Row = { useCase: string; scores: number[]; total: number; winner?: boolean }
-
-// Total is a modified RICE score: (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort
-const ROWS: Row[] = [
-  { useCase: 'Card Bounty', scores: [5, 5, 4, 3], total: 33.3, winner: true },
-  { useCase: 'Hot Trail',   scores: [4, 5, 3, 3], total: 20.0 },
-  { useCase: 'Hometown',    scores: [4, 3, 3, 4], total: 9.0 },
-]
 
 // Medals for the top three totals (computed by rank so it survives reordering)
 const MEDALS = ['🥇', '🥈', '🥉']
@@ -207,7 +164,7 @@ export default function Prioritization() {
           therefore replace it with Core-Loop Fit and use a modified RICE-style calculation:
         </p>
         <p className="font-sans text-[14px] font-normal leading-relaxed text-charcoal border-l-4 border-cm-gold pl-3">
-          Opportunity Score = (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort
+          {OPPORTUNITY_SCORE_FORMULA}
         </p>
         <p className="font-sans text-[14px] leading-relaxed text-charcoal">
           The calculation favors opportunities that combine monetization potential, natural integration
