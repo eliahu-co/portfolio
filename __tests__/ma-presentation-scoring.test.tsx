@@ -83,7 +83,14 @@ describe('MA presentation decision chapter', () => {
   it('recommends Card Bounty with its feature image and evidence', () => {
     const { container } = render(<Slide14Recommendation slideKey="slide-11" />)
     expect(screen.getByRole('heading', { name: 'Card Bounty' })).toBeVisible()
-    expect(container.querySelector('img[alt="Card Bounty feature mockup"]')).toBeInTheDocument()
-    expect(screen.getByText(/Primary risk:/)).toBeVisible()
+    expect(container.querySelectorAll('img[alt="Card Bounty feature mockup"]')).toHaveLength(1)
+
+    const evidence = screen.getByRole('list', { name: 'Why Card Bounty wins' })
+    expect(within(evidence).getAllByRole('listitem')).toHaveLength(3)
+    expect(within(evidence).getByRole('heading', { name: 'Familiar behavior' })).toBeVisible()
+    expect(within(evidence).getByRole('heading', { name: 'Additional Coin demand' })).toBeVisible()
+    expect(within(evidence).getByRole('heading', { name: 'Bounded validation' })).toBeVisible()
+    expect(evidence).not.toHaveClass('rounded-2xl', 'border', 'bg-white')
+    expect(screen.getAllByText(/^Primary risk:/)).toHaveLength(1)
   })
 })

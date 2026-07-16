@@ -10,9 +10,9 @@ function LoopPill({ label, core }: { label: string; core?: boolean }) {
   )
 }
 
-function FlatList({ title, items, risk = false }: { title: string; items: readonly { title: string; body: string }[]; risk?: boolean }) {
+function FlatList({ label, title, items, risk = false }: { label: string; title: string; items: readonly { title: string; body: string }[]; risk?: boolean }) {
   return (
-    <section>
+    <section aria-label={label}>
       <h3 className={`mb-3 font-sans text-[12px] font-extrabold uppercase tracking-[0.12em] ${risk ? 'text-cm-crimson' : 'text-cm-violet-deep'}`}>{title}</h3>
       <div className="space-y-3">
         {items.map((item) => (
@@ -26,32 +26,38 @@ function FlatList({ title, items, risk = false }: { title: string; items: readon
   )
 }
 
-export function FeatureSlide({ feature }: { feature: PresentationConcept }) {
+export type FeatureSlideProps = {
+  readonly concept: PresentationConcept
+  readonly loop: PresentationConcept['loop']
+  readonly title: string
+}
+
+export function FeatureSlide({ concept, loop, title }: FeatureSlideProps) {
   return (
-    <div className="grid h-full grid-cols-[0.82fr_0.9fr_1fr] gap-8">
+    <div data-feature-layout={title} className="grid h-full grid-cols-[0.82fr_0.9fr_1fr] gap-8">
       <div>
         <div className="overflow-hidden rounded-2xl border-2 border-cm-wood/50 bg-white shadow-[0_4px_0_rgba(144,57,0,0.28)]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={feature.mockup} alt={`${feature.title} feature mockup`} className="h-[370px] w-full object-contain" />
+          <img src={concept.mockup} alt={`${title} feature mockup`} className="h-[370px] w-full object-contain" />
         </div>
         <p className="mt-5 border-l-4 border-cm-gold pl-4 font-sans text-[16px] font-bold leading-relaxed text-cm-violet-deep">
-          {feature.monetizationSummary}
+          {concept.monetizationSummary}
         </p>
       </div>
-      <section>
+      <section aria-label={`${title} loop`}>
         <h3 className="mb-3 font-sans text-[12px] font-extrabold uppercase tracking-[0.12em] text-cm-violet-deep">Loop</h3>
         <div className="space-y-2">
-          {feature.loop.steps.map((step, index) => (
+          {loop.steps.map((step, index) => (
             <div key={step.label}>
               <LoopPill label={step.label} core={step.coreLoop} />
-              {index < feature.loop.steps.length - 1 && <div className="text-center text-[18px] font-black leading-none text-[#1E7BA8]">↓</div>}
+              {index < loop.steps.length - 1 && <div className="text-center text-[18px] font-black leading-none text-[#1E7BA8]">↓</div>}
             </div>
           ))}
         </div>
       </section>
       <div className="space-y-7">
-        <FlatList title="Player motivation" items={feature.values} />
-        <FlatList title="Risks" items={feature.risks} risk />
+        <FlatList label={`${title} player motivation`} title="Player motivation" items={concept.values} />
+        <FlatList label={`${title} risks`} title="Risks" items={concept.risks} risk />
       </div>
     </div>
   )

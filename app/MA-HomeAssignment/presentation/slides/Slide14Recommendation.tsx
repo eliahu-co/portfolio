@@ -16,15 +16,15 @@ export default function Slide14Recommendation(_props: OpeningSlideProps) {
           <p className="border-l-4 border-cm-gold pl-5 font-serif text-[24px] font-black leading-snug text-cm-violet-deep">
             Card Bounty extends familiar Chest and Collection behavior, creates additional Coin demand, and can be tested as a bounded LiveOps event.
           </p>
-          <div className="mt-6 space-y-3">
+          <ol aria-label="Why Card Bounty wins" className="mt-5 space-y-2">
             {RECOMMENDATION.evidence.map(({ reason, evidence }) => (
-              <div key={reason} className="border-b border-charcoal/20 pb-3">
+              <li key={reason} className="border-b border-charcoal/20 pb-2">
                 <h3 className="font-sans text-[16px] font-extrabold text-cm-violet-deep">{reason}</h3>
                 <p className="mt-1 font-sans text-[15px] leading-relaxed text-charcoal">{evidence}</p>
-              </div>
+              </li>
             ))}
-          </div>
-          <p className="mt-4 font-sans text-[14px] leading-relaxed text-charcoal">
+          </ol>
+          <p className="mt-3 font-sans text-[14px] leading-relaxed text-charcoal">
             <span className="font-extrabold text-cm-crimson">Primary risk: </span>
             {RECOMMENDATION.risk.evidence}
           </p>

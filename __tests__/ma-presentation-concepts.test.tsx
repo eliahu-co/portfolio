@@ -21,8 +21,19 @@ describe('MA presentation features', () => {
   ])('renders each feature as one complete slide', (Component, title) => {
     const { container } = render(<Component slideKey="feature" />)
     expect(screen.getByRole('heading', { name: title })).toBeVisible()
-    expect(container.querySelector('img')).toBeInTheDocument()
-    expect(screen.getByText('Player motivation')).toBeVisible()
-    expect(screen.getByText('Risks')).toBeVisible()
+    expect(container.querySelectorAll('img')).toHaveLength(1)
+    const regions = [
+      screen.getAllByRole('region', { name: `${title} loop` }),
+      screen.getAllByRole('region', { name: `${title} player motivation` }),
+      screen.getAllByRole('region', { name: `${title} risks` }),
+    ]
+    regions.forEach((region) => {
+      expect(region).toHaveLength(1)
+      expect(region[0]).not.toHaveClass('rounded-2xl', 'border', 'bg-white')
+    })
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+
+    const layout = container.querySelector(`[data-feature-layout="${title}"]`)
+    expect(layout).toHaveClass('grid-cols-[0.82fr_0.9fr_1fr]')
   })
 })
