@@ -99,11 +99,11 @@ export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlidePro
 
       <div
         data-feature-image={title}
-        className={`flex min-h-0 items-start justify-end transition-opacity duration-300 motion-reduce:transition-none ${revealed ? 'opacity-20' : 'opacity-100'}`}
+        className={`-mt-[83px] flex min-h-0 items-start justify-end transition-opacity duration-300 motion-reduce:transition-none ${revealed ? 'opacity-20' : 'opacity-100'}`}
       >
         <figure data-feature-frame="true" className="inline-flex w-fit overflow-hidden rounded-2xl border-2 border-cm-wood/50 bg-white p-1 shadow-[0_4px_0_rgba(144,57,0,0.28)]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={concept.mockup} alt={`${title} feature mockup`} className="max-h-[330px] w-auto rounded-xl object-contain" />
+          <img src={concept.mockup} alt={`${title} feature mockup`} className="max-h-[470px] w-auto rounded-xl object-contain" />
         </figure>
       </div>
     </div>
