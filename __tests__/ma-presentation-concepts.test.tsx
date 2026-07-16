@@ -23,7 +23,7 @@ describe('MA presentation features', () => {
     expect(screen.getByRole('heading', { name: title })).toBeVisible()
     expect(screen.queryByRole('heading', { name: 'Loop' })).not.toBeInTheDocument()
     expect(container.querySelectorAll('img')).toHaveLength(1)
-    expect(container.querySelector('img')).toHaveClass('max-h-[580px]', 'w-auto')
+    expect(container.querySelector('img')).toHaveClass('h-full', 'max-h-none', 'w-auto')
     const loop = container.querySelector(`[data-feature-loop="${title}"]`)!
     const loopStack = loop.querySelector('[data-feature-loop-stack="true"]')!
     const image = container.querySelector(`[data-feature-image="${title}"]`)!
@@ -36,6 +36,13 @@ describe('MA presentation features', () => {
     expect(container.querySelectorAll('[data-feature-loop-arrow][data-flow-arrow="true"]')).toHaveLength(
       title === 'Hometown' ? 3 : 4,
     )
+    expect(loop.querySelectorAll('[data-loop-step]')).toHaveLength(title === 'Hometown' ? 4 : 5)
+    const returnArrow = loop.querySelector('[data-loop-return="true"][data-flow-arrow="true"]')!
+    expect(returnArrow).toBeInTheDocument()
+    expect(returnArrow.querySelector('[data-loop-return-shaft]')).toHaveAttribute('stroke', '#1E7BA8')
+    expect(returnArrow.querySelector('[data-loop-return-shaft]')).toHaveAttribute('stroke-width', '1.3')
+    expect(returnArrow.querySelector('[data-loop-return-head]')).toHaveAttribute('stroke', '#1E7BA8')
+    expect(returnArrow.querySelector('[data-loop-return-head]')).toHaveAttribute('stroke-width', '1.3')
     expect(loop.querySelectorAll('[data-blue-surface="true"]').length).toBeGreaterThan(0)
     expect(loop.querySelectorAll('[data-wood-surface="true"]').length).toBeGreaterThan(0)
     loop.querySelectorAll('[data-blue-surface="true"], [data-wood-surface="true"]').forEach((surface) => {
@@ -44,8 +51,14 @@ describe('MA presentation features', () => {
     })
     expect(loopStack).not.toHaveClass('mx-auto')
     expect(loopStack).toHaveClass('max-w-[350px]')
+    expect(container.querySelector('[data-feature-frame="true"]')).toHaveClass('h-[calc(100vh-228px)]')
     expect(container.querySelector('[data-feature-frame="true"]')).not.toHaveClass('w-full')
     expect(container.querySelector('[data-feature-frame="true"]')).not.toHaveClass('px-4')
+    expect(container.querySelector('[data-feature-frame="true"]')).not.toHaveClass(
+      'bg-white',
+      'p-1',
+      'shadow-[0_4px_0_rgba(144,57,0,0.28)]',
+    )
     expect(container.querySelectorAll('.border-l-4, .border-l-8')).toHaveLength(0)
 
     const tradeoff = screen.getByRole('button', { name: 'Trade-off' })
@@ -59,7 +72,7 @@ describe('MA presentation features', () => {
     expect(tradeoff).toHaveAttribute('aria-expanded', 'false')
 
     const layout = container.querySelector(`[data-feature-layout="${title}"]`)
-    expect(layout).toHaveClass('grid-cols-[1fr_0.78fr]')
+    expect(layout).toHaveClass('grid-cols-[0.72fr_1fr]')
   })
 
   it('resets a revealed trade-off when the slide key changes', () => {

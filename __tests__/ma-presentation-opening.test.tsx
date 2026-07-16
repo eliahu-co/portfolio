@@ -2,7 +2,6 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import Slide01Cover from '@/app/MA-HomeAssignment/presentation/slides/Slide01Cover'
 import Slide02About from '@/app/MA-HomeAssignment/presentation/slides/Slide02About'
 import Slide03Approach from '@/app/MA-HomeAssignment/presentation/slides/Slide03Approach'
-import Slide04Economy from '@/app/MA-HomeAssignment/presentation/slides/Slide04Economy'
 import Slide05ThreeBets from '@/app/MA-HomeAssignment/presentation/slides/Slide05ThreeBets'
 
 describe('MA presentation opening chapter', () => {
@@ -63,7 +62,7 @@ describe('MA presentation opening chapter', () => {
     expect(screen.getByRole('button', { name: 'Brazil' })).toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('uses the flat approach flow and original core-loop diagram', () => {
+  it('uses the flat approach flow and reveals the original core-loop diagram', () => {
     const approach = render(<Slide03Approach slideKey="slide-3" />)
     expect(screen.getByRole('heading', { name: 'Approach' })).toBeVisible()
     expect(approach.container.querySelectorAll('li')).toHaveLength(6)
@@ -85,16 +84,6 @@ describe('MA presentation opening chapter', () => {
     expect(approach.container.querySelector('[data-step-number]')).not.toBeInTheDocument()
     expect(screen.queryByText('Discovery to decision')).not.toBeInTheDocument()
     approach.unmount()
-
-    const economy = render(<Slide04Economy slideKey="slide-4" />)
-    expect(screen.getByRole('heading', { name: 'Core loop and meta' })).toBeVisible()
-    const figure = economy.container.querySelector('figure')
-    expect(figure).toBeInTheDocument()
-    const diagramWrapper = figure?.parentElement
-    expect(diagramWrapper).toHaveClass('max-w-[720px]')
-    expect(diagramWrapper).not.toHaveClass('max-h-[450px]', 'overflow-hidden')
-    expect(diagramWrapper?.parentElement).not.toHaveClass('overflow-hidden')
-    expect(screen.queryByText('Game model')).not.toBeInTheDocument()
   })
 
   it('introduces three flat bets without controls or a subtitle', () => {

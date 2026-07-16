@@ -19,7 +19,7 @@ const nunitoSans = localFont({
 })
 
 const TITLE = 'Increasing ARPDAU - Presentation by Eliahu Cohen'
-const DESCRIPTION = 'A 17-slide product presentation for the Moon Active PM home assignment.'
+const DESCRIPTION = 'A 16-slide product presentation for the Moon Active PM home assignment.'
 const CANONICAL = 'https://eliahu.co/MA-HomeAssignment/presentation/'
 const OG_IMAGE = 'https://eliahu.co/coinmaster/OGMiniature.jpg'
 

@@ -3,11 +3,13 @@
 import { useCallback, useState } from 'react'
 import type { PresentationConcept } from '../deckData'
 import { useDeckReset, type DeckSlideKey } from '../useDeckReset'
+import LoopReturn from '@/app/MA-HomeAssignment/sections/LoopReturn'
 import { FlowArrow } from './FlowArrow'
 
 function LoopPill({ label, core }: { label: string; core?: boolean }) {
   return (
     <div
+      data-loop-step="true"
       data-blue-surface={core ? undefined : 'true'}
       data-wood-surface={core ? 'true' : undefined}
       className={core
@@ -47,14 +49,14 @@ export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlidePro
   useDeckReset(reset, slideKey)
 
   return (
-    <div data-feature-layout={title} className="grid h-full grid-cols-[1fr_0.78fr] gap-10">
+    <div data-feature-layout={title} className="grid h-full grid-cols-[0.72fr_1fr] gap-10">
       <div className="relative flex min-h-0 flex-col">
         <section
           aria-label={`${title} loop`}
           data-feature-loop={title}
           className={`transition-opacity duration-300 motion-reduce:transition-none ${revealed ? 'opacity-20' : 'opacity-100'}`}
         >
-          <div data-feature-loop-stack="true" className="max-w-[350px]">
+          <div data-feature-loop-stack="true" className="relative max-w-[350px]">
             {loop.steps.map((step, index) => (
               <div key={step.label}>
                 <LoopPill label={step.label} core={step.coreLoop} />
@@ -68,6 +70,7 @@ export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlidePro
                 )}
               </div>
             ))}
+            {loop.loop && <LoopReturn color="#1E7BA8" strokeWidth={1.3} />}
           </div>
           <p className="mt-4 max-w-[520px] font-sans text-[15px] font-bold leading-snug text-cm-violet-deep">
             {concept.monetizationSummary}
@@ -101,9 +104,9 @@ export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlidePro
         data-feature-image={title}
         className={`-mt-[99px] flex min-h-0 items-start justify-end transition-opacity duration-300 motion-reduce:transition-none ${revealed ? 'opacity-20' : 'opacity-100'}`}
       >
-        <figure data-feature-frame="true" className="inline-flex w-fit overflow-hidden rounded-2xl border-2 border-cm-wood/50 bg-white p-1 shadow-[0_4px_0_rgba(144,57,0,0.28)]">
+        <figure data-feature-frame="true" className="inline-flex h-[calc(100vh-228px)] w-fit overflow-hidden rounded-2xl border-2 border-cm-wood/50">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={concept.mockup} alt={`${title} feature mockup`} className="max-h-[580px] w-auto rounded-xl object-contain" />
+          <img src={concept.mockup} alt={`${title} feature mockup`} className="h-full max-h-none w-auto rounded-xl object-contain" />
         </figure>
       </div>
     </div>

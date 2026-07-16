@@ -37,7 +37,7 @@ describe('MA presentation deck', () => {
     const first = render(<PresentationDeck />)
 
     expect(activeSlide(first.container)).toHaveAttribute('id', 'slide-5')
-    expect(screen.getByRole('status', { name: 'Slide 5 of 17' })).toHaveTextContent('5 / 17')
+    expect(screen.getByRole('status', { name: 'Slide 5 of 16' })).toHaveTextContent('5 / 16')
     first.unmount()
 
     setRoute('#slide-999')
@@ -68,11 +68,11 @@ describe('MA presentation deck', () => {
     expect(activeSlide(container)).toHaveAttribute('id', 'slide-2')
 
     act(() => {
-      window.history.replaceState({}, '', '#slide-17')
+      window.history.replaceState({}, '', '#slide-16')
       window.dispatchEvent(new PopStateEvent('popstate'))
     })
     fireEvent.keyDown(window, { key: 'ArrowRight' })
-    expect(activeSlide(container)).toHaveAttribute('id', 'slide-17')
+    expect(activeSlide(container)).toHaveAttribute('id', 'slide-16')
     expect(screen.queryByRole('button', { name: /^Next:/ })).not.toBeInTheDocument()
   })
 
@@ -118,7 +118,7 @@ describe('MA presentation deck', () => {
   })
 
   it('routes home on Escape even when an interactive element has focus', () => {
-    setRoute('#slide-10')
+    setRoute('#slide-9')
     const { container } = render(<PresentationDeck />)
     const scoring = activeSlide(container)
     const score = within(scoring).getByRole('button', {
@@ -169,7 +169,7 @@ describe('MA presentation deck', () => {
   })
 
   it('handles closing-menu anchors in place and scopes the landscape override to mount', () => {
-    setRoute('#slide-17')
+    setRoute('#slide-16')
     const { container, unmount } = render(<PresentationDeck />)
     expect(document.body).toHaveClass('ma-presentation-active')
 

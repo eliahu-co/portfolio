@@ -66,10 +66,10 @@ describe('MA presentation validation chapter', () => {
   })
 
   it('closes with plain same-deck chapter links', () => {
-    const { container } = render(<Slide21ThankYou slideKey="slide-17" />)
+    const { container } = render(<Slide21ThankYou slideKey="slide-16" />)
     expect(screen.getByRole('heading', { name: 'Thank you' })).toBeVisible()
-    expect(screen.getByRole('link', { name: 'Decision' })).toHaveAttribute('href', '#slide-10')
-    expect(screen.getByRole('link', { name: 'Validation' })).toHaveAttribute('href', '#slide-15')
+    expect(screen.getByRole('link', { name: 'Decision' })).toHaveAttribute('href', '#slide-9')
+    expect(screen.getByRole('link', { name: 'Validation' })).toHaveAttribute('href', '#slide-14')
     expect(container.querySelector('img, svg')).not.toBeInTheDocument()
     expect(container.querySelector('[data-closing-message="true"]')).toHaveTextContent(/recommend Card Bounty/i)
 
