@@ -1,0 +1,139 @@
+.viewport {
+  --deck-scale: 1;
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #2a1b54;
+}
+
+.stageFrame {
+  position: relative;
+  width: calc(1280px * var(--deck-scale));
+  height: calc(720px * var(--deck-scale));
+}
+
+.stage {
+  position: relative;
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  transform: scale(var(--deck-scale));
+  transform-origin: top left;
+  background: #fff9ee;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 1280px;
+  height: 720px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease;
+}
+
+.activeSlide {
+  z-index: 2;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.inactiveSlide {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.desktopNotice {
+  display: none;
+  min-height: 100vh;
+  padding: 32px;
+  place-items: center;
+  background: #fff9ee;
+  color: #2a1b54;
+  text-align: center;
+}
+
+.focusRing:focus-visible {
+  outline: 4px solid #1e7ba8;
+  outline-offset: 4px;
+}
+
+.printDetails {
+  display: none;
+}
+
+.screenOnly {
+  display: initial;
+}
+
+@media screen and (max-width: 959px), screen and (max-height: 539px) {
+  .stageFrame {
+    display: none;
+  }
+
+  .desktopNotice {
+    display: grid;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide {
+    transition: none;
+  }
+}
+
+@page {
+  size: 13.333333in 7.5in;
+  margin: 0;
+}
+
+@media print {
+  .viewport {
+    position: static;
+    display: block;
+    overflow: visible;
+    width: auto;
+    height: auto;
+    background: #fff;
+  }
+
+  .stageFrame,
+  .stage {
+    display: block;
+    overflow: visible;
+    width: 1280px;
+    height: auto;
+    transform: none;
+  }
+
+  .slide,
+  .activeSlide,
+  .inactiveSlide {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    display: block;
+    width: 1280px;
+    height: 720px;
+    opacity: 1;
+    pointer-events: auto;
+    break-after: page;
+  }
+
+  .slide:last-child {
+    break-after: auto;
+  }
+
+  .desktopNotice,
+  .screenOnly,
+  .deckChrome {
+    display: none !important;
+  }
+
+  .printDetails {
+    display: block;
+  }
+}
