@@ -201,6 +201,9 @@ describe('MA presentation deck', () => {
     const globalCss = readFileSync(resolve(process.cwd(), 'app/globals.css'), 'utf8')
 
     expect(stageCss).toMatch(/transition:\s*opacity 250ms ease/)
+    expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*right:\s*80px/)
+    expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*bottom:\s*48px/)
+    expect(stageCss).toMatch(/\.deckChrome\s*{[^}]*left:\s*80px/)
     expect(stageCss).toMatch(
       /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.slide\s*{[\s\S]*?transition:\s*none/,
     )

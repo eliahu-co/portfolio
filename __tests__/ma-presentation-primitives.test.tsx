@@ -15,16 +15,18 @@ describe('MA presentation primitives', () => {
   it('renders a semantic slide title and projection-scale default copy', () => {
     render(
       <SlideShell data-testid="shell">
-        <Eyebrow>Recommendation</Eyebrow>
-        <SlideTitle>Card Bounty</SlideTitle>
+        <Eyebrow>Decision</Eyebrow>
+        <SlideTitle>Comparative scoring</SlideTitle>
         <Panel>Every Chest advances visible progress.</Panel>
       </SlideShell>,
     )
 
-    expect(screen.getByRole('heading', { level: 2, name: 'Card Bounty' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: 'Comparative scoring' }))
+      .toHaveClass('text-[64px]', 'leading-[1.04]')
     expect(screen.getByText('Every Chest advances visible progress.')).toBeVisible()
-    expect(screen.getByTestId('shell')).toHaveClass('bg-cm-cream', 'text-[16px]')
-    expect(screen.getByText('Recommendation')).toHaveClass('text-[14px]')
+    expect(screen.getByTestId('shell'))
+      .toHaveClass('bg-cm-cream', 'text-[16px]', 'px-20', 'pt-20', 'pb-16')
+    expect(screen.getByText('Decision')).toHaveClass('text-[12px]', 'mb-4')
   })
 
   it('allows the cover title to use a semantic level-one heading', () => {

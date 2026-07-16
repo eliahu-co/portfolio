@@ -68,9 +68,9 @@
 .deckChrome {
   position: absolute;
   z-index: 20;
-  right: 48px;
-  bottom: 24px;
-  left: 48px;
+  right: 80px;
+  bottom: 48px;
+  left: 80px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
@@ -87,9 +87,11 @@
   background: transparent;
   padding: 8px 0;
   color: #2a1b54;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
+  letter-spacing: 0.12em;
   pointer-events: auto;
+  text-transform: uppercase;
 }
 
 .deckChrome button:focus-visible {

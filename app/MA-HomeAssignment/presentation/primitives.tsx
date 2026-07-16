@@ -24,7 +24,7 @@ export function SlideShell({
       {...props}
       data-slide-shell="true"
       className={classes(
-        'flex h-full w-full flex-col overflow-hidden bg-cm-cream px-16 py-12 font-sans text-[16px] leading-relaxed text-[#1A1A1A]',
+        'mx-auto flex h-full w-full max-w-[1280px] flex-col overflow-hidden bg-cm-cream px-20 pb-16 pt-20 font-sans text-[16px] leading-relaxed text-[#1A1A1A]',
         align === 'centered' ? 'justify-center' : 'justify-start',
         className,
       )}
@@ -49,8 +49,10 @@ export function SlideTitle({
     <Heading
       {...props}
       className={classes(
-        'font-serif font-black tracking-[-0.02em] text-cm-violet-deep',
-        as === 'h1' ? 'text-[80px] leading-[0.95]' : 'text-[56px] leading-[1.02]',
+        'font-serif font-black text-cm-violet-deep',
+        as === 'h1'
+          ? 'text-[80px] leading-[0.95] tracking-[-0.02em]'
+          : 'text-[64px] leading-[1.04] tracking-[-0.01em]',
         className,
       )}
     >
@@ -64,7 +66,7 @@ export function Eyebrow({ children, className, ...props }: HTMLAttributes<HTMLPa
     <p
       {...props}
       className={classes(
-        'mb-3 font-sans text-[14px] font-extrabold uppercase tracking-[0.12em] text-cm-crimson',
+        'mb-4 font-sans text-[12px] font-extrabold uppercase tracking-[0.14em] text-cm-crimson',
         className,
       )}
     >
@@ -151,7 +153,7 @@ export function StageCounter({
       role="status"
       aria-label={`Slide ${current} of ${safeTotal}`}
       className={classes(
-        'font-sans text-[14px] font-bold tabular-nums tracking-[0.08em] text-charcoal',
+        'font-sans text-[12px] font-bold uppercase tabular-nums tracking-[0.12em] text-charcoal',
         className,
       )}
     >
