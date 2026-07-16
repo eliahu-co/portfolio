@@ -69,6 +69,11 @@
   display: initial;
 }
 
+.flowDetailRail,
+.scopeScreenBoard {
+  display: block;
+}
+
 @media screen and (max-width: 959px), screen and (max-height: 539px) {
   .stageFrame {
     display: none;
@@ -141,5 +146,25 @@
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
+  }
+
+  .flowDetailRail {
+    display: none !important;
+  }
+
+  .scopeScreenBoard {
+    display: none !important;
+  }
+
+  .printDetails.flowPrintSummary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .printDetails.scopePrintGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
 }

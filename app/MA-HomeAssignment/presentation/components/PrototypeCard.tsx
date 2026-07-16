@@ -2,7 +2,7 @@ export function PrototypeCard() {
   return (
     <section
       aria-label="Interactive Card Bounty prototype"
-      className="relative grid min-h-[440px] grid-cols-[1.18fr_0.82fr] items-center gap-8 overflow-hidden rounded-[28px] border-2 border-cm-gold/55 bg-cm-violet-deep p-8 shadow-[0_18px_40px_rgba(42,27,84,0.22)]"
+      className="relative grid min-h-[440px] grid-cols-[1.35fr_0.65fr] items-center gap-8 overflow-hidden rounded-[28px] border-2 border-cm-gold/55 bg-cm-violet-deep p-6 shadow-[0_18px_40px_rgba(42,27,84,0.22)]"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -13,17 +13,20 @@ export function PrototypeCard() {
       />
       <div className="absolute inset-0 bg-gradient-to-r from-cm-violet-deep/45 via-cm-violet-deep/80 to-cm-violet-deep" />
 
-      <figure className="relative z-10 overflow-hidden rounded-2xl border-2 border-white/65 bg-cm-cream shadow-[0_14px_34px_rgba(0,0,0,0.24)]">
+      <figure
+        data-prototype-viewport="true"
+        className="relative z-10 h-[390px] overflow-hidden rounded-2xl border-2 border-white/65 bg-cm-cream shadow-[0_14px_34px_rgba(0,0,0,0.24)]"
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/coinmaster/prototype.webp"
           alt="Card Bounty prototype preview"
-          className="block h-[372px] w-full object-contain"
+          className="block h-full w-full object-cover object-[center_43%]"
         />
       </figure>
 
       <div className="relative z-10 text-white">
-        <p className="font-sans text-[14px] font-extrabold uppercase tracking-[0.12em] text-cm-gold-bright">
+        <p className="font-sans text-[14px] font-extrabold uppercase tracking-[0.12em] text-cm-gold">
           Clickable product walkthrough
         </p>
         <h3 className="mt-3 font-serif text-[40px] font-black leading-[1.04]">

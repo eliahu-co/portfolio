@@ -41,3 +41,36 @@ PowerShell could not execute the `npx.ps1` shim under the machine execution poli
 ## Concern
 
 The exact focused Jest command passes, but Jest prints duplicate-manual-mock warnings because it also scans the unrelated shared checkout at `.superpowers/worktrees/card-bounty-entry-attention`. The regression command ignores `.superpowers/worktrees` and is warning-free. No repository configuration was changed for this environment-only warning.
+
+## Review-fix RED/GREEN cycle
+
+### RED
+
+- Replaced the original deep-dive checks with regressions for cumulative player-path nodes/connectors, one fixed player detail rail, focus-safe pointer transitions, slide-key reset, one compact flow print summary, one fixed scope rationale rail, a print-only two-column scope grid, and the prototype crop/palette treatment.
+- The first draft run exposed the expected missing selectors and crop mismatch, plus null dereferences after missing-rail assertions. The test helper was tightened without changing production code so missing UI failed through assertions only.
+- Fresh RED command: `npx.cmd jest --runTestsByPath __tests__/ma-presentation-deep-dive.test.tsx --runInBand`
+  - 1 suite failed
+  - 7 tests failed
+  - Failures identified the absent shared rails/path data/print summaries and the existing `object-contain` treatment.
+
+### GREEN
+
+- `npx.cmd jest --runTestsByPath __tests__/ma-presentation-deep-dive.test.tsx --runInBand`
+  - 1 suite passed
+  - 7 tests passed
+- `npx.cmd tsc --noEmit --incremental false`
+  - Exit code 0
+- `git diff --check`
+  - Exit code 0
+- Adjacent shared-CSS regression run:
+  - `npx.cmd jest --runTestsByPath __tests__/ma-presentation-deep-dive.test.tsx __tests__/ma-presentation-primitives.test.tsx __tests__/ma-presentation-scoring.test.tsx --runInBand --modulePathIgnorePatterns=.superpowers/worktrees`
+  - 3 suites passed
+  - 23 tests passed
+
+### Fixes verified
+
+- Player flow now has one controlled hovered/focused selection, cumulative active path attributes for nodes/connectors, one fixed-height detail rail, no click pins, and slide-key reset.
+- Flow print output uses one compact static six-entry summary.
+- MVP scope now keeps all 8/5 canonical requirements in fixed lists while one controlled rationale rail handles hover/focus safely.
+- Scope print output hides the interactive board and uses a task-specific two-column 13-entry requirement+rationale grid.
+- The prototype screenshot is a dominant, intentional `object-cover` crop at the core bounty interaction; the eyebrow uses approved `cm-gold`.
