@@ -126,6 +126,8 @@ function Pill({
     <div
       data-player-flow-screen={tone === 'screen' ? 'true' : undefined}
       data-blue-surface={tone === 'screen' ? 'true' : undefined}
+      data-player-flow-outcome={tone === 'outcome' ? 'true' : undefined}
+      data-wood-surface={tone === 'outcome' ? 'true' : undefined}
       className={`w-full rounded-lg border px-2.5 py-1 text-center ${skin}`}
     >
       <p className="font-sans text-[11px] font-extrabold leading-tight">{title}</p>

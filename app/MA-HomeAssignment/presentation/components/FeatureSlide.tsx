@@ -7,8 +7,11 @@ import { FlowArrow } from './FlowArrow'
 
 function LoopPill({ label, core }: { label: string; core?: boolean }) {
   return (
-    <div data-blue-surface={core ? undefined : 'true'} className={core
-      ? 'rounded-lg border border-cm-wood/50 bg-gradient-to-b from-[#FFE9C4] to-[#FFDCA3] px-4 py-2 text-center font-sans text-[14px] font-extrabold leading-snug text-cm-wood shadow-[0_2px_0_rgba(144,57,0,0.3)]'
+    <div
+      data-blue-surface={core ? undefined : 'true'}
+      data-wood-surface={core ? 'true' : undefined}
+      className={core
+      ? 'rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-extrabold leading-snug text-cm-wood'
       : 'rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-extrabold leading-snug text-[#0d3a5a]'}>
       {label}
     </div>
@@ -51,8 +54,7 @@ export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlidePro
           data-feature-loop={title}
           className={`transition-opacity duration-300 motion-reduce:transition-none ${revealed ? 'opacity-20' : 'opacity-100'}`}
         >
-          <h3 className="mb-2 font-sans text-[12px] font-medium uppercase tracking-[0.14em] text-black">Loop</h3>
-          <div className="mx-auto max-w-[410px]">
+          <div data-feature-loop-stack="true" className="max-w-[410px]">
             {loop.steps.map((step, index) => (
               <div key={step.label}>
                 <LoopPill label={step.label} core={step.coreLoop} />

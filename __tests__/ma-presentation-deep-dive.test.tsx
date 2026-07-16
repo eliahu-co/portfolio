@@ -16,6 +16,7 @@ describe('MA presentation Card Bounty deep dive', () => {
     expect(sourceFrame?.firstElementChild).toHaveClass('w-[128%]', 'scale-[0.78]')
     expect(container.querySelectorAll('#player-flow [data-player-flow-plaque][data-blue-surface="true"]')).toHaveLength(4)
     expect(container.querySelectorAll('#player-flow [data-player-flow-screen][data-blue-surface="true"]').length).toBeGreaterThan(0)
+    expect(container.querySelectorAll('#player-flow [data-player-flow-outcome][data-wood-surface="true"]').length).toBeGreaterThan(0)
   })
 
   it('shows a flat MVP in/out scope', () => {

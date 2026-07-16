@@ -41,6 +41,22 @@
   box-shadow: 0 2px 0 rgba(30, 123, 168, 0.16);
 }
 
+.viewport [data-wood-surface="true"] {
+  border-width: 1.3px;
+  border-color: rgba(144, 57, 0, 0.65);
+  background: transparent;
+  box-shadow: none;
+  transition:
+    background 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.viewport [data-wood-surface="true"]:hover,
+.viewport [data-wood-surface="true"]:focus-visible {
+  background: linear-gradient(to bottom, #ffe9c4, #ffdca3);
+  box-shadow: 0 2px 0 rgba(144, 57, 0, 0.3);
+}
+
 .stageFrame {
   position: relative;
   width: 100vw;
@@ -167,7 +183,8 @@
     transition: none;
   }
 
-  .viewport [data-blue-surface="true"] {
+  .viewport [data-blue-surface="true"],
+  .viewport [data-wood-surface="true"] {
     transition: none;
   }
 }

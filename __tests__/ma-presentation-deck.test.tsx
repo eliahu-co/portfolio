@@ -206,6 +206,12 @@ describe('MA presentation deck', () => {
     expect(stageCss).toMatch(/\[data-blue-surface="true"\]\s*{[^}]*box-shadow:\s*none/)
     expect(stageCss).toMatch(/\[data-blue-surface="true"\]:hover[\s\S]*?background:\s*linear-gradient/)
     expect(stageCss).toMatch(/\[data-blue-surface="true"\]:hover[\s\S]*?box-shadow:\s*0 2px 0 rgba\(30, 123, 168, 0\.16\)/)
+    expect(stageCss).toMatch(/\[data-wood-surface="true"\]\s*{[^}]*border-width:\s*1\.3px/)
+    expect(stageCss).toMatch(/\[data-wood-surface="true"\]\s*{[^}]*border-color:\s*rgba\(144, 57, 0, 0\.65\)/)
+    expect(stageCss).toMatch(/\[data-wood-surface="true"\]\s*{[^}]*background:\s*transparent/)
+    expect(stageCss).toMatch(/\[data-wood-surface="true"\]\s*{[^}]*box-shadow:\s*none/)
+    expect(stageCss).toMatch(/\[data-wood-surface="true"\]:hover[\s\S]*?background:\s*linear-gradient/)
+    expect(stageCss).toMatch(/\[data-wood-surface="true"\]:hover[\s\S]*?box-shadow:\s*0 2px 0 rgba\(144, 57, 0, 0\.3\)/)
     expect(stageCss).toMatch(
       /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.slide\s*{[\s\S]*?transition:\s*none/,
     )
