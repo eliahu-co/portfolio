@@ -35,7 +35,7 @@ describe('MA presentation opening chapter', () => {
     expect(brazil).toHaveClass('bg-transparent', 'hover:bg-gradient-to-b')
     expect(brazil).not.toHaveClass('bg-gradient-to-b')
     container.querySelectorAll('[data-journey-surface="true"]').forEach((surface) => {
-      expect(surface).toHaveClass('bg-transparent', 'hover:bg-gradient-to-b')
+      expect(surface).toHaveClass('border-[1px]', 'bg-transparent', 'shadow-none', 'hover:bg-gradient-to-b', 'hover:shadow-[0_2px_0_rgba(30,123,168,0.16)]')
       expect(surface).not.toHaveClass('bg-gradient-to-b')
     })
 
