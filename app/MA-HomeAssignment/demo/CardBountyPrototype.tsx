@@ -56,7 +56,11 @@ function guidanceFor(
   }
 }
 
-export default function CardBountyPrototype() {
+export default function CardBountyPrototype({
+  mode = 'standalone',
+}: {
+  mode?: 'standalone' | 'presentation'
+} = {}) {
   const [state, dispatch] = useReducer(demoReducer, initialDemoState)
   const baseLayerRef = useRef<HTMLDivElement>(null)
   const overlayHostRef = useRef<HTMLDivElement>(null)
@@ -229,6 +233,7 @@ export default function CardBountyPrototype() {
 
   return (
     <DemoShell
+      mode={mode}
       onRestart={() => dispatch({ type: 'RESTART' })}
       guidance={guidanceFor(state.overlay, state.baseScreen, state.eventCompleted, target?.collectionProgress === 8, target?.id, state.meterThreshold)}
       finalState={state.eventCompleted && state.overlay === null}

@@ -123,6 +123,7 @@ export default function PresentationDeck() {
       )}
       data-presentation-viewport="true"
       data-viewport-supported="true"
+      data-current-slide={activeSlide.id}
       onClick={handleDeckClick}
     >
       <div className={styles.stageFrame}>
@@ -147,6 +148,7 @@ export default function PresentationDeck() {
               >
                 <Component
                   slideKey={activeSlide.id}
+                  isActive={isActive}
                   chapterLinks={closingMenuTargets}
                 />
               </section>

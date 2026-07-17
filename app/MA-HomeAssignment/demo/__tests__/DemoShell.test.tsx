@@ -63,4 +63,25 @@ describe('DemoShell presentation contract', () => {
       /\.gameViewport\s*{[^}]*width:\s*100vw;[^}]*height:\s*100dvh;[^}]*border:\s*0;[^}]*border-radius:\s*0;[^}]*box-shadow:\s*none;/,
     )
   })
+
+  it('defines a presentation mode without changing the standalone shell', () => {
+    const shell = readDemoSource('DemoShell.tsx')
+    const css = readDemoSource('CardBountyPrototype.module.css')
+
+    expect(shell).toContain("mode = 'standalone'")
+    expect(shell).toContain('data-prototype-presentation-shell')
+    expect(shell).toContain('data-prototype-presentation-controls')
+    expect(shell).toContain('data-prototype-scale-stage')
+    expect(shell).toContain('ResizeObserver')
+    expect(shell).toContain('Math.min(width / 430, height / 932)')
+    expect(shell).not.toContain('Math.min(width / 430, height / 932, 1)')
+    expect(css).toMatch(/\.demoRootPresentation\s*{[^}]*height:\s*100%;[^}]*min-height:\s*0;/)
+    expect(css).toMatch(/\.demoRootPresentation\s*{[^}]*display:\s*block;/)
+    expect(css).toMatch(/\.prototypeControlsPresentation\s*{[^}]*position:\s*absolute;[^}]*top:\s*118px;[^}]*left:\s*0;/)
+    expect(css).toMatch(/\.prototypeControlsPresentation\s*{[^}]*transform:\s*none;/)
+    expect(css).toMatch(/\.restartButtonPresentation\s*{[^}]*border-radius:\s*999px;[^}]*background:\s*linear-gradient\(to bottom, #FFD95C, #F6B719\);/)
+    expect(css).toMatch(/\.restartButtonPresentation\s*{[^}]*box-shadow:\s*0 3px 0 #B7202E, 0 8px 18px rgba\(31, 20, 75, \.3\);/)
+    expect(css).toMatch(/\.gameViewportPresentation\s*{[^}]*width:\s*430px;[^}]*height:\s*932px;/)
+    expect(css).toMatch(/\.gameViewportPresentation\s*{[^}]*transform:\s*translate\(-50%, -50%\) scale\(var\(--prototype-scale\)\);/)
+  })
 })

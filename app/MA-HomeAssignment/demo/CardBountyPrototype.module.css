@@ -119,6 +119,72 @@
   container-type: inline-size;
 }
 
+.demoRootPresentation {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: visible;
+  display: block;
+  padding: 0;
+  background: transparent;
+}
+
+.prototypeControlsPresentation {
+  position: absolute;
+  z-index: 50;
+  top: 118px;
+  left: 0;
+  width: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.restartButtonPresentation {
+  width: auto;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, #FFD95C, #F6B719);
+  box-shadow: 0 3px 0 #B7202E, 0 8px 18px rgba(31, 20, 75, .3);
+  color: #2A1B54;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transition: filter .16s ease, transform .16s ease;
+}
+
+.restartButtonPresentation:hover { background: linear-gradient(to bottom, #FFD95C, #F6B719); filter: brightness(1.05); transform: scale(1.025); }
+
+.gameViewportScaleStage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: visible;
+}
+
+.gameViewportPresentation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 430px;
+  height: 932px;
+  min-height: 0;
+  max-height: none;
+  flex: none;
+  aspect-ratio: 430 / 932;
+  transform: translate(-50%, -50%) scale(var(--prototype-scale));
+  transform-origin: center;
+}
+
 .baseLayer,
 .inertLayer {
   position: absolute;
