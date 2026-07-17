@@ -41,27 +41,7 @@ function classNames(...values: Array<string | false | null | undefined>): string
 function DecisionSummary() {
   return (
     <div className="font-sans text-[13px] leading-relaxed text-charcoal">
-      <p>
-        <span className="font-bold text-cm-violet-deep">Relative comparison: </span>
-        Card Bounty leads because it combines direct monetization upside with the strongest core-loop fit.
-      </p>
-      <p className="mt-2 font-bold text-cm-violet-deep">{OPPORTUNITY_SCORE_FORMULA}</p>
-    </div>
-  )
-}
-
-function DefaultScoreDetail() {
-  return (
-    <div data-testid="score-default-detail" className="max-w-[760px] font-sans text-[13px] leading-snug text-[#1A1A1A]">
-      <p className="text-[12px] font-extrabold uppercase tracking-[0.1em] text-cm-crimson">
-        Highest opportunity
-      </p>
-      <h3 className="mt-1 font-serif text-[21px] font-black leading-tight text-cm-violet-deep">
-        Card Bounty
-      </h3>
-      <p className="mt-2">
-        The strongest combination of ARPDAU impact, core-loop fit, and confidence at a bounded learning cost.
-      </p>
+      <p className="font-bold text-cm-violet-deep">{OPPORTUNITY_SCORE_FORMULA}</p>
     </div>
   )
 }
@@ -86,8 +66,7 @@ function ExactRationale({ active }: { readonly active: ActiveScore }) {
   const criterion = CRITERIA.find(({ key }) => key === active.criterion)!
 
   return (
-    <div className="grid grid-cols-[1.25fr_0.75fr] gap-7">
-      <div>
+    <div className="max-w-[820px]">
         <p className="text-[12px] font-extrabold uppercase tracking-[0.1em] text-cm-crimson">
           {story.row.useCase} · score {story.row.scores[criterion.index]}
         </p>
@@ -96,21 +75,6 @@ function ExactRationale({ active }: { readonly active: ActiveScore }) {
         </h3>
         <p className="mt-1 italic text-charcoal">{criterion.definition.body}</p>
         <p className="mt-2 font-bold text-cm-violet-deep">{story.rationales[criterion.index]}</p>
-      </div>
-      <div className="grid content-start gap-1">
-        {criterion.definition.rubric.map(([score, description]) => (
-          <p
-            key={score}
-            data-testid="score-rubric-item"
-            data-score-rubric-item="true"
-            data-rubric-score={score}
-            className="flex gap-2"
-          >
-            <span className="font-black text-cm-crimson">{score}</span>
-            <span>{description}</span>
-          </p>
-        ))}
-      </div>
     </div>
   )
 }
@@ -283,7 +247,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
           aria-label="Score detail"
           className="h-[144px] overflow-hidden font-sans text-[13px] leading-snug text-[#1A1A1A]"
         >
-          {active ? <ExactRationale active={active} /> : <DefaultScoreDetail />}
+          {active ? <ExactRationale active={active} /> : null}
         </section>
         <div
           data-testid="score-decision-summary"

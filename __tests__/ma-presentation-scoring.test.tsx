@@ -85,20 +85,24 @@ describe('MA presentation decision chapter', () => {
     expect(screen.getByRole('status', { name: 'Score detail' })).toBe(detail)
   })
 
-  it('uses the fixed disclosure region purposefully in idle and active states', () => {
+  it('keeps the disclosure region quiet until a score is active', () => {
     const { container } = render(<Slide13ComparativeScoring slideKey="slide-10" />)
     const detail = screen.getByRole('status', { name: 'Score detail' })
     const summary = screen.getByTestId('score-decision-summary')
 
-    expect(within(detail).getByTestId('score-default-detail')).toHaveTextContent('Card Bounty')
-    expect(within(detail).getByTestId('score-default-detail')).toHaveTextContent('Highest opportunity')
+    expect(within(detail).queryByTestId('score-default-detail')).not.toBeInTheDocument()
+    expect(detail).not.toHaveTextContent('Highest opportunity')
+    expect(detail).not.toHaveTextContent('The strongest combination of ARPDAU impact')
     expect(detail.className).not.toMatch(/border-l-|pl-5/)
     expect(summary).toHaveClass('opacity-100')
+    expect(summary).not.toHaveTextContent('Relative comparison:')
+    expect(summary).not.toHaveTextContent('Card Bounty leads because')
 
     fireEvent.focus(screen.getByRole('button', { name: /Hot Trail: Core-Loop Fit score 5/i }))
     expect(within(detail).queryByTestId('score-default-detail')).not.toBeInTheDocument()
     expect(detail.className).not.toMatch(/border-l-|pl-5/)
-    expect(within(detail).getAllByTestId('score-rubric-item')).toHaveLength(3)
+    expect(within(detail).queryByTestId('score-rubric-item')).not.toBeInTheDocument()
+    expect(detail).not.toHaveTextContent('Directly reinforces the existing core or meta loop.')
     expect(summary).toHaveClass('opacity-20')
     container.querySelectorAll('[class*="transition-"]').forEach((element) => {
       expect(element).toHaveClass('motion-reduce:transition-none')
