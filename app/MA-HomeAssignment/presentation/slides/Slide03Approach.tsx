@@ -11,13 +11,20 @@ import { FlowArrow } from '../components/FlowArrow'
 
 const SURFACE_CLASSES = 'flex min-h-[96px] w-full items-center justify-center rounded-lg border px-4 py-3 text-center font-sans text-[16px] font-normal leading-snug text-[#0d3a5a]'
 
-type Reveal = 'play' | 'map' | null
+type Reveal = 'play' | 'map' | 'research' | null
 
 const ECONOMY_ITEMS = [
   { label: 'Spin', definition: 'Primary action and monetized energy.', src: '/coinmaster/resources/spin-emoji.png' },
   { label: 'Coin', definition: 'Core progression currency.', src: '/coinmaster/resources/coin-emoji.png' },
   { label: 'Star', definition: 'Status and progression signal.', src: '/coinmaster/resources/star-emoji.png' },
   { label: 'Gem', definition: 'Premium acceleration currency.', src: '/coinmaster/resources/gem-emoji.png' },
+] as const
+
+const RESEARCH_SCREENSHOTS = [
+  { src: '/coinmaster/research/research-discord.webp', alt: 'Coin Master advanced-play discussion on Discord' },
+  { src: '/coinmaster/research/research-reddit.webp', alt: 'Coin Master team recruitment discussion on Reddit' },
+  { src: '/coinmaster/research/research-facebook.webp', alt: 'Coin Master card-trading request on Facebook' },
+  { src: '/coinmaster/research/research-youtube.webp', alt: 'Coin Master advanced gameplay research on YouTube' },
 ] as const
 
 export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
@@ -29,6 +36,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
   }, [])
   const showDiagram = activeReveal === 'map'
   const showPlayDrawing = activeReveal === 'play'
+  const showResearchEvidence = activeReveal === 'research'
   useDeckReset(reset, slideKey)
 
   return (
@@ -39,7 +47,14 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
           {APPROACH_STEPS.map((step, index) => {
             const triggersDiagram = step.label === 'Map'
             const triggersPlayDrawing = step.label === 'Play'
-            const reveal: Reveal = triggersDiagram ? 'map' : triggersPlayDrawing ? 'play' : null
+            const triggersResearchEvidence = step.label === 'Research'
+            const reveal: Reveal = triggersDiagram ? 'map' : triggersPlayDrawing ? 'play' : triggersResearchEvidence ? 'research' : null
+            const revealId = triggersDiagram
+              ? 'approach-core-loop-diagram'
+              : triggersPlayDrawing
+                ? 'approach-play-game-drawing'
+                : 'approach-research-evidence'
+            const revealIsVisible = triggersDiagram ? showDiagram : triggersPlayDrawing ? showPlayDrawing : showResearchEvidence
             const isActive = activeStep === step.label
             const focusClass = activeStep && !isActive ? 'opacity-30' : 'opacity-100'
             return (
@@ -52,14 +67,14 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                   setActiveReveal(reveal)
                 }}
               >
-                {triggersDiagram || triggersPlayDrawing ? (
+                {reveal ? (
                   <button
                     type="button"
                     data-deck-interactive="true"
                     data-approach-pill="true"
                     data-blue-surface="true"
-                    aria-expanded={triggersDiagram ? showDiagram : showPlayDrawing}
-                    aria-controls={triggersDiagram ? 'approach-core-loop-diagram' : 'approach-play-game-drawing'}
+                    aria-expanded={revealIsVisible}
+                    aria-controls={revealId}
                     onFocus={() => {
                       setActiveStep(step.label)
                       setActiveReveal(reveal)
@@ -120,6 +135,25 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div
+            id="approach-research-evidence"
+            data-research-evidence="true"
+            aria-hidden={!showResearchEvidence}
+            className={`absolute inset-0 grid grid-cols-4 gap-5 transition-opacity duration-300 motion-reduce:transition-none ${showResearchEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+          >
+            {RESEARCH_SCREENSHOTS.map((screenshot) => (
+              <figure key={screenshot.src} data-research-screenshot="true" className="relative m-0 h-full max-w-full justify-self-center overflow-hidden rounded-2xl aspect-[1/2]">
+                <Image
+                  src={screenshot.src}
+                  alt={screenshot.alt}
+                  fill
+                  sizes="(min-width: 1280px) 270px, 22vw"
+                  className="object-cover object-top"
+                />
+              </figure>
+            ))}
           </div>
         </div>
       </section>
