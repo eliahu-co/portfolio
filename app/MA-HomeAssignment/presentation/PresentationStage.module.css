@@ -139,6 +139,16 @@
   line-height: 1.5;
 }
 
+.viewport[data-current-slide="slide-11"] .deckChrome button,
+.viewport[data-current-slide="slide-11"] .deckChrome p {
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.viewport[data-current-slide="slide-11"] .deckChrome {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  column-gap: 32px;
+}
+
 .deckChrome svg {
   display: block;
 }

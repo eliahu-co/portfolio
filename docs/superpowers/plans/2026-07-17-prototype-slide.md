@@ -115,3 +115,38 @@
 - [ ] **Step 5: Commit**
 
   Stage the focused implementation, tests, spec, and plan, then commit with `embed prototype in presentation slide`.
+
+### Task 4: Apply the MA preview backdrop and presentation hierarchy
+
+**Files:**
+- Modify: `app/MA-HomeAssignment/presentation/slides/Slide17Prototype.tsx`
+- Modify: `app/MA-HomeAssignment/presentation/PresentationDeck.tsx`
+- Modify: `app/MA-HomeAssignment/presentation/PresentationStage.module.css`
+- Modify: `app/MA-HomeAssignment/demo/DemoShell.tsx`
+- Modify: `app/MA-HomeAssignment/demo/CardBountyPrototype.module.css`
+- Test: `__tests__/ma-presentation-deep-dive.test.tsx`
+- Test: `__tests__/ma-presentation-deck.test.tsx`
+- Test: `app/MA-HomeAssignment/demo/__tests__/DemoShell.test.tsx`
+
+**Interfaces:**
+- Produces: `[data-prototype-slide-backdrop="true"]`
+- Produces: `PresentationDeck[data-current-slide="slide-11"]`
+- Produces: `--prototype-control-offset` for positioning the restart control beside the scaled phone
+
+- [ ] **Step 1: Write failing presentation tests**
+
+  Assert the full-bleed sky artwork and preview gradients, the `Card Bounty` eyebrow, the regular-scale white `Prototype` title, the `Restart` label, and slide-11-only white navigation.
+
+- [ ] **Step 2: Run tests to verify RED**
+
+  Run: `npm.cmd test -- __tests__/ma-presentation-deep-dive.test.tsx __tests__/ma-presentation-deck.test.tsx app/MA-HomeAssignment/demo/__tests__/DemoShell.test.tsx --runInBand`
+
+  Expected: FAIL because slide 11 still uses the warm slide shell, old title, under-phone restart control, and shared charcoal navigation.
+
+- [ ] **Step 3: Implement the approved layout**
+
+  Reuse the preview background layers as full-bleed slide decoration, align the enlarged phone to the eyebrow's top edge, expose the active slide id on the deck viewport, switch only slide 11's chrome to white, and absolutely position the MA-style restart control to the right of the scaled phone using a rendered-width offset.
+
+- [ ] **Step 4: Run focused and full verification**
+
+  Run the focused Jest command, `npm.cmd test -- --runInBand`, and `npm.cmd run build`; expect all commands to exit successfully.

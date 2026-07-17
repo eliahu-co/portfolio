@@ -36,15 +36,25 @@ describe('MA presentation Card Bounty deep dive', () => {
     const { container, rerender } = render(
       <Slide17Prototype slideKey="slide-11" isActive />,
     )
-    expect(screen.getByRole('heading', { name: 'Card Bounty, interactive' })).toBeVisible()
+    const backdrop = container.querySelector('[data-prototype-slide-backdrop="true"]')
+    const eyebrow = container.querySelector('[data-prototype-slide-eyebrow="true"]')
+    const title = screen.getByRole('heading', { name: 'Prototype' })
+
+    expect(backdrop).toBeInTheDocument()
+    expect(backdrop?.querySelector('img[src="/coinmaster-sky.webp"]')).toBeInTheDocument()
+    expect(eyebrow).toHaveTextContent('Card Bounty')
+    expect(eyebrow).toHaveClass('text-white/80')
+    expect(title).toHaveClass('text-white', 'text-[64px]')
     expect(screen.getByRole('region', { name: 'Card Bounty game prototype' })).toBeVisible()
-    expect(screen.getByRole('button', { name: 'Restart demo' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Restart' })).toBeVisible()
     expect(screen.queryByRole('link', { name: 'Open the Card Bounty interactive prototype' })).not.toBeInTheDocument()
     expect(screen.queryByRole('link', { name: 'Home assignment' })).not.toBeInTheDocument()
 
     const stage = container.querySelector('[data-prototype-stage="true"]')
+    const frame = container.querySelector('[data-prototype-frame="true"]')
     const prototype = container.querySelector('[data-prototype-presentation-shell="true"]')
-    expect(stage).toHaveClass('flex', 'flex-1', 'items-center', 'justify-center')
+    expect(stage).toHaveClass('absolute', 'inset-x-20', 'bottom-16', 'top-20')
+    expect(frame).toHaveClass('max-h-[720px]')
     expect(stage).toContainElement(prototype)
     expect(prototype).toHaveAttribute('data-deck-interactive', 'true')
 

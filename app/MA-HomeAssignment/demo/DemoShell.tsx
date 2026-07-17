@@ -29,6 +29,9 @@ export default function DemoShell({
   const presentation = mode === 'presentation'
   const scaleStageRef = useRef<HTMLDivElement>(null)
   const [presentationScale, setPresentationScale] = useState(0.5)
+  const presentationShellStyle = presentation
+    ? ({ '--prototype-control-offset': `${(215 * presentationScale) + 24}px` } as CSSProperties)
+    : undefined
 
   useLayoutEffect(() => {
     if (!presentation) return
@@ -67,6 +70,7 @@ export default function DemoShell({
       className={`${styles.demoRoot} ${presentation ? styles.demoRootPresentation : ''} card-bounty-demo-root`}
       data-prototype-presentation-shell={presentation ? 'true' : undefined}
       data-deck-interactive={presentation ? 'true' : undefined}
+      style={presentationShellStyle}
     >
       <aside
         className={`${styles.prototypeControls} ${presentation ? styles.prototypeControlsPresentation : ''} ${finalState ? styles.prototypeControlsFinal : ''}`}
@@ -88,7 +92,7 @@ export default function DemoShell({
           className={`${styles.restartButton} ${presentation ? styles.restartButtonPresentation : ''}`}
         >
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a8 8 0 1 1 2 5.3M4 5v6h6" /></svg>
-          Restart demo
+          {presentation ? 'Restart' : 'Restart demo'}
         </button>
         {presentation ? null : <p className={styles.guidance}><span aria-hidden="true" />{guidance}</p>}
       </aside>
