@@ -11,22 +11,20 @@ import { FlowArrow } from '../components/FlowArrow'
 
 const SURFACE_CLASSES = 'flex min-h-[96px] w-full items-center justify-center rounded-lg border px-4 py-3 text-center font-sans text-[16px] font-normal leading-snug text-[#0d3a5a]'
 
-type DiagramInteraction = {
-  hovered: boolean
-  focused: boolean
-}
+type Reveal = 'play' | 'map' | null
 
-const IDLE: DiagramInteraction = { hovered: false, focused: false }
+const ECONOMY_ITEMS = [
+  { label: 'Spin', definition: 'Primary action and monetized energy.', src: '/coinmaster/resources/spin-emoji.png' },
+  { label: 'Coin', definition: 'Core progression currency.', src: '/coinmaster/resources/coin-emoji.png' },
+  { label: 'Star', definition: 'Status and progression signal.', src: '/coinmaster/resources/star-emoji.png' },
+  { label: 'Gem', definition: 'Premium acceleration currency.', src: '/coinmaster/resources/gem-emoji.png' },
+] as const
 
 export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
-  const [interaction, setInteraction] = useState<DiagramInteraction>(IDLE)
-  const [playInteraction, setPlayInteraction] = useState<DiagramInteraction>(IDLE)
-  const reset = useCallback(() => {
-    setInteraction(IDLE)
-    setPlayInteraction(IDLE)
-  }, [])
-  const showDiagram = interaction.hovered || interaction.focused
-  const showPlayDrawing = playInteraction.hovered || playInteraction.focused
+  const [activeReveal, setActiveReveal] = useState<Reveal>(null)
+  const reset = useCallback(() => setActiveReveal(null), [])
+  const showDiagram = activeReveal === 'map'
+  const showPlayDrawing = activeReveal === 'play'
   useDeckReset(reset, slideKey)
 
   return (
@@ -37,8 +35,9 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
           {APPROACH_STEPS.map((step, index) => {
             const triggersDiagram = step.label === 'Map systems & economy'
             const triggersPlayDrawing = step.label === 'Play the game'
+            const reveal: Reveal = triggersDiagram ? 'map' : triggersPlayDrawing ? 'play' : null
             return (
-              <li key={step.label} className="relative min-w-0 flex-1">
+              <li key={step.label} className="relative min-w-0 flex-1" onMouseEnter={() => setActiveReveal(reveal)}>
                 {triggersDiagram || triggersPlayDrawing ? (
                   <button
                     type="button"
@@ -47,10 +46,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                     data-blue-surface="true"
                     aria-expanded={triggersDiagram ? showDiagram : showPlayDrawing}
                     aria-controls={triggersDiagram ? 'approach-core-loop-diagram' : 'approach-play-game-drawing'}
-                    onMouseEnter={() => (triggersDiagram ? setInteraction : setPlayInteraction)((current) => ({ ...current, hovered: true }))}
-                    onMouseLeave={() => (triggersDiagram ? setInteraction : setPlayInteraction)((current) => ({ ...current, hovered: false }))}
-                    onFocus={() => (triggersDiagram ? setInteraction : setPlayInteraction)((current) => ({ ...current, focused: true }))}
-                    onBlur={() => (triggersDiagram ? setInteraction : setPlayInteraction)((current) => ({ ...current, focused: false }))}
+                    onFocus={() => setActiveReveal(reveal)}
                     className={`${SURFACE_CLASSES} focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]`}
                   >
                     {step.label}
@@ -92,10 +88,21 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             id="approach-core-loop-diagram"
             data-approach-diagram="true"
             aria-hidden={!showDiagram}
-            className={`absolute inset-x-0 top-0 mx-auto w-full transition-opacity duration-300 motion-reduce:transition-none ${showDiagram ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
-            style={{ maxWidth: 'min(720px, 74vh)' }}
+            className={`absolute left-0 right-0 top-0 flex items-start gap-14 transition-opacity duration-300 motion-reduce:transition-none ${showDiagram ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
           >
-            <CoreLoopDiagram />
+            <div className="w-[min(720px,74vh)] shrink-0">
+              <CoreLoopDiagram />
+            </div>
+            <div data-economy-legend="true" role="list" aria-label="Coin Master economy signals" className="grid flex-1 gap-4 pt-3">
+              {ECONOMY_ITEMS.map((item) => (
+                <div key={item.label} data-economy-item="true" role="listitem" className="flex items-center gap-4">
+                  <Image src={item.src} alt={item.label} width={56} height={56} className="h-14 w-14 shrink-0 object-contain" />
+                  <p className="whitespace-nowrap font-sans text-[15px] leading-tight text-cm-charcoal">
+                    <span className="font-semibold">{item.label}</span> — {item.definition}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
