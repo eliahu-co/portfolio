@@ -37,7 +37,7 @@ describe('MA presentation deck', () => {
     const first = render(<PresentationDeck />)
 
     expect(activeSlide(first.container)).toHaveAttribute('id', 'slide-5')
-    expect(screen.getByRole('status', { name: 'Slide 5 of 16' })).toHaveTextContent('5 / 16')
+    expect(screen.getByRole('status', { name: 'Slide 5 of 14' })).toHaveTextContent('5 / 14')
     first.unmount()
 
     setRoute('#slide-999')
@@ -68,11 +68,11 @@ describe('MA presentation deck', () => {
     expect(activeSlide(container)).toHaveAttribute('id', 'slide-2')
 
     act(() => {
-      window.history.replaceState({}, '', '#slide-16')
+      window.history.replaceState({}, '', '#slide-14')
       window.dispatchEvent(new PopStateEvent('popstate'))
     })
     fireEvent.keyDown(window, { key: 'ArrowRight' })
-    expect(activeSlide(container)).toHaveAttribute('id', 'slide-16')
+    expect(activeSlide(container)).toHaveAttribute('id', 'slide-14')
     expect(screen.queryByRole('button', { name: /^Next:/ })).not.toBeInTheDocument()
   })
 
@@ -118,7 +118,7 @@ describe('MA presentation deck', () => {
   })
 
   it('routes home on Escape even when an interactive element has focus', () => {
-    setRoute('#slide-9')
+    setRoute('#slide-8')
     const { container } = render(<PresentationDeck />)
     const scoring = activeSlide(container)
     const score = within(scoring).getByRole('button', {
@@ -169,7 +169,7 @@ describe('MA presentation deck', () => {
   })
 
   it('handles closing-menu anchors in place and scopes the landscape override to mount', () => {
-    setRoute('#slide-16')
+    setRoute('#slide-14')
     const { container, unmount } = render(<PresentationDeck />)
     expect(document.body).toHaveClass('ma-presentation-active')
 
@@ -206,6 +206,8 @@ describe('MA presentation deck', () => {
     expect(stageCss).toMatch(/\[data-blue-surface="true"\]\s*{[^}]*box-shadow:\s*none/)
     expect(stageCss).toMatch(/\[data-blue-surface="true"\]:hover[\s\S]*?background:\s*linear-gradient/)
     expect(stageCss).toMatch(/\[data-blue-surface="true"\]:hover[\s\S]*?box-shadow:\s*0 2px 0 rgba\(30, 123, 168, 0\.16\)/)
+    expect(stageCss).toMatch(/\[data-approach-pill="true"\]:hover[\s\S]*?background:\s*transparent/)
+    expect(stageCss).toMatch(/\[data-approach-pill="true"\]:hover[\s\S]*?box-shadow:\s*none/)
     expect(stageCss).toMatch(/\[data-wood-surface="true"\]\s*{[^}]*border-width:\s*1\.5px/)
     expect(stageCss).toMatch(/\[data-wood-surface="true"\]\s*{[^}]*border-color:\s*rgba\(144, 57, 0, 0\.65\)/)
     expect(stageCss).toMatch(/\[data-wood-surface="true"\]\s*{[^}]*background:\s*transparent/)

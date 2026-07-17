@@ -3,13 +3,11 @@ import type { OpeningSlideProps } from './slides/Slide01Cover'
 import Slide01Cover from './slides/Slide01Cover'
 import Slide02About from './slides/Slide02About'
 import Slide03Approach from './slides/Slide03Approach'
-import Slide05ThreeBets from './slides/Slide05ThreeBets'
 import Slide06HometownThesis from './slides/Slide06HometownThesis'
 import Slide08CardBountyThesis from './slides/Slide08CardBountyThesis'
 import Slide10HotTrailThesis from './slides/Slide10HotTrailThesis'
 import Slide12Assumptions from './slides/Slide12Assumptions'
 import Slide13ComparativeScoring from './slides/Slide13ComparativeScoring'
-import Slide14Recommendation from './slides/Slide14Recommendation'
 import Slide15PlayerFlow from './slides/Slide15PlayerFlow'
 import Slide16MvpScope from './slides/Slide16MvpScope'
 import Slide17Prototype from './slides/Slide17Prototype'
@@ -47,19 +45,17 @@ export const slideRegistry = [
   { id: 'slide-1', title: 'Increasing ARPDAU', shortTitle: 'Cover', chapter: 'Opening', Component: Slide01Cover },
   { id: 'slide-2', title: 'About', shortTitle: 'About', chapter: 'Opening', Component: Slide02About },
   { id: 'slide-3', title: 'Approach', shortTitle: 'Approach', chapter: 'Approach', Component: Slide03Approach },
-  { id: 'slide-4', title: 'Three bets', shortTitle: 'Three bets', chapter: 'Three bets', Component: Slide05ThreeBets },
-  { id: 'slide-5', title: 'Hometown', shortTitle: 'Hometown', chapter: 'Three bets', Component: Slide06HometownThesis },
-  { id: 'slide-6', title: 'Card Bounty', shortTitle: 'Card Bounty', chapter: 'Three bets', Component: Slide08CardBountyThesis },
-  { id: 'slide-7', title: 'Hot Trail', shortTitle: 'Hot Trail', chapter: 'Three bets', Component: Slide10HotTrailThesis },
-  { id: 'slide-8', title: 'Assumptions', shortTitle: 'Assumptions', chapter: 'Three bets', Component: Slide12Assumptions },
-  { id: 'slide-9', title: 'Comparative scoring', shortTitle: 'Scoring', chapter: 'Decision', Component: Slide13ComparativeScoring },
-  { id: 'slide-10', title: 'Recommendation', shortTitle: 'Recommendation', chapter: 'Decision', Component: Slide14Recommendation },
-  { id: 'slide-11', title: 'Expanded player flow', shortTitle: 'Player flow', chapter: 'Player flow', Component: Slide15PlayerFlow },
-  { id: 'slide-12', title: 'MVP scope', shortTitle: 'MVP scope', chapter: 'Player flow', Component: Slide16MvpScope },
-  { id: 'slide-13', title: 'Interactive prototype', shortTitle: 'Prototype', chapter: 'Player flow', Component: Slide17Prototype },
-  { id: 'slide-14', title: 'A/B-test design', shortTitle: 'A/B test', chapter: 'Validation', Component: Slide18ExperimentDesign },
-  { id: 'slide-15', title: 'Success metrics and guardrails', shortTitle: 'Metrics', chapter: 'Validation', Component: Slide19Metrics },
-  { id: 'slide-16', title: 'Thank you', shortTitle: 'Thank you', chapter: 'Closing', Component: Slide21ThankYou },
+  { id: 'slide-4', title: 'Hometown', shortTitle: 'Hometown', chapter: 'Three bets', Component: Slide06HometownThesis },
+  { id: 'slide-5', title: 'Card Bounty', shortTitle: 'Card Bounty', chapter: 'Three bets', Component: Slide08CardBountyThesis },
+  { id: 'slide-6', title: 'Hot Trail', shortTitle: 'Hot Trail', chapter: 'Three bets', Component: Slide10HotTrailThesis },
+  { id: 'slide-7', title: 'Assumptions', shortTitle: 'Assumptions', chapter: 'Three bets', Component: Slide12Assumptions },
+  { id: 'slide-8', title: 'Comparative scoring', shortTitle: 'Scoring', chapter: 'Decision', Component: Slide13ComparativeScoring },
+  { id: 'slide-9', title: 'Expanded player flow', shortTitle: 'Player flow', chapter: 'Player flow', Component: Slide15PlayerFlow },
+  { id: 'slide-10', title: 'MVP scope', shortTitle: 'MVP scope', chapter: 'Player flow', Component: Slide16MvpScope },
+  { id: 'slide-11', title: 'Interactive prototype', shortTitle: 'Prototype', chapter: 'Player flow', Component: Slide17Prototype },
+  { id: 'slide-12', title: 'A/B-test design', shortTitle: 'A/B test', chapter: 'Validation', Component: Slide18ExperimentDesign },
+  { id: 'slide-13', title: 'Success metrics and guardrails', shortTitle: 'Metrics', chapter: 'Validation', Component: Slide19Metrics },
+  { id: 'slide-14', title: 'Thank you', shortTitle: 'Thank you', chapter: 'Closing', Component: Slide21ThankYou },
 ] as const satisfies readonly SlideDefinition[]
 
 export const slideCount = slideRegistry.length

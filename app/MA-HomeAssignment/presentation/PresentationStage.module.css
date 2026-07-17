@@ -41,6 +41,12 @@
   box-shadow: 0 2px 0 rgba(30, 123, 168, 0.16);
 }
 
+.viewport [data-approach-pill="true"]:hover,
+.viewport [data-approach-pill="true"]:focus-visible {
+  background: transparent;
+  box-shadow: none;
+}
+
 .viewport [data-wood-surface="true"] {
   border-width: 1.5px;
   border-color: rgba(144, 57, 0, 0.65);

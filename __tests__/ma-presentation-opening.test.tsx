@@ -2,7 +2,6 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import Slide01Cover from '@/app/MA-HomeAssignment/presentation/slides/Slide01Cover'
 import Slide02About from '@/app/MA-HomeAssignment/presentation/slides/Slide02About'
 import Slide03Approach from '@/app/MA-HomeAssignment/presentation/slides/Slide03Approach'
-import Slide05ThreeBets from '@/app/MA-HomeAssignment/presentation/slides/Slide05ThreeBets'
 
 describe('MA presentation opening chapter', () => {
   it('opens with the assignment outcome', () => {
@@ -160,19 +159,31 @@ describe('MA presentation opening chapter', () => {
     expect(benchmarkEvidence).toHaveClass('opacity-100')
     expect(research).toHaveClass('opacity-30')
     expect(researchEvidence).toHaveClass('opacity-0')
+    const create = screen.getByRole('button', { name: 'Create' })
+    const createEvidence = approach.container.querySelector('[data-create-evidence="true"]')!
+    expect(createEvidence).toHaveClass('opacity-0', 'pointer-events-none')
+    expect(createEvidence.querySelectorAll('[data-create-concept="true"]')).toHaveLength(5)
+    expect(createEvidence.querySelectorAll('[data-rejected="true"]')).toHaveLength(2)
+    expect(screen.getByText('Daily Memory Card')).toHaveClass('line-through')
+    expect(screen.getByText('Pet Equips')).toHaveClass('line-through')
+    expect(createEvidence).toHaveTextContent('Hometown')
+    expect(createEvidence).toHaveTextContent('Card Bounty')
+    expect(createEvidence).toHaveTextContent('Hot Trail')
+    fireEvent.mouseEnter(create)
+    expect(create).toHaveAttribute('aria-expanded', 'true')
+    expect(createEvidence).toHaveClass('opacity-100')
+    expect(screen.queryByRole('heading', { name: 'Three bets' })).not.toBeInTheDocument()
+    const decide = screen.getByRole('button', { name: 'Decide' })
+    const decisionEvidence = approach.container.querySelector('[data-decision-evidence="true"]')!
+    expect(decisionEvidence).toHaveClass('opacity-0', 'pointer-events-none')
+    fireEvent.mouseEnter(decide)
+    expect(decide).toHaveAttribute('aria-expanded', 'true')
+    expect(decisionEvidence).toHaveClass('opacity-100')
+    expect(decisionEvidence.querySelector('figure')).toHaveClass('rounded-2xl', 'overflow-hidden')
+    expect(decisionEvidence.querySelector('img')).toHaveAttribute('src', expect.stringContaining('feature-ranking.png'))
     expect(approach.container.querySelector('[data-step-number]')).not.toBeInTheDocument()
     expect(screen.queryByText('Discovery to decision')).not.toBeInTheDocument()
     approach.unmount()
   })
 
-  it('introduces three flat bets without controls or a subtitle', () => {
-    const { container } = render(<Slide05ThreeBets slideKey="slide-5" />)
-    expect(screen.getByRole('heading', { name: 'Three bets' })).toBeVisible()
-    expect(screen.getByRole('heading', { name: 'Hometown' })).toBeVisible()
-    expect(screen.getByRole('heading', { name: 'Card Bounty' })).toBeVisible()
-    expect(screen.getByRole('heading', { name: 'Hot Trail' })).toBeVisible()
-    expect(container.querySelectorAll('[data-flat-bet="true"]')).toHaveLength(3)
-    expect(screen.queryByRole('button')).not.toBeInTheDocument()
-    expect(screen.queryByText('Features')).not.toBeInTheDocument()
-  })
 })

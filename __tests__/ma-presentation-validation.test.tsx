@@ -6,7 +6,7 @@ import { METRIC_GROUPS, PROTOCOL } from '@/app/MA-HomeAssignment/content/validat
 
 describe('MA presentation validation chapter', () => {
   it('shows the comparable control, treatment, population, and hypothesis', () => {
-    const { container } = render(<Slide18ExperimentDesign slideKey="slide-15" />)
+    const { container } = render(<Slide18ExperimentDesign slideKey="slide-12" />)
     expect(screen.getByRole('heading', { name: 'Card Bounty validation' })).toBeVisible()
     PROTOCOL.forEach(({ label, body }) => {
       expect(screen.getByRole('heading', { name: label })).toBeVisible()
@@ -22,7 +22,7 @@ describe('MA presentation validation chapter', () => {
   })
 
   it('keeps ARPDAU dominant and switches between supporting metrics and guardrails', () => {
-    const { container } = render(<Slide19Metrics slideKey="slide-15" />)
+    const { container } = render(<Slide19Metrics slideKey="slide-13" />)
     expect(screen.getByRole('heading', { name: 'ARPDAU leads the decision' })).toBeVisible()
     const primary = container.querySelector('[data-primary-metric="true"]')!
     expect(primary).toHaveTextContent('ARPDAU')
@@ -87,10 +87,10 @@ describe('MA presentation validation chapter', () => {
   })
 
   it('closes with plain same-deck chapter links', () => {
-    const { container } = render(<Slide21ThankYou slideKey="slide-16" />)
+    const { container } = render(<Slide21ThankYou slideKey="slide-14" />)
     expect(screen.getByRole('heading', { name: 'Thank you' })).toBeVisible()
-    expect(screen.getByRole('link', { name: 'Decision' })).toHaveAttribute('href', '#slide-9')
-    expect(screen.getByRole('link', { name: 'Validation' })).toHaveAttribute('href', '#slide-14')
+    expect(screen.getByRole('link', { name: 'Decision' })).toHaveAttribute('href', '#slide-8')
+    expect(screen.getByRole('link', { name: 'Validation' })).toHaveAttribute('href', '#slide-12')
     expect(container.querySelector('img, svg')).not.toBeInTheDocument()
     expect(container.querySelector('[data-closing-message="true"]')).toHaveTextContent(/recommend Card Bounty/i)
 

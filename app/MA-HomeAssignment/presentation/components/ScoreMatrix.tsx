@@ -41,7 +41,7 @@ function classNames(...values: Array<string | false | null | undefined>): string
 function DecisionSummary() {
   return (
     <div className="font-sans text-[13px] leading-relaxed text-charcoal">
-      <p className="font-bold text-cm-violet-deep">{OPPORTUNITY_SCORE_FORMULA}</p>
+      <p data-testid="score-formula" className="font-bold text-charcoal/60">{OPPORTUNITY_SCORE_FORMULA}</p>
     </div>
   )
 }

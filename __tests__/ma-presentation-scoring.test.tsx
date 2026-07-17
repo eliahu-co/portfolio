@@ -1,7 +1,6 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import Slide12Assumptions from '@/app/MA-HomeAssignment/presentation/slides/Slide12Assumptions'
 import Slide13ComparativeScoring from '@/app/MA-HomeAssignment/presentation/slides/Slide13ComparativeScoring'
-import Slide14Recommendation from '@/app/MA-HomeAssignment/presentation/slides/Slide14Recommendation'
 import { ASSUMPTION_STORIES } from '@/app/MA-HomeAssignment/presentation/deckData'
 
 describe('MA presentation decision chapter', () => {
@@ -132,22 +131,11 @@ describe('MA presentation decision chapter', () => {
     expect(winner).toHaveClass('bg-cm-gold/20')
   })
 
-  it('recommends Card Bounty with its feature image and evidence', () => {
-    const { container } = render(<Slide14Recommendation slideKey="slide-11" />)
-    expect(screen.getByRole('heading', { name: 'Card Bounty' })).toBeVisible()
-    expect(container.querySelectorAll('img')).toHaveLength(1)
-    expect(container.querySelectorAll('img[alt="Card Bounty feature mockup"]')).toHaveLength(1)
-    expect(container.querySelector('img')).toHaveClass('h-[320px]')
-
-    const evidence = screen.getByRole('list', { name: 'Why Card Bounty wins' })
-    expect(within(evidence).getAllByRole('listitem')).toHaveLength(3)
-    expect(within(evidence).getByRole('heading', { name: 'Familiar behavior' })).toBeVisible()
-    expect(within(evidence).getByRole('heading', { name: 'Additional Coin demand' })).toBeVisible()
-    expect(within(evidence).getByRole('heading', { name: 'Bounded validation' })).toBeVisible()
-    expect(evidence).not.toHaveClass('rounded-2xl')
-    expect(evidence).not.toHaveClass('border')
-    expect(evidence).not.toHaveClass('bg-white')
-    expect(screen.getAllByText(/^Primary risk:/)).toHaveLength(1)
-    expect(container.querySelectorAll('.border-l-4, .border-l-8')).toHaveLength(0)
+  it('gives the table breathing room and mutes the opportunity formula', () => {
+    const { container } = render(<Slide13ComparativeScoring slideKey="slide-10" />)
+    expect(container.querySelector('[data-score-matrix-wrap="true"]')).toHaveClass('mt-6')
+    expect(screen.getByTestId('score-formula')).toHaveClass('text-charcoal/60')
+    expect(screen.getByTestId('score-formula')).not.toHaveClass('text-cm-violet-deep')
   })
+
 })

@@ -3,7 +3,7 @@
 import { useCallback, useState } from 'react'
 import Image from 'next/image'
 import CoreLoopDiagram from '@/app/MA-HomeAssignment/sections/CoreLoopDiagram'
-import { APPROACH_STEPS } from '../deckData'
+import { APPROACH_STEPS, CONCEPTS } from '../deckData'
 import { SlideShell, SlideTitle } from '../primitives'
 import { useDeckReset } from '../useDeckReset'
 import type { OpeningSlideProps } from './Slide01Cover'
@@ -11,7 +11,7 @@ import { FlowArrow } from '../components/FlowArrow'
 
 const SURFACE_CLASSES = 'flex min-h-[96px] w-full items-center justify-center rounded-lg border px-4 py-3 text-center font-sans text-[16px] font-normal leading-snug text-[#0d3a5a]'
 
-type Reveal = 'play' | 'map' | 'research' | 'benchmark' | null
+type Reveal = 'play' | 'map' | 'research' | 'benchmark' | 'create' | 'decide' | null
 
 const ECONOMY_ITEMS = [
   { label: 'Spin', definition: 'Primary action and monetized energy.', src: '/coinmaster/resources/spin-emoji.png' },
@@ -33,6 +33,8 @@ const BENCHMARK_SCREENSHOTS = [
   { label: 'Dice Dreams', src: '/coinmaster/benchmark/benchmark-diner.webp', alt: 'Dice Dreams timed collection mini-game benchmark' },
 ] as const
 
+const REJECTED_CONCEPTS = ['Daily Memory Card', 'Pet Equips'] as const
+
 export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
   const [activeReveal, setActiveReveal] = useState<Reveal>(null)
   const [activeStep, setActiveStep] = useState<string | null>(null)
@@ -44,6 +46,8 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
   const showPlayDrawing = activeReveal === 'play'
   const showResearchEvidence = activeReveal === 'research'
   const showBenchmarkEvidence = activeReveal === 'benchmark'
+  const showCreateEvidence = activeReveal === 'create'
+  const showDecisionEvidence = activeReveal === 'decide'
   useDeckReset(reset, slideKey)
 
   return (
@@ -56,21 +60,31 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             const triggersPlayDrawing = step.label === 'Play'
             const triggersResearchEvidence = step.label === 'Research'
             const triggersBenchmarkEvidence = step.label === 'Benchmark'
-            const reveal: Reveal = triggersDiagram ? 'map' : triggersPlayDrawing ? 'play' : triggersResearchEvidence ? 'research' : triggersBenchmarkEvidence ? 'benchmark' : null
+            const triggersCreateEvidence = step.label === 'Create'
+            const triggersDecisionEvidence = step.label === 'Decide'
+            const reveal: Reveal = triggersDiagram ? 'map' : triggersPlayDrawing ? 'play' : triggersResearchEvidence ? 'research' : triggersBenchmarkEvidence ? 'benchmark' : triggersCreateEvidence ? 'create' : triggersDecisionEvidence ? 'decide' : null
             const revealId = triggersDiagram
               ? 'approach-core-loop-diagram'
               : triggersPlayDrawing
                 ? 'approach-play-game-drawing'
                 : triggersResearchEvidence
                   ? 'approach-research-evidence'
-                  : 'approach-benchmark-evidence'
+                  : triggersBenchmarkEvidence
+                    ? 'approach-benchmark-evidence'
+                    : triggersCreateEvidence
+                      ? 'approach-create-evidence'
+                      : 'approach-decision-evidence'
             const revealIsVisible = triggersDiagram
               ? showDiagram
               : triggersPlayDrawing
                 ? showPlayDrawing
                 : triggersResearchEvidence
                   ? showResearchEvidence
-                  : showBenchmarkEvidence
+                  : triggersBenchmarkEvidence
+                    ? showBenchmarkEvidence
+                    : triggersCreateEvidence
+                      ? showCreateEvidence
+                      : showDecisionEvidence
             const isActive = activeStep === step.label
             const focusClass = activeStep && !isActive ? 'opacity-30' : 'opacity-100'
             return (
@@ -198,6 +212,46 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                   {screenshot.label}
                 </figcaption>
               </figure>
+            ))}
+          </div>
+
+          <div
+            id="approach-decision-evidence"
+            data-decision-evidence="true"
+            aria-hidden={!showDecisionEvidence}
+            className={`absolute inset-0 transition-opacity duration-300 motion-reduce:transition-none ${showDecisionEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+          >
+            <figure className="relative m-0 mx-auto h-full max-w-full overflow-hidden rounded-2xl aspect-[16/9]">
+              <Image
+                src="/coinmaster/decision/feature-ranking.png"
+                alt="Feature ranking: Card Bounty first, Hot Trail second, and Hometown third"
+                fill
+                sizes="(min-width: 1280px) 900px, 75vw"
+                className="object-cover"
+              />
+            </figure>
+          </div>
+
+          <div
+            id="approach-create-evidence"
+            data-create-evidence="true"
+            aria-hidden={!showCreateEvidence}
+            className={`absolute inset-0 grid grid-cols-[0.68fr_0.68fr_repeat(3,1fr)] gap-5 transition-opacity duration-300 motion-reduce:transition-none ${showCreateEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+          >
+            {REJECTED_CONCEPTS.map((title) => (
+              <section key={title} data-create-concept="true" data-rejected="true" className="border-t-4 border-charcoal/20 pt-5 opacity-45">
+                <h3 className="font-serif text-[22px] font-black leading-tight text-cm-violet-deep line-through decoration-2">
+                  {title}
+                </h3>
+              </section>
+            ))}
+            {CONCEPTS.map((feature) => (
+              <section key={feature.id} data-create-concept="true" data-rejected="false" className="border-t-4 border-cm-gold pt-5">
+                <h3 className="font-serif text-[24px] font-black leading-tight text-cm-violet-deep">{feature.title}</h3>
+                <p className="mt-4 font-sans text-[13px] font-bold leading-relaxed text-[#1A1A1A]">
+                  {feature.monetizationSummary}
+                </p>
+              </section>
             ))}
           </div>
         </div>

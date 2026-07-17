@@ -349,13 +349,13 @@ export const SCOPE_STORIES = {
 
 export type ClosingGroup = {
   readonly label: string
-  readonly slide: 3 | 5 | 13 | 15 | 18
+  readonly slide: 3 | 4 | 8 | 9 | 12
 }
 
 export const CLOSING_GROUPS = [
   { label: 'Approach', slide: 3 },
-  { label: 'Concepts', slide: 5 },
-  { label: 'Decision', slide: 13 },
-  { label: 'Deep dive', slide: 15 },
-  { label: 'Validation', slide: 18 },
+  { label: 'Concepts', slide: 4 },
+  { label: 'Decision', slide: 8 },
+  { label: 'Deep dive', slide: 9 },
+  { label: 'Validation', slide: 12 },
 ] as const satisfies readonly ClosingGroup[]
