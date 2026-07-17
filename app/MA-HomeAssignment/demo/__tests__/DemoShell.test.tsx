@@ -73,6 +73,8 @@ describe('DemoShell presentation contract', () => {
     expect(shell).toContain('data-prototype-presentation-controls')
     expect(shell).toContain('data-prototype-scale-stage')
     expect(shell).toContain('ResizeObserver')
+    expect(shell).toContain('Math.min(width / 430, height / 932)')
+    expect(shell).not.toContain('Math.min(width / 430, height / 932, 1)')
     expect(css).toMatch(/\.demoRootPresentation\s*{[^}]*height:\s*100%;[^}]*min-height:\s*0;/)
     expect(css).toMatch(/\.demoRootPresentation\s*{[^}]*display:\s*block;/)
     expect(css).toMatch(/\.prototypeControlsPresentation\s*{[^}]*position:\s*absolute;[^}]*top:\s*118px;[^}]*left:\s*0;/)

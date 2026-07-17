@@ -39,7 +39,7 @@ export default function DemoShell({
     const fitPrototype = () => {
       const { width, height } = stage.getBoundingClientRect()
       if (width <= 0 || height <= 0) return
-      setPresentationScale(Math.min(width / 430, height / 932, 1))
+      setPresentationScale(Math.min(width / 430, height / 932))
     }
 
     fitPrototype()
