@@ -7,11 +7,13 @@ export default function Slide17Prototype(_props: OpeningSlideProps) {
     <SlideShell>
       <Eyebrow>Prototype</Eyebrow>
       <SlideTitle>Card Bounty, interactive</SlideTitle>
-      <div
-        data-source-component="prototype-preview"
-        className="mx-auto mt-4 aspect-video max-h-[349px] w-full max-w-[620px]"
-      >
-        <PrototypePreview />
+      <div data-prototype-stage="true" className="flex min-h-0 flex-1 items-center justify-center">
+        <div
+          data-source-component="prototype-preview"
+          className="aspect-video max-h-[349px] w-full max-w-[620px]"
+        >
+          <PrototypePreview />
+        </div>
       </div>
     </SlideShell>
   )

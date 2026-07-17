@@ -38,8 +38,11 @@ describe('MA presentation Card Bounty deep dive', () => {
     expect(container.querySelector('img[src="/coinmaster/prototype.webp"]')).toBeInTheDocument()
     expect(container.querySelector('[data-prototype-cta="true"]')).toBeInTheDocument()
 
+    const stage = container.querySelector('[data-prototype-stage="true"]')
     const sourceFrame = container.querySelector('[data-source-component="prototype-preview"]')
     const prototype = screen.getByRole('link', { name: 'Open the Card Bounty interactive prototype' })
+    expect(stage).toHaveClass('flex', 'flex-1', 'items-center', 'justify-center')
+    expect(stage).toContainElement(sourceFrame)
     expect(sourceFrame).toHaveClass('aspect-video', 'max-w-[620px]', 'max-h-[349px]')
     expect(sourceFrame).toContainElement(prototype)
     expect(sourceFrame?.firstElementChild).toBe(prototype)
