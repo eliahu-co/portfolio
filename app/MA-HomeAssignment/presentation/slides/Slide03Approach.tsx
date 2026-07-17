@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useState } from 'react'
+import Image from 'next/image'
 import CoreLoopDiagram from '@/app/MA-HomeAssignment/sections/CoreLoopDiagram'
 import { APPROACH_STEPS } from '../deckData'
 import { SlideShell, SlideTitle } from '../primitives'
@@ -19,31 +20,37 @@ const IDLE: DiagramInteraction = { hovered: false, focused: false }
 
 export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
   const [interaction, setInteraction] = useState<DiagramInteraction>(IDLE)
-  const reset = useCallback(() => setInteraction(IDLE), [])
+  const [playInteraction, setPlayInteraction] = useState<DiagramInteraction>(IDLE)
+  const reset = useCallback(() => {
+    setInteraction(IDLE)
+    setPlayInteraction(IDLE)
+  }, [])
   const showDiagram = interaction.hovered || interaction.focused
+  const showPlayDrawing = playInteraction.hovered || playInteraction.focused
   useDeckReset(reset, slideKey)
 
   return (
     <SlideShell>
       <SlideTitle>Approach</SlideTitle>
       <section aria-label="Product approach" className="mt-16 flex-1">
-        <ol className="flex items-center gap-5">
+        <ol className="relative z-20 flex items-center gap-5">
           {APPROACH_STEPS.map((step, index) => {
             const triggersDiagram = step.label === 'Map systems & economy'
+            const triggersPlayDrawing = step.label === 'Play the game'
             return (
               <li key={step.label} className="relative min-w-0 flex-1">
-                {triggersDiagram ? (
+                {triggersDiagram || triggersPlayDrawing ? (
                   <button
                     type="button"
                     data-deck-interactive="true"
                     data-approach-pill="true"
                     data-blue-surface="true"
-                    aria-expanded={showDiagram}
-                    aria-controls="approach-core-loop-diagram"
-                    onMouseEnter={() => setInteraction((current) => ({ ...current, hovered: true }))}
-                    onMouseLeave={() => setInteraction((current) => ({ ...current, hovered: false }))}
-                    onFocus={() => setInteraction((current) => ({ ...current, focused: true }))}
-                    onBlur={() => setInteraction((current) => ({ ...current, focused: false }))}
+                    aria-expanded={triggersDiagram ? showDiagram : showPlayDrawing}
+                    aria-controls={triggersDiagram ? 'approach-core-loop-diagram' : 'approach-play-game-drawing'}
+                    onMouseEnter={() => (triggersDiagram ? setInteraction : setPlayInteraction)((current) => ({ ...current, hovered: true }))}
+                    onMouseLeave={() => (triggersDiagram ? setInteraction : setPlayInteraction)((current) => ({ ...current, hovered: false }))}
+                    onFocus={() => (triggersDiagram ? setInteraction : setPlayInteraction)((current) => ({ ...current, focused: true }))}
+                    onBlur={() => (triggersDiagram ? setInteraction : setPlayInteraction)((current) => ({ ...current, focused: false }))}
                     className={`${SURFACE_CLASSES} focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]`}
                   >
                     {step.label}
@@ -65,14 +72,31 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
           })}
         </ol>
 
-        <div
-          id="approach-core-loop-diagram"
-          data-approach-diagram="true"
-          aria-hidden={!showDiagram}
-          className={`mx-auto mt-4 w-full transition-opacity duration-300 motion-reduce:transition-none ${showDiagram ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
-          style={{ maxWidth: 'min(720px, 74vh)' }}
-        >
-          <CoreLoopDiagram />
+        <div className="relative -mt-10 h-[340px] w-full">
+          <div
+            id="approach-play-game-drawing"
+            data-play-game-drawing="true"
+            aria-hidden={!showPlayDrawing}
+            className={`absolute inset-0 transition-opacity duration-300 motion-reduce:transition-none ${showPlayDrawing ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+          >
+            <Image
+              src="/coinmaster/approach-notes.webp"
+              alt=""
+              fill
+              sizes="(min-width: 1280px) 1152px, 90vw"
+              className="object-contain object-top"
+            />
+          </div>
+
+          <div
+            id="approach-core-loop-diagram"
+            data-approach-diagram="true"
+            aria-hidden={!showDiagram}
+            className={`absolute inset-x-0 top-14 mx-auto w-full transition-opacity duration-300 motion-reduce:transition-none ${showDiagram ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+            style={{ maxWidth: 'min(720px, 74vh)' }}
+          >
+            <CoreLoopDiagram />
+          </div>
         </div>
       </section>
     </SlideShell>

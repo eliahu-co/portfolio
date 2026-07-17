@@ -74,6 +74,16 @@ describe('MA presentation opening chapter', () => {
     })
     expect(approach.container.querySelectorAll('svg[data-approach-connector="true"]')).toHaveLength(5)
     expect(approach.container.querySelectorAll('[data-approach-connector="true"][data-flow-arrow="true"]')).toHaveLength(5)
+    const playTheGame = screen.getByRole('button', { name: 'Play the game' })
+    const playDrawing = approach.container.querySelector('[data-play-game-drawing="true"]')!
+    expect(playTheGame).toHaveAttribute('aria-expanded', 'false')
+    expect(playDrawing).toHaveClass('opacity-0', 'pointer-events-none')
+    fireEvent.mouseEnter(playTheGame)
+    expect(playTheGame).toHaveAttribute('aria-expanded', 'true')
+    expect(playDrawing).toHaveClass('opacity-100')
+    fireEvent.mouseLeave(playTheGame)
+    expect(playTheGame).toHaveAttribute('aria-expanded', 'false')
+
     const mapSystems = screen.getByRole('button', { name: 'Map systems & economy' })
     const approachDiagram = approach.container.querySelector('[data-approach-diagram="true"]')!
     expect(mapSystems).toHaveAttribute('aria-expanded', 'false')
