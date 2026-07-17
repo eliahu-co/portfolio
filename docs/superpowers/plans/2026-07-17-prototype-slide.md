@@ -74,7 +74,7 @@
 
 - [ ] **Step 3: Implement the presentation CSS and markup**
 
-  Add a constrained non-viewport shell, native `430 / 932` game aspect ratio, compact restart control, no orientation overlay, and slide-safe sizing. Mark the wrapper as deck-interactive.
+  Add a constrained non-viewport shell, a uniformly scaled native `430 × 932` logical canvas, compact restart control, no orientation overlay, and slide-safe sizing. Mark the wrapper as deck-interactive.
 
 - [ ] **Step 4: Run tests to verify GREEN**
 

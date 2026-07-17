@@ -147,6 +147,7 @@ export default function PresentationDeck() {
               >
                 <Component
                   slideKey={activeSlide.id}
+                  isActive={isActive}
                   chapterLinks={closingMenuTargets}
                 />
               </section>

@@ -63,4 +63,18 @@ describe('DemoShell presentation contract', () => {
       /\.gameViewport\s*{[^}]*width:\s*100vw;[^}]*height:\s*100dvh;[^}]*border:\s*0;[^}]*border-radius:\s*0;[^}]*box-shadow:\s*none;/,
     )
   })
+
+  it('defines a presentation mode without changing the standalone shell', () => {
+    const shell = readDemoSource('DemoShell.tsx')
+    const css = readDemoSource('CardBountyPrototype.module.css')
+
+    expect(shell).toContain("mode = 'standalone'")
+    expect(shell).toContain('data-prototype-presentation-shell')
+    expect(shell).toContain('data-prototype-presentation-controls')
+    expect(shell).toContain('data-prototype-scale-stage')
+    expect(shell).toContain('ResizeObserver')
+    expect(css).toMatch(/\.demoRootPresentation\s*{[^}]*height:\s*100%;[^}]*min-height:\s*0;/)
+    expect(css).toMatch(/\.gameViewportPresentation\s*{[^}]*width:\s*430px;[^}]*height:\s*932px;/)
+    expect(css).toMatch(/\.gameViewportPresentation\s*{[^}]*transform:\s*translate\(-50%, -50%\) scale\(var\(--prototype-scale\)\);/)
+  })
 })

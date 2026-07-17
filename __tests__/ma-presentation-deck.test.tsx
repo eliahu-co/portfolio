@@ -160,6 +160,23 @@ describe('MA presentation deck', () => {
       .toHaveAttribute('aria-expanded', 'false')
   })
 
+  it('mounts the prototype only on slide 11 and resets it after revisiting', () => {
+    setRoute('#slide-11')
+    const { container } = render(<PresentationDeck />)
+    const prototypeSlide = activeSlide(container)
+
+    fireEvent.click(within(prototypeSlide).getByRole('button', { name: 'Open Card Bounty' }))
+    expect(within(prototypeSlide).getByRole('dialog', { name: 'Card Bounty' })).toBeVisible()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Next: A/B test' }))
+    expect(screen.queryByRole('region', { name: 'Card Bounty game prototype' })).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Previous: Prototype' }))
+    const remountedPrototype = activeSlide(container)
+    expect(within(remountedPrototype).queryByRole('dialog', { name: 'Card Bounty' })).not.toBeInTheDocument()
+    expect(within(remountedPrototype).getByRole('button', { name: 'Open Card Bounty' })).toBeVisible()
+  })
+
   it('uses the same full-viewport stage model as the HA presentation', () => {
     const { container } = render(<PresentationDeck />)
     const viewport = container.querySelector<HTMLElement>('[data-presentation-viewport]')!

@@ -32,21 +32,24 @@ describe('MA presentation Card Bounty deep dive', () => {
     })
   })
 
-  it('reuses the original interactive prototype preview', () => {
-    const { container } = render(<Slide17Prototype slideKey="slide-14" />)
+  it('mounts the real prototype only while its slide is active', () => {
+    const { container, rerender } = render(
+      <Slide17Prototype slideKey="slide-11" isActive />,
+    )
     expect(screen.getByRole('heading', { name: 'Card Bounty, interactive' })).toBeVisible()
-    expect(container.querySelector('img[src="/coinmaster/prototype.webp"]')).toBeInTheDocument()
-    expect(container.querySelector('[data-prototype-cta="true"]')).toBeInTheDocument()
+    expect(screen.getByRole('region', { name: 'Card Bounty game prototype' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Restart demo' })).toBeVisible()
+    expect(screen.queryByRole('link', { name: 'Open the Card Bounty interactive prototype' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Home assignment' })).not.toBeInTheDocument()
 
     const stage = container.querySelector('[data-prototype-stage="true"]')
-    const sourceFrame = container.querySelector('[data-source-component="prototype-preview"]')
-    const prototype = screen.getByRole('link', { name: 'Open the Card Bounty interactive prototype' })
+    const prototype = container.querySelector('[data-prototype-presentation-shell="true"]')
     expect(stage).toHaveClass('flex', 'flex-1', 'items-center', 'justify-center')
-    expect(stage).toContainElement(sourceFrame)
-    expect(sourceFrame).toHaveClass('aspect-video', 'max-w-[620px]', 'max-h-[349px]')
-    expect(sourceFrame).toContainElement(prototype)
-    expect(sourceFrame?.firstElementChild).toBe(prototype)
-    expect(prototype).toHaveClass('aspect-video', 'w-full')
-    expect(sourceFrame?.className).not.toMatch(/overflow-hidden|rounded|shadow|transition|animate|\bbg-|\bborder\b/)
+    expect(stage).toContainElement(prototype)
+    expect(prototype).toHaveAttribute('data-deck-interactive', 'true')
+
+    rerender(<Slide17Prototype slideKey="slide-10" isActive={false} />)
+    expect(screen.queryByRole('region', { name: 'Card Bounty game prototype' })).not.toBeInTheDocument()
+    expect(container.querySelector('[data-prototype-presentation-shell="true"]')).not.toBeInTheDocument()
   })
 })

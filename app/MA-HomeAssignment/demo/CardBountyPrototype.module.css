@@ -119,6 +119,72 @@
   container-type: inline-size;
 }
 
+.demoRootPresentation {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0;
+  background: transparent;
+}
+
+.prototypeControlsPresentation {
+  order: 2;
+  width: auto;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.restartButtonPresentation {
+  width: auto;
+  min-height: 34px;
+  margin: 0;
+  padding: 6px 11px;
+  border-width: 1.5px;
+  border-color: rgba(144, 57, 0, .5);
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.restartButtonPresentation:hover { background: #ffe9c4; }
+
+.gameViewportScaleStage {
+  order: 1;
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: visible;
+}
+
+.gameViewportPresentation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 430px;
+  height: 932px;
+  min-height: 0;
+  max-height: none;
+  flex: none;
+  aspect-ratio: 430 / 932;
+  transform: translate(-50%, -50%) scale(var(--prototype-scale));
+  transform-origin: center;
+}
+
 .baseLayer,
 .inertLayer {
   position: absolute;

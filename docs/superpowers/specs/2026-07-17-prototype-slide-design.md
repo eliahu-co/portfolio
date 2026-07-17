@@ -15,7 +15,7 @@ Make slide 11 contain the real Card Bounty prototype so it can be played without
 
 ## Architecture
 
-`CardBountyPrototype` and `DemoShell` gain a small `mode` interface with `standalone` as the default and `presentation` as the new variant. The standalone route remains unchanged. Presentation mode reuses the complete reducer-driven game and changes only its outer shell: constrained height, one-column game composition, compact restart control, and no full-viewport or orientation-overlay behavior.
+`CardBountyPrototype` and `DemoShell` gain a small `mode` interface with `standalone` as the default and `presentation` as the new variant. The standalone route remains unchanged. Presentation mode reuses the complete reducer-driven game and changes only its outer shell: constrained height, one-column game composition, compact restart control, and no full-viewport or orientation-overlay behavior. The game keeps its native 430 × 932 logical canvas and scales that canvas uniformly to the available slide area, preventing fixed-size game controls from reflowing or overlapping at presentation size.
 
 `PresentationDeck` passes an explicit `isActive` boolean to every registered slide. Slide 11 uses that value as a mount gate around the prototype, ensuring its timer and state exist only while visible. The static preview remains available to the home-assignment page but is no longer used by the presentation.
 

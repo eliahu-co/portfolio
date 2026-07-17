@@ -3,6 +3,7 @@ import { SlideShell, SlideTitle } from '../primitives'
 
 export type OpeningSlideProps = {
   readonly slideKey: DeckSlideKey
+  readonly isActive?: boolean
 }
 
 export default function Slide01Cover(_props: OpeningSlideProps) {
