@@ -22,7 +22,11 @@ const ECONOMY_ITEMS = [
 
 export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
   const [activeReveal, setActiveReveal] = useState<Reveal>(null)
-  const reset = useCallback(() => setActiveReveal(null), [])
+  const [activeStep, setActiveStep] = useState<string | null>(null)
+  const reset = useCallback(() => {
+    setActiveReveal(null)
+    setActiveStep(null)
+  }, [])
   const showDiagram = activeReveal === 'map'
   const showPlayDrawing = activeReveal === 'play'
   useDeckReset(reset, slideKey)
@@ -33,11 +37,21 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
       <section aria-label="Product approach" className="mt-16 flex min-h-0 flex-1 flex-col">
         <ol className="relative z-20 flex shrink-0 items-center gap-5">
           {APPROACH_STEPS.map((step, index) => {
-            const triggersDiagram = step.label === 'Map systems & economy'
-            const triggersPlayDrawing = step.label === 'Play the game'
+            const triggersDiagram = step.label === 'Map'
+            const triggersPlayDrawing = step.label === 'Play'
             const reveal: Reveal = triggersDiagram ? 'map' : triggersPlayDrawing ? 'play' : null
+            const isActive = activeStep === step.label
+            const focusClass = activeStep && !isActive ? 'opacity-30' : 'opacity-100'
             return (
-              <li key={step.label} className="relative min-w-0 flex-1" onMouseEnter={() => setActiveReveal(reveal)}>
+              <li
+                key={step.label}
+                data-approach-active={isActive}
+                className="relative min-w-0 flex-1"
+                onMouseEnter={() => {
+                  setActiveStep(step.label)
+                  setActiveReveal(reveal)
+                }}
+              >
                 {triggersDiagram || triggersPlayDrawing ? (
                   <button
                     type="button"
@@ -46,20 +60,23 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                     data-blue-surface="true"
                     aria-expanded={triggersDiagram ? showDiagram : showPlayDrawing}
                     aria-controls={triggersDiagram ? 'approach-core-loop-diagram' : 'approach-play-game-drawing'}
-                    onFocus={() => setActiveReveal(reveal)}
-                    className={`${SURFACE_CLASSES} focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]`}
+                    onFocus={() => {
+                      setActiveStep(step.label)
+                      setActiveReveal(reveal)
+                    }}
+                    className={`${SURFACE_CLASSES} ${focusClass} transition-opacity duration-200 motion-reduce:transition-none focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]`}
                   >
                     {step.label}
                   </button>
                 ) : (
-                  <div data-approach-pill="true" data-blue-surface="true" className={SURFACE_CLASSES}>
+                  <div data-approach-pill="true" data-blue-surface="true" className={`${SURFACE_CLASSES} ${focusClass} transition-opacity duration-200 motion-reduce:transition-none`}>
                     {step.label}
                   </div>
                 )}
                 {index < APPROACH_STEPS.length - 1 && (
                   <FlowArrow
                     data-approach-connector="true"
-                    className="absolute left-full top-1/2 h-[14px] w-5 -translate-y-1/2"
+                    className={`absolute left-full top-1/2 h-[14px] w-5 -translate-y-1/2 transition-opacity duration-200 motion-reduce:transition-none ${activeStep ? 'opacity-30' : 'opacity-100'}`}
                     color="#1E7BA8"
                   />
                 )}

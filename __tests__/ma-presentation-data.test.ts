@@ -65,7 +65,7 @@ describe('MA presentation story data', () => {
   })
 
   it('provides only the approved presentation annotations for later chapters', () => {
-    expect(APPROACH_STEPS).toHaveLength(6)
+    expect(APPROACH_STEPS.map(({ label }) => label)).toEqual(['Play', 'Map', 'Research', 'Benchmark', 'Create', 'Decide', 'Test'])
     expect(ASSUMPTION_STORIES).toHaveLength(5)
     expect(RECOMMENDATION.evidence).toHaveLength(3)
     expect(PLAYER_FLOW).toHaveLength(6)

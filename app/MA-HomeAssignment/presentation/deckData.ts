@@ -146,34 +146,39 @@ export type ApproachStep = {
 
 export const APPROACH_STEPS = [
   {
-    label: 'Play the game',
+    label: 'Play',
     annotation: 'Experience the first-time and returning-player loops directly.',
     output: 'A grounded view of moment-to-moment motivation and friction.',
   },
   {
-    label: 'Map systems & economy',
+    label: 'Map',
     annotation: 'Trace how Spins, Coins, Villages, Chests, Collections, LiveOps, Social, and PvP exchange value.',
     output: 'Three credible paths to ARPDAU rather than isolated feature ideas.',
   },
   {
-    label: 'Research advanced play',
+    label: 'Research',
     annotation: 'Study the goals and constraints that emerge after the introductory loop.',
     output: 'Concepts aimed at progression, near-completion intent, and return behavior.',
   },
   {
-    label: 'Benchmark competitors',
+    label: 'Benchmark',
     annotation: 'Use category patterns to challenge mechanics and identify familiar interaction models.',
     output: 'Reference points for ownership, guarantees, and loss-driven re-engagement.',
   },
   {
-    label: 'Generate concepts',
+    label: 'Create',
     annotation: 'Explore distinct spend, resource-demand, and re-engagement mechanisms.',
     output: 'Hometown, Card Bounty, and Hot Trail as three different economic bets.',
   },
   {
-    label: 'Filter and validate',
+    label: 'Decide',
     annotation: 'Compare opportunity, loop fit, confidence, and effort under explicit assumptions.',
-    output: 'A bounded recommendation with measurable risks and next tests.',
+    output: 'A bounded recommendation with explicit trade-offs.',
+  },
+  {
+    label: 'Test',
+    annotation: 'Define the MVP, experiment design, success criteria, and guardrails.',
+    output: 'A measurable validation plan for the recommended feature.',
   },
 ] as const satisfies readonly ApproachStep[]
 
