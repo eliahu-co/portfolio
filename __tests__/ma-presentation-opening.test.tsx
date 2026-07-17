@@ -76,6 +76,10 @@ describe('MA presentation opening chapter', () => {
     expect(approach.container.querySelectorAll('[data-approach-connector="true"][data-flow-arrow="true"]')).toHaveLength(5)
     const playTheGame = screen.getByRole('button', { name: 'Play the game' })
     const playDrawing = approach.container.querySelector('[data-play-game-drawing="true"]')!
+    const revealStage = approach.container.querySelector('[data-approach-reveal-stage="true"]')!
+    expect(revealStage).toHaveClass('mt-8', 'mb-14', 'min-h-0', 'flex-1')
+    expect(revealStage).not.toHaveClass('-mt-10', 'h-[340px]')
+    expect(playDrawing.querySelector('img')).toHaveClass('object-left-top')
     expect(playTheGame).toHaveAttribute('aria-expanded', 'false')
     expect(playDrawing).toHaveClass('opacity-0', 'pointer-events-none')
     fireEvent.mouseEnter(playTheGame)

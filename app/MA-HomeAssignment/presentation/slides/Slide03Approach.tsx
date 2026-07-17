@@ -32,8 +32,8 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
   return (
     <SlideShell>
       <SlideTitle>Approach</SlideTitle>
-      <section aria-label="Product approach" className="mt-16 flex-1">
-        <ol className="relative z-20 flex items-center gap-5">
+      <section aria-label="Product approach" className="mt-16 flex min-h-0 flex-1 flex-col">
+        <ol className="relative z-20 flex shrink-0 items-center gap-5">
           {APPROACH_STEPS.map((step, index) => {
             const triggersDiagram = step.label === 'Map systems & economy'
             const triggersPlayDrawing = step.label === 'Play the game'
@@ -72,7 +72,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
           })}
         </ol>
 
-        <div className="relative -mt-10 h-[340px] w-full">
+        <div data-approach-reveal-stage="true" className="relative mb-14 mt-8 min-h-0 w-full flex-1">
           <div
             id="approach-play-game-drawing"
             data-play-game-drawing="true"
@@ -84,7 +84,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
               alt=""
               fill
               sizes="(min-width: 1280px) 1152px, 90vw"
-              className="object-contain object-top"
+              className="object-contain object-left-top"
             />
           </div>
 
@@ -92,7 +92,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             id="approach-core-loop-diagram"
             data-approach-diagram="true"
             aria-hidden={!showDiagram}
-            className={`absolute inset-x-0 top-14 mx-auto w-full transition-opacity duration-300 motion-reduce:transition-none ${showDiagram ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+            className={`absolute inset-x-0 top-0 mx-auto w-full transition-opacity duration-300 motion-reduce:transition-none ${showDiagram ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
             style={{ maxWidth: 'min(720px, 74vh)' }}
           >
             <CoreLoopDiagram />
