@@ -24,7 +24,7 @@ export default function Slide17Prototype({ isActive = false }: OpeningSlideProps
         <SlideTitle className="text-white drop-shadow-[0_4px_0_rgba(42,27,84,0.2)]">
           Prototype
         </SlideTitle>
-        <div data-prototype-stage="true" className="absolute inset-x-20 bottom-16 top-20">
+        <div data-prototype-stage="true" className="absolute inset-x-20 bottom-20 top-20">
           {isActive ? (
             <div data-prototype-frame="true" className="h-full max-h-[720px] w-full">
               <CardBountyPrototype mode="presentation" />

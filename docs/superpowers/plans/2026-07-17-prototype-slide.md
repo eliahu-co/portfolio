@@ -145,7 +145,7 @@
 
 - [ ] **Step 3: Implement the approved layout**
 
-  Reuse the preview background layers as full-bleed slide decoration, align the enlarged phone to the eyebrow's top edge, expose the active slide id on the deck viewport, switch only slide 11's chrome to white, and absolutely position the MA-style restart control to the right of the scaled phone using a rendered-width offset.
+  Reuse the preview background layers as full-bleed slide decoration, size the phone between the eyebrow top and navigation bottom, expose the active slide id on the deck viewport, switch only slide 11's chrome to white, and position the MA-style restart control beneath the title on its left edge.
 
 - [ ] **Step 4: Run focused and full verification**
 

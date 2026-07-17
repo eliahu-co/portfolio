@@ -53,7 +53,7 @@ describe('MA presentation Card Bounty deep dive', () => {
     const stage = container.querySelector('[data-prototype-stage="true"]')
     const frame = container.querySelector('[data-prototype-frame="true"]')
     const prototype = container.querySelector('[data-prototype-presentation-shell="true"]')
-    expect(stage).toHaveClass('absolute', 'inset-x-20', 'bottom-16', 'top-20')
+    expect(stage).toHaveClass('absolute', 'inset-x-20', 'bottom-20', 'top-20')
     expect(frame).toHaveClass('max-h-[720px]')
     expect(stage).toContainElement(prototype)
     expect(prototype).toHaveAttribute('data-deck-interactive', 'true')

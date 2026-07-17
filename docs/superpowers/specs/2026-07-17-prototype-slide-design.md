@@ -24,7 +24,7 @@ Make slide 11 contain the real Card Bounty prototype so it can be played without
 - The slide uses the MA preview's `coinmaster-sky.webp` artwork and its radial/side-gradient treatment as a full-bleed background.
 - The eyebrow reads `Card Bounty`; the regular-scale white slide title reads `Prototype`.
 - The playable phone uses the available vertical region and preserves the prototype's native `430 / 932` aspect ratio.
-- The phone is visually dominant and aligns to the eyebrow's top edge, with a compact MA-style `Restart` action positioned to its right and vertically centered.
+- The phone fills the usable vertical span from the eyebrow's top edge to the bottom of the navigation items. A compact MA-style `Restart` action sits beneath the title and shares its left edge.
 - The prototype remains clipped inside its rounded wood frame.
 - Slide 11's bottom navigation switches to white so it stays legible against the full-bleed artwork; all other slides retain the shared charcoal navigation.
 
