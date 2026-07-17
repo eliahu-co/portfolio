@@ -98,7 +98,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                 <div key={item.label} data-economy-item="true" role="listitem" className="flex items-center gap-4">
                   <Image src={item.src} alt={item.label} width={56} height={56} className="h-14 w-14 shrink-0 object-contain" />
                   <p className="whitespace-nowrap font-sans text-[15px] leading-tight text-cm-charcoal">
-                    <span className="font-semibold">{item.label}</span> — {item.definition}
+                    {item.definition}
                   </p>
                 </div>
               ))}
