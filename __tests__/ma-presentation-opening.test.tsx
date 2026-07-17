@@ -69,6 +69,8 @@ describe('MA presentation opening chapter', () => {
     expect(approach.container.querySelectorAll('[data-approach-pill="true"]')).toHaveLength(6)
     approach.container.querySelectorAll('[data-approach-pill="true"]').forEach((pill) => {
       expect(pill).toHaveAttribute('data-blue-surface', 'true')
+      expect(pill).toHaveClass('font-normal')
+      expect(pill).not.toHaveClass('font-extrabold')
     })
     expect(approach.container.querySelectorAll('svg[data-approach-connector="true"]')).toHaveLength(5)
     expect(approach.container.querySelectorAll('[data-approach-connector="true"][data-flow-arrow="true"]')).toHaveLength(5)

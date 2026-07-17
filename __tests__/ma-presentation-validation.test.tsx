@@ -26,7 +26,8 @@ describe('MA presentation validation chapter', () => {
     expect(screen.getByRole('heading', { name: 'ARPDAU leads the decision' })).toBeVisible()
     const primary = container.querySelector('[data-primary-metric="true"]')!
     expect(primary).toHaveTextContent('ARPDAU')
-    expect(primary).toHaveTextContent('≥5%')
+    expect(primary).toHaveTextContent('≥5% lift')
+    expect(primary.querySelector('thead')).not.toBeInTheDocument()
 
     const supportingTab = screen.getByRole('tab', { name: 'Supporting metrics' })
     const guardrailsTab = screen.getByRole('tab', { name: 'Guardrails' })
@@ -37,8 +38,7 @@ describe('MA presentation validation chapter', () => {
     const guardrails = METRIC_GROUPS.find(({ title }) => title === 'Guardrails')!.metrics
     supporting.forEach(({ metric, target, mutedTarget }) => {
       const row = screen.getByRole('button', { name: metric }).closest('tr')
-      expect(row).toHaveTextContent(target)
-      if (mutedTarget) expect(row).toHaveTextContent(mutedTarget)
+      expect(row).toHaveTextContent(mutedTarget ? `${mutedTarget} ${target}` : target)
     })
     guardrails.forEach(({ metric }) => {
       expect(screen.queryByRole('button', { name: metric })).not.toBeInTheDocument()
@@ -49,8 +49,7 @@ describe('MA presentation validation chapter', () => {
     expect(supportingTab).toHaveAttribute('aria-selected', 'false')
     guardrails.forEach(({ metric, target, mutedTarget }) => {
       const row = screen.getByRole('button', { name: metric }).closest('tr')
-      expect(row).toHaveTextContent(target)
-      if (mutedTarget) expect(row).toHaveTextContent(mutedTarget)
+      expect(row).toHaveTextContent(mutedTarget ? `${mutedTarget} ${target}` : target)
     })
     supporting.forEach(({ metric }) => {
       expect(screen.queryByRole('button', { name: metric })).not.toBeInTheDocument()

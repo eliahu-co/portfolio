@@ -38,19 +38,12 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
     <div className="mt-3">
       <table data-primary-metric="true" className="w-full table-fixed border-collapse text-left">
         <colgroup><col className="w-[48%]" /><col className="w-[24%]" /><col /></colgroup>
-        <thead>
-          <tr className="border-b-2 border-cm-wood/55 font-sans text-[11px] font-medium uppercase tracking-[0.12em] text-charcoal/65">
-            <th className="pb-2">Metric</th>
-            <th className="pb-2">Decision role</th>
-            <th className="pb-2 text-right">Target</th>
-          </tr>
-        </thead>
         <tbody>
           <tr className="bg-[linear-gradient(90deg,rgba(245,168,0,0.10),rgba(245,168,0,0.26),rgba(245,168,0,0.10))]">
             <td className="py-3 font-serif text-[22px] font-black text-cm-violet-deep">{primary.metric}</td>
             <td className="py-3 font-sans text-[15px] font-medium text-charcoal">Primary decision metric</td>
             <td className="py-3 text-right font-serif text-[24px] font-black text-cm-crimson">
-              {primary.mutedTarget}
+              {primary.mutedTarget} {primary.target}
             </td>
           </tr>
         </tbody>
@@ -112,7 +105,7 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
                     </button>
                   </td>
                   <td className="px-2">{metric.role && <span className={`inline-flex w-[116px] justify-center rounded-full border px-2 py-1 font-sans text-[9px] font-bold uppercase tracking-[0.08em] ${ROLE_CLASSES[metric.role]}`}>{metric.role}</span>}</td>
-                  <td className="pl-4 text-right font-sans text-[14px] text-charcoal"><span className="font-bold">{metric.target}</span>{metric.mutedTarget && <span className="ml-1 text-charcoal/55">{metric.mutedTarget}</span>}</td>
+                  <td className="pl-4 text-right font-sans text-[14px] text-charcoal">{metric.mutedTarget && <><span className="text-charcoal/55">{metric.mutedTarget}</span>{' '}</>}<span className="font-bold">{metric.target}</span></td>
                 </tr>
               )
             })}

@@ -8,7 +8,7 @@ import { useDeckReset } from '../useDeckReset'
 import type { OpeningSlideProps } from './Slide01Cover'
 import { FlowArrow } from '../components/FlowArrow'
 
-const SURFACE_CLASSES = 'flex min-h-[96px] w-full items-center justify-center rounded-lg border px-4 py-3 text-center font-sans text-[16px] font-extrabold leading-snug text-[#0d3a5a]'
+const SURFACE_CLASSES = 'flex min-h-[96px] w-full items-center justify-center rounded-lg border px-4 py-3 text-center font-sans text-[16px] font-normal leading-snug text-[#0d3a5a]'
 
 type DiagramInteraction = {
   hovered: boolean
