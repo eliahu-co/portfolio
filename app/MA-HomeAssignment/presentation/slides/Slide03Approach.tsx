@@ -11,7 +11,7 @@ import { FlowArrow } from '../components/FlowArrow'
 
 const SURFACE_CLASSES = 'flex min-h-[96px] w-full items-center justify-center rounded-lg border px-4 py-3 text-center font-sans text-[16px] font-normal leading-snug text-[#0d3a5a]'
 
-type Reveal = 'play' | 'map' | 'research' | null
+type Reveal = 'play' | 'map' | 'research' | 'benchmark' | null
 
 const ECONOMY_ITEMS = [
   { label: 'Spin', definition: 'Primary action and monetized energy.', src: '/coinmaster/resources/spin-emoji.png' },
@@ -21,10 +21,16 @@ const ECONOMY_ITEMS = [
 ] as const
 
 const RESEARCH_SCREENSHOTS = [
-  { src: '/coinmaster/research/research-discord.webp', alt: 'Coin Master advanced-play discussion on Discord' },
-  { src: '/coinmaster/research/research-reddit.webp', alt: 'Coin Master team recruitment discussion on Reddit' },
-  { src: '/coinmaster/research/research-facebook.webp', alt: 'Coin Master card-trading request on Facebook' },
-  { src: '/coinmaster/research/research-youtube.webp', alt: 'Coin Master advanced gameplay research on YouTube' },
+  { label: 'Discord', src: '/coinmaster/research/research-discord.webp', alt: 'Coin Master advanced-play discussion on Discord' },
+  { label: 'Reddit', src: '/coinmaster/research/research-reddit.webp', alt: 'Coin Master team recruitment discussion on Reddit' },
+  { label: 'Facebook', src: '/coinmaster/research/research-facebook.webp', alt: 'Coin Master card-trading request on Facebook' },
+  { label: 'YouTube', src: '/coinmaster/research/research-youtube.webp', alt: 'Coin Master advanced gameplay research on YouTube' },
+] as const
+
+const BENCHMARK_SCREENSHOTS = [
+  { label: 'Royal Match', src: '/coinmaster/benchmark/benchmark-cauldron.webp', alt: 'Royal Match Magic Cauldron game mechanic benchmark' },
+  { label: 'Monopoly GO!', src: '/coinmaster/benchmark/benchmark-community-chest.webp', alt: 'Monopoly GO! Community Chest cooperative mechanic benchmark' },
+  { label: 'Dice Dreams', src: '/coinmaster/benchmark/benchmark-diner.webp', alt: 'Dice Dreams timed collection mini-game benchmark' },
 ] as const
 
 export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
@@ -37,6 +43,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
   const showDiagram = activeReveal === 'map'
   const showPlayDrawing = activeReveal === 'play'
   const showResearchEvidence = activeReveal === 'research'
+  const showBenchmarkEvidence = activeReveal === 'benchmark'
   useDeckReset(reset, slideKey)
 
   return (
@@ -48,13 +55,22 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             const triggersDiagram = step.label === 'Map'
             const triggersPlayDrawing = step.label === 'Play'
             const triggersResearchEvidence = step.label === 'Research'
-            const reveal: Reveal = triggersDiagram ? 'map' : triggersPlayDrawing ? 'play' : triggersResearchEvidence ? 'research' : null
+            const triggersBenchmarkEvidence = step.label === 'Benchmark'
+            const reveal: Reveal = triggersDiagram ? 'map' : triggersPlayDrawing ? 'play' : triggersResearchEvidence ? 'research' : triggersBenchmarkEvidence ? 'benchmark' : null
             const revealId = triggersDiagram
               ? 'approach-core-loop-diagram'
               : triggersPlayDrawing
                 ? 'approach-play-game-drawing'
-                : 'approach-research-evidence'
-            const revealIsVisible = triggersDiagram ? showDiagram : triggersPlayDrawing ? showPlayDrawing : showResearchEvidence
+                : triggersResearchEvidence
+                  ? 'approach-research-evidence'
+                  : 'approach-benchmark-evidence'
+            const revealIsVisible = triggersDiagram
+              ? showDiagram
+              : triggersPlayDrawing
+                ? showPlayDrawing
+                : triggersResearchEvidence
+                  ? showResearchEvidence
+                  : showBenchmarkEvidence
             const isActive = activeStep === step.label
             const focusClass = activeStep && !isActive ? 'opacity-30' : 'opacity-100'
             return (
@@ -144,14 +160,43 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             className={`absolute inset-0 grid grid-cols-4 gap-5 transition-opacity duration-300 motion-reduce:transition-none ${showResearchEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
           >
             {RESEARCH_SCREENSHOTS.map((screenshot) => (
-              <figure key={screenshot.src} data-research-screenshot="true" className="relative m-0 h-full max-w-full justify-self-center overflow-hidden rounded-2xl aspect-[1/2]">
-                <Image
-                  src={screenshot.src}
-                  alt={screenshot.alt}
-                  fill
-                  sizes="(min-width: 1280px) 270px, 22vw"
-                  className="object-cover object-top"
-                />
+              <figure key={screenshot.src} data-research-screenshot="true" className="m-0 flex h-full min-h-0 flex-col items-center gap-2">
+                <div data-screenshot-frame="true" className="relative min-h-0 max-w-full flex-1 overflow-hidden rounded-2xl aspect-[1/2]">
+                  <Image
+                    src={screenshot.src}
+                    alt={screenshot.alt}
+                    fill
+                    sizes="(min-width: 1280px) 270px, 22vw"
+                    className="object-cover object-top"
+                  />
+                </div>
+                <figcaption className="font-sans text-[13px] font-normal uppercase tracking-[0.14em] text-cm-charcoal">
+                  {screenshot.label}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+
+          <div
+            id="approach-benchmark-evidence"
+            data-benchmark-evidence="true"
+            aria-hidden={!showBenchmarkEvidence}
+            className={`absolute inset-0 grid grid-cols-3 gap-8 transition-opacity duration-300 motion-reduce:transition-none ${showBenchmarkEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+          >
+            {BENCHMARK_SCREENSHOTS.map((screenshot) => (
+              <figure key={screenshot.src} data-benchmark-screenshot="true" className="m-0 flex h-full min-h-0 flex-col items-center gap-2">
+                <div data-screenshot-frame="true" className="relative min-h-0 max-w-full flex-1 overflow-hidden rounded-2xl aspect-[1/2]">
+                  <Image
+                    src={screenshot.src}
+                    alt={screenshot.alt}
+                    fill
+                    sizes="(min-width: 1280px) 360px, 30vw"
+                    className="object-cover object-top"
+                  />
+                </div>
+                <figcaption className="font-sans text-[13px] font-normal uppercase tracking-[0.14em] text-cm-charcoal">
+                  {screenshot.label}
+                </figcaption>
               </figure>
             ))}
           </div>
