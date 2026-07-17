@@ -21,34 +21,56 @@ describe('MA presentation validation chapter', () => {
     })
   })
 
-  it('keeps ARPDAU dominant and reveals metric methodology', () => {
-    render(<Slide19Metrics slideKey="slide-16" />)
+  it('keeps ARPDAU dominant and switches between supporting metrics and guardrails', () => {
+    const { container } = render(<Slide19Metrics slideKey="slide-15" />)
     expect(screen.getByRole('heading', { name: 'ARPDAU leads the decision' })).toBeVisible()
-    const canonicalMetrics = METRIC_GROUPS.flatMap((group) => group.metrics)
-    expect(screen.getAllByRole('button')).toHaveLength(canonicalMetrics.length)
-    screen.getAllByRole('button').forEach((button) => {
-      expect(button).toHaveClass('min-h-6', 'text-[11px]')
-      expect(button).not.toHaveClass('min-h-7')
-    })
-    canonicalMetrics.forEach(({ metric, target, mutedTarget }) => {
+    const primary = container.querySelector('[data-primary-metric="true"]')!
+    expect(primary).toHaveTextContent('ARPDAU')
+    expect(primary).toHaveTextContent('≥5%')
+
+    const supportingTab = screen.getByRole('tab', { name: 'Supporting metrics' })
+    const guardrailsTab = screen.getByRole('tab', { name: 'Guardrails' })
+    expect(supportingTab).toHaveAttribute('aria-selected', 'true')
+    expect(guardrailsTab).toHaveAttribute('aria-selected', 'false')
+
+    const supporting = METRIC_GROUPS.find(({ title }) => title === 'Supporting metrics')!.metrics
+    const guardrails = METRIC_GROUPS.find(({ title }) => title === 'Guardrails')!.metrics
+    supporting.forEach(({ metric, target, mutedTarget }) => {
       const row = screen.getByRole('button', { name: metric }).closest('tr')
       expect(row).toHaveTextContent(target)
       if (mutedTarget) expect(row).toHaveTextContent(mutedTarget)
     })
+    guardrails.forEach(({ metric }) => {
+      expect(screen.queryByRole('button', { name: metric })).not.toBeInTheDocument()
+    })
+
+    fireEvent.click(guardrailsTab)
+    expect(guardrailsTab).toHaveAttribute('aria-selected', 'true')
+    expect(supportingTab).toHaveAttribute('aria-selected', 'false')
+    guardrails.forEach(({ metric, target, mutedTarget }) => {
+      const row = screen.getByRole('button', { name: metric }).closest('tr')
+      expect(row).toHaveTextContent(target)
+      if (mutedTarget) expect(row).toHaveTextContent(mutedTarget)
+    })
+    supporting.forEach(({ metric }) => {
+      expect(screen.queryByRole('button', { name: metric })).not.toBeInTheDocument()
+    })
+
     const detail = screen.getByRole('status', { name: 'Metric detail' })
-    expect(detail).toHaveClass('min-h-[40px]', 'text-[11px]')
+    expect(detail).toHaveClass('min-h-[54px]', 'text-[13px]')
     expect(detail.className).not.toMatch(/border-l-/)
     expect(detail).toHaveTextContent(/Event duration/i)
-    const metric = screen.getByRole('button', { name: /ARPDAU/i })
+    const metric = screen.getByRole('button', { name: guardrails[0].metric })
     fireEvent.focus(metric)
     expect(metric).toHaveAttribute('aria-expanded', 'true')
     expect(metric).toHaveClass('font-extrabold')
     const activeRow = metric.closest('tr')!
     expect(activeRow).toHaveClass('opacity-100')
-    screen.getAllByRole('button').filter((button) => button !== metric).forEach((button) => {
+    guardrails.slice(1).forEach(({ metric: peerMetric }) => {
+      const button = screen.getByRole('button', { name: peerMetric })
       expect(button.closest('tr')).toHaveClass('opacity-20')
     })
-    expect(detail).toHaveTextContent(/ARPDAU is used to explain/i)
+    expect(detail).toHaveTextContent(guardrails[0].metric)
     fireEvent.mouseEnter(metric)
     fireEvent.blur(metric)
     expect(metric).toHaveAttribute('aria-expanded', 'true')

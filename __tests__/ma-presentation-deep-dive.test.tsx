@@ -5,18 +5,14 @@ import Slide17Prototype from '@/app/MA-HomeAssignment/presentation/slides/Slide1
 import { SCOPE_IN, SCOPE_OUT } from '@/app/MA-HomeAssignment/content/mvp'
 
 describe('MA presentation Card Bounty deep dive', () => {
-  it('reuses the original player flow diagram', () => {
+  it('uses the presentation-only phase-focus player flow', () => {
     const { container } = render(<Slide15PlayerFlow slideKey="slide-12" />)
     expect(screen.getByRole('heading', { name: 'Card Bounty player flow' })).toBeVisible()
-    expect(container.querySelector('#player-flow')).toBeInTheDocument()
-
-    const sourceFrame = container.querySelector('[data-source-component="player-flow"]')
-    expect(sourceFrame).toHaveClass('max-w-[1080px]', 'h-[410px]', 'max-h-[410px]', 'overflow-hidden')
-    expect(sourceFrame).toContainElement(container.querySelector('#player-flow'))
-    expect(sourceFrame?.firstElementChild).toHaveClass('w-[128%]', 'scale-[0.78]')
-    expect(container.querySelectorAll('#player-flow [data-player-flow-plaque][data-blue-surface="true"]')).toHaveLength(4)
-    expect(container.querySelectorAll('#player-flow [data-player-flow-screen][data-blue-surface="true"]').length).toBeGreaterThan(0)
-    expect(container.querySelectorAll('#player-flow [data-player-flow-outcome][data-wood-surface="true"]').length).toBeGreaterThan(0)
+    expect(container.querySelector('[data-phase-focus-flow="true"]')).toBeInTheDocument()
+    expect(container.querySelectorAll('[data-phase-control]')).toHaveLength(4)
+    expect(container.querySelectorAll('[data-phase-arrow="true"]')).toHaveLength(3)
+    expect(container.querySelector('[data-source-component="player-flow"]')).not.toBeInTheDocument()
+    expect(container.querySelector('#player-flow')).not.toBeInTheDocument()
   })
 
   it('shows a flat MVP in/out scope', () => {
