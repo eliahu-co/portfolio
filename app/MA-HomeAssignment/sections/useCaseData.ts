@@ -48,9 +48,9 @@ export const USE_CASE_1: UseCaseData = {
     loop: true,
     steps: [
       { label: 'Complete Villages', coreLoop: true, resourceDelta: { resource: 'coin', direction: 'spend' } },
-      { label: 'Unlock Hometown items' },
-      { label: 'Build new Items', resourceDelta: { resource: 'coin', direction: 'spend' } },
-      { label: 'Get Village build discount!', resourceDelta: { resource: 'coin', direction: 'gain' } },
+      { label: 'Unlock Hometown items', resourceDelta: { resource: 'gem', direction: 'spend' }, hoverImage: '/coinmaster/hometown-unlock-v2.png' },
+      { label: 'Build new Items', resourceDelta: { resource: 'coin', direction: 'spend' }, hoverImage: '/coinmaster/hometown-build-v2.png' },
+      { label: 'Get Village build discount!', resourceDelta: { resource: 'coin', direction: 'gain' }, hoverImage: '/coinmaster/hometown-discount-v2.png' },
     ],
   },
   proposedWorkflow: {
@@ -155,10 +155,10 @@ export const USE_CASE_2: UseCaseData = {
     loop: true,
     steps: [
       { label: 'Spin', coreLoop: true, resourceDelta: { resource: 'spin', direction: 'spend' } },
-      { label: 'Target a card' },
-      { label: 'Buy Chests - fill the meter', resourceDelta: { resource: 'coin', direction: 'spend' } },
-      { label: 'Get the card', resourceDelta: { resource: 'card', direction: 'gain' } },
-      { label: 'Complete the Collection', resourceDelta: { resource: 'spin', direction: 'gain' } },
+      { label: 'Target a card', hoverImage: '/coinmaster/card-bounty-target-v2.png' },
+      { label: 'Buy Chests - fill the meter', resourceDelta: { resource: 'coin', direction: 'spend' }, hoverImage: '/coinmaster/card-bounty-chests-v2.png' },
+      { label: 'Get the card', resourceDelta: { resource: 'card', direction: 'gain' }, hoverImage: '/coinmaster/card-bounty-get-card.png' },
+      { label: 'Complete the Collection', resourceDelta: { resource: 'spin', direction: 'gain' }, hoverImage: '/coinmaster/card-bounty-collection.png' },
     ],
   },
   proposedWorkflow: {
@@ -251,10 +251,10 @@ export const USE_CASE_3: UseCaseData = {
     loop: true,
     steps: [
       { label: 'Progress the Village', coreLoop: true, resourceDelta: { resource: 'coin', direction: 'spend' } },
-      { label: 'Get Raided', resourceDelta: { resource: 'coin', direction: 'spend' } },
-      { label: 'Activate Hot Trail' },
-      { label: 'Spin to Raid', resourceDelta: { resource: 'spin', direction: 'spend' } },
-      { label: 'Counter-Raid', resourceDelta: { resource: 'coin', direction: 'gain' } },
+      { label: 'Get Raided', resourceDelta: { resource: 'coin', direction: 'spend' }, hoverImage: '/coinmaster/hot-trail-raided.png' },
+      { label: 'Activate Hot Trail', hoverImage: '/coinmaster/hot-trail-activated-v2.png' },
+      { label: 'Spin to Raid', resourceDelta: { resource: 'spin', direction: 'spend' }, hoverImage: '/coinmaster/hot-trail-spin-to-raid-v2.png' },
+      { label: 'Counter-Raid', resourceDelta: { resource: 'coin', direction: 'gain' }, hoverImage: '/coinmaster/hot-trail-counter-raid-v2.png' },
     ],
   },
   proposedWorkflow: {
