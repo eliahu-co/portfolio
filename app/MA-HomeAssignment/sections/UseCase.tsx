@@ -37,9 +37,10 @@ export interface WorkflowStep {
   coreLoop?: boolean              // style the step as the gold core-loop plaque (with shine sweep)
   emphasis?: boolean              // force the bold treatment on an otherwise-normal step
   resourceDelta?: {
-    resource: 'coin' | 'spin' | 'card'
+    resource: 'coin' | 'spin' | 'card' | 'gem'
     direction: 'spend' | 'gain'
   }
+  hoverImage?: string            // presentation image shown while this loop step remains active
 }
 
 export interface Workflow {

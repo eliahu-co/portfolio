@@ -2,8 +2,33 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import Slide01Cover from '@/app/MA-HomeAssignment/presentation/slides/Slide01Cover'
 import Slide02About from '@/app/MA-HomeAssignment/presentation/slides/Slide02About'
 import Slide03Approach from '@/app/MA-HomeAssignment/presentation/slides/Slide03Approach'
+import {
+  SlideFeature1Intro,
+  SlideFeature2Intro,
+  SlideFeature3Intro,
+} from '@/app/MA-HomeAssignment/presentation/slides/FeatureIntroSlides'
 
 describe('MA presentation opening chapter', () => {
+  it.each([
+    [SlideFeature1Intro, ['Urgency', 'Recovery and Revenge']],
+    [SlideFeature2Intro, ['agency', 'visible progress']],
+    [SlideFeature3Intro, ['Expression and Ownership', 'Progress and Status', 'social recognition']],
+  ])('adds the feature player motivations beneath its statement', (FeatureIntro, motivations) => {
+    const { container } = render(<FeatureIntro slideKey={`feature-motivation-${motivations.join('-')}`} />)
+    const motivation = container.querySelector('[data-feature-motivations="true"]')!
+
+    expect(motivation).not.toHaveTextContent('Player motivations')
+    const items = motivation.querySelectorAll('li')
+    expect(items).toHaveLength(motivations.length)
+    motivations.forEach((item, index) => expect(items[index]).toHaveTextContent(item))
+    expect(motivation).not.toHaveTextContent(',')
+    expect(motivation.querySelector('img')).toHaveAttribute(
+      'src',
+      expect.stringContaining('motivation-emoji.png'),
+    )
+    expect(motivation.querySelector('img')).toHaveClass('h-14', 'w-14')
+  })
+
   it('opens with the assignment outcome', () => {
     render(<Slide01Cover slideKey="slide-1" />)
     expect(screen.getByRole('heading', { name: 'Increasing ARPDAU' })).toBeVisible()
@@ -202,9 +227,9 @@ describe('MA presentation opening chapter', () => {
     expect(screen.getByRole('heading', { level: 3, name: 'Hometown' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 3, name: 'Card Bounty' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 3, name: 'Hot Trail' })).toBeInTheDocument()
-    expect(createEvidence).toHaveTextContent('Create a persistent Coin spend surface')
-    expect(createEvidence).toHaveTextContent('Increase Coin demand')
-    expect(createEvidence).toHaveTextContent('Create an additional return session')
+    expect(createEvidence).toHaveTextContent('New Coin spend surface tied to expression, status, and Village progress.')
+    expect(createEvidence).toHaveTextContent('Lift Coin demand making Chest purchases advance a meter to a target Card.')
+    expect(createEvidence).toHaveTextContent('Lift return sessions and Spin demand; higher exposure to offers.')
     createEvidence.querySelectorAll('[data-create-concept="true"]').forEach((concept) => {
       expect(concept).not.toHaveClass('border-t-4')
     })

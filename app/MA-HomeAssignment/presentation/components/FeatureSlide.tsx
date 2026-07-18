@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 import Image from 'next/image'
 import type { PresentationConcept } from '../deckData'
 import type { WorkflowStep } from '@/app/MA-HomeAssignment/sections/UseCase'
@@ -8,12 +8,31 @@ import { useDeckReset, type DeckSlideKey } from '../useDeckReset'
 import LoopReturn from '@/app/MA-HomeAssignment/sections/LoopReturn'
 import { FlowArrow } from './FlowArrow'
 
-function LoopPill({ label, core, resourceDelta }: Pick<WorkflowStep, 'label' | 'coreLoop' | 'resourceDelta'> & { core?: boolean }) {
+const METRIC_LINES: Record<string, readonly string[]> = {
+  'Coin spend on Hometown per DAU': ['Coin spend per DAU', 'on Hometown'],
+  'Return sessions per Hometown user': ['Return sessions', 'per Hometown user'],
+  'Coin Spend on Chests per DAU': ['Coin spend per DAU', 'on Chests'],
+  'Spin consumption per exposed DAU': ['Spin consumption', 'per exposed DAU'],
+}
+
+function LoopPill({
+  label,
+  core,
+  resourceDelta,
+  active,
+  onActivate,
+}: Pick<WorkflowStep, 'label' | 'coreLoop' | 'resourceDelta'> & {
+  core?: boolean
+  active: boolean
+  onActivate: () => void
+}) {
   const resourceName = resourceDelta?.resource === 'coin'
     ? 'Coins'
     : resourceDelta?.resource === 'spin'
       ? 'Spins'
-      : 'Card'
+      : resourceDelta?.resource === 'gem'
+        ? 'Gems'
+        : 'Card'
   const resourceLabel = resourceDelta
     ? `${resourceDelta.direction === 'spend' ? 'Spend' : 'Gain'} ${resourceName}`
     : null
@@ -21,17 +40,20 @@ function LoopPill({ label, core, resourceDelta }: Pick<WorkflowStep, 'label' | '
   return (
     <div
       data-loop-step="true"
+      data-loop-step-active={active ? 'true' : 'false'}
+      data-active={active ? 'true' : undefined}
       data-blue-surface={core ? undefined : 'true'}
       data-wood-surface={core ? 'true' : undefined}
-      className={core
+      onMouseEnter={onActivate}
+      className={`${core
       ? 'relative rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-normal leading-snug text-cm-wood'
-      : 'relative rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-normal leading-snug text-[#0d3a5a]'}>
+      : 'relative rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-normal leading-snug text-[#0d3a5a]'} ${active ? 'opacity-100' : 'opacity-60'} transition-opacity duration-200 motion-reduce:transition-none`}>
       <span className={resourceDelta ? 'block px-10' : undefined}>{label}</span>
       {resourceDelta && (
         <span
           data-resource-indicator="true"
           aria-label={resourceLabel!}
-          className="absolute right-3 top-1/2 inline-flex -translate-y-1/2 items-center leading-none"
+          className={`absolute right-3 top-1/2 inline-flex -translate-y-1/2 items-center leading-none transition-opacity duration-200 motion-reduce:transition-none ${active ? 'opacity-100' : 'opacity-25'}`}
         >
           <span className="relative block h-7 w-7" aria-hidden="true">
             <Image
@@ -56,22 +78,6 @@ function LoopPill({ label, core, resourceDelta }: Pick<WorkflowStep, 'label' | '
   )
 }
 
-function RevealColumn({ title, items, risk = false }: { title: string; items: readonly { title: string; body: string }[]; risk?: boolean }) {
-  return (
-    <section>
-      <h3 className="mb-3 font-sans text-[12px] font-medium uppercase tracking-[0.14em] text-black">{title}</h3>
-      <div className="space-y-4">
-        {items.map((item) => (
-          <div key={item.title}>
-            <p className={`font-sans text-[15px] font-extrabold ${risk ? 'text-cm-crimson' : 'text-cm-violet-deep'}`}>{item.title}</p>
-            <p className="mt-0.5 font-sans text-[13px] leading-snug text-charcoal">{item.body}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
-
 export type FeatureSlideProps = {
   readonly concept: PresentationConcept
   readonly loop: PresentationConcept['loop']
@@ -80,9 +86,14 @@ export type FeatureSlideProps = {
 }
 
 export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlideProps) {
-  const [revealed, setRevealed] = useState(false)
-  const reset = useCallback(() => setRevealed(false), [])
+  const [activeStepIndex, setActiveStepIndex] = useState(0)
+  const [openDetail, setOpenDetail] = useState<'monetization' | 'risks' | null>(null)
+  const reset = useCallback(() => {
+    setActiveStepIndex(0)
+    setOpenDetail(null)
+  }, [])
   useDeckReset(reset, slideKey)
+  const activeImage = loop.steps[activeStepIndex]?.hoverImage ?? concept.mockup
 
   return (
     <div data-feature-layout={title} className="grid h-full grid-cols-[0.72fr_1fr] gap-10">
@@ -90,59 +101,149 @@ export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlidePro
         <section
           aria-label={`${title} loop`}
           data-feature-loop={title}
-          className={`transition-opacity duration-300 motion-reduce:transition-none ${revealed ? 'opacity-20' : 'opacity-100'}`}
+          className="relative h-[calc(100vh-327px)]"
         >
           <div data-feature-loop-stack="true" className="relative max-w-[350px]">
             {loop.steps.map((step, index) => (
               <div key={step.label}>
-                <LoopPill label={step.label} core={step.coreLoop} resourceDelta={step.resourceDelta} />
+                <LoopPill
+                  label={step.label}
+                  core={step.coreLoop}
+                  resourceDelta={step.resourceDelta}
+                  active={activeStepIndex === index}
+                  onActivate={() => setActiveStepIndex(index)}
+                />
                 {index < loop.steps.length - 1 && (
                   <FlowArrow
                     direction="down"
                     color="#1E7BA8"
                     data-feature-loop-arrow="true"
-                    className="mx-auto h-[20px] w-[14px]"
+                    className={`mx-auto h-[20px] w-[14px] transition-opacity duration-200 motion-reduce:transition-none ${activeStepIndex === index ? 'opacity-100' : 'opacity-30'}`}
                   />
                 )}
               </div>
             ))}
-            {loop.loop && <LoopReturn color="#1E7BA8" strokeWidth={1.3} />}
+            {loop.loop && (
+              <LoopReturn
+                color="#1E7BA8"
+                strokeWidth={1.3}
+                className={`transition-opacity duration-200 motion-reduce:transition-none ${activeStepIndex === loop.steps.length - 1 ? 'opacity-100' : 'opacity-30'}`}
+              />
+            )}
           </div>
-          <p className="mt-4 max-w-[520px] font-sans text-[15px] font-bold leading-snug text-cm-violet-deep">
-            {concept.monetizationSummary}
-          </p>
+          <div
+            data-feature-disclosures="true"
+            className="mt-8 flex w-[188%] max-w-none flex-col gap-8"
+          >
+            <div
+              data-feature-monetization={title}
+              role="button"
+              tabIndex={0}
+              aria-label="Monetization details"
+              aria-pressed={openDetail === 'monetization'}
+              onClick={() => setOpenDetail((current) => current === 'monetization' ? null : 'monetization')}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault()
+                  setOpenDetail((current) => current === 'monetization' ? null : 'monetization')
+                }
+              }}
+              className={`flex w-full max-w-none cursor-pointer flex-col items-start gap-1 rounded-lg transition-opacity duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cm-blue motion-reduce:transition-none ${openDetail === 'monetization' ? 'opacity-100' : 'opacity-25'}`}
+            >
+            <div
+              data-feature-disclosure-label="true"
+              className="inline-flex shrink-0 items-center gap-3 text-left"
+            >
+              <Image
+                src="/coinmaster/resources/shop-emoji.png"
+                alt=""
+                width={36}
+                height={36}
+                className="h-9 w-9 object-contain"
+              />
+              <span className="font-sans text-[12px] font-medium uppercase leading-[18px] tracking-[0.14em] text-charcoal">Monetization</span>
+            </div>
+              <div data-feature-monetization-content="true" className="w-full text-left">
+                <p className="font-sans text-[18px] leading-5 text-charcoal">
+                  {concept.monetizationSummary}
+                </p>
+                <ul
+                  data-feature-metrics="true"
+                  className="mt-2 flex items-start gap-2 font-sans text-[10px] font-medium uppercase leading-[10px] tracking-[0.1em] text-charcoal/70"
+                >
+                  {[concept.metrics.primary, ...concept.metrics.supporting].map((metric, index) => (
+                    <Fragment key={metric}>
+                      {index > 0 && (
+                        <li
+                          data-metric-separator="true"
+                          aria-hidden="true"
+                          className="shrink-0 text-[7px] text-charcoal/70"
+                        >
+                          •
+                        </li>
+                      )}
+                      <li
+                        aria-label={metric}
+                        className={index === 0 ? 'shrink-0 font-semibold text-charcoal' : 'shrink-0'}
+                      >
+                        {(METRIC_LINES[metric] ?? [metric]).map((line) => (
+                          <span key={line} className="block whitespace-nowrap">{line}</span>
+                        ))}
+                      </li>
+                    </Fragment>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div
+              data-feature-risks={title}
+              role="button"
+              tabIndex={0}
+              aria-label="Risk details"
+              aria-pressed={openDetail === 'risks'}
+              onClick={() => setOpenDetail((current) => current === 'risks' ? null : 'risks')}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault()
+                  setOpenDetail((current) => current === 'risks' ? null : 'risks')
+                }
+              }}
+              className={`flex max-w-[368px] cursor-pointer flex-col items-start gap-1 rounded-lg transition-opacity duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cm-blue motion-reduce:transition-none ${openDetail === 'risks' ? 'opacity-100' : 'opacity-25'}`}
+            >
+            <div
+              data-feature-disclosure-label="true"
+              className="inline-flex shrink-0 items-center gap-3 text-left"
+            >
+              <Image
+                src="/coinmaster/resources/risk-emoji.png"
+                alt=""
+                width={36}
+                height={36}
+                className="h-9 w-9 object-contain"
+              />
+              <span className="font-sans text-[12px] font-medium uppercase leading-[18px] tracking-[0.14em] text-charcoal">Risks</span>
+            </div>
+              <div data-feature-risk-content="true" className="w-full text-left">
+                <ul className="space-y-1 font-sans text-[18px] leading-5 text-charcoal">
+                  {concept.risks.map((risk) => <li key={risk.title}>{risk.title}</li>)}
+                </ul>
+              </div>
+            </div>
+          </div>
         </section>
-
-        <div
-          id={`${title.toLowerCase().replaceAll(' ', '-')}-tradeoff`}
-          data-feature-reveal={title}
-          aria-hidden={!revealed}
-          className={`pointer-events-none absolute inset-x-0 top-0 grid grid-cols-2 gap-9 transition-opacity duration-300 motion-reduce:transition-none ${revealed ? 'opacity-100' : 'opacity-0'}`}
-        >
-          <RevealColumn title="Player motivation" items={concept.values} />
-          <RevealColumn title="Risks" items={concept.risks} risk />
-        </div>
-
-        <button
-          type="button"
-          data-deck-interactive="true"
-          aria-label="Trade-off"
-          aria-expanded={revealed}
-          aria-controls={`${title.toLowerCase().replaceAll(' ', '-')}-tradeoff`}
-          onClick={() => setRevealed((current) => !current)}
-          className="mt-5 self-start border-0 bg-transparent py-2 font-sans text-[12px] font-medium uppercase tracking-[0.14em] text-black focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[#1E7BA8]"
-        >
-          Trade-off <span aria-hidden="true">{revealed ? '×' : '+'}</span>
-        </button>
       </div>
 
       <div
         data-feature-image={title}
-        className={`-mt-[99px] flex min-h-0 items-start justify-end transition-opacity duration-300 motion-reduce:transition-none ${revealed ? 'opacity-20' : 'opacity-100'}`}
+        className="-mt-[99px] flex min-h-0 items-start justify-end"
       >
-        <figure data-feature-frame="true" className="inline-flex h-[calc(100vh-228px)] w-fit overflow-hidden rounded-2xl border-2 border-cm-wood/50">
+          <figure
+            data-feature-frame="true"
+            style={{ borderColor: 'rgb(30, 123, 168)' }}
+            className="inline-flex h-[calc(100vh-228px)] w-fit overflow-hidden rounded-2xl border-[1.5px]"
+          >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={concept.mockup} alt={`${title} feature mockup`} className="h-full max-h-none w-auto rounded-xl object-contain" />
+          <img src={activeImage} alt={`${title} feature mockup`} className="h-full max-h-none w-auto rounded-xl object-contain" />
         </figure>
       </div>
     </div>

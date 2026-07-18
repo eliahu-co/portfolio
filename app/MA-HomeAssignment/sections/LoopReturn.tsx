@@ -16,9 +16,11 @@ const X = W - 6                         // x of the vertical run
 export default function LoopReturn({
   color = STROKE,
   strokeWidth = 1.3,
+  className = '',
 }: {
   color?: string
   strokeWidth?: number
+  className?: string
 } = {}) {
   const svgRef = useRef<SVGSVGElement>(null)
   const [geo, setGeo] = useState<{ h: number; yFirst: number; yLast: number } | null>(null)
@@ -50,7 +52,7 @@ export default function LoopReturn({
       ref={svgRef}
       data-loop-return="true"
       data-flow-arrow="true"
-      className="pointer-events-none absolute top-0 left-full"
+      className={`pointer-events-none absolute top-0 left-full ${className}`}
       width={W}
       height={geo?.h ?? 0}
       style={{ overflow: 'visible' }}

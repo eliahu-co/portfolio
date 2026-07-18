@@ -24,6 +24,10 @@ export type PresentationConcept = {
   readonly thesis: string
   readonly arpdauPath: string
   readonly monetizationSummary: string
+  readonly metrics: {
+    readonly primary: string
+    readonly supporting: readonly string[]
+  }
   readonly loopImplications: readonly string[]
   readonly reveals: readonly RevealRationale[]
 }
@@ -44,7 +48,8 @@ export const CONCEPTS = [
     risks: USE_CASE_1.tradeoffs,
     thesis: 'Turn Village progress into a permanent space players can own, customize, and show.',
     arpdauPath: 'New spend surface',
-    monetizationSummary: 'Create a persistent Coin spend surface tied to expression, status, and Village progress.',
+    monetizationSummary: 'New Coin spend surface tied to expression, status, and Village progress.',
+    metrics: USE_CASE_1.metrics!,
     loopImplications: [
       'Village completion supplies recognizable items and keeps Hometown connected to progression.',
       'Unlocks turn existing progress into a growing customization inventory.',
@@ -76,7 +81,8 @@ export const CONCEPTS = [
     risks: USE_CASE_2.tradeoffs,
     thesis: 'Turn every Chest into visible progress toward the missing Card a player chooses.',
     arpdauPath: 'Increased resource demand',
-    monetizationSummary: 'Increase Coin demand by making repeated Chest purchases advance a chosen guarantee.',
+    monetizationSummary: 'Lift Coin demand making Chest purchases advance a meter to a target Card.',
+    metrics: USE_CASE_2.metrics!,
     loopImplications: [
       'Regular Spins keep the event supplied by the familiar core economy.',
       'Target selection concentrates existing near-completion intent on one meaningful Card.',
@@ -109,7 +115,8 @@ export const CONCEPTS = [
     risks: USE_CASE_3.tradeoffs,
     thesis: 'Turn the frustration of a Raid into an urgent reason to return, Spin, and retaliate.',
     arpdauPath: 'Purchase frequency through re-engagement',
-    monetizationSummary: 'Create an additional return session and more exposure to existing Spin offers.',
+    monetizationSummary: 'Lift return sessions and Spin demand; higher exposure to offers.',
+    metrics: USE_CASE_3.metrics!,
     loopImplications: [
       'Village progression creates the Coin balance and PvP exposure that make a Raid meaningful.',
       'The loss creates an emotionally salient trigger without adding a new entry behavior.',
