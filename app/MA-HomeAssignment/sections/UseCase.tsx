@@ -36,6 +36,10 @@ export interface WorkflowStep {
   tag?:      string               // gold pill shown on the step (e.g. "Core loop")
   coreLoop?: boolean              // style the step as the gold core-loop plaque (with shine sweep)
   emphasis?: boolean              // force the bold treatment on an otherwise-normal step
+  resourceDelta?: {
+    resource: 'coin' | 'spin' | 'card'
+    direction: 'spend' | 'gain'
+  }
 }
 
 export interface Workflow {
