@@ -17,20 +17,28 @@ const BULLETS = [
   '6 years in ConTech',
 ] as const
 
-type BrazilInteraction = {
-  hovered: boolean
-  focused: boolean
+type Place = (typeof TIMELINE)[number]
+
+// Each timeline place shows a matching photo on hover/focus; Israel keeps the
+// current family photo (also the default when nothing is active).
+const DEFAULT_IMAGE = '/presentation/family.jpeg'
+const PLACE_IMAGES: Record<Place, string> = {
+  Brazil: '/coinmaster/me-brazil.jpeg',
+  Holland: '/coinmaster/me-holland.jpeg',
+  Israel: DEFAULT_IMAGE,
 }
 
-const IDLE: BrazilInteraction = {
-  hovered: false,
-  focused: false,
+const PLACE_IMAGE_ALTS: Record<Place, string> = {
+  Brazil: 'Eliahu in Brazil',
+  Holland: 'Eliahu in Holland',
+  Israel: 'Eliahu and family',
 }
 
 export default function Slide02About({ slideKey }: OpeningSlideProps) {
-  const [interaction, setInteraction] = useState<BrazilInteraction>(IDLE)
-  const reset = useCallback(() => setInteraction(IDLE), [])
-  const showEduardo = interaction.hovered || interaction.focused
+  const [active, setActive] = useState<Place | null>(null)
+  const reset = useCallback(() => setActive(null), [])
+  const showEduardo = active === 'Brazil'
+  const image = active ? PLACE_IMAGES[active] : DEFAULT_IMAGE
 
   useDeckReset(reset, slideKey)
 
@@ -61,12 +69,13 @@ export default function Slide02About({ slideKey }: OpeningSlideProps) {
       <div className="mt-8 grid min-h-0 flex-1 grid-cols-[320px_1fr] items-stretch gap-10">
         <figure
           data-ma-photo-frame="true"
-          className="self-start overflow-hidden rounded-2xl border-2 border-cm-wood/50"
+          style={{ borderColor: 'rgb(30, 123, 168)' }}
+          className="self-start overflow-hidden rounded-2xl border-[1.5px]"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/presentation/family.jpeg"
-            alt="Eliahu and family"
+            src={image}
+            alt={active ? PLACE_IMAGE_ALTS[active] : 'Eliahu and family'}
             className="h-[300px] w-full object-cover"
           />
         </figure>
@@ -79,27 +88,21 @@ export default function Slide02About({ slideKey }: OpeningSlideProps) {
                 data-journey-pill="true"
                 className="relative flex min-w-0 flex-1 items-center"
               >
-                {place === 'Brazil' ? (
-                  <button
-                    type="button"
-                    data-deck-interactive="true"
-                    data-journey-surface="true"
-                    data-blue-surface="true"
-                    aria-expanded={showEduardo}
-                    aria-controls="about-name"
-                    onMouseEnter={() => setInteraction((current) => ({ ...current, hovered: true }))}
-                    onMouseLeave={() => setInteraction((current) => ({ ...current, hovered: false }))}
-                    onFocus={() => setInteraction((current) => ({ ...current, focused: true }))}
-                    onBlur={() => setInteraction((current) => ({ ...current, focused: false }))}
-                    className="min-h-11 w-full rounded-lg border px-5 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a] focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
-                  >
-                    {place}
-                  </button>
-                ) : (
-                  <span data-journey-surface="true" data-blue-surface="true" className="inline-flex min-h-11 w-full items-center justify-center rounded-lg border px-5 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a]">
-                    {place}
-                  </span>
-                )}
+                <button
+                  type="button"
+                  data-deck-interactive="true"
+                  data-journey-surface="true"
+                  data-blue-surface="true"
+                  data-active={active === place ? 'true' : undefined}
+                  aria-expanded={place === 'Brazil' ? showEduardo : undefined}
+                  aria-controls={place === 'Brazil' ? 'about-name' : undefined}
+                  onMouseEnter={() => setActive(place)}
+                  onFocus={() => setActive(place)}
+                  onClick={() => setActive(place)}
+                  className="inline-flex min-h-11 w-full items-center justify-center rounded-lg border px-5 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a] focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
+                >
+                  {place}
+                </button>
                 {index < TIMELINE.length - 1 && (
                   <FlowArrow
                     data-journey-connector="true"
