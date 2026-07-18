@@ -36,7 +36,8 @@
 }
 
 .viewport [data-blue-surface="true"]:hover,
-.viewport [data-blue-surface="true"]:focus-visible {
+.viewport [data-blue-surface="true"]:focus-visible,
+.viewport [data-blue-surface="true"][data-active="true"] {
   background: linear-gradient(to bottom, #f0fafe, #dbf1fc);
   box-shadow: 0 2px 0 rgba(30, 123, 168, 0.16);
 }
@@ -139,12 +140,12 @@
   line-height: 1.5;
 }
 
-.viewport[data-current-slide="slide-11"] .deckChrome button,
-.viewport[data-current-slide="slide-11"] .deckChrome p {
+.viewport[data-current-slide="slide-10"] .deckChrome button,
+.viewport[data-current-slide="slide-10"] .deckChrome p {
   color: rgba(255, 255, 255, 0.84);
 }
 
-.viewport[data-current-slide="slide-11"] .deckChrome {
+.viewport[data-current-slide="slide-10"] .deckChrome {
   grid-template-columns: minmax(0, 1fr) auto auto;
   column-gap: 32px;
 }

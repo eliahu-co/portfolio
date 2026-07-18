@@ -118,7 +118,7 @@ describe('MA presentation deck', () => {
   })
 
   it('routes home on Escape even when an interactive element has focus', () => {
-    setRoute('#slide-8')
+    setRoute('#slide-7')
     const { container } = render(<PresentationDeck />)
     const scoring = activeSlide(container)
     const score = within(scoring).getByRole('button', {
@@ -160,19 +160,19 @@ describe('MA presentation deck', () => {
       .toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('mounts the prototype only on slide 11 and resets it after revisiting', () => {
-    setRoute('#slide-11')
+  it('mounts the prototype only on slide 10 and resets it after revisiting', () => {
+    setRoute('#slide-10')
     const { container } = render(<PresentationDeck />)
     const prototypeSlide = activeSlide(container)
     const viewport = container.querySelector('[data-presentation-viewport="true"]')
 
-    expect(viewport).toHaveAttribute('data-current-slide', 'slide-11')
+    expect(viewport).toHaveAttribute('data-current-slide', 'slide-10')
 
     fireEvent.click(within(prototypeSlide).getByRole('button', { name: 'Open Card Bounty' }))
     expect(within(prototypeSlide).getByRole('dialog', { name: 'Card Bounty' })).toBeVisible()
 
     fireEvent.click(screen.getByRole('button', { name: 'Next: A/B test' }))
-    expect(viewport).toHaveAttribute('data-current-slide', 'slide-12')
+    expect(viewport).toHaveAttribute('data-current-slide', 'slide-11')
     expect(screen.queryByRole('region', { name: 'Card Bounty game prototype' })).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Previous: Prototype' }))
@@ -220,9 +220,9 @@ describe('MA presentation deck', () => {
     expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*color:\s*#666/)
     expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*font-weight:\s*500/)
     expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*letter-spacing:\s*0\.14em/)
-    expect(stageCss).toMatch(/\[data-current-slide="slide-11"\] \.deckChrome button[\s\S]*?color:\s*rgba\(255, 255, 255, 0\.84\)/)
-    expect(stageCss).toMatch(/\[data-current-slide="slide-11"\] \.deckChrome p[\s\S]*?color:\s*rgba\(255, 255, 255, 0\.84\)/)
-    expect(stageCss).toMatch(/\[data-current-slide="slide-11"\] \.deckChrome\s*{[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto auto/)
+    expect(stageCss).toMatch(/\[data-current-slide="slide-10"\] \.deckChrome button[\s\S]*?color:\s*rgba\(255, 255, 255, 0\.84\)/)
+    expect(stageCss).toMatch(/\[data-current-slide="slide-10"\] \.deckChrome p[\s\S]*?color:\s*rgba\(255, 255, 255, 0\.84\)/)
+    expect(stageCss).toMatch(/\[data-current-slide="slide-10"\] \.deckChrome\s*{[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto auto/)
     expect(stageCss).not.toMatch(/\.deckChrome button\s*{[^}]*min-height:/)
     expect(stageCss).toMatch(/\[data-blue-surface="true"\]\s*{[^}]*border-width:\s*1\.5px/)
     expect(stageCss).toMatch(/\[data-blue-surface="true"\]\s*{[^}]*border-color:\s*rgba\(30, 123, 168, 0\.65\)/)
@@ -248,7 +248,7 @@ describe('MA presentation deck', () => {
   })
 
   it('keeps standard non-hero slides on the shared HA shell and title geometry', () => {
-    slideRegistry.slice(1, -1).filter(({ id }) => id !== 'slide-11').forEach(({ Component, id }) => {
+    slideRegistry.slice(1, -1).filter(({ id }) => id !== 'slide-10').forEach(({ Component, id }) => {
       const rendered = render(<Component slideKey={id} />)
       const shell = rendered.container.querySelector('[data-slide-shell="true"]')!
       const heading = shell.querySelector('h2')!

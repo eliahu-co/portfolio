@@ -29,42 +29,60 @@ describe('MA presentation opening chapter', () => {
     container.querySelectorAll('.transition-opacity').forEach((element) => {
       expect(element).toHaveClass('motion-reduce:transition-none')
     })
+    const photo = () => container.querySelector('[data-ma-photo-frame="true"] img')!
     const brazil = screen.getByRole('button', { name: 'Brazil' })
+    const holland = screen.getByRole('button', { name: 'Holland' })
+    const israel = screen.getByRole('button', { name: 'Israel' })
     expect(brazil).toHaveAttribute('data-blue-surface', 'true')
     container.querySelectorAll('[data-journey-surface="true"]').forEach((surface) => {
       expect(surface).toHaveAttribute('data-blue-surface', 'true')
     })
 
-    fireEvent.mouseEnter(brazil)
-    expect(brazil).toHaveAttribute('aria-expanded', 'true')
-    fireEvent.mouseLeave(brazil)
+    // idle: family photo, name reads Eliahu
+    expect(photo()).toHaveAttribute('src', '/presentation/family.jpeg')
     expect(brazil).toHaveAttribute('aria-expanded', 'false')
 
-    fireEvent.focus(brazil)
-    expect(brazil).toHaveAttribute('aria-expanded', 'true')
+    // hovering Brazil swaps the photo, flips the name, and marks the pill active
     fireEvent.mouseEnter(brazil)
+    expect(brazil).toHaveAttribute('aria-expanded', 'true')
+    expect(brazil).toHaveAttribute('data-active', 'true')
+    expect(holland).not.toHaveAttribute('data-active')
+    expect(photo()).toHaveAttribute('src', '/coinmaster/me-brazil.jpeg')
+
+    // sticky: leaving the pill keeps the photo, name, and active fill
     fireEvent.mouseLeave(brazil)
     expect(brazil).toHaveAttribute('aria-expanded', 'true')
-    fireEvent.blur(brazil)
+    expect(brazil).toHaveAttribute('data-active', 'true')
+    expect(photo()).toHaveAttribute('src', '/coinmaster/me-brazil.jpeg')
+
+    // hovering another pill moves the active fill; Brazil's easter-egg resets
+    fireEvent.mouseEnter(holland)
+    expect(photo()).toHaveAttribute('src', '/coinmaster/me-holland.jpeg')
+    expect(holland).toHaveAttribute('data-active', 'true')
+    expect(brazil).not.toHaveAttribute('data-active')
     expect(brazil).toHaveAttribute('aria-expanded', 'false')
 
-    fireEvent.mouseEnter(brazil)
-    fireEvent.focus(brazil)
-    fireEvent.blur(brazil)
-    expect(brazil).toHaveAttribute('aria-expanded', 'true')
-    fireEvent.mouseLeave(brazil)
-    expect(brazil).toHaveAttribute('aria-expanded', 'false')
+    // click activation supports touch devices that do not synthesize hover/focus
+    fireEvent.click(brazil)
+    expect(photo()).toHaveAttribute('src', '/coinmaster/me-brazil.jpeg')
+    expect(brazil).toHaveAttribute('data-active', 'true')
 
+    // Israel keeps the current family photo
+    fireEvent.mouseEnter(israel)
+    expect(photo()).toHaveAttribute('src', '/presentation/family.jpeg')
+    expect(photo()).toHaveAttribute('alt', 'Eliahu and family')
+
+    // changing slide resets to the idle family photo
     fireEvent.mouseEnter(brazil)
-    fireEvent.focus(brazil)
     rerender(<Slide02About slideKey="slide-2-reset" />)
     expect(screen.getByRole('button', { name: 'Brazil' })).toHaveAttribute('aria-expanded', 'false')
+    expect(container.querySelector('[data-ma-photo-frame="true"] img')).toHaveAttribute('src', '/presentation/family.jpeg')
   })
 
   it('uses the flat approach flow and reveals the original core-loop diagram', () => {
     const approach = render(<Slide03Approach slideKey="slide-3" />)
     expect(screen.getByRole('heading', { name: 'Approach' })).toBeVisible()
-    expect(approach.container.querySelectorAll('li')).toHaveLength(7)
+    expect(approach.container.querySelector('ol')!.querySelectorAll('li')).toHaveLength(7)
     expect(approach.container.querySelectorAll('[data-approach-pill="true"]')).toHaveLength(7)
     approach.container.querySelectorAll('[data-approach-pill="true"]').forEach((pill) => {
       expect(pill).toHaveAttribute('data-blue-surface', 'true')
@@ -126,11 +144,12 @@ describe('MA presentation opening chapter', () => {
     const researchEvidence = approach.container.querySelector('[data-research-evidence="true"]')!
     expect(research).toHaveAttribute('aria-expanded', 'false')
     expect(researchEvidence).toHaveClass('opacity-0', 'pointer-events-none')
-    expect(researchEvidence.querySelectorAll('[data-research-screenshot="true"]')).toHaveLength(4)
+    expect(researchEvidence.querySelectorAll('[data-research-screenshot="true"]')).toHaveLength(5)
     researchEvidence.querySelectorAll('[data-research-screenshot="true"]').forEach((screenshot) => {
       expect(screenshot.querySelector('[data-screenshot-frame="true"]')).toHaveClass('rounded-2xl', 'overflow-hidden')
       expect(screenshot.querySelector('img')).toHaveClass('object-cover')
     })
+    expect(researchEvidence).toHaveTextContent('Support')
     expect(researchEvidence).toHaveTextContent('Discord')
     expect(researchEvidence).toHaveTextContent('Reddit')
     expect(researchEvidence).toHaveTextContent('Facebook')
@@ -148,8 +167,10 @@ describe('MA presentation opening chapter', () => {
     expect(benchmarkEvidence).toHaveClass('opacity-0', 'pointer-events-none')
     expect(benchmarkEvidence.querySelectorAll('[data-benchmark-screenshot="true"]')).toHaveLength(3)
     benchmarkEvidence.querySelectorAll('[data-benchmark-screenshot="true"]').forEach((screenshot) => {
-      expect(screenshot.querySelector('[data-screenshot-frame="true"]')).toHaveClass('rounded-2xl', 'overflow-hidden')
-      expect(screenshot.querySelector('img')).toHaveClass('object-cover')
+      // benchmark screenshots are shown in full (no crop): natural width, height-fit
+      const img = screenshot.querySelector('img')!
+      expect(img).toHaveClass('object-contain', 'h-full', 'w-auto', 'rounded-2xl')
+      expect(img).not.toHaveClass('object-cover')
     })
     expect(benchmarkEvidence).toHaveTextContent('Royal Match')
     expect(benchmarkEvidence).toHaveTextContent('Monopoly GO!')
@@ -166,12 +187,27 @@ describe('MA presentation opening chapter', () => {
     expect(createEvidence.querySelectorAll('[data-rejected="true"]')).toHaveLength(2)
     expect(screen.getByText('Daily Memory Card')).toHaveClass('line-through')
     expect(screen.getByText('Pet Equips')).toHaveClass('line-through')
-    expect(createEvidence).toHaveTextContent('Hometown')
-    expect(createEvidence).toHaveTextContent('Card Bounty')
-    expect(createEvidence).toHaveTextContent('Hot Trail')
+    const hometownLogo = createEvidence.querySelector('[data-concept-logo="Hometown"]')!
+    const cardBountyLogo = createEvidence.querySelector('[data-concept-logo="Card Bounty"]')!
+    const hotTrailLogo = createEvidence.querySelector('[data-concept-logo="Hot Trail"]')!
+    expect(hometownLogo).toHaveAttribute('src', expect.stringContaining('hometown-logo.png'))
+    expect(cardBountyLogo).toHaveAttribute('src', expect.stringContaining('card-bounty-logo.png'))
+    expect(hotTrailLogo).toHaveAttribute('src', expect.stringContaining('hot-trail-logo.png'))
+    expect(hometownLogo).toHaveAttribute('alt', '')
+    expect(cardBountyLogo).toHaveAttribute('alt', '')
+    expect(hotTrailLogo).toHaveAttribute('alt', '')
     fireEvent.mouseEnter(create)
     expect(create).toHaveAttribute('aria-expanded', 'true')
     expect(createEvidence).toHaveClass('opacity-100')
+    expect(screen.getByRole('heading', { level: 3, name: 'Hometown' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 3, name: 'Card Bounty' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 3, name: 'Hot Trail' })).toBeInTheDocument()
+    expect(createEvidence).toHaveTextContent('Create a persistent Coin spend surface')
+    expect(createEvidence).toHaveTextContent('Increase Coin demand')
+    expect(createEvidence).toHaveTextContent('Create an additional return session')
+    createEvidence.querySelectorAll('[data-create-concept="true"]').forEach((concept) => {
+      expect(concept).not.toHaveClass('border-t-4')
+    })
     expect(screen.queryByRole('heading', { name: 'Three bets' })).not.toBeInTheDocument()
     const decide = screen.getByRole('button', { name: 'Decide' })
     const decisionEvidence = approach.container.querySelector('[data-decision-evidence="true"]')!
@@ -183,6 +219,21 @@ describe('MA presentation opening chapter', () => {
     expect(decisionEvidence.querySelector('img')).toHaveAttribute('src', expect.stringContaining('feature-ranking.png'))
     expect(approach.container.querySelector('[data-step-number]')).not.toBeInTheDocument()
     expect(screen.queryByText('Discovery to decision')).not.toBeInTheDocument()
+
+    const test = screen.getByRole('button', { name: 'Test' })
+    const testEvidence = approach.container.querySelector('[data-test-evidence="true"]')!
+    expect(testEvidence).toHaveClass('opacity-0', 'pointer-events-none')
+    fireEvent.mouseEnter(test)
+    expect(test).toHaveAttribute('aria-expanded', 'true')
+    expect(testEvidence).toHaveClass('opacity-100')
+    const testItems = testEvidence.querySelectorAll('[data-validation-test="true"]')
+    expect(testItems).toHaveLength(5)
+    testItems.forEach((item) => expect(item.querySelector('svg')).toBeInTheDocument())
+    expect(testEvidence).toHaveTextContent('Feature validation')
+    expect(testEvidence).toHaveTextContent('Meter goal calibration')
+    expect(testEvidence).toHaveTextContent('Paid progress carryover')
+    expect(testEvidence).toHaveTextContent('Chest tier weighting')
+    expect(testEvidence).toHaveTextContent('Multiple milestones')
     approach.unmount()
   })
 

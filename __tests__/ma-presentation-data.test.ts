@@ -1,7 +1,6 @@
 import {
   APPROACH_STEPS,
   ASSUMPTION_STORIES,
-  CLOSING_GROUPS,
   CONCEPTS,
   PLAYER_FLOW,
   RECOMMENDATION,
@@ -69,6 +68,5 @@ describe('MA presentation story data', () => {
     expect(ASSUMPTION_STORIES).toHaveLength(5)
     expect(RECOMMENDATION.evidence).toHaveLength(3)
     expect(PLAYER_FLOW).toHaveLength(6)
-    expect(CLOSING_GROUPS.map(({ slide }) => slide)).toEqual([3, 4, 8, 9, 12])
   })
 })
