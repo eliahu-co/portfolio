@@ -47,10 +47,10 @@ export const USE_CASE_1: UseCaseData = {
     stat: 'Self-reinforcing loop',
     loop: true,
     steps: [
-      { label: 'Complete Villages', coreLoop: true },
+      { label: 'Complete Villages', coreLoop: true, resourceDelta: { resource: 'coin', direction: 'spend' } },
       { label: 'Unlock Hometown items' },
-      { label: 'Spend Coins to construct new Hometown items' },
-      { label: 'Receive a discount on the next Village upgrade' },
+      { label: 'Build new Items', resourceDelta: { resource: 'coin', direction: 'spend' } },
+      { label: 'Get Village build discount!', resourceDelta: { resource: 'coin', direction: 'gain' } },
     ],
   },
   proposedWorkflow: {
@@ -154,11 +154,11 @@ export const USE_CASE_2: UseCaseData = {
     stat: 'Guaranteed target Card',
     loop: true,
     steps: [
-      { label: 'Use Spins to earn Coins', coreLoop: true },
-      { label: 'Choose a missing Card from a Collection' },
-      { label: 'Spend Coins on Chests to fill the Bounty meter' },
-      { label: 'Receive the target Card and progress the Collection' },
-      { label: 'Complete the Collection to earn Spins' },
+      { label: 'Spin', coreLoop: true, resourceDelta: { resource: 'spin', direction: 'spend' } },
+      { label: 'Target a card' },
+      { label: 'Buy Chests - fill the meter', resourceDelta: { resource: 'coin', direction: 'spend' } },
+      { label: 'Get the card', resourceDelta: { resource: 'card', direction: 'gain' } },
+      { label: 'Complete the Collection', resourceDelta: { resource: 'spin', direction: 'gain' } },
     ],
   },
   proposedWorkflow: {
@@ -250,11 +250,11 @@ export const USE_CASE_3: UseCaseData = {
     stat: 'Loss-to-return loop',
     loop: true,
     steps: [
-      { label: 'Spend Coins to progress the Village', coreLoop: true },
-      { label: 'Get Raided and lose Coins' },
+      { label: 'Progress the Village', coreLoop: true, resourceDelta: { resource: 'coin', direction: 'spend' } },
+      { label: 'Get Raided', resourceDelta: { resource: 'coin', direction: 'spend' } },
       { label: 'Activate Hot Trail' },
-      { label: 'Use Spins to trigger a Raid' },
-      { label: 'Counter-Raid and recover part of the loss' },
+      { label: 'Spin to Raid', resourceDelta: { resource: 'spin', direction: 'spend' } },
+      { label: 'Counter-Raid', resourceDelta: { resource: 'coin', direction: 'gain' } },
     ],
   },
   proposedWorkflow: {

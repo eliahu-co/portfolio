@@ -1,21 +1,57 @@
 'use client'
 
 import { useCallback, useState } from 'react'
+import Image from 'next/image'
 import type { PresentationConcept } from '../deckData'
+import type { WorkflowStep } from '@/app/MA-HomeAssignment/sections/UseCase'
 import { useDeckReset, type DeckSlideKey } from '../useDeckReset'
 import LoopReturn from '@/app/MA-HomeAssignment/sections/LoopReturn'
 import { FlowArrow } from './FlowArrow'
 
-function LoopPill({ label, core }: { label: string; core?: boolean }) {
+function LoopPill({ label, core, resourceDelta }: Pick<WorkflowStep, 'label' | 'coreLoop' | 'resourceDelta'> & { core?: boolean }) {
+  const resourceName = resourceDelta?.resource === 'coin'
+    ? 'Coins'
+    : resourceDelta?.resource === 'spin'
+      ? 'Spins'
+      : 'Card'
+  const resourceLabel = resourceDelta
+    ? `${resourceDelta.direction === 'spend' ? 'Spend' : 'Gain'} ${resourceName}`
+    : null
+
   return (
     <div
       data-loop-step="true"
       data-blue-surface={core ? undefined : 'true'}
       data-wood-surface={core ? 'true' : undefined}
       className={core
-      ? 'rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-normal leading-snug text-cm-wood'
-      : 'rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-normal leading-snug text-[#0d3a5a]'}>
-      {label}
+      ? 'relative rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-normal leading-snug text-cm-wood'
+      : 'relative rounded-lg border px-4 py-2 text-center font-sans text-[14px] font-normal leading-snug text-[#0d3a5a]'}>
+      <span className={resourceDelta ? 'block px-10' : undefined}>{label}</span>
+      {resourceDelta && (
+        <span
+          data-resource-indicator="true"
+          aria-label={resourceLabel!}
+          className="absolute right-3 top-1/2 inline-flex -translate-y-1/2 items-center leading-none"
+        >
+          <span className="relative block h-7 w-7" aria-hidden="true">
+            <Image
+              src={`/coinmaster/resources/${resourceDelta.resource}-emoji.png`}
+              alt=""
+              width={28}
+              height={28}
+              className="h-7 w-7 object-contain"
+            />
+            <Image
+              src={`/coinmaster/resources/${resourceDelta.direction === 'spend' ? 'minus' : 'plus'}-badge.png`}
+              alt=""
+              width={16}
+              height={16}
+              data-resource-sign="true"
+              className="absolute -left-1 -top-1 z-10 h-4 w-4 object-contain"
+            />
+          </span>
+        </span>
+      )}
     </div>
   )
 }
@@ -59,7 +95,7 @@ export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlidePro
           <div data-feature-loop-stack="true" className="relative max-w-[350px]">
             {loop.steps.map((step, index) => (
               <div key={step.label}>
-                <LoopPill label={step.label} core={step.coreLoop} />
+                <LoopPill label={step.label} core={step.coreLoop} resourceDelta={step.resourceDelta} />
                 {index < loop.steps.length - 1 && (
                   <FlowArrow
                     direction="down"
