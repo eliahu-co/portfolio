@@ -3,28 +3,30 @@ import { createElement } from 'react'
 import { render, screen } from '@testing-library/react'
 
 describe('MA presentation registry', () => {
-  it('defines the approved 17-slide story with an introduction before each feature', () => {
-    expect(slideCount).toBe(17)
+  it('defines the approved 19-slide story with an introduction before each feature and MVP', () => {
+    expect(slideCount).toBe(19)
     expect(slideRegistry.map(({ id }) => id)).toEqual(
-      Array.from({ length: 17 }, (_, index) => `slide-${index + 1}`),
+      Array.from({ length: 19 }, (_, index) => `slide-${index + 1}`),
     )
     expect(slideRegistry.map(({ title }) => title)).toEqual([
       'Increasing ARPDAU', 'About', 'Approach',
-      'A time-limited counter-Raid that turns a loss into an urgent reason to return and Spin.',
+      'A counter-Raid that turns a loss into a reason to return and Spin',
       'Hot Trail',
-      'A limited LiveOps event that gives players a visible path to a missing Card.',
+      'A visible path to a chosen Card through buying Chests',
       'Card Bounty',
-      'A customizable town built from items the player has unlocked across Villages.',
-      'Hometown', 'Comparative scoring',
-      'Expanded player flow', 'MVP scope', 'Interactive prototype',
-      'A/B-test design', 'Success metrics and guardrails', 'Assumptions', 'Thank you',
+      'A customizable town built from unlocked Villages items',
+      'Hometown', 'Score',
+      'Expanded player flow',
+      'Target-selection, Chest-progress, guarantee mechanics',
+      'MVP scope', 'Interactive prototype',
+      'A/B-test design', 'Success metrics and guardrails', 'What We Test Next', 'Assumptions', 'Thank you',
     ])
   })
 
   it.each([
-    [3, 'Feature 1', 'A time-limited counter-Raid that turns a loss into an urgent reason to return and Spin.'],
-    [5, 'Feature 2', 'A limited LiveOps event that gives players a visible path to a missing Card.'],
-    [7, 'Feature 3', 'A customizable town built from items the player has unlocked across Villages.'],
+    [3, 'Feature 1', 'A counter-Raid that turns a loss into a reason to return and Spin'],
+    [5, 'Feature 2', 'A visible path to a chosen Card through buying Chests'],
+    [7, 'Feature 3', 'A customizable town built from unlocked Villages items'],
   ])('renders feature introduction slide %s with the shared title treatment', (index, eyebrow, statement) => {
     render(createElement(slideRegistry[index].Component, { slideKey: `intro-${index}` }))
     expect(screen.getByText(eyebrow)).toBeVisible()
@@ -37,7 +39,7 @@ describe('MA presentation registry', () => {
       { label: 'Three bets', href: '#slide-4' },
       { label: 'Decision', href: '#slide-10' },
       { label: 'Player flow', href: '#slide-11' },
-      { label: 'Validation', href: '#slide-14' },
+      { label: 'Validation', href: '#slide-15' },
     ])
   })
 })

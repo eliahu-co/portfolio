@@ -23,7 +23,7 @@ export default function Slide01Cover(_props: OpeningSlideProps) {
           <img
             src="/coinmaster/coinmaster-logo.webp"
             alt="Coin Master"
-            className="mb-8 h-[150px] w-auto max-w-full object-contain object-left drop-shadow-[0_5px_12px_rgba(42,27,84,0.35)]"
+            className="mb-4 h-[300px] w-auto max-w-full object-contain object-left drop-shadow-[0_5px_12px_rgba(42,27,84,0.35)]"
           />
           <p className="mb-4 font-sans text-[17px] font-extrabold uppercase tracking-[0.13em] text-cm-gold-bright">
             Product Manager - Home Assignment

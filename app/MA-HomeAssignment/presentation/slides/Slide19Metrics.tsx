@@ -6,7 +6,7 @@ export default function Slide19Metrics({ slideKey }: OpeningSlideProps) {
   return (
     <SlideShell>
       <Eyebrow>Success criteria</Eyebrow>
-      <SlideTitle>ARPDAU leads the decision</SlideTitle>
+      <SlideTitle>ARPDAU ≥5% lift</SlideTitle>
       <div className="mt-2 min-h-0 flex-1"><ValidationTable slideKey={slideKey} /></div>
     </SlideShell>
   )

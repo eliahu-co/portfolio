@@ -82,18 +82,29 @@ export default function PresentationDeck() {
         return
       }
 
-      if (isDeckInteractiveTarget(event.target)) return
-
-      if (event.key === 'ArrowRight' || (event.key === ' ' && !event.shiftKey)) {
+      if (event.key === 'ArrowRight') {
         event.preventDefault()
         setCurrent((index) => stepIndex(index, 1, slideCount))
         return
       }
 
-      if (event.key === 'ArrowLeft' || (event.key === ' ' && event.shiftKey)) {
+      if (event.key === 'ArrowLeft') {
         event.preventDefault()
         setCurrent((index) => stepIndex(index, -1, slideCount))
         return
+      }
+
+      if (isDeckInteractiveTarget(event.target)) return
+
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault()
+        setCurrent((index) => stepIndex(index, 1, slideCount))
+        return
+      }
+
+      if (event.key === ' ' && event.shiftKey) {
+        event.preventDefault()
+        setCurrent((index) => stepIndex(index, -1, slideCount))
       }
 
     }

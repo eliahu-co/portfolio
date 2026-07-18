@@ -25,7 +25,6 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
   }, [])
   useDeckReset(reset, slideKey)
 
-  const primary = METRIC_GROUPS.find(({ title }) => title === 'Primary metric')!.metrics[0]
   const selectedGroup = METRIC_GROUPS.find(({ title }) => title === detailGroup)!
 
   const selectGroup = (group: DetailGroup) => {
@@ -36,18 +35,7 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
 
   return (
     <div className="mt-3">
-      <table data-primary-metric="true" className="w-full table-fixed border-collapse text-left">
-        <colgroup><col className="w-[48%]" /><col className="w-[24%]" /><col /></colgroup>
-        <tbody>
-          <tr className="bg-[linear-gradient(90deg,rgba(245,168,0,0.10),rgba(245,168,0,0.26),rgba(245,168,0,0.10))]">
-            <td className="py-3 font-serif text-[22px] font-black text-cm-violet-deep">{primary.metric}</td>
-            <td className="py-3 font-sans text-[15px] font-medium text-charcoal">Primary decision metric</td>
-            <td className="py-3 text-right font-serif text-[24px] font-black text-cm-crimson">
-              {primary.mutedTarget} {primary.target}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div aria-hidden="true" data-primary-metric-spacer="true" className="h-[58px]" />
 
       <div role="tablist" aria-label="Metric groups" className="mt-5 flex gap-8 border-b border-charcoal/20">
         {(['Supporting metrics', 'Guardrails'] as const).map((group) => {
@@ -71,7 +59,7 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
 
       <div id="metric-group-panel" role="tabpanel" className="min-h-[258px]">
         <table className="w-full table-fixed border-collapse text-left">
-          <colgroup><col className="w-[48%]" /><col className="w-[24%]" /><col /></colgroup>
+          <colgroup><col className="w-[38%]" /><col className="w-[22%]" /><col className="w-[40%]" /></colgroup>
           <thead>
             <tr className="border-b border-charcoal/20 font-sans text-[11px] font-medium uppercase tracking-[0.1em] text-charcoal/55">
               <th className="py-2">Metric</th>
@@ -99,13 +87,13 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
                       onMouseLeave={() => setHovered(null)}
                       onFocus={() => setFocused(selection)}
                       onBlur={() => setFocused(null)}
-                      className={`min-h-10 w-full border-0 bg-transparent text-left font-sans text-[15px] font-medium text-cm-violet-deep ${selected ? 'font-extrabold' : ''}`}
+                      className={`min-h-10 w-full border-0 bg-transparent text-left font-sans text-[17px] font-medium text-cm-violet-deep ${selected ? 'font-extrabold' : ''}`}
                     >
                       {metric.metric}
                     </button>
                   </td>
                   <td className="px-2">{metric.role && <span className={`inline-flex w-[116px] justify-center rounded-full border px-2 py-1 font-sans text-[9px] font-bold uppercase tracking-[0.08em] ${ROLE_CLASSES[metric.role]}`}>{metric.role}</span>}</td>
-                  <td className="pl-4 text-right font-sans text-[14px] text-charcoal">{metric.mutedTarget && <><span className="text-charcoal/55">{metric.mutedTarget}</span>{' '}</>}<span className="font-bold">{metric.target}</span></td>
+                  <td className="whitespace-nowrap pl-4 text-right font-sans text-[16px] text-charcoal">{metric.mutedTarget && <><span className="text-charcoal/55">{metric.mutedTarget}</span>{' '}</>}<span className="font-bold">{metric.target}</span></td>
                 </tr>
               )
             })}
@@ -119,9 +107,11 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
         data-active={active ? 'true' : 'false'}
         className={`mt-2 min-h-[54px] border-t border-charcoal/20 pt-3 font-sans text-[13px] leading-relaxed ${active ? 'font-bold text-cm-violet-deep' : 'text-charcoal'}`}
       >
-        {active ? (
-          <><span>{active.metric} — </span>{active.help ? TOOLTIP_NOTES[active.help] : 'Used to explain whether the feature creates incremental value without damaging the core economy.'}</>
-        ) : TOOLTIP_NOTES['test-methodology']}
+        {active
+          ? active.help
+            ? TOOLTIP_NOTES[active.help]
+            : 'Used to explain whether the feature creates incremental value without damaging the core economy.'
+          : TOOLTIP_NOTES['test-methodology']}
       </div>
     </div>
   )

@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import { ASSUMPTION_STORIES } from '../deckData'
-import { Eyebrow, SlideShell, SlideTitle } from '../primitives'
+import { SlideShell, SlideTitle } from '../primitives'
 import { useDeckReset } from '../useDeckReset'
 import type { OpeningSlideProps } from './Slide01Cover'
 
@@ -18,7 +18,6 @@ export default function Slide12Assumptions({ slideKey }: OpeningSlideProps) {
 
   return (
     <SlideShell>
-      <Eyebrow>Assumptions</Eyebrow>
       <SlideTitle>Assumptions</SlideTitle>
       <div className="mt-6 flex max-w-[1040px] flex-col gap-4">
         {ASSUMPTION_STORIES.map(({ assumption }, index) => (

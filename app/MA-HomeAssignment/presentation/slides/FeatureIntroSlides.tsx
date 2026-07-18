@@ -34,8 +34,8 @@ export function SlideFeature1Intro(props: OpeningSlideProps) {
     <FeatureIntroSlide
       {...props}
       feature={1}
-      statement="A time-limited counter-Raid that turns a loss into an urgent reason to return and Spin."
-      motivations={['Urgency', 'Recovery and Revenge']}
+      statement="A counter-Raid that turns a loss into a reason to return and Spin"
+      motivations={['Urgency', 'Recovery and Revenge', 'Social Engine']}
     />
   )
 }
@@ -45,8 +45,8 @@ export function SlideFeature2Intro(props: OpeningSlideProps) {
     <FeatureIntroSlide
       {...props}
       feature={2}
-      statement="A limited LiveOps event that gives players a visible path to a missing Card."
-      motivations={['agency', 'visible progress']}
+      statement="A visible path to a chosen Card through buying Chests"
+      motivations={['Agency', 'Visible Progress']}
     />
   )
 }
@@ -56,8 +56,8 @@ export function SlideFeature3Intro(props: OpeningSlideProps) {
     <FeatureIntroSlide
       {...props}
       feature={3}
-      statement="A customizable town built from items the player has unlocked across Villages."
-      motivations={['Expression and Ownership', 'Progress and Status', 'social recognition']}
+      statement="A customizable town built from unlocked Villages items"
+      motivations={['Expression and Ownership', 'Progress and Status', 'Social Recognition']}
     />
   )
 }

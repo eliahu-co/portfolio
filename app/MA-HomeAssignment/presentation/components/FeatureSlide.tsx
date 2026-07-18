@@ -133,7 +133,7 @@ export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlidePro
           </div>
           <div
             data-feature-disclosures="true"
-            className="mt-8 flex w-[188%] max-w-none flex-col gap-8"
+            className="mt-16 flex w-[188%] max-w-none flex-col gap-8"
           >
             <div
               data-feature-monetization={title}
@@ -148,21 +148,15 @@ export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlidePro
                   setOpenDetail((current) => current === 'monetization' ? null : 'monetization')
                 }
               }}
-              className={`flex w-full max-w-none cursor-pointer flex-col items-start gap-1 rounded-lg transition-opacity duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cm-blue motion-reduce:transition-none ${openDetail === 'monetization' ? 'opacity-100' : 'opacity-25'}`}
-            >
-            <div
-              data-feature-disclosure-label="true"
-              className="inline-flex shrink-0 items-center gap-3 text-left"
+              className={`flex w-full max-w-none cursor-pointer select-none flex-row items-center gap-4 rounded-lg transition-opacity duration-200 [&_*]:cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cm-blue motion-reduce:transition-none ${openDetail === 'monetization' ? 'opacity-100' : 'opacity-25'}`}
             >
               <Image
                 src="/coinmaster/resources/shop-emoji.png"
                 alt=""
-                width={36}
-                height={36}
-                className="h-9 w-9 object-contain"
+                width={56}
+                height={56}
+                className="h-14 w-14 shrink-0 object-contain"
               />
-              <span className="font-sans text-[12px] font-medium uppercase leading-[18px] tracking-[0.14em] text-charcoal">Monetization</span>
-            </div>
               <div data-feature-monetization-content="true" className="w-full text-left">
                 <p className="font-sans text-[18px] leading-5 text-charcoal">
                   {concept.monetizationSummary}
@@ -208,21 +202,15 @@ export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlidePro
                   setOpenDetail((current) => current === 'risks' ? null : 'risks')
                 }
               }}
-              className={`flex max-w-[368px] cursor-pointer flex-col items-start gap-1 rounded-lg transition-opacity duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cm-blue motion-reduce:transition-none ${openDetail === 'risks' ? 'opacity-100' : 'opacity-25'}`}
-            >
-            <div
-              data-feature-disclosure-label="true"
-              className="inline-flex shrink-0 items-center gap-3 text-left"
+              className={`flex max-w-[368px] cursor-pointer select-none flex-row items-center gap-4 rounded-lg transition-opacity duration-200 [&_*]:cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cm-blue motion-reduce:transition-none ${openDetail === 'risks' ? 'opacity-100' : 'opacity-25'}`}
             >
               <Image
                 src="/coinmaster/resources/risk-emoji.png"
                 alt=""
-                width={36}
-                height={36}
-                className="h-9 w-9 object-contain"
+                width={56}
+                height={56}
+                className="h-14 w-14 shrink-0 object-contain"
               />
-              <span className="font-sans text-[12px] font-medium uppercase leading-[18px] tracking-[0.14em] text-charcoal">Risks</span>
-            </div>
               <div data-feature-risk-content="true" className="w-full text-left">
                 <ul className="space-y-1 font-sans text-[18px] leading-5 text-charcoal">
                   {concept.risks.map((risk) => <li key={risk.title}>{risk.title}</li>)}

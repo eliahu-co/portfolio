@@ -4,6 +4,12 @@ import Slide13ComparativeScoring from '@/app/MA-HomeAssignment/presentation/slid
 import { ASSUMPTION_STORIES } from '@/app/MA-HomeAssignment/presentation/deckData'
 
 describe('MA presentation decision chapter', () => {
+  it('uses the concise Score title', () => {
+    render(<Slide13ComparativeScoring slideKey="slide-10" />)
+    expect(screen.getByRole('heading', { name: 'Score' })).toBeVisible()
+    expect(screen.queryByRole('heading', { name: 'Comparative scoring' })).not.toBeInTheDocument()
+  })
+
   it('keeps assumptions as a flat, readable list', () => {
     const { container } = render(<Slide12Assumptions slideKey="slide-9" />)
     expect(screen.getByRole('heading', { name: 'Assumptions' })).toBeVisible()
@@ -42,8 +48,8 @@ describe('MA presentation decision chapter', () => {
     const button = screen.getByRole('button', { name: /Hot Trail: Core-Loop Fit score 5/i })
     fireEvent.focus(button)
     expect(screen.getByTestId('score-column-coreLoopFit')).toHaveAttribute('data-active', 'true')
-    expect(within(container).getByRole('status', { name: 'Score detail' })).toHaveTextContent('Hot Trail')
-    expect(within(container).getByRole('status', { name: 'Score detail' })).toHaveTextContent('Core-Loop Fit')
+    expect(within(container).getByRole('status', { name: 'Score detail' })).toHaveTextContent('Uses existing Raids, Spins, targeting, and rewards as the full interaction path.')
+    expect(within(container).getByRole('status', { name: 'Score detail' })).not.toHaveTextContent('Core-Loop Fit')
     fireEvent.blur(button)
     expect(screen.queryByTestId('score-column-coreLoopFit')).not.toHaveAttribute('data-active', 'true')
 
@@ -84,6 +90,15 @@ describe('MA presentation decision chapter', () => {
     expect(screen.getByRole('status', { name: 'Score detail' })).toBe(detail)
   })
 
+  it('reveals criterion definitions from the table headers without italic or muted styling', () => {
+    render(<Slide13ComparativeScoring slideKey="slide-10" />)
+    const header = screen.getByRole('button', { name: 'Explain Core-Loop Fit' })
+    fireEvent.mouseEnter(header)
+    const detail = screen.getByRole('status', { name: 'Score detail' })
+    expect(detail).toHaveTextContent('Degree to which the feature builds on existing Coin Master mechanics and player behavior.')
+    expect(detail.querySelector('p')).not.toHaveClass('italic', 'text-charcoal')
+  })
+
   it('keeps the disclosure region quiet until a score is active', () => {
     const { container } = render(<Slide13ComparativeScoring slideKey="slide-10" />)
     const detail = screen.getByRole('status', { name: 'Score detail' })
@@ -120,14 +135,12 @@ describe('MA presentation decision chapter', () => {
     expect(winner).toHaveClass('bg-cm-gold/20')
     expect(score).toHaveClass('h-11', 'w-12')
     expect(score.className).not.toMatch(/underline/)
-    fireEvent.mouseEnter(score)
-    expect(screen.getByTestId('score-column-coreLoopFit')).toHaveClass('bg-cm-gold/45')
+    fireEvent.mouseEnter(hotTrail)
     expect(winner).not.toHaveClass('bg-cm-gold/20')
-    expect(score).toHaveClass('text-[20px]', 'font-black')
     expect(hotTrail).toHaveClass('opacity-100')
     expect(winner).toHaveClass('opacity-20')
     expect(hometown).toHaveClass('opacity-20')
-    fireEvent.mouseLeave(score)
+    fireEvent.mouseLeave(hotTrail)
     expect(winner).toHaveClass('bg-cm-gold/20')
   })
 

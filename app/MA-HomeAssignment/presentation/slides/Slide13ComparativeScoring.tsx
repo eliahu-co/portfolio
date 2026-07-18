@@ -6,7 +6,7 @@ export default function Slide13ComparativeScoring({ slideKey }: OpeningSlideProp
   return (
     <SlideShell>
       <Eyebrow>Decision</Eyebrow>
-      <SlideTitle>Comparative scoring</SlideTitle>
+      <SlideTitle>Score</SlideTitle>
       <div data-score-matrix-wrap="true" className="mt-6 flex-1">
         <ScoreMatrix slideKey={slideKey} />
       </div>

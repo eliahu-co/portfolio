@@ -9,11 +9,14 @@
 
 .viewport,
 .viewport * {
-  cursor: auto !important;
+  cursor: default !important;
+  user-select: none;
 }
 
 .viewport button,
-.viewport a {
+.viewport a,
+.viewport [role="button"],
+.viewport [data-deck-interactive] {
   cursor: pointer !important;
 }
 
@@ -141,12 +144,12 @@
   line-height: 1.5;
 }
 
-.viewport[data-current-slide="slide-13"] .deckChrome button,
-.viewport[data-current-slide="slide-13"] .deckChrome p {
+.viewport[data-current-slide="slide-14"] .deckChrome button,
+.viewport[data-current-slide="slide-14"] .deckChrome p {
   color: rgba(255, 255, 255, 0.84);
 }
 
-.viewport[data-current-slide="slide-13"] .deckChrome {
+.viewport[data-current-slide="slide-14"] .deckChrome {
   grid-template-columns: minmax(0, 1fr) auto auto;
   column-gap: 32px;
 }

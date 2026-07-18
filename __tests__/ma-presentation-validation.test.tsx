@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import Slide18ExperimentDesign from '@/app/MA-HomeAssignment/presentation/slides/Slide18ExperimentDesign'
 import Slide19Metrics from '@/app/MA-HomeAssignment/presentation/slides/Slide19Metrics'
+import SlideValidationRoadmap from '@/app/MA-HomeAssignment/presentation/slides/SlideValidationRoadmap'
 import Slide21ThankYou from '@/app/MA-HomeAssignment/presentation/slides/Slide21ThankYou'
 import { METRIC_GROUPS, PROTOCOL } from '@/app/MA-HomeAssignment/content/validation'
 
@@ -23,11 +24,9 @@ describe('MA presentation validation chapter', () => {
 
   it('keeps ARPDAU dominant and switches between supporting metrics and guardrails', () => {
     const { container } = render(<Slide19Metrics slideKey="slide-13" />)
-    expect(screen.getByRole('heading', { name: 'ARPDAU leads the decision' })).toBeVisible()
-    const primary = container.querySelector('[data-primary-metric="true"]')!
-    expect(primary).toHaveTextContent('ARPDAU')
-    expect(primary).toHaveTextContent('≥5% lift')
-    expect(primary.querySelector('thead')).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'ARPDAU ≥5% lift' })).toBeVisible()
+    expect(container.querySelector('[data-primary-metric="true"]')).not.toBeInTheDocument()
+    expect(container.querySelector('[data-primary-metric-spacer="true"]')).toBeInTheDocument()
 
     const supportingTab = screen.getByRole('tab', { name: 'Supporting metrics' })
     const guardrailsTab = screen.getByRole('tab', { name: 'Guardrails' })
@@ -36,9 +35,14 @@ describe('MA presentation validation chapter', () => {
 
     const supporting = METRIC_GROUPS.find(({ title }) => title === 'Supporting metrics')!.metrics
     const guardrails = METRIC_GROUPS.find(({ title }) => title === 'Guardrails')!.metrics
+    const columns = container.querySelectorAll('colgroup col')
+    expect(columns[0]).toHaveClass('w-[38%]')
+    expect(columns[1]).toHaveClass('w-[22%]')
+    expect(columns[2]).toHaveClass('w-[40%]')
     supporting.forEach(({ metric, target, mutedTarget }) => {
       const row = screen.getByRole('button', { name: metric }).closest('tr')
       expect(row).toHaveTextContent(mutedTarget ? `${mutedTarget} ${target}` : target)
+      expect(row?.lastElementChild).toHaveClass('whitespace-nowrap')
     })
     guardrails.forEach(({ metric }) => {
       expect(screen.queryByRole('button', { name: metric })).not.toBeInTheDocument()
@@ -69,7 +73,7 @@ describe('MA presentation validation chapter', () => {
       const button = screen.getByRole('button', { name: peerMetric })
       expect(button.closest('tr')).toHaveClass('opacity-20')
     })
-    expect(detail).toHaveTextContent(guardrails[0].metric)
+    expect(detail).not.toHaveTextContent(guardrails[0].metric)
     fireEvent.mouseEnter(metric)
     fireEvent.blur(metric)
     expect(metric).toHaveAttribute('aria-expanded', 'true')
@@ -86,23 +90,49 @@ describe('MA presentation validation chapter', () => {
     expect(detail).toHaveTextContent(/Event duration/i)
   })
 
+  it('presents the validation roadmap and fades tests outside the active row', () => {
+    const { container } = render(<SlideValidationRoadmap slideKey="slide-17" />)
+    expect(screen.getByText('Additional tests')).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'What We Test Next' })).toBeVisible()
+
+    const rows = container.querySelectorAll('[data-validation-roadmap-test]')
+    expect(rows).toHaveLength(5)
+    expect(rows[0]).toHaveTextContent('Feature Validation')
+    expect(rows[0]).not.toHaveTextContent('Main test')
+    expect(rows[1]).toHaveTextContent('Meter Goal Calibration')
+    expect(rows[2]).toHaveTextContent('Multiple Milestones')
+    expect(rows[3]).toHaveTextContent('Paid Progress Carryover')
+    expect(rows[4]).toHaveTextContent('Chest Tier Weighting')
+
+    expect(rows[0].querySelector('img')).toHaveAttribute('src', expect.stringContaining('ab-test-emoji.png'))
+    expect(rows[1].querySelector('img')).toHaveAttribute('src', expect.stringContaining('card-bounty-meter.png'))
+    expect(rows[2].querySelector('img')).toHaveAttribute('src', expect.stringContaining('card-bounty-milestone-meter.png'))
+    expect(rows[3].querySelector('img')).toHaveAttribute('src', expect.stringContaining('keep-progress-button.png'))
+    expect(rows[4].querySelector('img')).toHaveAttribute('src', expect.stringContaining('chest-tier-weighting.png'))
+
+    fireEvent.mouseEnter(rows[2])
+    expect(rows[2]).toHaveClass('opacity-100')
+    expect(rows[0]).toHaveClass('opacity-20')
+    expect(rows[1]).toHaveClass('opacity-20')
+    expect(rows[3]).toHaveClass('opacity-20')
+    expect(rows[4]).toHaveClass('opacity-20')
+    fireEvent.mouseLeave(rows[2])
+    rows.forEach((row) => expect(row).toHaveClass('opacity-100'))
+  })
+
   it('closes with plain same-deck chapter links', () => {
-    const { container } = render(<Slide21ThankYou slideKey="slide-17" />)
+    const { container } = render(<Slide21ThankYou slideKey="slide-18" />)
     expect(screen.getByRole('heading', { name: 'Thank you' })).toBeVisible()
     expect(screen.getByRole('link', { name: 'Decision' })).toHaveAttribute('href', '#slide-10')
-    expect(screen.getByRole('link', { name: 'Validation' })).toHaveAttribute('href', '#slide-14')
-    expect(container.querySelector('img, svg')).not.toBeInTheDocument()
-    expect(container.querySelector('[data-closing-message="true"]')).toHaveTextContent(/recommend Card Bounty/i)
+    expect(screen.getByRole('link', { name: 'Validation' })).toHaveAttribute('href', '#slide-15')
+    expect(container.querySelector('img[src="/coinmaster-sky.webp"]')).toBeInTheDocument()
+    expect(container.querySelector('[data-closing-message="true"]')).not.toBeInTheDocument()
 
     screen.getAllByRole('link').forEach((link) => {
       expect(link.className).not.toMatch(/rounded-full|\bbg-|(?:^|\s)border(?:\s|$)/)
       expect(link.className).toMatch(/underline|border-b/)
       expect(link).toHaveClass('transition-colors', 'duration-300')
-      expect(link).toHaveClass(
-        'motion-reduce:transition-none',
-        'focus-visible:text-cm-crimson',
-        'focus-visible:decoration-cm-crimson',
-      )
+      expect(link).toHaveClass('focus-visible:outline', 'focus-visible:outline-cm-gold')
     })
   })
 })

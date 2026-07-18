@@ -4,12 +4,12 @@ import { useCallback, useState } from 'react'
 import Image from 'next/image'
 import CoreLoopDiagram from '@/app/MA-HomeAssignment/sections/CoreLoopDiagram'
 import { APPROACH_STEPS, CONCEPTS } from '../deckData'
-import { Eyebrow, SlideShell, SlideTitle } from '../primitives'
+import { Eyebrow, SlideShell } from '../primitives'
 import { useDeckReset } from '../useDeckReset'
 import type { OpeningSlideProps } from './Slide01Cover'
 import { FlowArrow } from '../components/FlowArrow'
 
-const SURFACE_CLASSES = 'flex min-h-[96px] w-full items-center justify-center rounded-lg border px-4 py-3 text-center font-sans text-[16px] font-normal leading-snug text-[#0d3a5a]'
+const SURFACE_CLASSES = 'flex min-h-[67px] w-auto shrink-0 items-center justify-center whitespace-nowrap text-center font-serif text-[34px] font-black leading-[1.04] text-cm-violet-deep'
 
 type Reveal = 'play' | 'map' | 'research' | 'benchmark' | 'create' | 'decide' | 'test' | null
 
@@ -69,12 +69,9 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
 
   return (
     <SlideShell>
-      {/* invisible kicker reserves the same height as other slides' <Eyebrow>
-          so the title aligns vertically with them */}
-      <Eyebrow aria-hidden="true" className="invisible">Approach</Eyebrow>
-      <SlideTitle>Approach</SlideTitle>
-      <section aria-label="Product approach" className="mt-16 flex min-h-0 flex-1 flex-col">
-        <ol className="relative z-20 flex shrink-0 items-center gap-5">
+      <Eyebrow role="heading" aria-level={2}>Approach</Eyebrow>
+      <section aria-label="Product approach" className="mt-0 flex min-h-0 flex-1 flex-col">
+        <ol className="relative z-20 flex shrink-0 items-center">
           {APPROACH_STEPS.map((step, index) => {
             const triggersDiagram = step.label === 'Map'
             const triggersPlayDrawing = step.label === 'Play'
@@ -116,7 +113,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
               <li
                 key={step.label}
                 data-approach-active={isActive}
-                className="relative min-w-0 flex-1"
+                className="contents"
                 onMouseEnter={() => {
                   setActiveStep(step.label)
                   setActiveReveal(reveal)
@@ -127,7 +124,6 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                     type="button"
                     data-deck-interactive="true"
                     data-approach-pill="true"
-                    data-blue-surface="true"
                     aria-expanded={revealIsVisible}
                     aria-controls={revealId}
                     onFocus={() => {
@@ -139,15 +135,15 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                     {step.label}
                   </button>
                 ) : (
-                  <div data-approach-pill="true" data-blue-surface="true" className={`${SURFACE_CLASSES} ${focusClass} transition-opacity duration-200 motion-reduce:transition-none`}>
+                  <div data-approach-pill="true" className={`${SURFACE_CLASSES} ${focusClass} transition-opacity duration-200 motion-reduce:transition-none`}>
                     {step.label}
                   </div>
                 )}
                 {index < APPROACH_STEPS.length - 1 && (
                   <FlowArrow
                     data-approach-connector="true"
-                    className={`absolute left-full top-1/2 h-[14px] w-5 -translate-y-1/2 transition-opacity duration-200 motion-reduce:transition-none ${activeStep ? 'opacity-30' : 'opacity-100'}`}
-                    color="#1E7BA8"
+                    className={`mx-4 h-[14px] min-w-[24px] flex-1 transition-opacity duration-200 motion-reduce:transition-none ${activeStep ? 'opacity-30' : 'opacity-100'}`}
+                    color="#2D1B69"
                   />
                 )}
               </li>
@@ -155,7 +151,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
           })}
         </ol>
 
-        <div data-approach-reveal-stage="true" className="relative mb-14 mt-8 min-h-0 w-full flex-1">
+        <div data-approach-reveal-stage="true" className="relative mb-14 mt-8 flex min-h-0 w-full flex-1 items-center">
           <div
             id="approach-play-game-drawing"
             data-play-game-drawing="true"
@@ -167,7 +163,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
               alt=""
               fill
               sizes="(min-width: 1280px) 1152px, 90vw"
-              className="object-contain object-left-top"
+              className="object-contain object-center"
             />
           </div>
 
@@ -175,7 +171,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             id="approach-core-loop-diagram"
             data-approach-diagram="true"
             aria-hidden={!showDiagram}
-            className={`absolute left-0 right-0 top-0 flex items-start gap-14 transition-opacity duration-300 motion-reduce:transition-none ${showDiagram ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+            className={`absolute inset-0 flex items-center gap-14 transition-opacity duration-300 motion-reduce:transition-none ${showDiagram ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
           >
             <div className="w-[min(720px,74vh)] shrink-0">
               <CoreLoopDiagram />
@@ -196,17 +192,16 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             id="approach-research-evidence"
             data-research-evidence="true"
             aria-hidden={!showResearchEvidence}
-            className={`absolute inset-0 grid grid-cols-5 gap-5 transition-opacity duration-300 motion-reduce:transition-none ${showResearchEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+            className={`absolute inset-0 grid grid-cols-5 items-center gap-5 transition-opacity duration-300 motion-reduce:transition-none ${showResearchEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
           >
             {RESEARCH_SCREENSHOTS.map((screenshot) => (
-              <figure key={screenshot.src} data-research-screenshot="true" className="m-0 flex h-full min-h-0 flex-col items-center gap-2">
-                <div data-screenshot-frame="true" style={{ borderColor: 'rgb(30, 123, 168)' }} className="relative min-h-0 max-w-full flex-1 overflow-hidden rounded-2xl border-[1.5px] aspect-[1/2]">
-                  <Image
+              <figure key={screenshot.src} data-research-screenshot="true" className="m-0 flex min-h-0 flex-col items-center gap-2">
+                <div data-screenshot-frame="true" style={{ borderColor: 'rgb(30, 123, 168)' }} className="inline-flex h-fit max-w-full overflow-hidden rounded-2xl border-[1.5px]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={screenshot.src}
                     alt={screenshot.alt}
-                    fill
-                    sizes="(min-width: 1280px) 270px, 22vw"
-                    className="object-cover object-top"
+                    className="block max-h-[310px] w-auto max-w-full object-contain"
                   />
                 </div>
                 <figcaption className="font-sans text-[13px] font-normal uppercase tracking-[0.14em] text-cm-charcoal">
@@ -220,10 +215,10 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             id="approach-benchmark-evidence"
             data-benchmark-evidence="true"
             aria-hidden={!showBenchmarkEvidence}
-            className={`absolute inset-0 flex items-stretch justify-center gap-3 transition-opacity duration-300 motion-reduce:transition-none ${showBenchmarkEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+            className={`absolute inset-0 flex items-center justify-center gap-0.5 transition-opacity duration-300 motion-reduce:transition-none ${showBenchmarkEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
           >
             {BENCHMARK_SCREENSHOTS.map((screenshot) => (
-              <figure key={screenshot.src} data-benchmark-screenshot="true" className="m-0 flex min-h-0 flex-col items-center gap-2">
+              <figure key={screenshot.src} data-benchmark-screenshot="true" className="m-0 flex h-[82%] min-h-0 flex-col items-center gap-2">
                 <div data-screenshot-frame="true" className="relative flex min-h-0 flex-1 items-center justify-center">
                   <Image
                     src={screenshot.src}
@@ -246,9 +241,9 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             id="approach-decision-evidence"
             data-decision-evidence="true"
             aria-hidden={!showDecisionEvidence}
-            className={`absolute inset-0 transition-opacity duration-300 motion-reduce:transition-none ${showDecisionEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+            className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 motion-reduce:transition-none ${showDecisionEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
           >
-            <figure className="relative m-0 mx-auto h-full max-w-full overflow-hidden rounded-2xl aspect-[16/9]">
+            <figure className="relative m-0 mx-auto h-[56%] max-w-full overflow-hidden rounded-2xl aspect-[16/9]">
               <Image
                 src="/coinmaster/decision/feature-ranking.png"
                 alt="Feature ranking: Card Bounty first, Hot Trail second, and Hometown third"
@@ -263,9 +258,9 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             id="approach-create-evidence"
             data-create-evidence="true"
             aria-hidden={!showCreateEvidence}
-            className={`absolute inset-0 grid grid-cols-[0.68fr_repeat(3,1fr)] gap-5 transition-opacity duration-300 motion-reduce:transition-none ${showCreateEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+            className={`absolute inset-0 grid grid-cols-[0.68fr_repeat(3,1fr)] items-center gap-5 transition-opacity duration-300 motion-reduce:transition-none ${showCreateEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
           >
-            <div className="flex flex-col gap-8 pt-5">
+            <div className="flex flex-col gap-8">
               {REJECTED_CONCEPTS.map((title) => (
                 <section key={title} data-create-concept="true" data-rejected="true" className="opacity-45">
                   <h3 className="font-serif text-[22px] font-black leading-tight text-cm-violet-deep line-through decoration-2">
@@ -275,7 +270,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
               ))}
             </div>
             {PRESENTED_CONCEPTS.map(({ concept: feature, logo }) => (
-              <section key={feature.id} data-create-concept="true" data-rejected="false" className="pt-5">
+              <section key={feature.id} data-create-concept="true" data-rejected="false">
                 <h3 className="sr-only">{feature.title}</h3>
                 <div className="relative h-[92px] w-full">
                   <Image
@@ -287,7 +282,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                     className="object-contain object-center"
                   />
                 </div>
-                <p className="mt-4 font-sans text-[13px] font-normal leading-relaxed text-[#1A1A1A]">
+                <p className="mt-4 text-center font-sans text-[18px] font-normal leading-relaxed text-[#1A1A1A]">
                   {feature.monetizationSummary}
                 </p>
               </section>
@@ -300,26 +295,33 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             aria-hidden={!showTestEvidence}
             className={`absolute inset-0 flex items-center transition-opacity duration-300 motion-reduce:transition-none ${showTestEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
           >
-            <ul className="flex flex-col gap-5">
-              {VALIDATION_TESTS.map((name) => (
-                <li key={name} data-validation-test="true" className="flex items-center gap-4 font-sans text-[24px] font-normal leading-tight text-cm-violet-deep">
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.25"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-7 w-7 shrink-0 text-cm-gold"
+            <div className="mx-auto flex items-center justify-center">
+              <ul className="flex flex-col gap-0">
+                {VALIDATION_TESTS.map((name, index) => (
+                  <li
+                    key={name}
+                    data-validation-test="true"
+                    data-primary-validation-test={index === 0 ? 'true' : undefined}
+                    data-secondary-validation-test={index > 0 ? 'true' : undefined}
+                    className={`grid grid-cols-[80px_auto] items-center gap-4 font-sans text-[24px] font-normal leading-tight ${index === 0 ? 'min-h-20 text-cm-violet-deep' : 'min-h-8 text-charcoal/35'}`}
                   >
-                    <circle cx="11" cy="11" r="7" />
-                    <path d="m20 20-4-4" />
-                  </svg>
-                  <span>{name}</span>
-                </li>
-              ))}
-            </ul>
+                    {index === 0 ? (
+                      <Image
+                        data-validation-test-icon="true"
+                        src="/coinmaster/resources/ab-test-emoji.png"
+                        alt="A/B test"
+                        width={80}
+                        height={80}
+                        className="h-20 w-20 shrink-0 object-contain"
+                      />
+                    ) : (
+                      <span aria-hidden="true" className="h-0 w-20" />
+                    )}
+                    <span>{name}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>

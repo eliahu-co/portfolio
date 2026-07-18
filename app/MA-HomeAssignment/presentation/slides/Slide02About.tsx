@@ -13,8 +13,7 @@ const BULLETS = [
   'Married',
   'Crossfitter',
   '7 years of Aliyah',
-  '10 years in the AEC industry',
-  '6 years in ConTech',
+  '6 years in tech',
 ] as const
 
 type Place = (typeof TIMELINE)[number]
@@ -81,33 +80,31 @@ export default function Slide02About({ slideKey }: OpeningSlideProps) {
         </figure>
 
         <div className="flex h-[310px] flex-col justify-between py-1">
-          <ol aria-label="Personal timeline" className="flex w-full items-center gap-5">
+          <ol aria-label="Personal timeline" className="flex w-fit items-center gap-8">
             {TIMELINE.map((place, index) => (
               <li
                 key={place}
                 data-journey-pill="true"
-                className="relative flex min-w-0 flex-1 items-center"
+                className="relative flex items-center"
               >
                 <button
                   type="button"
                   data-deck-interactive="true"
-                  data-journey-surface="true"
-                  data-blue-surface="true"
                   data-active={active === place ? 'true' : undefined}
                   aria-expanded={place === 'Brazil' ? showEduardo : undefined}
                   aria-controls={place === 'Brazil' ? 'about-name' : undefined}
                   onMouseEnter={() => setActive(place)}
                   onFocus={() => setActive(place)}
                   onClick={() => setActive(place)}
-                  className="inline-flex min-h-11 w-full items-center justify-center rounded-lg border px-5 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a] focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
+                  className="inline-flex min-h-11 items-center justify-center border-0 bg-transparent px-0 py-2 font-sans text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#0d3a5a] focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
                 >
                   {place}
                 </button>
                 {index < TIMELINE.length - 1 && (
                   <FlowArrow
                     data-journey-connector="true"
-                    className="absolute left-full top-1/2 h-[14px] w-5 -translate-y-1/2"
-                    color="rgba(30,123,168,0.65)"
+                    className="absolute left-[calc(100%+6px)] top-1/2 h-[14px] w-5 -translate-y-1/2"
+                    color="#0d3a5a"
                   />
                 )}
               </li>

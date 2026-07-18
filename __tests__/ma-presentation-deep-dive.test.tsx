@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import Slide15PlayerFlow from '@/app/MA-HomeAssignment/presentation/slides/Slide15PlayerFlow'
 import Slide16MvpScope from '@/app/MA-HomeAssignment/presentation/slides/Slide16MvpScope'
 import Slide17Prototype from '@/app/MA-HomeAssignment/presentation/slides/Slide17Prototype'
@@ -7,7 +7,8 @@ import { SCOPE_IN, SCOPE_OUT } from '@/app/MA-HomeAssignment/content/mvp'
 describe('MA presentation Card Bounty deep dive', () => {
   it('uses the presentation-only phase-focus player flow', () => {
     const { container } = render(<Slide15PlayerFlow slideKey="slide-12" />)
-    expect(screen.getByRole('heading', { name: 'Card Bounty player flow' })).toBeVisible()
+    expect(screen.getByText('Player flow')).toBeVisible()
+    expect(screen.queryByRole('heading', { name: 'Card Bounty player flow' })).not.toBeInTheDocument()
     expect(container.querySelector('[data-phase-focus-flow="true"]')).toBeInTheDocument()
     expect(container.querySelectorAll('[data-phase-control]')).toHaveLength(4)
     expect(container.querySelectorAll('[data-phase-arrow="true"]')).toHaveLength(3)
@@ -30,6 +31,10 @@ describe('MA presentation Card Bounty deep dive', () => {
     columns.forEach((column) => {
       expect(column.className).not.toMatch(/rounded|shadow|\bbg-|\bborder\b/)
     })
+    const first = container.querySelector<HTMLElement>('[data-scope-item]')!
+    fireEvent.mouseEnter(first)
+    expect(first).toHaveClass('opacity-100')
+    expect(container.querySelectorAll('.opacity-20').length).toBeGreaterThan(0)
   })
 
   it('mounts the real prototype only while its slide is active', () => {

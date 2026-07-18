@@ -50,42 +50,26 @@ function ExactRationale({ active }: { readonly active: ActiveScore }) {
   const story = SCORE_STORIES[active.row]
 
   if (active.criterion === 'total') {
-    return (
-      <div>
-        <p className="text-[12px] font-extrabold uppercase tracking-[0.1em] text-cm-crimson">
-          {story.row.useCase} · score {Math.round(story.row.total)}
-        </p>
-        <h3 className="mt-1 font-serif text-[21px] font-black leading-tight text-cm-violet-deep">
-          Relative opportunity score
-        </h3>
-        <p className="mt-2">This total compares the opportunities directionally; it is not a precise forecast.</p>
-      </div>
-    )
+    return <p>This total compares the opportunities directionally; it is not a precise forecast.</p>
   }
 
   const criterion = CRITERIA.find(({ key }) => key === active.criterion)!
 
-  return (
-    <div className="max-w-[820px]">
-        <p className="text-[12px] font-extrabold uppercase tracking-[0.1em] text-cm-crimson">
-          {story.row.useCase} · score {story.row.scores[criterion.index]}
-        </p>
-        <h3 className="mt-1 font-serif text-[21px] font-black leading-tight text-cm-violet-deep">
-          {criterion.definition.title}
-        </h3>
-        <p className="mt-1 italic text-charcoal">{criterion.definition.body}</p>
-        <p className="mt-2 font-bold text-cm-violet-deep">{story.rationales[criterion.index]}</p>
-    </div>
-  )
+  return <p className="font-bold text-cm-violet-deep">{story.rationales[criterion.index]}</p>
 }
 
 export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
   const [hovered, setHovered] = useState<ActiveScore | null>(null)
   const [focused, setFocused] = useState<ActiveScore | null>(null)
+  const [hoveredRow, setHoveredRow] = useState<number | null>(null)
+  const [hoveredHeader, setHoveredHeader] = useState<Exclude<CriterionKey, 'total'> | null>(null)
   const active = focused ?? hovered
+  const activeRow = hoveredRow ?? active?.row ?? null
   const reset = useCallback(() => {
     setHovered(null)
     setFocused(null)
+    setHoveredRow(null)
+    setHoveredHeader(null)
   }, [])
 
   useDeckReset(reset, slideKey)
@@ -126,7 +110,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                 Feature
               </th>
               {CRITERIA.map(({ key, definition }) => {
-                const columnIsActive = active?.criterion === key
+                const columnIsActive = active?.criterion === key || hoveredHeader === key
                 return (
                   <th
                     key={key}
@@ -138,7 +122,9 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                       columnIsActive && 'bg-cm-gold/45',
                     )}
                   >
-                    {definition.title}
+                    <button type="button" aria-label={`Explain ${definition.title}`} data-deck-interactive="true" onMouseEnter={() => setHoveredHeader(key)} onMouseLeave={() => setHoveredHeader(null)} onFocus={() => setHoveredHeader(key)} onBlur={() => setHoveredHeader(null)} className="w-full border-0 bg-transparent font-inherit text-inherit">
+                      {definition.title}
+                    </button>
                   </th>
                 )
               })}
@@ -157,7 +143,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
           </thead>
           <tbody>
             {SCORE_STORIES.map(({ row }, rowIndex) => {
-              const rowIsActive = active?.row === rowIndex
+              const rowIsActive = activeRow === rowIndex
 
               return (
                 <tr
@@ -166,10 +152,12 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                   data-winner={row.winner ? 'true' : 'false'}
                   data-winner-band={row.winner ? 'true' : 'false'}
                   data-active-row={rowIsActive ? 'true' : 'false'}
+                  onMouseEnter={() => setHoveredRow(rowIndex)}
+                  onMouseLeave={() => setHoveredRow(null)}
                   className={classNames(
                     'border-b border-charcoal/15 transition-[background-color,opacity] duration-300 motion-reduce:transition-none last:border-b-0',
-                    row.winner && !active && 'bg-cm-gold/20',
-                    active && !rowIsActive ? 'opacity-20' : 'opacity-100',
+                    row.winner && activeRow === null && !hoveredHeader && 'bg-cm-gold/20',
+                    activeRow !== null && !rowIsActive ? 'opacity-20' : 'opacity-100',
                   )}
                 >
                   <th
@@ -247,7 +235,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
           aria-label="Score detail"
           className="h-[144px] overflow-hidden font-sans text-[13px] leading-snug text-[#1A1A1A]"
         >
-          {active ? <ExactRationale active={active} /> : null}
+          {hoveredHeader ? <p>{CRITERIA.find(({ key }) => key === hoveredHeader)!.definition.body}</p> : active ? <ExactRationale active={active} /> : null}
         </section>
         <div
           data-testid="score-decision-summary"

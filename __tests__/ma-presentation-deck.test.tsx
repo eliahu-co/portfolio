@@ -37,7 +37,7 @@ describe('MA presentation deck', () => {
     const first = render(<PresentationDeck />)
 
     expect(activeSlide(first.container)).toHaveAttribute('id', 'slide-5')
-    expect(screen.getByRole('status', { name: 'Slide 5 of 17' })).toHaveTextContent('5 / 17')
+    expect(screen.getByRole('status', { name: 'Slide 5 of 19' })).toHaveTextContent('5 / 19')
     first.unmount()
 
     setRoute('#slide-999')
@@ -68,11 +68,11 @@ describe('MA presentation deck', () => {
     expect(activeSlide(container)).toHaveAttribute('id', 'slide-2')
 
     act(() => {
-      window.history.replaceState({}, '', '#slide-17')
+      window.history.replaceState({}, '', '#slide-19')
       window.dispatchEvent(new PopStateEvent('popstate'))
     })
     fireEvent.keyDown(window, { key: 'ArrowRight' })
-    expect(activeSlide(container)).toHaveAttribute('id', 'slide-17')
+    expect(activeSlide(container)).toHaveAttribute('id', 'slide-19')
     expect(screen.queryByRole('button', { name: /^Next:/ })).not.toBeInTheDocument()
   })
 
@@ -98,7 +98,7 @@ describe('MA presentation deck', () => {
     replace.mockRestore()
   })
 
-  it('ignores prevented events and keyboard input from interactive descendants', () => {
+  it('keeps Space on interactive descendants but always uses arrow keys for deck navigation', () => {
     const { container } = render(<PresentationDeck />)
 
     const prevented = new KeyboardEvent('keydown', {
@@ -112,9 +112,11 @@ describe('MA presentation deck', () => {
 
     fireEvent.keyDown(window, { key: 'ArrowRight' })
     const brazil = within(activeSlide(container)).getByRole('button', { name: 'Brazil' })
-    fireEvent.keyDown(brazil, { key: 'ArrowRight' })
+    fireEvent.click(brazil)
     fireEvent.keyDown(brazil, { key: ' ' })
     expect(activeSlide(container)).toHaveAttribute('id', 'slide-2')
+    fireEvent.keyDown(brazil, { key: 'ArrowRight' })
+    expect(activeSlide(container)).toHaveAttribute('id', 'slide-3')
   })
 
   it('routes home on Escape even when an interactive element has focus', () => {
@@ -160,19 +162,19 @@ describe('MA presentation deck', () => {
       .toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('mounts the prototype only on slide 13 and resets it after revisiting', () => {
-    setRoute('#slide-13')
+  it('mounts the prototype only on slide 14 and resets it after revisiting', () => {
+    setRoute('#slide-14')
     const { container } = render(<PresentationDeck />)
     const prototypeSlide = activeSlide(container)
     const viewport = container.querySelector('[data-presentation-viewport="true"]')
 
-    expect(viewport).toHaveAttribute('data-current-slide', 'slide-13')
+    expect(viewport).toHaveAttribute('data-current-slide', 'slide-14')
 
     fireEvent.click(within(prototypeSlide).getByRole('button', { name: 'Open Card Bounty' }))
     expect(within(prototypeSlide).getByRole('dialog', { name: 'Card Bounty' })).toBeVisible()
 
     fireEvent.click(screen.getByRole('button', { name: 'Next: A/B test' }))
-    expect(viewport).toHaveAttribute('data-current-slide', 'slide-14')
+    expect(viewport).toHaveAttribute('data-current-slide', 'slide-15')
     expect(screen.queryByRole('region', { name: 'Card Bounty game prototype' })).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Previous: Prototype' }))
@@ -190,7 +192,7 @@ describe('MA presentation deck', () => {
   })
 
   it('handles closing-menu anchors in place and scopes the landscape override to mount', () => {
-    setRoute('#slide-17')
+    setRoute('#slide-19')
     const { container, unmount } = render(<PresentationDeck />)
     expect(document.body).toHaveClass('ma-presentation-active')
 
@@ -210,6 +212,8 @@ describe('MA presentation deck', () => {
     const globalCss = readFileSync(resolve(process.cwd(), 'app/globals.css'), 'utf8')
 
     expect(stageCss).toMatch(/transition:\s*opacity 250ms ease/)
+    expect(stageCss).toMatch(/\.viewport,\s*\.viewport \*\s*{[^}]*cursor:\s*default\s*!important/)
+    expect(stageCss).toMatch(/\.viewport button,[\s\S]*?\[data-deck-interactive\][\s\S]*?cursor:\s*pointer\s*!important/)
     expect(stageCss).toMatch(/\.stageFrame\s*{[^}]*width:\s*100vw[^}]*height:\s*100vh/)
     expect(stageCss).toMatch(/\.stage\s*{[^}]*width:\s*100%[^}]*height:\s*100%/)
     expect(stageCss).not.toMatch(/transform:\s*scale\(var\(--deck-scale\)\)/)
@@ -220,9 +224,9 @@ describe('MA presentation deck', () => {
     expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*color:\s*#666/)
     expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*font-weight:\s*500/)
     expect(stageCss).toMatch(/\.deckChrome button\s*{[^}]*letter-spacing:\s*0\.14em/)
-    expect(stageCss).toMatch(/\[data-current-slide="slide-13"\] \.deckChrome button[\s\S]*?color:\s*rgba\(255, 255, 255, 0\.84\)/)
-    expect(stageCss).toMatch(/\[data-current-slide="slide-13"\] \.deckChrome p[\s\S]*?color:\s*rgba\(255, 255, 255, 0\.84\)/)
-    expect(stageCss).toMatch(/\[data-current-slide="slide-13"\] \.deckChrome\s*{[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto auto/)
+    expect(stageCss).toMatch(/\[data-current-slide="slide-14"\] \.deckChrome button[\s\S]*?color:\s*rgba\(255, 255, 255, 0\.84\)/)
+    expect(stageCss).toMatch(/\[data-current-slide="slide-14"\] \.deckChrome p[\s\S]*?color:\s*rgba\(255, 255, 255, 0\.84\)/)
+    expect(stageCss).toMatch(/\[data-current-slide="slide-14"\] \.deckChrome\s*{[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto auto/)
     expect(stageCss).not.toMatch(/\[data-current-slide="slide-10"\] \.deckChrome/)
     expect(stageCss).not.toMatch(/\.deckChrome button\s*{[^}]*min-height:/)
     expect(stageCss).toMatch(/\[data-blue-surface="true"\]\s*{[^}]*border-width:\s*1\.5px/)
@@ -249,7 +253,7 @@ describe('MA presentation deck', () => {
   })
 
   it('keeps standard non-hero slides on the shared HA shell and title geometry', () => {
-    slideRegistry.slice(1, -1).filter(({ id }) => id !== 'slide-13').forEach(({ Component, id }) => {
+    slideRegistry.slice(1, -1).filter(({ id }) => id !== 'slide-3' && id !== 'slide-11' && id !== 'slide-14').forEach(({ Component, id }) => {
       const rendered = render(<Component slideKey={id} />)
       const shell = rendered.container.querySelector('[data-slide-shell="true"]')!
       const heading = shell.querySelector('h2')!

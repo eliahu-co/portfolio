@@ -95,10 +95,10 @@ export function PhaseFocusFlow({ slideKey }: { readonly slideKey: DeckSlideKey }
   return (
     <div
       data-phase-focus-flow="true"
-      className="mt-8 min-h-[350px] w-full"
+      className="mt-7 min-h-[430px] w-full"
       onMouseLeave={() => setHovered(null)}
     >
-      <div className="grid grid-cols-[minmax(0,1fr)_48px_minmax(0,1fr)_48px_minmax(0,1fr)_48px_minmax(0,1fr)] items-start">
+      <div className="grid grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)_56px_minmax(0,1fr)_56px_minmax(0,1fr)] items-start">
         {PHASES.map((phase, index) => {
           const selected = active === phase.name
           const faded = active !== null && !selected
@@ -113,9 +113,8 @@ export function PhaseFocusFlow({ slideKey }: { readonly slideKey: DeckSlideKey }
                 <button
                   type="button"
                   data-phase-control={phase.name}
-                  data-blue-surface="true"
                   aria-expanded={selected}
-                  className="min-h-[58px] w-full rounded-xl border px-4 font-sans text-[15px] font-medium uppercase tracking-[0.12em] text-cm-violet-deep focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
+                  className="min-h-[58px] w-full whitespace-nowrap px-2 font-serif text-[34px] font-black text-cm-violet-deep focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#1E7BA8]"
                   onMouseEnter={() => setHovered(phase.name)}
                   onFocus={() => setFocused(phase.name)}
                   onBlur={() => setFocused(null)}
@@ -128,9 +127,9 @@ export function PhaseFocusFlow({ slideKey }: { readonly slideKey: DeckSlideKey }
               {index < PHASES.length - 1 && (
                 <div
                   data-phase-arrow="true"
-                  className={`mt-[22px] flex justify-center transition-opacity duration-300 motion-reduce:transition-none ${active ? 'opacity-35' : 'opacity-100'}`}
+                  className={`mt-[21px] flex justify-center transition-opacity duration-300 motion-reduce:transition-none ${active ? 'opacity-35' : 'opacity-100'}`}
                 >
-                  <FlowArrow direction="right" color="#1E7BA8" className="h-[14px] w-8" />
+                  <FlowArrow direction="right" color="#1A1A1A" className="h-[14px] w-8" />
                 </div>
               )}
             </div>

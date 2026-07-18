@@ -10,9 +10,9 @@ import {
 
 describe('MA presentation opening chapter', () => {
   it.each([
-    [SlideFeature1Intro, ['Urgency', 'Recovery and Revenge']],
-    [SlideFeature2Intro, ['agency', 'visible progress']],
-    [SlideFeature3Intro, ['Expression and Ownership', 'Progress and Status', 'social recognition']],
+    [SlideFeature1Intro, ['Urgency', 'Recovery and Revenge', 'Social Engine']],
+    [SlideFeature2Intro, ['Agency', 'Visible Progress']],
+    [SlideFeature3Intro, ['Expression and Ownership', 'Progress and Status', 'Social Recognition']],
   ])('adds the feature player motivations beneath its statement', (FeatureIntro, motivations) => {
     const { container } = render(<FeatureIntro slideKey={`feature-motivation-${motivations.join('-')}`} />)
     const motivation = container.querySelector('[data-feature-motivations="true"]')!
@@ -41,11 +41,18 @@ describe('MA presentation opening chapter', () => {
     expect(container.querySelectorAll('[data-ma-photo-frame="true"] img[alt="Eliahu and family"]')).toHaveLength(1)
     expect(container.querySelector('[data-ma-photo-frame="true"]')).not.toHaveClass('bg-white', 'p-1', 'shadow-[0_3px_0_rgba(144,57,0,0.28)]')
     expect(container.querySelectorAll('[data-journey-pill="true"]')).toHaveLength(3)
-    expect(container.querySelectorAll('[data-journey-pill="true"].flex-1')).toHaveLength(3)
+    expect(container.querySelectorAll('[data-journey-pill="true"].flex-1')).toHaveLength(0)
+    expect(container.querySelector('ol[aria-label="Personal timeline"]')).toHaveClass('w-fit', 'gap-8')
     expect(container.querySelectorAll('svg[data-journey-connector="true"]')).toHaveLength(2)
     expect(container.querySelectorAll('[data-journey-connector="true"][data-flow-arrow="true"]')).toHaveLength(2)
+    container.querySelectorAll('[data-journey-connector="true"]').forEach((arrow) => {
+      expect(arrow).toHaveClass('left-[calc(100%+6px)]')
+    })
     const facts = Array.from(container.querySelectorAll('[data-flat-fact="true"]'))
-    expect(facts).toHaveLength(6)
+    expect(facts).toHaveLength(5)
+    expect(screen.queryByText('10 years in the AEC industry')).not.toBeInTheDocument()
+    expect(screen.getByText('6 years in tech')).toBeVisible()
+    expect(screen.queryByText('6 years in ConTech')).not.toBeInTheDocument()
     expect(container.querySelector('ul[aria-label="About Eliahu"]')).toHaveClass('grid-cols-1')
     expect(container.querySelector('ul[aria-label="About Eliahu"]')).not.toHaveClass('grid-cols-2')
     facts.forEach((fact) => {
@@ -58,10 +65,8 @@ describe('MA presentation opening chapter', () => {
     const brazil = screen.getByRole('button', { name: 'Brazil' })
     const holland = screen.getByRole('button', { name: 'Holland' })
     const israel = screen.getByRole('button', { name: 'Israel' })
-    expect(brazil).toHaveAttribute('data-blue-surface', 'true')
-    container.querySelectorAll('[data-journey-surface="true"]').forEach((surface) => {
-      expect(surface).toHaveAttribute('data-blue-surface', 'true')
-    })
+    expect(brazil).not.toHaveAttribute('data-blue-surface')
+    expect(container.querySelectorAll('[data-journey-surface="true"]')).toHaveLength(0)
 
     // idle: family photo, name reads Eliahu
     expect(photo()).toHaveAttribute('src', '/presentation/family.jpeg')
@@ -106,29 +111,43 @@ describe('MA presentation opening chapter', () => {
 
   it('uses the flat approach flow and reveals the original core-loop diagram', () => {
     const approach = render(<Slide03Approach slideKey="slide-3" />)
-    expect(screen.getByRole('heading', { name: 'Approach' })).toBeVisible()
+    const approachHeading = screen.getByRole('heading', { name: 'Approach' })
+    expect(approachHeading).toBeVisible()
+    expect(approachHeading).toHaveClass('text-[12px]', 'font-sans', 'font-medium', 'uppercase', 'tracking-[0.14em]')
+    expect(approachHeading).not.toHaveClass('text-[64px]', 'font-serif', 'font-black')
+    const approachFlow = screen.getByRole('region', { name: 'Product approach' })
+    expect(approachFlow).toHaveClass('mt-0')
+    expect(approachFlow).not.toHaveClass('mt-16')
     expect(approach.container.querySelector('ol')!.querySelectorAll('li')).toHaveLength(7)
     expect(approach.container.querySelectorAll('[data-approach-pill="true"]')).toHaveLength(7)
     approach.container.querySelectorAll('[data-approach-pill="true"]').forEach((pill) => {
-      expect(pill).toHaveAttribute('data-blue-surface', 'true')
-      expect(pill).toHaveClass('font-normal')
-      expect(pill).not.toHaveClass('font-extrabold')
+      expect(pill).not.toHaveAttribute('data-blue-surface')
+      expect(pill).toHaveClass('min-h-[67px]', 'w-auto', 'shrink-0', 'whitespace-nowrap', 'font-serif', 'font-black', 'text-[34px]')
+      expect(pill).not.toHaveClass('border', 'rounded-lg', 'font-normal')
+      expect(pill).not.toHaveClass('hover:text-[#1E7BA8]')
     })
     expect(approach.container.querySelectorAll('svg[data-approach-connector="true"]')).toHaveLength(6)
     expect(approach.container.querySelectorAll('[data-approach-connector="true"][data-flow-arrow="true"]')).toHaveLength(6)
+    approach.container.querySelectorAll('[data-approach-connector="true"]').forEach((connector) => {
+      expect(connector).toHaveClass('mx-4', 'min-w-[24px]', 'flex-1')
+      connector.querySelectorAll('path').forEach((path) => expect(path).toHaveAttribute('stroke', '#2D1B69'))
+      expect(connector).not.toHaveClass('absolute', 'left-full', 'w-5')
+    })
+    approach.container.querySelectorAll('ol > li').forEach((item) => expect(item).toHaveClass('contents'))
     const playTheGame = screen.getByRole('button', { name: 'Play' })
     const mapSystems = screen.getByRole('button', { name: 'Map' })
     const playDrawing = approach.container.querySelector('[data-play-game-drawing="true"]')!
     const revealStage = approach.container.querySelector('[data-approach-reveal-stage="true"]')!
-    expect(revealStage).toHaveClass('mt-8', 'mb-14', 'min-h-0', 'flex-1')
+    expect(revealStage).toHaveClass('mt-8', 'mb-14', 'min-h-0', 'flex-1', 'flex', 'items-center')
     expect(revealStage).not.toHaveClass('-mt-10', 'h-[340px]')
-    expect(playDrawing.querySelector('img')).toHaveClass('object-left-top')
+    expect(playDrawing.querySelector('img')).toHaveClass('object-center')
     expect(playTheGame).toHaveAttribute('aria-expanded', 'false')
     expect(playDrawing).toHaveClass('opacity-0', 'pointer-events-none')
     fireEvent.mouseEnter(playTheGame)
     expect(playTheGame).toHaveAttribute('aria-expanded', 'true')
     expect(playDrawing).toHaveClass('opacity-100')
     expect(playTheGame.closest('li')).toHaveAttribute('data-approach-active', 'true')
+    expect(playTheGame).not.toHaveClass('text-[#1E7BA8]')
     expect(mapSystems.closest('li')).toHaveAttribute('data-approach-active', 'false')
     expect(mapSystems).toHaveClass('opacity-30')
     approach.container.querySelectorAll('[data-approach-connector="true"]').forEach((connector) => {
@@ -139,7 +158,7 @@ describe('MA presentation opening chapter', () => {
 
     const approachDiagram = approach.container.querySelector('[data-approach-diagram="true"]')!
     const economyLegend = approach.container.querySelector('[data-economy-legend="true"]')!
-    expect(approachDiagram).toHaveClass('left-0', 'right-0')
+    expect(approachDiagram).toHaveClass('inset-0', 'items-center')
     expect(approachDiagram).not.toHaveClass('mx-auto')
     expect(economyLegend.querySelectorAll('[data-economy-item="true"]')).toHaveLength(4)
     expect(economyLegend.querySelector('img[alt="Spin"]')).toHaveAttribute('src', expect.stringContaining('spin-emoji.png'))
@@ -171,8 +190,9 @@ describe('MA presentation opening chapter', () => {
     expect(researchEvidence).toHaveClass('opacity-0', 'pointer-events-none')
     expect(researchEvidence.querySelectorAll('[data-research-screenshot="true"]')).toHaveLength(5)
     researchEvidence.querySelectorAll('[data-research-screenshot="true"]').forEach((screenshot) => {
-      expect(screenshot.querySelector('[data-screenshot-frame="true"]')).toHaveClass('rounded-2xl', 'overflow-hidden')
-      expect(screenshot.querySelector('img')).toHaveClass('object-cover')
+      expect(screenshot.querySelector('[data-screenshot-frame="true"]')).toHaveClass('h-fit', 'rounded-2xl', 'overflow-hidden')
+      expect(screenshot.querySelector('img')).toHaveClass('object-contain')
+      expect(screenshot.querySelector('img')).not.toHaveClass('object-cover')
     })
     expect(researchEvidence).toHaveTextContent('Support')
     expect(researchEvidence).toHaveTextContent('Discord')
@@ -188,6 +208,7 @@ describe('MA presentation opening chapter', () => {
     expect(approachDiagram).toHaveClass('opacity-0')
     const benchmark = screen.getByRole('button', { name: 'Benchmark' })
     const benchmarkEvidence = approach.container.querySelector('[data-benchmark-evidence="true"]')!
+    expect(benchmarkEvidence).toHaveClass('gap-0.5')
     expect(benchmark).toHaveAttribute('aria-expanded', 'false')
     expect(benchmarkEvidence).toHaveClass('opacity-0', 'pointer-events-none')
     expect(benchmarkEvidence.querySelectorAll('[data-benchmark-screenshot="true"]')).toHaveLength(3)
@@ -230,6 +251,9 @@ describe('MA presentation opening chapter', () => {
     expect(createEvidence).toHaveTextContent('New Coin spend surface tied to expression, status, and Village progress.')
     expect(createEvidence).toHaveTextContent('Lift Coin demand making Chest purchases advance a meter to a target Card.')
     expect(createEvidence).toHaveTextContent('Lift return sessions and Spin demand; higher exposure to offers.')
+    createEvidence.querySelectorAll('[data-rejected="false"] p').forEach((summary) => {
+      expect(summary).toHaveClass('text-center', 'text-[18px]')
+    })
     createEvidence.querySelectorAll('[data-create-concept="true"]').forEach((concept) => {
       expect(concept).not.toHaveClass('border-t-4')
     })
@@ -241,6 +265,7 @@ describe('MA presentation opening chapter', () => {
     expect(decide).toHaveAttribute('aria-expanded', 'true')
     expect(decisionEvidence).toHaveClass('opacity-100')
     expect(decisionEvidence.querySelector('figure')).toHaveClass('rounded-2xl', 'overflow-hidden')
+    expect(decisionEvidence.querySelector('figure')).toHaveClass('h-[56%]')
     expect(decisionEvidence.querySelector('img')).toHaveAttribute('src', expect.stringContaining('feature-ranking.png'))
     expect(approach.container.querySelector('[data-step-number]')).not.toBeInTheDocument()
     expect(screen.queryByText('Discovery to decision')).not.toBeInTheDocument()
@@ -253,7 +278,17 @@ describe('MA presentation opening chapter', () => {
     expect(testEvidence).toHaveClass('opacity-100')
     const testItems = testEvidence.querySelectorAll('[data-validation-test="true"]')
     expect(testItems).toHaveLength(5)
-    testItems.forEach((item) => expect(item.querySelector('svg')).toBeInTheDocument())
+    expect(testEvidence.querySelectorAll('[data-validation-test-icon="true"]')).toHaveLength(1)
+    const primaryTest = testEvidence.querySelector('[data-primary-validation-test="true"]')!
+    const secondaryTests = testEvidence.querySelectorAll('[data-secondary-validation-test="true"]')
+    expect(primaryTest).toHaveTextContent('Feature validation')
+    expect(primaryTest.querySelector('[data-validation-test-icon="true"]')).toHaveAttribute('src', expect.stringContaining('ab-test-emoji.png'))
+    expect(primaryTest.querySelector('[data-validation-test-icon="true"]')).toHaveClass('h-20', 'w-20')
+    testItems.forEach((item) => expect(item).toHaveClass('grid-cols-[80px_auto]'))
+    expect(secondaryTests).toHaveLength(4)
+    secondaryTests.forEach((item) => expect(item).toHaveClass('text-charcoal/35', 'min-h-8'))
+    expect(testEvidence.querySelector('ul')).toHaveClass('gap-0')
+    testItems.forEach((item) => expect(item.querySelector('svg')).not.toBeInTheDocument())
     expect(testEvidence).toHaveTextContent('Feature validation')
     expect(testEvidence).toHaveTextContent('Meter goal calibration')
     expect(testEvidence).toHaveTextContent('Paid progress carryover')
