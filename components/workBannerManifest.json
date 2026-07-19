@@ -1,0 +1,675 @@
+{
+  "product": [
+    {
+      "a": {
+        "src": "/product/10-test44.mp4",
+        "meta": {
+          "title": "Test44",
+          "year": "2025",
+          "description": "Engineering-rule validation engine for pre-fab panels.",
+          "link": ""
+        },
+        "isVideo": true
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/product/20-drawinganalyzer.mp4",
+        "meta": {
+          "title": "Change Validation",
+          "year": "2026",
+          "description": "AI software to facilitate QC by interpreting and categorizing changes.",
+          "link": ""
+        },
+        "isVideo": true
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/product/30-fastener.mp4",
+        "meta": {
+          "title": "FAST-ener",
+          "year": "2024",
+          "description": "Web-based fastener selection tool for light-gauge steel connections. Based on IBC / AISI S100 · ASTM C955",
+          "link": "https://fast-ener.vercel.app/"
+        },
+        "isVideo": true
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/product/40-studio.mp4",
+        "meta": {
+          "title": "Key Measurements",
+          "year": "2025",
+          "description": "Real Estate Estimators tool for generating BOMs.",
+          "link": ""
+        },
+        "isVideo": true
+      },
+      "b": null
+    }
+  ],
+  "architecture": [
+    {
+      "a": {
+        "src": "/architecture/10_sfh/001_sfh.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/10_sfh/002_sfh.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/10_sfh/003_sfh.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/10_sfh/004_sfh.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/10_sfh/005_sfh.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/10_sfh/006_sfh.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/20_veev/001_veev_BIM.gif",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/20_veev/003_veev_bim.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/30_casamacaco/001_casamacaco.jpeg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/30_casamacaco/002_casamacaco.jpeg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/30_casamacaco/003_casamacaco.jpeg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/30_casamacaco/004_casamacaco.jpeg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/30_casamacaco/005_casamacaco.jpeg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/40_an/11_an_competition.jpg",
+        "meta": null
+      },
+      "b": {
+        "src": "/architecture/40_an/12_an_competition.jpg",
+        "meta": null
+      },
+      "aspectRatio": 0.8019257221458047
+    },
+    {
+      "a": {
+        "src": "/architecture/40_an/13_an_competition.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/40_an/15_an_competition.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/40_an/21_an_showroom.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/40_an/22_an_showroom%20.jpg",
+        "meta": null
+      },
+      "b": {
+        "src": "/architecture/40_an/23_an_showroom.jpg",
+        "meta": null
+      },
+      "aspectRatio": 0.7513368983957219
+    },
+    {
+      "a": {
+        "src": "/architecture/40_an/31_an_residential.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/40_an/32_an_residential.jpg",
+        "meta": null
+      },
+      "b": {
+        "src": "/architecture/40_an/33_an_residential.jpg",
+        "meta": null
+      },
+      "aspectRatio": 0.728923476005188
+    },
+    {
+      "a": {
+        "src": "/architecture/40_an/41_an_interiors.jpg",
+        "meta": null
+      },
+      "b": {
+        "src": "/architecture/40_an/42_an_interiors.jpg",
+        "meta": null
+      },
+      "aspectRatio": 0.7330661894587444
+    },
+    {
+      "a": {
+        "src": "/architecture/40_an/51_an_office.jpg",
+        "meta": null
+      },
+      "b": {
+        "src": "/architecture/40_an/52_an_office.jpg",
+        "meta": null
+      },
+      "aspectRatio": 0.7389014296463507
+    },
+    {
+      "a": {
+        "src": "/architecture/40_an/61_an_fenix.jpg",
+        "meta": null
+      },
+      "b": {
+        "src": "/architecture/40_an/71_an_resbuild.jpg",
+        "meta": null
+      },
+      "aspectRatio": 0.5992908455758457
+    },
+    {
+      "a": {
+        "src": "/architecture/50_uni/10_tcc.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/50_uni/11_tcc.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/50_uni/12_tcc.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/50_uni/13_tcc.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/50_uni/20_museum.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/50_uni/21_museum.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/50_uni/30_sportscenter.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/50_uni/31_sportscenter.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/50_uni/40_uni_residential.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/architecture/60_hq/10_hq.gif",
+        "meta": null
+      },
+      "b": null
+    }
+  ],
+  "research": [
+    {
+      "a": {
+        "src": "/research/hqa_bid.gif",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/research/veev_experiments.gif",
+        "meta": null
+      },
+      "b": {
+        "src": "/research/veev_image29.gif",
+        "meta": null
+      },
+      "aspectRatio": 0.7078794343921571
+    },
+    {
+      "a": {
+        "src": "/research/veev_SOP%20documentation.gif",
+        "meta": null
+      },
+      "b": null
+    }
+  ],
+  "design": [
+    {
+      "a": {
+        "src": "/design/an_tiles.gif",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/img16.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/img20.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/img316.jpg",
+        "meta": null
+      },
+      "b": {
+        "src": "/design/img318.jpg",
+        "meta": null
+      },
+      "aspectRatio": 0.7264227142530513
+    },
+    {
+      "a": {
+        "src": "/design/img322.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/img324.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/img326.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/img328.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/img332.jpg",
+        "meta": null
+      },
+      "b": {
+        "src": "/design/img334.jpg",
+        "meta": null
+      },
+      "aspectRatio": 0.7297231322521467
+    },
+    {
+      "a": {
+        "src": "/design/img338.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/img340.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/img342.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/img344.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/img42.jpg",
+        "meta": null
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_1.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_10.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_11.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_12.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_13.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_14.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_15.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_16.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_17.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_18.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_19.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_2.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_20.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_3.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_4.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_5.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_6.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_7.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_8.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_9.jpg",
+        "meta": {
+          "title": "Volta Chair",
+          "year": "2018",
+          "description": "Product design"
+        }
+      },
+      "b": null
+    },
+    {
+      "a": {
+        "src": "/design/volta_products.gif",
+        "meta": null
+      },
+      "b": null
+    }
+  ]
+}
