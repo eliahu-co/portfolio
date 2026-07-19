@@ -126,6 +126,11 @@ describe('MA presentation validation chapter', () => {
     expect(screen.getByRole('link', { name: 'Decision' })).toHaveAttribute('href', '#slide-10')
     expect(screen.getByRole('link', { name: 'Validation' })).toHaveAttribute('href', '#slide-15')
     expect(container.querySelector('img[src="/coinmaster-sky.webp"]')).toBeInTheDocument()
+    expect(container.querySelector('[data-celebration-layer="true"]')).toBeInTheDocument()
+    expect(container.querySelectorAll('[data-confetti-piece="true"]')).toHaveLength(18)
+    expect(container.querySelector('img[src="/coinmaster/resources/coin-emoji.png"]')).toBeInTheDocument()
+    expect(container.querySelector('img[src="/coinmaster/resources/gem-emoji.png"]')).toBeInTheDocument()
+    expect(container.querySelector('img[src="/coinmaster/resources/spin-emoji.png"]')).toBeInTheDocument()
     expect(container.querySelector('[data-closing-message="true"]')).not.toBeInTheDocument()
 
     screen.getAllByRole('link').forEach((link) => {

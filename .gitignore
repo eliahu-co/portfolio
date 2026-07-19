@@ -42,3 +42,7 @@ public/panel_raw.glb
 .claude/
 .superpowers/
 __pycache__/
+
+# local dev/agent run logs
+.codex-*.log
+.next-dev-*.log
