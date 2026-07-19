@@ -46,3 +46,4 @@ __pycache__/
 # local dev/agent run logs
 .codex-*.log
 .next-dev-*.log
+.env*
