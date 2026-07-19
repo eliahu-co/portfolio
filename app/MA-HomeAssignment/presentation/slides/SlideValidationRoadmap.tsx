@@ -52,7 +52,7 @@ export default function SlideValidationRoadmap({ slideKey }: OpeningSlideProps) 
 
   return (
     <SlideShell>
-      <Eyebrow>Additional tests</Eyebrow>
+      <Eyebrow>Test Plan</Eyebrow>
       <SlideTitle>What We Test Next</SlideTitle>
 
       <div className="mt-7 max-w-[1120px] divide-y divide-charcoal/15">

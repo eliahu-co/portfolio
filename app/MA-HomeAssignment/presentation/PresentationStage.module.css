@@ -20,6 +20,11 @@
   cursor: pointer !important;
 }
 
+/* Deliberately undiscoverable: this toggle must read as plain slide text. */
+.viewport button[data-targets-toggle] {
+  cursor: default !important;
+}
+
 .viewport :global(.font-serif) {
   font-family: var(--font-cm-display), 'Nunito', ui-rounded, sans-serif;
 }

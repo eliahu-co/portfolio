@@ -12,9 +12,9 @@ import Slide15PlayerFlow from './slides/Slide15PlayerFlow'
 import Slide16MvpScope from './slides/Slide16MvpScope'
 import SlideMvpIntro from './slides/SlideMvpIntro'
 import Slide17Prototype from './slides/Slide17Prototype'
+import SlideValidationRoadmap from './slides/SlideValidationRoadmap'
 import Slide18ExperimentDesign from './slides/Slide18ExperimentDesign'
 import Slide19Metrics from './slides/Slide19Metrics'
-import SlideValidationRoadmap from './slides/SlideValidationRoadmap'
 import Slide21ThankYou from './slides/Slide21ThankYou'
 import {
   SlideFeature1Intro,
@@ -63,9 +63,9 @@ export const slideRegistry = [
   { id: 'slide-12', title: 'Target-selection, Chest-progress, guarantee mechanics', shortTitle: 'MVP', chapter: 'Player flow', Component: SlideMvpIntro },
   { id: 'slide-13', title: 'MVP scope', shortTitle: 'MVP scope', chapter: 'Player flow', Component: Slide16MvpScope },
   { id: 'slide-14', title: 'Interactive prototype', shortTitle: 'Prototype', chapter: 'Player flow', Component: Slide17Prototype },
-  { id: 'slide-15', title: 'A/B-test design', shortTitle: 'A/B test', chapter: 'Validation', Component: Slide18ExperimentDesign },
-  { id: 'slide-16', title: 'Success metrics and guardrails', shortTitle: 'Metrics', chapter: 'Validation', Component: Slide19Metrics },
-  { id: 'slide-17', title: 'What We Test Next', shortTitle: 'Additional tests', chapter: 'Validation', Component: SlideValidationRoadmap },
+  { id: 'slide-15', title: 'What We Test Next', shortTitle: 'Additional tests', chapter: 'Validation', Component: SlideValidationRoadmap },
+  { id: 'slide-16', title: 'A/B-test design', shortTitle: 'A/B test', chapter: 'Validation', Component: Slide18ExperimentDesign },
+  { id: 'slide-17', title: 'Success metrics and guardrails', shortTitle: 'Metrics', chapter: 'Validation', Component: Slide19Metrics },
   { id: 'slide-18', title: 'Assumptions', shortTitle: 'Assumptions', chapter: 'Validation', Component: Slide12Assumptions },
   { id: 'slide-19', title: 'Thank you', shortTitle: 'Thank you', chapter: 'Closing', Component: Slide21ThankYou },
 ] as const satisfies readonly SlideDefinition[]

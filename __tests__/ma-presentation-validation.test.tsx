@@ -24,7 +24,7 @@ describe('MA presentation validation chapter', () => {
 
   it('keeps ARPDAU dominant and switches between supporting metrics and guardrails', () => {
     const { container } = render(<Slide19Metrics slideKey="slide-13" />)
-    expect(screen.getByRole('heading', { name: 'ARPDAU ≥5% lift' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'ARPDAU lift' })).toBeVisible()
     expect(container.querySelector('[data-primary-metric="true"]')).not.toBeInTheDocument()
     expect(container.querySelector('[data-primary-metric-spacer="true"]')).toBeInTheDocument()
 
@@ -90,9 +90,41 @@ describe('MA presentation validation chapter', () => {
     expect(detail).toHaveTextContent(/Event duration/i)
   })
 
+  it('reveals the muted target numbers only after the eyebrow is clicked', () => {
+    const { container } = render(<Slide19Metrics slideKey="slide-17" />)
+    const toggle = screen.getByRole('button', { name: 'Success criteria' })
+    const targets = () => Array.from(container.querySelectorAll('[data-target-value="true"]'))
+
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(targets().length).toBeGreaterThan(0)
+    targets().forEach((target) => {
+      expect(target).toHaveClass('opacity-0')
+      expect(target).toHaveAttribute('aria-hidden', 'true')
+    })
+    // the headline threshold drops out of flow entirely, so the title stays gap-free
+    expect(container.querySelector('[data-title-target="true"]')).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'ARPDAU lift' })).toBeVisible()
+
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    targets().forEach((target) => {
+      expect(target).toHaveClass('opacity-100')
+      expect(target).not.toHaveAttribute('aria-hidden', 'true')
+    })
+    expect(screen.getByRole('heading', { name: 'ARPDAU ≥5% lift' })).toBeVisible()
+
+    // the reveal spans both tabs, so guardrails inherit the toggled state
+    fireEvent.click(screen.getByRole('tab', { name: 'Guardrails' }))
+    targets().forEach((target) => expect(target).toHaveClass('opacity-100'))
+
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    targets().forEach((target) => expect(target).toHaveClass('opacity-0'))
+  })
+
   it('presents the validation roadmap and fades tests outside the active row', () => {
     const { container } = render(<SlideValidationRoadmap slideKey="slide-17" />)
-    expect(screen.getByText('Additional tests')).toBeVisible()
+    expect(screen.getByText('Test Plan')).toBeVisible()
     expect(screen.getByRole('heading', { name: 'What We Test Next' })).toBeVisible()
 
     const rows = container.querySelectorAll('[data-validation-roadmap-test]')

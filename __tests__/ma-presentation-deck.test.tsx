@@ -173,7 +173,7 @@ describe('MA presentation deck', () => {
     fireEvent.click(within(prototypeSlide).getByRole('button', { name: 'Open Card Bounty' }))
     expect(within(prototypeSlide).getByRole('dialog', { name: 'Card Bounty' })).toBeVisible()
 
-    fireEvent.click(screen.getByRole('button', { name: 'Next: A/B test' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Next: Additional tests' }))
     expect(viewport).toHaveAttribute('data-current-slide', 'slide-15')
     expect(screen.queryByRole('region', { name: 'Card Bounty game prototype' })).not.toBeInTheDocument()
 

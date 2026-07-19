@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import { FlowArrow } from './FlowArrow'
+import { ResolutionBranches } from '../../components/ResolutionBranches'
 import { useDeckReset, type DeckSlideKey } from '../useDeckReset'
 
 type PhaseName = 'Entry' | 'Target' | 'Progress' | 'Resolution'
@@ -121,7 +122,9 @@ export function PhaseFocusFlow({ slideKey }: { readonly slideKey: DeckSlideKey }
                 >
                   {phase.name}
                 </button>
-                {selected && <PhaseSteps steps={phase.steps} />}
+                {/* Resolution is a branching tree, not a linear stack — it breaks
+                    out below the row where it has room for its Yes/No branches. */}
+                {selected && phase.name !== 'Resolution' && <PhaseSteps steps={phase.steps} />}
               </section>
 
               {index < PHASES.length - 1 && (
@@ -136,6 +139,12 @@ export function PhaseFocusFlow({ slideKey }: { readonly slideKey: DeckSlideKey }
           )
         })}
       </div>
+
+      {active === 'Resolution' && (
+        <div data-resolution-panel="true" className="mt-4">
+          <ResolutionBranches size="slide" />
+        </div>
+      )}
     </div>
   )
 }

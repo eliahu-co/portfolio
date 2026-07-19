@@ -13,7 +13,10 @@ const ROLE_CLASSES: Record<MetricRole, string> = {
 type ActiveMetric = { metric: string; help?: keyof typeof TOOLTIP_NOTES } | null
 type DetailGroup = 'Supporting metrics' | 'Guardrails'
 
-export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
+export function ValidationTable({
+  slideKey,
+  showTargets = false,
+}: { slideKey: DeckSlideKey; showTargets?: boolean }) {
   const [hovered, setHovered] = useState<ActiveMetric>(null)
   const [focused, setFocused] = useState<ActiveMetric>(null)
   const [detailGroup, setDetailGroup] = useState<DetailGroup>('Supporting metrics')
@@ -93,7 +96,7 @@ export function ValidationTable({ slideKey }: { slideKey: DeckSlideKey }) {
                     </button>
                   </td>
                   <td className="px-2">{metric.role && <span className={`inline-flex w-[116px] justify-center rounded-full border px-2 py-1 font-sans text-[9px] font-bold uppercase tracking-[0.08em] ${ROLE_CLASSES[metric.role]}`}>{metric.role}</span>}</td>
-                  <td className="whitespace-nowrap pl-4 text-right font-sans text-[16px] text-charcoal">{metric.mutedTarget && <><span className="text-charcoal/55">{metric.mutedTarget}</span>{' '}</>}<span className="font-bold">{metric.target}</span></td>
+                  <td className="whitespace-nowrap pl-4 text-right font-sans text-[16px] text-charcoal">{metric.mutedTarget && <><span data-target-value="true" aria-hidden={!showTargets} className={`text-charcoal/55 transition-opacity duration-300 motion-reduce:transition-none ${showTargets ? 'opacity-100' : 'opacity-0'}`}>{metric.mutedTarget}</span>{' '}</>}<span className="font-bold">{metric.target}</span></td>
                 </tr>
               )
             })}
