@@ -165,6 +165,9 @@ describe('MA presentation validation chapter', () => {
         .filter(({ chapter, closingMenu }) => chapter !== 'Closing' && closingMenu !== false)
         .map(({ id }) => `#${id}`),
     )
+    // 7 fixed columns split the 14 links into two even rows
+    expect(links[0].closest('ul')).toHaveClass('grid', 'grid-cols-7')
+    expect(links.length % 7).toBe(0)
     expect(screen.getByRole('link', { name: 'About' })).toHaveAttribute('href', '#slide-2')
     expect(screen.getByRole('link', { name: 'Score' })).toHaveAttribute('href', '#slide-10')
     expect(screen.getByRole('link', { name: 'Test plan' })).toHaveAttribute('href', '#slide-15')

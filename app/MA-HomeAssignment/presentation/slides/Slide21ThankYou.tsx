@@ -62,7 +62,9 @@ export default function Slide21ThankYou({ chapterLinks = closingMenuTargets }: T
         <div className="mx-auto max-w-[1040px]">
           <SlideTitle className="text-[72px] text-white">Thank you</SlideTitle>
           <nav aria-label="Jump to a slide" className="mt-10">
-            <ul className="mx-auto flex max-w-[860px] flex-wrap items-center justify-center gap-x-6 gap-y-1">
+            {/* fixed 7 columns so the 14 links always split evenly into two rows,
+                rather than wrapping wherever the label widths happen to land */}
+            <ul className="mx-auto grid max-w-[900px] grid-cols-7 items-center justify-items-center gap-x-3 gap-y-1">
               {chapterLinks.map(({ label, href }) => (
                 <li key={href}>
                   <a href={href} data-deck-interactive="true" className="inline-flex min-h-11 items-center px-1 py-2 font-sans text-[14px] font-bold text-white/85 transition-colors duration-300 hover:text-cm-gold-bright focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-cm-gold">
