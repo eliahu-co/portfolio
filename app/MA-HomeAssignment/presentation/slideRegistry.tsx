@@ -57,7 +57,7 @@ export const slideRegistry = [
   { id: 'slide-3', title: 'Approach', shortTitle: 'Approach', chapter: 'Approach', Component: Slide03Approach },
   { id: 'slide-4', title: 'A counter-Raid that turns a loss into a reason to return and Spin', shortTitle: 'Feature 1', chapter: 'Three bets', closingMenu: false, Component: SlideFeature1Intro },
   { id: 'slide-5', title: 'Hot Trail', shortTitle: 'Hot Trail', chapter: 'Three bets', Component: Slide10HotTrailThesis },
-  { id: 'slide-6', title: 'A visible path to a chosen Card through buying Chests', shortTitle: 'Feature 2', chapter: 'Three bets', closingMenu: false, Component: SlideFeature2Intro },
+  { id: 'slide-6', title: 'A LiveOp that turns Chest buying into a visible path to a chosen Card', shortTitle: 'Feature 2', chapter: 'Three bets', closingMenu: false, Component: SlideFeature2Intro },
   { id: 'slide-7', title: 'Card Bounty', shortTitle: 'Card Bounty', chapter: 'Three bets', Component: Slide08CardBountyThesis },
   { id: 'slide-8', title: 'A customizable town built from unlocked Villages items', shortTitle: 'Feature 3', chapter: 'Three bets', closingMenu: false, Component: SlideFeature3Intro },
   { id: 'slide-9', title: 'Hometown', shortTitle: 'Hometown', chapter: 'Three bets', Component: Slide06HometownThesis },

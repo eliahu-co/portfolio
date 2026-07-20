@@ -45,7 +45,7 @@ export function SlideFeature2Intro(props: OpeningSlideProps) {
     <FeatureIntroSlide
       {...props}
       feature={2}
-      statement="A visible path to a chosen Card through buying Chests"
+      statement="A LiveOp that turns Chest buying into a visible path to a chosen Card"
       motivations={['Agency', 'Visible Progress']}
     />
   )

@@ -12,7 +12,7 @@ describe('MA presentation registry', () => {
       'Increasing ARPDAU', 'About', 'Approach',
       'A counter-Raid that turns a loss into a reason to return and Spin',
       'Hot Trail',
-      'A visible path to a chosen Card through buying Chests',
+      'A LiveOp that turns Chest buying into a visible path to a chosen Card',
       'Card Bounty',
       'A customizable town built from unlocked Villages items',
       'Hometown', 'Score',
@@ -25,7 +25,7 @@ describe('MA presentation registry', () => {
 
   it.each([
     [3, 'Feature 1', 'A counter-Raid that turns a loss into a reason to return and Spin'],
-    [5, 'Feature 2', 'A visible path to a chosen Card through buying Chests'],
+    [5, 'Feature 2', 'A LiveOp that turns Chest buying into a visible path to a chosen Card'],
     [7, 'Feature 3', 'A customizable town built from unlocked Villages items'],
   ])('renders feature introduction slide %s with the shared title treatment', (index, eyebrow, statement) => {
     render(createElement(slideRegistry[index].Component, { slideKey: `intro-${index}` }))
