@@ -4,7 +4,7 @@ import Slide19Metrics from '@/app/MA-HomeAssignment/presentation/slides/Slide19M
 import SlideValidationRoadmap from '@/app/MA-HomeAssignment/presentation/slides/SlideValidationRoadmap'
 import Slide21ThankYou from '@/app/MA-HomeAssignment/presentation/slides/Slide21ThankYou'
 import { METRIC_GROUPS, PROTOCOL } from '@/app/MA-HomeAssignment/content/validation'
-import { slideCount, slideRegistry } from '@/app/MA-HomeAssignment/presentation/slideRegistry'
+import { slideCount, slideRegistry, type SlideDefinition } from '@/app/MA-HomeAssignment/presentation/slideRegistry'
 
 describe('MA presentation validation chapter', () => {
   it('shows the comparable control, treatment, population, and hypothesis', () => {
@@ -208,7 +208,9 @@ describe('MA presentation validation chapter', () => {
     const links = screen.getAllByRole('link')
     expect(links).toHaveLength(slideCount - 5)
     expect(links.map((link) => link.getAttribute('href'))).toEqual(
-      slideRegistry
+      // widened: `as const` gives each row its own literal type, so `closingMenu`
+      // is absent from the members that omit it
+      (slideRegistry as readonly SlideDefinition[])
         .filter(({ chapter, closingMenu }) => chapter !== 'Closing' && closingMenu !== false)
         .map(({ id }) => `#${id}`),
     )

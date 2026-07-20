@@ -283,7 +283,7 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                   />
                 </div>
                 <p className="mt-4 text-center font-sans text-[18px] font-normal leading-relaxed text-[#1A1A1A]">
-                  {feature.monetizationSummary}
+                  {feature.monetizationLabel}
                 </p>
               </section>
             ))}

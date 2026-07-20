@@ -24,6 +24,9 @@ export type PresentationConcept = {
   readonly thesis: string
   readonly arpdauPath: string
   readonly monetizationSummary: string
+  // The compressed form of monetizationSummary, for the Approach "Create" panel
+  // where the three concepts sit side by side and have to be compared at a glance.
+  readonly monetizationLabel: string
   readonly metrics: {
     readonly primary: string
     readonly supporting: readonly string[]
@@ -49,6 +52,7 @@ export const CONCEPTS = [
     thesis: 'Turn Village progress into a permanent space players can own, customize, and show.',
     arpdauPath: 'New spend surface',
     monetizationSummary: 'New Coin spend surface tied to expression, status, and Village progress.',
+    monetizationLabel: 'New Coin spend surface',
     metrics: USE_CASE_1.metrics!,
     loopImplications: [
       'Village completion supplies recognizable items and keeps Hometown connected to progression.',
@@ -82,6 +86,7 @@ export const CONCEPTS = [
     thesis: 'Turn every Chest into visible progress toward the missing Card a player chooses.',
     arpdauPath: 'Increased resource demand',
     monetizationSummary: 'Lift Coin demand making Chest purchases advance a meter to a target Card.',
+    monetizationLabel: 'Lift Coin demand',
     metrics: USE_CASE_2.metrics!,
     loopImplications: [
       'Regular Spins keep the event supplied by the familiar core economy.',
@@ -116,6 +121,7 @@ export const CONCEPTS = [
     thesis: 'Turn the frustration of a Raid into an urgent reason to return, Spin, and retaliate.',
     arpdauPath: 'Purchase frequency through re-engagement',
     monetizationSummary: 'Lift return sessions and Spin demand; higher exposure to offers.',
+    monetizationLabel: 'Lift Spin demand',
     metrics: USE_CASE_3.metrics!,
     loopImplications: [
       'Village progression creates the Coin balance and PvP exposure that make a Raid meaningful.',

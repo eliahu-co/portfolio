@@ -248,9 +248,13 @@ describe('MA presentation opening chapter', () => {
     expect(screen.getByRole('heading', { level: 3, name: 'Hometown' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 3, name: 'Card Bounty' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 3, name: 'Hot Trail' })).toBeInTheDocument()
-    expect(createEvidence).toHaveTextContent('New Coin spend surface tied to expression, status, and Village progress.')
-    expect(createEvidence).toHaveTextContent('Lift Coin demand making Chest purchases advance a meter to a target Card.')
-    expect(createEvidence).toHaveTextContent('Lift return sessions and Spin demand; higher exposure to offers.')
+    // the compressed labels, so three concepts can be compared at a glance
+    expect(createEvidence).toHaveTextContent('New Coin spend surface')
+    expect(createEvidence).toHaveTextContent('Lift Coin demand')
+    expect(createEvidence).toHaveTextContent('Lift Spin demand')
+    // the full sentences stay on the single-concept slides that have room
+    expect(createEvidence).not.toHaveTextContent('tied to expression, status, and Village progress')
+    expect(createEvidence).not.toHaveTextContent('higher exposure to offers')
     createEvidence.querySelectorAll('[data-rejected="false"] p').forEach((summary) => {
       expect(summary).toHaveClass('text-center', 'text-[18px]')
     })
