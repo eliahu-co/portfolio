@@ -74,11 +74,16 @@ export function ValidationTable({
             {selectedGroup.metrics.map((metric) => {
               const selected = active?.metric === metric.metric
               const selection = { metric: metric.metric, help: metric.metricHelp }
+              // hover lives on the row: the role pill and target sit outside the
+              // metric column, which is only 38% of the row's width. The button
+              // keeps the keyboard path.
               return (
                 <tr
                   key={metric.metric}
                   data-metric-row={metric.metric}
                   data-active-row={selected ? 'true' : 'false'}
+                  onMouseEnter={() => setHovered(selection)}
+                  onMouseLeave={() => setHovered(null)}
                   className={`h-10 border-b border-charcoal/15 transition-opacity duration-300 motion-reduce:transition-none ${active && !selected ? 'opacity-20' : 'opacity-100'}`}
                 >
                   <td className="pr-4">
@@ -86,8 +91,6 @@ export function ValidationTable({
                       type="button"
                       data-deck-interactive="true"
                       aria-expanded={selected}
-                      onMouseEnter={() => setHovered(selection)}
-                      onMouseLeave={() => setHovered(null)}
                       onFocus={() => setFocused(selection)}
                       onBlur={() => setFocused(null)}
                       className={`min-h-10 w-full border-0 bg-transparent text-left font-sans text-[17px] font-medium text-cm-violet-deep ${selected ? 'font-extrabold' : ''}`}

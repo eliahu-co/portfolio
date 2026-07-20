@@ -91,6 +91,25 @@ describe('MA presentation validation chapter', () => {
     expect(detail).toHaveTextContent(/Event duration/i)
   })
 
+  it('activates a metric from anywhere in its row, not just the metric column', () => {
+    const { container } = render(<Slide19Metrics slideKey="slide-17" />)
+    const detail = screen.getByRole('status', { name: 'Metric detail' })
+    const row = container.querySelector('[data-metric-row="ARPPU by payer tier"]')!
+    const peer = container.querySelector('[data-metric-row="Coin spend on Chests per DAU"]')!
+
+    // the event lands on the row itself — the pointer could be over the role
+    // pill or the target number, which sit outside the metric column
+    fireEvent.mouseEnter(row)
+    expect(row).toHaveAttribute('data-active-row', 'true')
+    expect(row).toHaveClass('opacity-100')
+    expect(peer).toHaveClass('opacity-20')
+    expect(detail).toHaveTextContent('deeper payer spend')
+
+    fireEvent.mouseLeave(row)
+    expect(row).toHaveAttribute('data-active-row', 'false')
+    expect(peer).toHaveClass('opacity-100')
+  })
+
   it('leaves the detail rail empty for metrics that carry no note', () => {
     render(<Slide19Metrics slideKey="slide-17" />)
     const detail = screen.getByRole('status', { name: 'Metric detail' })
