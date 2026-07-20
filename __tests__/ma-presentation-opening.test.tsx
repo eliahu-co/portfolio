@@ -261,6 +261,21 @@ describe('MA presentation opening chapter', () => {
     createEvidence.querySelectorAll('[data-create-concept="true"]').forEach((concept) => {
       expect(concept).not.toHaveClass('border-t-4')
     })
+
+    // hovering one concept holds it and dims its peers plus the rejected pile
+    const presented = Array.from(createEvidence.querySelectorAll('[data-rejected="false"]'))
+    const rejected = Array.from(createEvidence.querySelectorAll('[data-rejected="true"]'))
+    rejected.forEach((concept) => expect(concept).toHaveClass('opacity-45'))
+
+    fireEvent.mouseEnter(presented[0])
+    expect(presented[0]).toHaveAttribute('data-concept-active', 'true')
+    expect(presented[0]).toHaveClass('opacity-100')
+    presented.slice(1).forEach((concept) => expect(concept).toHaveClass('opacity-20'))
+    rejected.forEach((concept) => expect(concept).toHaveClass('opacity-20'))
+
+    fireEvent.mouseLeave(createEvidence)
+    presented.forEach((concept) => expect(concept).toHaveClass('opacity-100'))
+    rejected.forEach((concept) => expect(concept).toHaveClass('opacity-45'))
     expect(screen.queryByRole('heading', { name: 'Three bets' })).not.toBeInTheDocument()
     const decide = screen.getByRole('button', { name: 'Decide' })
     const decisionEvidence = approach.container.querySelector('[data-decision-evidence="true"]')!

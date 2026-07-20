@@ -21,6 +21,19 @@ describe('MA presentation validation chapter', () => {
       expect(section.className).toMatch(/border-t/)
       expect(section.className).not.toMatch(/rounded|shadow|\bbg-/)
     })
+
+    // hovering one section holds it and dims the other three
+    sections.forEach((section) => expect(section).toHaveClass('opacity-100'))
+    fireEvent.mouseEnter(sections[1])
+    expect(sections[1]).toHaveClass('opacity-100')
+    expect(sections[1]).toHaveAttribute('data-protocol-active', 'true')
+    sections.filter((_, i) => i !== 1).forEach((section) => {
+      expect(section).toHaveClass('opacity-20')
+      expect(section).toHaveAttribute('data-protocol-active', 'false')
+    })
+
+    fireEvent.mouseLeave(sections[1].parentElement!)
+    sections.forEach((section) => expect(section).toHaveClass('opacity-100'))
   })
 
   it('keeps ARPDAU dominant and switches between supporting metrics and guardrails', () => {

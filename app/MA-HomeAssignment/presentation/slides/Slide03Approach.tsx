@@ -54,9 +54,11 @@ const PRESENTED_CONCEPTS = [
 export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
   const [activeReveal, setActiveReveal] = useState<Reveal>(null)
   const [activeStep, setActiveStep] = useState<string | null>(null)
+  const [activeConcept, setActiveConcept] = useState<string | null>(null)
   const reset = useCallback(() => {
     setActiveReveal(null)
     setActiveStep(null)
+    setActiveConcept(null)
   }, [])
   const showDiagram = activeReveal === 'map'
   const showPlayDrawing = activeReveal === 'play'
@@ -258,11 +260,17 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             id="approach-create-evidence"
             data-create-evidence="true"
             aria-hidden={!showCreateEvidence}
+            onMouseLeave={() => setActiveConcept(null)}
             className={`absolute inset-0 grid grid-cols-[0.68fr_repeat(3,1fr)] items-center gap-5 transition-opacity duration-300 motion-reduce:transition-none ${showCreateEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
           >
             <div className="flex flex-col gap-8">
               {REJECTED_CONCEPTS.map((title) => (
-                <section key={title} data-create-concept="true" data-rejected="true" className="opacity-45">
+                <section
+                  key={title}
+                  data-create-concept="true"
+                  data-rejected="true"
+                  className={`transition-opacity duration-300 motion-reduce:transition-none ${activeConcept ? 'opacity-20' : 'opacity-45'}`}
+                >
                   <h3 className="font-serif text-[22px] font-black leading-tight text-cm-violet-deep line-through decoration-2">
                     {title}
                   </h3>
@@ -270,7 +278,16 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
               ))}
             </div>
             {PRESENTED_CONCEPTS.map(({ concept: feature, logo }) => (
-              <section key={feature.id} data-create-concept="true" data-rejected="false">
+              // hovering anywhere over a concept — logo or label — holds it at
+              // full strength and dims its peers and the rejected pile
+              <section
+                key={feature.id}
+                data-create-concept="true"
+                data-rejected="false"
+                data-concept-active={activeConcept === feature.id ? 'true' : 'false'}
+                onMouseEnter={() => setActiveConcept(feature.id)}
+                className={`transition-opacity duration-300 motion-reduce:transition-none ${activeConcept && activeConcept !== feature.id ? 'opacity-20' : 'opacity-100'}`}
+              >
                 <h3 className="sr-only">{feature.title}</h3>
                 <div className="relative h-[92px] w-full">
                   <Image
