@@ -91,6 +91,23 @@ describe('MA presentation validation chapter', () => {
     expect(detail).toHaveTextContent(/Event duration/i)
   })
 
+  it('leaves the detail rail empty for metrics that carry no note', () => {
+    render(<Slide19Metrics slideKey="slide-17" />)
+    const detail = screen.getByRole('status', { name: 'Metric detail' })
+    const supporting = METRIC_GROUPS.find(({ title }) => title === 'Supporting metrics')!.metrics
+
+    supporting.filter(({ metricHelp }) => !metricHelp).forEach(({ metric }) => {
+      fireEvent.mouseEnter(screen.getByRole('button', { name: metric }))
+      expect(detail).toBeEmptyDOMElement()
+      fireEvent.mouseLeave(screen.getByRole('button', { name: metric }))
+    })
+
+    // a metric that does have a note still shows it
+    const annotated = supporting.find(({ metricHelp }) => metricHelp)!
+    fireEvent.mouseEnter(screen.getByRole('button', { name: annotated.metric }))
+    expect(detail.textContent?.length ?? 0).toBeGreaterThan(0)
+  })
+
   it('reveals the muted target numbers only after the eyebrow is clicked', () => {
     const { container } = render(<Slide19Metrics slideKey="slide-17" />)
     const toggle = screen.getByRole('button', { name: 'Success criteria' })

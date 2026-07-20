@@ -110,11 +110,9 @@ export function ValidationTable({
         data-active={active ? 'true' : 'false'}
         className={`mt-2 min-h-[54px] border-t border-charcoal/20 pt-3 font-sans text-[13px] leading-relaxed ${active ? 'font-bold text-cm-violet-deep' : 'text-charcoal'}`}
       >
-        {active
-          ? active.help
-            ? TOOLTIP_NOTES[active.help]
-            : 'Used to explain whether the feature creates incremental value without damaging the core economy.'
-          : TOOLTIP_NOTES['test-methodology']}
+        {/* metrics without a note stay silent rather than falling back to a
+            generic line that explained nothing specific to them */}
+        {active ? (active.help ? TOOLTIP_NOTES[active.help] : null) : TOOLTIP_NOTES['test-methodology']}
       </div>
     </div>
   )
