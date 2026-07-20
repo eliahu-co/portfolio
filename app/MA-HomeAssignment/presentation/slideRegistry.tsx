@@ -64,7 +64,7 @@ export const slideRegistry = [
   { id: 'slide-10', title: 'Score', shortTitle: 'Score', chapter: 'Decision', Component: Slide13ComparativeScoring },
   { id: 'slide-11', title: 'Expanded player flow', shortTitle: 'Player flow', chapter: 'Player flow', Component: Slide15PlayerFlow },
   { id: 'slide-12', title: 'Target-selection, Chest-progress, guarantee mechanics', shortTitle: 'MVP', chapter: 'Player flow', Component: SlideMvpIntro },
-  { id: 'slide-13', title: 'MVP scope', shortTitle: 'MVP scope', chapter: 'Player flow', Component: Slide16MvpScope },
+  { id: 'slide-13', title: 'MVP scope', shortTitle: 'Scope', chapter: 'Player flow', Component: Slide16MvpScope },
   { id: 'slide-14', title: 'Interactive prototype', shortTitle: 'Prototype', chapter: 'Player flow', Component: Slide17Prototype },
   { id: 'slide-15', title: 'Validate, calibrate, evolve', shortTitle: 'Test plan', chapter: 'Validation', Component: SlideValidationRoadmap },
   { id: 'slide-16', title: 'A/B-test design', shortTitle: 'A/B test', chapter: 'Validation', Component: Slide18ExperimentDesign },

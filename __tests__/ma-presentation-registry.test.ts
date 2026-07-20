@@ -43,7 +43,7 @@ describe('MA presentation registry', () => {
       { label: 'Score', href: '#slide-10' },
       { label: 'Player flow', href: '#slide-11' },
       { label: 'MVP', href: '#slide-12' },
-      { label: 'MVP scope', href: '#slide-13' },
+      { label: 'Scope', href: '#slide-13' },
       { label: 'Prototype', href: '#slide-14' },
       { label: 'Test plan', href: '#slide-15' },
       { label: 'A/B test', href: '#slide-16' },
