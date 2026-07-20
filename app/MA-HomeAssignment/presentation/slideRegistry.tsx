@@ -78,6 +78,8 @@ export const slideCount = slideRegistry.length
 // The closing slide lists the slides worth jumping back to, so the audience can
 // revisit one directly. The closing slide itself is left out — it is where the
 // reader already is — along with anything marked `closingMenu: false`.
-export const closingMenuTargets: readonly ClosingMenuTarget[] = slideRegistry
+// Widened to SlideDefinition first: `as const` gives each row its own literal
+// type, so `closingMenu` is absent from the union members that omit it.
+export const closingMenuTargets: readonly ClosingMenuTarget[] = (slideRegistry as readonly SlideDefinition[])
   .filter((slide) => slide.chapter !== 'Closing' && slide.closingMenu !== false)
   .map((slide) => ({ label: slide.shortTitle, href: `#${slide.id}` }))
