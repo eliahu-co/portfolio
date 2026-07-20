@@ -4,6 +4,7 @@ import Slide19Metrics from '@/app/MA-HomeAssignment/presentation/slides/Slide19M
 import SlideValidationRoadmap from '@/app/MA-HomeAssignment/presentation/slides/SlideValidationRoadmap'
 import Slide21ThankYou from '@/app/MA-HomeAssignment/presentation/slides/Slide21ThankYou'
 import { METRIC_GROUPS, PROTOCOL } from '@/app/MA-HomeAssignment/content/validation'
+import { slideCount, slideRegistry } from '@/app/MA-HomeAssignment/presentation/slideRegistry'
 
 describe('MA presentation validation chapter', () => {
   it('shows the comparable control, treatment, population, and hypothesis', () => {
@@ -152,11 +153,20 @@ describe('MA presentation validation chapter', () => {
     rows.forEach((row) => expect(row).toHaveClass('opacity-100'))
   })
 
-  it('closes with plain same-deck chapter links', () => {
+  it('closes with a plain link to every slide in the deck', () => {
     const { container } = render(<Slide21ThankYou slideKey="slide-18" />)
     expect(screen.getByRole('heading', { name: 'Thank you' })).toBeVisible()
-    expect(screen.getByRole('link', { name: 'Decision' })).toHaveAttribute('href', '#slide-10')
-    expect(screen.getByRole('link', { name: 'Validation' })).toHaveAttribute('href', '#slide-15')
+
+    // one link per slide, minus the closing slide the reader is already on
+    const links = screen.getAllByRole('link')
+    expect(links).toHaveLength(slideCount - 1)
+    expect(links.map((link) => link.getAttribute('href'))).toEqual(
+      slideRegistry.filter(({ chapter }) => chapter !== 'Closing').map(({ id }) => `#${id}`),
+    )
+    expect(screen.getByRole('link', { name: 'Cover' })).toHaveAttribute('href', '#slide-1')
+    expect(screen.getByRole('link', { name: 'Score' })).toHaveAttribute('href', '#slide-10')
+    expect(screen.getByRole('link', { name: 'Test plan' })).toHaveAttribute('href', '#slide-15')
+    expect(screen.queryByRole('link', { name: 'Thank you' })).not.toBeInTheDocument()
     expect(container.querySelector('img[src="/coinmaster-sky.webp"]')).toBeInTheDocument()
     expect(container.querySelector('[data-celebration-layer="true"]')).toBeInTheDocument()
     expect(container.querySelectorAll('[data-confetti-piece="true"]')).toHaveLength(18)
@@ -167,7 +177,8 @@ describe('MA presentation validation chapter', () => {
 
     screen.getAllByRole('link').forEach((link) => {
       expect(link.className).not.toMatch(/rounded-full|\bbg-|(?:^|\s)border(?:\s|$)/)
-      expect(link.className).toMatch(/underline|border-b/)
+      // deliberately undecorated: colour and the focus ring carry the affordance
+      expect(link.className).not.toMatch(/underline|border-b/)
       expect(link).toHaveClass('transition-colors', 'duration-300')
       expect(link).toHaveClass('focus-visible:outline', 'focus-visible:outline-cm-gold')
     })

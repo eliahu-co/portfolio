@@ -33,13 +33,15 @@ describe('MA presentation registry', () => {
     expect(screen.getByRole('heading', { name: statement })).toHaveClass('font-serif', 'text-[64px]')
   })
 
-  it('derives the closing navigation from chapter starts', () => {
-    expect(closingMenuTargets).toEqual([
-      { label: 'Approach', href: '#slide-3' },
-      { label: 'Three bets', href: '#slide-4' },
-      { label: 'Decision', href: '#slide-10' },
-      { label: 'Player flow', href: '#slide-11' },
-      { label: 'Validation', href: '#slide-15' },
-    ])
+  it('offers the closing navigation a link to every slide but the closing one', () => {
+    expect(closingMenuTargets).toHaveLength(slideCount - 1)
+    expect(closingMenuTargets).toEqual(
+      slideRegistry
+        .filter(({ chapter }) => chapter !== 'Closing')
+        .map(({ shortTitle, id }) => ({ label: shortTitle, href: `#${id}` })),
+    )
+    expect(closingMenuTargets.map(({ label }) => label)).not.toContain('Thank you')
+    // labels double as the accessible name for each link, so they must be unique
+    expect(new Set(closingMenuTargets.map(({ label }) => label)).size).toBe(closingMenuTargets.length)
   })
 })

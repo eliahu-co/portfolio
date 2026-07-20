@@ -72,19 +72,9 @@ export const slideRegistry = [
 
 export const slideCount = slideRegistry.length
 
-const closingChapters = new Set<SlideChapter>()
-
-export const closingMenuTargets: readonly ClosingMenuTarget[] = slideRegistry.reduce<ClosingMenuTarget[]>(
-  (targets, slide) => {
-    if (
-      slide.chapter === 'Opening'
-      || slide.chapter === 'Closing'
-      || closingChapters.has(slide.chapter)
-    ) return targets
-
-    closingChapters.add(slide.chapter)
-    targets.push({ label: slide.chapter, href: `#${slide.id}` })
-    return targets
-  },
-  [],
-)
+// The closing slide lists every slide in the deck so the audience can jump
+// straight to whichever one they want to revisit. The closing slide itself is
+// left out — it is where the reader already is.
+export const closingMenuTargets: readonly ClosingMenuTarget[] = slideRegistry
+  .filter((slide) => slide.chapter !== 'Closing')
+  .map((slide) => ({ label: slide.shortTitle, href: `#${slide.id}` }))
