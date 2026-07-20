@@ -181,11 +181,14 @@ describe('MA presentation decision chapter', () => {
     expect(winner).toHaveClass('bg-cm-gold/20')
   })
 
-  it('gives the table breathing room and mutes the opportunity formula', () => {
+  it('gives the table breathing room and keeps the total formula grey', () => {
     const { container } = render(<Slide13ComparativeScoring slideKey="slide-10" />)
     expect(container.querySelector('[data-score-matrix-wrap="true"]')).toHaveClass('mt-6')
-    expect(screen.getByTestId('score-formula')).toHaveClass('text-charcoal/60')
+    // same weight as the cell explanations, grey rather than violet, and no
+    // typography of its own so it inherits the slot's size and leading
+    expect(screen.getByTestId('score-formula')).toHaveClass('font-bold', 'text-charcoal')
     expect(screen.getByTestId('score-formula')).not.toHaveClass('text-cm-violet-deep')
+    expect(screen.getByTestId('score-formula').className).not.toMatch(/leading-|text-\[\d/)
   })
 
 })

@@ -38,12 +38,10 @@ function classNames(...values: Array<string | false | null | undefined>): string
   return values.filter(Boolean).join(' ')
 }
 
+// Typographically identical to the cell explanations — it inherits the slot's
+// font, size and leading — and differs only by staying grey instead of violet.
 function DecisionSummary() {
-  return (
-    <div className="font-sans text-[13px] leading-relaxed text-charcoal">
-      <p data-testid="score-formula" className="font-bold text-charcoal/60">{OPPORTUNITY_SCORE_FORMULA}</p>
-    </div>
-  )
+  return <p data-testid="score-formula" className="font-bold text-charcoal">{OPPORTUNITY_SCORE_FORMULA}</p>
 }
 
 function ExactRationale({ active }: { readonly active: ActiveScore }) {
