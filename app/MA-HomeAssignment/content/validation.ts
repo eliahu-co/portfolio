@@ -4,6 +4,10 @@ export type TooltipKey =
   | 'test-methodology'
   | 'feature-funnel'
   | 'arppu-payer-tier'
+  | 'chest-coin-spend'
+  | 'total-coin-consumption'
+  | 'target-selection-rate'
+  | 'first-chest-conversion'
   | 'collections-completed'
   | 'village-upgrades'
   | 'post-event-chest-spend'
@@ -64,19 +68,21 @@ export const METRIC_GROUPS: readonly MetricGroup[] = [
         mutedTarget: '≥5% overall and ≥8% at high-spender cohort',
         metricHelp: 'arppu-payer-tier',
       },
-      { metric: 'Coin spend on Chests per DAU', role: 'Economy', target: 'lift', mutedTarget: '≥10%' },
-      { metric: 'Total Coin Consumption per DAU', role: 'Economy', target: 'lift', mutedTarget: '≥5%' },
+      { metric: 'Coin spend on Chests per DAU', role: 'Economy', target: 'lift', mutedTarget: '≥10%', metricHelp: 'chest-coin-spend' },
+      { metric: 'Total Coin Consumption per DAU', role: 'Economy', target: 'lift', mutedTarget: '≥5%', metricHelp: 'total-coin-consumption' },
       {
         metric: 'Target Selection Rate',
         role: 'Feature funnel',
         target: 'adoption',
         mutedTarget: '≥30% of eligible DAU',
+        metricHelp: 'target-selection-rate',
       },
       {
         metric: 'First-Chest Conversion',
         role: 'Feature funnel',
         target: 'activation',
         mutedTarget: '≥65% of players who adopted',
+        metricHelp: 'first-chest-conversion',
       },
       {
         metric: 'Bounty Completion Rate',
@@ -100,8 +106,12 @@ export const METRIC_GROUPS: readonly MetricGroup[] = [
 
 export const TOOLTIP_NOTES = {
   'test-methodology': 'Event duration, post-event measurement window and target numbers (currently directional) would be calibrated using internal data and comparable LiveOps events.',
-  'feature-funnel': 'Ensures the guarantee provides value without becoming too easy.',
+  'feature-funnel': 'Catches a guarantee that fires too rarely to matter, or often enough to cheapen it.',
   'arppu-payer-tier': 'Shows whether revenue lift comes from deeper payer spend and which tiers drive it.',
+  'chest-coin-spend': 'Shows whether the target and meter convert into actual Chest purchases.',
+  'total-coin-consumption': 'Separates a real increase in Coin sink from spend shifted off other sinks.',
+  'target-selection-rate': 'Shows whether players opt into the event at all, before any spend question.',
+  'first-chest-conversion': 'Locates the drop between picking a target and buying the first Chest.',
   'collections-completed': 'Detects excessive acceleration of Collection completion and reward release.',
   'village-upgrades': 'Detects whether additional Chest spending cannibalizes core Village progression.',
   'post-event-chest-spend': 'Detects whether the event shifts Chest spend rather than lifting it.',
@@ -112,6 +122,10 @@ export const TOOLTIP_LABELS = {
   'test-methodology': 'About A/B Test methodology',
   'feature-funnel': 'About Feature funnel',
   'arppu-payer-tier': 'About ARPPU by payer tier',
+  'chest-coin-spend': 'About Coin spend on Chests per DAU',
+  'total-coin-consumption': 'About Total Coin Consumption per DAU',
+  'target-selection-rate': 'About Target Selection Rate',
+  'first-chest-conversion': 'About First-Chest Conversion',
   'collections-completed': 'About Card Collections Completed per Player',
   'village-upgrades': 'About Village Upgrades per Player',
   'post-event-chest-spend': 'About Post-Event Coin Spend on Chests per Player',

@@ -759,7 +759,7 @@ it('renders Feature Validation as a role-pill experiment table with contextual f
   ])
   expect(tooltips.map((tooltip) => tooltip.textContent)).toEqual([
     'Event duration, post-event measurement window and target numbers (currently directional) would be calibrated using internal data and comparable LiveOps events.',
-    'Ensures the guarantee provides value without becoming too easy.',
+    'Catches a guarantee that fires too rarely to matter, or often enough to cheapen it.',
   ])
   tooltips.forEach((tooltip) => {
     expect(tooltip.className).toContain('fixed')
@@ -845,7 +845,7 @@ it('adds explanatory tooltips to supporting and guardrail metrics', () => {
   })
 
   const alignedHelp = Array.from(validation.querySelectorAll('[data-metric-help]'))
-  expect(alignedHelp).toHaveLength(6)
+  expect(alignedHelp).toHaveLength(10)
   alignedHelp.forEach((wrapper) => {
     expect(wrapper.className).toContain('grid-cols-[minmax(0,1fr)_14px]')
     expect(wrapper.className).toContain('w-full')
