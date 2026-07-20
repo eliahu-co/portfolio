@@ -183,15 +183,17 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                         key={key}
                         data-active={columnIsActive ? 'true' : 'false'}
                         className={classNames(
-                          'px-2 py-2 text-center transition-[background-color] duration-300 motion-reduce:transition-none',
+                          'p-0 text-center transition-[background-color] duration-300 motion-reduce:transition-none',
                           columnIsActive && 'bg-cm-gold/45',
                         )}
                       >
+                        {/* fills the cell: the hover handlers live here, so a
+                            narrow button would leave most of the cell inert */}
                         <button
                           {...scoreControlProps(rowIndex, key)}
                           aria-label={`${row.useCase}: ${definition.title} score ${score}`}
                           className={classNames(
-                            'mx-auto grid h-11 w-12 place-items-center border-0 bg-transparent font-sans text-[18px] font-medium tabular-nums text-charcoal transition-[font-size,color] duration-300 motion-reduce:transition-none hover:text-cm-crimson focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-[#1E7BA8]',
+                            'grid min-h-[60px] w-full place-items-center border-0 bg-transparent px-2 py-2 font-sans text-[18px] font-medium tabular-nums text-charcoal transition-[font-size,color] duration-300 motion-reduce:transition-none hover:text-cm-crimson focus-visible:outline focus-visible:outline-3 focus-visible:-outline-offset-2 focus-visible:outline-[#1E7BA8]',
                             cellIsActive && 'text-[20px] font-black text-cm-crimson',
                           )}
                         >
@@ -203,7 +205,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                   <td
                     data-active={active?.criterion === 'total' ? 'true' : 'false'}
                     className={classNames(
-                      'px-3 py-2 text-center transition-[background-color] duration-300 motion-reduce:transition-none',
+                      'p-0 text-center transition-[background-color] duration-300 motion-reduce:transition-none',
                       active?.criterion === 'total' && 'bg-cm-gold/45',
                     )}
                   >
@@ -211,7 +213,7 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                       {...scoreControlProps(rowIndex, 'total')}
                       aria-label={`${row.useCase}: total opportunity score ${Math.round(row.total)}`}
                       className={classNames(
-                        'mx-auto grid h-11 w-12 place-items-center border-0 bg-transparent font-sans text-[18px] font-black tabular-nums text-cm-crimson transition-[font-size,color] duration-300 motion-reduce:transition-none hover:text-cm-violet-deep focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-[#1E7BA8]',
+                        'grid min-h-[60px] w-full place-items-center border-0 bg-transparent px-3 py-2 font-sans text-[18px] font-black tabular-nums text-cm-crimson transition-[font-size,color] duration-300 motion-reduce:transition-none hover:text-cm-violet-deep focus-visible:outline focus-visible:outline-3 focus-visible:-outline-offset-2 focus-visible:outline-[#1E7BA8]',
                         active?.row === rowIndex && active.criterion === 'total' && 'text-[20px] font-black',
                       )}
                     >

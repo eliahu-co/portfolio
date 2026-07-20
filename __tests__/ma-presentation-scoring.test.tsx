@@ -43,6 +43,22 @@ describe('MA presentation decision chapter', () => {
     expect(inactive).not.toHaveClass('opacity-20')
   })
 
+  it('makes the whole score cell the hover target, not just the number', () => {
+    const { container } = render(<Slide13ComparativeScoring slideKey="slide-10" />)
+    const cells = Array.from(container.querySelectorAll('tbody td'))
+    expect(cells.length).toBeGreaterThan(0)
+
+    cells.forEach((cell) => {
+      const button = cell.querySelector('button')!
+      // the button carries the hover handlers, so it has to fill the cell —
+      // a fixed-width island leaves most of the cell inert
+      expect(button.className).toContain('w-full')
+      expect(button.className).not.toMatch(/(^|\s)w-12(\s|$)/)
+      // padding lives on the button, so no dead ring is left inside the cell
+      expect(cell.className).toMatch(/(^|\s)p-0(\s|$)/)
+    })
+  })
+
   it('reveals scoring rationale from the comparative table', () => {
     const { container, rerender } = render(<Slide13ComparativeScoring slideKey="slide-10" />)
     const button = screen.getByRole('button', { name: /Hot Trail: Core-Loop Fit score 5/i })
@@ -133,7 +149,8 @@ describe('MA presentation decision chapter', () => {
     const score = screen.getByRole('button', { name: /Hot Trail: Core-Loop Fit score 5/i })
 
     expect(winner).toHaveClass('bg-cm-gold/20')
-    expect(score).toHaveClass('h-11', 'w-12')
+    // spans the cell while keeping a comfortable minimum target height
+    expect(score).toHaveClass('w-full', 'min-h-[60px]')
     expect(score.className).not.toMatch(/underline/)
     fireEvent.mouseEnter(hotTrail)
     expect(winner).not.toHaveClass('bg-cm-gold/20')
