@@ -65,6 +65,8 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
   const [hoveredHeader, setHoveredHeader] = useState<Exclude<CriterionKey, 'total'> | null>(null)
   const active = focused ?? hovered
   const activeRow = hoveredRow ?? active?.row ?? null
+  // whichever column is under the cursor, whether via a cell or the header itself
+  const activeCriterion: CriterionKey | null = active?.criterion ?? hoveredHeader ?? null
   const reset = useCallback(() => {
     setHovered(null)
     setFocused(null)
@@ -106,7 +108,16 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
         >
           <thead>
             <tr className="border-b-2 border-cm-wood">
-              <th scope="col" className="w-[20%] px-5 py-3 font-sans text-[12px] font-extrabold uppercase tracking-[0.1em] text-charcoal">
+              {/* headers dim alongside the rows, so the live column is the only
+                  one left at full strength — no fill needed to mark it */}
+              <th
+                scope="col"
+                data-active="false"
+                className={classNames(
+                  'w-[20%] px-5 py-3 font-sans text-[12px] font-extrabold uppercase tracking-[0.1em] text-charcoal transition-opacity duration-300 motion-reduce:transition-none',
+                  activeCriterion !== null ? 'opacity-20' : 'opacity-100',
+                )}
+              >
                 Feature
               </th>
               {CRITERIA.map(({ key, definition }) => {
@@ -118,8 +129,8 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
                     data-testid={`score-column-${key}`}
                     data-active={columnIsActive ? 'true' : 'false'}
                     className={classNames(
-                      'w-[16%] px-2 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-[background-color] duration-300 motion-reduce:transition-none',
-                      columnIsActive && 'bg-cm-gold/45',
+                      'w-[16%] px-2 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-opacity duration-300 motion-reduce:transition-none',
+                      activeCriterion !== null && !columnIsActive ? 'opacity-20' : 'opacity-100',
                     )}
                   >
                     <button type="button" aria-label={`Explain ${definition.title}`} data-deck-interactive="true" onMouseEnter={() => setHoveredHeader(key)} onMouseLeave={() => setHoveredHeader(null)} onFocus={() => setHoveredHeader(key)} onBlur={() => setHoveredHeader(null)} className="w-full border-0 bg-transparent font-inherit text-inherit">
@@ -131,10 +142,10 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
               <th
                 scope="col"
                 data-testid="score-column-total"
-                data-active={active?.criterion === 'total' ? 'true' : 'false'}
+                data-active={activeCriterion === 'total' ? 'true' : 'false'}
                 className={classNames(
-                  'w-[16%] px-3 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-[background-color] duration-300 motion-reduce:transition-none',
-                  active?.criterion === 'total' && 'bg-cm-gold/45',
+                  'w-[16%] px-3 py-3 text-center font-sans text-[12px] font-extrabold uppercase tracking-[0.08em] text-charcoal transition-opacity duration-300 motion-reduce:transition-none',
+                  activeCriterion !== null && activeCriterion !== 'total' ? 'opacity-20' : 'opacity-100',
                 )}
               >
                 Total
@@ -229,25 +240,22 @@ export function ScoreMatrix({ slideKey }: ScoreMatrixProps) {
 
       <div
         data-testid="score-disclosure-region"
-        className="mt-8 grid h-[200px] grid-rows-[144px_56px]"
+        className="mt-8 h-[200px]"
       >
+        {/* one slot: the formula is the resting state and each explanation
+            replaces it in place, so nothing shifts as you move across the table */}
         <section
           id="comparative-score-detail"
           role="status"
           aria-label="Score detail"
-          className="h-[144px] overflow-hidden font-sans text-[13px] leading-snug text-[#1A1A1A]"
+          className="h-[200px] overflow-hidden font-sans text-[13px] leading-snug text-[#1A1A1A]"
         >
-          {hoveredHeader ? <p>{CRITERIA.find(({ key }) => key === hoveredHeader)!.definition.body}</p> : active ? <ExactRationale active={active} /> : null}
+          {hoveredHeader
+            ? <p>{CRITERIA.find(({ key }) => key === hoveredHeader)!.definition.body}</p>
+            : active
+              ? <ExactRationale active={active} />
+              : <DecisionSummary />}
         </section>
-        <div
-          data-testid="score-decision-summary"
-          className={classNames(
-            'h-[56px] overflow-hidden transition-opacity duration-300 motion-reduce:transition-none',
-            active ? 'opacity-20' : 'opacity-100',
-          )}
-        >
-          <DecisionSummary />
-        </div>
       </div>
 
       <PrintDetails

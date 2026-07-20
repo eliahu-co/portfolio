@@ -56,5 +56,7 @@ export const SCORE_ROWS: readonly ScoreRow[] = [
   { useCase: 'Hometown', scores: [4, 3, 3, 4], total: 9.0 },
 ] as const
 
+// Named for the column it produces, which both the report table and the deck
+// label "Total".
 export const OPPORTUNITY_SCORE_FORMULA =
-  'Opportunity Score = (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort'
+  'Total = (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort'

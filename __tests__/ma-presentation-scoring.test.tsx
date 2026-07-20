@@ -43,6 +43,23 @@ describe('MA presentation decision chapter', () => {
     expect(inactive).not.toHaveClass('opacity-20')
   })
 
+  it('fades every header but the live column, without filling it', () => {
+    const { container } = render(<Slide13ComparativeScoring slideKey="slide-10" />)
+    const headers = () => Array.from(container.querySelectorAll('thead th'))
+    const live = () => screen.getByTestId('score-column-coreLoopFit')
+
+    headers().forEach((h) => expect(h).toHaveClass('opacity-100'))
+
+    fireEvent.mouseEnter(screen.getByRole('button', { name: /Hot Trail: Core-Loop Fit score 5/i }))
+    expect(live()).toHaveClass('opacity-100')
+    headers().filter((h) => h !== live()).forEach((h) => expect(h).toHaveClass('opacity-20'))
+    // not-faded is the whole signal — no gold fill on any header
+    headers().forEach((h) => expect(h.className).not.toMatch(/bg-cm-gold/))
+
+    fireEvent.mouseLeave(screen.getByRole('button', { name: /Hot Trail: Core-Loop Fit score 5/i }))
+    headers().forEach((h) => expect(h).toHaveClass('opacity-100'))
+  })
+
   it('makes the whole score cell the hover target, not just the number', () => {
     const { container } = render(<Slide13ComparativeScoring slideKey="slide-10" />)
     const cells = Array.from(container.querySelectorAll('tbody td'))
@@ -91,13 +108,15 @@ describe('MA presentation decision chapter', () => {
     render(<Slide13ComparativeScoring slideKey="slide-10" />)
     const region = screen.getByTestId('score-disclosure-region')
     const detail = screen.getByRole('status', { name: 'Score detail' })
-    const summary = screen.getByTestId('score-decision-summary')
 
-    expect(region).toHaveClass('grid', 'h-[200px]', 'grid-rows-[144px_56px]')
-    expect(detail).toHaveClass('h-[144px]', 'overflow-hidden')
+    // one fixed slot: the formula and every explanation share it, so the
+    // region cannot change height as the pointer moves
+    expect(region).toHaveClass('h-[200px]')
+    expect(region.className).not.toMatch(/grid-rows-/)
+    expect(detail).toHaveClass('h-[200px]', 'overflow-hidden')
     expect(detail.className).not.toMatch(/border-l-/)
-    expect(summary).toHaveClass('h-[56px]', 'overflow-hidden', 'transition-opacity', 'duration-300')
-    expect(screen.getByTestId('score-column-coreLoopFit')).toHaveClass('transition-[background-color]', 'duration-300')
+    expect(screen.queryByTestId('score-decision-summary')).not.toBeInTheDocument()
+    expect(screen.getByTestId('score-column-coreLoopFit')).toHaveClass('transition-opacity', 'duration-300')
     const winner = document.querySelector('[data-score-row="Card Bounty"]')
     expect(winner).toHaveClass('transition-[background-color,opacity]', 'duration-300')
     expect(winner).not.toHaveClass('animate-shimmer')
@@ -118,22 +137,23 @@ describe('MA presentation decision chapter', () => {
   it('keeps the disclosure region quiet until a score is active', () => {
     const { container } = render(<Slide13ComparativeScoring slideKey="slide-10" />)
     const detail = screen.getByRole('status', { name: 'Score detail' })
-    const summary = screen.getByTestId('score-decision-summary')
 
     expect(within(detail).queryByTestId('score-default-detail')).not.toBeInTheDocument()
     expect(detail).not.toHaveTextContent('Highest opportunity')
     expect(detail).not.toHaveTextContent('The strongest combination of ARPDAU impact')
     expect(detail.className).not.toMatch(/border-l-|pl-5/)
-    expect(summary).toHaveClass('opacity-100')
-    expect(summary).not.toHaveTextContent('Relative comparison:')
-    expect(summary).not.toHaveTextContent('Card Bounty leads because')
+    // at rest the slot holds the formula
+    expect(within(detail).getByTestId('score-formula')).toBeVisible()
+    expect(detail).not.toHaveTextContent('Relative comparison:')
+    expect(detail).not.toHaveTextContent('Card Bounty leads because')
 
     fireEvent.focus(screen.getByRole('button', { name: /Hot Trail: Core-Loop Fit score 5/i }))
     expect(within(detail).queryByTestId('score-default-detail')).not.toBeInTheDocument()
     expect(detail.className).not.toMatch(/border-l-|pl-5/)
     expect(within(detail).queryByTestId('score-rubric-item')).not.toBeInTheDocument()
     expect(detail).not.toHaveTextContent('Directly reinforces the existing core or meta loop.')
-    expect(summary).toHaveClass('opacity-20')
+    // the explanation replaces the formula in the same slot
+    expect(within(detail).queryByTestId('score-formula')).not.toBeInTheDocument()
     container.querySelectorAll('[class*="transition-"]').forEach((element) => {
       expect(element).toHaveClass('motion-reduce:transition-none')
     })

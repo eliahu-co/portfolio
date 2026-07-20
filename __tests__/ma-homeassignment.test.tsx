@@ -505,7 +505,7 @@ it('exposes scoring definitions through accessible table-header tooltips', () =>
   render(<MAHomeAssignmentPage />)
   const section = document.getElementById('prioritization')!
   const formula = Array.from(section.querySelectorAll('p')).find((node) =>
-    node.textContent?.startsWith('Opportunity Score =')
+    node.textContent?.startsWith('Total =')
   )!
   const calculationSummary = Array.from(section.querySelectorAll('p')).find((node) =>
     node.textContent?.startsWith('The calculation favors opportunities')

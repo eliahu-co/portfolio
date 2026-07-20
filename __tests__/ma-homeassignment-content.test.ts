@@ -77,7 +77,7 @@ describe('MA Home Assignment canonical content', () => {
       { useCase: 'Hometown', scores: [4, 3, 3, 4], total: 9 },
     ])
     expect(OPPORTUNITY_SCORE_FORMULA).toBe(
-      'Opportunity Score = (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort',
+      'Total = (ARPDAU Impact × Core-Loop Fit × Confidence) ÷ Effort',
     )
   })
 
