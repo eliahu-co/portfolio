@@ -45,18 +45,21 @@ export type SlideDefinition = {
   readonly title: string
   readonly shortTitle: string
   readonly chapter: SlideChapter
+  // Opt a slide out of the closing menu: the cover, and the feature intros that
+  // only set up the slide following them, are not worth revisiting on their own.
+  readonly closingMenu?: false
   readonly Component: ComponentType<PresentationSlideProps>
 }
 
 export const slideRegistry = [
-  { id: 'slide-1', title: 'Increasing ARPDAU', shortTitle: 'Cover', chapter: 'Opening', Component: Slide01Cover },
+  { id: 'slide-1', title: 'Increasing ARPDAU', shortTitle: 'Cover', chapter: 'Opening', closingMenu: false, Component: Slide01Cover },
   { id: 'slide-2', title: 'About', shortTitle: 'About', chapter: 'Opening', Component: Slide02About },
   { id: 'slide-3', title: 'Approach', shortTitle: 'Approach', chapter: 'Approach', Component: Slide03Approach },
-  { id: 'slide-4', title: 'A counter-Raid that turns a loss into a reason to return and Spin', shortTitle: 'Feature 1', chapter: 'Three bets', Component: SlideFeature1Intro },
+  { id: 'slide-4', title: 'A counter-Raid that turns a loss into a reason to return and Spin', shortTitle: 'Feature 1', chapter: 'Three bets', closingMenu: false, Component: SlideFeature1Intro },
   { id: 'slide-5', title: 'Hot Trail', shortTitle: 'Hot Trail', chapter: 'Three bets', Component: Slide10HotTrailThesis },
-  { id: 'slide-6', title: 'A visible path to a chosen Card through buying Chests', shortTitle: 'Feature 2', chapter: 'Three bets', Component: SlideFeature2Intro },
+  { id: 'slide-6', title: 'A visible path to a chosen Card through buying Chests', shortTitle: 'Feature 2', chapter: 'Three bets', closingMenu: false, Component: SlideFeature2Intro },
   { id: 'slide-7', title: 'Card Bounty', shortTitle: 'Card Bounty', chapter: 'Three bets', Component: Slide08CardBountyThesis },
-  { id: 'slide-8', title: 'A customizable town built from unlocked Villages items', shortTitle: 'Feature 3', chapter: 'Three bets', Component: SlideFeature3Intro },
+  { id: 'slide-8', title: 'A customizable town built from unlocked Villages items', shortTitle: 'Feature 3', chapter: 'Three bets', closingMenu: false, Component: SlideFeature3Intro },
   { id: 'slide-9', title: 'Hometown', shortTitle: 'Hometown', chapter: 'Three bets', Component: Slide06HometownThesis },
   { id: 'slide-10', title: 'Score', shortTitle: 'Score', chapter: 'Decision', Component: Slide13ComparativeScoring },
   { id: 'slide-11', title: 'Expanded player flow', shortTitle: 'Player flow', chapter: 'Player flow', Component: Slide15PlayerFlow },
@@ -72,9 +75,9 @@ export const slideRegistry = [
 
 export const slideCount = slideRegistry.length
 
-// The closing slide lists every slide in the deck so the audience can jump
-// straight to whichever one they want to revisit. The closing slide itself is
-// left out — it is where the reader already is.
+// The closing slide lists the slides worth jumping back to, so the audience can
+// revisit one directly. The closing slide itself is left out — it is where the
+// reader already is — along with anything marked `closingMenu: false`.
 export const closingMenuTargets: readonly ClosingMenuTarget[] = slideRegistry
-  .filter((slide) => slide.chapter !== 'Closing')
+  .filter((slide) => slide.chapter !== 'Closing' && slide.closingMenu !== false)
   .map((slide) => ({ label: slide.shortTitle, href: `#${slide.id}` }))

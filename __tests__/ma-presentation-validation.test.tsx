@@ -157,16 +157,20 @@ describe('MA presentation validation chapter', () => {
     const { container } = render(<Slide21ThankYou slideKey="slide-18" />)
     expect(screen.getByRole('heading', { name: 'Thank you' })).toBeVisible()
 
-    // one link per slide, minus the closing slide the reader is already on
+    // a link per slide worth returning to — not the cover, feature intros, or this slide
     const links = screen.getAllByRole('link')
-    expect(links).toHaveLength(slideCount - 1)
+    expect(links).toHaveLength(slideCount - 5)
     expect(links.map((link) => link.getAttribute('href'))).toEqual(
-      slideRegistry.filter(({ chapter }) => chapter !== 'Closing').map(({ id }) => `#${id}`),
+      slideRegistry
+        .filter(({ chapter, closingMenu }) => chapter !== 'Closing' && closingMenu !== false)
+        .map(({ id }) => `#${id}`),
     )
-    expect(screen.getByRole('link', { name: 'Cover' })).toHaveAttribute('href', '#slide-1')
+    expect(screen.getByRole('link', { name: 'About' })).toHaveAttribute('href', '#slide-2')
     expect(screen.getByRole('link', { name: 'Score' })).toHaveAttribute('href', '#slide-10')
     expect(screen.getByRole('link', { name: 'Test plan' })).toHaveAttribute('href', '#slide-15')
-    expect(screen.queryByRole('link', { name: 'Thank you' })).not.toBeInTheDocument()
+    ;['Cover', 'Feature 1', 'Feature 2', 'Feature 3', 'Thank you'].forEach((label) => {
+      expect(screen.queryByRole('link', { name: label })).not.toBeInTheDocument()
+    })
     expect(container.querySelector('img[src="/coinmaster-sky.webp"]')).toBeInTheDocument()
     expect(container.querySelector('[data-celebration-layer="true"]')).toBeInTheDocument()
     expect(container.querySelectorAll('[data-confetti-piece="true"]')).toHaveLength(18)

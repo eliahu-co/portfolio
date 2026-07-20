@@ -33,15 +33,33 @@ describe('MA presentation registry', () => {
     expect(screen.getByRole('heading', { name: statement })).toHaveClass('font-serif', 'text-[64px]')
   })
 
-  it('offers the closing navigation a link to every slide but the closing one', () => {
-    expect(closingMenuTargets).toHaveLength(slideCount - 1)
-    expect(closingMenuTargets).toEqual(
-      slideRegistry
-        .filter(({ chapter }) => chapter !== 'Closing')
-        .map(({ shortTitle, id }) => ({ label: shortTitle, href: `#${id}` })),
-    )
-    expect(closingMenuTargets.map(({ label }) => label)).not.toContain('Thank you')
+  it('offers the closing navigation the slides worth returning to', () => {
+    expect(closingMenuTargets).toEqual([
+      { label: 'About', href: '#slide-2' },
+      { label: 'Approach', href: '#slide-3' },
+      { label: 'Hot Trail', href: '#slide-5' },
+      { label: 'Card Bounty', href: '#slide-7' },
+      { label: 'Hometown', href: '#slide-9' },
+      { label: 'Score', href: '#slide-10' },
+      { label: 'Player flow', href: '#slide-11' },
+      { label: 'MVP', href: '#slide-12' },
+      { label: 'MVP scope', href: '#slide-13' },
+      { label: 'Prototype', href: '#slide-14' },
+      { label: 'Test plan', href: '#slide-15' },
+      { label: 'A/B test', href: '#slide-16' },
+      { label: 'Metrics', href: '#slide-17' },
+      { label: 'Assumptions', href: '#slide-18' },
+    ])
+
+    // the cover, the three feature intros and the closing slide stay out of it
+    const labels = closingMenuTargets.map(({ label }) => label)
+    expect(labels).not.toContain('Cover')
+    expect(labels).not.toContain('Feature 1')
+    expect(labels).not.toContain('Feature 2')
+    expect(labels).not.toContain('Feature 3')
+    expect(labels).not.toContain('Thank you')
+    expect(closingMenuTargets).toHaveLength(slideCount - 5)
     // labels double as the accessible name for each link, so they must be unique
-    expect(new Set(closingMenuTargets.map(({ label }) => label)).size).toBe(closingMenuTargets.length)
+    expect(new Set(labels).size).toBe(closingMenuTargets.length)
   })
 })
