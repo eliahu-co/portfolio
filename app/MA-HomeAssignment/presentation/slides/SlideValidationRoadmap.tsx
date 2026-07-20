@@ -20,6 +20,12 @@ const VALIDATION_ROADMAP = [
     primary: false,
   },
   {
+    title: 'Chest Tier Weighting',
+    description: 'Increase the Magical Chest contribution to test whether stronger progress shifts Coin spend toward the highest-value Chest.',
+    image: '/coinmaster/resources/chest-tier-weighting.png',
+    primary: false,
+  },
+  {
     title: 'Multiple Milestones',
     description: 'Compare one final guarantee with intermediate meter milestones to test whether visible progress sustains Chest purchasing without over-accelerating rewards.',
     image: '/coinmaster/resources/card-bounty-milestone-meter.png',
@@ -29,12 +35,6 @@ const VALIDATION_ROADMAP = [
     title: 'Paid Progress Carryover',
     description: 'Test whether spending Gems to preserve progress after selecting a new target creates incremental Gem demand without weakening participation.',
     image: '/coinmaster/resources/keep-progress-button.png',
-    primary: false,
-  },
-  {
-    title: 'Chest Tier Weighting',
-    description: 'Increase the Magical Chest contribution to test whether stronger progress shifts Coin spend toward the highest-value Chest.',
-    image: '/coinmaster/resources/chest-tier-weighting.png',
     primary: false,
   },
 ] as const
@@ -53,7 +53,7 @@ export default function SlideValidationRoadmap({ slideKey }: OpeningSlideProps) 
   return (
     <SlideShell>
       <Eyebrow>Test Plan</Eyebrow>
-      <SlideTitle>What We Test Next</SlideTitle>
+      <SlideTitle>Validate, calibrate, evolve</SlideTitle>
 
       <div className="mt-7 max-w-[1120px] divide-y divide-charcoal/15">
         {VALIDATION_ROADMAP.map((test) => {

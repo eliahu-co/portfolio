@@ -19,7 +19,7 @@ describe('MA presentation registry', () => {
       'Expanded player flow',
       'Target-selection, Chest-progress, guarantee mechanics',
       'MVP scope', 'Interactive prototype',
-      'What We Test Next', 'A/B-test design', 'Success metrics and guardrails', 'Assumptions', 'Thank you',
+      'Validate, calibrate, evolve', 'A/B-test design', 'Success metrics and guardrails', 'Assumptions', 'Thank you',
     ])
   })
 
