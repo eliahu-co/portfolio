@@ -86,7 +86,7 @@ export function ArrowRight({ color = ARROW, width = 1 }: { color?: string; width
 
 // A thin arrow that stretches to fill the remaining column height, so success
 // terminals at different depths (Card acquired, Guaranteed Card) bottom out on
-// the same line and leave an equal gap above Collection Updated.
+// the same line and leave an equal gap above Bounty Completed.
 export function StretchArrow() {
   return (
     <div className="flex w-full flex-1 flex-col items-center justify-end pt-1" aria-hidden="true">
@@ -166,7 +166,7 @@ export function ResolutionBranches({ size = 'report' }: { size?: FlowSize }) {
           <BranchLabel size={size}>Yes</BranchLabel>
           <ArrowDown len={len} />
           <Pill title="Card acquired" size={size} />
-          {/* stretches down to Collection Updated */}
+          {/* stretches down to Bounty Completed */}
           <StretchArrow />
         </div>
         <div className="flex h-full flex-col items-center">
@@ -178,7 +178,7 @@ export function ResolutionBranches({ size = 'report' }: { size?: FlowSize }) {
               <BranchLabel size={size}>Yes</BranchLabel>
               <ArrowDown len={len} />
               <Pill title="Guaranteed Card" tone="highlight" size={size} />
-              {/* stretches down to Collection Updated (same gap as Card acquired) */}
+              {/* stretches down to Bounty Completed (same gap as Card acquired) */}
               <StretchArrow />
             </div>
             <div className="flex flex-col items-center">
@@ -190,7 +190,7 @@ export function ResolutionBranches({ size = 'report' }: { size?: FlowSize }) {
         </div>
       </div>
 
-      <Pill title="Collection Updated" size={size} />
+      <Pill title="Bounty Completed" size={size} />
       <Question size={size}>Collection completed?</Question>
       <div className={`grid grid-cols-2 items-start ${scale.colGap}`}>
         <div className="flex flex-col items-center">

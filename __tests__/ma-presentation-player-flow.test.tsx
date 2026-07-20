@@ -37,11 +37,11 @@ describe('MA presentation player flow', () => {
 
     fireEvent.focus(resolution)
     expect(resolution).toHaveAttribute('aria-expanded', 'true')
-    expect(screen.getByText('Collection Updated')).toBeVisible()
+    expect(screen.getByText('Bounty Completed')).toBeVisible()
     expect(screen.getByText('Receive Spins')).toBeVisible()
 
     fireEvent.blur(resolution)
     expect(resolution).toHaveAttribute('aria-expanded', 'false')
-    expect(screen.queryByText('Collection Updated')).not.toBeInTheDocument()
+    expect(screen.queryByText('Bounty Completed')).not.toBeInTheDocument()
   })
 })
