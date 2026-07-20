@@ -84,7 +84,7 @@ export function ValidationTable({
                   data-active-row={selected ? 'true' : 'false'}
                   onMouseEnter={() => setHovered(selection)}
                   onMouseLeave={() => setHovered(null)}
-                  className={`h-10 border-b border-charcoal/15 transition-opacity duration-300 motion-reduce:transition-none ${active && !selected ? 'opacity-20' : 'opacity-100'}`}
+                  className={`h-10 border-b border-charcoal/15 transition-opacity duration-300 last:border-b-0 motion-reduce:transition-none ${active && !selected ? 'opacity-20' : 'opacity-100'}`}
                 >
                   <td className="pr-4">
                     <button

@@ -91,6 +91,17 @@ describe('MA presentation validation chapter', () => {
     expect(detail).toHaveTextContent(/Event duration/i)
   })
 
+  it('closes the table with a single rule, not the row border plus the rail border', () => {
+    const { container } = render(<Slide19Metrics slideKey="slide-17" />)
+    const rows = Array.from(container.querySelectorAll('tbody tr'))
+    const detail = screen.getByRole('status', { name: 'Metric detail' })
+
+    // the detail rail's top border is the closing line, so the last row drops its own
+    expect(rows[rows.length - 1]).toHaveClass('last:border-b-0')
+    expect(detail).toHaveClass('border-t')
+    rows.slice(0, -1).forEach((row) => expect(row).toHaveClass('border-b'))
+  })
+
   it('activates a metric from anywhere in its row, not just the metric column', () => {
     const { container } = render(<Slide19Metrics slideKey="slide-17" />)
     const detail = screen.getByRole('status', { name: 'Metric detail' })
