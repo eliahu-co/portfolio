@@ -76,7 +76,7 @@ export default function PresentationPage() {
             Desktop only
           </p>
           <p className="max-w-[320px] text-[15px] leading-relaxed text-charcoal">
-            The presentation needs a wider screen. The written assignment reads well here.
+            The presentation needs a bigger screen. Check out the written assignment instead.
           </p>
           <a
             href="/MA-HomeAssignment"
