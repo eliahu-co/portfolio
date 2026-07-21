@@ -38,7 +38,7 @@ const RESEARCH_SCREENSHOTS = [
 
 const BENCHMARK_SCREENSHOTS = [
   { label: 'Royal Match', src: '/coinmaster/benchmark/benchmark-cauldron.webp', alt: 'Royal Match Magic Cauldron game mechanic benchmark' },
-  { label: 'Monopoly GO!', src: '/coinmaster/benchmark/benchmark-community-chest.webp', alt: 'Monopoly GO! Community Chest cooperative mechanic benchmark' },
+  { label: 'Monopoly GO!', src: '/coinmaster/benchmark/benchmark-styletoken.webp', alt: 'Monopoly GO! Style Token cosmetic collection benchmark' },
   { label: 'Dice Dreams', src: '/coinmaster/benchmark/benchmark-diner.webp', alt: 'Dice Dreams timed collection mini-game benchmark' },
 ] as const
 
