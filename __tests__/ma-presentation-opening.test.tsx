@@ -369,6 +369,21 @@ describe('MA presentation opening chapter', () => {
     // height drives the row, so no fixed pixel cap sneaks back onto an image
     expect(research.innerHTML).not.toMatch(/max-h-\[/)
     expect(benchmark.innerHTML).not.toMatch(/max-h-\[/)
+
+    // hovering one capture holds it and dims its peers, in both rows
+    ;[researchFigures, benchmarkFigures].forEach((figures) => {
+      fireEvent.mouseEnter(figures[1])
+      expect(figures[1]).toHaveClass('opacity-100')
+      expect(figures[1]).toHaveAttribute('data-screenshot-active', 'true')
+      figures
+        .filter((_, index) => index !== 1)
+        .forEach((peer) => {
+          expect(peer).toHaveClass('opacity-20')
+          expect(peer).toHaveAttribute('data-screenshot-active', 'false')
+        })
+      fireEvent.mouseLeave(figures[1])
+      figures.forEach((figure) => expect(figure).toHaveClass('opacity-100'))
+    })
     approach.unmount()
   })
 

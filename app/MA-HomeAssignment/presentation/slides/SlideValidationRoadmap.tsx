@@ -39,13 +39,38 @@ const VALIDATION_ROADMAP = [
   },
 ] as const
 
+/**
+ * The title is the roadmap's own summary: each word names a stage, and the rows
+ * below are what that stage actually tests. Hovering a word holds it and its
+ * tests and drops everything else, so the grouping the sentence implies can be
+ * seen rather than inferred. Every row belongs to exactly one word.
+ */
+const ROADMAP_STAGES = [
+  { word: 'Validate', tests: ['Feature Validation'] },
+  { word: 'calibrate', tests: ['Meter Goal Calibration', 'Chest Tier Weighting'] },
+  { word: 'evolve', tests: ['Multiple Milestones', 'Paid Progress Carryover'] },
+] as const
+
+type Stage = (typeof ROADMAP_STAGES)[number]['word']
+
 export default function SlideValidationRoadmap({ slideKey }: OpeningSlideProps) {
   const [hovered, setHovered] = useState<string | null>(null)
   const [focused, setFocused] = useState<string | null>(null)
-  const active = focused ?? hovered
+  const [hoveredStage, setHoveredStage] = useState<Stage | null>(null)
+  const [focusedStage, setFocusedStage] = useState<Stage | null>(null)
+  const activeRow = focused ?? hovered
+  const activeStage = focusedStage ?? hoveredStage
+  // a stage lights its whole group; a row on its own lights only itself
+  const activeTests = activeStage
+    ? ROADMAP_STAGES.find((stage) => stage.word === activeStage)!.tests
+    : activeRow
+      ? [activeRow]
+      : []
   const reset = useCallback(() => {
     setHovered(null)
     setFocused(null)
+    setHoveredStage(null)
+    setFocusedStage(null)
   }, [])
 
   useDeckReset(reset, slideKey)
@@ -53,12 +78,41 @@ export default function SlideValidationRoadmap({ slideKey }: OpeningSlideProps) 
   return (
     <SlideShell>
       <Eyebrow>Test Plan</Eyebrow>
-      <SlideTitle>Validate, calibrate, evolve</SlideTitle>
+      {/* splitting the sentence into buttons makes the accessible name assemble
+          from three separate nodes, so it is stated here to stay one sentence */}
+      <SlideTitle aria-label="Validate, calibrate, evolve">
+        {ROADMAP_STAGES.map((stage, index) => (
+          <span key={stage.word}>
+            {/* the separators belong to no stage, so they recede with the sentence */}
+            {index > 0 ? (
+              <span
+                data-roadmap-separator="true"
+                className={`transition-opacity duration-300 motion-reduce:transition-none ${activeStage ? 'opacity-20' : 'opacity-100'}`}
+              >
+                {', '}
+              </span>
+            ) : null}
+            <button
+              type="button"
+              data-deck-interactive="true"
+              data-roadmap-stage={stage.word}
+              data-stage-active={activeStage === stage.word ? 'true' : 'false'}
+              className={`border-0 bg-transparent p-0 font-serif font-black leading-[inherit] tracking-[inherit] text-inherit transition-opacity duration-300 motion-reduce:transition-none focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-[#1E7BA8] ${activeStage && activeStage !== stage.word ? 'opacity-20' : 'opacity-100'}`}
+              onMouseEnter={() => setHoveredStage(stage.word)}
+              onMouseLeave={() => setHoveredStage((current) => (current === stage.word ? null : current))}
+              onFocus={() => setFocusedStage(stage.word)}
+              onBlur={() => setFocusedStage((current) => (current === stage.word ? null : current))}
+            >
+              {stage.word}
+            </button>
+          </span>
+        ))}
+      </SlideTitle>
 
       <div className="mt-7 max-w-[1120px] divide-y divide-charcoal/15">
         {VALIDATION_ROADMAP.map((test) => {
-          const selected = active === test.title
-          const faded = active !== null && !selected
+          const selected = (activeTests as readonly string[]).includes(test.title)
+          const faded = activeTests.length > 0 && !selected
 
           return (
             <button

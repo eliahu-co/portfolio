@@ -213,6 +213,65 @@ describe('MA presentation validation chapter', () => {
     rows.forEach((row) => expect(row).toHaveClass('opacity-100'))
   })
 
+  // The title names the three stages, and each row belongs to one of them.
+  // Hovering a word is what makes that grouping visible, so the pairing is
+  // pinned here rather than left to whichever rows happen to sit together.
+  it('groups the roadmap rows under the title word that names their stage', () => {
+    const { container } = render(<SlideValidationRoadmap slideKey="slide-17" />)
+    const rows = container.querySelectorAll('[data-validation-roadmap-test]')
+    const stage = (word: string) => container.querySelector(`[data-roadmap-stage="${word}"]`)!
+    const words = [...container.querySelectorAll('[data-roadmap-stage]')]
+
+    expect(words.map((word) => word.textContent)).toEqual(['Validate', 'calibrate', 'evolve'])
+    // the sentence still reads as one line, commas and all
+    expect(container.querySelector('h2')).toHaveTextContent('Validate, calibrate, evolve')
+
+    const litRows = () =>
+      [...rows].filter((row) => row.classList.contains('opacity-100')).map((row) => row.getAttribute('data-validation-roadmap-test'))
+
+    fireEvent.mouseEnter(stage('Validate'))
+    expect(litRows()).toEqual(['Feature Validation'])
+    expect(stage('Validate')).toHaveClass('opacity-100')
+    expect(stage('calibrate')).toHaveClass('opacity-20')
+    expect(stage('evolve')).toHaveClass('opacity-20')
+    fireEvent.mouseLeave(stage('Validate'))
+
+    fireEvent.mouseEnter(stage('calibrate'))
+    expect(litRows()).toEqual(['Meter Goal Calibration', 'Chest Tier Weighting'])
+    expect(stage('Validate')).toHaveClass('opacity-20')
+    fireEvent.mouseLeave(stage('calibrate'))
+
+    fireEvent.mouseEnter(stage('evolve'))
+    expect(litRows()).toEqual(['Multiple Milestones', 'Paid Progress Carryover'])
+    fireEvent.mouseLeave(stage('evolve'))
+
+    // leaving the title restores every row and every word
+    expect(litRows()).toHaveLength(5)
+    words.forEach((word) => expect(word).toHaveClass('opacity-100'))
+
+    // keyboard users get the same grouping
+    fireEvent.focus(stage('evolve'))
+    expect(litRows()).toEqual(['Multiple Milestones', 'Paid Progress Carryover'])
+    fireEvent.blur(stage('evolve'))
+    expect(litRows()).toHaveLength(5)
+  })
+
+  it('covers every roadmap row with exactly one title stage', () => {
+    const { container } = render(<SlideValidationRoadmap slideKey="slide-17" />)
+    const rows = [...container.querySelectorAll('[data-validation-roadmap-test]')].map((row) =>
+      row.getAttribute('data-validation-roadmap-test'),
+    )
+    const grouped = [...container.querySelectorAll('[data-roadmap-stage]')].flatMap((word) => {
+      fireEvent.mouseEnter(word)
+      const lit = [...container.querySelectorAll('[data-validation-roadmap-test]')]
+        .filter((row) => row.classList.contains('opacity-100'))
+        .map((row) => row.getAttribute('data-validation-roadmap-test'))
+      fireEvent.mouseLeave(word)
+      return lit
+    })
+    expect([...grouped].sort()).toEqual([...rows].sort())
+  })
+
   it('closes with a plain link to every slide in the deck', () => {
     const { container } = render(<Slide21ThankYou slideKey="slide-18" />)
     expect(screen.getByRole('heading', { name: 'Thank you' })).toBeVisible()

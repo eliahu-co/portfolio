@@ -41,13 +41,20 @@ type EvidenceScreenshot = {
  *   keeps this height and the row width compatible as screenshots change.
  */
 function EvidenceScreenshotRow({ kind, screenshots }: { kind: 'research' | 'benchmark'; screenshots: readonly EvidenceScreenshot[] }) {
+  // hovering one capture holds it and dims the rest, the same way hovering a
+  // concept works in the Create panel
+  const [active, setActive] = useState<string | null>(null)
+
   return (
     <>
       {screenshots.map((screenshot) => (
         <figure
           key={screenshot.src}
           {...{ [`data-${kind}-screenshot`]: 'true' }}
-          className="m-0 flex shrink-0 flex-col items-center gap-2"
+          data-screenshot-active={active === screenshot.src ? 'true' : 'false'}
+          onMouseEnter={() => setActive(screenshot.src)}
+          onMouseLeave={() => setActive((current) => (current === screenshot.src ? null : current))}
+          className={`m-0 flex shrink-0 flex-col items-center gap-2 transition-opacity duration-300 motion-reduce:transition-none ${active && active !== screenshot.src ? 'opacity-20' : 'opacity-100'}`}
         >
           <div data-screenshot-frame="true" className="relative flex items-center justify-center">
             <Image
