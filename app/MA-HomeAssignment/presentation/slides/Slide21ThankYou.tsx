@@ -60,7 +60,9 @@ export default function Slide21ThankYou({ chapterLinks = closingMenuTargets }: T
       </div>
       <SlideShell align="centered" className="relative z-10 !bg-transparent text-center">
         <div className="mx-auto max-w-[1040px]">
-          <SlideTitle className="text-[72px] text-white">Thank you</SlideTitle>
+          {/* the shadow lifts the title off the sky image, as on the cover and
+              the prototype slide; offset scales with the 72px size */}
+          <SlideTitle className="text-[72px] text-white drop-shadow-[0_4px_0_rgba(42,27,84,0.22)]">Thank you</SlideTitle>
           <nav aria-label="Jump to a slide" className="mt-10">
             {/* fixed 7 columns so the 14 links always split evenly into two rows,
                 rather than wrapping wherever the label widths happen to land */}
