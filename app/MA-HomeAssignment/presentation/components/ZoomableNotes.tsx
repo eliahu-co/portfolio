@@ -3,8 +3,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 const MIN_SCALE = 1
-// past roughly 4x the board is magnified beyond its own pixels and goes soft
-const MAX_SCALE = 4
+// The board holds about 4x its displayed width in pixels, so it is pixel-exact
+// out to 4x and is being magnified beyond its own detail past that. It carries
+// well past the limit anyway — the notes are thick marker strokes rather than
+// fine type — so the ceiling sits above the sharp point on purpose, to let a
+// dense corner be pushed closer rather than stopping at the arithmetic.
+const MAX_SCALE = 7
 const WHEEL_SENSITIVITY = 0.0015
 
 type Transform = { scale: number; x: number; y: number }

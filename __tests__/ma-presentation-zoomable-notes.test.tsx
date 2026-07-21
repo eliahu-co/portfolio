@@ -65,10 +65,10 @@ describe('Approach notes viewer', () => {
     expect(scaleOf(frame)).toBeCloseTo(1, 5)
   })
 
-  it('holds the scale between 1x and 4x', () => {
+  it('holds the scale between 1x and 7x', () => {
     const { frame } = renderViewer()
-    for (let i = 0; i < 40; i++) wheel(frame, -240)
-    expect(scaleOf(frame)).toBe(4)
+    for (let i = 0; i < 60; i++) wheel(frame, -240)
+    expect(scaleOf(frame)).toBe(7)
     for (let i = 0; i < 60; i++) wheel(frame, 240)
     expect(scaleOf(frame)).toBe(1)
     // fully zoomed out the board is pinned, so there is nothing to drag
