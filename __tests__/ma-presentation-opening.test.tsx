@@ -10,8 +10,8 @@ import {
 
 describe('MA presentation opening chapter', () => {
   it.each([
-    [SlideFeature1Intro, ['Urgency', 'Recovery and Revenge', 'Social Engine']],
-    [SlideFeature2Intro, ['Agency', 'Visible Progress']],
+    [SlideFeature1Intro, ['Recovery and Revenge', 'Social Engine', 'Urgency']],
+    [SlideFeature2Intro, ['Agency', 'Visible Progress', 'Completion']],
     [SlideFeature3Intro, ['Expression and Ownership', 'Progress and Status', 'Social Recognition']],
   ])('adds the feature player motivations beneath its statement', (FeatureIntro, motivations) => {
     const { container } = render(<FeatureIntro slideKey={`feature-motivation-${motivations.join('-')}`} />)
