@@ -30,6 +30,11 @@ export type PresentationConcept = {
   // The player drive the concept pulls on, paired with monetizationLabel in the
   // Create panel so each concept reads as a player need next to a business lever.
   readonly motivationLabel: string
+  // What answers a given risk, keyed by that risk's title. Held back behind a
+  // further click on the risks block so the risk lands on its own first, and
+  // the mitigation reads as the reply to a question the audience has by then
+  // already asked. Only the risks that have an answer worth showing appear.
+  readonly riskNotes?: Readonly<Record<string, string>>
   readonly metrics: {
     readonly primary: string
     readonly supporting: readonly string[]
@@ -54,7 +59,7 @@ export const CONCEPTS = [
     risks: USE_CASE_1.tradeoffs,
     thesis: 'Turn Village progress into a permanent space players can own, customize, and show.',
     arpdauPath: 'New spend surface',
-    monetizationSummary: 'New Coin spend surface tied to expression, status, and Village progress.',
+    monetizationSummary: 'Lift Gem demand; Lift Coin demand; New spend surface.',
     monetizationLabel: 'New Coin spend surface',
     motivationLabel: 'Expression',
     metrics: USE_CASE_1.metrics!,
@@ -89,9 +94,12 @@ export const CONCEPTS = [
     risks: USE_CASE_2.tradeoffs,
     thesis: 'Turn every Chest into visible progress toward the missing Card a player chooses.',
     arpdauPath: 'Increased resource demand',
-    monetizationSummary: 'Lift Coin demand making Chest purchases advance a meter to a target Card.',
+    monetizationSummary: 'Lift Coin demand.',
     monetizationLabel: 'Lift Coin demand',
     motivationLabel: 'Completion',
+    riskNotes: {
+      'Collection Acceleration': 'Effort/Offer calibration per progress segmentation.',
+    },
     metrics: USE_CASE_2.metrics!,
     loopImplications: [
       'Regular Spins keep the event supplied by the familiar core economy.',
@@ -125,9 +133,12 @@ export const CONCEPTS = [
     risks: USE_CASE_3.tradeoffs,
     thesis: 'Turn the frustration of a Raid into an urgent reason to return, Spin, and retaliate.',
     arpdauPath: 'Purchase frequency through re-engagement',
-    monetizationSummary: 'Lift return sessions and Spin demand; higher exposure to offers.',
+    monetizationSummary: 'Lift Spin demand; Lift return sessions.',
     monetizationLabel: 'Lift Spin demand',
     motivationLabel: 'Revenge',
+    riskNotes: {
+      'Economy Distortion': 'Limit; Cool Down.',
+    },
     metrics: USE_CASE_3.metrics!,
     loopImplications: [
       'Village progression creates the Coin balance and PvP exposure that make a Raid meaningful.',

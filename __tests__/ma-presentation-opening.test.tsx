@@ -254,8 +254,8 @@ describe('MA presentation opening chapter', () => {
     expect(createEvidence).toHaveTextContent('Lift Coin demand')
     expect(createEvidence).toHaveTextContent('Lift Spin demand')
     // the full sentences stay on the single-concept slides that have room
-    expect(createEvidence).not.toHaveTextContent('tied to expression, status, and Village progress')
-    expect(createEvidence).not.toHaveTextContent('higher exposure to offers')
+    expect(createEvidence).not.toHaveTextContent('Lift Gem demand')
+    expect(createEvidence).not.toHaveTextContent('Lift return sessions')
     createEvidence
       .querySelectorAll('[data-rejected="false"] p:not([data-concept-motivation])')
       .forEach((summary) => {

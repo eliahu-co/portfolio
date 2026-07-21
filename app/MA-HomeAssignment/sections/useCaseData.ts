@@ -192,12 +192,12 @@ export const USE_CASE_2: UseCaseData = {
 
   tradeoffs: [
     {
-      title: 'System Cannibalization',
-      body: 'Reduced value of Jokers, trading and Cards for Chests.',
-    },
-    {
       title: 'Collection Acceleration',
       body: 'Collection rewards released faster than intended.',
+    },
+    {
+      title: 'System Cannibalization',
+      body: 'Reduced value of Jokers, trading and Cards for Chests.',
     },
     {
       title: 'Spend Shifting',

@@ -78,6 +78,10 @@ function LoopPill({
   )
 }
 
+// 'risk-notes' is the risks block clicked a second time: still open, now with
+// each risk's answer beside it. A concept without notes skips that state.
+type Detail = 'monetization' | 'risks' | 'risk-notes' | null
+
 export type FeatureSlideProps = {
   readonly concept: PresentationConcept
   readonly loop: PresentationConcept['loop']
@@ -88,12 +92,24 @@ export type FeatureSlideProps = {
 
 export function FeatureSlide({ concept, loop, title, slideKey, isActive = false }: FeatureSlideProps) {
   const [activeStepIndex, setActiveStepIndex] = useState(0)
-  const [openDetail, setOpenDetail] = useState<'monetization' | 'risks' | null>(null)
+  const [openDetail, setOpenDetail] = useState<Detail>(null)
   const reset = useCallback(() => {
     setActiveStepIndex(0)
     setOpenDetail(null)
   }, [])
   useDeckReset(reset, slideKey)
+
+  const riskNotes = concept.riskNotes
+  const risksOpen = openDetail === 'risks' || openDetail === 'risk-notes'
+  // click cycles closed -> risks -> risks with their answers -> closed, so the
+  // block can still be dismissed rather than sticking on the last step
+  const advanceRisks = useCallback(() => {
+    setOpenDetail((current) => {
+      if (current !== 'risks' && current !== 'risk-notes') return 'risks'
+      if (current === 'risks' && riskNotes) return 'risk-notes'
+      return null
+    })
+  }, [riskNotes])
 
   // Down and Up walk the loop from the keyboard, moving the same step hover
   // moves so a presenter can talk through it without the mouse. Steps wrap,
@@ -218,15 +234,17 @@ export function FeatureSlide({ concept, loop, title, slideKey, isActive = false 
               role="button"
               tabIndex={0}
               aria-label="Risk details"
-              aria-pressed={openDetail === 'risks'}
-              onClick={() => setOpenDetail((current) => current === 'risks' ? null : 'risks')}
+              aria-pressed={risksOpen}
+              data-risk-notes-open={openDetail === 'risk-notes' ? 'true' : 'false'}
+              onClick={advanceRisks}
               onKeyDown={(event) => {
                 if (event.key === 'Enter' || event.key === ' ') {
                   event.preventDefault()
-                  setOpenDetail((current) => current === 'risks' ? null : 'risks')
+                  advanceRisks()
                 }
               }}
-              className={`flex max-w-[368px] cursor-pointer select-none flex-row items-center gap-4 rounded-lg transition-opacity duration-200 [&_*]:cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cm-blue motion-reduce:transition-none ${openDetail === 'risks' ? 'opacity-100' : 'opacity-25'}`}
+              // the notes need room to sit beside the titles rather than under them
+              className={`flex cursor-pointer select-none flex-row items-center gap-4 rounded-lg transition-opacity duration-200 [&_*]:cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cm-blue motion-reduce:transition-none ${openDetail === 'risk-notes' ? 'max-w-none' : 'max-w-[368px]'} ${risksOpen ? 'opacity-100' : 'opacity-25'}`}
             >
               <Image
                 src="/coinmaster/resources/risk-emoji.png"
@@ -237,7 +255,18 @@ export function FeatureSlide({ concept, loop, title, slideKey, isActive = false 
               />
               <div data-feature-risk-content="true" className="w-full text-left">
                 <ul className="space-y-1 font-sans text-[18px] leading-5 text-charcoal">
-                  {concept.risks.map((risk) => <li key={risk.title}>{risk.title}</li>)}
+                  {concept.risks.map((risk) => (
+                    <li key={risk.title} className="flex items-baseline gap-3">
+                      <span className="shrink-0">{risk.title}</span>
+                      {openDetail === 'risk-notes' && riskNotes?.[risk.title] ? (
+                        // same size and face as the risk it answers, dropped in
+                        // weight so the risk still reads as the headline
+                        <span data-risk-note={risk.title} className="whitespace-nowrap text-charcoal/45">
+                          {riskNotes[risk.title]}
+                        </span>
+                      ) : null}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>

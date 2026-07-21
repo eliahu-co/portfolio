@@ -3,10 +3,14 @@ import Slide06Hometown from '@/app/MA-HomeAssignment/presentation/slides/Slide06
 import Slide08CardBounty from '@/app/MA-HomeAssignment/presentation/slides/Slide08CardBountyThesis'
 import Slide10HotTrail from '@/app/MA-HomeAssignment/presentation/slides/Slide10HotTrailThesis'
 
+// Concepts that answer one of their risks take a further click before the
+// risks block closes, since that click reveals the answer.
+const ANSWERS_A_RISK = new Set(['Card Bounty', 'Hot Trail'])
+
 describe('MA presentation features', () => {
   it.each([
     [Slide06Hometown, 'Hometown', ['Core Cannibalization', 'Paying Twice', 'Weak Customization Demand'], ['ARPDAU', 'Coin spend on Hometown per DAU', 'Repeat customization', 'Return sessions per Hometown user']],
-    [Slide08CardBounty, 'Card Bounty', ['System Cannibalization', 'Collection Acceleration', 'Spend Shifting'], ['ARPDAU', 'ARPPU by payer tier', 'Coin Spend on Chests per DAU', 'Bounty activation']],
+    [Slide08CardBounty, 'Card Bounty', ['Collection Acceleration', 'System Cannibalization', 'Spend Shifting'], ['ARPDAU', 'ARPPU by payer tier', 'Coin Spend on Chests per DAU', 'Bounty activation']],
     [Slide10HotTrail, 'Hot Trail', ['Retaliation Loops', 'Failed Urgency', 'Economy Distortion'], ['ARPDAU', 'Hot Trail activation', 'Return rate', 'Spin consumption per exposed DAU']],
   ])('renders each feature as one complete slide', (Component, title, risks, metrics) => {
     const { container } = render(<Component slideKey="feature" />)
@@ -92,6 +96,11 @@ describe('MA presentation features', () => {
     expect(riskContent.querySelectorAll('[data-risk-separator="true"]')).toHaveLength(0)
     expect(riskContent.querySelector('ul')).not.toHaveClass('font-bold', 'text-cm-crimson')
     risks.forEach((risk) => expect(riskContent).toHaveTextContent(risk))
+    if (ANSWERS_A_RISK.has(title as string)) {
+      fireEvent.click(risksButton)
+      expect(risksButton).toHaveAttribute('aria-pressed', 'true')
+      expect(riskSection).toHaveClass('opacity-100')
+    }
     fireEvent.click(risksButton)
     expect(risksButton).toHaveAttribute('aria-pressed', 'false')
     expect(riskSection).toHaveClass('opacity-25')
@@ -190,6 +199,64 @@ describe('MA presentation features', () => {
     expect(featureImage).toHaveAttribute('src', '/coinmaster/hometown-discount-v2.png')
     expect(buildStep).toHaveAttribute('data-loop-step-active', 'false')
     expect(discountStep).toHaveAttribute('data-loop-step-active', 'true')
+  })
+
+  // The mitigation is held back a click so the risk lands on its own first.
+  it('answers a Card Bounty risk only on a further click of the risks block', () => {
+    const { container } = render(<Slide08CardBounty slideKey="risk-notes" />)
+    const risksButton = container.querySelector('[data-feature-risks="Card Bounty"]')!
+    const note = () => container.querySelector('[data-risk-note="Collection Acceleration"]')
+    const items = () => [...container.querySelectorAll('[data-feature-risk-content="true"] li')]
+
+    expect(note()).not.toBeInTheDocument()
+    fireEvent.click(risksButton)
+    expect(risksButton).toHaveAttribute('data-risk-notes-open', 'false')
+    expect(note()).not.toBeInTheDocument()
+
+    fireEvent.click(risksButton)
+    expect(risksButton).toHaveAttribute('data-risk-notes-open', 'true')
+    expect(note()).toBeInTheDocument()
+    expect(note()).toHaveTextContent('Effort/Offer calibration per progress segmentation.')
+    // beside the risk it answers, not beneath it and not on another row
+    expect(note()!.closest('li')).toBe(items()[0])
+    expect(items()[0]).toHaveTextContent('Collection Acceleration')
+    // greyed back, but the same size and face as the risk itself
+    expect(note()).toHaveClass('text-charcoal/45')
+    expect(note()).not.toHaveClass('text-[14px]', 'italic')
+    // the risks it has no answer for stay bare
+    expect(items()[1].querySelector('[data-risk-note]')).toBeNull()
+
+    fireEvent.click(risksButton)
+    expect(note()).not.toBeInTheDocument()
+    expect(risksButton).toHaveAttribute('aria-pressed', 'false')
+  })
+
+  it('answers the Hot Trail economy risk on a further click too', () => {
+    const { container } = render(<Slide10HotTrail slideKey="risk-notes-hot-trail" />)
+    const risksButton = container.querySelector('[data-feature-risks="Hot Trail"]')!
+    const items = () => [...container.querySelectorAll('[data-feature-risk-content="true"] li')]
+
+    fireEvent.click(risksButton)
+    expect(container.querySelector('[data-risk-note]')).toBeNull()
+
+    fireEvent.click(risksButton)
+    const note = container.querySelector('[data-risk-note="Economy Distortion"]')!
+    expect(note).toHaveTextContent('Limit; Cool Down.')
+    // Economy Distortion is the last risk, so the answer lands on that row
+    expect(note.closest('li')).toBe(items()[2])
+    expect(note).toHaveClass('text-charcoal/45')
+    expect(items()[0].querySelector('[data-risk-note]')).toBeNull()
+  })
+
+  it('closes the risks block on the second click when a concept answers nothing', () => {
+    const { container } = render(<Slide06Hometown slideKey="risk-notes-absent" />)
+    const risksButton = container.querySelector('[data-feature-risks="Hometown"]')!
+
+    fireEvent.click(risksButton)
+    expect(risksButton).toHaveAttribute('aria-pressed', 'true')
+    fireEvent.click(risksButton)
+    expect(risksButton).toHaveAttribute('aria-pressed', 'false')
+    expect(container.querySelector('[data-risk-note]')).toBeNull()
   })
 
   // Down/Up walk the loop for a presenter who is not holding a mouse. They move
