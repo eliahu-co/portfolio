@@ -8,6 +8,7 @@ import { Eyebrow, SlideShell } from '../primitives'
 import { useDeckReset } from '../useDeckReset'
 import type { OpeningSlideProps } from './Slide01Cover'
 import { FlowArrow } from '../components/FlowArrow'
+import { ZoomableNotes } from '../components/ZoomableNotes'
 
 const SURFACE_CLASSES = 'flex min-h-[67px] w-auto shrink-0 items-center justify-center whitespace-nowrap text-center font-serif text-[34px] font-black leading-[1.04] text-cm-violet-deep'
 
@@ -233,12 +234,10 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             aria-hidden={!showPlayDrawing}
             className={`absolute inset-0 transition-opacity duration-300 motion-reduce:transition-none ${showPlayDrawing ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
           >
-            <Image
+            <ZoomableNotes
               src="/coinmaster/approach-notes.webp"
-              alt=""
-              fill
-              sizes="(min-width: 1280px) 1152px, 90vw"
-              className="object-contain object-center"
+              alt="Research notes taken while playing Coin Master"
+              active={showPlayDrawing}
             />
           </div>
 

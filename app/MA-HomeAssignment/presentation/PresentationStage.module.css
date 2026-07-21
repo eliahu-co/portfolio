@@ -25,6 +25,21 @@
   cursor: default !important;
 }
 
+/* The notes board is dragged rather than clicked, so it needs the grab cursors
+   instead of the pointer every interactive element gets above. These rules have
+   to sit after that one: the selectors weigh the same, so order decides. */
+.viewport [data-notes-viewer] {
+  cursor: zoom-in !important;
+}
+
+.viewport [data-notes-viewer][data-notes-zoomed="true"] {
+  cursor: grab !important;
+}
+
+.viewport [data-notes-viewer][data-notes-dragging="true"] {
+  cursor: grabbing !important;
+}
+
 .viewport :global(.font-serif) {
   font-family: var(--font-cm-display), 'Nunito', ui-rounded, sans-serif;
 }
