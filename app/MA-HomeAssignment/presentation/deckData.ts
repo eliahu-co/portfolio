@@ -224,18 +224,22 @@ export const ASSUMPTION_STORIES = [
   },
   {
     assumption: ASSUMPTIONS[1],
-    consequence: 'Use economy, progression, and post-event guardrails alongside the ARPDAU target.',
+    consequence: 'Grow revenue from demand for the currencies players already earn, not from selling past the game.',
   },
   {
     assumption: ASSUMPTIONS[2],
-    consequence: 'Favor concepts that reuse familiar actions and feed value back into the core loop.',
+    consequence: 'Use economy, progression, and post-event guardrails alongside the ARPDAU target.',
   },
   {
     assumption: ASSUMPTIONS[3],
-    consequence: 'Frame the recommendation as a segmented, time-limited experiment rather than a universal launch.',
+    consequence: 'Favor concepts that reuse familiar actions and feed value back into the core loop.',
   },
   {
     assumption: ASSUMPTIONS[4],
+    consequence: 'Frame the recommendation as a segmented, time-limited experiment rather than a universal launch.',
+  },
+  {
+    assumption: ASSUMPTIONS[5],
     consequence: 'Use scores and targets to compare directionally, then calibrate them with internal data.',
   },
 ] as const satisfies readonly AssumptionStory[]

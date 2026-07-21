@@ -34,7 +34,7 @@ export function SlideFeature1Intro(props: OpeningSlideProps) {
     <FeatureIntroSlide
       {...props}
       feature={1}
-      statement="A counter-Raid that turns a loss into a reason to return and Spin"
+      statement="A timed counter-Raid where you Spin to catch the thief"
       motivations={['Recovery and Revenge', 'Social Engine', 'Urgency']}
     />
   )
@@ -45,7 +45,7 @@ export function SlideFeature2Intro(props: OpeningSlideProps) {
     <FeatureIntroSlide
       {...props}
       feature={2}
-      statement="A LiveOp that turns Chest buying into a visible path to a chosen Card"
+      statement="A LiveOps event where every Chest you buy gets you closer to a Card you choose"
       motivations={['Agency', 'Visible Progress', 'Completion']}
     />
   )

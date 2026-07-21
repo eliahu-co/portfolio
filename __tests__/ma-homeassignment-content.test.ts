@@ -22,6 +22,7 @@ describe('MA Home Assignment canonical content', () => {
   it('exports the five assumptions in source-page order', () => {
     expect(ASSUMPTIONS).toEqual([
       'ARPDAU lift is the target outcome; engagement and consumption signals matter only if they convert to revenue.',
+      'Monetize rate, not access. Value stays earnable, and paying accelerates play rather than replacing it.',
       'ARPDAU lift should not come at the expense of long-term demand, core-loop health, player trust or the wider game economy.',
       'New features should extend familiar mechanics rather than replace the core-loop.',
       'Existing systems support LiveOps, segmentation and controlled testing.',
