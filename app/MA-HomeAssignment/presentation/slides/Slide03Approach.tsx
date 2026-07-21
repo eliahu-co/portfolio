@@ -11,6 +11,67 @@ import { FlowArrow } from '../components/FlowArrow'
 
 const SURFACE_CLASSES = 'flex min-h-[67px] w-auto shrink-0 items-center justify-center whitespace-nowrap text-center font-serif text-[34px] font-black leading-[1.04] text-cm-violet-deep'
 
+type EvidenceScreenshot = {
+  readonly label: string
+  readonly src: string
+  readonly alt: string
+  readonly width: number
+  readonly height: number
+}
+
+/**
+ * The Research and Benchmark panels are both rows of captioned phone
+ * screenshots sitting in the same reveal box. They were written separately and
+ * drifted — one capped images at 310px inside a five-column grid, the other
+ * sized them off the panel height in a flex row — so the same five items read
+ * at very different scales. They share this component so that cannot recur.
+ *
+ * Height, not width, drives the layout: every image is set to one height and
+ * takes whatever width its own ratio implies, so captures of different shapes
+ * still line up on a single baseline. Two things keep the frames tight:
+ *
+ * - Each image is declared at its true pixel size. A shared placeholder ratio
+ *   makes the frame the wrong shape and the image letterboxes inside it.
+ * - The height is in pixels, not a percentage of the row. A percentage cannot
+ *   be resolved while the browser computes intrinsic width, so it falls back to
+ *   the image's raw pixel width and every figure claims far more room than it
+ *   draws in — which flexbox then takes back by squeezing the frames unevenly.
+ * - `shrink-0`, so a row that does outgrow its box overflows visibly instead of
+ *   quietly letterboxing. The ratio-sum check in the dimensions test is what
+ *   keeps this height and the row width compatible as screenshots change.
+ */
+function EvidenceScreenshotRow({ kind, screenshots }: { kind: 'research' | 'benchmark'; screenshots: readonly EvidenceScreenshot[] }) {
+  return (
+    <>
+      {screenshots.map((screenshot) => (
+        <figure
+          key={screenshot.src}
+          {...{ [`data-${kind}-screenshot`]: 'true' }}
+          className="m-0 flex shrink-0 flex-col items-center gap-2"
+        >
+          <div data-screenshot-frame="true" className="relative flex items-center justify-center">
+            <Image
+              src={screenshot.src}
+              alt={screenshot.alt}
+              width={screenshot.width}
+              height={screenshot.height}
+              sizes="(min-width: 1280px) 360px, 30vw"
+              style={{ borderColor: 'rgb(30, 123, 168)' }}
+              className="h-[412px] w-auto rounded-2xl border-[1.5px] object-contain"
+            />
+          </div>
+          <figcaption className="font-sans text-[13px] font-normal uppercase tracking-[0.14em] text-cm-charcoal">
+            {screenshot.label}
+          </figcaption>
+        </figure>
+      ))}
+    </>
+  )
+}
+
+// the row box itself: both panels reveal on hover and centre the same way
+const EVIDENCE_ROW_CLASSES = 'absolute inset-0 flex items-center justify-center gap-4 transition-opacity duration-300 motion-reduce:transition-none'
+
 type Reveal = 'play' | 'map' | 'research' | 'benchmark' | 'create' | 'decide' | 'test' | null
 
 const VALIDATION_TESTS = [
@@ -28,18 +89,23 @@ const ECONOMY_ITEMS = [
   { label: 'Gem', definition: 'Premium acceleration currency.', src: '/coinmaster/resources/gem-emoji.png' },
 ] as const
 
+// width/height are each file's real pixel size. They must stay true to the file:
+// the row sizes every image to the same height and lets width follow the ratio,
+// so a wrong pair here reshapes the frame and leaves dead space inside its border.
 const RESEARCH_SCREENSHOTS = [
-  { label: 'Support', src: '/coinmaster/research/research-support.jpeg', alt: 'Coin Master official support pages research' },
-  { label: 'Discord', src: '/coinmaster/research/research-discord.webp', alt: 'Coin Master advanced-play discussion on Discord' },
-  { label: 'Reddit', src: '/coinmaster/research/research-reddit.webp', alt: 'Coin Master team recruitment discussion on Reddit' },
-  { label: 'Facebook', src: '/coinmaster/research/research-facebook.webp', alt: 'Coin Master card-trading request on Facebook' },
-  { label: 'YouTube', src: '/coinmaster/research/research-youtube.webp', alt: 'Coin Master advanced gameplay research on YouTube' },
+  { label: 'Support', src: '/coinmaster/research/research-support.jpeg', alt: 'Coin Master official support pages research', width: 1008, height: 2048 },
+  { label: 'Discord', src: '/coinmaster/research/research-discord.webp', alt: 'Coin Master advanced-play discussion on Discord', width: 789, height: 1600 },
+  { label: 'Reddit', src: '/coinmaster/research/research-reddit.webp', alt: 'Coin Master team recruitment discussion on Reddit', width: 780, height: 1600 },
+  { label: 'Facebook', src: '/coinmaster/research/research-facebook.webp', alt: 'Coin Master card-trading request on Facebook', width: 784, height: 1600 },
+  { label: 'YouTube', src: '/coinmaster/research/research-youtube.webp', alt: 'Coin Master advanced gameplay research on YouTube', width: 777, height: 1600 },
 ] as const
 
 const BENCHMARK_SCREENSHOTS = [
-  { label: 'Royal Match', src: '/coinmaster/benchmark/benchmark-cauldron.webp', alt: 'Royal Match Magic Cauldron game mechanic benchmark' },
-  { label: 'Monopoly GO!', src: '/coinmaster/benchmark/benchmark-styletoken.webp', alt: 'Monopoly GO! Style Token cosmetic collection benchmark' },
-  { label: 'Dice Dreams', src: '/coinmaster/benchmark/benchmark-diner.webp', alt: 'Dice Dreams timed collection mini-game benchmark' },
+  { label: 'Royal Match', src: '/coinmaster/benchmark/benchmark-cauldron.webp', alt: 'Royal Match Magic Cauldron game mechanic benchmark', width: 774, height: 1600 },
+  { label: 'Monopoly GO!', src: '/coinmaster/benchmark/benchmark-styletoken.webp', alt: 'Monopoly GO! Style Token cosmetic collection benchmark', width: 640, height: 1390 },
+  { label: 'Dice Dreams', src: '/coinmaster/benchmark/benchmark-diner.webp', alt: 'Dice Dreams timed collection mini-game benchmark', width: 798, height: 1600 },
+  { label: 'Animals & Coins', src: '/coinmaster/benchmark/benchmark-animals.webp', alt: 'Animals & Coins village build step priced in Coins benchmark', width: 689, height: 1440 },
+  { label: 'Pirate Kings', src: '/coinmaster/benchmark/benchmark-piratekings.webp', alt: 'Pirate Kings piggy bank accumulating savings behind a paid break benchmark', width: 664, height: 1440 },
 ] as const
 
 // Piled vertically in the Create left column, Pet Equips on top.
@@ -194,49 +260,18 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
             id="approach-research-evidence"
             data-research-evidence="true"
             aria-hidden={!showResearchEvidence}
-            className={`absolute inset-0 grid grid-cols-5 items-center gap-5 transition-opacity duration-300 motion-reduce:transition-none ${showResearchEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+            className={`${EVIDENCE_ROW_CLASSES} ${showResearchEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
           >
-            {RESEARCH_SCREENSHOTS.map((screenshot) => (
-              <figure key={screenshot.src} data-research-screenshot="true" className="m-0 flex min-h-0 flex-col items-center gap-2">
-                <div data-screenshot-frame="true" style={{ borderColor: 'rgb(30, 123, 168)' }} className="inline-flex h-fit max-w-full overflow-hidden rounded-2xl border-[1.5px]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={screenshot.src}
-                    alt={screenshot.alt}
-                    className="block max-h-[310px] w-auto max-w-full object-contain"
-                  />
-                </div>
-                <figcaption className="font-sans text-[13px] font-normal uppercase tracking-[0.14em] text-cm-charcoal">
-                  {screenshot.label}
-                </figcaption>
-              </figure>
-            ))}
+            <EvidenceScreenshotRow kind="research" screenshots={RESEARCH_SCREENSHOTS} />
           </div>
 
           <div
             id="approach-benchmark-evidence"
             data-benchmark-evidence="true"
             aria-hidden={!showBenchmarkEvidence}
-            className={`absolute inset-0 flex items-center justify-center gap-0.5 transition-opacity duration-300 motion-reduce:transition-none ${showBenchmarkEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+            className={`${EVIDENCE_ROW_CLASSES} ${showBenchmarkEvidence ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
           >
-            {BENCHMARK_SCREENSHOTS.map((screenshot) => (
-              <figure key={screenshot.src} data-benchmark-screenshot="true" className="m-0 flex h-[82%] min-h-0 flex-col items-center gap-2">
-                <div data-screenshot-frame="true" className="relative flex min-h-0 flex-1 items-center justify-center">
-                  <Image
-                    src={screenshot.src}
-                    alt={screenshot.alt}
-                    width={800}
-                    height={1600}
-                    sizes="(min-width: 1280px) 360px, 30vw"
-                    style={{ borderColor: 'rgb(30, 123, 168)' }}
-                    className="h-full w-auto rounded-2xl border-[1.5px] object-contain"
-                  />
-                </div>
-                <figcaption className="font-sans text-[13px] font-normal uppercase tracking-[0.14em] text-cm-charcoal">
-                  {screenshot.label}
-                </figcaption>
-              </figure>
-            ))}
+            <EvidenceScreenshotRow kind="benchmark" screenshots={BENCHMARK_SCREENSHOTS} />
           </div>
 
           <div

@@ -190,8 +190,7 @@ describe('MA presentation opening chapter', () => {
     expect(researchEvidence).toHaveClass('opacity-0', 'pointer-events-none')
     expect(researchEvidence.querySelectorAll('[data-research-screenshot="true"]')).toHaveLength(5)
     researchEvidence.querySelectorAll('[data-research-screenshot="true"]').forEach((screenshot) => {
-      expect(screenshot.querySelector('[data-screenshot-frame="true"]')).toHaveClass('h-fit', 'rounded-2xl', 'overflow-hidden')
-      expect(screenshot.querySelector('img')).toHaveClass('object-contain')
+      expect(screenshot.querySelector('img')).toHaveClass('object-contain', 'h-[412px]', 'w-auto', 'rounded-2xl')
       expect(screenshot.querySelector('img')).not.toHaveClass('object-cover')
     })
     expect(researchEvidence).toHaveTextContent('Support')
@@ -208,19 +207,21 @@ describe('MA presentation opening chapter', () => {
     expect(approachDiagram).toHaveClass('opacity-0')
     const benchmark = screen.getByRole('button', { name: 'Benchmark' })
     const benchmarkEvidence = approach.container.querySelector('[data-benchmark-evidence="true"]')!
-    expect(benchmarkEvidence).toHaveClass('gap-0.5')
+    expect(benchmarkEvidence).toHaveClass('gap-4')
     expect(benchmark).toHaveAttribute('aria-expanded', 'false')
     expect(benchmarkEvidence).toHaveClass('opacity-0', 'pointer-events-none')
-    expect(benchmarkEvidence.querySelectorAll('[data-benchmark-screenshot="true"]')).toHaveLength(3)
+    expect(benchmarkEvidence.querySelectorAll('[data-benchmark-screenshot="true"]')).toHaveLength(5)
     benchmarkEvidence.querySelectorAll('[data-benchmark-screenshot="true"]').forEach((screenshot) => {
       // benchmark screenshots are shown in full (no crop): natural width, height-fit
       const img = screenshot.querySelector('img')!
-      expect(img).toHaveClass('object-contain', 'h-full', 'w-auto', 'rounded-2xl')
+      expect(img).toHaveClass('object-contain', 'h-[412px]', 'w-auto', 'rounded-2xl')
       expect(img).not.toHaveClass('object-cover')
     })
     expect(benchmarkEvidence).toHaveTextContent('Royal Match')
     expect(benchmarkEvidence).toHaveTextContent('Monopoly GO!')
     expect(benchmarkEvidence).toHaveTextContent('Dice Dreams')
+    expect(benchmarkEvidence).toHaveTextContent('Animals & Coins')
+    expect(benchmarkEvidence).toHaveTextContent('Pirate Kings')
     fireEvent.mouseEnter(benchmark)
     expect(benchmark).toHaveAttribute('aria-expanded', 'true')
     expect(benchmarkEvidence).toHaveClass('opacity-100')
@@ -329,6 +330,45 @@ describe('MA presentation opening chapter', () => {
     expect(testEvidence).toHaveTextContent('Paid progress carryover')
     expect(testEvidence).toHaveTextContent('Chest tier weighting')
     expect(testEvidence).toHaveTextContent('Multiple milestones')
+    approach.unmount()
+  })
+
+  // Research and Benchmark are the same object — a row of captioned phone
+  // screenshots — and were previously built twice, which let them drift to
+  // wildly different image scales. Comparing them directly is what keeps a
+  // future edit to one row from silently desyncing the other.
+  it('renders the research and benchmark screenshot rows identically', () => {
+    const approach = render(<Slide03Approach slideKey="approach" />)
+    const research = approach.container.querySelector('[data-research-evidence="true"]')!
+    const benchmark = approach.container.querySelector('[data-benchmark-evidence="true"]')!
+
+    // the row boxes differ only in their reveal state, never in layout
+    const layoutOf = (row: Element) =>
+      row.className
+        .split(' ')
+        .filter((c) => !['opacity-0', 'opacity-100', 'pointer-events-none'].includes(c))
+        .sort()
+        .join(' ')
+    expect(layoutOf(research)).toEqual(layoutOf(benchmark))
+
+    const researchFigures = [...research.querySelectorAll('[data-research-screenshot="true"]')]
+    const benchmarkFigures = [...benchmark.querySelectorAll('[data-benchmark-screenshot="true"]')]
+    expect(researchFigures).toHaveLength(5)
+    expect(benchmarkFigures).toHaveLength(5)
+
+    // every figure, caption, and image is styled the same in both rows
+    const shapeOf = (figure: Element) => ({
+      figure: figure.className,
+      frame: figure.querySelector('[data-screenshot-frame="true"]')!.className,
+      img: figure.querySelector('img')!.className,
+      caption: figure.querySelector('figcaption')!.className,
+    })
+    const shapes = [...researchFigures, ...benchmarkFigures].map(shapeOf)
+    shapes.forEach((shape) => expect(shape).toEqual(shapes[0]))
+
+    // height drives the row, so no fixed pixel cap sneaks back onto an image
+    expect(research.innerHTML).not.toMatch(/max-h-\[/)
+    expect(benchmark.innerHTML).not.toMatch(/max-h-\[/)
     approach.unmount()
   })
 
