@@ -27,6 +27,9 @@ export type PresentationConcept = {
   // The compressed form of monetizationSummary, for the Approach "Create" panel
   // where the three concepts sit side by side and have to be compared at a glance.
   readonly monetizationLabel: string
+  // The player drive the concept pulls on, paired with monetizationLabel in the
+  // Create panel so each concept reads as a player need next to a business lever.
+  readonly motivationLabel: string
   readonly metrics: {
     readonly primary: string
     readonly supporting: readonly string[]
@@ -53,6 +56,7 @@ export const CONCEPTS = [
     arpdauPath: 'New spend surface',
     monetizationSummary: 'New Coin spend surface tied to expression, status, and Village progress.',
     monetizationLabel: 'New Coin spend surface',
+    motivationLabel: 'Expression',
     metrics: USE_CASE_1.metrics!,
     loopImplications: [
       'Village completion supplies recognizable items and keeps Hometown connected to progression.',
@@ -87,6 +91,7 @@ export const CONCEPTS = [
     arpdauPath: 'Increased resource demand',
     monetizationSummary: 'Lift Coin demand making Chest purchases advance a meter to a target Card.',
     monetizationLabel: 'Lift Coin demand',
+    motivationLabel: 'Completion',
     metrics: USE_CASE_2.metrics!,
     loopImplications: [
       'Regular Spins keep the event supplied by the familiar core economy.',
@@ -122,6 +127,7 @@ export const CONCEPTS = [
     arpdauPath: 'Purchase frequency through re-engagement',
     monetizationSummary: 'Lift return sessions and Spin demand; higher exposure to offers.',
     monetizationLabel: 'Lift Spin demand',
+    motivationLabel: 'Revenge',
     metrics: USE_CASE_3.metrics!,
     loopImplications: [
       'Village progression creates the Coin balance and PvP exposure that make a Raid meaningful.',

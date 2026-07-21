@@ -48,6 +48,8 @@ describe('MA presentation story data', () => {
       expect(concept.loopImplications.every(Boolean)).toBe(true)
       expect(concept.thesis).toEqual(expect.any(String))
       expect(concept.monetizationSummary).toEqual(expect.any(String))
+      // one word, so the Create panel stays scannable across three concepts
+      expect(concept.motivationLabel).toMatch(/^\S+$/)
       expect(concept.reveals.length).toBeGreaterThan(0)
     })
   })

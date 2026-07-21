@@ -302,6 +302,14 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                 <p className="mt-4 text-center font-sans text-[18px] font-normal leading-relaxed text-[#1A1A1A]">
                   {feature.monetizationLabel}
                 </p>
+                {/* the player drive, set in the caption register so it reads as a
+                    second axis rather than a continuation of the business lever */}
+                <p
+                  data-concept-motivation="true"
+                  className="mt-2 text-center font-sans text-[13px] font-normal uppercase tracking-[0.14em] text-cm-charcoal/60"
+                >
+                  {feature.motivationLabel}
+                </p>
               </section>
             ))}
           </div>

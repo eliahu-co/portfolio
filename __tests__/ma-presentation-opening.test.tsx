@@ -255,9 +255,25 @@ describe('MA presentation opening chapter', () => {
     // the full sentences stay on the single-concept slides that have room
     expect(createEvidence).not.toHaveTextContent('tied to expression, status, and Village progress')
     expect(createEvidence).not.toHaveTextContent('higher exposure to offers')
-    createEvidence.querySelectorAll('[data-rejected="false"] p').forEach((summary) => {
-      expect(summary).toHaveClass('text-center', 'text-[18px]')
+    createEvidence
+      .querySelectorAll('[data-rejected="false"] p:not([data-concept-motivation])')
+      .forEach((summary) => {
+        expect(summary).toHaveClass('text-center', 'text-[18px]')
+      })
+    // the player drive sits under each lever in the quieter caption register, so
+    // the two lines read as separate axes rather than one continued sentence
+    const motivations = Array.from(
+      createEvidence.querySelectorAll('[data-concept-motivation="true"]'),
+    )
+    expect(motivations).toHaveLength(3)
+    motivations.forEach((motivation) => {
+      expect(motivation).toHaveClass('text-center', 'text-[13px]', 'uppercase')
     })
+    expect(motivations.map((motivation) => motivation.textContent)).toEqual([
+      'Revenge',
+      'Completion',
+      'Expression',
+    ])
     createEvidence.querySelectorAll('[data-create-concept="true"]').forEach((concept) => {
       expect(concept).not.toHaveClass('border-t-4')
     })
