@@ -192,6 +192,54 @@ describe('MA presentation features', () => {
     expect(discountStep).toHaveAttribute('data-loop-step-active', 'true')
   })
 
+  // Down/Up walk the loop for a presenter who is not holding a mouse. They move
+  // the same state hover moves, so the two have to stay interchangeable.
+  it.each([
+    [Slide06Hometown, 'Hometown', 4],
+    [Slide08CardBounty, 'Card Bounty', 5],
+    [Slide10HotTrail, 'Hot Trail', 5],
+  ])('walks the %# loop with the arrow keys', (Slide, title, stepCount) => {
+    const { container } = render(<Slide slideKey={`loop-keys-${title}`} isActive />)
+    const steps = [...container.querySelectorAll('[data-loop-step]')]
+    const activeIndex = () => steps.findIndex((step) => step.getAttribute('data-loop-step-active') === 'true')
+    const press = (key: string) => fireEvent.keyDown(window, { key })
+
+    expect(steps).toHaveLength(stepCount)
+    expect(activeIndex()).toBe(0)
+
+    press('ArrowDown')
+    expect(activeIndex()).toBe(1)
+    press('ArrowDown')
+    expect(activeIndex()).toBe(2)
+
+    press('ArrowUp')
+    expect(activeIndex()).toBe(1)
+
+    // the diagram returns from the last step to the first, so the keys wrap too
+    press('ArrowUp')
+    press('ArrowUp')
+    expect(activeIndex()).toBe(stepCount - 1)
+    press('ArrowDown')
+    expect(activeIndex()).toBe(0)
+
+    // hover still works, and the keys carry on from wherever it left the loop
+    fireEvent.mouseEnter(steps[2])
+    expect(activeIndex()).toBe(2)
+    press('ArrowDown')
+    expect(activeIndex()).toBe(3)
+  })
+
+  // every slide stays mounted, so an unguarded listener would move all three
+  // loops at once behind the slide actually on screen
+  it('leaves the loop alone while its slide is off screen', () => {
+    const { container } = render(<Slide08CardBounty slideKey="loop-keys-inactive" isActive={false} />)
+    const steps = [...container.querySelectorAll('[data-loop-step]')]
+
+    fireEvent.keyDown(window, { key: 'ArrowDown' })
+    expect(steps[0]).toHaveAttribute('data-loop-step-active', 'true')
+    expect(steps[1]).toHaveAttribute('data-loop-step-active', 'false')
+  })
+
   it('renders Hot Trail resource changes inside the right edge of relevant steps', () => {
     const { container } = render(<Slide10HotTrail slideKey="hot-trail-resources" />)
     const loop = container.querySelector('[data-feature-loop="Hot Trail"]')!

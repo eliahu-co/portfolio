@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useCallback, useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import type { PresentationConcept } from '../deckData'
 import type { WorkflowStep } from '@/app/MA-HomeAssignment/sections/UseCase'
@@ -83,9 +83,10 @@ export type FeatureSlideProps = {
   readonly loop: PresentationConcept['loop']
   readonly title: string
   readonly slideKey: DeckSlideKey
+  readonly isActive?: boolean
 }
 
-export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlideProps) {
+export function FeatureSlide({ concept, loop, title, slideKey, isActive = false }: FeatureSlideProps) {
   const [activeStepIndex, setActiveStepIndex] = useState(0)
   const [openDetail, setOpenDetail] = useState<'monetization' | 'risks' | null>(null)
   const reset = useCallback(() => {
@@ -93,6 +94,29 @@ export function FeatureSlide({ concept, loop, title, slideKey }: FeatureSlidePro
     setOpenDetail(null)
   }, [])
   useDeckReset(reset, slideKey)
+
+  // Down and Up walk the loop from the keyboard, moving the same step hover
+  // moves so a presenter can talk through it without the mouse. Steps wrap,
+  // because the diagram itself returns from the last step to the first.
+  //
+  // Every slide in the deck stays mounted, so all three loops would answer one
+  // key press; only the slide on screen listens. The deck reserves Left, Right,
+  // and Space for navigation and leaves the vertical arrows free.
+  const stepCount = loop.steps.length
+  useEffect(() => {
+    if (!isActive) return
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.defaultPrevented) return
+      if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return
+      event.preventDefault()
+      const delta = event.key === 'ArrowDown' ? 1 : -1
+      setActiveStepIndex((index) => (index + delta + stepCount) % stepCount)
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [isActive, stepCount])
   const activeImage = loop.steps[activeStepIndex]?.hoverImage ?? concept.mockup
 
   return (
