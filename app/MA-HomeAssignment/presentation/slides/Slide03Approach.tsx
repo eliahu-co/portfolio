@@ -190,10 +190,6 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                 key={step.label}
                 data-approach-active={isActive}
                 className="contents"
-                onMouseEnter={() => {
-                  setActiveStep(step.label)
-                  setActiveReveal(reveal)
-                }}
               >
                 {reveal ? (
                   <button
@@ -202,6 +198,13 @@ export default function Slide03Approach({ slideKey }: OpeningSlideProps) {
                     data-approach-pill="true"
                     aria-expanded={revealIsVisible}
                     aria-controls={revealId}
+                    // click, not hover: a presenter moving the cursor across the
+                    // row would otherwise flip through every panel on the way to
+                    // the one they meant to open
+                    onClick={() => {
+                      setActiveStep(step.label)
+                      setActiveReveal(reveal)
+                    }}
                     onFocus={() => {
                       setActiveStep(step.label)
                       setActiveReveal(reveal)

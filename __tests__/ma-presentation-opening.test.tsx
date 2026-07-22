@@ -143,7 +143,7 @@ describe('MA presentation opening chapter', () => {
     expect(playDrawing.querySelector('img')).toHaveClass('object-center')
     expect(playTheGame).toHaveAttribute('aria-expanded', 'false')
     expect(playDrawing).toHaveClass('opacity-0', 'pointer-events-none')
-    fireEvent.mouseEnter(playTheGame)
+    fireEvent.click(playTheGame)
     expect(playTheGame).toHaveAttribute('aria-expanded', 'true')
     expect(playDrawing).toHaveClass('opacity-100')
     expect(playTheGame.closest('li')).toHaveAttribute('data-approach-active', 'true')
@@ -153,8 +153,12 @@ describe('MA presentation opening chapter', () => {
     approach.container.querySelectorAll('[data-approach-connector="true"]').forEach((connector) => {
       expect(connector).toHaveClass('opacity-30')
     })
+    // the cursor crossing another step must not steal the panel: only a click moves it
+    fireEvent.mouseEnter(mapSystems)
     fireEvent.mouseLeave(playTheGame)
+    expect(mapSystems).toHaveAttribute('aria-expanded', 'false')
     expect(playTheGame).toHaveAttribute('aria-expanded', 'true')
+    expect(playDrawing).toHaveClass('opacity-100')
 
     const approachDiagram = approach.container.querySelector('[data-approach-diagram="true"]')!
     const economyLegend = approach.container.querySelector('[data-economy-legend="true"]')!
@@ -173,7 +177,7 @@ describe('MA presentation opening chapter', () => {
     economyItems.forEach((item) => expect(item.textContent).not.toMatch(/^(Spin|Coin|Star|Gem) —/))
     expect(mapSystems).toHaveAttribute('aria-expanded', 'false')
     expect(approachDiagram).toHaveClass('opacity-0', 'pointer-events-none')
-    fireEvent.mouseEnter(mapSystems)
+    fireEvent.click(mapSystems)
     expect(mapSystems).toHaveAttribute('aria-expanded', 'true')
     expect(mapSystems.closest('li')).toHaveAttribute('data-approach-active', 'true')
     expect(mapSystems).not.toHaveClass('opacity-30')
@@ -184,6 +188,10 @@ describe('MA presentation opening chapter', () => {
     fireEvent.mouseLeave(mapSystems)
     expect(mapSystems).toHaveAttribute('aria-expanded', 'true')
     expect(approachDiagram).toHaveClass('opacity-100')
+    // hovering back over the step that is already dimmed changes nothing either
+    fireEvent.mouseEnter(playTheGame)
+    expect(playTheGame).toHaveAttribute('aria-expanded', 'false')
+    expect(mapSystems).toHaveAttribute('aria-expanded', 'true')
     const research = screen.getByRole('button', { name: 'Research' })
     const researchEvidence = approach.container.querySelector('[data-research-evidence="true"]')!
     expect(research).toHaveAttribute('aria-expanded', 'false')
@@ -198,7 +206,7 @@ describe('MA presentation opening chapter', () => {
     expect(researchEvidence).toHaveTextContent('Reddit')
     expect(researchEvidence).toHaveTextContent('Facebook')
     expect(researchEvidence).toHaveTextContent('YouTube')
-    fireEvent.mouseEnter(research)
+    fireEvent.click(research)
     expect(research.closest('li')).toHaveAttribute('data-approach-active', 'true')
     expect(research).toHaveAttribute('aria-expanded', 'true')
     expect(researchEvidence).toHaveClass('opacity-100')
@@ -222,7 +230,7 @@ describe('MA presentation opening chapter', () => {
     expect(benchmarkEvidence).toHaveTextContent('Dice Dreams')
     expect(benchmarkEvidence).toHaveTextContent('Animals & Coins')
     expect(benchmarkEvidence).toHaveTextContent('Pirate Kings')
-    fireEvent.mouseEnter(benchmark)
+    fireEvent.click(benchmark)
     expect(benchmark).toHaveAttribute('aria-expanded', 'true')
     expect(benchmarkEvidence).toHaveClass('opacity-100')
     expect(research).toHaveClass('opacity-30')
@@ -243,7 +251,7 @@ describe('MA presentation opening chapter', () => {
     expect(hometownLogo).toHaveAttribute('alt', '')
     expect(cardBountyLogo).toHaveAttribute('alt', '')
     expect(hotTrailLogo).toHaveAttribute('alt', '')
-    fireEvent.mouseEnter(create)
+    fireEvent.click(create)
     expect(create).toHaveAttribute('aria-expanded', 'true')
     expect(createEvidence).toHaveClass('opacity-100')
     expect(screen.getByRole('heading', { level: 3, name: 'Hometown' })).toBeInTheDocument()
@@ -297,7 +305,7 @@ describe('MA presentation opening chapter', () => {
     const decide = screen.getByRole('button', { name: 'Decide' })
     const decisionEvidence = approach.container.querySelector('[data-decision-evidence="true"]')!
     expect(decisionEvidence).toHaveClass('opacity-0', 'pointer-events-none')
-    fireEvent.mouseEnter(decide)
+    fireEvent.click(decide)
     expect(decide).toHaveAttribute('aria-expanded', 'true')
     expect(decisionEvidence).toHaveClass('opacity-100')
     expect(decisionEvidence.querySelector('figure')).toHaveClass('rounded-2xl', 'overflow-hidden')
@@ -309,7 +317,7 @@ describe('MA presentation opening chapter', () => {
     const test = screen.getByRole('button', { name: 'Test' })
     const testEvidence = approach.container.querySelector('[data-test-evidence="true"]')!
     expect(testEvidence).toHaveClass('opacity-0', 'pointer-events-none')
-    fireEvent.mouseEnter(test)
+    fireEvent.click(test)
     expect(test).toHaveAttribute('aria-expanded', 'true')
     expect(testEvidence).toHaveClass('opacity-100')
     const testItems = testEvidence.querySelectorAll('[data-validation-test="true"]')
