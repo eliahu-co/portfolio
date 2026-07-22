@@ -62,6 +62,9 @@ export const CONCEPTS = [
     monetizationSummary: 'Lift Gem demand; Lift Coin demand; New spend surface.',
     monetizationLabel: 'New Coin spend surface',
     motivationLabel: 'Expression',
+    riskNotes: {
+      'Weak Customization Demand': 'Visit Interactions first; Customization after.',
+    },
     metrics: USE_CASE_1.metrics!,
     loopImplications: [
       'Village completion supplies recognizable items and keeps Hometown connected to progression.',

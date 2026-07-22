@@ -1,11 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react'
+import { FeatureSlide } from '@/app/MA-HomeAssignment/presentation/components/FeatureSlide'
+import { CONCEPTS } from '@/app/MA-HomeAssignment/presentation/deckData'
 import Slide06Hometown from '@/app/MA-HomeAssignment/presentation/slides/Slide06HometownThesis'
 import Slide08CardBounty from '@/app/MA-HomeAssignment/presentation/slides/Slide08CardBountyThesis'
 import Slide10HotTrail from '@/app/MA-HomeAssignment/presentation/slides/Slide10HotTrailThesis'
-
-// Concepts that answer one of their risks take a further click before the
-// risks block closes, since that click reveals the answer.
-const ANSWERS_A_RISK = new Set(['Card Bounty', 'Hot Trail'])
 
 describe('MA presentation features', () => {
   it.each([
@@ -96,11 +94,11 @@ describe('MA presentation features', () => {
     expect(riskContent.querySelectorAll('[data-risk-separator="true"]')).toHaveLength(0)
     expect(riskContent.querySelector('ul')).not.toHaveClass('font-bold', 'text-cm-crimson')
     risks.forEach((risk) => expect(riskContent).toHaveTextContent(risk))
-    if (ANSWERS_A_RISK.has(title as string)) {
-      fireEvent.click(risksButton)
-      expect(risksButton).toHaveAttribute('aria-pressed', 'true')
-      expect(riskSection).toHaveClass('opacity-100')
-    }
+    // every concept answers one of its risks, so a further click reveals the
+    // answer before the block closes
+    fireEvent.click(risksButton)
+    expect(risksButton).toHaveAttribute('aria-pressed', 'true')
+    expect(riskSection).toHaveClass('opacity-100')
     fireEvent.click(risksButton)
     expect(risksButton).toHaveAttribute('aria-pressed', 'false')
     expect(riskSection).toHaveClass('opacity-25')
@@ -249,8 +247,18 @@ describe('MA presentation features', () => {
   })
 
   it('closes the risks block on the second click when a concept answers nothing', () => {
-    const { container } = render(<Slide06Hometown slideKey="risk-notes-absent" />)
-    const risksButton = container.querySelector('[data-feature-risks="Hometown"]')!
+    // every shipped concept answers a risk, so the bare path needs a concept
+    // built without notes rather than a slide that happens to lack them
+    const unanswered = { ...CONCEPTS[0], riskNotes: undefined }
+    const { container } = render(
+      <FeatureSlide
+        concept={unanswered}
+        loop={unanswered.loop}
+        title={unanswered.title}
+        slideKey="risk-notes-absent"
+      />,
+    )
+    const risksButton = container.querySelector(`[data-feature-risks="${unanswered.title}"]`)!
 
     fireEvent.click(risksButton)
     expect(risksButton).toHaveAttribute('aria-pressed', 'true')
